@@ -84,5 +84,4 @@ public struct ResourceGroups {
     public func updateGroupQuery(_ input: UpdateGroupQueryInput) throws -> Future<UpdateGroupQueryOutput> {
         return try client.send(operation: "UpdateGroupQuery", path: "/groups/{GroupName}/query", httpMethod: "PUT", input: input)
     }
-
 }

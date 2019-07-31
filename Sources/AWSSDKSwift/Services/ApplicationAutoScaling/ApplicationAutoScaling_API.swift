@@ -75,5 +75,4 @@ public struct ApplicationAutoScaling {
     public func registerScalableTarget(_ input: RegisterScalableTargetRequest) throws -> Future<RegisterScalableTargetResponse> {
         return try client.send(operation: "RegisterScalableTarget", path: "/", httpMethod: "POST", input: input)
     }
-
 }

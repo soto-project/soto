@@ -12,7 +12,7 @@ extension Signer {
 
         /// The name of the signing profile to be canceled.
         public let profileName: String
-        
+
         public init(profileName: String) {
             self.profileName = profileName
         }
@@ -40,7 +40,7 @@ extension Signer {
 
         /// The ID of the signing job on input.
         public let jobId: String
-        
+
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -93,7 +93,7 @@ extension Signer {
         public let status: SigningStatus?
         /// String value that contains the status reason.
         public let statusReason: String?
-        
+
         public init(completedAt: TimeStamp? = nil, createdAt: TimeStamp? = nil, jobId: String? = nil, overrides: SigningPlatformOverrides? = nil, platformId: String? = nil, profileName: String? = nil, requestedBy: String? = nil, signedObject: SignedObject? = nil, signingMaterial: SigningMaterial? = nil, signingParameters: [String: String]? = nil, source: Source? = nil, status: SigningStatus? = nil, statusReason: String? = nil) {
             self.completedAt = completedAt
             self.createdAt = createdAt
@@ -140,7 +140,7 @@ extension Signer {
 
         /// The S3Destination object.
         public let s3: S3Destination?
-        
+
         public init(s3: S3Destination? = nil) {
             self.s3 = s3
         }
@@ -166,7 +166,7 @@ extension Signer {
         public let allowedValues: [EncryptionAlgorithm]
         /// The default encryption algorithm that is used by an AWS Signer job.
         public let defaultValue: EncryptionAlgorithm
-        
+
         public init(allowedValues: [EncryptionAlgorithm], defaultValue: EncryptionAlgorithm) {
             self.allowedValues = allowedValues
             self.defaultValue = defaultValue
@@ -185,7 +185,7 @@ extension Signer {
 
         /// The ID of the target signing platform.
         public let platformId: String
-        
+
         public init(platformId: String) {
             self.platformId = platformId
         }
@@ -223,7 +223,7 @@ extension Signer {
         public let signingImageFormat: SigningImageFormat?
         /// The validation template that is used by the target signing platform.
         public let target: String?
-        
+
         public init(category: Category? = nil, displayName: String? = nil, maxSizeInMB: Int32? = nil, partner: String? = nil, platformId: String? = nil, signingConfiguration: SigningConfiguration? = nil, signingImageFormat: SigningImageFormat? = nil, target: String? = nil) {
             self.category = category
             self.displayName = displayName
@@ -254,7 +254,7 @@ extension Signer {
 
         /// The name of the target signing profile.
         public let profileName: String
-        
+
         public init(profileName: String) {
             self.profileName = profileName
         }
@@ -292,7 +292,7 @@ extension Signer {
         public let signingParameters: [String: String]?
         /// The status of the target signing profile.
         public let status: SigningProfileStatus?
-        
+
         public init(overrides: SigningPlatformOverrides? = nil, platformId: String? = nil, profileName: String? = nil, signingMaterial: SigningMaterial? = nil, signingParameters: [String: String]? = nil, status: SigningProfileStatus? = nil) {
             self.overrides = overrides
             self.platformId = platformId
@@ -334,7 +334,7 @@ extension Signer {
         public let allowedValues: [HashAlgorithm]
         /// The default hash algorithm that is used in an AWS Signer job.
         public let defaultValue: HashAlgorithm
-        
+
         public init(allowedValues: [HashAlgorithm], defaultValue: HashAlgorithm) {
             self.allowedValues = allowedValues
             self.defaultValue = defaultValue
@@ -370,7 +370,7 @@ extension Signer {
         public let requestedBy: String?
         /// A status value with which to filter your results.
         public let status: SigningStatus?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, platformId: String? = nil, requestedBy: String? = nil, status: SigningStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -403,7 +403,7 @@ extension Signer {
         public let jobs: [SigningJob]?
         /// String for specifying the next set of paginated results.
         public let nextToken: String?
-        
+
         public init(jobs: [SigningJob]? = nil, nextToken: String? = nil) {
             self.jobs = jobs
             self.nextToken = nextToken
@@ -434,7 +434,7 @@ extension Signer {
         public let partner: String?
         /// The validation template that is used by the target signing platform.
         public let target: String?
-        
+
         public init(category: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, partner: String? = nil, target: String? = nil) {
             self.category = category
             self.maxResults = maxResults
@@ -467,7 +467,7 @@ extension Signer {
         public let nextToken: String?
         /// A list of all platforms that match the request parameters.
         public let platforms: [SigningPlatform]?
-        
+
         public init(nextToken: String? = nil, platforms: [SigningPlatform]? = nil) {
             self.nextToken = nextToken
             self.platforms = platforms
@@ -492,7 +492,7 @@ extension Signer {
         public let maxResults: Int32?
         /// Value for specifying the next set of paginated results to return. After you receive a response with truncated results, use this parameter in a subsequent request. Set it to the value of nextToken from the response that you just received.
         public let nextToken: String?
-        
+
         public init(includeCanceled: Bool? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.includeCanceled = includeCanceled
             self.maxResults = maxResults
@@ -521,7 +521,7 @@ extension Signer {
         public let nextToken: String?
         /// A list of profiles that are available in the AWS account. This includes profiles with the status of CANCELED if the includeCanceled parameter is set to true.
         public let profiles: [SigningProfile]?
-        
+
         public init(nextToken: String? = nil, profiles: [SigningProfile]? = nil) {
             self.nextToken = nextToken
             self.profiles = profiles
@@ -558,7 +558,7 @@ extension Signer {
         public let signingMaterial: SigningMaterial
         /// Map of key-value pairs for signing. These can include any information that you want to use during signing.
         public let signingParameters: [String: String]?
-        
+
         public init(overrides: SigningPlatformOverrides? = nil, platformId: String, profileName: String, signingMaterial: SigningMaterial, signingParameters: [String: String]? = nil) {
             self.overrides = overrides
             self.platformId = platformId
@@ -589,7 +589,7 @@ extension Signer {
 
         /// The Amazon Resource Name (ARN) of the signing profile created.
         public let arn: String?
-        
+
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -609,7 +609,7 @@ extension Signer {
         public let bucketName: String?
         /// An Amazon S3 prefix that you can use to limit responses to those that begin with the specified prefix.
         public let prefix: String?
-        
+
         public init(bucketName: String? = nil, prefix: String? = nil) {
             self.bucketName = bucketName
             self.prefix = prefix
@@ -631,7 +631,7 @@ extension Signer {
         public let bucketName: String?
         /// Key name that uniquely identifies a signed code image in your bucket.
         public let key: String?
-        
+
         public init(bucketName: String? = nil, key: String? = nil) {
             self.bucketName = bucketName
             self.key = key
@@ -656,7 +656,7 @@ extension Signer {
         public let key: String
         /// Version of your source image in your version enabled S3 bucket.
         public let version: String
-        
+
         public init(bucketName: String, key: String, version: String) {
             self.bucketName = bucketName
             self.key = key
@@ -677,7 +677,7 @@ extension Signer {
 
         /// The S3SignedObject.
         public let s3: S3SignedObject?
-        
+
         public init(s3: S3SignedObject? = nil) {
             self.s3 = s3
         }
@@ -697,7 +697,7 @@ extension Signer {
         public let encryptionAlgorithmOptions: EncryptionAlgorithmOptions
         /// The hash algorithm options that are available for an AWS Signer job.
         public let hashAlgorithmOptions: HashAlgorithmOptions
-        
+
         public init(encryptionAlgorithmOptions: EncryptionAlgorithmOptions, hashAlgorithmOptions: HashAlgorithmOptions) {
             self.encryptionAlgorithmOptions = encryptionAlgorithmOptions
             self.hashAlgorithmOptions = hashAlgorithmOptions
@@ -719,7 +719,7 @@ extension Signer {
         public let encryptionAlgorithm: EncryptionAlgorithm?
         /// A specified override of the default hash algorithm that is used in an AWS Signer job.
         public let hashAlgorithm: HashAlgorithm?
-        
+
         public init(encryptionAlgorithm: EncryptionAlgorithm? = nil, hashAlgorithm: HashAlgorithm? = nil) {
             self.encryptionAlgorithm = encryptionAlgorithm
             self.hashAlgorithm = hashAlgorithm
@@ -741,7 +741,7 @@ extension Signer {
         public let defaultFormat: ImageFormat
         /// The supported formats of an AWS Signer signing image.
         public let supportedFormats: [ImageFormat]
-        
+
         public init(defaultFormat: ImageFormat, supportedFormats: [ImageFormat]) {
             self.defaultFormat = defaultFormat
             self.supportedFormats = supportedFormats
@@ -775,7 +775,7 @@ extension Signer {
         public let source: Source?
         /// The status of the signing job.
         public let status: SigningStatus?
-        
+
         public init(createdAt: TimeStamp? = nil, jobId: String? = nil, signedObject: SignedObject? = nil, signingMaterial: SigningMaterial? = nil, source: Source? = nil, status: SigningStatus? = nil) {
             self.createdAt = createdAt
             self.jobId = jobId
@@ -802,7 +802,7 @@ extension Signer {
 
         /// The Amazon Resource Name (ARN) of the certificates that is used to sign your code.
         public let certificateArn: String
-        
+
         public init(certificateArn: String) {
             self.certificateArn = certificateArn
         }
@@ -840,7 +840,7 @@ extension Signer {
         public let signingImageFormat: SigningImageFormat?
         /// The types of targets that can be signed by an AWS Signer platform.
         public let target: String?
-        
+
         public init(category: Category? = nil, displayName: String? = nil, maxSizeInMB: Int32? = nil, partner: String? = nil, platformId: String? = nil, signingConfiguration: SigningConfiguration? = nil, signingImageFormat: SigningImageFormat? = nil, target: String? = nil) {
             self.category = category
             self.displayName = displayName
@@ -870,7 +870,7 @@ extension Signer {
         ]
 
         public let signingConfiguration: SigningConfigurationOverrides?
-        
+
         public init(signingConfiguration: SigningConfigurationOverrides? = nil) {
             self.signingConfiguration = signingConfiguration
         }
@@ -899,7 +899,7 @@ extension Signer {
         public let signingParameters: [String: String]?
         /// The status of an AWS Signer profile.
         public let status: SigningProfileStatus?
-        
+
         public init(platformId: String? = nil, profileName: String? = nil, signingMaterial: SigningMaterial? = nil, signingParameters: [String: String]? = nil, status: SigningProfileStatus? = nil) {
             self.platformId = platformId
             self.profileName = profileName
@@ -943,7 +943,7 @@ extension Signer {
 
         /// The S3Source object.
         public let s3: S3Source?
-        
+
         public init(s3: S3Source? = nil) {
             self.s3 = s3
         }
@@ -969,7 +969,7 @@ extension Signer {
         public let profileName: String?
         /// The S3 bucket that contains the object to sign or a BLOB that contains your raw code.
         public let source: Source
-        
+
         public init(clientRequestToken: String = StartSigningJobRequest.idempotencyToken(), destination: Destination, profileName: String? = nil, source: Source) {
             self.clientRequestToken = clientRequestToken
             self.destination = destination
@@ -998,7 +998,7 @@ extension Signer {
 
         /// The ID of your signing job.
         public let jobId: String?
-        
+
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -1007,5 +1007,4 @@ extension Signer {
             case jobId = "jobId"
         }
     }
-
 }

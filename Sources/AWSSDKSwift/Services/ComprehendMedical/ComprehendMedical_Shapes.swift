@@ -33,7 +33,7 @@ extension ComprehendMedical {
         public let traits: [Trait]?
         ///  The type of attribute. 
         public let `type`: EntitySubType?
-        
+
         public init(beginOffset: Int32? = nil, endOffset: Int32? = nil, id: Int32? = nil, relationshipScore: Float? = nil, score: Float? = nil, text: String? = nil, traits: [Trait]? = nil, type: EntitySubType? = nil) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
@@ -76,7 +76,7 @@ extension ComprehendMedical {
 
         ///  A UTF-8 text string containing the clinical content being examined for entities. Each string must contain fewer than 20,000 bytes of characters.
         public let text: String
-        
+
         public init(text: String) {
             self.text = text
         }
@@ -104,7 +104,7 @@ extension ComprehendMedical {
         public let paginationToken: String?
         ///  Attributes extracted from the input text that we were unable to relate to an entity.
         public let unmappedAttributes: [UnmappedAttribute]?
-        
+
         public init(entities: [Entity], paginationToken: String? = nil, unmappedAttributes: [UnmappedAttribute]? = nil) {
             self.entities = entities
             self.paginationToken = paginationToken
@@ -135,7 +135,7 @@ extension ComprehendMedical {
 
         ///  A UTF-8 text string containing the clinical content being examined for PHI entities. Each string must contain fewer than 20,000 bytes of characters. 
         public let text: String
-        
+
         public init(text: String) {
             self.text = text
         }
@@ -160,7 +160,7 @@ extension ComprehendMedical {
         public let entities: [Entity]
         ///  If the result of the previous request to DetectPHI was truncated, include the Paginationtoken to fetch the next page of PHI entities. 
         public let paginationToken: String?
-        
+
         public init(entities: [Entity], paginationToken: String? = nil) {
             self.entities = entities
             self.paginationToken = paginationToken
@@ -210,7 +210,7 @@ extension ComprehendMedical {
         public let traits: [Trait]?
         ///  Describes the specific type of entity with category of entities. 
         public let `type`: EntitySubType?
-        
+
         public init(attributes: [Attribute]? = nil, beginOffset: Int32? = nil, category: EntityType? = nil, endOffset: Int32? = nil, id: Int32? = nil, score: Float? = nil, text: String? = nil, traits: [Trait]? = nil, type: EntitySubType? = nil) {
             self.attributes = attributes
             self.beginOffset = beginOffset
@@ -294,7 +294,7 @@ extension ComprehendMedical {
         public let name: AttributeName?
         ///  The level of confidence that Comprehend Medical has in the accuracy of this trait.
         public let score: Float?
-        
+
         public init(name: AttributeName? = nil, score: Float? = nil) {
             self.name = name
             self.score = score
@@ -316,7 +316,7 @@ extension ComprehendMedical {
         public let attribute: Attribute?
         ///  The type of the attribute, could be one of the following values: "MEDICATION", "MEDICAL_CONDITION", "ANATOMY", "TEST_AND_TREATMENT_PROCEDURE" or "PERSONAL_HEALTH_INFORMATION". 
         public let `type`: EntityType?
-        
+
         public init(attribute: Attribute? = nil, type: EntityType? = nil) {
             self.attribute = attribute
             self.`type` = `type`
@@ -331,5 +331,4 @@ extension ComprehendMedical {
             case `type` = "Type"
         }
     }
-
 }

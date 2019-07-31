@@ -12,7 +12,7 @@ extension SecretsManager {
 
         /// Specifies the secret for which you want to cancel a rotation request. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names that end with a hyphen followed by six characters. 
         public let secretId: String
-        
+
         public init(secretId: String) {
             self.secretId = secretId
         }
@@ -40,7 +40,7 @@ extension SecretsManager {
         public let name: String?
         /// The unique identifier of the version of the secret that was created during the rotation. This version might not be complete, and should be evaluated for possible deletion. At the very least, you should remove the VersionStage value AWSPENDING to enable this version to be deleted. Failing to clean up a cancelled rotation can block you from successfully starting future rotations.
         public let versionId: String?
-        
+
         public init(arn: String? = nil, name: String? = nil, versionId: String? = nil) {
             self.arn = arn
             self.name = name
@@ -88,7 +88,7 @@ extension SecretsManager {
         public let secretString: String?
         /// (Optional) Specifies a list of user-defined tags that are attached to the secret. Each tag is a "Key" and "Value" pair of strings. This operation only appends tags to the existing list of tags. To remove tags, you must use UntagResource.    Secrets Manager tag key names are case sensitive. A tag with the key "ABC" is a different tag from one with key "abc".   If you check tags in IAM policy Condition elements as part of your security strategy, then adding or removing a tag can change permissions. If the successful completion of this operation would result in you losing your permissions for this secret, then this operation is blocked and returns an Access Denied error.    This parameter requires a JSON text string argument. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide. For example:  [{"Key":"CostCenter","Value":"12345"},{"Key":"environment","Value":"production"}]  If your command-line tool or SDK requires quotation marks around the parameter, you should use single quotes to avoid confusion with the double quotes required in the JSON text.  The following basic restrictions apply to tags:   Maximum number of tags per secret—50   Maximum key length—127 Unicode characters in UTF-8   Maximum value length—255 Unicode characters in UTF-8   Tag keys and values are case sensitive.   Do not use the aws: prefix in your tag names or values because it is reserved for AWS use. You can't edit or delete tag names or values with this prefix. Tags with this prefix do not count against your tags per secret limit.   If your tagging schema will be used across multiple services and resources, remember that other services might have restrictions on allowed characters. Generally allowed characters are: letters, spaces, and numbers representable in UTF-8, plus the following special characters: + - = . _ : / @.  
         public let tags: [Tag]?
-        
+
         public init(clientRequestToken: String? = CreateSecretRequest.idempotencyToken(), description: String? = nil, kmsKeyId: String? = nil, name: String, secretBinary: Data? = nil, secretString: String? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -140,7 +140,7 @@ extension SecretsManager {
         public let name: String?
         /// The unique identifier that's associated with the version of the secret you just created.
         public let versionId: String?
-        
+
         public init(arn: String? = nil, name: String? = nil, versionId: String? = nil) {
             self.arn = arn
             self.name = name
@@ -170,7 +170,7 @@ extension SecretsManager {
 
         /// Specifies the secret that you want to delete the attached resource-based policy for. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names that end with a hyphen followed by six characters. 
         public let secretId: String
-        
+
         public init(secretId: String) {
             self.secretId = secretId
         }
@@ -195,7 +195,7 @@ extension SecretsManager {
         public let arn: String?
         /// The friendly name of the secret that the resource-based policy was deleted for.
         public let name: String?
-        
+
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -227,7 +227,7 @@ extension SecretsManager {
         public let recoveryWindowInDays: Int64?
         /// Specifies the secret that you want to delete. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names that end with a hyphen followed by six characters. 
         public let secretId: String
-        
+
         public init(forceDeleteWithoutRecovery: Bool? = nil, recoveryWindowInDays: Int64? = nil, secretId: String) {
             self.forceDeleteWithoutRecovery = forceDeleteWithoutRecovery
             self.recoveryWindowInDays = recoveryWindowInDays
@@ -259,7 +259,7 @@ extension SecretsManager {
         public let deletionDate: TimeStamp?
         /// The friendly name of the secret that is now scheduled for deletion.
         public let name: String?
-        
+
         public init(arn: String? = nil, deletionDate: TimeStamp? = nil, name: String? = nil) {
             self.arn = arn
             self.deletionDate = deletionDate
@@ -287,7 +287,7 @@ extension SecretsManager {
 
         /// The identifier of the secret whose details you want to retrieve. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names that end with a hyphen followed by six characters. 
         public let secretId: String
-        
+
         public init(secretId: String) {
             self.secretId = secretId
         }
@@ -345,7 +345,7 @@ extension SecretsManager {
         public let tags: [Tag]?
         /// A list of all of the currently assigned VersionStage staging labels and the VersionId that each is attached to. Staging labels are used to keep track of the different versions during the rotation process.  A version that does not have any staging labels attached is considered deprecated and subject to deletion. Such versions are not included in this list. 
         public let versionIdsToStages: [String: [String]]?
-        
+
         public init(arn: String? = nil, deletedDate: TimeStamp? = nil, description: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: TimeStamp? = nil, lastChangedDate: TimeStamp? = nil, lastRotatedDate: TimeStamp? = nil, name: String? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, tags: [Tag]? = nil, versionIdsToStages: [String: [String]]? = nil) {
             self.arn = arn
             self.deletedDate = deletedDate
@@ -423,7 +423,7 @@ extension SecretsManager {
         public let passwordLength: Int64?
         /// A boolean value that specifies whether the generated password must include at least one of every allowed character type. The default value is True and the operation requires at least one of every character type.
         public let requireEachIncludedType: Bool?
-        
+
         public init(excludeCharacters: String? = nil, excludeLowercase: Bool? = nil, excludeNumbers: Bool? = nil, excludePunctuation: Bool? = nil, excludeUppercase: Bool? = nil, includeSpace: Bool? = nil, passwordLength: Int64? = nil, requireEachIncludedType: Bool? = nil) {
             self.excludeCharacters = excludeCharacters
             self.excludeLowercase = excludeLowercase
@@ -461,7 +461,7 @@ extension SecretsManager {
 
         /// A string with the generated password.
         public let randomPassword: String?
-        
+
         public init(randomPassword: String? = nil) {
             self.randomPassword = randomPassword
         }
@@ -483,7 +483,7 @@ extension SecretsManager {
 
         /// Specifies the secret that you want to retrieve the attached resource-based policy for. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names that end with a hyphen followed by six characters. 
         public let secretId: String
-        
+
         public init(secretId: String) {
             self.secretId = secretId
         }
@@ -511,7 +511,7 @@ extension SecretsManager {
         public let name: String?
         /// A JSON-formatted string that describes the permissions that are associated with the attached secret. These permissions are combined with any permissions that are associated with the user or role that attempts to access this secret. The combined permissions specify who can access the secret and what actions they can perform. For more information, see Authentication and Access Control for AWS Secrets Manager in the AWS Secrets Manager User Guide.
         public let resourcePolicy: String?
-        
+
         public init(arn: String? = nil, name: String? = nil, resourcePolicy: String? = nil) {
             self.arn = arn
             self.name = name
@@ -547,7 +547,7 @@ extension SecretsManager {
         public let versionId: String?
         /// Specifies the secret version that you want to retrieve by the staging label attached to the version. Staging labels are used to keep track of different versions during the rotation process. If you use this parameter then don't specify VersionId. If you don't specify either a VersionStage or VersionId, then the default is to perform the operation on the version with the VersionStage value of AWSCURRENT.
         public let versionStage: String?
-        
+
         public init(secretId: String, versionId: String? = nil, versionStage: String? = nil) {
             self.secretId = secretId
             self.versionId = versionId
@@ -595,7 +595,7 @@ extension SecretsManager {
         public let versionId: String?
         /// A list of all of the staging labels currently attached to this version of the secret.
         public let versionStages: [String]?
-        
+
         public init(arn: String? = nil, createdDate: TimeStamp? = nil, name: String? = nil, secretBinary: Data? = nil, secretString: String? = nil, versionId: String? = nil, versionStages: [String]? = nil) {
             self.arn = arn
             self.createdDate = createdDate
@@ -652,7 +652,7 @@ extension SecretsManager {
         public let nextToken: String?
         /// The identifier for the secret containing the versions you want to list. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names that end with a hyphen followed by six characters. 
         public let secretId: String
-        
+
         public init(includeDeprecated: Bool? = nil, maxResults: Int32? = nil, nextToken: String? = nil, secretId: String) {
             self.includeDeprecated = includeDeprecated
             self.maxResults = maxResults
@@ -693,7 +693,7 @@ extension SecretsManager {
         public let nextToken: String?
         /// The list of the currently available versions of the specified secret.
         public let versions: [SecretVersionsListEntry]?
-        
+
         public init(arn: String? = nil, name: String? = nil, nextToken: String? = nil, versions: [SecretVersionsListEntry]? = nil) {
             self.arn = arn
             self.name = name
@@ -731,7 +731,7 @@ extension SecretsManager {
         public let maxResults: Int32?
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -760,7 +760,7 @@ extension SecretsManager {
         public let nextToken: String?
         /// A list of the secrets in the account.
         public let secretList: [SecretListEntry]?
-        
+
         public init(nextToken: String? = nil, secretList: [SecretListEntry]? = nil) {
             self.nextToken = nextToken
             self.secretList = secretList
@@ -790,7 +790,7 @@ extension SecretsManager {
         public let resourcePolicy: String
         /// Specifies the secret that you want to attach the resource-based policy to. You can specify either the ARN or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names that end with a hyphen followed by six characters. 
         public let secretId: String
-        
+
         public init(resourcePolicy: String, secretId: String) {
             self.resourcePolicy = resourcePolicy
             self.secretId = secretId
@@ -819,7 +819,7 @@ extension SecretsManager {
         public let arn: String?
         /// The friendly name of the secret that the resource-based policy was retrieved for.
         public let name: String?
-        
+
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -857,7 +857,7 @@ extension SecretsManager {
         public let secretString: String?
         /// (Optional) Specifies a list of staging labels that are attached to this version of the secret. These staging labels are used to track the versions through the rotation process by the Lambda rotation function. A staging label must be unique to a single version of the secret. If you specify a staging label that's already associated with a different version of the same secret then that staging label is automatically removed from the other version and attached to this version. If you do not specify a value for VersionStages then Secrets Manager automatically moves the staging label AWSCURRENT to this new version.
         public let versionStages: [String]?
-        
+
         public init(clientRequestToken: String? = PutSecretValueRequest.idempotencyToken(), secretBinary: Data? = nil, secretId: String, secretString: String? = nil, versionStages: [String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.secretBinary = secretBinary
@@ -908,7 +908,7 @@ extension SecretsManager {
         public let versionId: String?
         /// The list of staging labels that are currently attached to this version of the secret. Staging labels are used to track a version as it progresses through the secret rotation process.
         public let versionStages: [String]?
-        
+
         public init(arn: String? = nil, name: String? = nil, versionId: String? = nil, versionStages: [String]? = nil) {
             self.arn = arn
             self.name = name
@@ -946,7 +946,7 @@ extension SecretsManager {
 
         /// Specifies the secret that you want to restore from a previously scheduled deletion. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names that end with a hyphen followed by six characters. 
         public let secretId: String
-        
+
         public init(secretId: String) {
             self.secretId = secretId
         }
@@ -971,7 +971,7 @@ extension SecretsManager {
         public let arn: String?
         /// The friendly name of the secret that was restored.
         public let name: String?
-        
+
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -1006,7 +1006,7 @@ extension SecretsManager {
         public let rotationRules: RotationRulesType?
         /// Specifies the secret that you want to rotate. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names that end with a hyphen followed by six characters. 
         public let secretId: String
-        
+
         public init(clientRequestToken: String? = RotateSecretRequest.idempotencyToken(), rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, secretId: String) {
             self.clientRequestToken = clientRequestToken
             self.rotationLambdaARN = rotationLambdaARN
@@ -1045,7 +1045,7 @@ extension SecretsManager {
         public let name: String?
         /// The ID of the new version of the secret created by the rotation started by this request.
         public let versionId: String?
-        
+
         public init(arn: String? = nil, name: String? = nil, versionId: String? = nil) {
             self.arn = arn
             self.name = name
@@ -1075,7 +1075,7 @@ extension SecretsManager {
 
         /// Specifies the number of days between automatic scheduled rotations of the secret. Secrets Manager schedules the next rotation when the previous one is complete. Secrets Manager schedules the date by adding the rotation interval (number of days) to the actual date of the last rotation. The service chooses the hour within that 24-hour date window randomly. The minute is also chosen somewhat randomly, but weighted towards the top of the hour and influenced by a variety of factors that help distribute load.
         public let automaticallyAfterDays: Int64?
-        
+
         public init(automaticallyAfterDays: Int64? = nil) {
             self.automaticallyAfterDays = automaticallyAfterDays
         }
@@ -1133,7 +1133,7 @@ extension SecretsManager {
         public let secretVersionsToStages: [String: [String]]?
         /// The list of user-defined tags that are associated with the secret. To add tags to a secret, use TagResource. To remove tags, use UntagResource.
         public let tags: [Tag]?
-        
+
         public init(arn: String? = nil, deletedDate: TimeStamp? = nil, description: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: TimeStamp? = nil, lastChangedDate: TimeStamp? = nil, lastRotatedDate: TimeStamp? = nil, name: String? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, secretVersionsToStages: [String: [String]]? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.deletedDate = deletedDate
@@ -1199,7 +1199,7 @@ extension SecretsManager {
         public let versionId: String?
         /// An array of staging labels that are currently associated with this version of the secret.
         public let versionStages: [String]?
-        
+
         public init(createdDate: TimeStamp? = nil, lastAccessedDate: TimeStamp? = nil, versionId: String? = nil, versionStages: [String]? = nil) {
             self.createdDate = createdDate
             self.lastAccessedDate = lastAccessedDate
@@ -1236,7 +1236,7 @@ extension SecretsManager {
         public let key: String?
         /// The string value that's associated with the key of the tag.
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1265,7 +1265,7 @@ extension SecretsManager {
         public let secretId: String
         /// The tags to attach to the secret. Each element in the list consists of a Key and a Value. This parameter to the API requires a JSON text string argument. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide. For the AWS CLI, you can also use the syntax: --Tags Key="Key1",Value="Value1",Key="Key2",Value="Value2"[,…] 
         public let tags: [Tag]
-        
+
         public init(secretId: String, tags: [Tag]) {
             self.secretId = secretId
             self.tags = tags
@@ -1295,7 +1295,7 @@ extension SecretsManager {
         public let secretId: String
         /// A list of tag key names to remove from the secret. You don't specify the value. Both the key and its associated value are removed. This parameter to the API requires a JSON text string argument. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide.
         public let tagKeys: [String]
-        
+
         public init(secretId: String, tagKeys: [String]) {
             self.secretId = secretId
             self.tagKeys = tagKeys
@@ -1338,7 +1338,7 @@ extension SecretsManager {
         public let secretId: String
         /// (Optional) Specifies updated text data that you want to encrypt and store in this new version of the secret. Either SecretBinary or SecretString must have a value, but not both. They cannot both be empty. If you create this secret by using the Secrets Manager console then Secrets Manager puts the protected secret text in only the SecretString parameter. The Secrets Manager console stores the information as a JSON structure of key/value pairs that the default Lambda rotation function knows how to parse. For storing multiple values, we recommend that you use a JSON text string argument and specify key/value pairs. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide. For example:  [{"username":"bob"},{"password":"abc123xyz456"}]  If your command-line tool or SDK requires quotation marks around the parameter, you should use single quotes to avoid confusion with the double quotes required in the JSON text. You can also 'escape' the double quote character in the embedded JSON text by prefacing each with a backslash. For example, the following string is surrounded by double-quotes. All of the embedded double quotes are escaped:  "[{\"username\":\"bob\"},{\"password\":\"abc123xyz456\"}]" 
         public let secretString: String?
-        
+
         public init(clientRequestToken: String? = UpdateSecretRequest.idempotencyToken(), description: String? = nil, kmsKeyId: String? = nil, secretBinary: Data? = nil, secretId: String, secretString: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -1385,7 +1385,7 @@ extension SecretsManager {
         public let name: String?
         /// If a new version of the secret was created by this operation, then VersionId contains the unique identifier of the new version.
         public let versionId: String?
-        
+
         public init(arn: String? = nil, name: String? = nil, versionId: String? = nil) {
             self.arn = arn
             self.name = name
@@ -1424,7 +1424,7 @@ extension SecretsManager {
         public let secretId: String
         /// The staging label to add to this version.
         public let versionStage: String
-        
+
         public init(moveToVersionId: String? = nil, removeFromVersionId: String? = nil, secretId: String, versionStage: String) {
             self.moveToVersionId = moveToVersionId
             self.removeFromVersionId = removeFromVersionId
@@ -1461,7 +1461,7 @@ extension SecretsManager {
         public let arn: String?
         /// The friendly name of the secret with the staging label that was modified.
         public let name: String?
-        
+
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -1479,5 +1479,4 @@ extension SecretsManager {
             case name = "Name"
         }
     }
-
 }

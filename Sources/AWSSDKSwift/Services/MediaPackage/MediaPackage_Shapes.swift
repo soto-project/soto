@@ -37,7 +37,7 @@ extension MediaPackage {
         /// The ID of the Channel.
         public let id: String?
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
@@ -68,7 +68,7 @@ extension MediaPackage {
         /// cannot be changed after a Channel is created.
         public let id: String
         public let tags: [String: String]?
-        
+
         public init(description: String? = nil, id: String, tags: [String: String]? = nil) {
             self.description = description
             self.id = id
@@ -92,7 +92,7 @@ extension MediaPackage {
         public let channels: [Channel]?
         /// A token that can be used to resume pagination from the end of the collection.
         public let nextToken: String?
-        
+
         public init(channels: [Channel]? = nil, nextToken: String? = nil) {
             self.channels = channels
             self.nextToken = nextToken
@@ -111,7 +111,7 @@ extension MediaPackage {
 
         /// A short text description of the Channel.
         public let description: String?
-        
+
         public init(description: String? = nil) {
             self.description = description
         }
@@ -130,7 +130,7 @@ extension MediaPackage {
         /// Time (in seconds) between each encryption key rotation.
         public let keyRotationIntervalSeconds: Int32?
         public let spekeKeyProvider: SpekeKeyProvider
-        
+
         public init(keyRotationIntervalSeconds: Int32? = nil, spekeKeyProvider: SpekeKeyProvider) {
             self.keyRotationIntervalSeconds = keyRotationIntervalSeconds
             self.spekeKeyProvider = spekeKeyProvider
@@ -160,7 +160,7 @@ extension MediaPackage {
         /// An optional custom string that is prepended to the name of each segment. If not specified, it defaults to the ChannelId.
         public let segmentPrefix: String?
         public let streamSelection: StreamSelection?
-        
+
         public init(encryption: CmafEncryption? = nil, hlsManifests: [HlsManifest]? = nil, segmentDurationSeconds: Int32? = nil, segmentPrefix: String? = nil, streamSelection: StreamSelection? = nil) {
             self.encryption = encryption
             self.hlsManifests = hlsManifests
@@ -196,7 +196,7 @@ extension MediaPackage {
         /// An optional custom string that is prepended to the name of each segment. If not specified, it defaults to the ChannelId.
         public let segmentPrefix: String?
         public let streamSelection: StreamSelection?
-        
+
         public init(encryption: CmafEncryption? = nil, hlsManifests: [HlsManifestCreateOrUpdateParameters]? = nil, segmentDurationSeconds: Int32? = nil, segmentPrefix: String? = nil, streamSelection: StreamSelection? = nil) {
             self.encryption = encryption
             self.hlsManifests = hlsManifests
@@ -224,7 +224,7 @@ extension MediaPackage {
         public let description: String?
         public let id: String
         public let tags: [String: String]?
-        
+
         public init(description: String? = nil, id: String, tags: [String: String]? = nil) {
             self.description = description
             self.id = id
@@ -252,7 +252,7 @@ extension MediaPackage {
         public let hlsIngest: HlsIngest?
         public let id: String?
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
@@ -298,7 +298,7 @@ extension MediaPackage {
         public let tags: [String: String]?
         public let timeDelaySeconds: Int32?
         public let whitelist: [String]?
-        
+
         public init(channelId: String, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int32? = nil, whitelist: [String]? = nil) {
             self.channelId = channelId
             self.cmafPackage = cmafPackage
@@ -362,7 +362,7 @@ extension MediaPackage {
         public let timeDelaySeconds: Int32?
         public let url: String?
         public let whitelist: [String]?
-        
+
         public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int32? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
             self.channelId = channelId
@@ -407,7 +407,7 @@ extension MediaPackage {
         /// Time (in seconds) between each encryption key rotation.
         public let keyRotationIntervalSeconds: Int32?
         public let spekeKeyProvider: SpekeKeyProvider
-        
+
         public init(keyRotationIntervalSeconds: Int32? = nil, spekeKeyProvider: SpekeKeyProvider) {
             self.keyRotationIntervalSeconds = keyRotationIntervalSeconds
             self.spekeKeyProvider = spekeKeyProvider
@@ -462,7 +462,7 @@ extension MediaPackage {
         public let streamSelection: StreamSelection?
         /// Duration (in seconds) to delay live content before presentation.
         public let suggestedPresentationDelaySeconds: Int32?
-        
+
         public init(adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, adTriggers: [Adtriggerselement]? = nil, encryption: DashEncryption? = nil, manifestLayout: ManifestLayout? = nil, manifestWindowSeconds: Int32? = nil, minBufferTimeSeconds: Int32? = nil, minUpdatePeriodSeconds: Int32? = nil, periodTriggers: [Periodtriggerselement]? = nil, profile: Profile? = nil, segmentDurationSeconds: Int32? = nil, segmentTemplateFormat: SegmentTemplateFormat? = nil, streamSelection: StreamSelection? = nil, suggestedPresentationDelaySeconds: Int32? = nil) {
             self.adsOnDeliveryRestrictions = adsOnDeliveryRestrictions
             self.adTriggers = adTriggers
@@ -502,7 +502,7 @@ extension MediaPackage {
         ]
 
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -513,11 +513,12 @@ extension MediaPackage {
     }
 
     public struct DeleteChannelResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteOriginEndpointRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -525,7 +526,7 @@ extension MediaPackage {
         ]
 
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -536,11 +537,12 @@ extension MediaPackage {
     }
 
     public struct DeleteOriginEndpointResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeChannelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -548,7 +550,7 @@ extension MediaPackage {
         ]
 
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -572,7 +574,7 @@ extension MediaPackage {
         public let hlsIngest: HlsIngest?
         public let id: String?
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
@@ -596,7 +598,7 @@ extension MediaPackage {
         ]
 
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -638,7 +640,7 @@ extension MediaPackage {
         public let timeDelaySeconds: Int32?
         public let url: String?
         public let whitelist: [String]?
-        
+
         public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int32? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
             self.channelId = channelId
@@ -699,7 +701,7 @@ extension MediaPackage {
         /// When enabled, the EXT-X-KEY tag will be repeated in output manifests.
         public let repeatExtXKey: Bool?
         public let spekeKeyProvider: SpekeKeyProvider
-        
+
         public init(constantInitializationVector: String? = nil, encryptionMethod: EncryptionMethod? = nil, keyRotationIntervalSeconds: Int32? = nil, repeatExtXKey: Bool? = nil, spekeKeyProvider: SpekeKeyProvider) {
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
@@ -724,7 +726,7 @@ extension MediaPackage {
 
         /// A list of endpoints to which the source stream should be sent.
         public let ingestEndpoints: [IngestEndpoint]?
-        
+
         public init(ingestEndpoints: [IngestEndpoint]? = nil) {
             self.ingestEndpoints = ingestEndpoints
         }
@@ -777,7 +779,7 @@ extension MediaPackage {
         public let programDateTimeIntervalSeconds: Int32?
         /// The URL of the packaged OriginEndpoint for consumption.
         public let url: String?
-        
+
         public init(adMarkers: AdMarkers? = nil, id: String, includeIframeOnlyStream: Bool? = nil, manifestName: String? = nil, playlistType: PlaylistType? = nil, playlistWindowSeconds: Int32? = nil, programDateTimeIntervalSeconds: Int32? = nil, url: String? = nil) {
             self.adMarkers = adMarkers
             self.id = id
@@ -845,7 +847,7 @@ extension MediaPackage {
         /// of this parameter, if any ID3 Timed Metadata is found in HTTP Live Streaming (HLS) input,
         /// it will be passed through to HLS output.
         public let programDateTimeIntervalSeconds: Int32?
-        
+
         public init(adMarkers: AdMarkers? = nil, adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, adTriggers: [Adtriggerselement]? = nil, id: String, includeIframeOnlyStream: Bool? = nil, manifestName: String? = nil, playlistType: PlaylistType? = nil, playlistWindowSeconds: Int32? = nil, programDateTimeIntervalSeconds: Int32? = nil) {
             self.adMarkers = adMarkers
             self.adsOnDeliveryRestrictions = adsOnDeliveryRestrictions
@@ -920,7 +922,7 @@ extension MediaPackage {
         public let streamSelection: StreamSelection?
         /// When enabled, audio streams will be placed in rendition groups in the output.
         public let useAudioRenditionGroup: Bool?
-        
+
         public init(adMarkers: AdMarkers? = nil, adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, adTriggers: [Adtriggerselement]? = nil, encryption: HlsEncryption? = nil, includeIframeOnlyStream: Bool? = nil, playlistType: PlaylistType? = nil, playlistWindowSeconds: Int32? = nil, programDateTimeIntervalSeconds: Int32? = nil, segmentDurationSeconds: Int32? = nil, streamSelection: StreamSelection? = nil, useAudioRenditionGroup: Bool? = nil) {
             self.adMarkers = adMarkers
             self.adsOnDeliveryRestrictions = adsOnDeliveryRestrictions
@@ -966,7 +968,7 @@ extension MediaPackage {
         public let url: String?
         /// The system generated username for ingest authentication.
         public let username: String?
-        
+
         public init(id: String? = nil, password: String? = nil, url: String? = nil, username: String? = nil) {
             self.id = id
             self.password = password
@@ -990,7 +992,7 @@ extension MediaPackage {
 
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1015,7 +1017,7 @@ extension MediaPackage {
 
         public let channels: [Channel]?
         public let nextToken: String?
-        
+
         public init(channels: [Channel]? = nil, nextToken: String? = nil) {
             self.channels = channels
             self.nextToken = nextToken
@@ -1037,7 +1039,7 @@ extension MediaPackage {
         public let channelId: String?
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(channelId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.channelId = channelId
             self.maxResults = maxResults
@@ -1064,7 +1066,7 @@ extension MediaPackage {
 
         public let nextToken: String?
         public let originEndpoints: [OriginEndpoint]?
-        
+
         public init(nextToken: String? = nil, originEndpoints: [OriginEndpoint]? = nil) {
             self.nextToken = nextToken
             self.originEndpoints = originEndpoints
@@ -1082,7 +1084,7 @@ extension MediaPackage {
         ]
 
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1098,7 +1100,7 @@ extension MediaPackage {
         ]
 
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1120,7 +1122,7 @@ extension MediaPackage {
         ]
 
         public let spekeKeyProvider: SpekeKeyProvider
-        
+
         public init(spekeKeyProvider: SpekeKeyProvider) {
             self.spekeKeyProvider = spekeKeyProvider
         }
@@ -1144,7 +1146,7 @@ extension MediaPackage {
         /// The duration (in seconds) of each segment.
         public let segmentDurationSeconds: Int32?
         public let streamSelection: StreamSelection?
-        
+
         public init(encryption: MssEncryption? = nil, manifestWindowSeconds: Int32? = nil, segmentDurationSeconds: Int32? = nil, streamSelection: StreamSelection? = nil) {
             self.encryption = encryption
             self.manifestWindowSeconds = manifestWindowSeconds
@@ -1203,7 +1205,7 @@ extension MediaPackage {
         public let url: String?
         /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
         public let whitelist: [String]?
-        
+
         public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int32? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
             self.channelId = channelId
@@ -1278,7 +1280,7 @@ extension MediaPackage {
         public let timeDelaySeconds: Int32?
         /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
         public let whitelist: [String]?
-        
+
         public init(channelId: String, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int32? = nil, whitelist: [String]? = nil) {
             self.channelId = channelId
             self.cmafPackage = cmafPackage
@@ -1320,7 +1322,7 @@ extension MediaPackage {
         public let nextToken: String?
         /// A list of OriginEndpoint records.
         public let originEndpoints: [OriginEndpoint]?
-        
+
         public init(nextToken: String? = nil, originEndpoints: [OriginEndpoint]? = nil) {
             self.nextToken = nextToken
             self.originEndpoints = originEndpoints
@@ -1361,7 +1363,7 @@ extension MediaPackage {
         public let timeDelaySeconds: Int32?
         /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
         public let whitelist: [String]?
-        
+
         public init(cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, timeDelaySeconds: Int32? = nil, whitelist: [String]? = nil) {
             self.cmafPackage = cmafPackage
             self.dashPackage = dashPackage
@@ -1406,7 +1408,7 @@ extension MediaPackage {
         ]
 
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -1430,7 +1432,7 @@ extension MediaPackage {
         public let hlsIngest: HlsIngest?
         public let id: String?
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
@@ -1456,7 +1458,7 @@ extension MediaPackage {
 
         public let id: String
         public let ingestEndpointId: String
-        
+
         public init(id: String, ingestEndpointId: String) {
             self.id = id
             self.ingestEndpointId = ingestEndpointId
@@ -1482,7 +1484,7 @@ extension MediaPackage {
         public let hlsIngest: HlsIngest?
         public let id: String?
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
@@ -1529,7 +1531,7 @@ extension MediaPackage {
         public let systemIds: [String]
         /// The URL of the external key provider service.
         public let url: String
-        
+
         public init(certificateArn: String? = nil, resourceId: String, roleArn: String, systemIds: [String], url: String) {
             self.certificateArn = certificateArn
             self.resourceId = resourceId
@@ -1567,7 +1569,7 @@ extension MediaPackage {
         public let minVideoBitsPerSecond: Int32?
         /// A directive that determines the order of streams in the output.
         public let streamOrder: StreamOrder?
-        
+
         public init(maxVideoBitsPerSecond: Int32? = nil, minVideoBitsPerSecond: Int32? = nil, streamOrder: StreamOrder? = nil) {
             self.maxVideoBitsPerSecond = maxVideoBitsPerSecond
             self.minVideoBitsPerSecond = minVideoBitsPerSecond
@@ -1589,7 +1591,7 @@ extension MediaPackage {
 
         public let resourceArn: String
         public let tags: [String: String]
-        
+
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1607,7 +1609,7 @@ extension MediaPackage {
         ]
 
         public let tags: [String: String]
-        
+
         public init(tags: [String: String]) {
             self.tags = tags
         }
@@ -1625,7 +1627,7 @@ extension MediaPackage {
 
         public let resourceArn: String
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1645,7 +1647,7 @@ extension MediaPackage {
 
         public let description: String?
         public let id: String
-        
+
         public init(description: String? = nil, id: String) {
             self.description = description
             self.id = id
@@ -1671,7 +1673,7 @@ extension MediaPackage {
         public let hlsIngest: HlsIngest?
         public let id: String?
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
@@ -1713,7 +1715,7 @@ extension MediaPackage {
         public let startoverWindowSeconds: Int32?
         public let timeDelaySeconds: Int32?
         public let whitelist: [String]?
-        
+
         public init(cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, timeDelaySeconds: Int32? = nil, whitelist: [String]? = nil) {
             self.cmafPackage = cmafPackage
             self.dashPackage = dashPackage
@@ -1773,7 +1775,7 @@ extension MediaPackage {
         public let timeDelaySeconds: Int32?
         public let url: String?
         public let whitelist: [String]?
-        
+
         public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int32? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
             self.channelId = channelId
@@ -1825,5 +1827,4 @@ extension MediaPackage {
         case ads = "ADS"
         public var description: String { return self.rawValue }
     }
-
 }

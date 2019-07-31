@@ -570,5 +570,4 @@ public struct Glue {
     public func updateWorkflow(_ input: UpdateWorkflowRequest) throws -> Future<UpdateWorkflowResponse> {
         return try client.send(operation: "UpdateWorkflow", path: "/", httpMethod: "POST", input: input)
     }
-
 }

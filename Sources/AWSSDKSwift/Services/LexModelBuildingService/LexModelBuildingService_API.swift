@@ -204,5 +204,4 @@ public struct LexModelBuildingService {
     public func startImport(_ input: StartImportRequest) throws -> Future<StartImportResponse> {
         return try client.send(operation: "StartImport", path: "/imports/", httpMethod: "POST", input: input)
     }
-
 }

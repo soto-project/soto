@@ -33,7 +33,7 @@ extension KinesisVideoArchivedMedia {
         public let fragmentSelectorType: DASHFragmentSelectorType?
         /// The start and end of the timestamp range for the requested media. This value should not be present if PlaybackType is LIVE.
         public let timestampRange: DASHTimestampRange?
-        
+
         public init(fragmentSelectorType: DASHFragmentSelectorType? = nil, timestampRange: DASHTimestampRange? = nil) {
             self.fragmentSelectorType = fragmentSelectorType
             self.timestampRange = timestampRange
@@ -68,7 +68,7 @@ extension KinesisVideoArchivedMedia {
         public let endTimestamp: TimeStamp?
         /// The start of the timestamp range for the requested media. If the DASHTimestampRange value is specified, the StartTimestamp value is required.  This value is inclusive. Fragments that start before the StartTimestamp and continue past it are included in the session. If FragmentSelectorType is SERVER_TIMESTAMP, the StartTimestamp must be later than the stream head. 
         public let startTimestamp: TimeStamp?
-        
+
         public init(endTimestamp: TimeStamp? = nil, startTimestamp: TimeStamp? = nil) {
             self.endTimestamp = endTimestamp
             self.startTimestamp = startTimestamp
@@ -99,7 +99,7 @@ extension KinesisVideoArchivedMedia {
         public let producerTimestamp: TimeStamp?
         /// The timestamp from the AWS server corresponding to the fragment.
         public let serverTimestamp: TimeStamp?
-        
+
         public init(fragmentLengthInMilliseconds: Int64? = nil, fragmentNumber: String? = nil, fragmentSizeInBytes: Int64? = nil, producerTimestamp: TimeStamp? = nil, serverTimestamp: TimeStamp? = nil) {
             self.fragmentLengthInMilliseconds = fragmentLengthInMilliseconds
             self.fragmentNumber = fragmentNumber
@@ -131,7 +131,7 @@ extension KinesisVideoArchivedMedia {
         public let fragmentSelectorType: FragmentSelectorType
         /// The range of timestamps to return.
         public let timestampRange: TimestampRange
-        
+
         public init(fragmentSelectorType: FragmentSelectorType, timestampRange: TimestampRange) {
             self.fragmentSelectorType = fragmentSelectorType
             self.timestampRange = timestampRange
@@ -177,7 +177,7 @@ extension KinesisVideoArchivedMedia {
         public let streamARN: String?
         /// The name of the stream for which to retrieve the MPEG-DASH manifest URL. You must specify either the StreamName or the StreamARN.
         public let streamName: String?
-        
+
         public init(dASHFragmentSelector: DASHFragmentSelector? = nil, displayFragmentNumber: DASHDisplayFragmentNumber? = nil, displayFragmentTimestamp: DASHDisplayFragmentTimestamp? = nil, expires: Int32? = nil, maxManifestFragmentResults: Int64? = nil, playbackMode: DASHPlaybackMode? = nil, streamARN: String? = nil, streamName: String? = nil) {
             self.dASHFragmentSelector = dASHFragmentSelector
             self.displayFragmentNumber = displayFragmentNumber
@@ -221,7 +221,7 @@ extension KinesisVideoArchivedMedia {
 
         /// The URL (containing the session token) that a media player can use to retrieve the MPEG-DASH manifest.
         public let dASHStreamingSessionURL: String?
-        
+
         public init(dASHStreamingSessionURL: String? = nil) {
             self.dASHStreamingSessionURL = dASHStreamingSessionURL
         }
@@ -262,7 +262,7 @@ extension KinesisVideoArchivedMedia {
         public let streamARN: String?
         /// The name of the stream for which to retrieve the HLS master playlist URL. You must specify either the StreamName or the StreamARN.
         public let streamName: String?
-        
+
         public init(containerFormat: ContainerFormat? = nil, discontinuityMode: HLSDiscontinuityMode? = nil, displayFragmentTimestamp: HLSDisplayFragmentTimestamp? = nil, expires: Int32? = nil, hLSFragmentSelector: HLSFragmentSelector? = nil, maxMediaPlaylistFragmentResults: Int64? = nil, playbackMode: HLSPlaybackMode? = nil, streamARN: String? = nil, streamName: String? = nil) {
             self.containerFormat = containerFormat
             self.discontinuityMode = discontinuityMode
@@ -308,7 +308,7 @@ extension KinesisVideoArchivedMedia {
 
         /// The URL (containing the session token) that a media player can use to retrieve the HLS master playlist.
         public let hLSStreamingSessionURL: String?
-        
+
         public init(hLSStreamingSessionURL: String? = nil) {
             self.hLSStreamingSessionURL = hLSStreamingSessionURL
         }
@@ -328,7 +328,7 @@ extension KinesisVideoArchivedMedia {
         public let fragments: [String]
         /// The name of the stream from which to retrieve fragment media.
         public let streamName: String
-        
+
         public init(fragments: [String], streamName: String) {
             self.fragments = fragments
             self.streamName = streamName
@@ -365,7 +365,7 @@ extension KinesisVideoArchivedMedia {
         public let contentType: String?
         /// The payload that Kinesis Video Streams returns is a sequence of chunks from the specified stream. For information about the chunks, see PutMedia. The chunks that Kinesis Video Streams returns in the GetMediaForFragmentList call also include the following additional Matroska (MKV) tags:    AWS_KINESISVIDEO_FRAGMENT_NUMBER - Fragment number returned in the chunk.   AWS_KINESISVIDEO_SERVER_SIDE_TIMESTAMP - Server-side timestamp of the fragment.   AWS_KINESISVIDEO_PRODUCER_SIDE_TIMESTAMP - Producer-side timestamp of the fragment.   The following tags will be included if an exception occurs:   AWS_KINESISVIDEO_FRAGMENT_NUMBER - The number of the fragment that threw the exception   AWS_KINESISVIDEO_EXCEPTION_ERROR_CODE - The integer code of the exception   AWS_KINESISVIDEO_EXCEPTION_MESSAGE - A text description of the exception  
         public let payload: Data?
-        
+
         public init(contentType: String? = nil, payload: Data? = nil) {
             self.contentType = contentType
             self.payload = payload
@@ -405,7 +405,7 @@ extension KinesisVideoArchivedMedia {
         public let fragmentSelectorType: HLSFragmentSelectorType?
         /// The start and end of the timestamp range for the requested media. This value should not be present if PlaybackType is LIVE.
         public let timestampRange: HLSTimestampRange?
-        
+
         public init(fragmentSelectorType: HLSFragmentSelectorType? = nil, timestampRange: HLSTimestampRange? = nil) {
             self.fragmentSelectorType = fragmentSelectorType
             self.timestampRange = timestampRange
@@ -440,7 +440,7 @@ extension KinesisVideoArchivedMedia {
         public let endTimestamp: TimeStamp?
         /// The start of the timestamp range for the requested media. If the HLSTimestampRange value is specified, the StartTimestamp value is required.  This value is inclusive. Fragments that start before the StartTimestamp and continue past it are included in the session. If FragmentSelectorType is SERVER_TIMESTAMP, the StartTimestamp must be later than the stream head. 
         public let startTimestamp: TimeStamp?
-        
+
         public init(endTimestamp: TimeStamp? = nil, startTimestamp: TimeStamp? = nil) {
             self.endTimestamp = endTimestamp
             self.startTimestamp = startTimestamp
@@ -468,7 +468,7 @@ extension KinesisVideoArchivedMedia {
         public let nextToken: String?
         /// The name of the stream from which to retrieve a fragment list.
         public let streamName: String
-        
+
         public init(fragmentSelector: FragmentSelector? = nil, maxResults: Int64? = nil, nextToken: String? = nil, streamName: String) {
             self.fragmentSelector = fragmentSelector
             self.maxResults = maxResults
@@ -503,7 +503,7 @@ extension KinesisVideoArchivedMedia {
         public let fragments: [Fragment]?
         /// If the returned list is truncated, the operation returns this token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
-        
+
         public init(fragments: [Fragment]? = nil, nextToken: String? = nil) {
             self.fragments = fragments
             self.nextToken = nextToken
@@ -532,7 +532,7 @@ extension KinesisVideoArchivedMedia {
         public let endTimestamp: TimeStamp
         /// The starting timestamp in the range of timestamps for which to return fragments.
         public let startTimestamp: TimeStamp
-        
+
         public init(endTimestamp: TimeStamp, startTimestamp: TimeStamp) {
             self.endTimestamp = endTimestamp
             self.startTimestamp = startTimestamp
@@ -543,5 +543,4 @@ extension KinesisVideoArchivedMedia {
             case startTimestamp = "StartTimestamp"
         }
     }
-
 }

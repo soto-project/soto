@@ -190,5 +190,4 @@ public struct WorkSpaces {
     public func updateRulesOfIpGroup(_ input: UpdateRulesOfIpGroupRequest) throws -> Future<UpdateRulesOfIpGroupResult> {
         return try client.send(operation: "UpdateRulesOfIpGroup", path: "/", httpMethod: "POST", input: input)
     }
-
 }

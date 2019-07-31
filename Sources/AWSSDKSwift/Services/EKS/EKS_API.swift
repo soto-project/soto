@@ -64,5 +64,4 @@ public struct EKS {
     public func updateClusterVersion(_ input: UpdateClusterVersionRequest) throws -> Future<UpdateClusterVersionResponse> {
         return try client.send(operation: "UpdateClusterVersion", path: "/clusters/{name}/updates", httpMethod: "POST", input: input)
     }
-
 }

@@ -125,5 +125,4 @@ public struct CloudHSM {
     public func removeTagsFromResource(_ input: RemoveTagsFromResourceRequest) throws -> Future<RemoveTagsFromResourceResponse> {
         return try client.send(operation: "RemoveTagsFromResource", path: "/", httpMethod: "POST", input: input)
     }
-
 }

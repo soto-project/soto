@@ -14,7 +14,7 @@ extension MediaConnect {
         public let flowArn: String
         /// A list of outputs that you want to add.
         public let outputs: [AddOutputRequest]
-        
+
         public init(flowArn: String, outputs: [AddOutputRequest]) {
             self.flowArn = flowArn
             self.outputs = outputs
@@ -36,7 +36,7 @@ extension MediaConnect {
         public let flowArn: String?
         /// The details of the newly added outputs.
         public let outputs: [Output]?
-        
+
         public init(flowArn: String? = nil, outputs: [Output]? = nil) {
             self.flowArn = flowArn
             self.outputs = outputs
@@ -79,7 +79,7 @@ extension MediaConnect {
         public let smoothingLatency: Int32?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
-        
+
         public init(description: String? = nil, destination: String, encryption: Encryption? = nil, maxLatency: Int32? = nil, name: String? = nil, port: Int32, protocol: Protocol, smoothingLatency: Int32? = nil, streamId: String? = nil) {
             self.description = description
             self.destination = destination
@@ -130,7 +130,7 @@ extension MediaConnect {
         /// The outputs that you want to add to this flow.
         public let outputs: [AddOutputRequest]?
         public let source: SetSourceRequest
-        
+
         public init(availabilityZone: String? = nil, entitlements: [GrantEntitlementRequest]? = nil, name: String, outputs: [AddOutputRequest]? = nil, source: SetSourceRequest) {
             self.availabilityZone = availabilityZone
             self.entitlements = entitlements
@@ -154,7 +154,7 @@ extension MediaConnect {
         ]
 
         public let flow: Flow?
-        
+
         public init(flow: Flow? = nil) {
             self.flow = flow
         }
@@ -170,7 +170,7 @@ extension MediaConnect {
         ]
 
         public let flowArn: String
-        
+
         public init(flowArn: String) {
             self.flowArn = flowArn
         }
@@ -190,7 +190,7 @@ extension MediaConnect {
         public let flowArn: String?
         /// The status of the flow when the DeleteFlow process begins.
         public let status: Status?
-        
+
         public init(flowArn: String? = nil, status: Status? = nil) {
             self.flowArn = flowArn
             self.status = status
@@ -208,7 +208,7 @@ extension MediaConnect {
         ]
 
         public let flowArn: String
-        
+
         public init(flowArn: String) {
             self.flowArn = flowArn
         }
@@ -226,7 +226,7 @@ extension MediaConnect {
 
         public let flow: Flow?
         public let messages: Messages?
-        
+
         public init(flow: Flow? = nil, messages: Messages? = nil) {
             self.flow = flow
             self.messages = messages
@@ -269,7 +269,7 @@ extension MediaConnect {
         public let secretArn: String?
         /// The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryption.
         public let url: String?
-        
+
         public init(algorithm: Algorithm, constantInitializationVector: String? = nil, deviceId: String? = nil, keyType: KeyType? = nil, region: String? = nil, resourceId: String? = nil, roleArn: String, secretArn: String? = nil, url: String? = nil) {
             self.algorithm = algorithm
             self.constantInitializationVector = constantInitializationVector
@@ -314,7 +314,7 @@ extension MediaConnect {
         public let name: String
         /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
         public let subscribers: [String]
-        
+
         public init(description: String? = nil, encryption: Encryption? = nil, entitlementArn: String, name: String, subscribers: [String]) {
             self.description = description
             self.encryption = encryption
@@ -362,7 +362,7 @@ extension MediaConnect {
         public let source: Source
         /// The current status of the flow.
         public let status: Status
-        
+
         public init(availabilityZone: String, description: String? = nil, egressIp: String? = nil, entitlements: [Entitlement], flowArn: String, name: String, outputs: [Output], source: Source, status: Status) {
             self.availabilityZone = availabilityZone
             self.description = description
@@ -404,7 +404,7 @@ extension MediaConnect {
         public let name: String?
         /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flows using your content as the source.
         public let subscribers: [String]
-        
+
         public init(description: String? = nil, encryption: Encryption? = nil, name: String? = nil, subscribers: [String]) {
             self.description = description
             self.encryption = encryption
@@ -429,7 +429,7 @@ extension MediaConnect {
         /// The list of entitlements that you want to grant.
         public let entitlements: [GrantEntitlementRequest]
         public let flowArn: String
-        
+
         public init(entitlements: [GrantEntitlementRequest], flowArn: String) {
             self.entitlements = entitlements
             self.flowArn = flowArn
@@ -451,7 +451,7 @@ extension MediaConnect {
         public let entitlements: [Entitlement]?
         /// The ARN of the flow that these entitlements were granted to.
         public let flowArn: String?
-        
+
         public init(entitlements: [Entitlement]? = nil, flowArn: String? = nil) {
             self.entitlements = entitlements
             self.flowArn = flowArn
@@ -477,7 +477,7 @@ extension MediaConnect {
 
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -504,7 +504,7 @@ extension MediaConnect {
         public let entitlements: [ListedEntitlement]?
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListEntitlements request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListEntitlements request a second time and specify the NextToken value.
         public let nextToken: String?
-        
+
         public init(entitlements: [ListedEntitlement]? = nil, nextToken: String? = nil) {
             self.entitlements = entitlements
             self.nextToken = nextToken
@@ -524,7 +524,7 @@ extension MediaConnect {
 
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -551,7 +551,7 @@ extension MediaConnect {
         public let flows: [ListedFlow]?
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListFlows request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListFlows request a second time and specify the NextToken value.
         public let nextToken: String?
-        
+
         public init(flows: [ListedFlow]? = nil, nextToken: String? = nil) {
             self.flows = flows
             self.nextToken = nextToken
@@ -569,7 +569,7 @@ extension MediaConnect {
         ]
 
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -586,7 +586,7 @@ extension MediaConnect {
 
         /// A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -606,7 +606,7 @@ extension MediaConnect {
         public let entitlementArn: String
         /// The name of the entitlement.
         public let entitlementName: String
-        
+
         public init(entitlementArn: String, entitlementName: String) {
             self.entitlementArn = entitlementArn
             self.entitlementName = entitlementName
@@ -640,7 +640,7 @@ extension MediaConnect {
         public let sourceType: SourceType
         /// The current status of the flow.
         public let status: Status
-        
+
         public init(availabilityZone: String, description: String, flowArn: String, name: String, sourceType: SourceType, status: Status) {
             self.availabilityZone = availabilityZone
             self.description = description
@@ -667,7 +667,7 @@ extension MediaConnect {
 
         /// A list of errors that might have been generated from processes on this flow.
         public let errors: [String]
-        
+
         public init(errors: [String]) {
             self.errors = errors
         }
@@ -708,7 +708,7 @@ extension MediaConnect {
         public let port: Int32?
         /// Attributes related to the transport stream that are used in the output.
         public let transport: Transport?
-        
+
         public init(description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, mediaLiveInputArn: String? = nil, name: String, outputArn: String, port: Int32? = nil, transport: Transport? = nil) {
             self.description = description
             self.destination = destination
@@ -749,7 +749,7 @@ extension MediaConnect {
 
         public let flowArn: String
         public let outputArn: String
-        
+
         public init(flowArn: String, outputArn: String) {
             self.flowArn = flowArn
             self.outputArn = outputArn
@@ -771,7 +771,7 @@ extension MediaConnect {
         public let flowArn: String?
         /// The ARN of the output that was removed.
         public let outputArn: String?
-        
+
         public init(flowArn: String? = nil, outputArn: String? = nil) {
             self.flowArn = flowArn
             self.outputArn = outputArn
@@ -790,7 +790,7 @@ extension MediaConnect {
 
         /// The error message returned by AWS Elemental MediaConnect.
         public let message: String
-        
+
         public init(message: String) {
             self.message = message
         }
@@ -808,7 +808,7 @@ extension MediaConnect {
 
         public let entitlementArn: String
         public let flowArn: String
-        
+
         public init(entitlementArn: String, flowArn: String) {
             self.entitlementArn = entitlementArn
             self.flowArn = flowArn
@@ -830,7 +830,7 @@ extension MediaConnect {
         public let entitlementArn: String?
         /// The ARN of the flow that the entitlement was revoked from.
         public let flowArn: String?
-        
+
         public init(entitlementArn: String? = nil, flowArn: String? = nil) {
             self.entitlementArn = entitlementArn
             self.flowArn = flowArn
@@ -876,7 +876,7 @@ extension MediaConnect {
         public let streamId: String?
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
-        
+
         public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestPort: Int32? = nil, maxBitrate: Int32? = nil, maxLatency: Int32? = nil, name: String? = nil, protocol: Protocol? = nil, streamId: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
@@ -935,7 +935,7 @@ extension MediaConnect {
         public let transport: Transport?
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
-        
+
         public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestIp: String? = nil, ingestPort: Int32? = nil, name: String, sourceArn: String, transport: Transport? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
@@ -973,7 +973,7 @@ extension MediaConnect {
         ]
 
         public let flowArn: String
-        
+
         public init(flowArn: String) {
             self.flowArn = flowArn
         }
@@ -993,7 +993,7 @@ extension MediaConnect {
         public let flowArn: String?
         /// The status of the flow when the StartFlow process begins.
         public let status: Status?
-        
+
         public init(flowArn: String? = nil, status: Status? = nil) {
             self.flowArn = flowArn
             self.status = status
@@ -1022,7 +1022,7 @@ extension MediaConnect {
         ]
 
         public let flowArn: String
-        
+
         public init(flowArn: String) {
             self.flowArn = flowArn
         }
@@ -1042,7 +1042,7 @@ extension MediaConnect {
         public let flowArn: String?
         /// The status of the flow when the StopFlow process begins.
         public let status: Status?
-        
+
         public init(flowArn: String? = nil, status: Status? = nil) {
             self.flowArn = flowArn
             self.status = status
@@ -1063,7 +1063,7 @@ extension MediaConnect {
         public let resourceArn: String
         /// A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [String: String]
-        
+
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1094,7 +1094,7 @@ extension MediaConnect {
         public let smoothingLatency: Int32?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
-        
+
         public init(maxBitrate: Int32? = nil, maxLatency: Int32? = nil, protocol: Protocol, smoothingLatency: Int32? = nil, streamId: String? = nil) {
             self.maxBitrate = maxBitrate
             self.maxLatency = maxLatency
@@ -1120,7 +1120,7 @@ extension MediaConnect {
 
         public let resourceArn: String
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1163,7 +1163,7 @@ extension MediaConnect {
         public let secretArn: String?
         /// The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryption.
         public let url: String?
-        
+
         public init(algorithm: Algorithm? = nil, constantInitializationVector: String? = nil, deviceId: String? = nil, keyType: KeyType? = nil, region: String? = nil, resourceId: String? = nil, roleArn: String? = nil, secretArn: String? = nil, url: String? = nil) {
             self.algorithm = algorithm
             self.constantInitializationVector = constantInitializationVector
@@ -1206,7 +1206,7 @@ extension MediaConnect {
         public let flowArn: String
         /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
         public let subscribers: [String]?
-        
+
         public init(description: String? = nil, encryption: UpdateEncryption? = nil, entitlementArn: String, flowArn: String, subscribers: [String]? = nil) {
             self.description = description
             self.encryption = encryption
@@ -1233,7 +1233,7 @@ extension MediaConnect {
         public let entitlement: Entitlement?
         /// The ARN of the flow that this entitlement was granted on.
         public let flowArn: String?
-        
+
         public init(entitlement: Entitlement? = nil, flowArn: String? = nil) {
             self.entitlement = entitlement
             self.flowArn = flowArn
@@ -1277,7 +1277,7 @@ extension MediaConnect {
         public let smoothingLatency: Int32?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
-        
+
         public init(description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int32? = nil, outputArn: String, port: Int32? = nil, protocol: Protocol? = nil, smoothingLatency: Int32? = nil, streamId: String? = nil) {
             self.description = description
             self.destination = destination
@@ -1314,7 +1314,7 @@ extension MediaConnect {
         /// The ARN of the flow that is associated with the updated output.
         public let flowArn: String?
         public let output: Output?
-        
+
         public init(flowArn: String? = nil, output: Output? = nil) {
             self.flowArn = flowArn
             self.output = output
@@ -1361,7 +1361,7 @@ extension MediaConnect {
         public let streamId: String?
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
-        
+
         public init(decryption: UpdateEncryption? = nil, description: String? = nil, entitlementArn: String? = nil, flowArn: String, ingestPort: Int32? = nil, maxBitrate: Int32? = nil, maxLatency: Int32? = nil, protocol: Protocol? = nil, sourceArn: String, streamId: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
@@ -1401,7 +1401,7 @@ extension MediaConnect {
         public let flowArn: String?
         /// The settings for the source of the flow.
         public let source: Source?
-        
+
         public init(flowArn: String? = nil, source: Source? = nil) {
             self.flowArn = flowArn
             self.source = source
@@ -1412,5 +1412,4 @@ extension MediaConnect {
             case source = "source"
         }
     }
-
 }

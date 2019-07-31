@@ -18,7 +18,7 @@ extension DataSync {
         public let name: String?
         /// The status of the agent.
         public let status: AgentStatus?
-        
+
         public init(agentArn: String? = nil, name: String? = nil, status: AgentStatus? = nil) {
             self.agentArn = agentArn
             self.name = name
@@ -59,7 +59,7 @@ extension DataSync {
 
         /// The Amazon Resource Name (ARN) of the task execution to cancel.
         public let taskExecutionArn: String
-        
+
         public init(taskExecutionArn: String) {
             self.taskExecutionArn = taskExecutionArn
         }
@@ -75,11 +75,12 @@ extension DataSync {
     }
 
     public struct CancelTaskExecutionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateAgentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -94,7 +95,7 @@ extension DataSync {
         public let agentName: String?
         /// The key-value pair that represents the tag that you want to associate with the agent. The value can be an empty string. This value helps you manage, filter, and search for your agents.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @.  
         public let tags: [TagListEntry]?
-        
+
         public init(activationKey: String, agentName: String? = nil, tags: [TagListEntry]? = nil) {
             self.activationKey = activationKey
             self.agentName = agentName
@@ -128,7 +129,7 @@ extension DataSync {
 
         /// The Amazon Resource Name (ARN) of the agent. Use the ListAgents operation to return a list of agents for your account and AWS Region.
         public let agentArn: String?
-        
+
         public init(agentArn: String? = nil) {
             self.agentArn = agentArn
         }
@@ -159,7 +160,7 @@ extension DataSync {
         public let subdirectory: String?
         /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
         public let tags: [TagListEntry]?
-        
+
         public init(ec2Config: Ec2Config, efsFilesystemArn: String, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
             self.ec2Config = ec2Config
             self.efsFilesystemArn = efsFilesystemArn
@@ -195,7 +196,7 @@ extension DataSync {
 
         /// The Amazon Resource Name (ARN) of the Amazon EFS file system location that is created.
         public let locationArn: String?
-        
+
         public init(locationArn: String? = nil) {
             self.locationArn = locationArn
         }
@@ -229,7 +230,7 @@ extension DataSync {
         public let subdirectory: String
         /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
         public let tags: [TagListEntry]?
-        
+
         public init(mountOptions: NfsMountOptions? = nil, onPremConfig: OnPremConfig, serverHostname: String, subdirectory: String, tags: [TagListEntry]? = nil) {
             self.mountOptions = mountOptions
             self.onPremConfig = onPremConfig
@@ -267,7 +268,7 @@ extension DataSync {
 
         /// The Amazon Resource Name (ARN) of the source NFS file system location that is created.
         public let locationArn: String?
-        
+
         public init(locationArn: String? = nil) {
             self.locationArn = locationArn
         }
@@ -297,7 +298,7 @@ extension DataSync {
         public let subdirectory: String?
         /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
         public let tags: [TagListEntry]?
-        
+
         public init(s3BucketArn: String, s3Config: S3Config, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
             self.s3BucketArn = s3BucketArn
             self.s3Config = s3Config
@@ -333,7 +334,7 @@ extension DataSync {
 
         /// The Amazon Resource Name (ARN) of the source Amazon S3 bucket location that is created.
         public let locationArn: String?
-        
+
         public init(locationArn: String? = nil) {
             self.locationArn = locationArn
         }
@@ -373,7 +374,7 @@ extension DataSync {
         public let sourceLocationArn: String
         /// The key-value pair that represents the tag that you want to add to the resource. The value can be an empty string. 
         public let tags: [TagListEntry]?
-        
+
         public init(cloudWatchLogGroupArn: String? = nil, destinationLocationArn: String, excludes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, sourceLocationArn: String, tags: [TagListEntry]? = nil) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.destinationLocationArn = destinationLocationArn
@@ -425,7 +426,7 @@ extension DataSync {
 
         /// The Amazon Resource Name (ARN) of the task.
         public let taskArn: String?
-        
+
         public init(taskArn: String? = nil) {
             self.taskArn = taskArn
         }
@@ -447,7 +448,7 @@ extension DataSync {
 
         /// The Amazon Resource Name (ARN) of the agent to delete. Use the ListAgents operation to return a list of agents for your account and AWS Region.
         public let agentArn: String
-        
+
         public init(agentArn: String) {
             self.agentArn = agentArn
         }
@@ -463,11 +464,12 @@ extension DataSync {
     }
 
     public struct DeleteAgentResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteLocationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -476,7 +478,7 @@ extension DataSync {
 
         /// The Amazon Resource Name (ARN) of the location to delete.
         public let locationArn: String
-        
+
         public init(locationArn: String) {
             self.locationArn = locationArn
         }
@@ -492,11 +494,12 @@ extension DataSync {
     }
 
     public struct DeleteLocationResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteTaskRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -505,7 +508,7 @@ extension DataSync {
 
         /// The Amazon Resource Name (ARN) of the task to delete.
         public let taskArn: String
-        
+
         public init(taskArn: String) {
             self.taskArn = taskArn
         }
@@ -521,11 +524,12 @@ extension DataSync {
     }
 
     public struct DeleteTaskResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeAgentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -534,7 +538,7 @@ extension DataSync {
 
         /// The Amazon Resource Name (ARN) of the agent to describe.
         public let agentArn: String
-        
+
         public init(agentArn: String) {
             self.agentArn = agentArn
         }
@@ -572,7 +576,7 @@ extension DataSync {
         public let privateLinkConfig: PrivateLinkConfig?
         /// The status of the agent. If the status is ONLINE, then the agent is configured properly and is available to use. The Running status is the normal running status for an agent. If the status is OFFLINE, the agent's VM is turned off or the agent is in an unhealthy state. When the issue that caused the unhealthy state is resolved, the agent returns to ONLINE status.
         public let status: AgentStatus?
-        
+
         public init(agentArn: String? = nil, creationTime: TimeStamp? = nil, endpointOptions: EndpointOptions? = nil, lastConnectionTime: TimeStamp? = nil, name: String? = nil, privateLinkConfig: PrivateLinkConfig? = nil, status: AgentStatus? = nil) {
             self.agentArn = agentArn
             self.creationTime = creationTime
@@ -610,7 +614,7 @@ extension DataSync {
 
         /// The Amazon Resource Name (ARN) of the EFS location to describe.
         public let locationArn: String
-        
+
         public init(locationArn: String) {
             self.locationArn = locationArn
         }
@@ -640,7 +644,7 @@ extension DataSync {
         public let locationArn: String?
         /// The URL of the EFS location that was described.
         public let locationUri: String?
-        
+
         public init(creationTime: TimeStamp? = nil, ec2Config: Ec2Config? = nil, locationArn: String? = nil, locationUri: String? = nil) {
             self.creationTime = creationTime
             self.ec2Config = ec2Config
@@ -670,7 +674,7 @@ extension DataSync {
 
         /// The Amazon resource Name (ARN) of the NFS location to describe.
         public let locationArn: String
-        
+
         public init(locationArn: String) {
             self.locationArn = locationArn
         }
@@ -703,7 +707,7 @@ extension DataSync {
         /// The NFS mount options that DataSync used to mount your NFS share.
         public let mountOptions: NfsMountOptions?
         public let onPremConfig: OnPremConfig?
-        
+
         public init(creationTime: TimeStamp? = nil, locationArn: String? = nil, locationUri: String? = nil, mountOptions: NfsMountOptions? = nil, onPremConfig: OnPremConfig? = nil) {
             self.creationTime = creationTime
             self.locationArn = locationArn
@@ -735,7 +739,7 @@ extension DataSync {
 
         /// The Amazon Resource Name (ARN) of the Amazon S3 bucket location to describe.
         public let locationArn: String
-        
+
         public init(locationArn: String) {
             self.locationArn = locationArn
         }
@@ -765,7 +769,7 @@ extension DataSync {
         /// The URL of the Amazon S3 location that was described.
         public let locationUri: String?
         public let s3Config: S3Config?
-        
+
         public init(creationTime: TimeStamp? = nil, locationArn: String? = nil, locationUri: String? = nil, s3Config: S3Config? = nil) {
             self.creationTime = creationTime
             self.locationArn = locationArn
@@ -795,7 +799,7 @@ extension DataSync {
 
         /// The Amazon Resource Name (ARN) of the task that is being executed.
         public let taskExecutionArn: String
-        
+
         public init(taskExecutionArn: String) {
             self.taskExecutionArn = taskExecutionArn
         }
@@ -849,7 +853,7 @@ extension DataSync {
         public let status: TaskExecutionStatus?
         /// The Amazon Resource Name (ARN) of the task execution that was described. TaskExecutionArn is hierarchical and includes TaskArn for the task that was executed.  For example, a TaskExecution value with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2/execution/exec-08ef1e88ec491019b executed the task with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2. 
         public let taskExecutionArn: String?
-        
+
         public init(bytesTransferred: Int64? = nil, bytesWritten: Int64? = nil, estimatedBytesToTransfer: Int64? = nil, estimatedFilesToTransfer: Int64? = nil, excludes: [FilterRule]? = nil, filesTransferred: Int64? = nil, includes: [FilterRule]? = nil, options: Options? = nil, result: TaskExecutionResultDetail? = nil, startTime: TimeStamp? = nil, status: TaskExecutionStatus? = nil, taskExecutionArn: String? = nil) {
             self.bytesTransferred = bytesTransferred
             self.bytesWritten = bytesWritten
@@ -905,7 +909,7 @@ extension DataSync {
 
         /// The Amazon Resource Name (ARN) of the task to describe.
         public let taskArn: String
-        
+
         public init(taskArn: String) {
             self.taskArn = taskArn
         }
@@ -960,7 +964,7 @@ extension DataSync {
         public let status: TaskStatus?
         /// The Amazon Resource Name (ARN) of the task that was described.
         public let taskArn: String?
-        
+
         public init(cloudWatchLogGroupArn: String? = nil, creationTime: TimeStamp? = nil, currentTaskExecutionArn: String? = nil, destinationLocationArn: String? = nil, errorCode: String? = nil, errorDetail: String? = nil, excludes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, sourceLocationArn: String? = nil, status: TaskStatus? = nil, taskArn: String? = nil) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.creationTime = creationTime
@@ -1024,7 +1028,7 @@ extension DataSync {
         public let securityGroupArns: [String]
         /// The ARN of the subnet and the security group that DataSync uses to access the target EFS file system.
         public let subnetArn: String
-        
+
         public init(securityGroupArns: [String], subnetArn: String) {
             self.securityGroupArns = securityGroupArns
             self.subnetArn = subnetArn
@@ -1055,7 +1059,7 @@ extension DataSync {
 
         public let fips: Bool?
         public let privateLink: Bool?
-        
+
         public init(fips: Bool? = nil, privateLink: Bool? = nil) {
             self.fips = fips
             self.privateLink = privateLink
@@ -1077,7 +1081,7 @@ extension DataSync {
         public let filterType: FilterType?
         ///  A pattern that defines the filter. The filter might include or exclude files is a transfer.
         public let value: String?
-        
+
         public init(filterType: FilterType? = nil, value: String? = nil) {
             self.filterType = filterType
             self.value = value
@@ -1117,7 +1121,7 @@ extension DataSync {
         public let maxResults: Int32?
         /// An opaque string that indicates the position at which to begin the next list of agents.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1146,7 +1150,7 @@ extension DataSync {
         public let agents: [AgentListEntry]?
         /// An opaque string that indicates the position at which to begin returning the next list of agents.
         public let nextToken: String?
-        
+
         public init(agents: [AgentListEntry]? = nil, nextToken: String? = nil) {
             self.agents = agents
             self.nextToken = nextToken
@@ -1176,7 +1180,7 @@ extension DataSync {
         public let maxResults: Int32?
         /// An opaque string that indicates the position at which to begin the next list of locations.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1205,7 +1209,7 @@ extension DataSync {
         public let locations: [LocationListEntry]?
         /// An opaque string that indicates the position at which to begin returning the next list of locations.
         public let nextToken: String?
-        
+
         public init(locations: [LocationListEntry]? = nil, nextToken: String? = nil) {
             self.locations = locations
             self.nextToken = nextToken
@@ -1238,7 +1242,7 @@ extension DataSync {
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the resource whose tags to list.
         public let resourceArn: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1271,7 +1275,7 @@ extension DataSync {
         public let nextToken: String?
         /// Array of resource tags.
         public let tags: [TagListEntry]?
-        
+
         public init(nextToken: String? = nil, tags: [TagListEntry]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -1306,7 +1310,7 @@ extension DataSync {
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the task whose tasks you want to list.
         public let taskArn: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, taskArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1339,7 +1343,7 @@ extension DataSync {
         public let nextToken: String?
         /// A list of executed tasks.
         public let taskExecutions: [TaskExecutionListEntry]?
-        
+
         public init(nextToken: String? = nil, taskExecutions: [TaskExecutionListEntry]? = nil) {
             self.nextToken = nextToken
             self.taskExecutions = taskExecutions
@@ -1369,7 +1373,7 @@ extension DataSync {
         public let maxResults: Int32?
         /// An opaque string that indicates the position at which to begin the next list of tasks.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1398,7 +1402,7 @@ extension DataSync {
         public let nextToken: String?
         /// A list of all the tasks that are returned.
         public let tasks: [TaskListEntry]?
-        
+
         public init(nextToken: String? = nil, tasks: [TaskListEntry]? = nil) {
             self.nextToken = nextToken
             self.tasks = tasks
@@ -1428,7 +1432,7 @@ extension DataSync {
         public let locationArn: String?
         /// Represents a list of URLs of a location. LocationUri returns an array that contains a list of locations when the ListLocations operation is called. Format: TYPE://GLOBAL_ID/SUBDIR. TYPE designates the type of location. Valid values: NFS | EFS | S3. GLOBAL_ID is the globally unique identifier of the resource that backs the location. An example for EFS is us-east-2.fs-abcd1234. An example for Amazon S3 is the bucket name, such as myBucket. An example for NFS is a valid IPv4 address or a host name compliant with Domain Name Service (DNS). SUBDIR is a valid file system path, delimited by forward slashes as is the *nix convention. For NFS and Amazon EFS, it's the export path to mount the location. For Amazon S3, it's the prefix path that you mount to and treat as the root of the location. 
         public let locationUri: String?
-        
+
         public init(locationArn: String? = nil, locationUri: String? = nil) {
             self.locationArn = locationArn
             self.locationUri = locationUri
@@ -1459,7 +1463,7 @@ extension DataSync {
 
         /// The specific NFS version that you want DataSync to use to mount your NFS share. If you don't specify a version, DataSync defaults to AUTOMATIC. That is, DataSync automatically selects a version based on negotiation with the NFS server.
         public let version: NfsVersion?
-        
+
         public init(version: NfsVersion? = nil) {
             self.version = version
         }
@@ -1484,7 +1488,7 @@ extension DataSync {
 
         /// ARNs)of the agents to use for an NFS location.
         public let agentArns: [String]
-        
+
         public init(agentArns: [String]) {
             self.agentArns = agentArns
         }
@@ -1534,7 +1538,7 @@ extension DataSync {
         public let uid: Uid?
         /// A value that determines whether a data integrity verification should be performed at the end of a task execution after all data and metadata have been transferred.  Default value: POINT_IN_TIME_CONSISTENT. POINT_IN_TIME_CONSISTENT: Perform verification (recommended).  NONE: Skip verification.
         public let verifyMode: VerifyMode?
-        
+
         public init(atime: Atime? = nil, bytesPerSecond: Int64? = nil, gid: Gid? = nil, mtime: Mtime? = nil, posixPermissions: PosixPermissions? = nil, preserveDeletedFiles: PreserveDeletedFiles? = nil, preserveDevices: PreserveDevices? = nil, uid: Uid? = nil, verifyMode: VerifyMode? = nil) {
             self.atime = atime
             self.bytesPerSecond = bytesPerSecond
@@ -1600,7 +1604,7 @@ extension DataSync {
         public let privateLinkEndpoint: String?
         public let securityGroupArns: [String]?
         public let subnetArns: [String]?
-        
+
         public init(privateLinkEndpoint: String? = nil, securityGroupArns: [String]? = nil, subnetArns: [String]? = nil) {
             self.privateLinkEndpoint = privateLinkEndpoint
             self.securityGroupArns = securityGroupArns
@@ -1636,7 +1640,7 @@ extension DataSync {
 
         /// The Amazon S3 bucket to access. This bucket is used as a parameter in the CreateLocationS3 operation. 
         public let bucketAccessRoleArn: String
-        
+
         public init(bucketAccessRoleArn: String) {
             self.bucketAccessRoleArn = bucketAccessRoleArn
         }
@@ -1663,7 +1667,7 @@ extension DataSync {
         public let overrideOptions: Options?
         /// The Amazon Resource Name (ARN) of the task to start.
         public let taskArn: String
-        
+
         public init(includes: [FilterRule]? = nil, overrideOptions: Options? = nil, taskArn: String) {
             self.includes = includes
             self.overrideOptions = overrideOptions
@@ -1695,7 +1699,7 @@ extension DataSync {
 
         /// The Amazon Resource Name (ARN) of the specific task execution that was started.
         public let taskExecutionArn: String?
-        
+
         public init(taskExecutionArn: String? = nil) {
             self.taskExecutionArn = taskExecutionArn
         }
@@ -1720,7 +1724,7 @@ extension DataSync {
         public let key: String
         /// The value for an AWS resource tag.
         public let value: String?
-        
+
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1751,7 +1755,7 @@ extension DataSync {
         public let resourceArn: String
         /// The tags to apply.
         public let tags: [TagListEntry]
-        
+
         public init(resourceArn: String, tags: [TagListEntry]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1774,11 +1778,12 @@ extension DataSync {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct TaskExecutionListEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1790,7 +1795,7 @@ extension DataSync {
         public let status: TaskExecutionStatus?
         /// The Amazon Resource Name (ARN) of the task that was executed.
         public let taskExecutionArn: String?
-        
+
         public init(status: TaskExecutionStatus? = nil, taskExecutionArn: String? = nil) {
             self.status = status
             self.taskExecutionArn = taskExecutionArn
@@ -1835,7 +1840,7 @@ extension DataSync {
         public let verifyDuration: Int64?
         /// The status of the VERIFYING Phase.
         public let verifyStatus: PhaseStatus?
-        
+
         public init(errorCode: String? = nil, errorDetail: String? = nil, prepareDuration: Int64? = nil, prepareStatus: PhaseStatus? = nil, transferDuration: Int64? = nil, transferStatus: PhaseStatus? = nil, verifyDuration: Int64? = nil, verifyStatus: PhaseStatus? = nil) {
             self.errorCode = errorCode
             self.errorDetail = errorDetail
@@ -1888,7 +1893,7 @@ extension DataSync {
         public let status: TaskStatus?
         /// The Amazon Resource Name (ARN) of the task.
         public let taskArn: String?
-        
+
         public init(name: String? = nil, status: TaskStatus? = nil, taskArn: String? = nil) {
             self.name = name
             self.status = status
@@ -1936,7 +1941,7 @@ extension DataSync {
         public let keys: [String]
         /// The Amazon Resource Name (ARN) of the resource to remove the tag from.
         public let resourceArn: String
-        
+
         public init(keys: [String], resourceArn: String) {
             self.keys = keys
             self.resourceArn = resourceArn
@@ -1961,11 +1966,12 @@ extension DataSync {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateAgentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1977,7 +1983,7 @@ extension DataSync {
         public let agentArn: String
         /// The name that you want to use to configure the agent.
         public let name: String?
-        
+
         public init(agentArn: String, name: String? = nil) {
             self.agentArn = agentArn
             self.name = name
@@ -1998,11 +2004,12 @@ extension DataSync {
     }
 
     public struct UpdateAgentResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateTaskRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2022,7 +2029,7 @@ extension DataSync {
         public let options: Options?
         /// The Amazon Resource Name (ARN) of the resource name of the task to update.
         public let taskArn: String
-        
+
         public init(cloudWatchLogGroupArn: String? = nil, excludes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, taskArn: String) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.excludes = excludes
@@ -2057,16 +2064,16 @@ extension DataSync {
     }
 
     public struct UpdateTaskResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum VerifyMode: String, CustomStringConvertible, Codable {
         case pointInTimeConsistent = "POINT_IN_TIME_CONSISTENT"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
-
 }

@@ -294,5 +294,4 @@ public struct AutoScaling {
     @discardableResult public func updateAutoScalingGroup(_ input: UpdateAutoScalingGroupType) throws -> Future<Void> {
         return try client.send(operation: "UpdateAutoScalingGroup", path: "/", httpMethod: "POST", input: input)
     }
-
 }

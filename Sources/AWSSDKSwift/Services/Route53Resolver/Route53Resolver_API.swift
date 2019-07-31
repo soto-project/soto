@@ -135,5 +135,4 @@ public struct Route53Resolver {
     public func updateResolverRule(_ input: UpdateResolverRuleRequest) throws -> Future<UpdateResolverRuleResponse> {
         return try client.send(operation: "UpdateResolverRule", path: "/", httpMethod: "POST", input: input)
     }
-
 }

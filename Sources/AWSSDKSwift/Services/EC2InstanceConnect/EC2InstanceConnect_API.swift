@@ -30,5 +30,4 @@ public struct EC2InstanceConnect {
     public func sendSSHPublicKey(_ input: SendSSHPublicKeyRequest) throws -> Future<SendSSHPublicKeyResponse> {
         return try client.send(operation: "SendSSHPublicKey", path: "/", httpMethod: "POST", input: input)
     }
-
 }

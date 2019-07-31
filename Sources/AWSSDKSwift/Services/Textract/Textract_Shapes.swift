@@ -15,7 +15,7 @@ extension Textract {
         public let document: Document
         /// A list of the types of analysis to perform. Add TABLES to the list to return information about the tables detected in the input document. Add FORMS to return detected fields and the associated text. To perform both types of analysis, add TABLES and FORMS to FeatureTypes.
         public let featureTypes: [FeatureType]
-        
+
         public init(document: Document, featureTypes: [FeatureType]) {
             self.document = document
             self.featureTypes = featureTypes
@@ -41,7 +41,7 @@ extension Textract {
         public let blocks: [Block]?
         /// Metadata about the analyzed document. An example is the number of pages.
         public let documentMetadata: DocumentMetadata?
-        
+
         public init(blocks: [Block]? = nil, documentMetadata: DocumentMetadata? = nil) {
             self.blocks = blocks
             self.documentMetadata = documentMetadata
@@ -103,7 +103,7 @@ extension Textract {
         public let selectionStatus: SelectionStatus?
         /// The word or line of text that's recognized by Amazon Textract. 
         public let text: String?
-        
+
         public init(blockType: BlockType? = nil, columnIndex: Int32? = nil, columnSpan: Int32? = nil, confidence: Float? = nil, entityTypes: [EntityType]? = nil, geometry: Geometry? = nil, id: String? = nil, page: Int32? = nil, relationships: [Relationship]? = nil, rowIndex: Int32? = nil, rowSpan: Int32? = nil, selectionStatus: SelectionStatus? = nil, text: String? = nil) {
             self.blockType = blockType
             self.columnIndex = columnIndex
@@ -178,7 +178,7 @@ extension Textract {
         public let top: Float?
         /// The width of the bounding box as a ratio of the overall document page width.
         public let width: Float?
-        
+
         public init(height: Float? = nil, left: Float? = nil, top: Float? = nil, width: Float? = nil) {
             self.height = height
             self.left = left
@@ -201,7 +201,7 @@ extension Textract {
 
         /// The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPG or PNG format. If you are using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes passed using the Bytes field. 
         public let document: Document
-        
+
         public init(document: Document) {
             self.document = document
         }
@@ -225,7 +225,7 @@ extension Textract {
         public let blocks: [Block]?
         /// Metadata about the document. Contains the number of pages that are detected in the document.
         public let documentMetadata: DocumentMetadata?
-        
+
         public init(blocks: [Block]? = nil, documentMetadata: DocumentMetadata? = nil) {
             self.blocks = blocks
             self.documentMetadata = documentMetadata
@@ -254,7 +254,7 @@ extension Textract {
         public let bytes: Data?
         /// Identifies an S3 object as the document source. The maximum size of a document stored in an S3 bucket is 5 MB.
         public let s3Object: S3Object?
-        
+
         public init(bytes: Data? = nil, s3Object: S3Object? = nil) {
             self.bytes = bytes
             self.s3Object = s3Object
@@ -279,7 +279,7 @@ extension Textract {
 
         /// The Amazon S3 bucket that contains the input document.
         public let s3Object: S3Object?
-        
+
         public init(s3Object: S3Object? = nil) {
             self.s3Object = s3Object
         }
@@ -300,7 +300,7 @@ extension Textract {
 
         /// The number of pages detected in the document.
         public let pages: Int32?
-        
+
         public init(pages: Int32? = nil) {
             self.pages = pages
         }
@@ -336,7 +336,7 @@ extension Textract {
         public let boundingBox: BoundingBox?
         /// Within the bounding box, a fine-grained polygon around the recognized text.
         public let polygon: [Point]?
-        
+
         public init(boundingBox: BoundingBox? = nil, polygon: [Point]? = nil) {
             self.boundingBox = boundingBox
             self.polygon = polygon
@@ -361,7 +361,7 @@ extension Textract {
         public let maxResults: Int32?
         /// If the previous response was incomplete (because there are more blocks to retrieve), Amazon Textract returns a pagination token in the response. You can use this pagination token to retrieve the next set of blocks.
         public let nextToken: String?
-        
+
         public init(jobId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.jobId = jobId
             self.maxResults = maxResults
@@ -407,7 +407,7 @@ extension Textract {
         public let statusMessage: String?
         /// A list of warnings that occurred during the document analysis operation.
         public let warnings: [Warning]?
-        
+
         public init(blocks: [Block]? = nil, documentMetadata: DocumentMetadata? = nil, jobStatus: JobStatus? = nil, nextToken: String? = nil, statusMessage: String? = nil, warnings: [Warning]? = nil) {
             self.blocks = blocks
             self.documentMetadata = documentMetadata
@@ -453,7 +453,7 @@ extension Textract {
         public let maxResults: Int32?
         /// If the previous response was incomplete (because there are more blocks to retrieve), Amazon Textract returns a pagination token in the response. You can use this pagination token to retrieve the next set of blocks.
         public let nextToken: String?
-        
+
         public init(jobId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.jobId = jobId
             self.maxResults = maxResults
@@ -499,7 +499,7 @@ extension Textract {
         public let statusMessage: String?
         /// A list of warnings that occurred during the document text-detection operation.
         public let warnings: [Warning]?
-        
+
         public init(blocks: [Block]? = nil, documentMetadata: DocumentMetadata? = nil, jobStatus: JobStatus? = nil, nextToken: String? = nil, statusMessage: String? = nil, warnings: [Warning]? = nil) {
             self.blocks = blocks
             self.documentMetadata = documentMetadata
@@ -550,7 +550,7 @@ extension Textract {
         public let roleArn: String
         /// The Amazon SNS topic that Amazon Textract posts the completion status to.
         public let sNSTopicArn: String
-        
+
         public init(roleArn: String, sNSTopicArn: String) {
             self.roleArn = roleArn
             self.sNSTopicArn = sNSTopicArn
@@ -581,7 +581,7 @@ extension Textract {
         public let x: Float?
         /// The value of the Y coordinate for a point on a Polygon.
         public let y: Float?
-        
+
         public init(x: Float? = nil, y: Float? = nil) {
             self.x = x
             self.y = y
@@ -603,7 +603,7 @@ extension Textract {
         public let ids: [String]?
         /// The type of relationship that the blocks in the IDs array have with the current block. The relationship can be VALUE or CHILD.
         public let `type`: RelationshipType?
-        
+
         public init(ids: [String]? = nil, type: RelationshipType? = nil) {
             self.ids = ids
             self.`type` = `type`
@@ -640,7 +640,7 @@ extension Textract {
         public let name: String?
         /// If the bucket has versioning enabled, you can specify the object version. 
         public let version: String?
-        
+
         public init(bucket: String? = nil, name: String? = nil, version: String? = nil) {
             self.bucket = bucket
             self.name = name
@@ -691,7 +691,7 @@ extension Textract {
         public let jobTag: String?
         /// The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to. 
         public let notificationChannel: NotificationChannel?
-        
+
         public init(clientRequestToken: String? = nil, documentLocation: DocumentLocation, featureTypes: [FeatureType], jobTag: String? = nil, notificationChannel: NotificationChannel? = nil) {
             self.clientRequestToken = clientRequestToken
             self.documentLocation = documentLocation
@@ -727,7 +727,7 @@ extension Textract {
 
         /// The identifier for the document text detection job. Use JobId to identify the job in a subsequent call to GetDocumentAnalysis.
         public let jobId: String?
-        
+
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -759,7 +759,7 @@ extension Textract {
         public let jobTag: String?
         /// The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to. 
         public let notificationChannel: NotificationChannel?
-        
+
         public init(clientRequestToken: String? = nil, documentLocation: DocumentLocation, jobTag: String? = nil, notificationChannel: NotificationChannel? = nil) {
             self.clientRequestToken = clientRequestToken
             self.documentLocation = documentLocation
@@ -793,7 +793,7 @@ extension Textract {
 
         /// The identifier for the document text-detection job. Use JobId to identify the job in a subsequent call to GetDocumentTextDetection.
         public let jobId: String?
-        
+
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -819,7 +819,7 @@ extension Textract {
         public let errorCode: String?
         /// A list of the pages that the warning applies to.
         public let pages: [Int32]?
-        
+
         public init(errorCode: String? = nil, pages: [Int32]? = nil) {
             self.errorCode = errorCode
             self.pages = pages
@@ -836,5 +836,4 @@ extension Textract {
             case pages = "Pages"
         }
     }
-
 }

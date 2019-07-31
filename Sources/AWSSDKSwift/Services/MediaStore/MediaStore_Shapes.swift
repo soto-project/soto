@@ -27,7 +27,7 @@ extension MediaStore {
         public let name: String?
         /// The status of container creation or deletion. The status is one of the following: CREATING, ACTIVE, or DELETING. While the service is creating the container, the status is CREATING. When the endpoint is available, the status changes to ACTIVE.
         public let status: ContainerStatus?
-        
+
         public init(accessLoggingEnabled: Bool? = nil, arn: String? = nil, creationTime: TimeStamp? = nil, endpoint: String? = nil, name: String? = nil, status: ContainerStatus? = nil) {
             self.accessLoggingEnabled = accessLoggingEnabled
             self.arn = arn
@@ -84,7 +84,7 @@ extension MediaStore {
         public let exposeHeaders: [String]?
         /// The time in seconds that your browser caches the preflight response for the specified resource. A CORS rule can have only one MaxAgeSeconds element.
         public let maxAgeSeconds: Int32?
-        
+
         public init(allowedHeaders: [String], allowedMethods: [MethodName]? = nil, allowedOrigins: [String], exposeHeaders: [String]? = nil, maxAgeSeconds: Int32? = nil) {
             self.allowedHeaders = allowedHeaders
             self.allowedMethods = allowedMethods
@@ -140,7 +140,7 @@ extension MediaStore {
         public let containerName: String
         /// An array of key:value pairs that you define. These values can be anything that you want. Typically, the tag key represents a category (such as "environment") and the tag value represents a specific value within that category (such as "test," "development," or "production"). You can add up to 50 tags to each container. For more information about tagging, including naming and usage conventions, see Tagging Resources in MediaStore.
         public let tags: [Tag]?
-        
+
         public init(containerName: String, tags: [Tag]? = nil) {
             self.containerName = containerName
             self.tags = tags
@@ -168,7 +168,7 @@ extension MediaStore {
 
         /// ContainerARN: The Amazon Resource Name (ARN) of the newly created container. The ARN has the following format: arn:aws:&lt;region&gt;:&lt;account that owns this container&gt;:container/&lt;name of container&gt;. For example: arn:aws:mediastore:us-west-2:111122223333:container/movies  ContainerName: The container name as specified in the request. CreationTime: Unix time stamp. Status: The status of container creation or deletion. The status is one of the following: CREATING, ACTIVE, or DELETING. While the service is creating the container, the status is CREATING. When an endpoint is available, the status changes to ACTIVE. The return value does not include the container's endpoint. To make downstream requests, you must obtain this value by using DescribeContainer or ListContainers.
         public let container: Container
-        
+
         public init(container: Container) {
             self.container = container
         }
@@ -189,7 +189,7 @@ extension MediaStore {
 
         /// The name of the container to delete. 
         public let containerName: String
-        
+
         public init(containerName: String) {
             self.containerName = containerName
         }
@@ -206,11 +206,12 @@ extension MediaStore {
     }
 
     public struct DeleteContainerOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteContainerPolicyInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -219,7 +220,7 @@ extension MediaStore {
 
         /// The name of the container that holds the policy.
         public let containerName: String
-        
+
         public init(containerName: String) {
             self.containerName = containerName
         }
@@ -236,11 +237,12 @@ extension MediaStore {
     }
 
     public struct DeleteContainerPolicyOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteCorsPolicyInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -249,7 +251,7 @@ extension MediaStore {
 
         /// The name of the container to remove the policy from.
         public let containerName: String
-        
+
         public init(containerName: String) {
             self.containerName = containerName
         }
@@ -266,11 +268,12 @@ extension MediaStore {
     }
 
     public struct DeleteCorsPolicyOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteLifecyclePolicyInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -279,7 +282,7 @@ extension MediaStore {
 
         /// The name of the container that holds the object lifecycle policy.
         public let containerName: String
-        
+
         public init(containerName: String) {
             self.containerName = containerName
         }
@@ -296,11 +299,12 @@ extension MediaStore {
     }
 
     public struct DeleteLifecyclePolicyOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeContainerInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -309,7 +313,7 @@ extension MediaStore {
 
         /// The name of the container to query.
         public let containerName: String?
-        
+
         public init(containerName: String? = nil) {
             self.containerName = containerName
         }
@@ -332,7 +336,7 @@ extension MediaStore {
 
         /// The name of the queried container.
         public let container: Container?
-        
+
         public init(container: Container? = nil) {
             self.container = container
         }
@@ -353,7 +357,7 @@ extension MediaStore {
 
         /// The name of the container. 
         public let containerName: String
-        
+
         public init(containerName: String) {
             self.containerName = containerName
         }
@@ -376,7 +380,7 @@ extension MediaStore {
 
         /// The contents of the access policy.
         public let policy: String
-        
+
         public init(policy: String) {
             self.policy = policy
         }
@@ -399,7 +403,7 @@ extension MediaStore {
 
         /// The name of the container that the policy is assigned to.
         public let containerName: String
-        
+
         public init(containerName: String) {
             self.containerName = containerName
         }
@@ -422,7 +426,7 @@ extension MediaStore {
 
         /// The CORS policy assigned to the container.
         public let corsPolicy: [CorsRule]
-        
+
         public init(corsPolicy: [CorsRule]) {
             self.corsPolicy = corsPolicy
         }
@@ -447,7 +451,7 @@ extension MediaStore {
 
         /// The name of the container that the object lifecycle policy is assigned to.
         public let containerName: String
-        
+
         public init(containerName: String) {
             self.containerName = containerName
         }
@@ -470,7 +474,7 @@ extension MediaStore {
 
         /// The object lifecycle policy that is assigned to the container.
         public let lifecyclePolicy: String
-        
+
         public init(lifecyclePolicy: String) {
             self.lifecyclePolicy = lifecyclePolicy
         }
@@ -496,7 +500,7 @@ extension MediaStore {
         public let maxResults: Int32?
         /// Only if you used MaxResults in the first command, enter the token (which was included in the previous response) to obtain the next set of containers. This token is included in a response only if there actually are more containers to list.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -526,7 +530,7 @@ extension MediaStore {
         public let containers: [Container]
         ///  NextToken is the token to use in the next call to ListContainers. This token is returned only if you included the MaxResults tag in the original command, and only if there are still containers to return. 
         public let nextToken: String?
-        
+
         public init(containers: [Container], nextToken: String? = nil) {
             self.containers = containers
             self.nextToken = nextToken
@@ -554,7 +558,7 @@ extension MediaStore {
 
         /// The Amazon Resource Name (ARN) for the container.
         public let resource: String
-        
+
         public init(resource: String) {
             self.resource = resource
         }
@@ -577,7 +581,7 @@ extension MediaStore {
 
         /// An array of key:value pairs that are assigned to the container.
         public let tags: [Tag]?
-        
+
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -611,7 +615,7 @@ extension MediaStore {
         public let containerName: String
         /// The contents of the policy, which includes the following:    One Version tag   One Statement tag that contains the standard tags for the policy.  
         public let policy: String
-        
+
         public init(containerName: String, policy: String) {
             self.containerName = containerName
             self.policy = policy
@@ -633,11 +637,12 @@ extension MediaStore {
     }
 
     public struct PutContainerPolicyOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct PutCorsPolicyInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -649,7 +654,7 @@ extension MediaStore {
         public let containerName: String
         /// The CORS policy to apply to the container. 
         public let corsPolicy: [CorsRule]
-        
+
         public init(containerName: String, corsPolicy: [CorsRule]) {
             self.containerName = containerName
             self.corsPolicy = corsPolicy
@@ -673,11 +678,12 @@ extension MediaStore {
     }
 
     public struct PutCorsPolicyOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct PutLifecyclePolicyInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -689,7 +695,7 @@ extension MediaStore {
         public let containerName: String
         /// The object lifecycle policy to apply to the container.
         public let lifecyclePolicy: String
-        
+
         public init(containerName: String, lifecyclePolicy: String) {
             self.containerName = containerName
             self.lifecyclePolicy = lifecyclePolicy
@@ -711,11 +717,12 @@ extension MediaStore {
     }
 
     public struct PutLifecyclePolicyOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct StartAccessLoggingInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -724,7 +731,7 @@ extension MediaStore {
 
         /// The name of the container that you want to start access logging on.
         public let containerName: String
-        
+
         public init(containerName: String) {
             self.containerName = containerName
         }
@@ -741,11 +748,12 @@ extension MediaStore {
     }
 
     public struct StartAccessLoggingOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct StopAccessLoggingInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -754,7 +762,7 @@ extension MediaStore {
 
         /// The name of the container that you want to stop access logging on.
         public let containerName: String
-        
+
         public init(containerName: String) {
             self.containerName = containerName
         }
@@ -771,11 +779,12 @@ extension MediaStore {
     }
 
     public struct StopAccessLoggingOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -787,7 +796,7 @@ extension MediaStore {
         public let key: String?
         /// Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive.
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -816,7 +825,7 @@ extension MediaStore {
         public let resource: String
         /// An array of key:value pairs that you want to add to the container. You need to specify only the tags that you want to add or update. For example, suppose a container already has two tags (customer:CompanyA and priority:High). You want to change the priority tag and also add a third tag (type:Contract). For TagResource, you specify the following tags: priority:Medium, type:Contract. The result is that your container has three tags: customer:CompanyA, priority:Medium, and type:Contract.
         public let tags: [Tag]
-        
+
         public init(resource: String, tags: [Tag]) {
             self.resource = resource
             self.tags = tags
@@ -838,11 +847,12 @@ extension MediaStore {
     }
 
     public struct TagResourceOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UntagResourceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -854,7 +864,7 @@ extension MediaStore {
         public let resource: String
         /// A comma-separated list of keys for tags that you want to remove from the container. For example, if your container has two tags (customer:CompanyA and priority:High) and you want to remove one of the tags (priority:High), you specify the key for the tag that you want to remove (priority).
         public let tagKeys: [String]
-        
+
         public init(resource: String, tagKeys: [String]) {
             self.resource = resource
             self.tagKeys = tagKeys
@@ -877,10 +887,10 @@ extension MediaStore {
     }
 
     public struct UntagResourceOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
-
+    }
 }

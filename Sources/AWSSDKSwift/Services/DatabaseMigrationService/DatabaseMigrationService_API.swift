@@ -255,5 +255,4 @@ public struct DatabaseMigrationService {
     public func testConnection(_ input: TestConnectionMessage) throws -> Future<TestConnectionResponse> {
         return try client.send(operation: "TestConnection", path: "/", httpMethod: "POST", input: input)
     }
-
 }

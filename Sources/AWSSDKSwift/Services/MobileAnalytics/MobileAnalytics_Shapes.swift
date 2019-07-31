@@ -27,7 +27,7 @@ extension MobileAnalytics {
         public let timestamp: String
         /// The version of the event.
         public let version: String?
-        
+
         public init(attributes: [String: String]? = nil, eventType: String, metrics: [String: Double]? = nil, session: Session? = nil, timestamp: String, version: String? = nil) {
             self.attributes = attributes
             self.eventType = eventType
@@ -68,7 +68,7 @@ extension MobileAnalytics {
         public let clientContextEncoding: String?
         /// An array of Event JSON objects
         public let events: [Event]
-        
+
         public init(clientContext: String, clientContextEncoding: String? = nil, events: [Event]) {
             self.clientContext = clientContext
             self.clientContextEncoding = clientContextEncoding
@@ -104,7 +104,7 @@ extension MobileAnalytics {
         public let startTimestamp: String?
         /// The time the event terminated in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
         public let stopTimestamp: String?
-        
+
         public init(duration: Int64? = nil, id: String? = nil, startTimestamp: String? = nil, stopTimestamp: String? = nil) {
             self.duration = duration
             self.id = id
@@ -124,5 +124,4 @@ extension MobileAnalytics {
             case stopTimestamp = "stopTimestamp"
         }
     }
-
 }

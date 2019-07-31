@@ -257,5 +257,4 @@ public struct Organizations {
     public func updatePolicy(_ input: UpdatePolicyRequest) throws -> Future<UpdatePolicyResponse> {
         return try client.send(operation: "UpdatePolicy", path: "/", httpMethod: "POST", input: input)
     }
-
 }

@@ -221,5 +221,4 @@ public struct MTurk {
     public func updateQualificationType(_ input: UpdateQualificationTypeRequest) throws -> Future<UpdateQualificationTypeResponse> {
         return try client.send(operation: "UpdateQualificationType", path: "/", httpMethod: "POST", input: input)
     }
-
 }

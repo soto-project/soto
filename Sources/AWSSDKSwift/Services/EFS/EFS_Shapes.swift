@@ -30,7 +30,7 @@ extension EFS {
         public let tags: [Tag]?
         /// The throughput mode for the file system to be created. There are two throughput modes to choose from for your file system: bursting and provisioned. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughPutInMibps. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change. For more, see Specifying Throughput with Provisioned Mode in the Amazon EFS User Guide. 
         public let throughputMode: ThroughputMode?
-        
+
         public init(creationToken: String, encrypted: Bool? = nil, kmsKeyId: String? = nil, performanceMode: PerformanceMode? = nil, provisionedThroughputInMibps: Double? = nil, tags: [Tag]? = nil, throughputMode: ThroughputMode? = nil) {
             self.creationToken = creationToken
             self.encrypted = encrypted
@@ -79,7 +79,7 @@ extension EFS {
         public let securityGroups: [String]?
         /// The ID of the subnet to add the mount target in.
         public let subnetId: String
-        
+
         public init(fileSystemId: String, ipAddress: String? = nil, securityGroups: [String]? = nil, subnetId: String) {
             self.fileSystemId = fileSystemId
             self.ipAddress = ipAddress
@@ -109,7 +109,7 @@ extension EFS {
         public let fileSystemId: String
         /// An array of Tag objects to add. Each Tag object is a key-value pair. 
         public let tags: [Tag]
-        
+
         public init(fileSystemId: String, tags: [Tag]) {
             self.fileSystemId = fileSystemId
             self.tags = tags
@@ -134,7 +134,7 @@ extension EFS {
 
         /// The ID of the file system you want to delete.
         public let fileSystemId: String
-        
+
         public init(fileSystemId: String) {
             self.fileSystemId = fileSystemId
         }
@@ -151,7 +151,7 @@ extension EFS {
 
         /// The ID of the mount target to delete (String).
         public let mountTargetId: String
-        
+
         public init(mountTargetId: String) {
             self.mountTargetId = mountTargetId
         }
@@ -171,7 +171,7 @@ extension EFS {
         public let fileSystemId: String
         /// A list of tag keys to delete.
         public let tagKeys: [String]
-        
+
         public init(fileSystemId: String, tagKeys: [String]) {
             self.fileSystemId = fileSystemId
             self.tagKeys = tagKeys
@@ -206,7 +206,7 @@ extension EFS {
         public let marker: String?
         /// (Optional) Specifies the maximum number of file systems to return in the response (integer). Currently, this number is automatically set to 10, and other values are ignored. The response is paginated at 10 per page if you have more than 10 file systems. 
         public let maxItems: Int32?
-        
+
         public init(creationToken: String? = nil, fileSystemId: String? = nil, marker: String? = nil, maxItems: Int32? = nil) {
             self.creationToken = creationToken
             self.fileSystemId = fileSystemId
@@ -241,7 +241,7 @@ extension EFS {
         public let marker: String?
         /// Present if there are more file systems than returned in the response (String). You can use the NextMarker in the subsequent request to fetch the descriptions.
         public let nextMarker: String?
-        
+
         public init(fileSystems: [FileSystemDescription]? = nil, marker: String? = nil, nextMarker: String? = nil) {
             self.fileSystems = fileSystems
             self.marker = marker
@@ -268,7 +268,7 @@ extension EFS {
 
         /// The ID of the file system whose LifecycleConfiguration object you want to retrieve (String).
         public let fileSystemId: String
-        
+
         public init(fileSystemId: String) {
             self.fileSystemId = fileSystemId
         }
@@ -285,7 +285,7 @@ extension EFS {
 
         /// The ID of the mount target whose security groups you want to retrieve.
         public let mountTargetId: String
-        
+
         public init(mountTargetId: String) {
             self.mountTargetId = mountTargetId
         }
@@ -302,7 +302,7 @@ extension EFS {
 
         /// An array of security groups.
         public let securityGroups: [String]
-        
+
         public init(securityGroups: [String]) {
             self.securityGroups = securityGroups
         }
@@ -332,7 +332,7 @@ extension EFS {
         public let maxItems: Int32?
         /// (Optional) ID of the mount target that you want to have described (String). It must be included in your request if FileSystemId is not included.
         public let mountTargetId: String?
-        
+
         public init(fileSystemId: String? = nil, marker: String? = nil, maxItems: Int32? = nil, mountTargetId: String? = nil) {
             self.fileSystemId = fileSystemId
             self.marker = marker
@@ -365,7 +365,7 @@ extension EFS {
         public let mountTargets: [MountTargetDescription]?
         /// If a value is present, there are more mount targets to return. In a subsequent request, you can provide Marker in your request with this value to retrieve the next set of mount targets.
         public let nextMarker: String?
-        
+
         public init(marker: String? = nil, mountTargets: [MountTargetDescription]? = nil, nextMarker: String? = nil) {
             self.marker = marker
             self.mountTargets = mountTargets
@@ -392,7 +392,7 @@ extension EFS {
         public let marker: String?
         /// (Optional) The maximum number of file system tags to return in the response. Currently, this number is automatically set to 10, and other values are ignored. The response is paginated at 10 per page if you have more than 10 tags.
         public let maxItems: Int32?
-        
+
         public init(fileSystemId: String, marker: String? = nil, maxItems: Int32? = nil) {
             self.fileSystemId = fileSystemId
             self.marker = marker
@@ -423,7 +423,7 @@ extension EFS {
         public let nextMarker: String?
         /// Returns tags associated with the file system as an array of Tag objects. 
         public let tags: [Tag]
-        
+
         public init(marker: String? = nil, nextMarker: String? = nil, tags: [Tag]) {
             self.marker = marker
             self.nextMarker = nextMarker
@@ -489,7 +489,7 @@ extension EFS {
         public let tags: [Tag]
         /// The throughput mode for a file system. There are two throughput modes to choose from for your file system: bursting and provisioned. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughPutInMibps. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change. 
         public let throughputMode: ThroughputMode?
-        
+
         public init(creationTime: TimeStamp, creationToken: String, encrypted: Bool? = nil, fileSystemId: String, kmsKeyId: String? = nil, lifeCycleState: LifeCycleState, name: String? = nil, numberOfMountTargets: Int32, ownerId: String, performanceMode: PerformanceMode, provisionedThroughputInMibps: Double? = nil, sizeInBytes: FileSystemSize, tags: [Tag], throughputMode: ThroughputMode? = nil) {
             self.creationTime = creationTime
             self.creationToken = creationToken
@@ -555,7 +555,7 @@ extension EFS {
         public let valueInIA: Int64?
         /// The latest known metered size (in bytes) of data stored in the Standard storage class.
         public let valueInStandard: Int64?
-        
+
         public init(timestamp: TimeStamp? = nil, value: Int64, valueInIA: Int64? = nil, valueInStandard: Int64? = nil) {
             self.timestamp = timestamp
             self.value = value
@@ -593,7 +593,7 @@ extension EFS {
 
         /// An array of lifecycle management policies. Currently, EFS supports a maximum of one policy per file system.
         public let lifecyclePolicies: [LifecyclePolicy]?
-        
+
         public init(lifecyclePolicies: [LifecyclePolicy]? = nil) {
             self.lifecyclePolicies = lifecyclePolicies
         }
@@ -610,7 +610,7 @@ extension EFS {
 
         ///  A value that describes the period of time that a file is not accessed, after which it transitions to the IA storage class. Metadata operations such as listing the contents of a directory don't count as file access events.
         public let transitionToIA: TransitionToIARules?
-        
+
         public init(transitionToIA: TransitionToIARules? = nil) {
             self.transitionToIA = transitionToIA
         }
@@ -630,7 +630,7 @@ extension EFS {
         public let mountTargetId: String
         /// An array of up to five VPC security group IDs.
         public let securityGroups: [String]?
-        
+
         public init(mountTargetId: String, securityGroups: [String]? = nil) {
             self.mountTargetId = mountTargetId
             self.securityGroups = securityGroups
@@ -671,7 +671,7 @@ extension EFS {
         public let ownerId: String?
         /// The ID of the mount target's subnet.
         public let subnetId: String
-        
+
         public init(fileSystemId: String, ipAddress: String? = nil, lifeCycleState: LifeCycleState, mountTargetId: String, networkInterfaceId: String? = nil, ownerId: String? = nil, subnetId: String) {
             self.fileSystemId = fileSystemId
             self.ipAddress = ipAddress
@@ -709,7 +709,7 @@ extension EFS {
         public let fileSystemId: String
         /// An array of LifecyclePolicy objects that define the file system's LifecycleConfiguration object. A LifecycleConfiguration object tells lifecycle management when to transition files from the Standard storage class to the Infrequent Access storage class.
         public let lifecyclePolicies: [LifecyclePolicy]
-        
+
         public init(fileSystemId: String, lifecyclePolicies: [LifecyclePolicy]) {
             self.fileSystemId = fileSystemId
             self.lifecyclePolicies = lifecyclePolicies
@@ -731,7 +731,7 @@ extension EFS {
         public let key: String
         /// The value of the tag key.
         public let value: String
-        
+
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -776,7 +776,7 @@ extension EFS {
         public let provisionedThroughputInMibps: Double?
         /// (Optional) The throughput mode that you want your file system to use. If you're not updating your throughput mode, you don't need to provide this value in your request. If you are changing the ThroughputMode to provisioned, you must also set a value for ProvisionedThroughputInMibps.
         public let throughputMode: ThroughputMode?
-        
+
         public init(fileSystemId: String, provisionedThroughputInMibps: Double? = nil, throughputMode: ThroughputMode? = nil) {
             self.fileSystemId = fileSystemId
             self.provisionedThroughputInMibps = provisionedThroughputInMibps
@@ -793,5 +793,4 @@ extension EFS {
             case throughputMode = "ThroughputMode"
         }
     }
-
 }

@@ -144,5 +144,4 @@ public struct CloudSearch {
     public func updateServiceAccessPolicies(_ input: UpdateServiceAccessPoliciesRequest) throws -> Future<UpdateServiceAccessPoliciesResponse> {
         return try client.send(operation: "UpdateServiceAccessPolicies", path: "/", httpMethod: "POST", input: input)
     }
-
 }

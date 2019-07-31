@@ -15,7 +15,7 @@ extension Firehose {
         public let intervalInSeconds: Int32?
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
         public let sizeInMBs: Int32?
-        
+
         public init(intervalInSeconds: Int32? = nil, sizeInMBs: Int32? = nil) {
             self.intervalInSeconds = intervalInSeconds
             self.sizeInMBs = sizeInMBs
@@ -47,7 +47,7 @@ extension Firehose {
         public let logGroupName: String?
         /// The CloudWatch log stream name for logging. This value is required if CloudWatch logging is enabled.
         public let logStreamName: String?
-        
+
         public init(enabled: Bool? = nil, logGroupName: String? = nil, logStreamName: String? = nil) {
             self.enabled = enabled
             self.logGroupName = logGroupName
@@ -82,7 +82,7 @@ extension Firehose {
         public let dataTableColumns: String?
         /// The name of the target table. The table must already exist in the database.
         public let dataTableName: String
-        
+
         public init(copyOptions: String? = nil, dataTableColumns: String? = nil, dataTableName: String) {
             self.copyOptions = copyOptions
             self.dataTableColumns = dataTableColumns
@@ -128,7 +128,7 @@ extension Firehose {
         public let splunkDestinationConfiguration: SplunkDestinationConfiguration?
         /// A set of tags to assign to the delivery stream. A tag is a key-value pair that you can define and assign to AWS resources. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the delivery stream. For more information about tags, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide. You can specify up to 50 tags when creating a delivery stream.
         public let tags: [Tag]?
-        
+
         public init(deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
             self.deliveryStreamName = deliveryStreamName
             self.deliveryStreamType = deliveryStreamType
@@ -175,7 +175,7 @@ extension Firehose {
 
         /// The ARN of the delivery stream.
         public let deliveryStreamARN: String?
-        
+
         public init(deliveryStreamARN: String? = nil) {
             self.deliveryStreamARN = deliveryStreamARN
         }
@@ -207,7 +207,7 @@ extension Firehose {
         public let outputFormatConfiguration: OutputFormatConfiguration?
         /// Specifies the AWS Glue Data Catalog table that contains the column information.
         public let schemaConfiguration: SchemaConfiguration?
-        
+
         public init(enabled: Bool? = nil, inputFormatConfiguration: InputFormatConfiguration? = nil, outputFormatConfiguration: OutputFormatConfiguration? = nil, schemaConfiguration: SchemaConfiguration? = nil) {
             self.enabled = enabled
             self.inputFormatConfiguration = inputFormatConfiguration
@@ -236,7 +236,7 @@ extension Firehose {
 
         /// The name of the delivery stream.
         public let deliveryStreamName: String
-        
+
         public init(deliveryStreamName: String) {
             self.deliveryStreamName = deliveryStreamName
         }
@@ -253,11 +253,12 @@ extension Firehose {
     }
 
     public struct DeleteDeliveryStreamOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeliveryStreamDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -296,7 +297,7 @@ extension Firehose {
         public let source: SourceDescription?
         /// Each time the destination is updated for a delivery stream, the version ID is changed, and the current version ID is required when updating the destination. This is so that the service knows it is applying the changes to the correct version of the delivery stream.
         public let versionId: String
-        
+
         public init(createTimestamp: TimeStamp? = nil, deliveryStreamARN: String, deliveryStreamEncryptionConfiguration: DeliveryStreamEncryptionConfiguration? = nil, deliveryStreamName: String, deliveryStreamStatus: DeliveryStreamStatus, deliveryStreamType: DeliveryStreamType, destinations: [DestinationDescription], hasMoreDestinations: Bool, lastUpdateTimestamp: TimeStamp? = nil, source: SourceDescription? = nil, versionId: String) {
             self.createTimestamp = createTimestamp
             self.deliveryStreamARN = deliveryStreamARN
@@ -349,7 +350,7 @@ extension Firehose {
 
         /// For a full description of the different values of this status, see StartDeliveryStreamEncryption and StopDeliveryStreamEncryption.
         public let status: DeliveryStreamEncryptionStatus?
-        
+
         public init(status: DeliveryStreamEncryptionStatus? = nil) {
             self.status = status
         }
@@ -393,7 +394,7 @@ extension Firehose {
         public let exclusiveStartDestinationId: String?
         /// The limit on the number of destinations to return. You can have one destination per delivery stream.
         public let limit: Int32?
-        
+
         public init(deliveryStreamName: String, exclusiveStartDestinationId: String? = nil, limit: Int32? = nil) {
             self.deliveryStreamName = deliveryStreamName
             self.exclusiveStartDestinationId = exclusiveStartDestinationId
@@ -424,7 +425,7 @@ extension Firehose {
 
         /// Information about the delivery stream.
         public let deliveryStreamDescription: DeliveryStreamDescription
-        
+
         public init(deliveryStreamDescription: DeliveryStreamDescription) {
             self.deliveryStreamDescription = deliveryStreamDescription
         }
@@ -448,7 +449,7 @@ extension Firehose {
         public let hiveJsonSerDe: HiveJsonSerDe?
         /// The OpenX SerDe. Used by Kinesis Data Firehose for deserializing data, which means converting it from the JSON format in preparation for serializing it to the Parquet or ORC format. This is one of two deserializers you can choose, depending on which one offers the functionality you need. The other option is the native Hive / HCatalog JsonSerDe.
         public let openXJsonSerDe: OpenXJsonSerDe?
-        
+
         public init(hiveJsonSerDe: HiveJsonSerDe? = nil, openXJsonSerDe: OpenXJsonSerDe? = nil) {
             self.hiveJsonSerDe = hiveJsonSerDe
             self.openXJsonSerDe = openXJsonSerDe
@@ -486,7 +487,7 @@ extension Firehose {
         public let s3DestinationDescription: S3DestinationDescription?
         /// The destination in Splunk.
         public let splunkDestinationDescription: SplunkDestinationDescription?
-        
+
         public init(destinationId: String, elasticsearchDestinationDescription: ElasticsearchDestinationDescription? = nil, extendedS3DestinationDescription: ExtendedS3DestinationDescription? = nil, redshiftDestinationDescription: RedshiftDestinationDescription? = nil, s3DestinationDescription: S3DestinationDescription? = nil, splunkDestinationDescription: SplunkDestinationDescription? = nil) {
             self.destinationId = destinationId
             self.elasticsearchDestinationDescription = elasticsearchDestinationDescription
@@ -526,7 +527,7 @@ extension Firehose {
         public let intervalInSeconds: Int32?
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
         public let sizeInMBs: Int32?
-        
+
         public init(intervalInSeconds: Int32? = nil, sizeInMBs: Int32? = nil) {
             self.intervalInSeconds = intervalInSeconds
             self.sizeInMBs = sizeInMBs
@@ -582,7 +583,7 @@ extension Firehose {
         public let s3Configuration: S3DestinationConfiguration
         /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during run time.
         public let typeName: String
-        
+
         public init(bufferingHints: ElasticsearchBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, domainARN: String, indexName: String, indexRotationPeriod: ElasticsearchIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: ElasticsearchRetryOptions? = nil, roleARN: String, s3BackupMode: ElasticsearchS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, typeName: String) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -666,7 +667,7 @@ extension Firehose {
         public let s3DestinationDescription: S3DestinationDescription?
         /// The Elasticsearch type name.
         public let typeName: String?
-        
+
         public init(bufferingHints: ElasticsearchBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, domainARN: String? = nil, indexName: String? = nil, indexRotationPeriod: ElasticsearchIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: ElasticsearchRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: ElasticsearchS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil, typeName: String? = nil) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -747,7 +748,7 @@ extension Firehose {
         public let s3Update: S3DestinationUpdate?
         /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during runtime.
         public let typeName: String?
-        
+
         public init(bufferingHints: ElasticsearchBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, domainARN: String? = nil, indexName: String? = nil, indexRotationPeriod: ElasticsearchIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: ElasticsearchRetryOptions? = nil, roleARN: String? = nil, s3Update: S3DestinationUpdate? = nil, typeName: String? = nil) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -808,7 +809,7 @@ extension Firehose {
 
         /// After an initial failure to deliver to Amazon ES, the total amount of time during which Kinesis Data Firehose retries delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
         public let durationInSeconds: Int32?
-        
+
         public init(durationInSeconds: Int32? = nil) {
             self.durationInSeconds = durationInSeconds
         }
@@ -839,7 +840,7 @@ extension Firehose {
         public let kMSEncryptionConfig: KMSEncryptionConfig?
         /// Specifically override existing encryption information to ensure that no encryption is used.
         public let noEncryptionConfig: NoEncryptionConfig?
-        
+
         public init(kMSEncryptionConfig: KMSEncryptionConfig? = nil, noEncryptionConfig: NoEncryptionConfig? = nil) {
             self.kMSEncryptionConfig = kMSEncryptionConfig
             self.noEncryptionConfig = noEncryptionConfig
@@ -895,7 +896,7 @@ extension Firehose {
         public let s3BackupConfiguration: S3DestinationConfiguration?
         /// The Amazon S3 backup mode.
         public let s3BackupMode: S3BackupMode?
-        
+
         public init(bucketARN: String, bufferingHints: BufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, dataFormatConversionConfiguration: DataFormatConversionConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, errorOutputPrefix: String? = nil, prefix: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, roleARN: String, s3BackupConfiguration: S3DestinationConfiguration? = nil, s3BackupMode: S3BackupMode? = nil) {
             self.bucketARN = bucketARN
             self.bufferingHints = bufferingHints
@@ -981,7 +982,7 @@ extension Firehose {
         public let s3BackupDescription: S3DestinationDescription?
         /// The Amazon S3 backup mode.
         public let s3BackupMode: S3BackupMode?
-        
+
         public init(bucketARN: String, bufferingHints: BufferingHints, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat, dataFormatConversionConfiguration: DataFormatConversionConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration, errorOutputPrefix: String? = nil, prefix: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, roleARN: String, s3BackupDescription: S3DestinationDescription? = nil, s3BackupMode: S3BackupMode? = nil) {
             self.bucketARN = bucketARN
             self.bufferingHints = bufferingHints
@@ -1067,7 +1068,7 @@ extension Firehose {
         public let s3BackupMode: S3BackupMode?
         /// The Amazon S3 destination for backup.
         public let s3BackupUpdate: S3DestinationUpdate?
-        
+
         public init(bucketARN: String? = nil, bufferingHints: BufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, dataFormatConversionConfiguration: DataFormatConversionConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, errorOutputPrefix: String? = nil, prefix: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, roleARN: String? = nil, s3BackupMode: S3BackupMode? = nil, s3BackupUpdate: S3DestinationUpdate? = nil) {
             self.bucketARN = bucketARN
             self.bufferingHints = bufferingHints
@@ -1126,7 +1127,7 @@ extension Firehose {
 
         /// Indicates how you want Kinesis Data Firehose to parse the date and timestamps that may be present in your input data JSON. To specify these format strings, follow the pattern syntax of JodaTime's DateTimeFormat format strings. For more information, see Class DateTimeFormat. You can also use the special value millis to parse timestamps in epoch milliseconds. If you don't specify a format, Kinesis Data Firehose uses java.sql.Timestamp::valueOf by default.
         public let timestampFormats: [String]?
-        
+
         public init(timestampFormats: [String]? = nil) {
             self.timestampFormats = timestampFormats
         }
@@ -1149,7 +1150,7 @@ extension Firehose {
 
         /// Specifies which deserializer to use. You can choose either the Apache Hive JSON SerDe or the OpenX JSON SerDe. If both are non-null, the server rejects the request.
         public let deserializer: Deserializer?
-        
+
         public init(deserializer: Deserializer? = nil) {
             self.deserializer = deserializer
         }
@@ -1170,7 +1171,7 @@ extension Firehose {
 
         /// The Amazon Resource Name (ARN) of the encryption key. Must belong to the same AWS Region as the destination Amazon S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let aWSKMSKeyARN: String
-        
+
         public init(aWSKMSKeyARN: String) {
             self.aWSKMSKeyARN = aWSKMSKeyARN
         }
@@ -1196,7 +1197,7 @@ extension Firehose {
         public let kinesisStreamARN: String
         /// The ARN of the role that provides access to the source Kinesis data stream. For more information, see AWS Identity and Access Management (IAM) ARN Format.
         public let roleARN: String
-        
+
         public init(kinesisStreamARN: String, roleARN: String) {
             self.kinesisStreamARN = kinesisStreamARN
             self.roleARN = roleARN
@@ -1230,7 +1231,7 @@ extension Firehose {
         public let kinesisStreamARN: String?
         /// The ARN of the role used by the source Kinesis data stream. For more information, see AWS Identity and Access Management (IAM) ARN Format.
         public let roleARN: String?
-        
+
         public init(deliveryStartTimestamp: TimeStamp? = nil, kinesisStreamARN: String? = nil, roleARN: String? = nil) {
             self.deliveryStartTimestamp = deliveryStartTimestamp
             self.kinesisStreamARN = kinesisStreamARN
@@ -1266,7 +1267,7 @@ extension Firehose {
         public let exclusiveStartDeliveryStreamName: String?
         /// The maximum number of delivery streams to list. The default value is 10.
         public let limit: Int32?
-        
+
         public init(deliveryStreamType: DeliveryStreamType? = nil, exclusiveStartDeliveryStreamName: String? = nil, limit: Int32? = nil) {
             self.deliveryStreamType = deliveryStreamType
             self.exclusiveStartDeliveryStreamName = exclusiveStartDeliveryStreamName
@@ -1298,7 +1299,7 @@ extension Firehose {
         public let deliveryStreamNames: [String]
         /// Indicates whether there are more delivery streams available to list.
         public let hasMoreDeliveryStreams: Bool
-        
+
         public init(deliveryStreamNames: [String], hasMoreDeliveryStreams: Bool) {
             self.deliveryStreamNames = deliveryStreamNames
             self.hasMoreDeliveryStreams = hasMoreDeliveryStreams
@@ -1331,7 +1332,7 @@ extension Firehose {
         public let exclusiveStartTagKey: String?
         /// The number of tags to return. If this number is less than the total number of tags associated with the delivery stream, HasMoreTags is set to true in the response. To list additional tags, set ExclusiveStartTagKey to the last key in the response. 
         public let limit: Int32?
-        
+
         public init(deliveryStreamName: String, exclusiveStartTagKey: String? = nil, limit: Int32? = nil) {
             self.deliveryStreamName = deliveryStreamName
             self.exclusiveStartTagKey = exclusiveStartTagKey
@@ -1365,7 +1366,7 @@ extension Firehose {
         public let hasMoreTags: Bool
         /// A list of tags associated with DeliveryStreamName, starting with the first tag after ExclusiveStartTagKey and up to the specified Limit.
         public let tags: [Tag]
-        
+
         public init(hasMoreTags: Bool, tags: [Tag]) {
             self.hasMoreTags = hasMoreTags
             self.tags = tags
@@ -1403,7 +1404,7 @@ extension Firehose {
         public let columnToJsonKeyMappings: [String: String]?
         /// When set to true, specifies that the names of the keys include dots and that you want Kinesis Data Firehose to replace them with underscores. This is useful because Apache Hive does not allow dots in column names. For example, if the JSON contains a key whose name is "a.b", you can define the column name to be "a_b" when using this option. The default is false.
         public let convertDotsInJsonKeysToUnderscores: Bool?
-        
+
         public init(caseInsensitive: Bool? = nil, columnToJsonKeyMappings: [String: String]? = nil, convertDotsInJsonKeysToUnderscores: Bool? = nil) {
             self.caseInsensitive = caseInsensitive
             self.columnToJsonKeyMappings = columnToJsonKeyMappings
@@ -1464,7 +1465,7 @@ extension Firehose {
         public let rowIndexStride: Int32?
         /// The number of bytes in each stripe. The default is 64 MiB and the minimum is 8 MiB.
         public let stripeSizeBytes: Int32?
-        
+
         public init(blockSizeBytes: Int32? = nil, bloomFilterColumns: [String]? = nil, bloomFilterFalsePositiveProbability: Double? = nil, compression: OrcCompression? = nil, dictionaryKeyThreshold: Double? = nil, enablePadding: Bool? = nil, formatVersion: OrcFormatVersion? = nil, paddingTolerance: Double? = nil, rowIndexStride: Int32? = nil, stripeSizeBytes: Int32? = nil) {
             self.blockSizeBytes = blockSizeBytes
             self.bloomFilterColumns = bloomFilterColumns
@@ -1514,7 +1515,7 @@ extension Firehose {
 
         /// Specifies which serializer to use. You can choose either the ORC SerDe or the Parquet SerDe. If both are non-null, the server rejects the request.
         public let serializer: Serializer?
-        
+
         public init(serializer: Serializer? = nil) {
             self.serializer = serializer
         }
@@ -1557,7 +1558,7 @@ extension Firehose {
         public let pageSizeBytes: Int32?
         /// Indicates the version of row format to output. The possible values are V1 and V2. The default is V1.
         public let writerVersion: ParquetWriterVersion?
-        
+
         public init(blockSizeBytes: Int32? = nil, compression: ParquetCompression? = nil, enableDictionaryCompression: Bool? = nil, maxPaddingBytes: Int32? = nil, pageSizeBytes: Int32? = nil, writerVersion: ParquetWriterVersion? = nil) {
             self.blockSizeBytes = blockSizeBytes
             self.compression = compression
@@ -1599,7 +1600,7 @@ extension Firehose {
         public let enabled: Bool?
         /// The data processors.
         public let processors: [Processor]?
-        
+
         public init(enabled: Bool? = nil, processors: [Processor]? = nil) {
             self.enabled = enabled
             self.processors = processors
@@ -1627,7 +1628,7 @@ extension Firehose {
         public let parameters: [ProcessorParameter]?
         /// The type of processor.
         public let `type`: ProcessorType
-        
+
         public init(parameters: [ProcessorParameter]? = nil, type: ProcessorType) {
             self.parameters = parameters
             self.`type` = `type`
@@ -1655,7 +1656,7 @@ extension Firehose {
         public let parameterName: ProcessorParameterName
         /// The parameter value.
         public let parameterValue: String
-        
+
         public init(parameterName: ProcessorParameterName, parameterValue: String) {
             self.parameterName = parameterName
             self.parameterValue = parameterValue
@@ -1696,7 +1697,7 @@ extension Firehose {
         public let deliveryStreamName: String
         /// One or more records.
         public let records: [Record]
-        
+
         public init(deliveryStreamName: String, records: [Record]) {
             self.deliveryStreamName = deliveryStreamName
             self.records = records
@@ -1732,7 +1733,7 @@ extension Firehose {
         public let failedPutCount: Int32
         /// The results array. For each record, the index of the response element is the same as the index used in the request array.
         public let requestResponses: [PutRecordBatchResponseEntry]
-        
+
         public init(encrypted: Bool? = nil, failedPutCount: Int32, requestResponses: [PutRecordBatchResponseEntry]) {
             self.encrypted = encrypted
             self.failedPutCount = failedPutCount
@@ -1768,7 +1769,7 @@ extension Firehose {
         public let errorMessage: String?
         /// The ID of the record.
         public let recordId: String?
-        
+
         public init(errorCode: String? = nil, errorMessage: String? = nil, recordId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1796,7 +1797,7 @@ extension Firehose {
         public let deliveryStreamName: String
         /// The record.
         public let record: Record
-        
+
         public init(deliveryStreamName: String, record: Record) {
             self.deliveryStreamName = deliveryStreamName
             self.record = record
@@ -1825,7 +1826,7 @@ extension Firehose {
         public let encrypted: Bool?
         /// The ID of the record.
         public let recordId: String
-        
+
         public init(encrypted: Bool? = nil, recordId: String) {
             self.encrypted = encrypted
             self.recordId = recordId
@@ -1848,7 +1849,7 @@ extension Firehose {
 
         /// The data blob, which is base64-encoded when the blob is serialized. The maximum size of the data blob, before base64-encoding, is 1,000 KiB.
         public let data: Data
-        
+
         public init(data: Data) {
             self.data = data
         }
@@ -1900,7 +1901,7 @@ extension Firehose {
         public let s3Configuration: S3DestinationConfiguration
         /// The name of the user.
         public let username: String
-        
+
         public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterJDBCURL: String, copyCommand: CopyCommand, password: String, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RedshiftRetryOptions? = nil, roleARN: String, s3BackupConfiguration: S3DestinationConfiguration? = nil, s3BackupMode: RedshiftS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, username: String) {
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterJDBCURL = clusterJDBCURL
@@ -1979,7 +1980,7 @@ extension Firehose {
         public let s3DestinationDescription: S3DestinationDescription
         /// The name of the user.
         public let username: String
-        
+
         public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterJDBCURL: String, copyCommand: CopyCommand, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RedshiftRetryOptions? = nil, roleARN: String, s3BackupDescription: S3DestinationDescription? = nil, s3BackupMode: RedshiftS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription, username: String) {
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterJDBCURL = clusterJDBCURL
@@ -2058,7 +2059,7 @@ extension Firehose {
         public let s3Update: S3DestinationUpdate?
         /// The name of the user.
         public let username: String?
-        
+
         public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterJDBCURL: String? = nil, copyCommand: CopyCommand? = nil, password: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RedshiftRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: RedshiftS3BackupMode? = nil, s3BackupUpdate: S3DestinationUpdate? = nil, s3Update: S3DestinationUpdate? = nil, username: String? = nil) {
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterJDBCURL = clusterJDBCURL
@@ -2110,7 +2111,7 @@ extension Firehose {
 
         /// The length of time during which Kinesis Data Firehose retries delivery after a failure, starting from the initial request and including the first attempt. The default value is 3600 seconds (60 minutes). Kinesis Data Firehose does not retry if the value of DurationInSeconds is 0 (zero) or if the first delivery attempt takes longer than the current value.
         public let durationInSeconds: Int32?
-        
+
         public init(durationInSeconds: Int32? = nil) {
             self.durationInSeconds = durationInSeconds
         }
@@ -2165,7 +2166,7 @@ extension Firehose {
         public let prefix: String?
         /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let roleARN: String
-        
+
         public init(bucketARN: String, bufferingHints: BufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, errorOutputPrefix: String? = nil, prefix: String? = nil, roleARN: String) {
             self.bucketARN = bucketARN
             self.bufferingHints = bufferingHints
@@ -2228,7 +2229,7 @@ extension Firehose {
         public let prefix: String?
         /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let roleARN: String
-        
+
         public init(bucketARN: String, bufferingHints: BufferingHints, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat, encryptionConfiguration: EncryptionConfiguration, errorOutputPrefix: String? = nil, prefix: String? = nil, roleARN: String) {
             self.bucketARN = bucketARN
             self.bufferingHints = bufferingHints
@@ -2291,7 +2292,7 @@ extension Firehose {
         public let prefix: String?
         /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let roleARN: String?
-        
+
         public init(bucketARN: String? = nil, bufferingHints: BufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, errorOutputPrefix: String? = nil, prefix: String? = nil, roleARN: String? = nil) {
             self.bucketARN = bucketARN
             self.bufferingHints = bufferingHints
@@ -2348,7 +2349,7 @@ extension Firehose {
         public let tableName: String?
         /// Specifies the table version for the output data schema. If you don't specify this version ID, or if you set it to LATEST, Kinesis Data Firehose uses the most recent version. This means that any updates to the table are automatically picked up.
         public let versionId: String?
-        
+
         public init(catalogId: String? = nil, databaseName: String? = nil, region: String? = nil, roleARN: String? = nil, tableName: String? = nil, versionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -2387,7 +2388,7 @@ extension Firehose {
         public let orcSerDe: OrcSerDe?
         /// A serializer to use for converting data to the Parquet format before storing it in Amazon S3. For more information, see Apache Parquet.
         public let parquetSerDe: ParquetSerDe?
-        
+
         public init(orcSerDe: OrcSerDe? = nil, parquetSerDe: ParquetSerDe? = nil) {
             self.orcSerDe = orcSerDe
             self.parquetSerDe = parquetSerDe
@@ -2411,7 +2412,7 @@ extension Firehose {
 
         /// The KinesisStreamSourceDescription value for the source Kinesis data stream.
         public let kinesisStreamSourceDescription: KinesisStreamSourceDescription?
-        
+
         public init(kinesisStreamSourceDescription: KinesisStreamSourceDescription? = nil) {
             self.kinesisStreamSourceDescription = kinesisStreamSourceDescription
         }
@@ -2456,7 +2457,7 @@ extension Firehose {
         public let s3BackupMode: SplunkS3BackupMode?
         /// The configuration for the backup Amazon S3 location.
         public let s3Configuration: S3DestinationConfiguration
-        
+
         public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hECAcknowledgmentTimeoutInSeconds: Int32? = nil, hECEndpoint: String, hECEndpointType: HECEndpointType, hECToken: String, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration) {
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.hECAcknowledgmentTimeoutInSeconds = hECAcknowledgmentTimeoutInSeconds
@@ -2521,7 +2522,7 @@ extension Firehose {
         public let s3BackupMode: SplunkS3BackupMode?
         /// The Amazon S3 destination.&gt;
         public let s3DestinationDescription: S3DestinationDescription?
-        
+
         public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hECAcknowledgmentTimeoutInSeconds: Int32? = nil, hECEndpoint: String? = nil, hECEndpointType: HECEndpointType? = nil, hECToken: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil) {
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.hECAcknowledgmentTimeoutInSeconds = hECAcknowledgmentTimeoutInSeconds
@@ -2586,7 +2587,7 @@ extension Firehose {
         public let s3BackupMode: SplunkS3BackupMode?
         /// Your update to the configuration of the backup Amazon S3 location.
         public let s3Update: S3DestinationUpdate?
-        
+
         public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hECAcknowledgmentTimeoutInSeconds: Int32? = nil, hECEndpoint: String? = nil, hECEndpointType: HECEndpointType? = nil, hECToken: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3Update: S3DestinationUpdate? = nil) {
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.hECAcknowledgmentTimeoutInSeconds = hECAcknowledgmentTimeoutInSeconds
@@ -2627,7 +2628,7 @@ extension Firehose {
 
         /// The total amount of time that Kinesis Data Firehose spends on retries. This duration starts after the initial attempt to send data to Splunk fails. It doesn't include the periods during which Kinesis Data Firehose waits for acknowledgment from Splunk after each attempt.
         public let durationInSeconds: Int32?
-        
+
         public init(durationInSeconds: Int32? = nil) {
             self.durationInSeconds = durationInSeconds
         }
@@ -2655,7 +2656,7 @@ extension Firehose {
 
         /// The name of the delivery stream for which you want to enable server-side encryption (SSE).
         public let deliveryStreamName: String
-        
+
         public init(deliveryStreamName: String) {
             self.deliveryStreamName = deliveryStreamName
         }
@@ -2672,11 +2673,12 @@ extension Firehose {
     }
 
     public struct StartDeliveryStreamEncryptionOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct StopDeliveryStreamEncryptionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2685,7 +2687,7 @@ extension Firehose {
 
         /// The name of the delivery stream for which you want to disable server-side encryption (SSE).
         public let deliveryStreamName: String
-        
+
         public init(deliveryStreamName: String) {
             self.deliveryStreamName = deliveryStreamName
         }
@@ -2702,11 +2704,12 @@ extension Firehose {
     }
 
     public struct StopDeliveryStreamEncryptionOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2718,7 +2721,7 @@ extension Firehose {
         public let key: String
         /// An optional string, which you can use to describe or define the tag. Maximum length: 256 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
         public let value: String?
-        
+
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -2747,7 +2750,7 @@ extension Firehose {
         public let deliveryStreamName: String
         /// A set of key-value pairs to use to create the tags.
         public let tags: [Tag]
-        
+
         public init(deliveryStreamName: String, tags: [Tag]) {
             self.deliveryStreamName = deliveryStreamName
             self.tags = tags
@@ -2771,11 +2774,12 @@ extension Firehose {
     }
 
     public struct TagDeliveryStreamOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UntagDeliveryStreamInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2787,7 +2791,7 @@ extension Firehose {
         public let deliveryStreamName: String
         /// A list of tag keys. Each corresponding tag is removed from the delivery stream.
         public let tagKeys: [String]
-        
+
         public init(deliveryStreamName: String, tagKeys: [String]) {
             self.deliveryStreamName = deliveryStreamName
             self.tagKeys = tagKeys
@@ -2812,11 +2816,12 @@ extension Firehose {
     }
 
     public struct UntagDeliveryStreamOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateDestinationInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2843,7 +2848,7 @@ extension Firehose {
         public let redshiftDestinationUpdate: RedshiftDestinationUpdate?
         /// Describes an update for a destination in Splunk.
         public let splunkDestinationUpdate: SplunkDestinationUpdate?
-        
+
         public init(currentDeliveryStreamVersionId: String, deliveryStreamName: String, destinationId: String, elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate? = nil, extendedS3DestinationUpdate: ExtendedS3DestinationUpdate? = nil, redshiftDestinationUpdate: RedshiftDestinationUpdate? = nil, splunkDestinationUpdate: SplunkDestinationUpdate? = nil) {
             self.currentDeliveryStreamVersionId = currentDeliveryStreamVersionId
             self.deliveryStreamName = deliveryStreamName
@@ -2881,10 +2886,10 @@ extension Firehose {
     }
 
     public struct UpdateDestinationOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
-
+    }
 }

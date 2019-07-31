@@ -42,7 +42,7 @@ extension ServerlessApplicationRepository {
         public let spdxLicenseId: String?
         /// Version information about the application.
         public let version: Version?
-        
+
         public init(applicationId: String, author: String, creationTime: String? = nil, description: String, homePageUrl: String? = nil, labels: [String]? = nil, licenseUrl: String? = nil, name: String, readmeUrl: String? = nil, spdxLicenseId: String? = nil, version: Version? = nil) {
             self.applicationId = applicationId
             self.author = author
@@ -82,7 +82,7 @@ extension ServerlessApplicationRepository {
         public let dependencies: [ApplicationDependencySummary]
         /// The token to request the next page of results.
         public let nextToken: String?
-        
+
         public init(dependencies: [ApplicationDependencySummary], nextToken: String? = nil) {
             self.dependencies = dependencies
             self.nextToken = nextToken
@@ -104,7 +104,7 @@ extension ServerlessApplicationRepository {
         public let applicationId: String
         /// The semantic version of the nested application.
         public let semanticVersion: String
-        
+
         public init(applicationId: String, semanticVersion: String) {
             self.applicationId = applicationId
             self.semanticVersion = semanticVersion
@@ -126,7 +126,7 @@ extension ServerlessApplicationRepository {
         public let applications: [ApplicationSummary]
         /// The token to request the next page of results.
         public let nextToken: String?
-        
+
         public init(applications: [ApplicationSummary], nextToken: String? = nil) {
             self.applications = applications
             self.nextToken = nextToken
@@ -145,7 +145,7 @@ extension ServerlessApplicationRepository {
 
         /// An array of policy statements applied to the application.
         public let statements: [ApplicationPolicyStatement]
-        
+
         public init(statements: [ApplicationPolicyStatement]) {
             self.statements = statements
         }
@@ -169,7 +169,7 @@ extension ServerlessApplicationRepository {
         public let principals: [String]
         /// A unique ID for the statement.
         public let statementId: String?
-        
+
         public init(actions: [String], principals: [String], statementId: String? = nil) {
             self.actions = actions
             self.principals = principals
@@ -211,7 +211,7 @@ extension ServerlessApplicationRepository {
         public let name: String
         /// A valid identifier from https://spdx.org/licenses/.
         public let spdxLicenseId: String?
-        
+
         public init(applicationId: String, author: String, creationTime: String? = nil, description: String, homePageUrl: String? = nil, labels: [String]? = nil, name: String, spdxLicenseId: String? = nil) {
             self.applicationId = applicationId
             self.author = author
@@ -245,7 +245,7 @@ extension ServerlessApplicationRepository {
         public let nextToken: String?
         /// An array of version summaries for the application.
         public let versions: [VersionSummary]
-        
+
         public init(nextToken: String? = nil, versions: [VersionSummary]) {
             self.nextToken = nextToken
             self.versions = versions
@@ -283,7 +283,7 @@ extension ServerlessApplicationRepository {
         public let semanticVersion: String
         /// The unique ID of the stack.
         public let stackId: String
-        
+
         public init(applicationId: String, changeSetId: String, semanticVersion: String, stackId: String) {
             self.applicationId = applicationId
             self.changeSetId = changeSetId
@@ -353,7 +353,7 @@ extension ServerlessApplicationRepository {
         public let templateBody: String?
         /// A link to the S3 object containing the packaged AWS SAM template of your application.You can specify only one of templateBody and templateUrl; otherwise an error results.
         public let templateUrl: String?
-        
+
         public init(author: String, description: String, homePageUrl: String? = nil, labels: [String]? = nil, licenseBody: String? = nil, licenseUrl: String? = nil, name: String, readmeBody: String? = nil, readmeUrl: String? = nil, semanticVersion: String? = nil, sourceCodeArchiveUrl: String? = nil, sourceCodeUrl: String? = nil, spdxLicenseId: String? = nil, templateBody: String? = nil, templateUrl: String? = nil) {
             self.author = author
             self.description = description
@@ -425,7 +425,7 @@ extension ServerlessApplicationRepository {
         public let spdxLicenseId: String?
         public let templateBody: String?
         public let templateUrl: String?
-        
+
         public init(author: String, description: String, homePageUrl: String? = nil, labels: [String]? = nil, licenseBody: String? = nil, licenseUrl: String? = nil, name: String, readmeBody: String? = nil, readmeUrl: String? = nil, semanticVersion: String? = nil, sourceCodeArchiveUrl: String? = nil, sourceCodeUrl: String? = nil, spdxLicenseId: String? = nil, templateBody: String? = nil, templateUrl: String? = nil) {
             self.author = author
             self.description = description
@@ -489,7 +489,7 @@ extension ServerlessApplicationRepository {
         public let readmeUrl: String?
         public let spdxLicenseId: String?
         public let version: Version?
-        
+
         public init(applicationId: String? = nil, author: String? = nil, creationTime: String? = nil, description: String? = nil, homePageUrl: String? = nil, labels: [String]? = nil, licenseUrl: String? = nil, name: String? = nil, readmeUrl: String? = nil, spdxLicenseId: String? = nil, version: Version? = nil) {
             self.applicationId = applicationId
             self.author = author
@@ -535,7 +535,7 @@ extension ServerlessApplicationRepository {
         public let templateBody: String?
         /// A link to the packaged AWS SAM template of your application.
         public let templateUrl: String?
-        
+
         public init(sourceCodeArchiveUrl: String? = nil, sourceCodeUrl: String? = nil, templateBody: String? = nil, templateUrl: String? = nil) {
             self.sourceCodeArchiveUrl = sourceCodeArchiveUrl
             self.sourceCodeUrl = sourceCodeUrl
@@ -567,7 +567,7 @@ extension ServerlessApplicationRepository {
         public let sourceCodeUrl: String?
         public let templateBody: String?
         public let templateUrl: String?
-        
+
         public init(applicationId: String, semanticVersion: String, sourceCodeArchiveUrl: String? = nil, sourceCodeUrl: String? = nil, templateBody: String? = nil, templateUrl: String? = nil) {
             self.applicationId = applicationId
             self.semanticVersion = semanticVersion
@@ -609,7 +609,7 @@ extension ServerlessApplicationRepository {
         public let sourceCodeArchiveUrl: String?
         public let sourceCodeUrl: String?
         public let templateUrl: String?
-        
+
         public init(applicationId: String? = nil, creationTime: String? = nil, parameterDefinitions: [ParameterDefinition]? = nil, requiredCapabilities: [Capability]? = nil, resourcesSupported: Bool? = nil, semanticVersion: String? = nil, sourceCodeArchiveUrl: String? = nil, sourceCodeUrl: String? = nil, templateUrl: String? = nil) {
             self.applicationId = applicationId
             self.creationTime = creationTime
@@ -707,7 +707,7 @@ extension ServerlessApplicationRepository {
         public let tags: [Tag]?
         /// The UUID returned by CreateCloudFormationTemplate.Pattern: [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
         public let templateId: String?
-        
+
         public init(capabilities: [String]? = nil, changeSetName: String? = nil, clientToken: String? = nil, description: String? = nil, notificationArns: [String]? = nil, parameterOverrides: [ParameterValue]? = nil, resourceTypes: [String]? = nil, rollbackConfiguration: RollbackConfiguration? = nil, semanticVersion: String? = nil, stackName: String, tags: [Tag]? = nil, templateId: String? = nil) {
             self.capabilities = capabilities
             self.changeSetName = changeSetName
@@ -769,7 +769,7 @@ extension ServerlessApplicationRepository {
         public let stackName: String
         public let tags: [Tag]?
         public let templateId: String?
-        
+
         public init(applicationId: String, capabilities: [String]? = nil, changeSetName: String? = nil, clientToken: String? = nil, description: String? = nil, notificationArns: [String]? = nil, parameterOverrides: [ParameterValue]? = nil, resourceTypes: [String]? = nil, rollbackConfiguration: RollbackConfiguration? = nil, semanticVersion: String? = nil, stackName: String, tags: [Tag]? = nil, templateId: String? = nil) {
             self.applicationId = applicationId
             self.capabilities = capabilities
@@ -815,7 +815,7 @@ extension ServerlessApplicationRepository {
         public let changeSetId: String?
         public let semanticVersion: String?
         public let stackId: String?
-        
+
         public init(applicationId: String? = nil, changeSetId: String? = nil, semanticVersion: String? = nil, stackId: String? = nil) {
             self.applicationId = applicationId
             self.changeSetId = changeSetId
@@ -839,7 +839,7 @@ extension ServerlessApplicationRepository {
 
         public let applicationId: String
         public let semanticVersion: String?
-        
+
         public init(applicationId: String, semanticVersion: String? = nil) {
             self.applicationId = applicationId
             self.semanticVersion = semanticVersion
@@ -869,7 +869,7 @@ extension ServerlessApplicationRepository {
         public let status: Status?
         public let templateId: String?
         public let templateUrl: String?
-        
+
         public init(applicationId: String? = nil, creationTime: String? = nil, expirationTime: String? = nil, semanticVersion: String? = nil, status: Status? = nil, templateId: String? = nil, templateUrl: String? = nil) {
             self.applicationId = applicationId
             self.creationTime = creationTime
@@ -897,7 +897,7 @@ extension ServerlessApplicationRepository {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -913,7 +913,7 @@ extension ServerlessApplicationRepository {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -929,7 +929,7 @@ extension ServerlessApplicationRepository {
         ]
 
         public let statements: [ApplicationPolicyStatement]?
-        
+
         public init(statements: [ApplicationPolicyStatement]? = nil) {
             self.statements = statements
         }
@@ -947,7 +947,7 @@ extension ServerlessApplicationRepository {
 
         public let applicationId: String
         public let semanticVersion: String?
-        
+
         public init(applicationId: String, semanticVersion: String? = nil) {
             self.applicationId = applicationId
             self.semanticVersion = semanticVersion
@@ -985,7 +985,7 @@ extension ServerlessApplicationRepository {
         public let readmeUrl: String?
         public let spdxLicenseId: String?
         public let version: Version?
-        
+
         public init(applicationId: String? = nil, author: String? = nil, creationTime: String? = nil, description: String? = nil, homePageUrl: String? = nil, labels: [String]? = nil, licenseUrl: String? = nil, name: String? = nil, readmeUrl: String? = nil, spdxLicenseId: String? = nil, version: Version? = nil) {
             self.applicationId = applicationId
             self.author = author
@@ -1023,7 +1023,7 @@ extension ServerlessApplicationRepository {
 
         public let applicationId: String
         public let templateId: String
-        
+
         public init(applicationId: String, templateId: String) {
             self.applicationId = applicationId
             self.templateId = templateId
@@ -1053,7 +1053,7 @@ extension ServerlessApplicationRepository {
         public let status: Status?
         public let templateId: String?
         public let templateUrl: String?
-        
+
         public init(applicationId: String? = nil, creationTime: String? = nil, expirationTime: String? = nil, semanticVersion: String? = nil, status: Status? = nil, templateId: String? = nil, templateUrl: String? = nil) {
             self.applicationId = applicationId
             self.creationTime = creationTime
@@ -1087,7 +1087,7 @@ extension ServerlessApplicationRepository {
         public let maxItems: Int32?
         public let nextToken: String?
         public let semanticVersion: String?
-        
+
         public init(applicationId: String, maxItems: Int32? = nil, nextToken: String? = nil, semanticVersion: String? = nil) {
             self.applicationId = applicationId
             self.maxItems = maxItems
@@ -1116,7 +1116,7 @@ extension ServerlessApplicationRepository {
 
         public let dependencies: [ApplicationDependencySummary]?
         public let nextToken: String?
-        
+
         public init(dependencies: [ApplicationDependencySummary]? = nil, nextToken: String? = nil) {
             self.dependencies = dependencies
             self.nextToken = nextToken
@@ -1138,7 +1138,7 @@ extension ServerlessApplicationRepository {
         public let applicationId: String
         public let maxItems: Int32?
         public let nextToken: String?
-        
+
         public init(applicationId: String, maxItems: Int32? = nil, nextToken: String? = nil) {
             self.applicationId = applicationId
             self.maxItems = maxItems
@@ -1165,7 +1165,7 @@ extension ServerlessApplicationRepository {
 
         public let nextToken: String?
         public let versions: [VersionSummary]?
-        
+
         public init(nextToken: String? = nil, versions: [VersionSummary]? = nil) {
             self.nextToken = nextToken
             self.versions = versions
@@ -1185,7 +1185,7 @@ extension ServerlessApplicationRepository {
 
         public let maxItems: Int32?
         public let nextToken: String?
-        
+
         public init(maxItems: Int32? = nil, nextToken: String? = nil) {
             self.maxItems = maxItems
             self.nextToken = nextToken
@@ -1210,7 +1210,7 @@ extension ServerlessApplicationRepository {
 
         public let applications: [ApplicationSummary]?
         public let nextToken: String?
-        
+
         public init(applications: [ApplicationSummary]? = nil, nextToken: String? = nil) {
             self.applications = applications
             self.nextToken = nextToken
@@ -1282,7 +1282,7 @@ extension ServerlessApplicationRepository {
         ///  CommaDelimitedList: An array of literal strings that are separated by commas. The total number of strings should be one more than the total number of commas.
         ///  Also, each member string is space-trimmed.For example, users might specify "test,dev,prod", and then Ref results in ["test","dev","prod"].
         public let `type`: String?
-        
+
         public init(allowedPattern: String? = nil, allowedValues: [String]? = nil, constraintDescription: String? = nil, defaultValue: String? = nil, description: String? = nil, maxLength: Int32? = nil, maxValue: Int32? = nil, minLength: Int32? = nil, minValue: Int32? = nil, name: String, noEcho: Bool? = nil, referencedByResources: [String], type: String? = nil) {
             self.allowedPattern = allowedPattern
             self.allowedValues = allowedValues
@@ -1327,7 +1327,7 @@ extension ServerlessApplicationRepository {
         public let name: String
         /// The input value associated with the parameter.
         public let value: String
-        
+
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -1347,7 +1347,7 @@ extension ServerlessApplicationRepository {
 
         public let applicationId: String
         public let statements: [ApplicationPolicyStatement]
-        
+
         public init(applicationId: String, statements: [ApplicationPolicyStatement]) {
             self.applicationId = applicationId
             self.statements = statements
@@ -1365,7 +1365,7 @@ extension ServerlessApplicationRepository {
         ]
 
         public let statements: [ApplicationPolicyStatement]?
-        
+
         public init(statements: [ApplicationPolicyStatement]? = nil) {
             self.statements = statements
         }
@@ -1387,7 +1387,7 @@ extension ServerlessApplicationRepository {
         /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackConfiguration
         ///   Data Type.
         public let rollbackTriggers: [RollbackTrigger]?
-        
+
         public init(monitoringTimeInMinutes: Int32? = nil, rollbackTriggers: [RollbackTrigger]? = nil) {
             self.monitoringTimeInMinutes = monitoringTimeInMinutes
             self.rollbackTriggers = rollbackTriggers
@@ -1411,7 +1411,7 @@ extension ServerlessApplicationRepository {
         /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackTrigger
         ///   Data Type.
         public let `type`: String
-        
+
         public init(arn: String, type: String) {
             self.arn = arn
             self.`type` = `type`
@@ -1444,7 +1444,7 @@ extension ServerlessApplicationRepository {
         ///  
         ///  Data Type.
         public let value: String
-        
+
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1486,7 +1486,7 @@ extension ServerlessApplicationRepository {
         /// A link to the template that can be used to deploy the application using
         ///  AWS CloudFormation.
         public let templateUrl: String
-        
+
         public init(applicationId: String, creationTime: String, expirationTime: String, semanticVersion: String, status: Status, templateId: String, templateUrl: String) {
             self.applicationId = applicationId
             self.creationTime = creationTime
@@ -1530,7 +1530,7 @@ extension ServerlessApplicationRepository {
         public let readmeBody: String?
         /// A link to the readme file in Markdown language that contains a more detailed description of the application and how it works.Maximum size 5 MB
         public let readmeUrl: String?
-        
+
         public init(author: String? = nil, description: String? = nil, homePageUrl: String? = nil, labels: [String]? = nil, readmeBody: String? = nil, readmeUrl: String? = nil) {
             self.author = author
             self.description = description
@@ -1568,7 +1568,7 @@ extension ServerlessApplicationRepository {
         public let labels: [String]?
         public let readmeBody: String?
         public let readmeUrl: String?
-        
+
         public init(applicationId: String, author: String? = nil, description: String? = nil, homePageUrl: String? = nil, labels: [String]? = nil, readmeBody: String? = nil, readmeUrl: String? = nil) {
             self.applicationId = applicationId
             self.author = author
@@ -1616,7 +1616,7 @@ extension ServerlessApplicationRepository {
         public let readmeUrl: String?
         public let spdxLicenseId: String?
         public let version: Version?
-        
+
         public init(applicationId: String? = nil, author: String? = nil, creationTime: String? = nil, description: String? = nil, homePageUrl: String? = nil, labels: [String]? = nil, licenseUrl: String? = nil, name: String? = nil, readmeUrl: String? = nil, spdxLicenseId: String? = nil, version: Version? = nil) {
             self.applicationId = applicationId
             self.author = author
@@ -1702,7 +1702,7 @@ extension ServerlessApplicationRepository {
         public let sourceCodeUrl: String?
         /// A link to the packaged AWS SAM template of your application.
         public let templateUrl: String
-        
+
         public init(applicationId: String, creationTime: String, parameterDefinitions: [ParameterDefinition], requiredCapabilities: [Capability], resourcesSupported: Bool, semanticVersion: String, sourceCodeArchiveUrl: String? = nil, sourceCodeUrl: String? = nil, templateUrl: String) {
             self.applicationId = applicationId
             self.creationTime = creationTime
@@ -1746,7 +1746,7 @@ extension ServerlessApplicationRepository {
         public let semanticVersion: String
         /// A link to a public repository for the source code of your application, for example the URL of a specific GitHub commit.
         public let sourceCodeUrl: String?
-        
+
         public init(applicationId: String, creationTime: String, semanticVersion: String, sourceCodeUrl: String? = nil) {
             self.applicationId = applicationId
             self.creationTime = creationTime
@@ -1761,5 +1761,4 @@ extension ServerlessApplicationRepository {
             case sourceCodeUrl = "sourceCodeUrl"
         }
     }
-
 }

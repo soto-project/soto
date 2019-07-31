@@ -611,5 +611,4 @@ public struct APIGateway {
     public func updateVpcLink(_ input: UpdateVpcLinkRequest) throws -> Future<VpcLink> {
         return try client.send(operation: "UpdateVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: "PATCH", input: input)
     }
-
 }

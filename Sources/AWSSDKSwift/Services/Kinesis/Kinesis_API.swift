@@ -165,5 +165,4 @@ public struct Kinesis {
     public func updateShardCount(_ input: UpdateShardCountInput) throws -> Future<UpdateShardCountOutput> {
         return try client.send(operation: "UpdateShardCount", path: "/", httpMethod: "POST", input: input)
     }
-
 }

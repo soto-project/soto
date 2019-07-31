@@ -12,7 +12,7 @@ extension Pricing {
 
         /// The specific value of an attributeName.
         public let value: String?
-        
+
         public init(value: String? = nil) {
             self.value = value
         }
@@ -38,7 +38,7 @@ extension Pricing {
         public let nextToken: String?
         /// The code for the service whose information you want to retrieve, such as AmazonEC2. You can use the ServiceCode to filter the results in a GetProducts call. To retrieve a list of all services, leave this blank.
         public let serviceCode: String?
-        
+
         public init(formatVersion: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, serviceCode: String? = nil) {
             self.formatVersion = formatVersion
             self.maxResults = maxResults
@@ -72,7 +72,7 @@ extension Pricing {
         public let nextToken: String?
         /// The service metadata for the service or services in the response.
         public let services: [Service]?
-        
+
         public init(formatVersion: String? = nil, nextToken: String? = nil, services: [Service]? = nil) {
             self.formatVersion = formatVersion
             self.nextToken = nextToken
@@ -99,7 +99,7 @@ extension Pricing {
         public let `type`: FilterType
         /// The service code or attribute value that you want to filter by. If you are filtering by service code this is the actual service code, such as AmazonEC2. If you are filtering by attribute name, this is the attribute value that you want the returned products to match, such as a Provisioned IOPS volume.
         public let value: String
-        
+
         public init(field: String, type: FilterType, value: String) {
             self.field = field
             self.`type` = `type`
@@ -134,7 +134,7 @@ extension Pricing {
         public let nextToken: String?
         /// The service code for the service whose attributes you want to retrieve. For example, if you want the retrieve an EC2 attribute, use AmazonEC2.
         public let serviceCode: String
-        
+
         public init(attributeName: String, maxResults: Int32? = nil, nextToken: String? = nil, serviceCode: String) {
             self.attributeName = attributeName
             self.maxResults = maxResults
@@ -165,7 +165,7 @@ extension Pricing {
         public let attributeValues: [AttributeValue]?
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
-        
+
         public init(attributeValues: [AttributeValue]? = nil, nextToken: String? = nil) {
             self.attributeValues = attributeValues
             self.nextToken = nextToken
@@ -196,7 +196,7 @@ extension Pricing {
         public let nextToken: String?
         /// The code for the service whose products you want to retrieve. 
         public let serviceCode: String?
-        
+
         public init(filters: [Filter]? = nil, formatVersion: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, serviceCode: String? = nil) {
             self.filters = filters
             self.formatVersion = formatVersion
@@ -232,7 +232,7 @@ extension Pricing {
         public let nextToken: String?
         /// The list of products that match your filters. The list contains both the product metadata and the price information.
         public let priceList: [String]?
-        
+
         public init(formatVersion: String? = nil, nextToken: String? = nil, priceList: [String]? = nil) {
             self.formatVersion = formatVersion
             self.nextToken = nextToken
@@ -256,7 +256,7 @@ extension Pricing {
         public let attributeNames: [String]?
         /// The code for the AWS service.
         public let serviceCode: String?
-        
+
         public init(attributeNames: [String]? = nil, serviceCode: String? = nil) {
             self.attributeNames = attributeNames
             self.serviceCode = serviceCode
@@ -267,5 +267,4 @@ extension Pricing {
             case serviceCode = "ServiceCode"
         }
     }
-
 }

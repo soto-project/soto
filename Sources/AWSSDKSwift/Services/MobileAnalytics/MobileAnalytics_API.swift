@@ -29,5 +29,4 @@ public struct MobileAnalytics {
     @discardableResult public func putEvents(_ input: PutEventsInput) throws -> Future<Void> {
         return try client.send(operation: "PutEvents", path: "/2014-06-05/events", httpMethod: "POST", input: input)
     }
-
 }

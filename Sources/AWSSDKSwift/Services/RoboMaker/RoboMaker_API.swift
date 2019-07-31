@@ -204,5 +204,4 @@ public struct RoboMaker {
     public func updateSimulationApplication(_ input: UpdateSimulationApplicationRequest) throws -> Future<UpdateSimulationApplicationResponse> {
         return try client.send(operation: "UpdateSimulationApplication", path: "/updateSimulationApplication", httpMethod: "POST", input: input)
     }
-
 }

@@ -37,7 +37,7 @@ extension ECS {
         public let status: String?
         /// The type of the attachment, such as ElasticNetworkInterface.
         public let `type`: String?
-        
+
         public init(details: [KeyValuePair]? = nil, id: String? = nil, status: String? = nil, type: String? = nil) {
             self.details = details
             self.id = id
@@ -63,7 +63,7 @@ extension ECS {
         public let attachmentArn: String
         /// The status of the attachment.
         public let status: String
-        
+
         public init(attachmentArn: String, status: String) {
             self.attachmentArn = attachmentArn
             self.status = status
@@ -91,7 +91,7 @@ extension ECS {
         public let targetType: TargetType?
         /// The value of the attribute. Up to 128 letters (uppercase and lowercase), numbers, hyphens, underscores, periods, at signs (@), forward slashes, colons, and spaces are allowed.
         public let value: String?
-        
+
         public init(name: String, targetId: String? = nil, targetType: TargetType? = nil, value: String? = nil) {
             self.name = name
             self.targetId = targetId
@@ -120,7 +120,7 @@ extension ECS {
         public let securityGroups: [String]?
         /// The subnets associated with the task or service. There is a limit of 16 subnets that can be specified per AwsVpcConfiguration.  All specified subnets must be from the same VPC. 
         public let subnets: [String]
-        
+
         public init(assignPublicIp: AssignPublicIp? = nil, securityGroups: [String]? = nil, subnets: [String]) {
             self.assignPublicIp = assignPublicIp
             self.securityGroups = securityGroups
@@ -165,7 +165,7 @@ extension ECS {
         public let status: String?
         /// The metadata that you apply to the cluster to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [Tag]?
-        
+
         public init(activeServicesCount: Int32? = nil, clusterArn: String? = nil, clusterName: String? = nil, pendingTasksCount: Int32? = nil, registeredContainerInstancesCount: Int32? = nil, runningTasksCount: Int32? = nil, statistics: [KeyValuePair]? = nil, status: String? = nil, tags: [Tag]? = nil) {
             self.activeServicesCount = activeServicesCount
             self.clusterArn = clusterArn
@@ -260,7 +260,7 @@ extension ECS {
         public let reason: String?
         /// The ARN of the task.
         public let taskArn: String?
-        
+
         public init(containerArn: String? = nil, cpu: String? = nil, exitCode: Int32? = nil, gpuIds: [String]? = nil, healthStatus: HealthStatus? = nil, lastStatus: String? = nil, memory: String? = nil, memoryReservation: String? = nil, name: String? = nil, networkBindings: [NetworkBinding]? = nil, networkInterfaces: [NetworkInterface]? = nil, reason: String? = nil, taskArn: String? = nil) {
             self.containerArn = containerArn
             self.cpu = cpu
@@ -417,7 +417,7 @@ extension ECS {
         public let volumesFrom: [VolumeFrom]?
         /// The working directory in which to run commands inside the container. This parameter maps to WorkingDir in the Create a container section of the Docker Remote API and the --workdir option to docker run.
         public let workingDirectory: String?
-        
+
         public init(command: [String]? = nil, cpu: Int32? = nil, dependsOn: [ContainerDependency]? = nil, disableNetworking: Bool? = nil, dnsSearchDomains: [String]? = nil, dnsServers: [String]? = nil, dockerLabels: [String: String]? = nil, dockerSecurityOptions: [String]? = nil, entryPoint: [String]? = nil, environment: [KeyValuePair]? = nil, essential: Bool? = nil, extraHosts: [HostEntry]? = nil, healthCheck: HealthCheck? = nil, hostname: String? = nil, image: String? = nil, interactive: Bool? = nil, links: [String]? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, memory: Int32? = nil, memoryReservation: Int32? = nil, mountPoints: [MountPoint]? = nil, name: String? = nil, portMappings: [PortMapping]? = nil, privileged: Bool? = nil, pseudoTerminal: Bool? = nil, readonlyRootFilesystem: Bool? = nil, repositoryCredentials: RepositoryCredentials? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, startTimeout: Int32? = nil, stopTimeout: Int32? = nil, systemControls: [SystemControl]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, volumesFrom: [VolumeFrom]? = nil, workingDirectory: String? = nil) {
             self.command = command
             self.cpu = cpu
@@ -509,7 +509,7 @@ extension ECS {
         public let condition: ContainerCondition
         /// The name of a container.
         public let containerName: String
-        
+
         public init(condition: ContainerCondition, containerName: String) {
             self.condition = condition
             self.containerName = containerName
@@ -573,7 +573,7 @@ extension ECS {
         public let version: Int64?
         /// The version information for the Amazon ECS container agent and Docker daemon running on the container instance.
         public let versionInfo: VersionInfo?
-        
+
         public init(agentConnected: Bool? = nil, agentUpdateStatus: AgentUpdateStatus? = nil, attachments: [Attachment]? = nil, attributes: [Attribute]? = nil, containerInstanceArn: String? = nil, ec2InstanceId: String? = nil, pendingTasksCount: Int32? = nil, registeredAt: TimeStamp? = nil, registeredResources: [Resource]? = nil, remainingResources: [Resource]? = nil, runningTasksCount: Int32? = nil, status: String? = nil, statusReason: String? = nil, tags: [Tag]? = nil, version: Int64? = nil, versionInfo: VersionInfo? = nil) {
             self.agentConnected = agentConnected
             self.agentUpdateStatus = agentUpdateStatus
@@ -660,7 +660,7 @@ extension ECS {
         public let name: String?
         /// The type and amount of a resource to assign to a container, instead of the default value from the task definition. The only supported resource is a GPU.
         public let resourceRequirements: [ResourceRequirement]?
-        
+
         public init(command: [String]? = nil, cpu: Int32? = nil, environment: [KeyValuePair]? = nil, memory: Int32? = nil, memoryReservation: Int32? = nil, name: String? = nil, resourceRequirements: [ResourceRequirement]? = nil) {
             self.command = command
             self.cpu = cpu
@@ -701,7 +701,7 @@ extension ECS {
         public let reason: String?
         /// The status of the container.
         public let status: String?
-        
+
         public init(containerName: String? = nil, exitCode: Int32? = nil, networkBindings: [NetworkBinding]? = nil, reason: String? = nil, status: String? = nil) {
             self.containerName = containerName
             self.exitCode = exitCode
@@ -729,7 +729,7 @@ extension ECS {
         public let clusterName: String?
         /// The metadata that you apply to the cluster to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [Tag]?
-        
+
         public init(clusterName: String? = nil, tags: [Tag]? = nil) {
             self.clusterName = clusterName
             self.tags = tags
@@ -756,7 +756,7 @@ extension ECS {
 
         /// The full description of your new cluster.
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -834,7 +834,7 @@ extension ECS {
         public let tags: [Tag]?
         /// The family and revision (family:revision) or full ARN of the task definition to run in your service. If a revision is not specified, the latest ACTIVE revision is used. A task definition must be specified if the service is using the ECS deployment controller.
         public let taskDefinition: String?
-        
+
         public init(clientToken: String? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, desiredCount: Int32? = nil, enableECSManagedTags: Bool? = nil, healthCheckGracePeriodSeconds: Int32? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, role: String? = nil, schedulingStrategy: SchedulingStrategy? = nil, serviceName: String, serviceRegistries: [ServiceRegistry]? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil) {
             self.clientToken = clientToken
             self.cluster = cluster
@@ -897,7 +897,7 @@ extension ECS {
 
         /// The full description of your service following the create call. If a service is using the ECS deployment controller, the deploymentController and taskSets parameters will not be returned. If the service is using the CODE_DEPLOY deployment controller, the deploymentController, taskSets and deployments parameters will be returned, however the deployments parameter will be an empty list.
         public let service: Service?
-        
+
         public init(service: Service? = nil) {
             self.service = service
         }
@@ -946,7 +946,7 @@ extension ECS {
         public let serviceRegistries: [ServiceRegistry]?
         /// The task definition for the tasks in the task set to use.
         public let taskDefinition: String
-        
+
         public init(clientToken: String? = nil, cluster: String, externalId: String? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, platformVersion: String? = nil, scale: Scale? = nil, service: String, serviceRegistries: [ServiceRegistry]? = nil, taskDefinition: String) {
             self.clientToken = clientToken
             self.cluster = cluster
@@ -982,7 +982,7 @@ extension ECS {
         ]
 
         public let taskSet: TaskSet?
-        
+
         public init(taskSet: TaskSet? = nil) {
             self.taskSet = taskSet
         }
@@ -1002,7 +1002,7 @@ extension ECS {
         public let name: SettingName
         /// The ARN of the principal, which can be an IAM user, IAM role, or the root user. If you specify the root user, it disables the account setting for all IAM users, IAM roles, and the root user of the account unless an IAM user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user.
         public let principalArn: String?
-        
+
         public init(name: SettingName, principalArn: String? = nil) {
             self.name = name
             self.principalArn = principalArn
@@ -1021,7 +1021,7 @@ extension ECS {
 
         /// The account setting for the specified principal ARN.
         public let setting: Setting?
-        
+
         public init(setting: Setting? = nil) {
             self.setting = setting
         }
@@ -1041,7 +1041,7 @@ extension ECS {
         public let attributes: [Attribute]
         /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to delete attributes. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
-        
+
         public init(attributes: [Attribute], cluster: String? = nil) {
             self.attributes = attributes
             self.cluster = cluster
@@ -1060,7 +1060,7 @@ extension ECS {
 
         /// A list of attribute objects that were successfully deleted from your resource.
         public let attributes: [Attribute]?
-        
+
         public init(attributes: [Attribute]? = nil) {
             self.attributes = attributes
         }
@@ -1077,7 +1077,7 @@ extension ECS {
 
         /// The short name or full Amazon Resource Name (ARN) of the cluster to delete.
         public let cluster: String
-        
+
         public init(cluster: String) {
             self.cluster = cluster
         }
@@ -1094,7 +1094,7 @@ extension ECS {
 
         /// The full description of the deleted cluster.
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -1121,7 +1121,7 @@ extension ECS {
         public let force: Bool?
         /// The name of the service to delete.
         public let service: String
-        
+
         public init(cluster: String? = nil, force: Bool? = nil, service: String) {
             self.cluster = cluster
             self.force = force
@@ -1142,7 +1142,7 @@ extension ECS {
 
         /// The full description of the deleted service.
         public let service: Service?
-        
+
         public init(service: Service? = nil) {
             self.service = service
         }
@@ -1172,7 +1172,7 @@ extension ECS {
         public let service: String
         /// The task set ID or full Amazon Resource Name (ARN) of the task set to delete.
         public let taskSet: String
-        
+
         public init(cluster: String, force: Bool? = nil, service: String, taskSet: String) {
             self.cluster = cluster
             self.force = force
@@ -1194,7 +1194,7 @@ extension ECS {
         ]
 
         public let taskSet: TaskSet?
-        
+
         public init(taskSet: TaskSet? = nil) {
             self.taskSet = taskSet
         }
@@ -1241,7 +1241,7 @@ extension ECS {
         public let taskDefinition: String?
         /// The Unix timestamp for when the service deployment was last updated.
         public let updatedAt: TimeStamp?
-        
+
         public init(createdAt: TimeStamp? = nil, desiredCount: Int32? = nil, id: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int32? = nil, platformVersion: String? = nil, runningCount: Int32? = nil, status: String? = nil, taskDefinition: String? = nil, updatedAt: TimeStamp? = nil) {
             self.createdAt = createdAt
             self.desiredCount = desiredCount
@@ -1281,7 +1281,7 @@ extension ECS {
         public let maximumPercent: Int32?
         /// If a service is using the rolling update (ECS) deployment type, the minimum healthy percent represents a lower limit on the number of tasks in a service that must remain in the RUNNING state during a deployment, as a percentage of the desired number of tasks (rounded up to the nearest integer), and while any container instances are in the DRAINING state if the service contains tasks using the EC2 launch type. This parameter enables you to deploy without using additional cluster capacity. For example, if your service has a desired number of four tasks and a minimum healthy percent of 50%, the scheduler may stop two existing tasks to free up cluster capacity before starting two new tasks. Tasks for services that do not use a load balancer are considered healthy if they are in the RUNNING state; tasks for services that do use a load balancer are considered healthy if they are in the RUNNING state and they are reported as healthy by the load balancer. The default value for minimum healthy percent is 100%. If a service is using the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and tasks that use the EC2 launch type, the minimum healthy percent value is set to the default value and is used to define the lower limit on the number of the tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. If the tasks in the service use the Fargate launch type, the minimum healthy percent value is not used, although it is returned when describing your service.
         public let minimumHealthyPercent: Int32?
-        
+
         public init(maximumPercent: Int32? = nil, minimumHealthyPercent: Int32? = nil) {
             self.maximumPercent = maximumPercent
             self.minimumHealthyPercent = minimumHealthyPercent
@@ -1300,7 +1300,7 @@ extension ECS {
 
         /// The deployment controller type to use. There are three deployment controller types available:  ECS  The rolling update (ECS) deployment type involves replacing the current running version of the container with the latest version. The number of containers Amazon ECS adds or removes from the service during a rolling update is controlled by adjusting the minimum and maximum number of healthy tasks allowed during a service deployment, as specified in the DeploymentConfiguration.  CODE_DEPLOY  The blue/green (CODE_DEPLOY) deployment type uses the blue/green deployment model powered by AWS CodeDeploy, which allows you to verify a new deployment of a service before sending production traffic to it.  EXTERNAL  The external (EXTERNAL) deployment type enables you to use any third-party deployment controller for full control over the deployment process for an Amazon ECS service.  
         public let `type`: DeploymentControllerType
-        
+
         public init(type: DeploymentControllerType) {
             self.`type` = `type`
         }
@@ -1330,7 +1330,7 @@ extension ECS {
         public let containerInstance: String
         /// Forces the deregistration of the container instance. If you have tasks running on the container instance when you deregister it with the force option, these tasks remain running until you terminate the instance or the tasks stop through some other means, but they are orphaned (no longer monitored or accounted for by Amazon ECS). If an orphaned task on your container instance is part of an Amazon ECS service, then the service scheduler starts another copy of that task, on a different container instance if possible.  Any containers in orphaned service tasks that are registered with a Classic Load Balancer or an Application Load Balancer target group are deregistered. They begin connection draining according to the settings on the load balancer or target group.
         public let force: Bool?
-        
+
         public init(cluster: String? = nil, containerInstance: String, force: Bool? = nil) {
             self.cluster = cluster
             self.containerInstance = containerInstance
@@ -1351,7 +1351,7 @@ extension ECS {
 
         /// The container instance that was deregistered.
         public let containerInstance: ContainerInstance?
-        
+
         public init(containerInstance: ContainerInstance? = nil) {
             self.containerInstance = containerInstance
         }
@@ -1372,7 +1372,7 @@ extension ECS {
 
         /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the task definition to deregister. You must specify a revision.
         public let taskDefinition: String
-        
+
         public init(taskDefinition: String) {
             self.taskDefinition = taskDefinition
         }
@@ -1389,7 +1389,7 @@ extension ECS {
 
         /// The full description of the deregistered task.
         public let taskDefinition: TaskDefinition?
-        
+
         public init(taskDefinition: TaskDefinition? = nil) {
             self.taskDefinition = taskDefinition
         }
@@ -1409,7 +1409,7 @@ extension ECS {
         public let clusters: [String]?
         /// Additional information about your clusters to be separated by launch type, including:   runningEC2TasksCount   runningFargateTasksCount   pendingEC2TasksCount   pendingFargateTasksCount   activeEC2ServiceCount   activeFargateServiceCount   drainingEC2ServiceCount   drainingFargateServiceCount  
         public let include: [ClusterField]?
-        
+
         public init(clusters: [String]? = nil, include: [ClusterField]? = nil) {
             self.clusters = clusters
             self.include = include
@@ -1431,7 +1431,7 @@ extension ECS {
         public let clusters: [Cluster]?
         /// Any failures associated with the call.
         public let failures: [Failure]?
-        
+
         public init(clusters: [Cluster]? = nil, failures: [Failure]? = nil) {
             self.clusters = clusters
             self.failures = failures
@@ -1462,7 +1462,7 @@ extension ECS {
         public let containerInstances: [String]
         /// Specifies whether you want to see the resource tags for the container instance. If TAGS is specified, the tags are included in the response. If this field is omitted, tags are not included in the response.
         public let include: [ContainerInstanceField]?
-        
+
         public init(cluster: String? = nil, containerInstances: [String], include: [ContainerInstanceField]? = nil) {
             self.cluster = cluster
             self.containerInstances = containerInstances
@@ -1486,7 +1486,7 @@ extension ECS {
         public let containerInstances: [ContainerInstance]?
         /// Any failures associated with the call.
         public let failures: [Failure]?
-        
+
         public init(containerInstances: [ContainerInstance]? = nil, failures: [Failure]? = nil) {
             self.containerInstances = containerInstances
             self.failures = failures
@@ -1517,7 +1517,7 @@ extension ECS {
         public let include: [ServiceField]?
         /// A list of services to describe. You may specify up to 10 services to describe in a single operation.
         public let services: [String]
-        
+
         public init(cluster: String? = nil, include: [ServiceField]? = nil, services: [String]) {
             self.cluster = cluster
             self.include = include
@@ -1541,7 +1541,7 @@ extension ECS {
         public let failures: [Failure]?
         /// The list of services described.
         public let services: [Service]?
-        
+
         public init(failures: [Failure]? = nil, services: [Service]? = nil) {
             self.failures = failures
             self.services = services
@@ -1569,7 +1569,7 @@ extension ECS {
         public let include: [TaskDefinitionField]?
         /// The family for the latest ACTIVE revision, family and revision (family:revision) for a specific revision in the family, or full Amazon Resource Name (ARN) of the task definition to describe.
         public let taskDefinition: String
-        
+
         public init(include: [TaskDefinitionField]? = nil, taskDefinition: String) {
             self.include = include
             self.taskDefinition = taskDefinition
@@ -1591,7 +1591,7 @@ extension ECS {
         public let tags: [Tag]?
         /// The full task definition description.
         public let taskDefinition: TaskDefinition?
-        
+
         public init(tags: [Tag]? = nil, taskDefinition: TaskDefinition? = nil) {
             self.tags = tags
             self.taskDefinition = taskDefinition
@@ -1624,7 +1624,7 @@ extension ECS {
         public let service: String
         /// The ID or full Amazon Resource Name (ARN) of task sets to describe.
         public let taskSets: [String]?
-        
+
         public init(cluster: String, service: String, taskSets: [String]? = nil) {
             self.cluster = cluster
             self.service = service
@@ -1648,7 +1648,7 @@ extension ECS {
         public let failures: [Failure]?
         /// The list of task sets described.
         public let taskSets: [TaskSet]?
-        
+
         public init(failures: [Failure]? = nil, taskSets: [TaskSet]? = nil) {
             self.failures = failures
             self.taskSets = taskSets
@@ -1673,7 +1673,7 @@ extension ECS {
         public let include: [TaskField]?
         /// A list of up to 100 task IDs or full ARN entries.
         public let tasks: [String]
-        
+
         public init(cluster: String? = nil, include: [TaskField]? = nil, tasks: [String]) {
             self.cluster = cluster
             self.include = include
@@ -1697,7 +1697,7 @@ extension ECS {
         public let failures: [Failure]?
         /// The list of tasks.
         public let tasks: [Task]?
-        
+
         public init(failures: [Failure]? = nil, tasks: [Task]? = nil) {
             self.failures = failures
             self.tasks = tasks
@@ -1735,7 +1735,7 @@ extension ECS {
         public let hostPath: String
         /// The explicit permissions to provide to the container for the device. By default, the container has permissions for read, write, and mknod for the device.
         public let permissions: [DeviceCgroupPermission]?
-        
+
         public init(containerPath: String? = nil, hostPath: String, permissions: [DeviceCgroupPermission]? = nil) {
             self.containerPath = containerPath
             self.hostPath = hostPath
@@ -1766,7 +1766,7 @@ extension ECS {
         public let cluster: String?
         /// The container instance ID or full ARN of the container instance. The ARN contains the arn:aws:ecs namespace, followed by the Region of the container instance, the AWS account ID of the container instance owner, the container-instance namespace, and then the container instance ID. For example, arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID.
         public let containerInstance: String?
-        
+
         public init(cluster: String? = nil, containerInstance: String? = nil) {
             self.cluster = cluster
             self.containerInstance = containerInstance
@@ -1788,7 +1788,7 @@ extension ECS {
         public let endpoint: String?
         /// The telemetry endpoint for the Amazon ECS agent.
         public let telemetryEndpoint: String?
-        
+
         public init(endpoint: String? = nil, telemetryEndpoint: String? = nil) {
             self.endpoint = endpoint
             self.telemetryEndpoint = telemetryEndpoint
@@ -1819,7 +1819,7 @@ extension ECS {
         public let labels: [String: String]?
         /// The scope for the Docker volume that determines its lifecycle. Docker volumes that are scoped to a task are automatically provisioned when the task starts and destroyed when the task stops. Docker volumes that are scoped as shared persist after the task stops.
         public let scope: Scope?
-        
+
         public init(autoprovision: Bool? = nil, driver: String? = nil, driverOpts: [String: String]? = nil, labels: [String: String]? = nil, scope: Scope? = nil) {
             self.autoprovision = autoprovision
             self.driver = driver
@@ -1847,7 +1847,7 @@ extension ECS {
         public let arn: String?
         /// The reason for the failure.
         public let reason: String?
-        
+
         public init(arn: String? = nil, reason: String? = nil) {
             self.arn = arn
             self.reason = reason
@@ -1878,7 +1878,7 @@ extension ECS {
         public let startPeriod: Int32?
         /// The time period in seconds to wait for a health check to succeed before it is considered a failure. You may specify between 2 and 60 seconds. The default value is 5.
         public let timeout: Int32?
-        
+
         public init(command: [String], interval: Int32? = nil, retries: Int32? = nil, startPeriod: Int32? = nil, timeout: Int32? = nil) {
             self.command = command
             self.interval = interval
@@ -1913,7 +1913,7 @@ extension ECS {
         public let hostname: String
         /// The IP address to use in the /etc/hosts entry.
         public let ipAddress: String
-        
+
         public init(hostname: String, ipAddress: String) {
             self.hostname = hostname
             self.ipAddress = ipAddress
@@ -1932,7 +1932,7 @@ extension ECS {
 
         /// When the host parameter is used, specify a sourcePath to declare the path on the host container instance that is presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If the host parameter contains a sourcePath file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the sourcePath value does not exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported. If you are using the Fargate launch type, the sourcePath parameter is not supported.
         public let sourcePath: String?
-        
+
         public init(sourcePath: String? = nil) {
             self.sourcePath = sourcePath
         }
@@ -1959,7 +1959,7 @@ extension ECS {
         public let add: [String]?
         /// The Linux capabilities for the container that have been removed from the default configuration provided by Docker. This parameter maps to CapDrop in the Create a container section of the Docker Remote API and the --cap-drop option to docker run. Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | "BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | "DAC_READ_SEARCH" | "FOWNER" | "FSETID" | "IPC_LOCK" | "IPC_OWNER" | "KILL" | "LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | "MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | "NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | "SETFCAP" | "SETGID" | "SETPCAP" | "SETUID" | "SYS_ADMIN" | "SYS_BOOT" | "SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | "SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | "SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | "SYSLOG" | "WAKE_ALARM" 
         public let drop: [String]?
-        
+
         public init(add: [String]? = nil, drop: [String]? = nil) {
             self.add = add
             self.drop = drop
@@ -1981,7 +1981,7 @@ extension ECS {
         public let name: String?
         /// The value of the key-value pair. For environment variables, this is the value of the environment variable.
         public let value: String?
-        
+
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -2018,7 +2018,7 @@ extension ECS {
         public let sharedMemorySize: Int32?
         /// The container path, mount options, and size (in MiB) of the tmpfs mount. This parameter maps to the --tmpfs option to docker run.  If you are using tasks that use the Fargate launch type, the tmpfs parameter is not supported. 
         public let tmpfs: [Tmpfs]?
-        
+
         public init(capabilities: KernelCapabilities? = nil, devices: [Device]? = nil, initProcessEnabled: Bool? = nil, sharedMemorySize: Int32? = nil, tmpfs: [Tmpfs]? = nil) {
             self.capabilities = capabilities
             self.devices = devices
@@ -2058,7 +2058,7 @@ extension ECS {
         public let principalArn: String?
         /// The value of the account settings with which to filter results. You must also specify an account setting name to use this parameter.
         public let value: String?
-        
+
         public init(effectiveSettings: Bool? = nil, maxResults: Int32? = nil, name: SettingName? = nil, nextToken: String? = nil, principalArn: String? = nil, value: String? = nil) {
             self.effectiveSettings = effectiveSettings
             self.maxResults = maxResults
@@ -2088,7 +2088,7 @@ extension ECS {
         public let nextToken: String?
         /// The account settings for the resource.
         public let settings: [Setting]?
-        
+
         public init(nextToken: String? = nil, settings: [Setting]? = nil) {
             self.nextToken = nextToken
             self.settings = settings
@@ -2122,7 +2122,7 @@ extension ECS {
         public let nextToken: String?
         /// The type of the target with which to list attributes.
         public let targetType: TargetType
-        
+
         public init(attributeName: String? = nil, attributeValue: String? = nil, cluster: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, targetType: TargetType) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
@@ -2152,7 +2152,7 @@ extension ECS {
         public let attributes: [Attribute]?
         /// The nextToken value to include in a future ListAttributes request. When the results of a ListAttributes request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
-        
+
         public init(attributes: [Attribute]? = nil, nextToken: String? = nil) {
             self.attributes = attributes
             self.nextToken = nextToken
@@ -2174,7 +2174,7 @@ extension ECS {
         public let maxResults: Int32?
         /// The nextToken value returned from a previous paginated ListClusters request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2196,7 +2196,7 @@ extension ECS {
         public let clusterArns: [String]?
         /// The nextToken value to include in a future ListClusters request. When the results of a ListClusters request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
-        
+
         public init(clusterArns: [String]? = nil, nextToken: String? = nil) {
             self.clusterArns = clusterArns
             self.nextToken = nextToken
@@ -2227,7 +2227,7 @@ extension ECS {
         public let nextToken: String?
         /// Filters the container instances by status. For example, if you specify the DRAINING status, the results include only container instances that have been set to DRAINING using UpdateContainerInstancesState. If you do not specify this parameter, the default is to include container instances set to all states other than INACTIVE.
         public let status: ContainerInstanceStatus?
-        
+
         public init(cluster: String? = nil, filter: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, status: ContainerInstanceStatus? = nil) {
             self.cluster = cluster
             self.filter = filter
@@ -2255,7 +2255,7 @@ extension ECS {
         public let containerInstanceArns: [String]?
         /// The nextToken value to include in a future ListContainerInstances request. When the results of a ListContainerInstances request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
-        
+
         public init(containerInstanceArns: [String]? = nil, nextToken: String? = nil) {
             self.containerInstanceArns = containerInstanceArns
             self.nextToken = nextToken
@@ -2286,7 +2286,7 @@ extension ECS {
         public let nextToken: String?
         /// The scheduling strategy for services to list.
         public let schedulingStrategy: SchedulingStrategy?
-        
+
         public init(cluster: String? = nil, launchType: LaunchType? = nil, maxResults: Int32? = nil, nextToken: String? = nil, schedulingStrategy: SchedulingStrategy? = nil) {
             self.cluster = cluster
             self.launchType = launchType
@@ -2314,7 +2314,7 @@ extension ECS {
         public let nextToken: String?
         /// The list of full ARN entries for each service associated with the specified cluster.
         public let serviceArns: [String]?
-        
+
         public init(nextToken: String? = nil, serviceArns: [String]? = nil) {
             self.nextToken = nextToken
             self.serviceArns = serviceArns
@@ -2333,7 +2333,7 @@ extension ECS {
 
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Amazon ECS tasks, services, task definitions, clusters, and container instances.
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2350,7 +2350,7 @@ extension ECS {
 
         /// The tags for the resource.
         public let tags: [Tag]?
-        
+
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -2384,7 +2384,7 @@ extension ECS {
         public let nextToken: String?
         /// The task definition family status with which to filter the ListTaskDefinitionFamilies results. By default, both ACTIVE and INACTIVE task definition families are listed. If this parameter is set to ACTIVE, only task definition families that have an ACTIVE task definition revision are returned. If this parameter is set to INACTIVE, only task definition families that do not have any ACTIVE task definition revisions are returned. If you paginate the resulting output, be sure to keep the status value constant in each subsequent request.
         public let status: TaskDefinitionFamilyStatus?
-        
+
         public init(familyPrefix: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, status: TaskDefinitionFamilyStatus? = nil) {
             self.familyPrefix = familyPrefix
             self.maxResults = maxResults
@@ -2410,7 +2410,7 @@ extension ECS {
         public let families: [String]?
         /// The nextToken value to include in a future ListTaskDefinitionFamilies request. When the results of a ListTaskDefinitionFamilies request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
-        
+
         public init(families: [String]? = nil, nextToken: String? = nil) {
             self.families = families
             self.nextToken = nextToken
@@ -2441,7 +2441,7 @@ extension ECS {
         public let sort: SortOrder?
         /// The task definition status with which to filter the ListTaskDefinitions results. By default, only ACTIVE task definitions are listed. By setting this parameter to INACTIVE, you can view task definitions that are INACTIVE as long as an active task or service still references them. If you paginate the resulting output, be sure to keep the status value constant in each subsequent request.
         public let status: TaskDefinitionStatus?
-        
+
         public init(familyPrefix: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sort: SortOrder? = nil, status: TaskDefinitionStatus? = nil) {
             self.familyPrefix = familyPrefix
             self.maxResults = maxResults
@@ -2469,7 +2469,7 @@ extension ECS {
         public let nextToken: String?
         /// The list of task definition Amazon Resource Name (ARN) entries for the ListTaskDefinitions request.
         public let taskDefinitionArns: [String]?
-        
+
         public init(nextToken: String? = nil, taskDefinitionArns: [String]? = nil) {
             self.nextToken = nextToken
             self.taskDefinitionArns = taskDefinitionArns
@@ -2512,7 +2512,7 @@ extension ECS {
         public let serviceName: String?
         /// The startedBy value with which to filter the task results. Specifying a startedBy value limits the results to tasks that were started with that value.
         public let startedBy: String?
-        
+
         public init(cluster: String? = nil, containerInstance: String? = nil, desiredStatus: DesiredStatus? = nil, family: String? = nil, launchType: LaunchType? = nil, maxResults: Int32? = nil, nextToken: String? = nil, serviceName: String? = nil, startedBy: String? = nil) {
             self.cluster = cluster
             self.containerInstance = containerInstance
@@ -2548,7 +2548,7 @@ extension ECS {
         public let nextToken: String?
         /// The list of task ARN entries for the ListTasks request.
         public let taskArns: [String]?
-        
+
         public init(nextToken: String? = nil, taskArns: [String]? = nil) {
             self.nextToken = nextToken
             self.taskArns = taskArns
@@ -2576,7 +2576,7 @@ extension ECS {
         public let loadBalancerName: String?
         /// The full Amazon Resource Name (ARN) of the Elastic Load Balancing target group or groups associated with a service or task set. A target group ARN is only specified when using an application load balancer or a network load balancer. If you are using a classic load balancer this should be omitted. For services using the ECS deployment controller, you are limited to one target group. For services using the CODE_DEPLOY deployment controller, you are required to define two target groups for the load balancer.  If your service's task definition uses the awsvpc network mode (which is required for the Fargate launch type), you must choose ip as the target type, not instance, because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance. 
         public let targetGroupArn: String?
-        
+
         public init(containerName: String? = nil, containerPort: Int32? = nil, loadBalancerName: String? = nil, targetGroupArn: String? = nil) {
             self.containerName = containerName
             self.containerPort = containerPort
@@ -2605,7 +2605,7 @@ extension ECS {
         public let options: [String: String]?
         /// The secrets to pass to the log configuration.
         public let secretOptions: [Secret]?
-        
+
         public init(logDriver: LogDriver, options: [String: String]? = nil, secretOptions: [Secret]? = nil) {
             self.logDriver = logDriver
             self.options = options
@@ -2643,7 +2643,7 @@ extension ECS {
         public let readOnly: Bool?
         /// The name of the volume to mount. Must be a volume name referenced in the name parameter of task definition volume.
         public let sourceVolume: String?
-        
+
         public init(containerPath: String? = nil, readOnly: Bool? = nil, sourceVolume: String? = nil) {
             self.containerPath = containerPath
             self.readOnly = readOnly
@@ -2673,7 +2673,7 @@ extension ECS {
         public let hostPort: Int32?
         /// The protocol used for the network binding.
         public let `protocol`: TransportProtocol?
-        
+
         public init(bindIP: String? = nil, containerPort: Int32? = nil, hostPort: Int32? = nil, protocol: TransportProtocol? = nil) {
             self.bindIP = bindIP
             self.containerPort = containerPort
@@ -2696,7 +2696,7 @@ extension ECS {
 
         /// The VPC subnets and security groups associated with a task.  All specified subnets and security groups must be from the same VPC. 
         public let awsvpcConfiguration: AwsVpcConfiguration?
-        
+
         public init(awsvpcConfiguration: AwsVpcConfiguration? = nil) {
             self.awsvpcConfiguration = awsvpcConfiguration
         }
@@ -2719,7 +2719,7 @@ extension ECS {
         public let ipv6Address: String?
         /// The private IPv4 address for the network interface.
         public let privateIpv4Address: String?
-        
+
         public init(attachmentId: String? = nil, ipv6Address: String? = nil, privateIpv4Address: String? = nil) {
             self.attachmentId = attachmentId
             self.ipv6Address = ipv6Address
@@ -2757,7 +2757,7 @@ extension ECS {
         public let expression: String?
         /// The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict the selection to a group of valid candidates. The value distinctInstance is not supported in task definitions.
         public let `type`: PlacementConstraintType?
-        
+
         public init(expression: String? = nil, type: PlacementConstraintType? = nil) {
             self.expression = expression
             self.`type` = `type`
@@ -2785,7 +2785,7 @@ extension ECS {
         public let field: String?
         /// The type of placement strategy. The random placement strategy randomly places tasks on available candidates. The spread placement strategy spreads placement across available candidates evenly based on the field parameter. The binpack strategy places tasks on available candidates that have the least available amount of the resource that is specified with the field parameter. For example, if you binpack on memory, a task is placed on the instance with the least amount of remaining memory (but still enough to run the task).
         public let `type`: PlacementStrategyType?
-        
+
         public init(field: String? = nil, type: PlacementStrategyType? = nil) {
             self.field = field
             self.`type` = `type`
@@ -2814,7 +2814,7 @@ extension ECS {
         public let id: String
         /// The type of device that is available on the container instance. The only supported value is GPU.
         public let `type`: PlatformDeviceType
-        
+
         public init(id: String, type: PlatformDeviceType) {
             self.id = id
             self.`type` = `type`
@@ -2844,7 +2844,7 @@ extension ECS {
         public let hostPort: Int32?
         /// The protocol used for the port mapping. Valid values are tcp and udp. The default is tcp.
         public let `protocol`: TransportProtocol?
-        
+
         public init(containerPort: Int32? = nil, hostPort: Int32? = nil, protocol: TransportProtocol? = nil) {
             self.containerPort = containerPort
             self.hostPort = hostPort
@@ -2878,7 +2878,7 @@ extension ECS {
         public let properties: [KeyValuePair]?
         /// The proxy type. The only supported value is APPMESH.
         public let `type`: ProxyConfigurationType?
-        
+
         public init(containerName: String, properties: [KeyValuePair]? = nil, type: ProxyConfigurationType? = nil) {
             self.containerName = containerName
             self.properties = properties
@@ -2907,7 +2907,7 @@ extension ECS {
         public let name: SettingName
         /// The account setting value for the specified principal ARN. Accepted values are enabled and disabled.
         public let value: String
-        
+
         public init(name: SettingName, value: String) {
             self.name = name
             self.value = value
@@ -2925,7 +2925,7 @@ extension ECS {
         ]
 
         public let setting: Setting?
-        
+
         public init(setting: Setting? = nil) {
             self.setting = setting
         }
@@ -2948,7 +2948,7 @@ extension ECS {
         public let principalArn: String?
         /// The account setting value for the specified principal ARN. Accepted values are enabled and disabled.
         public let value: String
-        
+
         public init(name: SettingName, principalArn: String? = nil, value: String) {
             self.name = name
             self.principalArn = principalArn
@@ -2969,7 +2969,7 @@ extension ECS {
 
         /// The current account setting for a resource.
         public let setting: Setting?
-        
+
         public init(setting: Setting? = nil) {
             self.setting = setting
         }
@@ -2989,7 +2989,7 @@ extension ECS {
         public let attributes: [Attribute]
         /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to apply attributes. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
-        
+
         public init(attributes: [Attribute], cluster: String? = nil) {
             self.attributes = attributes
             self.cluster = cluster
@@ -3008,7 +3008,7 @@ extension ECS {
 
         /// The attributes applied to your resource.
         public let attributes: [Attribute]?
-        
+
         public init(attributes: [Attribute]? = nil) {
             self.attributes = attributes
         }
@@ -3049,7 +3049,7 @@ extension ECS {
         public let totalResources: [Resource]?
         /// The version information for the Amazon ECS container agent and Docker daemon running on the container instance.
         public let versionInfo: VersionInfo?
-        
+
         public init(attributes: [Attribute]? = nil, cluster: String? = nil, containerInstanceArn: String? = nil, instanceIdentityDocument: String? = nil, instanceIdentityDocumentSignature: String? = nil, platformDevices: [PlatformDevice]? = nil, tags: [Tag]? = nil, totalResources: [Resource]? = nil, versionInfo: VersionInfo? = nil) {
             self.attributes = attributes
             self.cluster = cluster
@@ -3090,7 +3090,7 @@ extension ECS {
 
         /// The container instance that was registered.
         public let containerInstance: ContainerInstance?
-        
+
         public init(containerInstance: ContainerInstance? = nil) {
             self.containerInstance = containerInstance
         }
@@ -3149,7 +3149,7 @@ extension ECS {
         public let taskRoleArn: String?
         /// A list of volume definitions in JSON format that containers in your task may use.
         public let volumes: [Volume]?
-        
+
         public init(containerDefinitions: [ContainerDefinition], cpu: String? = nil, executionRoleArn: String? = nil, family: String, ipcMode: IpcMode? = nil, memory: String? = nil, networkMode: NetworkMode? = nil, pidMode: PidMode? = nil, placementConstraints: [TaskDefinitionPlacementConstraint]? = nil, proxyConfiguration: ProxyConfiguration? = nil, requiresCompatibilities: [Compatibility]? = nil, tags: [Tag]? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
             self.containerDefinitions = containerDefinitions
             self.cpu = cpu
@@ -3203,7 +3203,7 @@ extension ECS {
         public let tags: [Tag]?
         /// The full description of the registered task definition.
         public let taskDefinition: TaskDefinition?
-        
+
         public init(tags: [Tag]? = nil, taskDefinition: TaskDefinition? = nil) {
             self.tags = tags
             self.taskDefinition = taskDefinition
@@ -3230,7 +3230,7 @@ extension ECS {
 
         /// The Amazon Resource Name (ARN) of the secret containing the private repository credentials.  When you are using the Amazon ECS API, AWS CLI, or AWS SDK, if the secret exists in the same Region as the task that you are launching then you can use either the full ARN or the name of the secret. When you are using the AWS Management Console, you must specify the full ARN of the secret. 
         public let credentialsParameter: String
-        
+
         public init(credentialsParameter: String) {
             self.credentialsParameter = credentialsParameter
         }
@@ -3262,7 +3262,7 @@ extension ECS {
         public let stringSetValue: [String]?
         /// The type of the resource, such as INTEGER, DOUBLE, LONG, or STRINGSET.
         public let `type`: String?
-        
+
         public init(doubleValue: Double? = nil, integerValue: Int32? = nil, longValue: Int64? = nil, name: String? = nil, stringSetValue: [String]? = nil, type: String? = nil) {
             self.doubleValue = doubleValue
             self.integerValue = integerValue
@@ -3292,7 +3292,7 @@ extension ECS {
         public let `type`: ResourceType
         /// The number of physical GPUs the Amazon ECS container agent will reserve for the container. The number of GPUs reserved for all containers in a task should not exceed the number of available GPUs on the container instance the task is launched on.
         public let value: String
-        
+
         public init(type: ResourceType, value: String) {
             self.`type` = `type`
             self.value = value
@@ -3355,7 +3355,7 @@ extension ECS {
         public let tags: [Tag]?
         /// The family and revision (family:revision) or full ARN of the task definition to run. If a revision is not specified, the latest ACTIVE revision is used.
         public let taskDefinition: String
-        
+
         public init(cluster: String? = nil, count: Int32? = nil, enableECSManagedTags: Bool? = nil, group: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, overrides: TaskOverride? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, startedBy: String? = nil, tags: [Tag]? = nil, taskDefinition: String) {
             self.cluster = cluster
             self.count = count
@@ -3409,7 +3409,7 @@ extension ECS {
         public let failures: [Failure]?
         /// A full description of the tasks that were run. The tasks that were successfully placed on your cluster are described here.
         public let tasks: [Task]?
-        
+
         public init(failures: [Failure]? = nil, tasks: [Task]? = nil) {
             self.failures = failures
             self.tasks = tasks
@@ -3437,7 +3437,7 @@ extension ECS {
         public let unit: ScaleUnit?
         /// The value, specified as a percent total of a service's desiredCount, to scale the task set. Accepted values are numbers between 0 and 100.
         public let value: Double?
-        
+
         public init(unit: ScaleUnit? = nil, value: Double? = nil) {
             self.unit = unit
             self.value = value
@@ -3476,7 +3476,7 @@ extension ECS {
         public let name: String
         /// The secret to expose to the container. The supported values are either the full ARN of the AWS Secrets Manager secret or the full ARN of the parameter in the AWS Systems Manager Parameter Store.  If the AWS Systems Manager Parameter Store parameter exists in the same Region as the task you are launching, then you can use either the full ARN or name of the parameter. If the parameter exists in a different Region, then the full ARN must be specified. 
         public let valueFrom: String
-        
+
         public init(name: String, valueFrom: String) {
             self.name = name
             self.valueFrom = valueFrom
@@ -3576,7 +3576,7 @@ extension ECS {
         public let taskDefinition: String?
         /// Information about a set of Amazon ECS tasks in either an AWS CodeDeploy or an EXTERNAL deployment. An Amazon ECS task set includes details such as the desired number of tasks, how many tasks are running, and whether the task set serves production traffic.
         public let taskSets: [TaskSet]?
-        
+
         public init(clusterArn: String? = nil, createdAt: TimeStamp? = nil, createdBy: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, deployments: [Deployment]? = nil, desiredCount: Int32? = nil, enableECSManagedTags: Bool? = nil, events: [ServiceEvent]? = nil, healthCheckGracePeriodSeconds: Int32? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int32? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, roleArn: String? = nil, runningCount: Int32? = nil, schedulingStrategy: SchedulingStrategy? = nil, serviceArn: String? = nil, serviceName: String? = nil, serviceRegistries: [ServiceRegistry]? = nil, status: String? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil, taskSets: [TaskSet]? = nil) {
             self.clusterArn = clusterArn
             self.createdAt = createdAt
@@ -3661,7 +3661,7 @@ extension ECS {
         public let id: String?
         /// The event message.
         public let message: String?
-        
+
         public init(createdAt: TimeStamp? = nil, id: String? = nil, message: String? = nil) {
             self.createdAt = createdAt
             self.id = id
@@ -3696,7 +3696,7 @@ extension ECS {
         public let port: Int32?
         /// The Amazon Resource Name (ARN) of the service registry. The currently supported service registry is AWS Cloud Map. For more information, see CreateService.
         public let registryArn: String?
-        
+
         public init(containerName: String? = nil, containerPort: Int32? = nil, port: Int32? = nil, registryArn: String? = nil) {
             self.containerName = containerName
             self.containerPort = containerPort
@@ -3725,7 +3725,7 @@ extension ECS {
         public let principalArn: String?
         /// The current account setting for the resource name. If enabled, the resource receives the new Amazon Resource Name (ARN) and resource identifier (ID) format. If disabled, the resource receives the old Amazon Resource Name (ARN) and resource identifier (ID) format.
         public let value: String?
-        
+
         public init(name: SettingName? = nil, principalArn: String? = nil, value: String? = nil) {
             self.name = name
             self.principalArn = principalArn
@@ -3793,7 +3793,7 @@ extension ECS {
         public let tags: [Tag]?
         /// The family and revision (family:revision) or full ARN of the task definition to start. If a revision is not specified, the latest ACTIVE revision is used.
         public let taskDefinition: String
-        
+
         public init(cluster: String? = nil, containerInstances: [String], enableECSManagedTags: Bool? = nil, group: String? = nil, networkConfiguration: NetworkConfiguration? = nil, overrides: TaskOverride? = nil, propagateTags: PropagateTags? = nil, startedBy: String? = nil, tags: [Tag]? = nil, taskDefinition: String) {
             self.cluster = cluster
             self.containerInstances = containerInstances
@@ -3839,7 +3839,7 @@ extension ECS {
         public let failures: [Failure]?
         /// A full description of the tasks that were started. Each task that was successfully placed on your container instances is described.
         public let tasks: [Task]?
-        
+
         public init(failures: [Failure]? = nil, tasks: [Task]? = nil) {
             self.failures = failures
             self.tasks = tasks
@@ -3870,7 +3870,7 @@ extension ECS {
         public let reason: String?
         /// The task ID or full Amazon Resource Name (ARN) of the task to stop.
         public let task: String
-        
+
         public init(cluster: String? = nil, reason: String? = nil, task: String) {
             self.cluster = cluster
             self.reason = reason
@@ -3891,7 +3891,7 @@ extension ECS {
 
         /// The task that was stopped.
         public let task: Task?
-        
+
         public init(task: Task? = nil) {
             self.task = task
         }
@@ -3915,7 +3915,7 @@ extension ECS {
         public let attachments: [AttachmentStateChange]
         /// The short name or full ARN of the cluster that hosts the container instance the attachment belongs to.
         public let cluster: String?
-        
+
         public init(attachments: [AttachmentStateChange], cluster: String? = nil) {
             self.attachments = attachments
             self.cluster = cluster
@@ -3934,7 +3934,7 @@ extension ECS {
 
         /// Acknowledgement of the state change.
         public let acknowledgment: String?
-        
+
         public init(acknowledgment: String? = nil) {
             self.acknowledgment = acknowledgment
         }
@@ -3969,7 +3969,7 @@ extension ECS {
         public let status: String?
         /// The task ID or full Amazon Resource Name (ARN) of the task that hosts the container.
         public let task: String?
-        
+
         public init(cluster: String? = nil, containerName: String? = nil, exitCode: Int32? = nil, networkBindings: [NetworkBinding]? = nil, reason: String? = nil, status: String? = nil, task: String? = nil) {
             self.cluster = cluster
             self.containerName = containerName
@@ -3998,7 +3998,7 @@ extension ECS {
 
         /// Acknowledgement of the state change.
         public let acknowledgment: String?
-        
+
         public init(acknowledgment: String? = nil) {
             self.acknowledgment = acknowledgment
         }
@@ -4039,7 +4039,7 @@ extension ECS {
         public let status: String?
         /// The task ID or full ARN of the task in the state change request.
         public let task: String?
-        
+
         public init(attachments: [AttachmentStateChange]? = nil, cluster: String? = nil, containers: [ContainerStateChange]? = nil, executionStoppedAt: TimeStamp? = nil, pullStartedAt: TimeStamp? = nil, pullStoppedAt: TimeStamp? = nil, reason: String? = nil, status: String? = nil, task: String? = nil) {
             self.attachments = attachments
             self.cluster = cluster
@@ -4072,7 +4072,7 @@ extension ECS {
 
         /// Acknowledgement of the state change.
         public let acknowledgment: String?
-        
+
         public init(acknowledgment: String? = nil) {
             self.acknowledgment = acknowledgment
         }
@@ -4092,7 +4092,7 @@ extension ECS {
         public let namespace: String?
         /// The value for the namespaced kernel parameter specified in namespace.
         public let value: String?
-        
+
         public init(namespace: String? = nil, value: String? = nil) {
             self.namespace = namespace
             self.value = value
@@ -4114,7 +4114,7 @@ extension ECS {
         public let key: String?
         /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -4145,7 +4145,7 @@ extension ECS {
         public let resourceArn: String
         /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [Tag]
-        
+
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -4166,11 +4166,12 @@ extension ECS {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum TargetType: String, CustomStringConvertible, Codable {
         case containerInstance = "container-instance"
@@ -4268,7 +4269,7 @@ extension ECS {
         public let taskDefinitionArn: String?
         /// The version counter for the task. Every time a task experiences a change that triggers a CloudWatch event, the version counter is incremented. If you are replicating your Amazon ECS task state with CloudWatch Events, you can compare the version of a task reported by the Amazon ECS API actionss with the version reported in CloudWatch Events for the task (inside the detail object) to verify that the version in your event stream is current.
         public let version: Int64?
-        
+
         public init(attachments: [Attachment]? = nil, clusterArn: String? = nil, connectivity: Connectivity? = nil, connectivityAt: TimeStamp? = nil, containerInstanceArn: String? = nil, containers: [Container]? = nil, cpu: String? = nil, createdAt: TimeStamp? = nil, desiredStatus: String? = nil, executionStoppedAt: TimeStamp? = nil, group: String? = nil, healthStatus: HealthStatus? = nil, lastStatus: String? = nil, launchType: LaunchType? = nil, memory: String? = nil, overrides: TaskOverride? = nil, platformVersion: String? = nil, pullStartedAt: TimeStamp? = nil, pullStoppedAt: TimeStamp? = nil, startedAt: TimeStamp? = nil, startedBy: String? = nil, stopCode: TaskStopCode? = nil, stoppedAt: TimeStamp? = nil, stoppedReason: String? = nil, stoppingAt: TimeStamp? = nil, tags: [Tag]? = nil, taskArn: String? = nil, taskDefinitionArn: String? = nil, version: Int64? = nil) {
             self.attachments = attachments
             self.clusterArn = clusterArn
@@ -4400,7 +4401,7 @@ extension ECS {
         public let taskRoleArn: String?
         /// The list of volume definitions for the task. If your tasks are using the Fargate launch type, the host and sourcePath parameters are not supported. For more information about volume definition parameters and defaults, see Amazon ECS Task Definitions in the Amazon Elastic Container Service Developer Guide.
         public let volumes: [Volume]?
-        
+
         public init(compatibilities: [Compatibility]? = nil, containerDefinitions: [ContainerDefinition]? = nil, cpu: String? = nil, executionRoleArn: String? = nil, family: String? = nil, ipcMode: IpcMode? = nil, memory: String? = nil, networkMode: NetworkMode? = nil, pidMode: PidMode? = nil, placementConstraints: [TaskDefinitionPlacementConstraint]? = nil, proxyConfiguration: ProxyConfiguration? = nil, requiresAttributes: [Attribute]? = nil, requiresCompatibilities: [Compatibility]? = nil, revision: Int32? = nil, status: TaskDefinitionStatus? = nil, taskDefinitionArn: String? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
             self.compatibilities = compatibilities
             self.containerDefinitions = containerDefinitions
@@ -4466,7 +4467,7 @@ extension ECS {
         public let expression: String?
         /// The type of constraint. The DistinctInstance constraint ensures that each task in a particular group is running on a different container instance. The MemberOf constraint restricts selection to be from a group of valid candidates.
         public let `type`: TaskDefinitionPlacementConstraintType?
-        
+
         public init(expression: String? = nil, type: TaskDefinitionPlacementConstraintType? = nil) {
             self.expression = expression
             self.`type` = `type`
@@ -4507,7 +4508,7 @@ extension ECS {
         public let executionRoleArn: String?
         /// The Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. All containers in this task are granted the permissions that are specified in this role.
         public let taskRoleArn: String?
-        
+
         public init(containerOverrides: [ContainerOverride]? = nil, executionRoleArn: String? = nil, taskRoleArn: String? = nil) {
             self.containerOverrides = containerOverrides
             self.executionRoleArn = executionRoleArn
@@ -4588,7 +4589,7 @@ extension ECS {
         public let taskSetArn: String?
         /// The Unix timestamp for when the task set was last updated.
         public let updatedAt: TimeStamp?
-        
+
         public init(clusterArn: String? = nil, computedDesiredCount: Int32? = nil, createdAt: TimeStamp? = nil, externalId: String? = nil, id: String? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int32? = nil, platformVersion: String? = nil, runningCount: Int32? = nil, scale: Scale? = nil, serviceArn: String? = nil, serviceRegistries: [ServiceRegistry]? = nil, stabilityStatus: StabilityStatus? = nil, stabilityStatusAt: TimeStamp? = nil, startedBy: String? = nil, status: String? = nil, taskDefinition: String? = nil, taskSetArn: String? = nil, updatedAt: TimeStamp? = nil) {
             self.clusterArn = clusterArn
             self.computedDesiredCount = computedDesiredCount
@@ -4658,7 +4659,7 @@ extension ECS {
         public let mountOptions: [String]?
         /// The size (in MiB) of the tmpfs volume.
         public let size: Int32
-        
+
         public init(containerPath: String, mountOptions: [String]? = nil, size: Int32) {
             self.containerPath = containerPath
             self.mountOptions = mountOptions
@@ -4691,7 +4692,7 @@ extension ECS {
         public let name: UlimitName
         /// The soft limit for the ulimit type.
         public let softLimit: Int32
-        
+
         public init(hardLimit: Int32, name: UlimitName, softLimit: Int32) {
             self.hardLimit = hardLimit
             self.name = name
@@ -4734,7 +4735,7 @@ extension ECS {
         public let resourceArn: String
         /// The keys of the tags to be removed.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -4755,11 +4756,12 @@ extension ECS {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateContainerAgentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -4771,7 +4773,7 @@ extension ECS {
         public let cluster: String?
         /// The container instance ID or full ARN entries for the container instance on which you would like to update the Amazon ECS container agent.
         public let containerInstance: String
-        
+
         public init(cluster: String? = nil, containerInstance: String) {
             self.cluster = cluster
             self.containerInstance = containerInstance
@@ -4790,7 +4792,7 @@ extension ECS {
 
         /// The container instance for which the container agent was updated.
         public let containerInstance: ContainerInstance?
-        
+
         public init(containerInstance: ContainerInstance? = nil) {
             self.containerInstance = containerInstance
         }
@@ -4817,7 +4819,7 @@ extension ECS {
         public let containerInstances: [String]
         /// The container instance state with which to update the container instance. The only valid values for this action are ACTIVE and DRAINING. A container instance can only be updated to DRAINING status once it has reached an ACTIVE state. If a container instance is in REGISTERING, DEREGISTERING, or REGISTRATION_FAILED state you can describe the container instance but will be unable to update the container instance state.
         public let status: ContainerInstanceStatus
-        
+
         public init(cluster: String? = nil, containerInstances: [String], status: ContainerInstanceStatus) {
             self.cluster = cluster
             self.containerInstances = containerInstances
@@ -4841,7 +4843,7 @@ extension ECS {
         public let containerInstances: [ContainerInstance]?
         /// Any failures associated with the call.
         public let failures: [Failure]?
-        
+
         public init(containerInstances: [ContainerInstance]? = nil, failures: [Failure]? = nil) {
             self.containerInstances = containerInstances
             self.failures = failures
@@ -4872,7 +4874,7 @@ extension ECS {
         public let primaryTaskSet: String
         /// The short name or full Amazon Resource Name (ARN) of the service that the task set exists in.
         public let service: String
-        
+
         public init(cluster: String, primaryTaskSet: String, service: String) {
             self.cluster = cluster
             self.primaryTaskSet = primaryTaskSet
@@ -4892,7 +4894,7 @@ extension ECS {
         ]
 
         public let taskSet: TaskSet?
-        
+
         public init(taskSet: TaskSet? = nil) {
             self.taskSet = taskSet
         }
@@ -4933,7 +4935,7 @@ extension ECS {
         public let service: String
         /// The family and revision (family:revision) or full ARN of the task definition to run in your service. If a revision is not specified, the latest ACTIVE revision is used. If you modify the task definition with UpdateService, Amazon ECS spawns a task with the new version of the task definition and then stops an old task after the new version is running.
         public let taskDefinition: String?
-        
+
         public init(cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, desiredCount: Int32? = nil, forceNewDeployment: Bool? = nil, healthCheckGracePeriodSeconds: Int32? = nil, networkConfiguration: NetworkConfiguration? = nil, platformVersion: String? = nil, service: String, taskDefinition: String? = nil) {
             self.cluster = cluster
             self.deploymentConfiguration = deploymentConfiguration
@@ -4966,7 +4968,7 @@ extension ECS {
 
         /// The full description of your service following the update call.
         public let service: Service?
-        
+
         public init(service: Service? = nil) {
             self.service = service
         }
@@ -4995,7 +4997,7 @@ extension ECS {
         public let service: String
         /// The short name or full Amazon Resource Name (ARN) of the task set to update.
         public let taskSet: String
-        
+
         public init(cluster: String, scale: Scale, service: String, taskSet: String) {
             self.cluster = cluster
             self.scale = scale
@@ -5017,7 +5019,7 @@ extension ECS {
         ]
 
         public let taskSet: TaskSet?
-        
+
         public init(taskSet: TaskSet? = nil) {
             self.taskSet = taskSet
         }
@@ -5040,7 +5042,7 @@ extension ECS {
         public let agentVersion: String?
         /// The Docker version running on the container instance.
         public let dockerVersion: String?
-        
+
         public init(agentHash: String? = nil, agentVersion: String? = nil, dockerVersion: String? = nil) {
             self.agentHash = agentHash
             self.agentVersion = agentVersion
@@ -5067,7 +5069,7 @@ extension ECS {
         public let host: HostVolumeProperties?
         /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, and hyphens are allowed. This name is referenced in the sourceVolume parameter of container definition mountPoints.
         public let name: String?
-        
+
         public init(dockerVolumeConfiguration: DockerVolumeConfiguration? = nil, host: HostVolumeProperties? = nil, name: String? = nil) {
             self.dockerVolumeConfiguration = dockerVolumeConfiguration
             self.host = host
@@ -5091,7 +5093,7 @@ extension ECS {
         public let readOnly: Bool?
         /// The name of another container within the same task definition from which to mount volumes.
         public let sourceContainer: String?
-        
+
         public init(readOnly: Bool? = nil, sourceContainer: String? = nil) {
             self.readOnly = readOnly
             self.sourceContainer = sourceContainer
@@ -5102,5 +5104,4 @@ extension ECS {
             case sourceContainer = "sourceContainer"
         }
     }
-
 }

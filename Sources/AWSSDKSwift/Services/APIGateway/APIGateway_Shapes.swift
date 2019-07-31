@@ -15,7 +15,7 @@ extension APIGateway {
         public let destinationArn: String?
         /// A single line format of the access logs of data, as specified by selected $context variables. The format must include at least $context.requestId.
         public let format: String?
-        
+
         public init(destinationArn: String? = nil, format: String? = nil) {
             self.destinationArn = destinationArn
             self.format = format
@@ -43,7 +43,7 @@ extension APIGateway {
         public let features: [String]?
         /// Specifies the API request limits configured for the current Account.
         public let throttleSettings: ThrottleSettings?
-        
+
         public init(apiKeyVersion: String? = nil, cloudwatchRoleArn: String? = nil, features: [String]? = nil, throttleSettings: ThrottleSettings? = nil) {
             self.apiKeyVersion = apiKeyVersion
             self.cloudwatchRoleArn = cloudwatchRoleArn
@@ -93,7 +93,7 @@ extension APIGateway {
         public let tags: [String: String]?
         /// The value of the API Key.
         public let value: String?
-        
+
         public init(createdDate: TimeStamp? = nil, customerId: String? = nil, description: String? = nil, enabled: Bool? = nil, id: String? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, stageKeys: [String]? = nil, tags: [String: String]? = nil, value: String? = nil) {
             self.createdDate = createdDate
             self.customerId = customerId
@@ -131,7 +131,7 @@ extension APIGateway {
         public let ids: [String]?
         /// A list of warning messages.
         public let warnings: [String]?
-        
+
         public init(ids: [String]? = nil, warnings: [String]? = nil) {
             self.ids = ids
             self.warnings = warnings
@@ -161,7 +161,7 @@ extension APIGateway {
         public let position: String?
         /// A list of warning messages logged during the import of API keys when the failOnWarnings option is set to true.
         public let warnings: [String]?
-        
+
         public init(items: [ApiKey]? = nil, position: String? = nil, warnings: [String]? = nil) {
             self.items = items
             self.position = position
@@ -193,7 +193,7 @@ extension APIGateway {
         public let stage: String?
         /// Map containing method level throttling information for API stage in a usage plan.
         public let throttle: [String: ThrottleSettings]?
-        
+
         public init(apiId: String? = nil, stage: String? = nil, throttle: [String: ThrottleSettings]? = nil) {
             self.apiId = apiId
             self.stage = stage
@@ -241,7 +241,7 @@ extension APIGateway {
         public let providerARNs: [String]?
         /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.
         public let `type`: AuthorizerType?
-        
+
         public init(authorizerCredentials: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerUri: String? = nil, authType: String? = nil, id: String? = nil, identitySource: String? = nil, identityValidationExpression: String? = nil, name: String? = nil, providerARNs: [String]? = nil, type: AuthorizerType? = nil) {
             self.authorizerCredentials = authorizerCredentials
             self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
@@ -285,7 +285,7 @@ extension APIGateway {
         /// The current page of elements from this collection.
         public let items: [Authorizer]?
         public let position: String?
-        
+
         public init(items: [Authorizer]? = nil, position: String? = nil) {
             self.items = items
             self.position = position
@@ -310,7 +310,7 @@ extension APIGateway {
         public let restApiId: String?
         /// The name of the associated stage.
         public let stage: String?
-        
+
         public init(basePath: String? = nil, restApiId: String? = nil, stage: String? = nil) {
             self.basePath = basePath
             self.restApiId = restApiId
@@ -333,7 +333,7 @@ extension APIGateway {
         /// The current page of elements from this collection.
         public let items: [BasePathMapping]?
         public let position: String?
-        
+
         public init(items: [BasePathMapping]? = nil, position: String? = nil) {
             self.items = items
             self.position = position
@@ -382,7 +382,7 @@ extension APIGateway {
         public let stageVariableOverrides: [String: String]?
         /// A Boolean flag to indicate whether the canary deployment uses the stage cache or not.
         public let useStageCache: Bool?
-        
+
         public init(deploymentId: String? = nil, percentTraffic: Double? = nil, stageVariableOverrides: [String: String]? = nil, useStageCache: Bool? = nil) {
             self.deploymentId = deploymentId
             self.percentTraffic = percentTraffic
@@ -420,7 +420,7 @@ extension APIGateway {
         public let pemEncodedCertificate: String?
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
-        
+
         public init(clientCertificateId: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, pemEncodedCertificate: String? = nil, tags: [String: String]? = nil) {
             self.clientCertificateId = clientCertificateId
             self.createdDate = createdDate
@@ -449,7 +449,7 @@ extension APIGateway {
         /// The current page of elements from this collection.
         public let items: [ClientCertificate]?
         public let position: String?
-        
+
         public init(items: [ClientCertificate]? = nil, position: String? = nil) {
             self.items = items
             self.position = position
@@ -501,7 +501,7 @@ extension APIGateway {
         public let tags: [String: String]?
         /// Specifies a value of the API key.
         public let value: String?
-        
+
         public init(customerId: String? = nil, description: String? = nil, enabled: Bool? = nil, generateDistinctId: Bool? = nil, name: String? = nil, stageKeys: [StageKey]? = nil, tags: [String: String]? = nil, value: String? = nil) {
             self.customerId = customerId
             self.description = description
@@ -559,7 +559,7 @@ extension APIGateway {
         public let restApiId: String
         /// [Required] The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.
         public let `type`: AuthorizerType
-        
+
         public init(authorizerCredentials: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerUri: String? = nil, authType: String? = nil, identitySource: String? = nil, identityValidationExpression: String? = nil, name: String, providerARNs: [String]? = nil, restApiId: String, type: AuthorizerType) {
             self.authorizerCredentials = authorizerCredentials
             self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
@@ -603,7 +603,7 @@ extension APIGateway {
         public let restApiId: String
         /// The name of the API's stage that you want to use for this mapping. Specify '(none)' if you do not want callers to explicitly specify the stage name after any base path name.
         public let stage: String?
-        
+
         public init(basePath: String? = nil, domainName: String, restApiId: String, stage: String? = nil) {
             self.basePath = basePath
             self.domainName = domainName
@@ -650,7 +650,7 @@ extension APIGateway {
         public let tracingEnabled: Bool?
         /// A map that defines the stage variables for the Stage resource that is associated with the new deployment. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
         public let variables: [String: String]?
-        
+
         public init(cacheClusterEnabled: Bool? = nil, cacheClusterSize: CacheClusterSize? = nil, canarySettings: DeploymentCanarySettings? = nil, description: String? = nil, restApiId: String, stageDescription: String? = nil, stageName: String? = nil, tracingEnabled: Bool? = nil, variables: [String: String]? = nil) {
             self.cacheClusterEnabled = cacheClusterEnabled
             self.cacheClusterSize = cacheClusterSize
@@ -689,7 +689,7 @@ extension APIGateway {
         public let properties: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(location: DocumentationPartLocation, properties: String, restApiId: String) {
             self.location = location
             self.properties = properties
@@ -723,7 +723,7 @@ extension APIGateway {
         public let restApiId: String
         /// The stage name to be associated with the new documentation snapshot.
         public let stageName: String?
-        
+
         public init(description: String? = nil, documentationVersion: String, restApiId: String, stageName: String? = nil) {
             self.description = description
             self.documentationVersion = documentationVersion
@@ -776,7 +776,7 @@ extension APIGateway {
         public let securityPolicy: SecurityPolicy?
         /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
         public let tags: [String: String]?
-        
+
         public init(certificateArn: String? = nil, certificateBody: String? = nil, certificateChain: String? = nil, certificateName: String? = nil, certificatePrivateKey: String? = nil, domainName: String, endpointConfiguration: EndpointConfiguration? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
             self.certificateArn = certificateArn
             self.certificateBody = certificateBody
@@ -825,7 +825,7 @@ extension APIGateway {
         public let restApiId: String
         /// The schema for the model. For application/json models, this should be JSON schema draft 4 model.
         public let schema: String?
-        
+
         public init(contentType: String, description: String? = nil, name: String, restApiId: String, schema: String? = nil) {
             self.contentType = contentType
             self.description = description
@@ -859,7 +859,7 @@ extension APIGateway {
         public let validateRequestBody: Bool?
         /// A Boolean flag to indicate whether to validate request parameters, true, or not false.
         public let validateRequestParameters: Bool?
-        
+
         public init(name: String? = nil, restApiId: String, validateRequestBody: Bool? = nil, validateRequestParameters: Bool? = nil) {
             self.name = name
             self.restApiId = restApiId
@@ -888,7 +888,7 @@ extension APIGateway {
         public let pathPart: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(parentId: String, pathPart: String, restApiId: String) {
             self.parentId = parentId
             self.pathPart = pathPart
@@ -936,7 +936,7 @@ extension APIGateway {
         public let tags: [String: String]?
         /// A version identifier for the API.
         public let version: String?
-        
+
         public init(apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, cloneFrom: String? = nil, description: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, minimumCompressionSize: Int32? = nil, name: String, policy: String? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.apiKeySource = apiKeySource
             self.binaryMediaTypes = binaryMediaTypes
@@ -1001,7 +1001,7 @@ extension APIGateway {
         public let tracingEnabled: Bool?
         /// A map that defines the stage variables for the new Stage resource. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
         public let variables: [String: String]?
-        
+
         public init(cacheClusterEnabled: Bool? = nil, cacheClusterSize: CacheClusterSize? = nil, canarySettings: CanarySettings? = nil, deploymentId: String, description: String? = nil, documentationVersion: String? = nil, restApiId: String, stageName: String, tags: [String: String]? = nil, tracingEnabled: Bool? = nil, variables: [String: String]? = nil) {
             self.cacheClusterEnabled = cacheClusterEnabled
             self.cacheClusterSize = cacheClusterSize
@@ -1044,7 +1044,7 @@ extension APIGateway {
         public let keyType: String
         /// [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-created UsagePlanKey resource representing a plan customer.
         public let usagePlanId: String
-        
+
         public init(keyId: String, keyType: String, usagePlanId: String) {
             self.keyId = keyId
             self.keyType = keyType
@@ -1080,7 +1080,7 @@ extension APIGateway {
         public let tags: [String: String]?
         /// The throttling limits of the usage plan.
         public let throttle: ThrottleSettings?
-        
+
         public init(apiStages: [ApiStage]? = nil, description: String? = nil, name: String, quota: QuotaSettings? = nil, tags: [String: String]? = nil, throttle: ThrottleSettings? = nil) {
             self.apiStages = apiStages
             self.description = description
@@ -1116,7 +1116,7 @@ extension APIGateway {
         public let tags: [String: String]?
         /// [Required] The ARNs of network load balancers of the VPC targeted by the VPC link. The network load balancers must be owned by the same AWS account of the API owner.
         public let targetArns: [String]
-        
+
         public init(description: String? = nil, name: String, tags: [String: String]? = nil, targetArns: [String]) {
             self.description = description
             self.name = name
@@ -1139,7 +1139,7 @@ extension APIGateway {
 
         /// [Required] The identifier of the ApiKey resource to be deleted.
         public let apiKey: String
-        
+
         public init(apiKey: String) {
             self.apiKey = apiKey
         }
@@ -1159,7 +1159,7 @@ extension APIGateway {
         public let authorizerId: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(authorizerId: String, restApiId: String) {
             self.authorizerId = authorizerId
             self.restApiId = restApiId
@@ -1181,7 +1181,7 @@ extension APIGateway {
         public let basePath: String
         /// [Required] The domain name of the BasePathMapping resource to delete.
         public let domainName: String
-        
+
         public init(basePath: String, domainName: String) {
             self.basePath = basePath
             self.domainName = domainName
@@ -1200,7 +1200,7 @@ extension APIGateway {
 
         /// [Required] The identifier of the ClientCertificate resource to be deleted.
         public let clientCertificateId: String
-        
+
         public init(clientCertificateId: String) {
             self.clientCertificateId = clientCertificateId
         }
@@ -1220,7 +1220,7 @@ extension APIGateway {
         public let deploymentId: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(deploymentId: String, restApiId: String) {
             self.deploymentId = deploymentId
             self.restApiId = restApiId
@@ -1242,7 +1242,7 @@ extension APIGateway {
         public let documentationPartId: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(documentationPartId: String, restApiId: String) {
             self.documentationPartId = documentationPartId
             self.restApiId = restApiId
@@ -1264,7 +1264,7 @@ extension APIGateway {
         public let documentationVersion: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(documentationVersion: String, restApiId: String) {
             self.documentationVersion = documentationVersion
             self.restApiId = restApiId
@@ -1283,7 +1283,7 @@ extension APIGateway {
 
         /// [Required] The name of the DomainName resource to be deleted.
         public let domainName: String
-        
+
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -1303,7 +1303,7 @@ extension APIGateway {
         public let responseType: GatewayResponseType
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(responseType: GatewayResponseType, restApiId: String) {
             self.responseType = responseType
             self.restApiId = restApiId
@@ -1328,7 +1328,7 @@ extension APIGateway {
         public let resourceId: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(httpMethod: String, resourceId: String, restApiId: String) {
             self.httpMethod = httpMethod
             self.resourceId = resourceId
@@ -1358,7 +1358,7 @@ extension APIGateway {
         public let restApiId: String
         /// [Required] Specifies a delete integration response request's status code.
         public let statusCode: String
-        
+
         public init(httpMethod: String, resourceId: String, restApiId: String, statusCode: String) {
             self.httpMethod = httpMethod
             self.resourceId = resourceId
@@ -1391,7 +1391,7 @@ extension APIGateway {
         public let resourceId: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(httpMethod: String, resourceId: String, restApiId: String) {
             self.httpMethod = httpMethod
             self.resourceId = resourceId
@@ -1421,7 +1421,7 @@ extension APIGateway {
         public let restApiId: String
         /// [Required] The status code identifier for the MethodResponse resource.
         public let statusCode: String
-        
+
         public init(httpMethod: String, resourceId: String, restApiId: String, statusCode: String) {
             self.httpMethod = httpMethod
             self.resourceId = resourceId
@@ -1451,7 +1451,7 @@ extension APIGateway {
         public let modelName: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(modelName: String, restApiId: String) {
             self.modelName = modelName
             self.restApiId = restApiId
@@ -1473,7 +1473,7 @@ extension APIGateway {
         public let requestValidatorId: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(requestValidatorId: String, restApiId: String) {
             self.requestValidatorId = requestValidatorId
             self.restApiId = restApiId
@@ -1495,7 +1495,7 @@ extension APIGateway {
         public let resourceId: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(resourceId: String, restApiId: String) {
             self.resourceId = resourceId
             self.restApiId = restApiId
@@ -1514,7 +1514,7 @@ extension APIGateway {
 
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(restApiId: String) {
             self.restApiId = restApiId
         }
@@ -1534,7 +1534,7 @@ extension APIGateway {
         public let restApiId: String
         /// [Required] The name of the Stage resource to delete.
         public let stageName: String
-        
+
         public init(restApiId: String, stageName: String) {
             self.restApiId = restApiId
             self.stageName = stageName
@@ -1556,7 +1556,7 @@ extension APIGateway {
         public let keyId: String
         /// [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-deleted UsagePlanKey resource representing a plan customer.
         public let usagePlanId: String
-        
+
         public init(keyId: String, usagePlanId: String) {
             self.keyId = keyId
             self.usagePlanId = usagePlanId
@@ -1575,7 +1575,7 @@ extension APIGateway {
 
         /// [Required] The Id of the to-be-deleted usage plan.
         public let usagePlanId: String
-        
+
         public init(usagePlanId: String) {
             self.usagePlanId = usagePlanId
         }
@@ -1592,7 +1592,7 @@ extension APIGateway {
 
         /// [Required] The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
         public let vpcLinkId: String
-        
+
         public init(vpcLinkId: String) {
             self.vpcLinkId = vpcLinkId
         }
@@ -1618,7 +1618,7 @@ extension APIGateway {
         public let description: String?
         /// The identifier for the deployment resource.
         public let id: String?
-        
+
         public init(apiSummary: [String: [String: MethodSnapshot]]? = nil, createdDate: TimeStamp? = nil, description: String? = nil, id: String? = nil) {
             self.apiSummary = apiSummary
             self.createdDate = createdDate
@@ -1647,7 +1647,7 @@ extension APIGateway {
         public let stageVariableOverrides: [String: String]?
         /// A Boolean flag to indicate whether the canary release deployment uses the stage cache or not.
         public let useStageCache: Bool?
-        
+
         public init(percentTraffic: Double? = nil, stageVariableOverrides: [String: String]? = nil, useStageCache: Bool? = nil) {
             self.percentTraffic = percentTraffic
             self.stageVariableOverrides = stageVariableOverrides
@@ -1670,7 +1670,7 @@ extension APIGateway {
         /// The current page of elements from this collection.
         public let items: [Deployment]?
         public let position: String?
-        
+
         public init(items: [Deployment]? = nil, position: String? = nil) {
             self.items = items
             self.position = position
@@ -1695,7 +1695,7 @@ extension APIGateway {
         public let location: DocumentationPartLocation?
         /// A content map of API-specific key-value pairs describing the targeted API entity. The map must be encoded as a JSON string, e.g., "{ \"description\": \"The API does ...\" }". Only OpenAPI-compliant documentation-related fields from the properties map are exported and, hence, published as part of the API entity definitions, while the original documentation parts are exported in a OpenAPI extension of x-amazon-apigateway-documentation.
         public let properties: String?
-        
+
         public init(id: String? = nil, location: DocumentationPartLocation? = nil, properties: String? = nil) {
             self.id = id
             self.location = location
@@ -1723,7 +1723,7 @@ extension APIGateway {
         public let ids: [String]?
         /// A list of warning messages reported during import of documentation parts.
         public let warnings: [String]?
-        
+
         public init(ids: [String]? = nil, warnings: [String]? = nil) {
             self.ids = ids
             self.warnings = warnings
@@ -1754,7 +1754,7 @@ extension APIGateway {
         public let statusCode: String?
         /// [Required] The type of API entity to which the documentation content applies. Valid values are API, AUTHORIZER, MODEL, RESOURCE, METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. Content inheritance does not apply to any entity of the API, AUTHORIZER, METHOD, MODEL, REQUEST_BODY, or RESOURCE type.
         public let `type`: DocumentationPartType
-        
+
         public init(method: String? = nil, name: String? = nil, path: String? = nil, statusCode: String? = nil, type: DocumentationPartType) {
             self.method = method
             self.name = name
@@ -1801,7 +1801,7 @@ extension APIGateway {
         /// The current page of elements from this collection.
         public let items: [DocumentationPart]?
         public let position: String?
-        
+
         public init(items: [DocumentationPart]? = nil, position: String? = nil) {
             self.items = items
             self.position = position
@@ -1832,7 +1832,7 @@ extension APIGateway {
         public let description: String?
         /// The version identifier of the API documentation snapshot.
         public let version: String?
-        
+
         public init(createdDate: TimeStamp? = nil, description: String? = nil, version: String? = nil) {
             self.createdDate = createdDate
             self.description = description
@@ -1855,7 +1855,7 @@ extension APIGateway {
         /// The current page of elements from this collection.
         public let items: [DocumentationVersion]?
         public let position: String?
-        
+
         public init(items: [DocumentationVersion]? = nil, position: String? = nil) {
             self.items = items
             self.position = position
@@ -1916,7 +1916,7 @@ extension APIGateway {
         public let securityPolicy: SecurityPolicy?
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
-        
+
         public init(certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: TimeStamp? = nil, distributionDomainName: String? = nil, distributionHostedZoneId: String? = nil, domainName: String? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, regionalDomainName: String? = nil, regionalHostedZoneId: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
             self.certificateArn = certificateArn
             self.certificateName = certificateName
@@ -1970,7 +1970,7 @@ extension APIGateway {
         /// The current page of elements from this collection.
         public let items: [DomainName]?
         public let position: String?
-        
+
         public init(items: [DomainName]? = nil, position: String? = nil) {
             self.items = items
             self.position = position
@@ -1989,7 +1989,7 @@ extension APIGateway {
 
         /// A list of endpoint types of an API (RestApi) or its custom domain name (DomainName). For an edge-optimized API and its custom domain name, the endpoint type is "EDGE". For a regional API and its custom domain name, the endpoint type is REGIONAL. For a private API, the endpoint type is PRIVATE.
         public let types: [EndpointType]?
-        
+
         public init(types: [EndpointType]? = nil) {
             self.types = types
         }
@@ -2021,7 +2021,7 @@ extension APIGateway {
         public let contentDisposition: String?
         /// The content-type header value in the HTTP response. This will correspond to a valid 'accept' type in the request.
         public let contentType: String?
-        
+
         public init(body: Data? = nil, contentDisposition: String? = nil, contentType: String? = nil) {
             self.body = body
             self.contentDisposition = contentDisposition
@@ -2045,7 +2045,7 @@ extension APIGateway {
         public let restApiId: String
         /// The name of the stage to flush.
         public let stageName: String
-        
+
         public init(restApiId: String, stageName: String) {
             self.restApiId = restApiId
             self.stageName = stageName
@@ -2067,7 +2067,7 @@ extension APIGateway {
         public let restApiId: String
         /// [Required] The name of the stage to flush its cache.
         public let stageName: String
-        
+
         public init(restApiId: String, stageName: String) {
             self.restApiId = restApiId
             self.stageName = stageName
@@ -2098,7 +2098,7 @@ extension APIGateway {
         public let responseType: GatewayResponseType?
         /// The HTTP status code for this GatewayResponse.
         public let statusCode: String?
-        
+
         public init(defaultResponse: Bool? = nil, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, responseType: GatewayResponseType? = nil, statusCode: String? = nil) {
             self.defaultResponse = defaultResponse
             self.responseParameters = responseParameters
@@ -2153,7 +2153,7 @@ extension APIGateway {
         /// Returns the entire collection, because of no pagination support.
         public let items: [GatewayResponse]?
         public let position: String?
-        
+
         public init(items: [GatewayResponse]? = nil, position: String? = nil) {
             self.items = items
             self.position = position
@@ -2181,7 +2181,7 @@ extension APIGateway {
         public let description: String?
         /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
         public let tags: [String: String]?
-        
+
         public init(description: String? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.tags = tags
@@ -2194,11 +2194,12 @@ extension APIGateway {
     }
 
     public struct GetAccountRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetApiKeyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2210,7 +2211,7 @@ extension APIGateway {
         public let apiKey: String
         /// A boolean flag to specify whether (true) or not (false) the result contains the key value.
         public let includeValue: Bool?
-        
+
         public init(apiKey: String, includeValue: Bool? = nil) {
             self.apiKey = apiKey
             self.includeValue = includeValue
@@ -2241,7 +2242,7 @@ extension APIGateway {
         public let nameQuery: String?
         /// The current pagination position in the paged result set.
         public let position: String?
-        
+
         public init(customerId: String? = nil, includeValues: Bool? = nil, limit: Int32? = nil, nameQuery: String? = nil, position: String? = nil) {
             self.customerId = customerId
             self.includeValues = includeValues
@@ -2269,7 +2270,7 @@ extension APIGateway {
         public let authorizerId: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(authorizerId: String, restApiId: String) {
             self.authorizerId = authorizerId
             self.restApiId = restApiId
@@ -2294,7 +2295,7 @@ extension APIGateway {
         public let position: String?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(limit: Int32? = nil, position: String? = nil, restApiId: String) {
             self.limit = limit
             self.position = position
@@ -2318,7 +2319,7 @@ extension APIGateway {
         public let basePath: String
         /// [Required] The domain name of the BasePathMapping resource to be described.
         public let domainName: String
-        
+
         public init(basePath: String, domainName: String) {
             self.basePath = basePath
             self.domainName = domainName
@@ -2343,7 +2344,7 @@ extension APIGateway {
         public let limit: Int32?
         /// The current pagination position in the paged result set.
         public let position: String?
-        
+
         public init(domainName: String, limit: Int32? = nil, position: String? = nil) {
             self.domainName = domainName
             self.limit = limit
@@ -2364,7 +2365,7 @@ extension APIGateway {
 
         /// [Required] The identifier of the ClientCertificate resource to be described.
         public let clientCertificateId: String
-        
+
         public init(clientCertificateId: String) {
             self.clientCertificateId = clientCertificateId
         }
@@ -2384,7 +2385,7 @@ extension APIGateway {
         public let limit: Int32?
         /// The current pagination position in the paged result set.
         public let position: String?
-        
+
         public init(limit: Int32? = nil, position: String? = nil) {
             self.limit = limit
             self.position = position
@@ -2409,7 +2410,7 @@ extension APIGateway {
         public let embed: [String]?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(deploymentId: String, embed: [String]? = nil, restApiId: String) {
             self.deploymentId = deploymentId
             self.embed = embed
@@ -2436,7 +2437,7 @@ extension APIGateway {
         public let position: String?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(limit: Int32? = nil, position: String? = nil, restApiId: String) {
             self.limit = limit
             self.position = position
@@ -2460,7 +2461,7 @@ extension APIGateway {
         public let documentationPartId: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(documentationPartId: String, restApiId: String) {
             self.documentationPartId = documentationPartId
             self.restApiId = restApiId
@@ -2497,7 +2498,7 @@ extension APIGateway {
         public let restApiId: String
         /// The type of API entities of the to-be-retrieved documentation parts. 
         public let `type`: DocumentationPartType?
-        
+
         public init(limit: Int32? = nil, locationStatus: LocationStatusType? = nil, nameQuery: String? = nil, path: String? = nil, position: String? = nil, restApiId: String, type: DocumentationPartType? = nil) {
             self.limit = limit
             self.locationStatus = locationStatus
@@ -2529,7 +2530,7 @@ extension APIGateway {
         public let documentationVersion: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(documentationVersion: String, restApiId: String) {
             self.documentationVersion = documentationVersion
             self.restApiId = restApiId
@@ -2554,7 +2555,7 @@ extension APIGateway {
         public let position: String?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(limit: Int32? = nil, position: String? = nil, restApiId: String) {
             self.limit = limit
             self.position = position
@@ -2575,7 +2576,7 @@ extension APIGateway {
 
         /// [Required] The name of the DomainName resource.
         public let domainName: String
-        
+
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -2595,7 +2596,7 @@ extension APIGateway {
         public let limit: Int32?
         /// The current pagination position in the paged result set.
         public let position: String?
-        
+
         public init(limit: Int32? = nil, position: String? = nil) {
             self.limit = limit
             self.position = position
@@ -2626,7 +2627,7 @@ extension APIGateway {
         public let restApiId: String
         /// [Required] The name of the Stage that will be exported.
         public let stageName: String
-        
+
         public init(accepts: String? = nil, exportType: String, parameters: [String: String]? = nil, restApiId: String, stageName: String) {
             self.accepts = accepts
             self.exportType = exportType
@@ -2654,7 +2655,7 @@ extension APIGateway {
         public let responseType: GatewayResponseType
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(responseType: GatewayResponseType, restApiId: String) {
             self.responseType = responseType
             self.restApiId = restApiId
@@ -2679,7 +2680,7 @@ extension APIGateway {
         public let position: String?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(limit: Int32? = nil, position: String? = nil, restApiId: String) {
             self.limit = limit
             self.position = position
@@ -2706,7 +2707,7 @@ extension APIGateway {
         public let resourceId: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(httpMethod: String, resourceId: String, restApiId: String) {
             self.httpMethod = httpMethod
             self.resourceId = resourceId
@@ -2736,7 +2737,7 @@ extension APIGateway {
         public let restApiId: String
         /// [Required] Specifies a get integration response request's status code.
         public let statusCode: String
-        
+
         public init(httpMethod: String, resourceId: String, restApiId: String, statusCode: String) {
             self.httpMethod = httpMethod
             self.resourceId = resourceId
@@ -2769,7 +2770,7 @@ extension APIGateway {
         public let resourceId: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(httpMethod: String, resourceId: String, restApiId: String) {
             self.httpMethod = httpMethod
             self.resourceId = resourceId
@@ -2799,7 +2800,7 @@ extension APIGateway {
         public let restApiId: String
         /// [Required] The status code for the MethodResponse resource.
         public let statusCode: String
-        
+
         public init(httpMethod: String, resourceId: String, restApiId: String, statusCode: String) {
             self.httpMethod = httpMethod
             self.resourceId = resourceId
@@ -2832,7 +2833,7 @@ extension APIGateway {
         public let modelName: String
         /// [Required] The RestApi identifier under which the Model exists.
         public let restApiId: String
-        
+
         public init(flatten: Bool? = nil, modelName: String, restApiId: String) {
             self.flatten = flatten
             self.modelName = modelName
@@ -2856,7 +2857,7 @@ extension APIGateway {
         public let modelName: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(modelName: String, restApiId: String) {
             self.modelName = modelName
             self.restApiId = restApiId
@@ -2881,7 +2882,7 @@ extension APIGateway {
         public let position: String?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(limit: Int32? = nil, position: String? = nil, restApiId: String) {
             self.limit = limit
             self.position = position
@@ -2905,7 +2906,7 @@ extension APIGateway {
         public let requestValidatorId: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(requestValidatorId: String, restApiId: String) {
             self.requestValidatorId = requestValidatorId
             self.restApiId = restApiId
@@ -2930,7 +2931,7 @@ extension APIGateway {
         public let position: String?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(limit: Int32? = nil, position: String? = nil, restApiId: String) {
             self.limit = limit
             self.position = position
@@ -2957,7 +2958,7 @@ extension APIGateway {
         public let resourceId: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(embed: [String]? = nil, resourceId: String, restApiId: String) {
             self.embed = embed
             self.resourceId = resourceId
@@ -2987,7 +2988,7 @@ extension APIGateway {
         public let position: String?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(embed: [String]? = nil, limit: Int32? = nil, position: String? = nil, restApiId: String) {
             self.embed = embed
             self.limit = limit
@@ -3010,7 +3011,7 @@ extension APIGateway {
 
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(restApiId: String) {
             self.restApiId = restApiId
         }
@@ -3030,7 +3031,7 @@ extension APIGateway {
         public let limit: Int32?
         /// The current pagination position in the paged result set.
         public let position: String?
-        
+
         public init(limit: Int32? = nil, position: String? = nil) {
             self.limit = limit
             self.position = position
@@ -3058,7 +3059,7 @@ extension APIGateway {
         public let sdkType: String
         /// [Required] The name of the Stage that the SDK will use.
         public let stageName: String
-        
+
         public init(parameters: [String: String]? = nil, restApiId: String, sdkType: String, stageName: String) {
             self.parameters = parameters
             self.restApiId = restApiId
@@ -3081,7 +3082,7 @@ extension APIGateway {
 
         /// [Required] The identifier of the queried SdkType instance.
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -3101,7 +3102,7 @@ extension APIGateway {
         public let limit: Int32?
         /// The current pagination position in the paged result set.
         public let position: String?
-        
+
         public init(limit: Int32? = nil, position: String? = nil) {
             self.limit = limit
             self.position = position
@@ -3123,7 +3124,7 @@ extension APIGateway {
         public let restApiId: String
         /// [Required] The name of the Stage resource to get information about.
         public let stageName: String
-        
+
         public init(restApiId: String, stageName: String) {
             self.restApiId = restApiId
             self.stageName = stageName
@@ -3145,7 +3146,7 @@ extension APIGateway {
         public let deploymentId: String?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(deploymentId: String? = nil, restApiId: String) {
             self.deploymentId = deploymentId
             self.restApiId = restApiId
@@ -3170,7 +3171,7 @@ extension APIGateway {
         public let position: String?
         /// [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded.
         public let resourceArn: String
-        
+
         public init(limit: Int32? = nil, position: String? = nil, resourceArn: String) {
             self.limit = limit
             self.position = position
@@ -3194,7 +3195,7 @@ extension APIGateway {
         public let keyId: String
         /// [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
         public let usagePlanId: String
-        
+
         public init(keyId: String, usagePlanId: String) {
             self.keyId = keyId
             self.usagePlanId = usagePlanId
@@ -3222,7 +3223,7 @@ extension APIGateway {
         public let position: String?
         /// [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
         public let usagePlanId: String
-        
+
         public init(limit: Int32? = nil, nameQuery: String? = nil, position: String? = nil, usagePlanId: String) {
             self.limit = limit
             self.nameQuery = nameQuery
@@ -3245,7 +3246,7 @@ extension APIGateway {
 
         /// [Required] The identifier of the UsagePlan resource to be retrieved.
         public let usagePlanId: String
-        
+
         public init(usagePlanId: String) {
             self.usagePlanId = usagePlanId
         }
@@ -3268,7 +3269,7 @@ extension APIGateway {
         public let limit: Int32?
         /// The current pagination position in the paged result set.
         public let position: String?
-        
+
         public init(keyId: String? = nil, limit: Int32? = nil, position: String? = nil) {
             self.keyId = keyId
             self.limit = limit
@@ -3304,7 +3305,7 @@ extension APIGateway {
         public let startDate: String
         /// [Required] The Id of the usage plan associated with the usage data.
         public let usagePlanId: String
-        
+
         public init(endDate: String, keyId: String? = nil, limit: Int32? = nil, position: String? = nil, startDate: String, usagePlanId: String) {
             self.endDate = endDate
             self.keyId = keyId
@@ -3331,7 +3332,7 @@ extension APIGateway {
 
         /// [Required] The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
         public let vpcLinkId: String
-        
+
         public init(vpcLinkId: String) {
             self.vpcLinkId = vpcLinkId
         }
@@ -3351,7 +3352,7 @@ extension APIGateway {
         public let limit: Int32?
         /// The current pagination position in the paged result set.
         public let position: String?
-        
+
         public init(limit: Int32? = nil, position: String? = nil) {
             self.limit = limit
             self.position = position
@@ -3378,7 +3379,7 @@ extension APIGateway {
         public let failOnWarnings: Bool?
         /// A query parameter to specify the input format to imported API keys. Currently, only the csv format is supported.
         public let format: ApiKeysFormat
-        
+
         public init(body: Data, failOnWarnings: Bool? = nil, format: ApiKeysFormat) {
             self.body = body
             self.failOnWarnings = failOnWarnings
@@ -3410,7 +3411,7 @@ extension APIGateway {
         public let mode: PutMode?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(body: Data, failOnWarnings: Bool? = nil, mode: PutMode? = nil, restApiId: String) {
             self.body = body
             self.failOnWarnings = failOnWarnings
@@ -3441,7 +3442,7 @@ extension APIGateway {
         public let failOnWarnings: Bool?
         /// A key-value map of context-specific query string parameters specifying the behavior of different API importing operations. The following shows operation-specific parameters and their supported values.  To exclude DocumentationParts from the import, set parameters as ignore=documentation.  To configure the endpoint type, set parameters as endpointConfigurationTypes=EDGE, endpointConfigurationTypes=REGIONAL, or endpointConfigurationTypes=PRIVATE. The default endpoint type is EDGE.  To handle imported basepath, set parameters as basepath=ignore, basepath=prepend or basepath=split. For example, the AWS CLI command to exclude documentation from the imported API is: aws apigateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json' The AWS CLI command to set the regional endpoint on the imported API is: aws apigateway import-rest-api --parameters endpointConfigurationTypes=REGIONAL --body 'file:///path/to/imported-api-body.json'
         public let parameters: [String: String]?
-        
+
         public init(body: Data, failOnWarnings: Bool? = nil, parameters: [String: String]? = nil) {
             self.body = body
             self.failOnWarnings = failOnWarnings
@@ -3501,7 +3502,7 @@ extension APIGateway {
         public let `type`: IntegrationType?
         /// Specifies Uniform Resource Identifier (URI) of the integration endpoint.   For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK. For a private HTTP integration, the URI is not used for routing.    For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated AWS service (e.g., s3); and {subdomain} is a designated subdomain supported by certain AWS service for fast host-name lookup. action can be used for an AWS service action-based API, using an Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an AWS service path-based API. The ensuing service_api refers to the path to an AWS service resource, including the region of the integrated AWS service, if applicable. For example, for integration with the S3 API of GetObject, the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key} 
         public let uri: String?
-        
+
         public init(cacheKeyParameters: [String]? = nil, cacheNamespace: String? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandling: ContentHandlingStrategy? = nil, credentials: String? = nil, httpMethod: String? = nil, integrationResponses: [String: IntegrationResponse]? = nil, passthroughBehavior: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, timeoutInMillis: Int32? = nil, type: IntegrationType? = nil, uri: String? = nil) {
             self.cacheKeyParameters = cacheKeyParameters
             self.cacheNamespace = cacheNamespace
@@ -3556,7 +3557,7 @@ extension APIGateway {
         public let selectionPattern: String?
         /// Specifies the status code that is used to map the integration response to an existing MethodResponse.
         public let statusCode: String?
-        
+
         public init(contentHandling: ContentHandlingStrategy? = nil, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, selectionPattern: String? = nil, statusCode: String? = nil) {
             self.contentHandling = contentHandling
             self.responseParameters = responseParameters
@@ -3630,7 +3631,7 @@ extension APIGateway {
         public let requestParameters: [String: Bool]?
         /// The identifier of a RequestValidator for request validation.
         public let requestValidatorId: String?
-        
+
         public init(apiKeyRequired: Bool? = nil, authorizationScopes: [String]? = nil, authorizationType: String? = nil, authorizerId: String? = nil, httpMethod: String? = nil, methodIntegration: Integration? = nil, methodResponses: [String: MethodResponse]? = nil, operationName: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: Bool]? = nil, requestValidatorId: String? = nil) {
             self.apiKeyRequired = apiKeyRequired
             self.authorizationScopes = authorizationScopes
@@ -3673,7 +3674,7 @@ extension APIGateway {
         public let responseParameters: [String: Bool]?
         /// The method response's status code.
         public let statusCode: String?
-        
+
         public init(responseModels: [String: String]? = nil, responseParameters: [String: Bool]? = nil, statusCode: String? = nil) {
             self.responseModels = responseModels
             self.responseParameters = responseParameters
@@ -3725,7 +3726,7 @@ extension APIGateway {
         public let throttlingRateLimit: Double?
         /// Specifies how to handle unauthorized requests for cache invalidation. The PATCH path for this setting is /{method_setting_key}/caching/unauthorizedCacheControlHeaderStrategy, and the available values are FAIL_WITH_403, SUCCEED_WITH_RESPONSE_HEADER, SUCCEED_WITHOUT_RESPONSE_HEADER.
         public let unauthorizedCacheControlHeaderStrategy: UnauthorizedCacheControlHeaderStrategy?
-        
+
         public init(cacheDataEncrypted: Bool? = nil, cacheTtlInSeconds: Int32? = nil, cachingEnabled: Bool? = nil, dataTraceEnabled: Bool? = nil, loggingLevel: String? = nil, metricsEnabled: Bool? = nil, requireAuthorizationForCacheControl: Bool? = nil, throttlingBurstLimit: Int32? = nil, throttlingRateLimit: Double? = nil, unauthorizedCacheControlHeaderStrategy: UnauthorizedCacheControlHeaderStrategy? = nil) {
             self.cacheDataEncrypted = cacheDataEncrypted
             self.cacheTtlInSeconds = cacheTtlInSeconds
@@ -3763,7 +3764,7 @@ extension APIGateway {
         public let apiKeyRequired: Bool?
         /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
         public let authorizationType: String?
-        
+
         public init(apiKeyRequired: Bool? = nil, authorizationType: String? = nil) {
             self.apiKeyRequired = apiKeyRequired
             self.authorizationType = authorizationType
@@ -3794,7 +3795,7 @@ extension APIGateway {
         public let name: String?
         /// The schema for the model. For application/json models, this should be JSON schema draft 4 model. Do not include "\*/" characters in the description of any properties because such "\*/" characters may be interpreted as the closing marker for comments in some languages, such as Java or JavaScript, causing the installation of your API's SDK generated by API Gateway to fail.
         public let schema: String?
-        
+
         public init(contentType: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, schema: String? = nil) {
             self.contentType = contentType
             self.description = description
@@ -3821,7 +3822,7 @@ extension APIGateway {
         /// The current page of elements from this collection.
         public let items: [Model]?
         public let position: String?
-        
+
         public init(items: [Model]? = nil, position: String? = nil) {
             self.items = items
             self.position = position
@@ -3859,7 +3860,7 @@ extension APIGateway {
         public let path: String?
         /// The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{"a": ...}'. In a Windows shell, see Using JSON for Parameters.
         public let value: String?
-        
+
         public init(from: String? = nil, op: Op? = nil, path: String? = nil, value: String? = nil) {
             self.from = from
             self.op = op
@@ -3894,7 +3895,7 @@ extension APIGateway {
         public let restApiId: String
         /// The HTTP status code of the GatewayResponse.
         public let statusCode: String?
-        
+
         public init(responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, responseType: GatewayResponseType, restApiId: String, statusCode: String? = nil) {
             self.responseParameters = responseParameters
             self.responseTemplates = responseTemplates
@@ -3968,7 +3969,7 @@ extension APIGateway {
         public let `type`: IntegrationType
         /// Specifies Uniform Resource Identifier (URI) of the integration endpoint.   For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK. For a private HTTP integration, the URI is not used for routing.    For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated AWS service (e.g., s3); and {subdomain} is a designated subdomain supported by certain AWS service for fast host-name lookup. action can be used for an AWS service action-based API, using an Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an AWS service path-based API. The ensuing service_api refers to the path to an AWS service resource, including the region of the integrated AWS service, if applicable. For example, for integration with the S3 API of GetObject, the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key} 
         public let uri: String?
-        
+
         public init(cacheKeyParameters: [String]? = nil, cacheNamespace: String? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandling: ContentHandlingStrategy? = nil, credentials: String? = nil, httpMethod: String, integrationHttpMethod: String? = nil, passthroughBehavior: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, resourceId: String, restApiId: String, timeoutInMillis: Int32? = nil, type: IntegrationType, uri: String? = nil) {
             self.cacheKeyParameters = cacheKeyParameters
             self.cacheNamespace = cacheNamespace
@@ -4036,7 +4037,7 @@ extension APIGateway {
         public let selectionPattern: String?
         /// [Required] Specifies the status code that is used to map the integration response to an existing MethodResponse.
         public let statusCode: String
-        
+
         public init(contentHandling: ContentHandlingStrategy? = nil, httpMethod: String, resourceId: String, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, restApiId: String, selectionPattern: String? = nil, statusCode: String) {
             self.contentHandling = contentHandling
             self.httpMethod = httpMethod
@@ -4101,7 +4102,7 @@ extension APIGateway {
         public let resourceId: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(apiKeyRequired: Bool? = nil, authorizationScopes: [String]? = nil, authorizationType: String, authorizerId: String? = nil, httpMethod: String, operationName: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: Bool]? = nil, requestValidatorId: String? = nil, resourceId: String, restApiId: String) {
             self.apiKeyRequired = apiKeyRequired
             self.authorizationScopes = authorizationScopes
@@ -4153,7 +4154,7 @@ extension APIGateway {
         public let restApiId: String
         /// [Required] The method response's status code.
         public let statusCode: String
-        
+
         public init(httpMethod: String, resourceId: String, responseModels: [String: String]? = nil, responseParameters: [String: Bool]? = nil, restApiId: String, statusCode: String) {
             self.httpMethod = httpMethod
             self.resourceId = resourceId
@@ -4204,7 +4205,7 @@ extension APIGateway {
         public let parameters: [String: String]?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(body: Data, failOnWarnings: Bool? = nil, mode: PutMode? = nil, parameters: [String: String]? = nil, restApiId: String) {
             self.body = body
             self.failOnWarnings = failOnWarnings
@@ -4242,7 +4243,7 @@ extension APIGateway {
         public let offset: Int32?
         /// The time period in which the limit applies. Valid values are "DAY", "WEEK" or "MONTH".
         public let period: QuotaPeriodType?
-        
+
         public init(limit: Int32? = nil, offset: Int32? = nil, period: QuotaPeriodType? = nil) {
             self.limit = limit
             self.offset = offset
@@ -4272,7 +4273,7 @@ extension APIGateway {
         public let validateRequestBody: Bool?
         /// A Boolean flag to indicate whether to validate request parameters (true) or not (false).
         public let validateRequestParameters: Bool?
-        
+
         public init(id: String? = nil, name: String? = nil, validateRequestBody: Bool? = nil, validateRequestParameters: Bool? = nil) {
             self.id = id
             self.name = name
@@ -4297,7 +4298,7 @@ extension APIGateway {
         /// The current page of elements from this collection.
         public let items: [RequestValidator]?
         public let position: String?
-        
+
         public init(items: [RequestValidator]? = nil, position: String? = nil) {
             self.items = items
             self.position = position
@@ -4328,7 +4329,7 @@ extension APIGateway {
         public let pathPart: String?
         /// Gets an API resource's method of a given HTTP verb.  The resource methods are a map of methods indexed by methods' HTTP verbs enabled on the resource. This method map is included in the 200 OK response of the GET /restapis/{restapi_id}/resources/{resource_id} or GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods request. Example: Get the GET method of an API resource Request GET /restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com X-Amz-Date: 20170223T031827Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20170223/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response { "_links": { "curies": [ { "href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html", "name": "integration", "templated": true }, { "href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true }, { "href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-{rel}.html", "name": "method", "templated": true }, { "href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html", "name": "methodresponse", "templated": true } ], "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET", "name": "GET", "title": "GET" }, "integration:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "method:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" }, "method:integration": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "method:responses": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200", "name": "200", "title": "200" }, "method:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" }, "methodresponse:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/{status_code}", "templated": true } }, "apiKeyRequired": false, "authorizationType": "NONE", "httpMethod": "GET", "_embedded": { "method:integration": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integration:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integration:responses": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integration:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integrationresponse:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/{status_code}", "templated": true } }, "cacheKeyParameters": [], "cacheNamespace": "3kzxbg5sa2", "credentials": "arn:aws:iam::123456789012:role/apigAwsProxyRole", "httpMethod": "POST", "passthroughBehavior": "WHEN_NO_MATCH", "requestParameters": { "integration.request.header.Content-Type": "'application/x-amz-json-1.1'" }, "requestTemplates": { "application/json": "{\n}" }, "type": "AWS", "uri": "arn:aws:apigateway:us-east-1:kinesis:action/ListStreams", "_embedded": { "integration:responses": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.Content-Type": "'application/xml'" }, "responseTemplates": { "application/json": "$util.urlDecode(\"%3CkinesisStreams%3E#foreach($stream in $input.path('$.StreamNames'))%3Cstream%3E%3Cname%3E$stream%3C/name%3E%3C/stream%3E#end%3C/kinesisStreams%3E\")\n" }, "statusCode": "200" } } }, "method:responses": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200", "name": "200", "title": "200" }, "methodresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" }, "methodresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" } }, "responseModels": { "application/json": "Empty" }, "responseParameters": { "method.response.header.Content-Type": false }, "statusCode": "200" } } } If the OPTIONS is enabled on the resource, you can follow the example here to get that method. Just replace the GET of the last path segment in the request URL with OPTIONS.   
         public let resourceMethods: [String: Method]?
-        
+
         public init(id: String? = nil, parentId: String? = nil, path: String? = nil, pathPart: String? = nil, resourceMethods: [String: Method]? = nil) {
             self.id = id
             self.parentId = parentId
@@ -4355,7 +4356,7 @@ extension APIGateway {
         /// The current page of elements from this collection.
         public let items: [Resource]?
         public let position: String?
-        
+
         public init(items: [Resource]? = nil, position: String? = nil) {
             self.items = items
             self.position = position
@@ -4407,7 +4408,7 @@ extension APIGateway {
         public let version: String?
         /// The warning messages reported when failonwarnings is turned on during API import.
         public let warnings: [String]?
-        
+
         public init(apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, createdDate: TimeStamp? = nil, description: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, id: String? = nil, minimumCompressionSize: Int32? = nil, name: String? = nil, policy: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiKeySource = apiKeySource
             self.binaryMediaTypes = binaryMediaTypes
@@ -4448,7 +4449,7 @@ extension APIGateway {
         /// The current page of elements from this collection.
         public let items: [RestApi]?
         public let position: String?
-        
+
         public init(items: [RestApi]? = nil, position: String? = nil) {
             self.items = items
             self.position = position
@@ -4479,7 +4480,7 @@ extension APIGateway {
         public let name: String?
         /// A boolean flag of an SdkType configuration property to indicate if the associated SDK configuration property is required (true) or not (false).
         public let required: Bool?
-        
+
         public init(defaultValue: String? = nil, description: String? = nil, friendlyName: String? = nil, name: String? = nil, required: Bool? = nil) {
             self.defaultValue = defaultValue
             self.description = description
@@ -4512,7 +4513,7 @@ extension APIGateway {
         public let contentDisposition: String?
         /// The content-type header value in the HTTP response.
         public let contentType: String?
-        
+
         public init(body: Data? = nil, contentDisposition: String? = nil, contentType: String? = nil) {
             self.body = body
             self.contentDisposition = contentDisposition
@@ -4542,7 +4543,7 @@ extension APIGateway {
         public let friendlyName: String?
         /// The identifier of an SdkType instance.
         public let id: String?
-        
+
         public init(configurationProperties: [SdkConfigurationProperty]? = nil, description: String? = nil, friendlyName: String? = nil, id: String? = nil) {
             self.configurationProperties = configurationProperties
             self.description = description
@@ -4567,7 +4568,7 @@ extension APIGateway {
         /// The current page of elements from this collection.
         public let items: [SdkType]?
         public let position: String?
-        
+
         public init(items: [SdkType]? = nil, position: String? = nil) {
             self.items = items
             self.position = position
@@ -4640,7 +4641,7 @@ extension APIGateway {
         public let variables: [String: String]?
         /// The ARN of the WebAcl associated with the Stage.
         public let webAclArn: String?
-        
+
         public init(accessLogSettings: AccessLogSettings? = nil, cacheClusterEnabled: Bool? = nil, cacheClusterSize: CacheClusterSize? = nil, cacheClusterStatus: CacheClusterStatus? = nil, canarySettings: CanarySettings? = nil, clientCertificateId: String? = nil, createdDate: TimeStamp? = nil, deploymentId: String? = nil, description: String? = nil, documentationVersion: String? = nil, lastUpdatedDate: TimeStamp? = nil, methodSettings: [String: MethodSetting]? = nil, stageName: String? = nil, tags: [String: String]? = nil, tracingEnabled: Bool? = nil, variables: [String: String]? = nil, webAclArn: String? = nil) {
             self.accessLogSettings = accessLogSettings
             self.cacheClusterEnabled = cacheClusterEnabled
@@ -4692,7 +4693,7 @@ extension APIGateway {
         public let restApiId: String?
         /// The stage name associated with the stage key.
         public let stageName: String?
-        
+
         public init(restApiId: String? = nil, stageName: String? = nil) {
             self.restApiId = restApiId
             self.stageName = stageName
@@ -4711,7 +4712,7 @@ extension APIGateway {
 
         /// The current page of elements from this collection.
         public let item: [Stage]?
-        
+
         public init(item: [Stage]? = nil) {
             self.item = item
         }
@@ -4731,7 +4732,7 @@ extension APIGateway {
         public let resourceArn: String
         /// [Required] The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
         public let tags: [String: String]
-        
+
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -4750,7 +4751,7 @@ extension APIGateway {
 
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -4767,7 +4768,7 @@ extension APIGateway {
 
         /// The Apache Velocity Template Language (VTL) template content used for the template resource.
         public let value: String?
-        
+
         public init(value: String? = nil) {
             self.value = value
         }
@@ -4805,7 +4806,7 @@ extension APIGateway {
         public let restApiId: String
         /// A key-value map of stage variables to simulate an invocation on a deployed Stage.
         public let stageVariables: [String: String]?
-        
+
         public init(additionalContext: [String: String]? = nil, authorizerId: String, body: String? = nil, headers: [String: String]? = nil, multiValueHeaders: [String: [String]]? = nil, pathWithQueryString: String? = nil, restApiId: String, stageVariables: [String: String]? = nil) {
             self.additionalContext = additionalContext
             self.authorizerId = authorizerId
@@ -4853,7 +4854,7 @@ extension APIGateway {
         public let policy: String?
         /// The principal identity returned by the Authorizer
         public let principalId: String?
-        
+
         public init(authorization: [String: [String]]? = nil, claims: [String: String]? = nil, clientStatus: Int32? = nil, latency: Int64? = nil, log: String? = nil, policy: String? = nil, principalId: String? = nil) {
             self.authorization = authorization
             self.claims = claims
@@ -4906,7 +4907,7 @@ extension APIGateway {
         public let restApiId: String
         /// A key-value map of stage variables to simulate an invocation on a deployed Stage.
         public let stageVariables: [String: String]?
-        
+
         public init(body: String? = nil, clientCertificateId: String? = nil, headers: [String: String]? = nil, httpMethod: String, multiValueHeaders: [String: [String]]? = nil, pathWithQueryString: String? = nil, resourceId: String, restApiId: String, stageVariables: [String: String]? = nil) {
             self.body = body
             self.clientCertificateId = clientCertificateId
@@ -4954,7 +4955,7 @@ extension APIGateway {
         public let multiValueHeaders: [String: [String]]?
         /// The HTTP status code.
         public let status: Int32?
-        
+
         public init(body: String? = nil, headers: [String: String]? = nil, latency: Int64? = nil, log: String? = nil, multiValueHeaders: [String: [String]]? = nil, status: Int32? = nil) {
             self.body = body
             self.headers = headers
@@ -4984,7 +4985,7 @@ extension APIGateway {
         public let burstLimit: Int32?
         /// The API request steady-state rate limit.
         public let rateLimit: Double?
-        
+
         public init(burstLimit: Int32? = nil, rateLimit: Double? = nil) {
             self.burstLimit = burstLimit
             self.rateLimit = rateLimit
@@ -5013,7 +5014,7 @@ extension APIGateway {
         public let resourceArn: String
         /// [Required] The Tag keys to delete.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -5032,7 +5033,7 @@ extension APIGateway {
 
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
         public let patchOperations: [PatchOperation]?
-        
+
         public init(patchOperations: [PatchOperation]? = nil) {
             self.patchOperations = patchOperations
         }
@@ -5052,7 +5053,7 @@ extension APIGateway {
         public let apiKey: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
         public let patchOperations: [PatchOperation]?
-        
+
         public init(apiKey: String, patchOperations: [PatchOperation]? = nil) {
             self.apiKey = apiKey
             self.patchOperations = patchOperations
@@ -5077,7 +5078,7 @@ extension APIGateway {
         public let patchOperations: [PatchOperation]?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(authorizerId: String, patchOperations: [PatchOperation]? = nil, restApiId: String) {
             self.authorizerId = authorizerId
             self.patchOperations = patchOperations
@@ -5104,7 +5105,7 @@ extension APIGateway {
         public let domainName: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
         public let patchOperations: [PatchOperation]?
-        
+
         public init(basePath: String, domainName: String, patchOperations: [PatchOperation]? = nil) {
             self.basePath = basePath
             self.domainName = domainName
@@ -5128,7 +5129,7 @@ extension APIGateway {
         public let clientCertificateId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
         public let patchOperations: [PatchOperation]?
-        
+
         public init(clientCertificateId: String, patchOperations: [PatchOperation]? = nil) {
             self.clientCertificateId = clientCertificateId
             self.patchOperations = patchOperations
@@ -5153,7 +5154,7 @@ extension APIGateway {
         public let patchOperations: [PatchOperation]?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(deploymentId: String, patchOperations: [PatchOperation]? = nil, restApiId: String) {
             self.deploymentId = deploymentId
             self.patchOperations = patchOperations
@@ -5180,7 +5181,7 @@ extension APIGateway {
         public let patchOperations: [PatchOperation]?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(documentationPartId: String, patchOperations: [PatchOperation]? = nil, restApiId: String) {
             self.documentationPartId = documentationPartId
             self.patchOperations = patchOperations
@@ -5207,7 +5208,7 @@ extension APIGateway {
         public let patchOperations: [PatchOperation]?
         /// [Required] The string identifier of the associated RestApi..
         public let restApiId: String
-        
+
         public init(documentationVersion: String, patchOperations: [PatchOperation]? = nil, restApiId: String) {
             self.documentationVersion = documentationVersion
             self.patchOperations = patchOperations
@@ -5231,7 +5232,7 @@ extension APIGateway {
         public let domainName: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
         public let patchOperations: [PatchOperation]?
-        
+
         public init(domainName: String, patchOperations: [PatchOperation]? = nil) {
             self.domainName = domainName
             self.patchOperations = patchOperations
@@ -5256,7 +5257,7 @@ extension APIGateway {
         public let responseType: GatewayResponseType
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(patchOperations: [PatchOperation]? = nil, responseType: GatewayResponseType, restApiId: String) {
             self.patchOperations = patchOperations
             self.responseType = responseType
@@ -5286,7 +5287,7 @@ extension APIGateway {
         public let resourceId: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(httpMethod: String, patchOperations: [PatchOperation]? = nil, resourceId: String, restApiId: String) {
             self.httpMethod = httpMethod
             self.patchOperations = patchOperations
@@ -5321,7 +5322,7 @@ extension APIGateway {
         public let restApiId: String
         /// [Required] Specifies an update integration response request's status code.
         public let statusCode: String
-        
+
         public init(httpMethod: String, patchOperations: [PatchOperation]? = nil, resourceId: String, restApiId: String, statusCode: String) {
             self.httpMethod = httpMethod
             self.patchOperations = patchOperations
@@ -5359,7 +5360,7 @@ extension APIGateway {
         public let resourceId: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(httpMethod: String, patchOperations: [PatchOperation]? = nil, resourceId: String, restApiId: String) {
             self.httpMethod = httpMethod
             self.patchOperations = patchOperations
@@ -5394,7 +5395,7 @@ extension APIGateway {
         public let restApiId: String
         /// [Required] The status code for the MethodResponse resource.
         public let statusCode: String
-        
+
         public init(httpMethod: String, patchOperations: [PatchOperation]? = nil, resourceId: String, restApiId: String, statusCode: String) {
             self.httpMethod = httpMethod
             self.patchOperations = patchOperations
@@ -5429,7 +5430,7 @@ extension APIGateway {
         public let patchOperations: [PatchOperation]?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(modelName: String, patchOperations: [PatchOperation]? = nil, restApiId: String) {
             self.modelName = modelName
             self.patchOperations = patchOperations
@@ -5456,7 +5457,7 @@ extension APIGateway {
         public let requestValidatorId: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(patchOperations: [PatchOperation]? = nil, requestValidatorId: String, restApiId: String) {
             self.patchOperations = patchOperations
             self.requestValidatorId = requestValidatorId
@@ -5483,7 +5484,7 @@ extension APIGateway {
         public let resourceId: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(patchOperations: [PatchOperation]? = nil, resourceId: String, restApiId: String) {
             self.patchOperations = patchOperations
             self.resourceId = resourceId
@@ -5507,7 +5508,7 @@ extension APIGateway {
         public let patchOperations: [PatchOperation]?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        
+
         public init(patchOperations: [PatchOperation]? = nil, restApiId: String) {
             self.patchOperations = patchOperations
             self.restApiId = restApiId
@@ -5532,7 +5533,7 @@ extension APIGateway {
         public let restApiId: String
         /// [Required] The name of the Stage resource to change information about.
         public let stageName: String
-        
+
         public init(patchOperations: [PatchOperation]? = nil, restApiId: String, stageName: String) {
             self.patchOperations = patchOperations
             self.restApiId = restApiId
@@ -5556,7 +5557,7 @@ extension APIGateway {
         public let patchOperations: [PatchOperation]?
         /// [Required] The Id of the to-be-updated usage plan.
         public let usagePlanId: String
-        
+
         public init(patchOperations: [PatchOperation]? = nil, usagePlanId: String) {
             self.patchOperations = patchOperations
             self.usagePlanId = usagePlanId
@@ -5581,7 +5582,7 @@ extension APIGateway {
         public let patchOperations: [PatchOperation]?
         /// [Required] The Id of the usage plan associated with the usage data.
         public let usagePlanId: String
-        
+
         public init(keyId: String, patchOperations: [PatchOperation]? = nil, usagePlanId: String) {
             self.keyId = keyId
             self.patchOperations = patchOperations
@@ -5605,7 +5606,7 @@ extension APIGateway {
         public let patchOperations: [PatchOperation]?
         /// [Required] The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
         public let vpcLinkId: String
-        
+
         public init(patchOperations: [PatchOperation]? = nil, vpcLinkId: String) {
             self.patchOperations = patchOperations
             self.vpcLinkId = vpcLinkId
@@ -5635,7 +5636,7 @@ extension APIGateway {
         public let startDate: String?
         /// The plan Id associated with this usage data.
         public let usagePlanId: String?
-        
+
         public init(endDate: String? = nil, items: [String: [[Int64]]]? = nil, position: String? = nil, startDate: String? = nil, usagePlanId: String? = nil) {
             self.endDate = endDate
             self.items = items
@@ -5681,7 +5682,7 @@ extension APIGateway {
         public let tags: [String: String]?
         /// The request throttle limits of a usage plan.
         public let throttle: ThrottleSettings?
-        
+
         public init(apiStages: [ApiStage]? = nil, description: String? = nil, id: String? = nil, name: String? = nil, productCode: String? = nil, quota: QuotaSettings? = nil, tags: [String: String]? = nil, throttle: ThrottleSettings? = nil) {
             self.apiStages = apiStages
             self.description = description
@@ -5721,7 +5722,7 @@ extension APIGateway {
         public let `type`: String?
         /// The value of a usage plan key.
         public let value: String?
-        
+
         public init(id: String? = nil, name: String? = nil, type: String? = nil, value: String? = nil) {
             self.id = id
             self.name = name
@@ -5746,7 +5747,7 @@ extension APIGateway {
         /// The current page of elements from this collection.
         public let items: [UsagePlanKey]?
         public let position: String?
-        
+
         public init(items: [UsagePlanKey]? = nil, position: String? = nil) {
             self.items = items
             self.position = position
@@ -5767,7 +5768,7 @@ extension APIGateway {
         /// The current page of elements from this collection.
         public let items: [UsagePlan]?
         public let position: String?
-        
+
         public init(items: [UsagePlan]? = nil, position: String? = nil) {
             self.items = items
             self.position = position
@@ -5804,7 +5805,7 @@ extension APIGateway {
         public let tags: [String: String]?
         /// The ARNs of network load balancers of the VPC targeted by the VPC link. The network load balancers must be owned by the same AWS account of the API owner.
         public let targetArns: [String]?
-        
+
         public init(description: String? = nil, id: String? = nil, name: String? = nil, status: VpcLinkStatus? = nil, statusMessage: String? = nil, tags: [String: String]? = nil, targetArns: [String]? = nil) {
             self.description = description
             self.id = id
@@ -5843,7 +5844,7 @@ extension APIGateway {
         /// The current page of elements from this collection.
         public let items: [VpcLink]?
         public let position: String?
-        
+
         public init(items: [VpcLink]? = nil, position: String? = nil) {
             self.items = items
             self.position = position
@@ -5854,5 +5855,4 @@ extension APIGateway {
             case position = "position"
         }
     }
-
 }

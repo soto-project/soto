@@ -34,5 +34,4 @@ public struct LexRuntimeService {
     public func postText(_ input: PostTextRequest) throws -> Future<PostTextResponse> {
         return try client.send(operation: "PostText", path: "/bot/{botName}/alias/{botAlias}/user/{userId}/text", httpMethod: "POST", input: input)
     }
-
 }

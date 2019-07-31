@@ -49,5 +49,4 @@ public struct MediaStoreData {
     public func putObject(_ input: PutObjectRequest) throws -> Future<PutObjectResponse> {
         return try client.send(operation: "PutObject", path: "/{Path+}", httpMethod: "PUT", input: input)
     }
-
 }

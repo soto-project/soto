@@ -124,5 +124,4 @@ public struct XRay {
     public func updateSamplingRule(_ input: UpdateSamplingRuleRequest) throws -> Future<UpdateSamplingRuleResult> {
         return try client.send(operation: "UpdateSamplingRule", path: "/UpdateSamplingRule", httpMethod: "POST", input: input)
     }
-
 }

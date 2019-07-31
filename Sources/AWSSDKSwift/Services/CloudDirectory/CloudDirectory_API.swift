@@ -354,5 +354,4 @@ public struct CloudDirectory {
     public func upgradePublishedSchema(_ input: UpgradePublishedSchemaRequest) throws -> Future<UpgradePublishedSchemaResponse> {
         return try client.send(operation: "UpgradePublishedSchema", path: "/amazonclouddirectory/2017-01-11/schema/upgradepublished", httpMethod: "PUT", input: input)
     }
-
 }

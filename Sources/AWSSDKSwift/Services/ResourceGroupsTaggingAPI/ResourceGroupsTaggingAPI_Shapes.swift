@@ -24,7 +24,7 @@ extension ResourceGroupsTaggingAPI {
         public let errorMessage: String?
         /// The HTTP status code of the common error.
         public let statusCode: Int32?
-        
+
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, statusCode: Int32? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -57,7 +57,7 @@ extension ResourceGroupsTaggingAPI {
         public let tagFilters: [TagFilter]?
         /// A limit that restricts the number of tags (key and value pairs) returned by GetResources in paginated output. A resource with no tags is counted as having one tag (one key and value pair).  GetResources does not split a resource and its associated tags across pages. If the specified TagsPerPage would cause such a break, a PaginationToken is returned in place of the affected resource and its tags. Use that token in another request to get the remaining data. For example, if you specify a TagsPerPage of 100 and the account has 22 resources with 10 tags each (meaning that each resource has 10 key and value pairs), the output will consist of 3 pages, with the first page displaying the first 10 resources, each with its 10 tags, the second page displaying the next 10 resources each with its 10 tags, and the third page displaying the remaining 2 resources, each with its 10 tags. You can set TagsPerPage to a minimum of 100 items and the maximum of 500 items.
         public let tagsPerPage: Int32?
-        
+
         public init(paginationToken: String? = nil, resourcesPerPage: Int32? = nil, resourceTypeFilters: [String]? = nil, tagFilters: [TagFilter]? = nil, tagsPerPage: Int32? = nil) {
             self.paginationToken = paginationToken
             self.resourcesPerPage = resourcesPerPage
@@ -99,7 +99,7 @@ extension ResourceGroupsTaggingAPI {
         public let paginationToken: String?
         /// A list of resource ARNs and the tags (keys and values) associated with each.
         public let resourceTagMappingList: [ResourceTagMapping]?
-        
+
         public init(paginationToken: String? = nil, resourceTagMappingList: [ResourceTagMapping]? = nil) {
             self.paginationToken = paginationToken
             self.resourceTagMappingList = resourceTagMappingList
@@ -126,7 +126,7 @@ extension ResourceGroupsTaggingAPI {
 
         /// A string that indicates that additional data is available. Leave this value empty for your initial request. If the response includes a PaginationToken, use that string for this value to request an additional page of data.
         public let paginationToken: String?
-        
+
         public init(paginationToken: String? = nil) {
             self.paginationToken = paginationToken
         }
@@ -151,7 +151,7 @@ extension ResourceGroupsTaggingAPI {
         public let paginationToken: String?
         /// A list of all tag keys in the AWS account.
         public let tagKeys: [String]?
-        
+
         public init(paginationToken: String? = nil, tagKeys: [String]? = nil) {
             self.paginationToken = paginationToken
             self.tagKeys = tagKeys
@@ -182,7 +182,7 @@ extension ResourceGroupsTaggingAPI {
         public let key: String
         /// A string that indicates that additional data is available. Leave this value empty for your initial request. If the response includes a PaginationToken, use that string for this value to request an additional page of data.
         public let paginationToken: String?
-        
+
         public init(key: String, paginationToken: String? = nil) {
             self.key = key
             self.paginationToken = paginationToken
@@ -211,7 +211,7 @@ extension ResourceGroupsTaggingAPI {
         public let paginationToken: String?
         /// A list of all tag values for the specified key in the AWS account.
         public let tagValues: [String]?
-        
+
         public init(paginationToken: String? = nil, tagValues: [String]? = nil) {
             self.paginationToken = paginationToken
             self.tagValues = tagValues
@@ -242,7 +242,7 @@ extension ResourceGroupsTaggingAPI {
         public let resourceARN: String?
         /// The tags that have been applied to one or more AWS resources.
         public let tags: [Tag]?
-        
+
         public init(resourceARN: String? = nil, tags: [Tag]? = nil) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -272,7 +272,7 @@ extension ResourceGroupsTaggingAPI {
         public let key: String
         /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
         public let value: String
-        
+
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -301,7 +301,7 @@ extension ResourceGroupsTaggingAPI {
         public let key: String?
         /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
         public let values: [String]?
-        
+
         public init(key: String? = nil, values: [String]? = nil) {
             self.key = key
             self.values = values
@@ -334,7 +334,7 @@ extension ResourceGroupsTaggingAPI {
         public let resourceARNList: [String]
         /// The tags that you want to add to the specified resources. A tag consists of a key and a value that you define.
         public let tags: [String: String]
-        
+
         public init(resourceARNList: [String], tags: [String: String]) {
             self.resourceARNList = resourceARNList
             self.tags = tags
@@ -362,7 +362,7 @@ extension ResourceGroupsTaggingAPI {
 
         /// Details of resources that could not be tagged. An error code, status code, and error message are returned for each failed item.
         public let failedResourcesMap: [String: FailureInfo]?
-        
+
         public init(failedResourcesMap: [String: FailureInfo]? = nil) {
             self.failedResourcesMap = failedResourcesMap
         }
@@ -382,7 +382,7 @@ extension ResourceGroupsTaggingAPI {
         public let resourceARNList: [String]
         /// A list of the tag keys that you want to remove from the specified resources.
         public let tagKeys: [String]
-        
+
         public init(resourceARNList: [String], tagKeys: [String]) {
             self.resourceARNList = resourceARNList
             self.tagKeys = tagKeys
@@ -416,7 +416,7 @@ extension ResourceGroupsTaggingAPI {
 
         /// Details of resources that could not be untagged. An error code, status code, and error message are returned for each failed item.
         public let failedResourcesMap: [String: FailureInfo]?
-        
+
         public init(failedResourcesMap: [String: FailureInfo]? = nil) {
             self.failedResourcesMap = failedResourcesMap
         }
@@ -425,5 +425,4 @@ extension ResourceGroupsTaggingAPI {
             case failedResourcesMap = "FailedResourcesMap"
         }
     }
-
 }

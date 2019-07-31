@@ -55,7 +55,7 @@ extension MarketplaceCommerceAnalytics {
         public let roleNameArn: String
         /// Amazon Resource Name (ARN) for the SNS Topic that will be notified when the data set has been published or if an error has occurred.
         public let snsTopicArn: String
-        
+
         public init(customerDefinedValues: [String: String]? = nil, dataSetPublicationDate: TimeStamp, dataSetType: DataSetType, destinationS3BucketName: String, destinationS3Prefix: String? = nil, roleNameArn: String, snsTopicArn: String) {
             self.customerDefinedValues = customerDefinedValues
             self.dataSetPublicationDate = dataSetPublicationDate
@@ -90,7 +90,7 @@ extension MarketplaceCommerceAnalytics {
 
         /// A unique identifier representing a specific request to the GenerateDataSet operation. This identifier can be used to correlate a request with notifications from the SNS topic.
         public let dataSetRequestId: String?
-        
+
         public init(dataSetRequestId: String? = nil) {
             self.dataSetRequestId = dataSetRequestId
         }
@@ -125,7 +125,7 @@ extension MarketplaceCommerceAnalytics {
         public let roleNameArn: String
         /// Amazon Resource Name (ARN) for the SNS Topic that will be notified when the data set has been published or if an error has occurred.
         public let snsTopicArn: String
-        
+
         public init(customerDefinedValues: [String: String]? = nil, dataSetType: SupportDataSetType, destinationS3BucketName: String, destinationS3Prefix: String? = nil, fromDate: TimeStamp, roleNameArn: String, snsTopicArn: String) {
             self.customerDefinedValues = customerDefinedValues
             self.dataSetType = dataSetType
@@ -160,7 +160,7 @@ extension MarketplaceCommerceAnalytics {
 
         /// A unique identifier representing a specific request to the StartSupportDataExport operation. This identifier can be used to correlate a request with notifications from the SNS topic.
         public let dataSetRequestId: String?
-        
+
         public init(dataSetRequestId: String? = nil) {
             self.dataSetRequestId = dataSetRequestId
         }
@@ -175,5 +175,4 @@ extension MarketplaceCommerceAnalytics {
         case testCustomerSupportContactsData = "test_customer_support_contacts_data"
         public var description: String { return self.rawValue }
     }
-
 }

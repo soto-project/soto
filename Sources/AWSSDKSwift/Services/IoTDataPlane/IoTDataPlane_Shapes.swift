@@ -12,7 +12,7 @@ extension IoTDataPlane {
 
         /// The name of the thing.
         public let thingName: String
-        
+
         public init(thingName: String) {
             self.thingName = thingName
         }
@@ -37,7 +37,7 @@ extension IoTDataPlane {
 
         /// The state information, in JSON format.
         public let payload: Data
-        
+
         public init(payload: Data) {
             self.payload = payload
         }
@@ -54,7 +54,7 @@ extension IoTDataPlane {
 
         /// The name of the thing.
         public let thingName: String
-        
+
         public init(thingName: String) {
             self.thingName = thingName
         }
@@ -79,7 +79,7 @@ extension IoTDataPlane {
 
         /// The state information, in JSON format.
         public let payload: Data?
-        
+
         public init(payload: Data? = nil) {
             self.payload = payload
         }
@@ -104,7 +104,7 @@ extension IoTDataPlane {
         public let qos: Int32?
         /// The name of the MQTT topic.
         public let topic: String
-        
+
         public init(payload: Data? = nil, qos: Int32? = nil, topic: String) {
             self.payload = payload
             self.qos = qos
@@ -135,7 +135,7 @@ extension IoTDataPlane {
         public let payload: Data
         /// The name of the thing.
         public let thingName: String
-        
+
         public init(payload: Data, thingName: String) {
             self.payload = payload
             self.thingName = thingName
@@ -162,7 +162,7 @@ extension IoTDataPlane {
 
         /// The state information, in JSON format.
         public let payload: Data?
-        
+
         public init(payload: Data? = nil) {
             self.payload = payload
         }
@@ -171,5 +171,4 @@ extension IoTDataPlane {
             case payload = "payload"
         }
     }
-
 }

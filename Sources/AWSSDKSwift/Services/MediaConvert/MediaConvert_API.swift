@@ -149,5 +149,4 @@ public struct MediaConvert {
     public func updateQueue(_ input: UpdateQueueRequest) throws -> Future<UpdateQueueResponse> {
         return try client.send(operation: "UpdateQueue", path: "/2017-08-29/queues/{name}", httpMethod: "PUT", input: input)
     }
-
 }

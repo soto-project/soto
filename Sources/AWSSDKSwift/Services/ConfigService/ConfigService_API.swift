@@ -325,5 +325,4 @@ public struct ConfigService {
     @discardableResult public func untagResource(_ input: UntagResourceRequest) throws -> Future<Void> {
         return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
-
 }

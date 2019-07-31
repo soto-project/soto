@@ -15,7 +15,7 @@ extension PI {
         public let timestamp: TimeStamp
         /// The actual value associated with a particular Timestamp.
         public let value: Double
-        
+
         public init(timestamp: TimeStamp, value: Double) {
             self.timestamp = timestamp
             self.value = value
@@ -64,7 +64,7 @@ extension PI {
         public let serviceType: ServiceType
         /// The date and time specifying the beginning of the requested time series data. You can't specify a StartTime that's earlier than 7 days ago. The value specified is inclusive - data points equal to or greater than StartTime will be returned. The value for StartTime must be earlier than the value for EndTime.
         public let startTime: TimeStamp
-        
+
         public init(endTime: TimeStamp, filter: [String: String]? = nil, groupBy: DimensionGroup, identifier: String, maxResults: Int32? = nil, metric: String, nextToken: String? = nil, partitionBy: DimensionGroup? = nil, periodInSeconds: Int32? = nil, serviceType: ServiceType, startTime: TimeStamp) {
             self.endTime = endTime
             self.filter = filter
@@ -120,7 +120,7 @@ extension PI {
         public let nextToken: String?
         /// If PartitionBy was present in the request, PartitionKeys contains the breakdown of dimension keys by the specified partitions.
         public let partitionKeys: [ResponsePartitionKey]?
-        
+
         public init(alignedEndTime: TimeStamp? = nil, alignedStartTime: TimeStamp? = nil, keys: [DimensionKeyDescription]? = nil, nextToken: String? = nil, partitionKeys: [ResponsePartitionKey]? = nil) {
             self.alignedEndTime = alignedEndTime
             self.alignedStartTime = alignedStartTime
@@ -151,7 +151,7 @@ extension PI {
         public let group: String
         /// The maximum number of items to fetch for this dimension group.
         public let limit: Int32?
-        
+
         public init(dimensions: [String]? = nil, group: String, limit: Int32? = nil) {
             self.dimensions = dimensions
             self.group = group
@@ -185,7 +185,7 @@ extension PI {
         public let partitions: [Double]?
         /// The aggregated metric value for the dimension(s), over the requested time range.
         public let total: Double?
-        
+
         public init(dimensions: [String: String]? = nil, partitions: [Double]? = nil, total: Double? = nil) {
             self.dimensions = dimensions
             self.partitions = partitions
@@ -227,7 +227,7 @@ extension PI {
         public let serviceType: ServiceType
         /// The date and time specifying the beginning of the requested time series data. You can't specify a StartTime that's earlier than 7 days ago. The value specified is inclusive - data points equal to or greater than StartTime will be returned. The value for StartTime must be earlier than the value for EndTime.
         public let startTime: TimeStamp
-        
+
         public init(endTime: TimeStamp, identifier: String, maxResults: Int32? = nil, metricQueries: [MetricQuery], nextToken: String? = nil, periodInSeconds: Int32? = nil, serviceType: ServiceType, startTime: TimeStamp) {
             self.endTime = endTime
             self.identifier = identifier
@@ -280,7 +280,7 @@ extension PI {
         public let metricList: [MetricKeyDataPoints]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords.
         public let nextToken: String?
-        
+
         public init(alignedEndTime: TimeStamp? = nil, alignedStartTime: TimeStamp? = nil, identifier: String? = nil, metricList: [MetricKeyDataPoints]? = nil, nextToken: String? = nil) {
             self.alignedEndTime = alignedEndTime
             self.alignedStartTime = alignedStartTime
@@ -308,7 +308,7 @@ extension PI {
         public let dataPoints: [DataPoint]?
         /// The dimension(s) to which the data points apply.
         public let key: ResponseResourceMetricKey?
-        
+
         public init(dataPoints: [DataPoint]? = nil, key: ResponseResourceMetricKey? = nil) {
             self.dataPoints = dataPoints
             self.key = key
@@ -333,7 +333,7 @@ extension PI {
         public let groupBy: DimensionGroup?
         /// The name of a Performance Insights metric to be measured. Valid values for Metric are:    db.load.avg - a scaled representation of the number of active sessions for the database engine.    db.sampledload.avg - the raw number of active sessions for the database engine.  
         public let metric: String
-        
+
         public init(filter: [String: String]? = nil, groupBy: DimensionGroup? = nil, metric: String) {
             self.filter = filter
             self.groupBy = groupBy
@@ -358,7 +358,7 @@ extension PI {
 
         /// A dimension map that contains the dimension(s) for this partition.
         public let dimensions: [String: String]
-        
+
         public init(dimensions: [String: String]) {
             self.dimensions = dimensions
         }
@@ -378,7 +378,7 @@ extension PI {
         public let dimensions: [String: String]?
         /// The name of a Performance Insights metric to be measured. Valid values for Metric are:    db.load.avg - a scaled representation of the number of active sessions for the database engine.    db.sampledload.avg - the raw number of active sessions for the database engine.  
         public let metric: String
-        
+
         public init(dimensions: [String: String]? = nil, metric: String) {
             self.dimensions = dimensions
             self.metric = metric
@@ -394,5 +394,4 @@ extension PI {
         case rds = "RDS"
         public var description: String { return self.rawValue }
     }
-
 }

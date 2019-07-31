@@ -66,7 +66,7 @@ extension DAX {
         public let subnetGroup: String?
         /// The total number of nodes in the cluster.
         public let totalNodes: Int32?
-        
+
         public init(activeNodes: Int32? = nil, clusterArn: String? = nil, clusterDiscoveryEndpoint: Endpoint? = nil, clusterName: String? = nil, description: String? = nil, iamRoleArn: String? = nil, nodeIdsToRemove: [String]? = nil, nodes: [Node]? = nil, nodeType: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, parameterGroup: ParameterGroupStatus? = nil, preferredMaintenanceWindow: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, sSEDescription: SSEDescription? = nil, status: String? = nil, subnetGroup: String? = nil, totalNodes: Int32? = nil) {
             self.activeNodes = activeNodes
             self.clusterArn = clusterArn
@@ -151,7 +151,7 @@ extension DAX {
         public let subnetGroupName: String?
         /// A set of tags to associate with the DAX cluster. 
         public let tags: [Tag]?
-        
+
         public init(availabilityZones: [String]? = nil, clusterName: String, description: String? = nil, iamRoleArn: String, nodeType: String, notificationTopicArn: String? = nil, parameterGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, replicationFactor: Int32, securityGroupIds: [String]? = nil, sSESpecification: SSESpecification? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil) {
             self.availabilityZones = availabilityZones
             self.clusterName = clusterName
@@ -192,7 +192,7 @@ extension DAX {
 
         /// A description of the DAX cluster that you have created.
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -212,7 +212,7 @@ extension DAX {
         public let description: String?
         /// The name of the parameter group to apply to all of the clusters in this replication group.
         public let parameterGroupName: String
-        
+
         public init(description: String? = nil, parameterGroupName: String) {
             self.description = description
             self.parameterGroupName = parameterGroupName
@@ -231,7 +231,7 @@ extension DAX {
 
         /// Represents the output of a CreateParameterGroup action.
         public let parameterGroup: ParameterGroup?
-        
+
         public init(parameterGroup: ParameterGroup? = nil) {
             self.parameterGroup = parameterGroup
         }
@@ -254,7 +254,7 @@ extension DAX {
         public let subnetGroupName: String
         /// A list of VPC subnet IDs for the subnet group.
         public let subnetIds: [String]
-        
+
         public init(description: String? = nil, subnetGroupName: String, subnetIds: [String]) {
             self.description = description
             self.subnetGroupName = subnetGroupName
@@ -275,7 +275,7 @@ extension DAX {
 
         /// Represents the output of a CreateSubnetGroup operation.
         public let subnetGroup: SubnetGroup?
-        
+
         public init(subnetGroup: SubnetGroup? = nil) {
             self.subnetGroup = subnetGroup
         }
@@ -301,7 +301,7 @@ extension DAX {
         public let newReplicationFactor: Int32
         /// The unique identifiers of the nodes to be removed from the cluster.
         public let nodeIdsToRemove: [String]?
-        
+
         public init(availabilityZones: [String]? = nil, clusterName: String, newReplicationFactor: Int32, nodeIdsToRemove: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.clusterName = clusterName
@@ -324,7 +324,7 @@ extension DAX {
 
         /// A description of the DAX cluster, after you have decreased its replication factor.
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -341,7 +341,7 @@ extension DAX {
 
         /// The name of the cluster to be deleted.
         public let clusterName: String
-        
+
         public init(clusterName: String) {
             self.clusterName = clusterName
         }
@@ -358,7 +358,7 @@ extension DAX {
 
         /// A description of the DAX cluster that is being deleted.
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -375,7 +375,7 @@ extension DAX {
 
         /// The name of the parameter group to delete.
         public let parameterGroupName: String
-        
+
         public init(parameterGroupName: String) {
             self.parameterGroupName = parameterGroupName
         }
@@ -392,7 +392,7 @@ extension DAX {
 
         /// A user-specified message for this action (i.e., a reason for deleting the parameter group).
         public let deletionMessage: String?
-        
+
         public init(deletionMessage: String? = nil) {
             self.deletionMessage = deletionMessage
         }
@@ -409,7 +409,7 @@ extension DAX {
 
         /// The name of the subnet group to delete.
         public let subnetGroupName: String
-        
+
         public init(subnetGroupName: String) {
             self.subnetGroupName = subnetGroupName
         }
@@ -426,7 +426,7 @@ extension DAX {
 
         /// A user-specified message for this action (i.e., a reason for deleting the subnet group).
         public let deletionMessage: String?
-        
+
         public init(deletionMessage: String? = nil) {
             self.deletionMessage = deletionMessage
         }
@@ -449,7 +449,7 @@ extension DAX {
         public let maxResults: Int32?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
-        
+
         public init(clusterNames: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.clusterNames = clusterNames
             self.maxResults = maxResults
@@ -473,7 +473,7 @@ extension DAX {
         public let clusters: [Cluster]?
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
-        
+
         public init(clusters: [Cluster]? = nil, nextToken: String? = nil) {
             self.clusters = clusters
             self.nextToken = nextToken
@@ -495,7 +495,7 @@ extension DAX {
         public let maxResults: Int32?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -517,7 +517,7 @@ extension DAX {
         public let nextToken: String?
         /// A list of parameters. Each element in the list represents one parameter.
         public let parameters: [Parameter]?
-        
+
         public init(nextToken: String? = nil, parameters: [Parameter]? = nil) {
             self.nextToken = nextToken
             self.parameters = parameters
@@ -554,7 +554,7 @@ extension DAX {
         public let sourceType: SourceType?
         /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format.
         public let startTime: TimeStamp?
-        
+
         public init(duration: Int32? = nil, endTime: TimeStamp? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sourceName: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
             self.duration = duration
             self.endTime = endTime
@@ -586,7 +586,7 @@ extension DAX {
         public let events: [Event]?
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
-        
+
         public init(events: [Event]? = nil, nextToken: String? = nil) {
             self.events = events
             self.nextToken = nextToken
@@ -611,7 +611,7 @@ extension DAX {
         public let nextToken: String?
         /// The names of the parameter groups.
         public let parameterGroupNames: [String]?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, parameterGroupNames: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -635,7 +635,7 @@ extension DAX {
         public let nextToken: String?
         /// An array of parameter groups. Each element in the array represents one parameter group.
         public let parameterGroups: [ParameterGroup]?
-        
+
         public init(nextToken: String? = nil, parameterGroups: [ParameterGroup]? = nil) {
             self.nextToken = nextToken
             self.parameterGroups = parameterGroups
@@ -663,7 +663,7 @@ extension DAX {
         public let parameterGroupName: String
         /// How the parameter is defined. For example, system denotes a system-defined parameter.
         public let source: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, parameterGroupName: String, source: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -689,7 +689,7 @@ extension DAX {
         public let nextToken: String?
         /// A list of parameters within a parameter group. Each element in the list represents one parameter.
         public let parameters: [Parameter]?
-        
+
         public init(nextToken: String? = nil, parameters: [Parameter]? = nil) {
             self.nextToken = nextToken
             self.parameters = parameters
@@ -714,7 +714,7 @@ extension DAX {
         public let nextToken: String?
         /// The name of the subnet group.
         public let subnetGroupNames: [String]?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, subnetGroupNames: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -738,7 +738,7 @@ extension DAX {
         public let nextToken: String?
         /// An array of subnet groups. Each element in the array represents a single subnet group.
         public let subnetGroups: [SubnetGroup]?
-        
+
         public init(nextToken: String? = nil, subnetGroups: [SubnetGroup]? = nil) {
             self.nextToken = nextToken
             self.subnetGroups = subnetGroups
@@ -760,7 +760,7 @@ extension DAX {
         public let address: String?
         /// The port number that applications should use to connect to the endpoint.
         public let port: Int32?
-        
+
         public init(address: String? = nil, port: Int32? = nil) {
             self.address = address
             self.port = port
@@ -788,7 +788,7 @@ extension DAX {
         public let sourceName: String?
         /// Specifies the origin of this event - a cluster, a parameter group, a node ID, etc.
         public let sourceType: SourceType?
-        
+
         public init(date: TimeStamp? = nil, message: String? = nil, sourceName: String? = nil, sourceType: SourceType? = nil) {
             self.date = date
             self.message = message
@@ -817,7 +817,7 @@ extension DAX {
         public let clusterName: String
         /// The new number of nodes for the DAX cluster.
         public let newReplicationFactor: Int32
-        
+
         public init(availabilityZones: [String]? = nil, clusterName: String, newReplicationFactor: Int32) {
             self.availabilityZones = availabilityZones
             self.clusterName = clusterName
@@ -838,7 +838,7 @@ extension DAX {
 
         /// A description of the DAX cluster. with its new replication factor.
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -865,7 +865,7 @@ extension DAX {
         public let nextToken: String?
         /// The name of the DAX resource to which the tags belong.
         public let resourceName: String
-        
+
         public init(nextToken: String? = nil, resourceName: String) {
             self.nextToken = nextToken
             self.resourceName = resourceName
@@ -887,7 +887,7 @@ extension DAX {
         public let nextToken: String?
         /// A list of tags currently associated with the DAX cluster.
         public let tags: [Tag]?
-        
+
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -921,7 +921,7 @@ extension DAX {
         public let nodeStatus: String?
         /// The status of the parameter group associated with this node. For example, in-sync.
         public let parameterGroupStatus: String?
-        
+
         public init(availabilityZone: String? = nil, endpoint: Endpoint? = nil, nodeCreateTime: TimeStamp? = nil, nodeId: String? = nil, nodeStatus: String? = nil, parameterGroupStatus: String? = nil) {
             self.availabilityZone = availabilityZone
             self.endpoint = endpoint
@@ -951,7 +951,7 @@ extension DAX {
         public let nodeType: String?
         /// The parameter value for this node type.
         public let value: String?
-        
+
         public init(nodeType: String? = nil, value: String? = nil) {
             self.nodeType = nodeType
             self.value = value
@@ -973,7 +973,7 @@ extension DAX {
         public let topicArn: String?
         /// The current state of the topic.
         public let topicStatus: String?
-        
+
         public init(topicArn: String? = nil, topicStatus: String? = nil) {
             self.topicArn = topicArn
             self.topicStatus = topicStatus
@@ -1019,7 +1019,7 @@ extension DAX {
         public let parameterValue: String?
         /// How the parameter is defined. For example, system denotes a system-defined parameter.
         public let source: String?
-        
+
         public init(allowedValues: String? = nil, changeType: ChangeType? = nil, dataType: String? = nil, description: String? = nil, isModifiable: IsModifiable? = nil, nodeTypeSpecificValues: [NodeTypeSpecificValue]? = nil, parameterName: String? = nil, parameterType: ParameterType? = nil, parameterValue: String? = nil, source: String? = nil) {
             self.allowedValues = allowedValues
             self.changeType = changeType
@@ -1057,7 +1057,7 @@ extension DAX {
         public let description: String?
         /// The name of the parameter group.
         public let parameterGroupName: String?
-        
+
         public init(description: String? = nil, parameterGroupName: String? = nil) {
             self.description = description
             self.parameterGroupName = parameterGroupName
@@ -1082,7 +1082,7 @@ extension DAX {
         public let parameterApplyStatus: String?
         /// The name of the parameter group.
         public let parameterGroupName: String?
-        
+
         public init(nodeIdsToReboot: [String]? = nil, parameterApplyStatus: String? = nil, parameterGroupName: String? = nil) {
             self.nodeIdsToReboot = nodeIdsToReboot
             self.parameterApplyStatus = parameterApplyStatus
@@ -1106,7 +1106,7 @@ extension DAX {
         public let parameterName: String?
         /// The value of the parameter.
         public let parameterValue: String?
-        
+
         public init(parameterName: String? = nil, parameterValue: String? = nil) {
             self.parameterName = parameterName
             self.parameterValue = parameterValue
@@ -1134,7 +1134,7 @@ extension DAX {
         public let clusterName: String
         /// The system-assigned ID of the node to be rebooted.
         public let nodeId: String
-        
+
         public init(clusterName: String, nodeId: String) {
             self.clusterName = clusterName
             self.nodeId = nodeId
@@ -1153,7 +1153,7 @@ extension DAX {
 
         /// A description of the DAX cluster after a node has been rebooted.
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -1170,7 +1170,7 @@ extension DAX {
 
         /// The current state of server-side encryption:    ENABLING - Server-side encryption is being enabled.    ENABLED - Server-side encryption is enabled.    DISABLING - Server-side encryption is being disabled.    DISABLED - Server-side encryption is disabled.  
         public let status: SSEStatus?
-        
+
         public init(status: SSEStatus? = nil) {
             self.status = status
         }
@@ -1187,7 +1187,7 @@ extension DAX {
 
         /// Indicates whether server-side encryption is enabled (true) or disabled (false) on the cluster.
         public let enabled: Bool
-        
+
         public init(enabled: Bool) {
             self.enabled = enabled
         }
@@ -1215,7 +1215,7 @@ extension DAX {
         public let securityGroupIdentifier: String?
         /// The status of this security group.
         public let status: String?
-        
+
         public init(securityGroupIdentifier: String? = nil, status: String? = nil) {
             self.securityGroupIdentifier = securityGroupIdentifier
             self.status = status
@@ -1244,7 +1244,7 @@ extension DAX {
         public let subnetAvailabilityZone: String?
         /// The system-assigned identifier for the subnet.
         public let subnetIdentifier: String?
-        
+
         public init(subnetAvailabilityZone: String? = nil, subnetIdentifier: String? = nil) {
             self.subnetAvailabilityZone = subnetAvailabilityZone
             self.subnetIdentifier = subnetIdentifier
@@ -1272,7 +1272,7 @@ extension DAX {
         public let subnets: [Subnet]?
         /// The Amazon Virtual Private Cloud identifier (VPC ID) of the subnet group.
         public let vpcId: String?
-        
+
         public init(description: String? = nil, subnetGroupName: String? = nil, subnets: [Subnet]? = nil, vpcId: String? = nil) {
             self.description = description
             self.subnetGroupName = subnetGroupName
@@ -1298,7 +1298,7 @@ extension DAX {
         public let key: String?
         /// The value of the tag. Tag values are case-sensitive and can be null. 
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1320,7 +1320,7 @@ extension DAX {
         public let resourceName: String
         /// The tags to be assigned to the DAX resource. 
         public let tags: [Tag]
-        
+
         public init(resourceName: String, tags: [Tag]) {
             self.resourceName = resourceName
             self.tags = tags
@@ -1339,7 +1339,7 @@ extension DAX {
 
         /// The list of tags that are associated with the DAX resource.
         public let tags: [Tag]?
-        
+
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -1359,7 +1359,7 @@ extension DAX {
         public let resourceName: String
         /// A list of tag keys. If the DAX cluster has any tags with these keys, then the tags are removed from the cluster.
         public let tagKeys: [String]
-        
+
         public init(resourceName: String, tagKeys: [String]) {
             self.resourceName = resourceName
             self.tagKeys = tagKeys
@@ -1378,7 +1378,7 @@ extension DAX {
 
         /// The tag keys that have been removed from the cluster.
         public let tags: [Tag]?
-        
+
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -1413,7 +1413,7 @@ extension DAX {
         public let preferredMaintenanceWindow: String?
         /// A list of user-specified security group IDs to be assigned to each node in the DAX cluster. If this parameter is not specified, DAX assigns the default VPC security group to each node.
         public let securityGroupIds: [String]?
-        
+
         public init(clusterName: String, description: String? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, parameterGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil) {
             self.clusterName = clusterName
             self.description = description
@@ -1442,7 +1442,7 @@ extension DAX {
 
         /// A description of the DAX cluster, after it has been modified.
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -1462,7 +1462,7 @@ extension DAX {
         public let parameterGroupName: String
         /// An array of name-value pairs for the parameters in the group. Each element in the array represents a single parameter.
         public let parameterNameValues: [ParameterNameValue]
-        
+
         public init(parameterGroupName: String, parameterNameValues: [ParameterNameValue]) {
             self.parameterGroupName = parameterGroupName
             self.parameterNameValues = parameterNameValues
@@ -1481,7 +1481,7 @@ extension DAX {
 
         /// The parameter group that has been modified.
         public let parameterGroup: ParameterGroup?
-        
+
         public init(parameterGroup: ParameterGroup? = nil) {
             self.parameterGroup = parameterGroup
         }
@@ -1504,7 +1504,7 @@ extension DAX {
         public let subnetGroupName: String
         /// A list of subnet IDs in the subnet group.
         public let subnetIds: [String]?
-        
+
         public init(description: String? = nil, subnetGroupName: String, subnetIds: [String]? = nil) {
             self.description = description
             self.subnetGroupName = subnetGroupName
@@ -1525,7 +1525,7 @@ extension DAX {
 
         /// The subnet group that has been modified.
         public let subnetGroup: SubnetGroup?
-        
+
         public init(subnetGroup: SubnetGroup? = nil) {
             self.subnetGroup = subnetGroup
         }
@@ -1534,5 +1534,4 @@ extension DAX {
             case subnetGroup = "SubnetGroup"
         }
     }
-
 }

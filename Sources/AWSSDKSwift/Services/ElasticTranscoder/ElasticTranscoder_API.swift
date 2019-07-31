@@ -110,5 +110,4 @@ public struct ElasticTranscoder {
     public func updatePipelineStatus(_ input: UpdatePipelineStatusRequest) throws -> Future<UpdatePipelineStatusResponse> {
         return try client.send(operation: "UpdatePipelineStatus", path: "/2012-09-25/pipelines/{Id}/status", httpMethod: "POST", input: input)
     }
-
 }

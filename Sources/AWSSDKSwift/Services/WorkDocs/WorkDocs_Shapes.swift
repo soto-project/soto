@@ -18,7 +18,7 @@ extension WorkDocs {
         public let documentId: String
         /// The ID of the version.
         public let versionId: String
-        
+
         public init(authenticationToken: String? = nil, documentId: String, versionId: String) {
             self.authenticationToken = authenticationToken
             self.documentId = documentId
@@ -53,7 +53,7 @@ extension WorkDocs {
         public let authenticationToken: String?
         /// The ID of the user.
         public let userId: String
-        
+
         public init(authenticationToken: String? = nil, userId: String) {
             self.authenticationToken = authenticationToken
             self.userId = userId
@@ -80,7 +80,7 @@ extension WorkDocs {
 
         /// The user information.
         public let user: User?
-        
+
         public init(user: User? = nil) {
             self.user = user
         }
@@ -125,7 +125,7 @@ extension WorkDocs {
         public let timeStamp: TimeStamp?
         /// The activity type.
         public let `type`: ActivityType?
-        
+
         public init(commentMetadata: CommentMetadata? = nil, initiator: UserMetadata? = nil, isIndirectActivity: Bool? = nil, organizationId: String? = nil, originalParent: ResourceMetadata? = nil, participants: Participants? = nil, resourceMetadata: ResourceMetadata? = nil, timeStamp: TimeStamp? = nil, type: ActivityType? = nil) {
             self.commentMetadata = commentMetadata
             self.initiator = initiator
@@ -215,7 +215,7 @@ extension WorkDocs {
         public let principals: [SharePrincipal]
         /// The ID of the resource.
         public let resourceId: String
-        
+
         public init(authenticationToken: String? = nil, notificationOptions: NotificationOptions? = nil, principals: [SharePrincipal], resourceId: String) {
             self.authenticationToken = authenticationToken
             self.notificationOptions = notificationOptions
@@ -250,7 +250,7 @@ extension WorkDocs {
 
         /// The share results.
         public let shareResults: [ShareResult]?
-        
+
         public init(shareResults: [ShareResult]? = nil) {
             self.shareResults = shareResults
         }
@@ -303,7 +303,7 @@ extension WorkDocs {
         public let threadId: String?
         /// The visibility of the comment. Options are either PRIVATE, where the comment is visible only to the comment author and document owner and co-owners, or PUBLIC, where the comment is visible to document owners, co-owners, and contributors.
         public let visibility: CommentVisibilityType?
-        
+
         public init(commentId: String, contributor: User? = nil, createdTimestamp: TimeStamp? = nil, parentId: String? = nil, recipientId: String? = nil, status: CommentStatusType? = nil, text: String? = nil, threadId: String? = nil, visibility: CommentVisibilityType? = nil) {
             self.commentId = commentId
             self.contributor = contributor
@@ -366,7 +366,7 @@ extension WorkDocs {
         public let createdTimestamp: TimeStamp?
         /// The ID of the user being replied to.
         public let recipientId: String?
-        
+
         public init(commentId: String? = nil, commentStatus: CommentStatusType? = nil, contributor: User? = nil, createdTimestamp: TimeStamp? = nil, recipientId: String? = nil) {
             self.commentId = commentId
             self.commentStatus = commentStatus
@@ -435,7 +435,7 @@ extension WorkDocs {
         public let versionId: String
         /// The visibility of the comment. Options are either PRIVATE, where the comment is visible only to the comment author and document owner and co-owners, or PUBLIC, where the comment is visible to document owners, co-owners, and contributors.
         public let visibility: CommentVisibilityType?
-        
+
         public init(authenticationToken: String? = nil, documentId: String, notifyCollaborators: Bool? = nil, parentId: String? = nil, text: String, threadId: String? = nil, versionId: String, visibility: CommentVisibilityType? = nil) {
             self.authenticationToken = authenticationToken
             self.documentId = documentId
@@ -485,7 +485,7 @@ extension WorkDocs {
 
         /// The comment that has been created.
         public let comment: Comment?
-        
+
         public init(comment: Comment? = nil) {
             self.comment = comment
         }
@@ -515,7 +515,7 @@ extension WorkDocs {
         public let resourceId: String
         /// The ID of the version, if the custom metadata is being added to a document version.
         public let versionId: String?
-        
+
         public init(authenticationToken: String? = nil, customMetadata: [String: String], resourceId: String, versionId: String? = nil) {
             self.authenticationToken = authenticationToken
             self.customMetadata = customMetadata
@@ -543,11 +543,12 @@ extension WorkDocs {
     }
 
     public struct CreateCustomMetadataResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateFolderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -562,7 +563,7 @@ extension WorkDocs {
         public let name: String?
         /// The ID of the parent folder.
         public let parentFolderId: String
-        
+
         public init(authenticationToken: String? = nil, name: String? = nil, parentFolderId: String) {
             self.authenticationToken = authenticationToken
             self.name = name
@@ -594,7 +595,7 @@ extension WorkDocs {
 
         /// The metadata of the folder.
         public let metadata: FolderMetadata?
-        
+
         public init(metadata: FolderMetadata? = nil) {
             self.metadata = metadata
         }
@@ -621,7 +622,7 @@ extension WorkDocs {
         public let labels: [String]
         /// The ID of the resource.
         public let resourceId: String
-        
+
         public init(authenticationToken: String? = nil, labels: [String], resourceId: String) {
             self.authenticationToken = authenticationToken
             self.labels = labels
@@ -650,11 +651,12 @@ extension WorkDocs {
     }
 
     public struct CreateLabelsResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateNotificationSubscriptionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -672,7 +674,7 @@ extension WorkDocs {
         public let `protocol`: SubscriptionProtocolType
         /// The notification type.
         public let subscriptionType: SubscriptionType
-        
+
         public init(endpoint: String, organizationId: String, protocol: SubscriptionProtocolType, subscriptionType: SubscriptionType) {
             self.endpoint = endpoint
             self.organizationId = organizationId
@@ -703,7 +705,7 @@ extension WorkDocs {
 
         /// The subscription.
         public let subscription: Subscription?
-        
+
         public init(subscription: Subscription? = nil) {
             self.subscription = subscription
         }
@@ -748,7 +750,7 @@ extension WorkDocs {
         public let timeZoneId: String?
         /// The login name of the user.
         public let username: String
-        
+
         public init(authenticationToken: String? = nil, emailAddress: String? = nil, givenName: String, organizationId: String? = nil, password: String, storageRule: StorageRuleType? = nil, surname: String, timeZoneId: String? = nil, username: String) {
             self.authenticationToken = authenticationToken
             self.emailAddress = emailAddress
@@ -805,7 +807,7 @@ extension WorkDocs {
 
         /// The user information.
         public let user: User?
-        
+
         public init(user: User? = nil) {
             self.user = user
         }
@@ -829,7 +831,7 @@ extension WorkDocs {
         public let authenticationToken: String?
         /// The ID of the user.
         public let userId: String
-        
+
         public init(authenticationToken: String? = nil, userId: String) {
             self.authenticationToken = authenticationToken
             self.userId = userId
@@ -865,7 +867,7 @@ extension WorkDocs {
         public let documentId: String
         /// The ID of the document version.
         public let versionId: String
-        
+
         public init(authenticationToken: String? = nil, commentId: String, documentId: String, versionId: String) {
             self.authenticationToken = authenticationToken
             self.commentId = commentId
@@ -914,7 +916,7 @@ extension WorkDocs {
         public let resourceId: String
         /// The ID of the version, if the custom metadata is being deleted from a document version.
         public let versionId: String?
-        
+
         public init(authenticationToken: String? = nil, deleteAll: Bool? = nil, keys: [String]? = nil, resourceId: String, versionId: String? = nil) {
             self.authenticationToken = authenticationToken
             self.deleteAll = deleteAll
@@ -950,11 +952,12 @@ extension WorkDocs {
     }
 
     public struct DeleteCustomMetadataResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteDocumentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -966,7 +969,7 @@ extension WorkDocs {
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
-        
+
         public init(authenticationToken: String? = nil, documentId: String) {
             self.authenticationToken = authenticationToken
             self.documentId = documentId
@@ -996,7 +999,7 @@ extension WorkDocs {
         public let authenticationToken: String?
         /// The ID of the folder.
         public let folderId: String
-        
+
         public init(authenticationToken: String? = nil, folderId: String) {
             self.authenticationToken = authenticationToken
             self.folderId = folderId
@@ -1026,7 +1029,7 @@ extension WorkDocs {
         public let authenticationToken: String?
         /// The ID of the folder.
         public let folderId: String
-        
+
         public init(authenticationToken: String? = nil, folderId: String) {
             self.authenticationToken = authenticationToken
             self.folderId = folderId
@@ -1062,7 +1065,7 @@ extension WorkDocs {
         public let labels: [String]?
         /// The ID of the resource.
         public let resourceId: String
-        
+
         public init(authenticationToken: String? = nil, deleteAll: Bool? = nil, labels: [String]? = nil, resourceId: String) {
             self.authenticationToken = authenticationToken
             self.deleteAll = deleteAll
@@ -1093,11 +1096,12 @@ extension WorkDocs {
     }
 
     public struct DeleteLabelsResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteNotificationSubscriptionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1109,7 +1113,7 @@ extension WorkDocs {
         public let organizationId: String
         /// The ID of the subscription.
         public let subscriptionId: String
-        
+
         public init(organizationId: String, subscriptionId: String) {
             self.organizationId = organizationId
             self.subscriptionId = subscriptionId
@@ -1140,7 +1144,7 @@ extension WorkDocs {
         public let authenticationToken: String?
         /// The ID of the user.
         public let userId: String
-        
+
         public init(authenticationToken: String? = nil, userId: String) {
             self.authenticationToken = authenticationToken
             self.userId = userId
@@ -1194,7 +1198,7 @@ extension WorkDocs {
         public let startTime: TimeStamp?
         /// The ID of the user who performed the action. The response includes activities pertaining to this user. This is an optional parameter and is only applicable for administrative API (SigV4) requests.
         public let userId: String?
-        
+
         public init(activityTypes: String? = nil, authenticationToken: String? = nil, endTime: TimeStamp? = nil, includeIndirectActivities: Bool? = nil, limit: Int32? = nil, marker: String? = nil, organizationId: String? = nil, resourceId: String? = nil, startTime: TimeStamp? = nil, userId: String? = nil) {
             self.activityTypes = activityTypes
             self.authenticationToken = authenticationToken
@@ -1254,7 +1258,7 @@ extension WorkDocs {
         public let marker: String?
         /// The list of activities for the specified user and time period.
         public let userActivities: [Activity]?
-        
+
         public init(marker: String? = nil, userActivities: [Activity]? = nil) {
             self.marker = marker
             self.userActivities = userActivities
@@ -1294,7 +1298,7 @@ extension WorkDocs {
         public let marker: String?
         /// The ID of the document version.
         public let versionId: String
-        
+
         public init(authenticationToken: String? = nil, documentId: String, limit: Int32? = nil, marker: String? = nil, versionId: String) {
             self.authenticationToken = authenticationToken
             self.documentId = documentId
@@ -1338,7 +1342,7 @@ extension WorkDocs {
         public let comments: [Comment]?
         /// The marker for the next set of results. This marker was received from a previous call.
         public let marker: String?
-        
+
         public init(comments: [Comment]? = nil, marker: String? = nil) {
             self.comments = comments
             self.marker = marker
@@ -1381,7 +1385,7 @@ extension WorkDocs {
         public let limit: Int32?
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
-        
+
         public init(authenticationToken: String? = nil, documentId: String, fields: String? = nil, include: String? = nil, limit: Int32? = nil, marker: String? = nil) {
             self.authenticationToken = authenticationToken
             self.documentId = documentId
@@ -1429,7 +1433,7 @@ extension WorkDocs {
         public let documentVersions: [DocumentVersionMetadata]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
-        
+
         public init(documentVersions: [DocumentVersionMetadata]? = nil, marker: String? = nil) {
             self.documentVersions = documentVersions
             self.marker = marker
@@ -1477,7 +1481,7 @@ extension WorkDocs {
         public let sort: ResourceSortType?
         /// The type of items.
         public let `type`: FolderContentType?
-        
+
         public init(authenticationToken: String? = nil, folderId: String, include: String? = nil, limit: Int32? = nil, marker: String? = nil, order: OrderType? = nil, sort: ResourceSortType? = nil, type: FolderContentType? = nil) {
             self.authenticationToken = authenticationToken
             self.folderId = folderId
@@ -1529,7 +1533,7 @@ extension WorkDocs {
         public let folders: [FolderMetadata]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
-        
+
         public init(documents: [DocumentMetadata]? = nil, folders: [FolderMetadata]? = nil, marker: String? = nil) {
             self.documents = documents
             self.folders = folders
@@ -1573,7 +1577,7 @@ extension WorkDocs {
         public let organizationId: String?
         /// A query to describe groups by group name.
         public let searchQuery: String
-        
+
         public init(authenticationToken: String? = nil, limit: Int32? = nil, marker: String? = nil, organizationId: String? = nil, searchQuery: String) {
             self.authenticationToken = authenticationToken
             self.limit = limit
@@ -1616,7 +1620,7 @@ extension WorkDocs {
         public let groups: [GroupMetadata]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
-        
+
         public init(groups: [GroupMetadata]? = nil, marker: String? = nil) {
             self.groups = groups
             self.marker = marker
@@ -1650,7 +1654,7 @@ extension WorkDocs {
         public let marker: String?
         /// The ID of the organization.
         public let organizationId: String
-        
+
         public init(limit: Int32? = nil, marker: String? = nil, organizationId: String) {
             self.limit = limit
             self.marker = marker
@@ -1684,7 +1688,7 @@ extension WorkDocs {
         public let marker: String?
         /// The subscriptions.
         public let subscriptions: [Subscription]?
-        
+
         public init(marker: String? = nil, subscriptions: [Subscription]? = nil) {
             self.marker = marker
             self.subscriptions = subscriptions
@@ -1724,7 +1728,7 @@ extension WorkDocs {
         public let principalId: String?
         /// The ID of the resource.
         public let resourceId: String
-        
+
         public init(authenticationToken: String? = nil, limit: Int32? = nil, marker: String? = nil, principalId: String? = nil, resourceId: String) {
             self.authenticationToken = authenticationToken
             self.limit = limit
@@ -1767,7 +1771,7 @@ extension WorkDocs {
         public let marker: String?
         /// The principals.
         public let principals: [Principal]?
-        
+
         public init(marker: String? = nil, principals: [Principal]? = nil) {
             self.marker = marker
             self.principals = principals
@@ -1800,7 +1804,7 @@ extension WorkDocs {
         public let limit: Int32?
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
-        
+
         public init(authenticationToken: String, limit: Int32? = nil, marker: String? = nil) {
             self.authenticationToken = authenticationToken
             self.limit = limit
@@ -1833,7 +1837,7 @@ extension WorkDocs {
         public let folders: [FolderMetadata]?
         /// The marker for the next set of results.
         public let marker: String?
-        
+
         public init(folders: [FolderMetadata]? = nil, marker: String? = nil) {
             self.folders = folders
             self.marker = marker
@@ -1887,7 +1891,7 @@ extension WorkDocs {
         public let sort: UserSortType?
         /// The IDs of the users.
         public let userIds: String?
-        
+
         public init(authenticationToken: String? = nil, fields: String? = nil, include: UserFilterType? = nil, limit: Int32? = nil, marker: String? = nil, order: OrderType? = nil, organizationId: String? = nil, query: String? = nil, sort: UserSortType? = nil, userIds: String? = nil) {
             self.authenticationToken = authenticationToken
             self.fields = fields
@@ -1946,7 +1950,7 @@ extension WorkDocs {
         public let marker: String?
         /// The users.
         public let users: [User]?
-        
+
         public init(marker: String? = nil, users: [User]? = nil) {
             self.marker = marker
             self.users = users
@@ -1994,7 +1998,7 @@ extension WorkDocs {
         public let parentFolderId: String?
         /// The resource state.
         public let resourceState: ResourceStateType?
-        
+
         public init(createdTimestamp: TimeStamp? = nil, creatorId: String? = nil, id: String? = nil, labels: [String]? = nil, latestVersionMetadata: DocumentVersionMetadata? = nil, modifiedTimestamp: TimeStamp? = nil, parentFolderId: String? = nil, resourceState: ResourceStateType? = nil) {
             self.createdTimestamp = createdTimestamp
             self.creatorId = creatorId
@@ -2099,7 +2103,7 @@ extension WorkDocs {
         public let status: DocumentStatusType?
         /// The thumbnail of the document.
         public let thumbnail: [DocumentThumbnailType: String]?
-        
+
         public init(contentCreatedTimestamp: TimeStamp? = nil, contentModifiedTimestamp: TimeStamp? = nil, contentType: String? = nil, createdTimestamp: TimeStamp? = nil, creatorId: String? = nil, id: String? = nil, modifiedTimestamp: TimeStamp? = nil, name: String? = nil, signature: String? = nil, size: Int64? = nil, source: [DocumentSourceType: String]? = nil, status: DocumentStatusType? = nil, thumbnail: [DocumentThumbnailType: String]? = nil) {
             self.contentCreatedTimestamp = contentCreatedTimestamp
             self.contentModifiedTimestamp = contentModifiedTimestamp
@@ -2199,7 +2203,7 @@ extension WorkDocs {
         public let signature: String?
         /// The size of the folder metadata.
         public let size: Int64?
-        
+
         public init(createdTimestamp: TimeStamp? = nil, creatorId: String? = nil, id: String? = nil, labels: [String]? = nil, latestVersionSize: Int64? = nil, modifiedTimestamp: TimeStamp? = nil, name: String? = nil, parentFolderId: String? = nil, resourceState: ResourceStateType? = nil, signature: String? = nil, size: Int64? = nil) {
             self.createdTimestamp = createdTimestamp
             self.creatorId = creatorId
@@ -2260,7 +2264,7 @@ extension WorkDocs {
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String
-        
+
         public init(authenticationToken: String) {
             self.authenticationToken = authenticationToken
         }
@@ -2282,7 +2286,7 @@ extension WorkDocs {
 
         /// Metadata of the user.
         public let user: User?
-        
+
         public init(user: User? = nil) {
             self.user = user
         }
@@ -2315,7 +2319,7 @@ extension WorkDocs {
         public let limit: Int32?
         /// This value is not supported.
         public let marker: String?
-        
+
         public init(authenticationToken: String? = nil, documentId: String, fields: String? = nil, limit: Int32? = nil, marker: String? = nil) {
             self.authenticationToken = authenticationToken
             self.documentId = documentId
@@ -2355,7 +2359,7 @@ extension WorkDocs {
 
         /// The path information.
         public let path: ResourcePath?
-        
+
         public init(path: ResourcePath? = nil) {
             self.path = path
         }
@@ -2382,7 +2386,7 @@ extension WorkDocs {
         public let documentId: String
         /// Set this to TRUE to include custom metadata in the response.
         public let includeCustomMetadata: Bool?
-        
+
         public init(authenticationToken: String? = nil, documentId: String, includeCustomMetadata: Bool? = nil) {
             self.authenticationToken = authenticationToken
             self.documentId = documentId
@@ -2414,7 +2418,7 @@ extension WorkDocs {
         public let customMetadata: [String: String]?
         /// The metadata details of the document.
         public let metadata: DocumentMetadata?
-        
+
         public init(customMetadata: [String: String]? = nil, metadata: DocumentMetadata? = nil) {
             self.customMetadata = customMetadata
             self.metadata = metadata
@@ -2449,7 +2453,7 @@ extension WorkDocs {
         public let includeCustomMetadata: Bool?
         /// The version ID of the document.
         public let versionId: String
-        
+
         public init(authenticationToken: String? = nil, documentId: String, fields: String? = nil, includeCustomMetadata: Bool? = nil, versionId: String) {
             self.authenticationToken = authenticationToken
             self.documentId = documentId
@@ -2491,7 +2495,7 @@ extension WorkDocs {
         public let customMetadata: [String: String]?
         /// The version metadata.
         public let metadata: DocumentVersionMetadata?
-        
+
         public init(customMetadata: [String: String]? = nil, metadata: DocumentVersionMetadata? = nil) {
             self.customMetadata = customMetadata
             self.metadata = metadata
@@ -2526,7 +2530,7 @@ extension WorkDocs {
         public let limit: Int32?
         /// This value is not supported.
         public let marker: String?
-        
+
         public init(authenticationToken: String? = nil, fields: String? = nil, folderId: String, limit: Int32? = nil, marker: String? = nil) {
             self.authenticationToken = authenticationToken
             self.fields = fields
@@ -2566,7 +2570,7 @@ extension WorkDocs {
 
         /// The path information.
         public let path: ResourcePath?
-        
+
         public init(path: ResourcePath? = nil) {
             self.path = path
         }
@@ -2593,7 +2597,7 @@ extension WorkDocs {
         public let folderId: String
         /// Set to TRUE to include custom metadata in the response.
         public let includeCustomMetadata: Bool?
-        
+
         public init(authenticationToken: String? = nil, folderId: String, includeCustomMetadata: Bool? = nil) {
             self.authenticationToken = authenticationToken
             self.folderId = folderId
@@ -2625,7 +2629,7 @@ extension WorkDocs {
         public let customMetadata: [String: String]?
         /// The metadata of the folder.
         public let metadata: FolderMetadata?
-        
+
         public init(customMetadata: [String: String]? = nil, metadata: FolderMetadata? = nil) {
             self.customMetadata = customMetadata
             self.metadata = metadata
@@ -2660,7 +2664,7 @@ extension WorkDocs {
         public let marker: String?
         /// The user ID for the resource collection. This is a required field for accessing the API operation using IAM credentials.
         public let userId: String?
-        
+
         public init(authenticationToken: String? = nil, collectionType: ResourceCollectionType? = nil, limit: Int32? = nil, marker: String? = nil, userId: String? = nil) {
             self.authenticationToken = authenticationToken
             self.collectionType = collectionType
@@ -2703,7 +2707,7 @@ extension WorkDocs {
         public let folders: [FolderMetadata]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
-        
+
         public init(documents: [DocumentMetadata]? = nil, folders: [FolderMetadata]? = nil, marker: String? = nil) {
             self.documents = documents
             self.folders = folders
@@ -2738,7 +2742,7 @@ extension WorkDocs {
         public let id: String?
         /// The name of the group.
         public let name: String?
-        
+
         public init(id: String? = nil, name: String? = nil) {
             self.id = id
             self.name = name
@@ -2784,7 +2788,7 @@ extension WorkDocs {
         public let name: String?
         /// The ID of the parent folder.
         public let parentFolderId: String
-        
+
         public init(authenticationToken: String? = nil, contentCreatedTimestamp: TimeStamp? = nil, contentModifiedTimestamp: TimeStamp? = nil, contentType: String? = nil, documentSizeInBytes: Int64? = nil, id: String? = nil, name: String? = nil, parentFolderId: String) {
             self.authenticationToken = authenticationToken
             self.contentCreatedTimestamp = contentCreatedTimestamp
@@ -2834,7 +2838,7 @@ extension WorkDocs {
         public let metadata: DocumentMetadata?
         /// The upload metadata.
         public let uploadMetadata: UploadMetadata?
-        
+
         public init(metadata: DocumentMetadata? = nil, uploadMetadata: UploadMetadata? = nil) {
             self.metadata = metadata
             self.uploadMetadata = uploadMetadata
@@ -2876,7 +2880,7 @@ extension WorkDocs {
         public let emailMessage: String?
         /// Boolean value to indicate an email notification should be sent to the receipients.
         public let sendEmail: Bool?
-        
+
         public init(emailMessage: String? = nil, sendEmail: Bool? = nil) {
             self.emailMessage = emailMessage
             self.sendEmail = sendEmail
@@ -2909,7 +2913,7 @@ extension WorkDocs {
         public let groups: [GroupMetadata]?
         /// The list of users.
         public let users: [UserMetadata]?
-        
+
         public init(groups: [GroupMetadata]? = nil, users: [UserMetadata]? = nil) {
             self.groups = groups
             self.users = users
@@ -2940,7 +2944,7 @@ extension WorkDocs {
         public let role: RoleType?
         /// The type of permissions.
         public let `type`: RolePermissionType?
-        
+
         public init(role: RoleType? = nil, type: RolePermissionType? = nil) {
             self.role = role
             self.`type` = `type`
@@ -2965,7 +2969,7 @@ extension WorkDocs {
         public let roles: [PermissionInfo]?
         /// The type of resource.
         public let `type`: PrincipalType?
-        
+
         public init(id: String? = nil, roles: [PermissionInfo]? = nil, type: PrincipalType? = nil) {
             self.id = id
             self.roles = roles
@@ -3004,7 +3008,7 @@ extension WorkDocs {
         public let authenticationToken: String?
         /// The ID of the resource.
         public let resourceId: String
-        
+
         public init(authenticationToken: String? = nil, resourceId: String) {
             self.authenticationToken = authenticationToken
             self.resourceId = resourceId
@@ -3040,7 +3044,7 @@ extension WorkDocs {
         public let principalType: PrincipalType?
         /// The ID of the resource.
         public let resourceId: String
-        
+
         public init(authenticationToken: String? = nil, principalId: String, principalType: PrincipalType? = nil, resourceId: String) {
             self.authenticationToken = authenticationToken
             self.principalId = principalId
@@ -3097,7 +3101,7 @@ extension WorkDocs {
         public let `type`: ResourceType?
         /// The version ID of the resource. This is an optional field and is filled for action on document version.
         public let versionId: String?
-        
+
         public init(id: String? = nil, name: String? = nil, originalName: String? = nil, owner: UserMetadata? = nil, parentId: String? = nil, type: ResourceType? = nil, versionId: String? = nil) {
             self.id = id
             self.name = name
@@ -3145,7 +3149,7 @@ extension WorkDocs {
 
         /// The components of the resource path.
         public let components: [ResourcePathComponent]?
-        
+
         public init(components: [ResourcePathComponent]? = nil) {
             self.components = components
         }
@@ -3171,7 +3175,7 @@ extension WorkDocs {
         public let id: String?
         /// The name of the resource path.
         public let name: String?
-        
+
         public init(id: String? = nil, name: String? = nil) {
             self.id = id
             self.name = name
@@ -3239,7 +3243,7 @@ extension WorkDocs {
         public let role: RoleType
         /// The type of the recipient.
         public let `type`: PrincipalType
-        
+
         public init(id: String, role: RoleType, type: PrincipalType) {
             self.id = id
             self.role = role
@@ -3281,7 +3285,7 @@ extension WorkDocs {
         public let status: ShareStatusType?
         /// The status message.
         public let statusMessage: String?
-        
+
         public init(inviteePrincipalId: String? = nil, principalId: String? = nil, role: RoleType? = nil, shareId: String? = nil, status: ShareStatusType? = nil, statusMessage: String? = nil) {
             self.inviteePrincipalId = inviteePrincipalId
             self.principalId = principalId
@@ -3331,7 +3335,7 @@ extension WorkDocs {
         public let storageAllocatedInBytes: Int64?
         /// The type of storage.
         public let storageType: StorageType?
-        
+
         public init(storageAllocatedInBytes: Int64? = nil, storageType: StorageType? = nil) {
             self.storageAllocatedInBytes = storageAllocatedInBytes
             self.storageType = storageType
@@ -3366,7 +3370,7 @@ extension WorkDocs {
         public let `protocol`: SubscriptionProtocolType?
         /// The ID of the subscription.
         public let subscriptionId: String?
-        
+
         public init(endPoint: String? = nil, protocol: SubscriptionProtocolType? = nil, subscriptionId: String? = nil) {
             self.endPoint = endPoint
             self.`protocol` = `protocol`
@@ -3417,7 +3421,7 @@ extension WorkDocs {
         public let parentFolderId: String?
         /// The resource state of the document. Only ACTIVE and RECYCLED are supported.
         public let resourceState: ResourceStateType?
-        
+
         public init(authenticationToken: String? = nil, documentId: String, name: String? = nil, parentFolderId: String? = nil, resourceState: ResourceStateType? = nil) {
             self.authenticationToken = authenticationToken
             self.documentId = documentId
@@ -3465,7 +3469,7 @@ extension WorkDocs {
         public let versionId: String
         /// The status of the version.
         public let versionStatus: DocumentVersionStatus?
-        
+
         public init(authenticationToken: String? = nil, documentId: String, versionId: String, versionStatus: DocumentVersionStatus? = nil) {
             self.authenticationToken = authenticationToken
             self.documentId = documentId
@@ -3511,7 +3515,7 @@ extension WorkDocs {
         public let parentFolderId: String?
         /// The resource state of the folder. Only ACTIVE and RECYCLED are accepted values from the API.
         public let resourceState: ResourceStateType?
-        
+
         public init(authenticationToken: String? = nil, folderId: String, name: String? = nil, parentFolderId: String? = nil, resourceState: ResourceStateType? = nil) {
             self.authenticationToken = authenticationToken
             self.folderId = folderId
@@ -3574,7 +3578,7 @@ extension WorkDocs {
         public let `type`: UserType?
         /// The ID of the user.
         public let userId: String
-        
+
         public init(authenticationToken: String? = nil, givenName: String? = nil, grantPoweruserPrivileges: BooleanEnumType? = nil, locale: LocaleType? = nil, storageRule: StorageRuleType? = nil, surname: String? = nil, timeZoneId: String? = nil, type: UserType? = nil, userId: String) {
             self.authenticationToken = authenticationToken
             self.givenName = givenName
@@ -3622,7 +3626,7 @@ extension WorkDocs {
 
         /// The user information.
         public let user: User?
-        
+
         public init(user: User? = nil) {
             self.user = user
         }
@@ -3646,7 +3650,7 @@ extension WorkDocs {
         public let signedHeaders: [String: String]?
         /// The URL of the upload.
         public let uploadUrl: String?
-        
+
         public init(signedHeaders: [String: String]? = nil, uploadUrl: String? = nil) {
             self.signedHeaders = signedHeaders
             self.uploadUrl = uploadUrl
@@ -3712,7 +3716,7 @@ extension WorkDocs {
         public let `type`: UserType?
         /// The login name of the user.
         public let username: String?
-        
+
         public init(createdTimestamp: TimeStamp? = nil, emailAddress: String? = nil, givenName: String? = nil, id: String? = nil, locale: LocaleType? = nil, modifiedTimestamp: TimeStamp? = nil, organizationId: String? = nil, recycleBinFolderId: String? = nil, rootFolderId: String? = nil, status: UserStatusType? = nil, storage: UserStorageMetadata? = nil, surname: String? = nil, timeZoneId: String? = nil, type: UserType? = nil, username: String? = nil) {
             self.createdTimestamp = createdTimestamp
             self.emailAddress = emailAddress
@@ -3803,7 +3807,7 @@ extension WorkDocs {
         public let surname: String?
         /// The name of the user.
         public let username: String?
-        
+
         public init(emailAddress: String? = nil, givenName: String? = nil, id: String? = nil, surname: String? = nil, username: String? = nil) {
             self.emailAddress = emailAddress
             self.givenName = givenName
@@ -3863,7 +3867,7 @@ extension WorkDocs {
         public let storageRule: StorageRuleType?
         /// The amount of storage used, in bytes.
         public let storageUtilizedInBytes: Int64?
-        
+
         public init(storageRule: StorageRuleType? = nil, storageUtilizedInBytes: Int64? = nil) {
             self.storageRule = storageRule
             self.storageUtilizedInBytes = storageUtilizedInBytes
@@ -3887,5 +3891,4 @@ extension WorkDocs {
         case workspacesuser = "WORKSPACESUSER"
         public var description: String { return self.rawValue }
     }
-
 }

@@ -30,7 +30,7 @@ extension Chime {
         public let name: String
         /// Supported licenses for the Amazon Chime account.
         public let supportedLicenses: [License]?
-        
+
         public init(accountId: String, accountType: AccountType? = nil, awsAccountId: String, createdTimestamp: TimeStamp? = nil, defaultLicense: License? = nil, name: String, supportedLicenses: [License]? = nil) {
             self.accountId = accountId
             self.accountType = accountType
@@ -62,7 +62,7 @@ extension Chime {
         public let disableRemoteControl: Bool?
         /// Setting that allows meeting participants to choose the Call me at a phone number option. For more information, see Join a Meeting without the Amazon Chime App.
         public let enableDialOut: Bool?
-        
+
         public init(disableRemoteControl: Bool? = nil, enableDialOut: Bool? = nil) {
             self.disableRemoteControl = disableRemoteControl
             self.enableDialOut = enableDialOut
@@ -95,7 +95,7 @@ extension Chime {
         public let e164PhoneNumber: String
         /// The user ID.
         public let userId: String
-        
+
         public init(accountId: String, e164PhoneNumber: String, userId: String) {
             self.accountId = accountId
             self.e164PhoneNumber = e164PhoneNumber
@@ -114,11 +114,12 @@ extension Chime {
     }
 
     public struct AssociatePhoneNumberWithUserResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct AssociatePhoneNumbersWithVoiceConnectorRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -130,7 +131,7 @@ extension Chime {
         public let e164PhoneNumbers: [String]?
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
-        
+
         public init(e164PhoneNumbers: [String]? = nil, voiceConnectorId: String) {
             self.e164PhoneNumbers = e164PhoneNumbers
             self.voiceConnectorId = voiceConnectorId
@@ -156,7 +157,7 @@ extension Chime {
 
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
-        
+
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
             self.phoneNumberErrors = phoneNumberErrors
         }
@@ -179,7 +180,7 @@ extension Chime {
 
         /// List of phone number IDs.
         public let phoneNumberIds: [String]
-        
+
         public init(phoneNumberIds: [String]) {
             self.phoneNumberIds = phoneNumberIds
         }
@@ -200,7 +201,7 @@ extension Chime {
 
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
-        
+
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
             self.phoneNumberErrors = phoneNumberErrors
         }
@@ -226,7 +227,7 @@ extension Chime {
         public let accountId: String
         /// The request containing the user IDs to suspend.
         public let userIdList: [String]
-        
+
         public init(accountId: String, userIdList: [String]) {
             self.accountId = accountId
             self.userIdList = userIdList
@@ -253,7 +254,7 @@ extension Chime {
 
         /// If the BatchSuspendUser action fails for one or more of the user IDs in the request, a list of the user IDs is returned, along with error codes and error messages.
         public let userErrors: [UserError]?
-        
+
         public init(userErrors: [UserError]? = nil) {
             self.userErrors = userErrors
         }
@@ -279,7 +280,7 @@ extension Chime {
         public let accountId: String
         /// The request containing the user IDs to unsuspend.
         public let userIdList: [String]
-        
+
         public init(accountId: String, userIdList: [String]) {
             self.accountId = accountId
             self.userIdList = userIdList
@@ -306,7 +307,7 @@ extension Chime {
 
         /// If the BatchUnsuspendUser action fails for one or more of the user IDs in the request, a list of the user IDs is returned, along with error codes and error messages.
         public let userErrors: [UserError]?
-        
+
         public init(userErrors: [UserError]? = nil) {
             self.userErrors = userErrors
         }
@@ -329,7 +330,7 @@ extension Chime {
 
         /// The request containing the phone number IDs and product types to update.
         public let updatePhoneNumberRequestItems: [UpdatePhoneNumberRequestItem]
-        
+
         public init(updatePhoneNumberRequestItems: [UpdatePhoneNumberRequestItem]) {
             self.updatePhoneNumberRequestItems = updatePhoneNumberRequestItems
         }
@@ -352,7 +353,7 @@ extension Chime {
 
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
-        
+
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
             self.phoneNumberErrors = phoneNumberErrors
         }
@@ -378,7 +379,7 @@ extension Chime {
         public let accountId: String
         /// The request containing the user IDs and details to update.
         public let updateUserRequestItems: [UpdateUserRequestItem]
-        
+
         public init(accountId: String, updateUserRequestItems: [UpdateUserRequestItem]) {
             self.accountId = accountId
             self.updateUserRequestItems = updateUserRequestItems
@@ -405,7 +406,7 @@ extension Chime {
 
         /// If the BatchUpdateUser action fails for one or more of the user IDs in the request, a list of the user IDs is returned, along with error codes and error messages.
         public let userErrors: [UserError]?
-        
+
         public init(userErrors: [UserError]? = nil) {
             self.userErrors = userErrors
         }
@@ -452,7 +453,7 @@ extension Chime {
         public let updatedTimestamp: TimeStamp?
         /// The unique ID for the bot user.
         public let userId: String?
-        
+
         public init(botEmail: String? = nil, botId: String? = nil, botType: BotType? = nil, createdTimestamp: TimeStamp? = nil, disabled: Bool? = nil, displayName: String? = nil, securityToken: String? = nil, updatedTimestamp: TimeStamp? = nil, userId: String? = nil) {
             self.botEmail = botEmail
             self.botId = botId
@@ -490,7 +491,7 @@ extension Chime {
 
         /// The Amazon S3 bucket designated for call detail record storage.
         public let cdrBucket: String?
-        
+
         public init(cdrBucket: String? = nil) {
             self.cdrBucket = cdrBucket
         }
@@ -507,7 +508,7 @@ extension Chime {
 
         /// The name of the Amazon Chime account.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -530,7 +531,7 @@ extension Chime {
 
         /// The Amazon Chime account details.
         public let account: Account?
-        
+
         public init(account: Account? = nil) {
             self.account = account
         }
@@ -553,7 +554,7 @@ extension Chime {
         public let displayName: String
         /// The domain of the Amazon Chime Enterprise account.
         public let domain: String?
-        
+
         public init(accountId: String, displayName: String, domain: String? = nil) {
             self.accountId = accountId
             self.displayName = displayName
@@ -579,7 +580,7 @@ extension Chime {
 
         /// The bot details.
         public let bot: Bot?
-        
+
         public init(bot: Bot? = nil) {
             self.bot = bot
         }
@@ -599,7 +600,7 @@ extension Chime {
         public let e164PhoneNumbers: [String]
         /// The phone number product type.
         public let productType: PhoneNumberProductType
-        
+
         public init(e164PhoneNumbers: [String], productType: PhoneNumberProductType) {
             self.e164PhoneNumbers = e164PhoneNumbers
             self.productType = productType
@@ -624,7 +625,7 @@ extension Chime {
 
         /// The phone number order details.
         public let phoneNumberOrder: PhoneNumberOrder?
-        
+
         public init(phoneNumberOrder: PhoneNumberOrder? = nil) {
             self.phoneNumberOrder = phoneNumberOrder
         }
@@ -648,7 +649,7 @@ extension Chime {
         public let name: String
         /// When enabled, requires encryption for the Amazon Chime Voice Connector.
         public let requireEncryption: Bool
-        
+
         public init(name: String, requireEncryption: Bool) {
             self.name = name
             self.requireEncryption = requireEncryption
@@ -672,7 +673,7 @@ extension Chime {
 
         /// The Amazon Chime Voice Connector details.
         public let voiceConnector: VoiceConnector?
-        
+
         public init(voiceConnector: VoiceConnector? = nil) {
             self.voiceConnector = voiceConnector
         }
@@ -696,7 +697,7 @@ extension Chime {
         public let password: String?
         /// The RFC2617 compliant user name associated with the SIP credentials, in US-ASCII format.
         public let username: String?
-        
+
         public init(password: String? = nil, username: String? = nil) {
             self.password = password
             self.username = username
@@ -715,7 +716,7 @@ extension Chime {
 
         /// The Amazon Chime account ID.
         public let accountId: String
-        
+
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -730,11 +731,12 @@ extension Chime {
     }
 
     public struct DeleteAccountResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteEventsConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -746,7 +748,7 @@ extension Chime {
         public let accountId: String
         /// The bot ID.
         public let botId: String
-        
+
         public init(accountId: String, botId: String) {
             self.accountId = accountId
             self.botId = botId
@@ -770,7 +772,7 @@ extension Chime {
 
         /// The phone number ID.
         public let phoneNumberId: String
-        
+
         public init(phoneNumberId: String) {
             self.phoneNumberId = phoneNumberId
         }
@@ -787,7 +789,7 @@ extension Chime {
 
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
-        
+
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -808,7 +810,7 @@ extension Chime {
 
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
-        
+
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -832,7 +834,7 @@ extension Chime {
         public let usernames: [String]?
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
-        
+
         public init(usernames: [String]? = nil, voiceConnectorId: String) {
             self.usernames = usernames
             self.voiceConnectorId = voiceConnectorId
@@ -855,7 +857,7 @@ extension Chime {
 
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
-        
+
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -879,7 +881,7 @@ extension Chime {
         public let accountId: String
         /// The user ID.
         public let userId: String
-        
+
         public init(accountId: String, userId: String) {
             self.accountId = accountId
             self.userId = userId
@@ -892,11 +894,12 @@ extension Chime {
     }
 
     public struct DisassociatePhoneNumberFromUserResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociatePhoneNumbersFromVoiceConnectorRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -908,7 +911,7 @@ extension Chime {
         public let e164PhoneNumbers: [String]?
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
-        
+
         public init(e164PhoneNumbers: [String]? = nil, voiceConnectorId: String) {
             self.e164PhoneNumbers = e164PhoneNumbers
             self.voiceConnectorId = voiceConnectorId
@@ -934,7 +937,7 @@ extension Chime {
 
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
-        
+
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
             self.phoneNumberErrors = phoneNumberErrors
         }
@@ -984,7 +987,7 @@ extension Chime {
         public let lambdaFunctionArn: String?
         /// HTTPS endpoint that allows a bot to receive outgoing events.
         public let outboundEventsHTTPSEndpoint: String?
-        
+
         public init(botId: String? = nil, lambdaFunctionArn: String? = nil, outboundEventsHTTPSEndpoint: String? = nil) {
             self.botId = botId
             self.lambdaFunctionArn = lambdaFunctionArn
@@ -1005,7 +1008,7 @@ extension Chime {
 
         /// The Amazon Chime account ID.
         public let accountId: String
-        
+
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -1026,7 +1029,7 @@ extension Chime {
 
         /// The Amazon Chime account details.
         public let account: Account?
-        
+
         public init(account: Account? = nil) {
             self.account = account
         }
@@ -1043,7 +1046,7 @@ extension Chime {
 
         /// The Amazon Chime account ID.
         public let accountId: String
-        
+
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -1064,7 +1067,7 @@ extension Chime {
 
         /// The Amazon Chime account settings.
         public let accountSettings: AccountSettings?
-        
+
         public init(accountSettings: AccountSettings? = nil) {
             self.accountSettings = accountSettings
         }
@@ -1084,7 +1087,7 @@ extension Chime {
         public let accountId: String
         /// The bot ID.
         public let botId: String
-        
+
         public init(accountId: String, botId: String) {
             self.accountId = accountId
             self.botId = botId
@@ -1108,7 +1111,7 @@ extension Chime {
 
         /// The chat bot details.
         public let bot: Bot?
-        
+
         public init(bot: Bot? = nil) {
             self.bot = bot
         }
@@ -1128,7 +1131,7 @@ extension Chime {
         public let accountId: String
         /// The bot ID.
         public let botId: String
-        
+
         public init(accountId: String, botId: String) {
             self.accountId = accountId
             self.botId = botId
@@ -1152,7 +1155,7 @@ extension Chime {
 
         /// The events configuration details.
         public let eventsConfiguration: EventsConfiguration?
-        
+
         public init(eventsConfiguration: EventsConfiguration? = nil) {
             self.eventsConfiguration = eventsConfiguration
         }
@@ -1172,7 +1175,7 @@ extension Chime {
         public let businessCalling: BusinessCallingSettings?
         /// The Amazon Chime Voice Connector settings.
         public let voiceConnector: VoiceConnectorSettings?
-        
+
         public init(businessCalling: BusinessCallingSettings? = nil, voiceConnector: VoiceConnectorSettings? = nil) {
             self.businessCalling = businessCalling
             self.voiceConnector = voiceConnector
@@ -1191,7 +1194,7 @@ extension Chime {
 
         /// The ID for the phone number order.
         public let phoneNumberOrderId: String
-        
+
         public init(phoneNumberOrderId: String) {
             self.phoneNumberOrderId = phoneNumberOrderId
         }
@@ -1212,7 +1215,7 @@ extension Chime {
 
         /// The phone number order details.
         public let phoneNumberOrder: PhoneNumberOrder?
-        
+
         public init(phoneNumberOrder: PhoneNumberOrder? = nil) {
             self.phoneNumberOrder = phoneNumberOrder
         }
@@ -1233,7 +1236,7 @@ extension Chime {
 
         /// The phone number ID.
         public let phoneNumberId: String
-        
+
         public init(phoneNumberId: String) {
             self.phoneNumberId = phoneNumberId
         }
@@ -1250,7 +1253,7 @@ extension Chime {
 
         /// The phone number details.
         public let phoneNumber: PhoneNumber?
-        
+
         public init(phoneNumber: PhoneNumber? = nil) {
             self.phoneNumber = phoneNumber
         }
@@ -1274,7 +1277,7 @@ extension Chime {
         public let accountId: String
         /// The user ID.
         public let userId: String
-        
+
         public init(accountId: String, userId: String) {
             self.accountId = accountId
             self.userId = userId
@@ -1298,7 +1301,7 @@ extension Chime {
 
         /// The user details.
         public let user: User?
-        
+
         public init(user: User? = nil) {
             self.user = user
         }
@@ -1322,7 +1325,7 @@ extension Chime {
         public let accountId: String
         /// The user ID.
         public let userId: String
-        
+
         public init(accountId: String, userId: String) {
             self.accountId = accountId
             self.userId = userId
@@ -1341,7 +1344,7 @@ extension Chime {
 
         /// The user settings.
         public let userSettings: UserSettings?
-        
+
         public init(userSettings: UserSettings? = nil) {
             self.userSettings = userSettings
         }
@@ -1358,7 +1361,7 @@ extension Chime {
 
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
-        
+
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -1379,7 +1382,7 @@ extension Chime {
 
         /// The origination setting details.
         public let origination: Origination?
-        
+
         public init(origination: Origination? = nil) {
             self.origination = origination
         }
@@ -1400,7 +1403,7 @@ extension Chime {
 
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
-        
+
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -1421,7 +1424,7 @@ extension Chime {
 
         /// The Amazon Chime Voice Connector details.
         public let voiceConnector: VoiceConnector?
-        
+
         public init(voiceConnector: VoiceConnector? = nil) {
             self.voiceConnector = voiceConnector
         }
@@ -1442,7 +1445,7 @@ extension Chime {
 
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
-        
+
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -1463,7 +1466,7 @@ extension Chime {
 
         /// The termination health details.
         public let terminationHealth: TerminationHealth?
-        
+
         public init(terminationHealth: TerminationHealth? = nil) {
             self.terminationHealth = terminationHealth
         }
@@ -1480,7 +1483,7 @@ extension Chime {
 
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
-        
+
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -1501,7 +1504,7 @@ extension Chime {
 
         /// The termination setting details.
         public let termination: Termination?
-        
+
         public init(termination: Termination? = nil) {
             self.termination = termination
         }
@@ -1531,7 +1534,7 @@ extension Chime {
         public let inviteId: String?
         /// The status of the invite.
         public let status: InviteStatus?
-        
+
         public init(emailAddress: String? = nil, emailStatus: EmailStatus? = nil, inviteId: String? = nil, status: InviteStatus? = nil) {
             self.emailAddress = emailAddress
             self.emailStatus = emailStatus
@@ -1568,7 +1571,7 @@ extension Chime {
         public let accountId: String
         /// The user email addresses to which to send the invite.
         public let userEmailList: [String]
-        
+
         public init(accountId: String, userEmailList: [String]) {
             self.accountId = accountId
             self.userEmailList = userEmailList
@@ -1595,7 +1598,7 @@ extension Chime {
 
         /// The invite details.
         public let invites: [Invite]?
-        
+
         public init(invites: [Invite]? = nil) {
             self.invites = invites
         }
@@ -1635,7 +1638,7 @@ extension Chime {
         public let nextToken: String?
         /// User email address with which to filter results.
         public let userEmail: String?
-        
+
         public init(maxResults: Int32? = nil, name: String? = nil, nextToken: String? = nil, userEmail: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -1670,7 +1673,7 @@ extension Chime {
         public let accounts: [Account]?
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
-        
+
         public init(accounts: [Account]? = nil, nextToken: String? = nil) {
             self.accounts = accounts
             self.nextToken = nextToken
@@ -1695,7 +1698,7 @@ extension Chime {
         public let maxResults: Int32?
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
-        
+
         public init(accountId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
@@ -1725,7 +1728,7 @@ extension Chime {
         public let bots: [Bot]?
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
-        
+
         public init(bots: [Bot]? = nil, nextToken: String? = nil) {
             self.bots = bots
             self.nextToken = nextToken
@@ -1747,7 +1750,7 @@ extension Chime {
         public let maxResults: Int32?
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1774,7 +1777,7 @@ extension Chime {
         public let nextToken: String?
         /// The phone number order details.
         public let phoneNumberOrders: [PhoneNumberOrder]?
-        
+
         public init(nextToken: String? = nil, phoneNumberOrders: [PhoneNumberOrder]? = nil) {
             self.nextToken = nextToken
             self.phoneNumberOrders = phoneNumberOrders
@@ -1814,7 +1817,7 @@ extension Chime {
         public let productType: PhoneNumberProductType?
         /// The phone number status.
         public let status: PhoneNumberStatus?
-        
+
         public init(filterName: PhoneNumberAssociationName? = nil, filterValue: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberStatus? = nil) {
             self.filterName = filterName
             self.filterValue = filterValue
@@ -1849,7 +1852,7 @@ extension Chime {
         public let nextToken: String?
         /// The phone number details.
         public let phoneNumbers: [PhoneNumber]?
-        
+
         public init(nextToken: String? = nil, phoneNumbers: [PhoneNumber]? = nil) {
             self.nextToken = nextToken
             self.phoneNumbers = phoneNumbers
@@ -1883,7 +1886,7 @@ extension Chime {
         public let nextToken: String?
         /// Optional. The user email address used to filter results. Maximum 1.
         public let userEmail: String?
-        
+
         public init(accountId: String, maxResults: Int32? = nil, nextToken: String? = nil, userEmail: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
@@ -1916,7 +1919,7 @@ extension Chime {
         public let nextToken: String?
         /// List of users and user details.
         public let users: [User]?
-        
+
         public init(nextToken: String? = nil, users: [User]? = nil) {
             self.nextToken = nextToken
             self.users = users
@@ -1941,7 +1944,7 @@ extension Chime {
 
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
-        
+
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -1962,7 +1965,7 @@ extension Chime {
 
         /// A list of user names.
         public let usernames: [String]?
-        
+
         public init(usernames: [String]? = nil) {
             self.usernames = usernames
         }
@@ -1982,7 +1985,7 @@ extension Chime {
         public let maxResults: Int32?
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2009,7 +2012,7 @@ extension Chime {
         public let nextToken: String?
         /// The details of the Amazon Chime Voice Connectors.
         public let voiceConnectors: [VoiceConnector]?
-        
+
         public init(nextToken: String? = nil, voiceConnectors: [VoiceConnector]? = nil) {
             self.nextToken = nextToken
             self.voiceConnectors = voiceConnectors
@@ -2037,7 +2040,7 @@ extension Chime {
         public let accountId: String
         /// The user ID.
         public let userId: String
-        
+
         public init(accountId: String, userId: String) {
             self.accountId = accountId
             self.userId = userId
@@ -2055,11 +2058,12 @@ extension Chime {
     }
 
     public struct LogoutUserResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct OrderedPhoneNumber: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2071,7 +2075,7 @@ extension Chime {
         public let e164PhoneNumber: String?
         /// The phone number status.
         public let status: OrderedPhoneNumberStatus?
-        
+
         public init(e164PhoneNumber: String? = nil, status: OrderedPhoneNumberStatus? = nil) {
             self.e164PhoneNumber = e164PhoneNumber
             self.status = status
@@ -2104,7 +2108,7 @@ extension Chime {
         public let disabled: Bool?
         /// The call distribution properties defined for your SIP hosts. Valid range: Minimum value of 1. Maximum value of 20.
         public let routes: [OriginationRoute]?
-        
+
         public init(disabled: Bool? = nil, routes: [OriginationRoute]? = nil) {
             self.disabled = disabled
             self.routes = routes
@@ -2141,7 +2145,7 @@ extension Chime {
         public let `protocol`: OriginationRouteProtocol?
         /// The weight associated with the host. If hosts are equal in priority, calls are distributed among them based on their relative weight.
         public let weight: Int32?
-        
+
         public init(host: String? = nil, port: Int32? = nil, priority: Int32? = nil, protocol: OriginationRouteProtocol? = nil, weight: Int32? = nil) {
             self.host = host
             self.port = port
@@ -2208,7 +2212,7 @@ extension Chime {
         public let `type`: PhoneNumberType?
         /// The updated phone number timestamp, in ISO 8601 format.
         public let updatedTimestamp: TimeStamp?
-        
+
         public init(associations: [PhoneNumberAssociation]? = nil, capabilities: PhoneNumberCapabilities? = nil, createdTimestamp: TimeStamp? = nil, deletionTimestamp: TimeStamp? = nil, e164PhoneNumber: String? = nil, phoneNumberId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberStatus? = nil, type: PhoneNumberType? = nil, updatedTimestamp: TimeStamp? = nil) {
             self.associations = associations
             self.capabilities = capabilities
@@ -2253,7 +2257,7 @@ extension Chime {
         public let name: PhoneNumberAssociationName?
         /// Contains the ID for the entity specified in Name.
         public let value: String?
-        
+
         public init(associatedTimestamp: TimeStamp? = nil, name: PhoneNumberAssociationName? = nil, value: String? = nil) {
             self.associatedTimestamp = associatedTimestamp
             self.name = name
@@ -2296,7 +2300,7 @@ extension Chime {
         public let outboundMMS: Bool?
         /// Allows or denies outbound SMS messaging for the specified phone number.
         public let outboundSMS: Bool?
-        
+
         public init(inboundCall: Bool? = nil, inboundMMS: Bool? = nil, inboundSMS: Bool? = nil, outboundCall: Bool? = nil, outboundMMS: Bool? = nil, outboundSMS: Bool? = nil) {
             self.inboundCall = inboundCall
             self.inboundMMS = inboundMMS
@@ -2329,7 +2333,7 @@ extension Chime {
         public let errorMessage: String?
         /// The phone number ID for which the action failed.
         public let phoneNumberId: String?
-        
+
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, phoneNumberId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -2369,7 +2373,7 @@ extension Chime {
         public let status: PhoneNumberOrderStatus?
         /// The updated phone number order timestamp, in ISO 8601 format.
         public let updatedTimestamp: TimeStamp?
-        
+
         public init(createdTimestamp: TimeStamp? = nil, orderedPhoneNumbers: [OrderedPhoneNumber]? = nil, phoneNumberOrderId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberOrderStatus? = nil, updatedTimestamp: TimeStamp? = nil) {
             self.createdTimestamp = createdTimestamp
             self.orderedPhoneNumbers = orderedPhoneNumbers
@@ -2444,7 +2448,7 @@ extension Chime {
         public let lambdaFunctionArn: String?
         /// HTTPS endpoint that allows the bot to receive outgoing events.
         public let outboundEventsHTTPSEndpoint: String?
-        
+
         public init(accountId: String, botId: String, lambdaFunctionArn: String? = nil, outboundEventsHTTPSEndpoint: String? = nil) {
             self.accountId = accountId
             self.botId = botId
@@ -2471,7 +2475,7 @@ extension Chime {
         ]
 
         public let eventsConfiguration: EventsConfiguration?
-        
+
         public init(eventsConfiguration: EventsConfiguration? = nil) {
             self.eventsConfiguration = eventsConfiguration
         }
@@ -2491,7 +2495,7 @@ extension Chime {
         public let origination: Origination
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
-        
+
         public init(origination: Origination, voiceConnectorId: String) {
             self.origination = origination
             self.voiceConnectorId = voiceConnectorId
@@ -2515,7 +2519,7 @@ extension Chime {
 
         /// The updated origination setting details.
         public let origination: Origination?
-        
+
         public init(origination: Origination? = nil) {
             self.origination = origination
         }
@@ -2539,7 +2543,7 @@ extension Chime {
         public let credentials: [Credential]?
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
-        
+
         public init(credentials: [Credential]? = nil, voiceConnectorId: String) {
             self.credentials = credentials
             self.voiceConnectorId = voiceConnectorId
@@ -2565,7 +2569,7 @@ extension Chime {
         public let termination: Termination
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
-        
+
         public init(termination: Termination, voiceConnectorId: String) {
             self.termination = termination
             self.voiceConnectorId = voiceConnectorId
@@ -2589,7 +2593,7 @@ extension Chime {
 
         /// The updated termination setting details.
         public let termination: Termination?
-        
+
         public init(termination: Termination? = nil) {
             self.termination = termination
         }
@@ -2613,7 +2617,7 @@ extension Chime {
         public let accountId: String
         /// The bot ID.
         public let botId: String
-        
+
         public init(accountId: String, botId: String) {
             self.accountId = accountId
             self.botId = botId
@@ -2636,7 +2640,7 @@ extension Chime {
         ]
 
         public let bot: Bot?
-        
+
         public init(bot: Bot? = nil) {
             self.bot = bot
         }
@@ -2663,7 +2667,7 @@ extension Chime {
         public let accountId: String
         /// The user ID.
         public let userId: String
-        
+
         public init(accountId: String, userId: String) {
             self.accountId = accountId
             self.userId = userId
@@ -2687,7 +2691,7 @@ extension Chime {
 
         /// The user details and new personal meeting PIN.
         public let user: User?
-        
+
         public init(user: User? = nil) {
             self.user = user
         }
@@ -2708,7 +2712,7 @@ extension Chime {
 
         /// The phone number.
         public let phoneNumberId: String
-        
+
         public init(phoneNumberId: String) {
             self.phoneNumberId = phoneNumberId
         }
@@ -2729,7 +2733,7 @@ extension Chime {
 
         /// The phone number details.
         public let phoneNumber: PhoneNumber?
-        
+
         public init(phoneNumber: PhoneNumber? = nil) {
             self.phoneNumber = phoneNumber
         }
@@ -2768,7 +2772,7 @@ extension Chime {
         public let state: String?
         /// The toll-free prefix that you use to filter results.
         public let tollFreePrefix: String?
-        
+
         public init(areaCode: String? = nil, city: String? = nil, country: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, state: String? = nil, tollFreePrefix: String? = nil) {
             self.areaCode = areaCode
             self.city = city
@@ -2805,7 +2809,7 @@ extension Chime {
 
         /// List of phone numbers, in E.164 format.
         public let e164PhoneNumbers: [String]?
-        
+
         public init(e164PhoneNumbers: [String]? = nil) {
             self.e164PhoneNumbers = e164PhoneNumbers
         }
@@ -2834,7 +2838,7 @@ extension Chime {
         public let outboundCalling: Bool
         /// Allows or denies SMS messaging.
         public let sms: Bool
-        
+
         public init(inboundCalling: Bool, outboundCalling: Bool, sms: Bool) {
             self.inboundCalling = inboundCalling
             self.outboundCalling = outboundCalling
@@ -2867,7 +2871,7 @@ extension Chime {
         public let defaultPhoneNumber: String?
         /// When termination settings are disabled, outbound calls can not be made.
         public let disabled: Bool?
-        
+
         public init(callingRegions: [String]? = nil, cidrAllowedList: [String]? = nil, cpsLimit: Int32? = nil, defaultPhoneNumber: String? = nil, disabled: Bool? = nil) {
             self.callingRegions = callingRegions
             self.cidrAllowedList = cidrAllowedList
@@ -2900,7 +2904,7 @@ extension Chime {
         public let source: String?
         /// The timestamp, in ISO 8601 format.
         public let timestamp: TimeStamp?
-        
+
         public init(source: String? = nil, timestamp: TimeStamp? = nil) {
             self.source = source
             self.timestamp = timestamp
@@ -2922,7 +2926,7 @@ extension Chime {
         public let accountId: String
         /// The new name for the specified Amazon Chime account.
         public let name: String?
-        
+
         public init(accountId: String, name: String? = nil) {
             self.accountId = accountId
             self.name = name
@@ -2948,7 +2952,7 @@ extension Chime {
 
         /// The updated Amazon Chime account details.
         public let account: Account?
-        
+
         public init(account: Account? = nil) {
             self.account = account
         }
@@ -2968,7 +2972,7 @@ extension Chime {
         public let accountId: String
         /// The Amazon Chime account settings to update.
         public let accountSettings: AccountSettings
-        
+
         public init(accountId: String, accountSettings: AccountSettings) {
             self.accountId = accountId
             self.accountSettings = accountSettings
@@ -2985,11 +2989,12 @@ extension Chime {
     }
 
     public struct UpdateAccountSettingsResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateBotRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3004,7 +3009,7 @@ extension Chime {
         public let botId: String
         /// When true, stops the specified bot from running in your account.
         public let disabled: Bool?
-        
+
         public init(accountId: String, botId: String, disabled: Bool? = nil) {
             self.accountId = accountId
             self.botId = botId
@@ -3030,7 +3035,7 @@ extension Chime {
 
         /// The updated bot details.
         public let bot: Bot?
-        
+
         public init(bot: Bot? = nil) {
             self.bot = bot
         }
@@ -3050,7 +3055,7 @@ extension Chime {
         public let businessCalling: BusinessCallingSettings
         /// The Amazon Chime Voice Connector settings.
         public let voiceConnector: VoiceConnectorSettings
-        
+
         public init(businessCalling: BusinessCallingSettings, voiceConnector: VoiceConnectorSettings) {
             self.businessCalling = businessCalling
             self.voiceConnector = voiceConnector
@@ -3072,7 +3077,7 @@ extension Chime {
         public let phoneNumberId: String
         /// The product type.
         public let productType: PhoneNumberProductType?
-        
+
         public init(phoneNumberId: String, productType: PhoneNumberProductType? = nil) {
             self.phoneNumberId = phoneNumberId
             self.productType = productType
@@ -3094,7 +3099,7 @@ extension Chime {
         public let phoneNumberId: String
         /// The product type to update.
         public let productType: PhoneNumberProductType?
-        
+
         public init(phoneNumberId: String, productType: PhoneNumberProductType? = nil) {
             self.phoneNumberId = phoneNumberId
             self.productType = productType
@@ -3117,7 +3122,7 @@ extension Chime {
 
         /// The updated phone number details.
         public let phoneNumber: PhoneNumber?
-        
+
         public init(phoneNumber: PhoneNumber? = nil) {
             self.phoneNumber = phoneNumber
         }
@@ -3144,7 +3149,7 @@ extension Chime {
         public let licenseType: License?
         /// The user ID.
         public let userId: String
-        
+
         public init(accountId: String, licenseType: License? = nil, userId: String) {
             self.accountId = accountId
             self.licenseType = licenseType
@@ -3173,7 +3178,7 @@ extension Chime {
         public let licenseType: License?
         /// The user ID.
         public let userId: String
-        
+
         public init(licenseType: License? = nil, userId: String) {
             self.licenseType = licenseType
             self.userId = userId
@@ -3196,7 +3201,7 @@ extension Chime {
 
         /// The updated user details.
         public let user: User?
-        
+
         public init(user: User? = nil) {
             self.user = user
         }
@@ -3223,7 +3228,7 @@ extension Chime {
         public let userId: String
         /// The user settings to update.
         public let userSettings: UserSettings
-        
+
         public init(accountId: String, userId: String, userSettings: UserSettings) {
             self.accountId = accountId
             self.userId = userId
@@ -3250,7 +3255,7 @@ extension Chime {
         public let requireEncryption: Bool
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
-        
+
         public init(name: String, requireEncryption: Bool, voiceConnectorId: String) {
             self.name = name
             self.requireEncryption = requireEncryption
@@ -3277,7 +3282,7 @@ extension Chime {
 
         /// The Amazon Chime Voice Connector details.
         public let voiceConnector: VoiceConnector?
-        
+
         public init(voiceConnector: VoiceConnector? = nil) {
             self.voiceConnector = voiceConnector
         }
@@ -3328,7 +3333,7 @@ extension Chime {
         public let userInvitationStatus: InviteStatus?
         /// The user registration status.
         public let userRegistrationStatus: RegistrationStatus?
-        
+
         public init(accountId: String? = nil, displayName: String? = nil, invitedOn: TimeStamp? = nil, licenseType: License? = nil, personalPIN: String? = nil, primaryEmail: String? = nil, primaryProvisionedNumber: String? = nil, registeredOn: TimeStamp? = nil, userId: String, userInvitationStatus: InviteStatus? = nil, userRegistrationStatus: RegistrationStatus? = nil) {
             self.accountId = accountId
             self.displayName = displayName
@@ -3375,7 +3380,7 @@ extension Chime {
         public let errorMessage: String?
         /// The user ID for which the action failed.
         public let userId: String?
-        
+
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, userId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3400,7 +3405,7 @@ extension Chime {
 
         /// The telephony settings associated with the user.
         public let telephony: TelephonySettings
-        
+
         public init(telephony: TelephonySettings) {
             self.telephony = telephony
         }
@@ -3432,7 +3437,7 @@ extension Chime {
         public let updatedTimestamp: TimeStamp?
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String?
-        
+
         public init(createdTimestamp: TimeStamp? = nil, name: String? = nil, outboundHostName: String? = nil, requireEncryption: Bool? = nil, updatedTimestamp: TimeStamp? = nil, voiceConnectorId: String? = nil) {
             self.createdTimestamp = createdTimestamp
             self.name = name
@@ -3465,7 +3470,7 @@ extension Chime {
 
         /// The Amazon S3 bucket designated for call detail record storage.
         public let cdrBucket: String?
-        
+
         public init(cdrBucket: String? = nil) {
             self.cdrBucket = cdrBucket
         }
@@ -3474,5 +3479,4 @@ extension Chime {
             case cdrBucket = "CdrBucket"
         }
     }
-
 }

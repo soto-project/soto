@@ -195,5 +195,4 @@ public struct Rekognition {
     public func stopStreamProcessor(_ input: StopStreamProcessorRequest) throws -> Future<StopStreamProcessorResponse> {
         return try client.send(operation: "StopStreamProcessor", path: "/", httpMethod: "POST", input: input)
     }
-
 }

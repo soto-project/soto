@@ -35,7 +35,7 @@ extension S3Control {
         public let report: JobReport
         /// The Amazon Resource Name (ARN) for the Identity and Access Management (IAM) Role that batch operations will use to execute this job's operation on each object in the manifest.
         public let roleArn: String
-        
+
         public init(accountId: String, clientRequestToken: String = CreateJobRequest.idempotencyToken(), confirmationRequired: Bool? = nil, description: String? = nil, manifest: JobManifest, operation: JobOperation, priority: Int32, report: JobReport, roleArn: String) {
             self.accountId = accountId
             self.clientRequestToken = clientRequestToken
@@ -83,7 +83,7 @@ extension S3Control {
 
         /// The ID for this job. Amazon S3 generates this ID automatically and returns it after a successful Create Job request.
         public let jobId: String?
-        
+
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -105,7 +105,7 @@ extension S3Control {
 
         /// The account ID for the AWS account whose block public access configuration you want to delete.
         public let accountId: String
-        
+
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -128,7 +128,7 @@ extension S3Control {
         public let accountId: String
         /// The ID for the job whose information you want to retrieve.
         public let jobId: String
-        
+
         public init(accountId: String, jobId: String) {
             self.accountId = accountId
             self.jobId = jobId
@@ -153,7 +153,7 @@ extension S3Control {
 
         /// Contains the configuration parameters and status for the job specified in the Describe Job request.
         public let job: JobDescriptor?
-        
+
         public init(job: JobDescriptor? = nil) {
             self.job = job
         }
@@ -175,7 +175,7 @@ extension S3Control {
         ]
 
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
-        
+
         public init(publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil) {
             self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
         }
@@ -191,7 +191,7 @@ extension S3Control {
         ]
 
         public let accountId: String
-        
+
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -259,7 +259,7 @@ extension S3Control {
         public let suspendedDate: TimeStamp?
         /// A timestamp indicating when this job terminated. A job's termination date is the date and time when it succeeded, failed, or was canceled.
         public let terminationDate: TimeStamp?
-        
+
         public init(confirmationRequired: Bool? = nil, creationTime: TimeStamp? = nil, description: String? = nil, failureReasons: [JobFailure]? = nil, jobArn: String? = nil, jobId: String? = nil, manifest: JobManifest? = nil, operation: JobOperation? = nil, priority: Int32? = nil, progressSummary: JobProgressSummary? = nil, report: JobReport? = nil, roleArn: String? = nil, status: JobStatus? = nil, statusUpdateReason: String? = nil, suspendedCause: String? = nil, suspendedDate: TimeStamp? = nil, terminationDate: TimeStamp? = nil) {
             self.confirmationRequired = confirmationRequired
             self.creationTime = creationTime
@@ -335,7 +335,7 @@ extension S3Control {
         public let failureCode: String?
         /// The failure reason, if any, for the specified job.
         public let failureReason: String?
-        
+
         public init(failureCode: String? = nil, failureReason: String? = nil) {
             self.failureCode = failureCode
             self.failureReason = failureReason
@@ -382,7 +382,7 @@ extension S3Control {
         public let status: JobStatus?
         /// A timestamp indicating when the specified job terminated. A job's termination date is the date and time when it succeeded, failed, or was canceled.
         public let terminationDate: TimeStamp?
-        
+
         public init(creationTime: TimeStamp? = nil, description: String? = nil, jobId: String? = nil, operation: OperationName? = nil, priority: Int32? = nil, progressSummary: JobProgressSummary? = nil, status: JobStatus? = nil, terminationDate: TimeStamp? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -426,7 +426,7 @@ extension S3Control {
         public let location: JobManifestLocation
         /// Describes the format of the specified job's manifest. If the manifest is in CSV format, also describes the columns contained within the manifest.
         public let spec: JobManifestSpec
-        
+
         public init(location: JobManifestLocation, spec: JobManifestSpec) {
             self.location = location
             self.spec = spec
@@ -469,7 +469,7 @@ extension S3Control {
         public let objectArn: String
         /// The optional version ID to identify a specific version of the manifest object.
         public let objectVersionId: String?
-        
+
         public init(eTag: String, objectArn: String, objectVersionId: String? = nil) {
             self.eTag = eTag
             self.objectArn = objectArn
@@ -502,7 +502,7 @@ extension S3Control {
         public let fields: [JobManifestFieldName]?
         /// Indicates which of the available formats the specified manifest uses.
         public let format: JobManifestFormat
-        
+
         public init(fields: [JobManifestFieldName]? = nil, format: JobManifestFormat) {
             self.fields = fields
             self.format = format
@@ -533,7 +533,7 @@ extension S3Control {
         public let s3PutObjectCopy: S3CopyObjectOperation?
         /// Directs the specified job to execute a PUT Object tagging call on each object in the manifest.
         public let s3PutObjectTagging: S3SetObjectTaggingOperation?
-        
+
         public init(lambdaInvoke: LambdaInvokeOperation? = nil, s3InitiateRestoreObject: S3InitiateRestoreObjectOperation? = nil, s3PutObjectAcl: S3SetObjectAclOperation? = nil, s3PutObjectCopy: S3CopyObjectOperation? = nil, s3PutObjectTagging: S3SetObjectTaggingOperation? = nil) {
             self.lambdaInvoke = lambdaInvoke
             self.s3InitiateRestoreObject = s3InitiateRestoreObject
@@ -569,7 +569,7 @@ extension S3Control {
         public let numberOfTasksFailed: Int64?
         public let numberOfTasksSucceeded: Int64?
         public let totalNumberOfTasks: Int64?
-        
+
         public init(numberOfTasksFailed: Int64? = nil, numberOfTasksSucceeded: Int64? = nil, totalNumberOfTasks: Int64? = nil) {
             self.numberOfTasksFailed = numberOfTasksFailed
             self.numberOfTasksSucceeded = numberOfTasksSucceeded
@@ -608,7 +608,7 @@ extension S3Control {
         public let prefix: String?
         /// Indicates whether the job-completion report will include details of all tasks or only failed tasks.
         public let reportScope: JobReportScope?
-        
+
         public init(bucket: String? = nil, enabled: Bool, format: JobReportFormat? = nil, prefix: String? = nil, reportScope: JobReportScope? = nil) {
             self.bucket = bucket
             self.enabled = enabled
@@ -668,7 +668,7 @@ extension S3Control {
 
         /// The Amazon Resource Name (ARN) for the AWS Lambda function that the specified job will invoke for each object in the manifest.
         public let functionArn: String?
-        
+
         public init(functionArn: String? = nil) {
             self.functionArn = functionArn
         }
@@ -698,7 +698,7 @@ extension S3Control {
         public let maxResults: Int32?
         /// A pagination token to request the next page of results. Use the token that Amazon S3 returned in the NextToken element of the ListJobsResult from the previous List Jobs request.
         public let nextToken: String?
-        
+
         public init(accountId: String, jobStatuses: [JobStatus]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.jobStatuses = jobStatuses
@@ -732,7 +732,7 @@ extension S3Control {
         public let jobs: [JobListDescriptor]?
         /// If the List Jobs request produced more than the maximum number of results, you can pass this value into a subsequent List Jobs request in order to retrieve the next page of results.
         public let nextToken: String?
-        
+
         public init(jobs: [JobListDescriptor]? = nil, nextToken: String? = nil) {
             self.jobs = jobs
             self.nextToken = nextToken
@@ -773,7 +773,7 @@ extension S3Control {
         public let blockPublicPolicy: Bool?
         public let ignorePublicAcls: Bool?
         public let restrictPublicBuckets: Bool?
-        
+
         public init(blockPublicAcls: Bool? = nil, blockPublicPolicy: Bool? = nil, ignorePublicAcls: Bool? = nil, restrictPublicBuckets: Bool? = nil) {
             self.blockPublicAcls = blockPublicAcls
             self.blockPublicPolicy = blockPublicPolicy
@@ -800,7 +800,7 @@ extension S3Control {
 
         public let accountId: String
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration
-        
+
         public init(accountId: String, publicAccessBlockConfiguration: PublicAccessBlockConfiguration) {
             self.accountId = accountId
             self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
@@ -830,7 +830,7 @@ extension S3Control {
 
         public let grants: [S3Grant]?
         public let owner: S3ObjectOwner
-        
+
         public init(grants: [S3Grant]? = nil, owner: S3ObjectOwner) {
             self.grants = grants
             self.owner = owner
@@ -857,7 +857,7 @@ extension S3Control {
 
         public let accessControlList: S3AccessControlList?
         public let cannedAccessControlList: S3CannedAccessControlList?
-        
+
         public init(accessControlList: S3AccessControlList? = nil, cannedAccessControlList: S3CannedAccessControlList? = nil) {
             self.accessControlList = accessControlList
             self.cannedAccessControlList = cannedAccessControlList
@@ -920,7 +920,7 @@ extension S3Control {
         public let targetKeyPrefix: String?
         public let targetResource: String?
         public let unModifiedSinceConstraint: TimeStamp?
-        
+
         public init(accessControlGrants: [S3Grant]? = nil, cannedAccessControlList: S3CannedAccessControlList? = nil, metadataDirective: S3MetadataDirective? = nil, modifiedSinceConstraint: TimeStamp? = nil, newObjectMetadata: S3ObjectMetadata? = nil, newObjectTagging: [S3Tag]? = nil, objectLockLegalHoldStatus: S3ObjectLockLegalHoldStatus? = nil, objectLockMode: S3ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, redirectLocation: String? = nil, requesterPays: Bool? = nil, sSEAwsKmsKeyId: String? = nil, storageClass: S3StorageClass? = nil, targetKeyPrefix: String? = nil, targetResource: String? = nil, unModifiedSinceConstraint: TimeStamp? = nil) {
             self.accessControlGrants = accessControlGrants
             self.cannedAccessControlList = cannedAccessControlList
@@ -992,7 +992,7 @@ extension S3Control {
 
         public let grantee: S3Grantee?
         public let permission: S3Permission?
-        
+
         public init(grantee: S3Grantee? = nil, permission: S3Permission? = nil) {
             self.grantee = grantee
             self.permission = permission
@@ -1018,7 +1018,7 @@ extension S3Control {
         public let displayName: String?
         public let identifier: String?
         public let typeIdentifier: S3GranteeTypeIdentifier?
-        
+
         public init(displayName: String? = nil, identifier: String? = nil, typeIdentifier: S3GranteeTypeIdentifier? = nil) {
             self.displayName = displayName
             self.identifier = identifier
@@ -1054,7 +1054,7 @@ extension S3Control {
 
         public let expirationInDays: Int32?
         public let glacierJobTier: S3GlacierJobTier?
-        
+
         public init(expirationInDays: Int32? = nil, glacierJobTier: S3GlacierJobTier? = nil) {
             self.expirationInDays = expirationInDays
             self.glacierJobTier = glacierJobTier
@@ -1114,7 +1114,7 @@ extension S3Control {
         public let requesterCharged: Bool?
         public let sSEAlgorithm: S3SSEAlgorithm?
         public let userMetadata: [String: String]?
-        
+
         public init(cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, httpExpiresDate: TimeStamp? = nil, requesterCharged: Bool? = nil, sSEAlgorithm: S3SSEAlgorithm? = nil, userMetadata: [String: String]? = nil) {
             self.cacheControl = cacheControl
             self.contentDisposition = contentDisposition
@@ -1168,7 +1168,7 @@ extension S3Control {
 
         public let displayName: String?
         public let id: String?
-        
+
         public init(displayName: String? = nil, id: String? = nil) {
             self.displayName = displayName
             self.id = id
@@ -1208,7 +1208,7 @@ extension S3Control {
         ]
 
         public let accessControlPolicy: S3AccessControlPolicy?
-        
+
         public init(accessControlPolicy: S3AccessControlPolicy? = nil) {
             self.accessControlPolicy = accessControlPolicy
         }
@@ -1228,7 +1228,7 @@ extension S3Control {
         ]
 
         public let tagSet: [S3Tag]?
-        
+
         public init(tagSet: [S3Tag]? = nil) {
             self.tagSet = tagSet
         }
@@ -1262,7 +1262,7 @@ extension S3Control {
 
         public let key: String
         public let value: String
-        
+
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1292,7 +1292,7 @@ extension S3Control {
         public let jobId: String
         /// The priority you want to assign to this job.
         public let priority: Int32
-        
+
         public init(accountId: String, jobId: String, priority: Int32) {
             self.accountId = accountId
             self.jobId = jobId
@@ -1324,7 +1324,7 @@ extension S3Control {
         public let jobId: String
         /// The new priority assigned to the specified job.
         public let priority: Int32
-        
+
         public init(jobId: String, priority: Int32) {
             self.jobId = jobId
             self.priority = priority
@@ -1358,7 +1358,7 @@ extension S3Control {
         public let requestedJobStatus: RequestedJobStatus
         /// A description of the reason why you want to change the specified job's status. This field can be any string up to the maximum length.
         public let statusUpdateReason: String?
-        
+
         public init(accountId: String, jobId: String, requestedJobStatus: RequestedJobStatus, statusUpdateReason: String? = nil) {
             self.accountId = accountId
             self.jobId = jobId
@@ -1395,7 +1395,7 @@ extension S3Control {
         public let status: JobStatus?
         /// The reason that the specified job's status was updated.
         public let statusUpdateReason: String?
-        
+
         public init(jobId: String? = nil, status: JobStatus? = nil, statusUpdateReason: String? = nil) {
             self.jobId = jobId
             self.status = status
@@ -1415,5 +1415,4 @@ extension S3Control {
             case statusUpdateReason = "StatusUpdateReason"
         }
     }
-
 }

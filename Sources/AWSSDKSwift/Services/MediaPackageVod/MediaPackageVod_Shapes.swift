@@ -37,7 +37,7 @@ extension MediaPackageVod {
         public let sourceArn: String?
         /// The IAM role_arn used to access the source S3 bucket.
         public let sourceRoleArn: String?
-        
+
         public init(arn: String? = nil, egressEndpoints: [EgressEndpoint]? = nil, id: String? = nil, packagingGroupId: String? = nil, resourceId: String? = nil, sourceArn: String? = nil, sourceRoleArn: String? = nil) {
             self.arn = arn
             self.egressEndpoints = egressEndpoints
@@ -78,7 +78,7 @@ extension MediaPackageVod {
         public let sourceArn: String
         /// The IAM role ARN used to access the source S3 bucket.
         public let sourceRoleArn: String
-        
+
         public init(id: String, packagingGroupId: String, resourceId: String? = nil, sourceArn: String, sourceRoleArn: String) {
             self.id = id
             self.packagingGroupId = packagingGroupId
@@ -106,7 +106,7 @@ extension MediaPackageVod {
         public let assets: [AssetShallow]?
         /// A token that can be used to resume pagination from the end of the collection.
         public let nextToken: String?
-        
+
         public init(assets: [AssetShallow]? = nil, nextToken: String? = nil) {
             self.assets = assets
             self.nextToken = nextToken
@@ -140,7 +140,7 @@ extension MediaPackageVod {
         public let sourceArn: String?
         /// The IAM role ARN used to access the source S3 bucket.
         public let sourceRoleArn: String?
-        
+
         public init(arn: String? = nil, id: String? = nil, packagingGroupId: String? = nil, resourceId: String? = nil, sourceArn: String? = nil, sourceRoleArn: String? = nil) {
             self.arn = arn
             self.id = id
@@ -166,7 +166,7 @@ extension MediaPackageVod {
         ]
 
         public let spekeKeyProvider: SpekeKeyProvider
-        
+
         public init(spekeKeyProvider: SpekeKeyProvider) {
             self.spekeKeyProvider = spekeKeyProvider
         }
@@ -189,7 +189,7 @@ extension MediaPackageVod {
         /// Duration (in seconds) of each fragment. Actual fragments will be
         /// rounded to the nearest multiple of the source fragment duration.
         public let segmentDurationSeconds: Int32?
-        
+
         public init(encryption: CmafEncryption? = nil, hlsManifests: [HlsManifest], segmentDurationSeconds: Int32? = nil) {
             self.encryption = encryption
             self.hlsManifests = hlsManifests
@@ -217,7 +217,7 @@ extension MediaPackageVod {
         public let resourceId: String?
         public let sourceArn: String
         public let sourceRoleArn: String
-        
+
         public init(id: String, packagingGroupId: String, resourceId: String? = nil, sourceArn: String, sourceRoleArn: String) {
             self.id = id
             self.packagingGroupId = packagingGroupId
@@ -253,7 +253,7 @@ extension MediaPackageVod {
         public let resourceId: String?
         public let sourceArn: String?
         public let sourceRoleArn: String?
-        
+
         public init(arn: String? = nil, egressEndpoints: [EgressEndpoint]? = nil, id: String? = nil, packagingGroupId: String? = nil, resourceId: String? = nil, sourceArn: String? = nil, sourceRoleArn: String? = nil) {
             self.arn = arn
             self.egressEndpoints = egressEndpoints
@@ -291,7 +291,7 @@ extension MediaPackageVod {
         public let id: String
         public let mssPackage: MssPackage?
         public let packagingGroupId: String
-        
+
         public init(cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String, mssPackage: MssPackage? = nil, packagingGroupId: String) {
             self.cmafPackage = cmafPackage
             self.dashPackage = dashPackage
@@ -329,7 +329,7 @@ extension MediaPackageVod {
         public let id: String?
         public let mssPackage: MssPackage?
         public let packagingGroupId: String?
-        
+
         public init(arn: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, mssPackage: MssPackage? = nil, packagingGroupId: String? = nil) {
             self.arn = arn
             self.cmafPackage = cmafPackage
@@ -357,7 +357,7 @@ extension MediaPackageVod {
         ]
 
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -375,7 +375,7 @@ extension MediaPackageVod {
 
         public let arn: String?
         public let id: String?
-        
+
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -393,7 +393,7 @@ extension MediaPackageVod {
         ]
 
         public let spekeKeyProvider: SpekeKeyProvider
-        
+
         public init(spekeKeyProvider: SpekeKeyProvider) {
             self.spekeKeyProvider = spekeKeyProvider
         }
@@ -418,7 +418,7 @@ extension MediaPackageVod {
         /// The Dynamic Adaptive Streaming over HTTP (DASH) profile type.  When set to "HBBTV_1_5", HbbTV 1.5 compliant output is enabled.
         public let profile: Profile?
         public let streamSelection: StreamSelection?
-        
+
         public init(manifestName: String? = nil, minBufferTimeSeconds: Int32? = nil, profile: Profile? = nil, streamSelection: StreamSelection? = nil) {
             self.manifestName = manifestName
             self.minBufferTimeSeconds = minBufferTimeSeconds
@@ -447,7 +447,7 @@ extension MediaPackageVod {
         /// Duration (in seconds) of each segment. Actual segments will be
         /// rounded to the nearest multiple of the source segment duration.
         public let segmentDurationSeconds: Int32?
-        
+
         public init(dashManifests: [DashManifest], encryption: DashEncryption? = nil, segmentDurationSeconds: Int32? = nil) {
             self.dashManifests = dashManifests
             self.encryption = encryption
@@ -467,7 +467,7 @@ extension MediaPackageVod {
         ]
 
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -478,11 +478,12 @@ extension MediaPackageVod {
     }
 
     public struct DeleteAssetResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeletePackagingConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -490,7 +491,7 @@ extension MediaPackageVod {
         ]
 
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -501,11 +502,12 @@ extension MediaPackageVod {
     }
 
     public struct DeletePackagingConfigurationResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeletePackagingGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -513,7 +515,7 @@ extension MediaPackageVod {
         ]
 
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -524,11 +526,12 @@ extension MediaPackageVod {
     }
 
     public struct DeletePackagingGroupResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeAssetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -536,7 +539,7 @@ extension MediaPackageVod {
         ]
 
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -564,7 +567,7 @@ extension MediaPackageVod {
         public let resourceId: String?
         public let sourceArn: String?
         public let sourceRoleArn: String?
-        
+
         public init(arn: String? = nil, egressEndpoints: [EgressEndpoint]? = nil, id: String? = nil, packagingGroupId: String? = nil, resourceId: String? = nil, sourceArn: String? = nil, sourceRoleArn: String? = nil) {
             self.arn = arn
             self.egressEndpoints = egressEndpoints
@@ -592,7 +595,7 @@ extension MediaPackageVod {
         ]
 
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -620,7 +623,7 @@ extension MediaPackageVod {
         public let id: String?
         public let mssPackage: MssPackage?
         public let packagingGroupId: String?
-        
+
         public init(arn: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, mssPackage: MssPackage? = nil, packagingGroupId: String? = nil) {
             self.arn = arn
             self.cmafPackage = cmafPackage
@@ -648,7 +651,7 @@ extension MediaPackageVod {
         ]
 
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -666,7 +669,7 @@ extension MediaPackageVod {
 
         public let arn: String?
         public let id: String?
-        
+
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -688,7 +691,7 @@ extension MediaPackageVod {
         public let packagingConfigurationId: String?
         /// The URL of the parent manifest for the repackaged Asset.
         public let url: String?
-        
+
         public init(packagingConfigurationId: String? = nil, url: String? = nil) {
             self.packagingConfigurationId = packagingConfigurationId
             self.url = url
@@ -715,7 +718,7 @@ extension MediaPackageVod {
         /// The encryption method to use.
         public let encryptionMethod: EncryptionMethod?
         public let spekeKeyProvider: SpekeKeyProvider
-        
+
         public init(encryptionMethod: EncryptionMethod? = nil, spekeKeyProvider: SpekeKeyProvider) {
             self.encryptionMethod = encryptionMethod
             self.spekeKeyProvider = spekeKeyProvider
@@ -761,7 +764,7 @@ extension MediaPackageVod {
         /// When enabled, the EXT-X-KEY tag will be repeated in output manifests.
         public let repeatExtXKey: Bool?
         public let streamSelection: StreamSelection?
-        
+
         public init(adMarkers: AdMarkers? = nil, includeIframeOnlyStream: Bool? = nil, manifestName: String? = nil, programDateTimeIntervalSeconds: Int32? = nil, repeatExtXKey: Bool? = nil, streamSelection: StreamSelection? = nil) {
             self.adMarkers = adMarkers
             self.includeIframeOnlyStream = includeIframeOnlyStream
@@ -797,7 +800,7 @@ extension MediaPackageVod {
         public let segmentDurationSeconds: Int32?
         /// When enabled, audio streams will be placed in rendition groups in the output.
         public let useAudioRenditionGroup: Bool?
-        
+
         public init(encryption: HlsEncryption? = nil, hlsManifests: [HlsManifest], segmentDurationSeconds: Int32? = nil, useAudioRenditionGroup: Bool? = nil) {
             self.encryption = encryption
             self.hlsManifests = hlsManifests
@@ -823,7 +826,7 @@ extension MediaPackageVod {
         public let maxResults: Int32?
         public let nextToken: String?
         public let packagingGroupId: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, packagingGroupId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -850,7 +853,7 @@ extension MediaPackageVod {
 
         public let assets: [AssetShallow]?
         public let nextToken: String?
-        
+
         public init(assets: [AssetShallow]? = nil, nextToken: String? = nil) {
             self.assets = assets
             self.nextToken = nextToken
@@ -872,7 +875,7 @@ extension MediaPackageVod {
         public let maxResults: Int32?
         public let nextToken: String?
         public let packagingGroupId: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, packagingGroupId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -899,7 +902,7 @@ extension MediaPackageVod {
 
         public let nextToken: String?
         public let packagingConfigurations: [PackagingConfiguration]?
-        
+
         public init(nextToken: String? = nil, packagingConfigurations: [PackagingConfiguration]? = nil) {
             self.nextToken = nextToken
             self.packagingConfigurations = packagingConfigurations
@@ -919,7 +922,7 @@ extension MediaPackageVod {
 
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -944,7 +947,7 @@ extension MediaPackageVod {
 
         public let nextToken: String?
         public let packagingGroups: [PackagingGroup]?
-        
+
         public init(nextToken: String? = nil, packagingGroups: [PackagingGroup]? = nil) {
             self.nextToken = nextToken
             self.packagingGroups = packagingGroups
@@ -962,7 +965,7 @@ extension MediaPackageVod {
         ]
 
         public let spekeKeyProvider: SpekeKeyProvider
-        
+
         public init(spekeKeyProvider: SpekeKeyProvider) {
             self.spekeKeyProvider = spekeKeyProvider
         }
@@ -981,7 +984,7 @@ extension MediaPackageVod {
         /// An optional string to include in the name of the manifest.
         public let manifestName: String?
         public let streamSelection: StreamSelection?
-        
+
         public init(manifestName: String? = nil, streamSelection: StreamSelection? = nil) {
             self.manifestName = manifestName
             self.streamSelection = streamSelection
@@ -1005,7 +1008,7 @@ extension MediaPackageVod {
         public let mssManifests: [MssManifest]
         /// The duration (in seconds) of each segment.
         public let segmentDurationSeconds: Int32?
-        
+
         public init(encryption: MssEncryption? = nil, mssManifests: [MssManifest], segmentDurationSeconds: Int32? = nil) {
             self.encryption = encryption
             self.mssManifests = mssManifests
@@ -1040,7 +1043,7 @@ extension MediaPackageVod {
         public let mssPackage: MssPackage?
         /// The ID of a PackagingGroup.
         public let packagingGroupId: String?
-        
+
         public init(arn: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, mssPackage: MssPackage? = nil, packagingGroupId: String? = nil) {
             self.arn = arn
             self.cmafPackage = cmafPackage
@@ -1080,7 +1083,7 @@ extension MediaPackageVod {
         public let mssPackage: MssPackage?
         /// The ID of a PackagingGroup.
         public let packagingGroupId: String
-        
+
         public init(cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String, mssPackage: MssPackage? = nil, packagingGroupId: String) {
             self.cmafPackage = cmafPackage
             self.dashPackage = dashPackage
@@ -1110,7 +1113,7 @@ extension MediaPackageVod {
         public let nextToken: String?
         /// A list of MediaPackage VOD PackagingConfiguration resources.
         public let packagingConfigurations: [PackagingConfiguration]?
-        
+
         public init(nextToken: String? = nil, packagingConfigurations: [PackagingConfiguration]? = nil) {
             self.nextToken = nextToken
             self.packagingConfigurations = packagingConfigurations
@@ -1132,7 +1135,7 @@ extension MediaPackageVod {
         public let arn: String?
         /// The ID of the PackagingGroup.
         public let id: String?
-        
+
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -1151,7 +1154,7 @@ extension MediaPackageVod {
 
         /// The ID of the PackagingGroup.
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -1171,7 +1174,7 @@ extension MediaPackageVod {
         public let nextToken: String?
         /// A list of MediaPackage VOD PackagingGroup resources.
         public let packagingGroups: [PackagingGroup]?
-        
+
         public init(nextToken: String? = nil, packagingGroups: [PackagingGroup]? = nil) {
             self.nextToken = nextToken
             self.packagingGroups = packagingGroups
@@ -1203,7 +1206,7 @@ extension MediaPackageVod {
         public let systemIds: [String]
         /// The URL of the external key provider service.
         public let url: String
-        
+
         public init(roleArn: String, systemIds: [String], url: String) {
             self.roleArn = roleArn
             self.systemIds = systemIds
@@ -1237,7 +1240,7 @@ extension MediaPackageVod {
         public let minVideoBitsPerSecond: Int32?
         /// A directive that determines the order of streams in the output.
         public let streamOrder: StreamOrder?
-        
+
         public init(maxVideoBitsPerSecond: Int32? = nil, minVideoBitsPerSecond: Int32? = nil, streamOrder: StreamOrder? = nil) {
             self.maxVideoBitsPerSecond = maxVideoBitsPerSecond
             self.minVideoBitsPerSecond = minVideoBitsPerSecond
@@ -1250,5 +1253,4 @@ extension MediaPackageVod {
             case streamOrder = "streamOrder"
         }
     }
-
 }

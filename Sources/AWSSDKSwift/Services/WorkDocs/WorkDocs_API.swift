@@ -229,5 +229,4 @@ public struct WorkDocs {
     public func updateUser(_ input: UpdateUserRequest) throws -> Future<UpdateUserResponse> {
         return try client.send(operation: "UpdateUser", path: "/api/v1/users/{UserId}", httpMethod: "PATCH", input: input)
     }
-
 }

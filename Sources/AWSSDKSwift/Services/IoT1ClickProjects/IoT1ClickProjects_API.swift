@@ -104,5 +104,4 @@ public struct IoT1ClickProjects {
     public func updateProject(_ input: UpdateProjectRequest) throws -> Future<UpdateProjectResponse> {
         return try client.send(operation: "UpdateProject", path: "/projects/{projectName}", httpMethod: "PUT", input: input)
     }
-
 }

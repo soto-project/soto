@@ -260,5 +260,4 @@ public struct CodeDeploy {
     public func updateDeploymentGroup(_ input: UpdateDeploymentGroupInput) throws -> Future<UpdateDeploymentGroupOutput> {
         return try client.send(operation: "UpdateDeploymentGroup", path: "/", httpMethod: "POST", input: input)
     }
-
 }

@@ -70,7 +70,7 @@ extension MediaConvert {
         public let specification: AacSpecification?
         /// VBR Quality Level - Only used if rate_control_mode is VBR.
         public let vbrQuality: AacVbrQuality?
-        
+
         public init(audioDescriptionBroadcasterMix: AacAudioDescriptionBroadcasterMix? = nil, bitrate: Int32? = nil, codecProfile: AacCodecProfile? = nil, codingMode: AacCodingMode? = nil, rateControlMode: AacRateControlMode? = nil, rawFormat: AacRawFormat? = nil, sampleRate: Int32? = nil, specification: AacSpecification? = nil, vbrQuality: AacVbrQuality? = nil) {
             self.audioDescriptionBroadcasterMix = audioDescriptionBroadcasterMix
             self.bitrate = bitrate
@@ -183,7 +183,7 @@ extension MediaConvert {
         public let metadataControl: Ac3MetadataControl?
         /// Sample rate in hz. Sample rate is always 48000.
         public let sampleRate: Int32?
-        
+
         public init(bitrate: Int32? = nil, bitstreamMode: Ac3BitstreamMode? = nil, codingMode: Ac3CodingMode? = nil, dialnorm: Int32? = nil, dynamicRangeCompressionProfile: Ac3DynamicRangeCompressionProfile? = nil, lfeFilter: Ac3LfeFilter? = nil, metadataControl: Ac3MetadataControl? = nil, sampleRate: Int32? = nil) {
             self.bitrate = bitrate
             self.bitstreamMode = bitstreamMode
@@ -229,7 +229,7 @@ extension MediaConvert {
 
         /// Acceleration configuration for the job.
         public let mode: AccelerationMode
-        
+
         public init(mode: AccelerationMode) {
             self.mode = mode
         }
@@ -259,7 +259,7 @@ extension MediaConvert {
         public let channels: Int32?
         /// Sample rate in hz.
         public let sampleRate: Int32?
-        
+
         public init(bitDepth: Int32? = nil, channels: Int32? = nil, sampleRate: Int32? = nil) {
             self.bitDepth = bitDepth
             self.channels = channels
@@ -289,7 +289,7 @@ extension MediaConvert {
 
         /// Specifies the 608 channel number in the ancillary data track from which to extract captions. Unused for passthrough.
         public let sourceAncillaryChannelNumber: Int32?
-        
+
         public init(sourceAncillaryChannelNumber: Int32? = nil) {
             self.sourceAncillaryChannelNumber = sourceAncillaryChannelNumber
         }
@@ -317,7 +317,7 @@ extension MediaConvert {
 
         /// The ARN of the ACM certificate that you want to associate with your MediaConvert resource.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -328,11 +328,12 @@ extension MediaConvert {
     }
 
     public struct AssociateCertificateResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum AudioCodec: String, CustomStringConvertible, Codable {
         case aac = "AAC"
@@ -370,7 +371,7 @@ extension MediaConvert {
         public let mp2Settings: Mp2Settings?
         /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to the value WAV.
         public let wavSettings: WavSettings?
-        
+
         public init(aacSettings: AacSettings? = nil, ac3Settings: Ac3Settings? = nil, aiffSettings: AiffSettings? = nil, codec: AudioCodec? = nil, eac3Settings: Eac3Settings? = nil, mp2Settings: Mp2Settings? = nil, wavSettings: WavSettings? = nil) {
             self.aacSettings = aacSettings
             self.ac3Settings = ac3Settings
@@ -441,7 +442,7 @@ extension MediaConvert {
         public let remixSettings: RemixSettings?
         /// Used for MS Smooth and Apple HLS outputs. Indicates the name displayed by the player (eg. English, or Director Commentary). Alphanumeric characters, spaces, and underscore are legal.
         public let streamName: String?
-        
+
         public init(audioNormalizationSettings: AudioNormalizationSettings? = nil, audioSourceName: String? = nil, audioType: Int32? = nil, audioTypeControl: AudioTypeControl? = nil, codecSettings: AudioCodecSettings? = nil, customLanguageCode: String? = nil, languageCode: LanguageCode? = nil, languageCodeControl: AudioLanguageCodeControl? = nil, remixSettings: RemixSettings? = nil, streamName: String? = nil) {
             self.audioNormalizationSettings = audioNormalizationSettings
             self.audioSourceName = audioSourceName
@@ -533,7 +534,7 @@ extension MediaConvert {
         public let peakCalculation: AudioNormalizationPeakCalculation?
         /// Target LKFS(loudness) to adjust volume to. If no value is entered, a default value will be used according to the chosen algorithm. The CALM Act (1770-1) recommends a target of -24 LKFS. The EBU R-128 specification (1770-2) recommends a target of -23 LKFS.
         public let targetLkfs: Double?
-        
+
         public init(algorithm: AudioNormalizationAlgorithm? = nil, algorithmControl: AudioNormalizationAlgorithmControl? = nil, correctionGateLevel: Int32? = nil, loudnessLogging: AudioNormalizationLoudnessLogging? = nil, peakCalculation: AudioNormalizationPeakCalculation? = nil, targetLkfs: Double? = nil) {
             self.algorithm = algorithm
             self.algorithmControl = algorithmControl
@@ -592,7 +593,7 @@ extension MediaConvert {
         public let selectorType: AudioSelectorType?
         /// Identify a track from the input audio to include in this selector by entering the track index number. To include several tracks in a single audio selector, specify multiple tracks as follows. Using the console, enter a comma-separated list. For examle, type "1,2,3" to include tracks 1 through 3. Specifying directly in your JSON job file, provide the track numbers in an array. For example, "tracks": [1,2,3].
         public let tracks: [Int32]?
-        
+
         public init(customLanguageCode: String? = nil, defaultSelection: AudioDefaultSelection? = nil, externalAudioFileInput: String? = nil, languageCode: LanguageCode? = nil, offset: Int32? = nil, pids: [Int32]? = nil, programSelection: Int32? = nil, remixSettings: RemixSettings? = nil, selectorType: AudioSelectorType? = nil, tracks: [Int32]? = nil) {
             self.customLanguageCode = customLanguageCode
             self.defaultSelection = defaultSelection
@@ -647,7 +648,7 @@ extension MediaConvert {
 
         /// Name of an Audio Selector within the same input to include in the group.  Audio selector names are standardized, based on their order within the input (e.g., "Audio Selector 1"). The audio selector name parameter can be repeated to add any number of audio selectors to the group.
         public let audioSelectorNames: [String]?
-        
+
         public init(audioSelectorNames: [String]? = nil) {
             self.audioSelectorNames = audioSelectorNames
         }
@@ -683,7 +684,7 @@ extension MediaConvert {
 
         /// Blanking image to be used. Leave empty for solid black. Only bmp and png images are supported.
         public let availBlankingImage: String?
-        
+
         public init(availBlankingImage: String? = nil) {
             self.availBlankingImage = availBlankingImage
         }
@@ -764,7 +765,7 @@ extension MediaConvert {
         public let xPosition: Int32?
         /// Specifies the vertical position of the caption relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit y_position is provided, the caption will be positioned towards the bottom of the output. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let yPosition: Int32?
-        
+
         public init(alignment: BurninSubtitleAlignment? = nil, backgroundColor: BurninSubtitleBackgroundColor? = nil, backgroundOpacity: Int32? = nil, fontColor: BurninSubtitleFontColor? = nil, fontOpacity: Int32? = nil, fontResolution: Int32? = nil, fontScript: FontScript? = nil, fontSize: Int32? = nil, outlineColor: BurninSubtitleOutlineColor? = nil, outlineSize: Int32? = nil, shadowColor: BurninSubtitleShadowColor? = nil, shadowOpacity: Int32? = nil, shadowXOffset: Int32? = nil, shadowYOffset: Int32? = nil, teletextSpacing: BurninSubtitleTeletextSpacing? = nil, xPosition: Int32? = nil, yPosition: Int32? = nil) {
             self.alignment = alignment
             self.backgroundColor = backgroundColor
@@ -882,7 +883,7 @@ extension MediaConvert {
 
         /// The Job ID of the job to be cancelled.
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -893,11 +894,12 @@ extension MediaConvert {
     }
 
     public struct CancelJobResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CaptionDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -918,7 +920,7 @@ extension MediaConvert {
         public let languageCode: LanguageCode?
         /// Human readable information to indicate captions available for players (eg. English, or Spanish). Alphanumeric characters, spaces, and underscore are legal.
         public let languageDescription: String?
-        
+
         public init(captionSelectorName: String? = nil, customLanguageCode: String? = nil, destinationSettings: CaptionDestinationSettings? = nil, languageCode: LanguageCode? = nil, languageDescription: String? = nil) {
             self.captionSelectorName = captionSelectorName
             self.customLanguageCode = customLanguageCode
@@ -960,7 +962,7 @@ extension MediaConvert {
         public let languageCode: LanguageCode?
         /// Human readable information to indicate captions available for players (eg. English, or Spanish). Alphanumeric characters, spaces, and underscore are legal.
         public let languageDescription: String?
-        
+
         public init(customLanguageCode: String? = nil, destinationSettings: CaptionDestinationSettings? = nil, languageCode: LanguageCode? = nil, languageDescription: String? = nil) {
             self.customLanguageCode = customLanguageCode
             self.destinationSettings = destinationSettings
@@ -1008,7 +1010,7 @@ extension MediaConvert {
         public let teletextDestinationSettings: TeletextDestinationSettings?
         /// Settings specific to TTML caption outputs, including Pass style information (TtmlStylePassthrough).
         public let ttmlDestinationSettings: TtmlDestinationSettings?
-        
+
         public init(burninDestinationSettings: BurninDestinationSettings? = nil, destinationType: CaptionDestinationType? = nil, dvbSubDestinationSettings: DvbSubDestinationSettings? = nil, embeddedDestinationSettings: EmbeddedDestinationSettings? = nil, sccDestinationSettings: SccDestinationSettings? = nil, teletextDestinationSettings: TeletextDestinationSettings? = nil, ttmlDestinationSettings: TtmlDestinationSettings? = nil) {
             self.burninDestinationSettings = burninDestinationSettings
             self.destinationType = destinationType
@@ -1065,7 +1067,7 @@ extension MediaConvert {
         public let languageCode: LanguageCode?
         /// Source settings (SourceSettings) contains the group of settings for captions in the input.
         public let sourceSettings: CaptionSourceSettings?
-        
+
         public init(customLanguageCode: String? = nil, languageCode: LanguageCode? = nil, sourceSettings: CaptionSourceSettings? = nil) {
             self.customLanguageCode = customLanguageCode
             self.languageCode = languageCode
@@ -1111,7 +1113,7 @@ extension MediaConvert {
         public let teletextSourceSettings: TeletextSourceSettings?
         /// Settings specific to caption sources that are specfied by track number. Sources include IMSC in IMF.
         public let trackSourceSettings: TrackSourceSettings?
-        
+
         public init(ancillarySourceSettings: AncillarySourceSettings? = nil, dvbSubSourceSettings: DvbSubSourceSettings? = nil, embeddedSourceSettings: EmbeddedSourceSettings? = nil, fileSourceSettings: FileSourceSettings? = nil, sourceType: CaptionSourceType? = nil, teletextSourceSettings: TeletextSourceSettings? = nil, trackSourceSettings: TrackSourceSettings? = nil) {
             self.ancillarySourceSettings = ancillarySourceSettings
             self.dvbSubSourceSettings = dvbSubSourceSettings
@@ -1165,7 +1167,7 @@ extension MediaConvert {
 
         /// List of output channels
         public let outputChannels: [OutputChannelMapping]?
-        
+
         public init(outputChannels: [OutputChannelMapping]? = nil) {
             self.outputChannels = outputChannels
         }
@@ -1212,7 +1214,7 @@ extension MediaConvert {
         public let staticKeyProvider: StaticKeyProvider?
         /// Indicates which type of key provider is used for encryption.
         public let `type`: CmafKeyProviderType?
-        
+
         public init(constantInitializationVector: String? = nil, encryptionMethod: CmafEncryptionType? = nil, initializationVectorInManifest: CmafInitializationVectorInManifest? = nil, staticKeyProvider: StaticKeyProvider? = nil, type: CmafKeyProviderType? = nil) {
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
@@ -1294,7 +1296,7 @@ extension MediaConvert {
         public let writeDashManifest: CmafWriteDASHManifest?
         /// When set to ENABLED, an Apple HLS manifest will be generated for this output.
         public let writeHlsManifest: CmafWriteHLSManifest?
-        
+
         public init(baseUrl: String? = nil, clientCache: CmafClientCache? = nil, codecSpecification: CmafCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: CmafEncryptionSettings? = nil, fragmentLength: Int32? = nil, manifestCompression: CmafManifestCompression? = nil, manifestDurationFormat: CmafManifestDurationFormat? = nil, minBufferTime: Int32? = nil, minFinalSegmentLength: Double? = nil, segmentControl: CmafSegmentControl? = nil, segmentLength: Int32? = nil, streamInfResolution: CmafStreamInfResolution? = nil, writeDashManifest: CmafWriteDASHManifest? = nil, writeHlsManifest: CmafWriteHLSManifest? = nil) {
             self.baseUrl = baseUrl
             self.clientCache = clientCache
@@ -1415,7 +1417,7 @@ extension MediaConvert {
         public let hue: Int32?
         /// Saturation level.
         public let saturation: Int32?
-        
+
         public init(brightness: Int32? = nil, colorSpaceConversion: ColorSpaceConversion? = nil, contrast: Int32? = nil, hdr10Metadata: Hdr10Metadata? = nil, hue: Int32? = nil, saturation: Int32? = nil) {
             self.brightness = brightness
             self.colorSpaceConversion = colorSpaceConversion
@@ -1504,7 +1506,7 @@ extension MediaConvert {
         public let movSettings: MovSettings?
         /// Settings for MP4 Container
         public let mp4Settings: Mp4Settings?
-        
+
         public init(container: ContainerType? = nil, f4vSettings: F4vSettings? = nil, m2tsSettings: M2tsSettings? = nil, m3u8Settings: M3u8Settings? = nil, movSettings: MovSettings? = nil, mp4Settings: Mp4Settings? = nil) {
             self.container = container
             self.f4vSettings = f4vSettings
@@ -1574,7 +1576,7 @@ extension MediaConvert {
         public let statusUpdateInterval: StatusUpdateInterval?
         /// User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs.
         public let userMetadata: [String: String]?
-        
+
         public init(accelerationSettings: AccelerationSettings? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = CreateJobRequest.idempotencyToken(), jobTemplate: String? = nil, queue: String? = nil, role: String, settings: JobSettings, statusUpdateInterval: StatusUpdateInterval? = nil, userMetadata: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.billingTagsSource = billingTagsSource
@@ -1611,7 +1613,7 @@ extension MediaConvert {
 
         /// Each job converts an input file into an output file or files. For more information, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
         public let job: Job?
-        
+
         public init(job: Job? = nil) {
             self.job = job
         }
@@ -1653,7 +1655,7 @@ extension MediaConvert {
         public let statusUpdateInterval: StatusUpdateInterval?
         /// The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
         public let tags: [String: String]?
-        
+
         public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, name: String, queue: String? = nil, settings: JobTemplateSettings, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.category = category
@@ -1688,7 +1690,7 @@ extension MediaConvert {
 
         /// A job template is a pre-made set of encoding instructions that you can use to quickly create a job.
         public let jobTemplate: JobTemplate?
-        
+
         public init(jobTemplate: JobTemplate? = nil) {
             self.jobTemplate = jobTemplate
         }
@@ -1721,7 +1723,7 @@ extension MediaConvert {
         public let settings: PresetSettings
         /// The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
         public let tags: [String: String]?
-        
+
         public init(category: String? = nil, description: String? = nil, name: String, settings: PresetSettings, tags: [String: String]? = nil) {
             self.category = category
             self.description = description
@@ -1750,7 +1752,7 @@ extension MediaConvert {
 
         /// A preset is a collection of preconfigured media conversion settings that you want MediaConvert to apply to the output during the conversion process.
         public let preset: Preset?
-        
+
         public init(preset: Preset? = nil) {
             self.preset = preset
         }
@@ -1783,7 +1785,7 @@ extension MediaConvert {
         public let reservationPlanSettings: ReservationPlanSettings?
         /// The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
         public let tags: [String: String]?
-        
+
         public init(description: String? = nil, name: String, pricingPlan: PricingPlan? = nil, reservationPlanSettings: ReservationPlanSettings? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.name = name
@@ -1808,7 +1810,7 @@ extension MediaConvert {
 
         /// You can use queues to manage the resources that are available to your AWS account for running multiple transcoding jobs at the same time. If you don't specify a queue, the service sends all jobs through the default queue. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html.
         public let queue: Queue?
-        
+
         public init(queue: Queue? = nil) {
             self.queue = queue
         }
@@ -1828,7 +1830,7 @@ extension MediaConvert {
         public let playbackDeviceCompatibility: DashIsoPlaybackDeviceCompatibility?
         /// Settings for use with a SPEKE key provider
         public let spekeKeyProvider: SpekeKeyProvider?
-        
+
         public init(playbackDeviceCompatibility: DashIsoPlaybackDeviceCompatibility? = nil, spekeKeyProvider: SpekeKeyProvider? = nil) {
             self.playbackDeviceCompatibility = playbackDeviceCompatibility
             self.spekeKeyProvider = spekeKeyProvider
@@ -1878,7 +1880,7 @@ extension MediaConvert {
         public let segmentLength: Int32?
         /// When you enable Precise segment duration in manifests (writeSegmentTimelineInRepresentation), your DASH manifest shows precise segment durations. The segment duration information appears inside the SegmentTimeline element, inside SegmentTemplate at the Representation level. When this feature isn't enabled, the segment durations in your DASH manifest are approximate. The segment duration information appears in the duration attribute of the SegmentTemplate element.
         public let writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation?
-        
+
         public init(baseUrl: String? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: DashIsoEncryptionSettings? = nil, fragmentLength: Int32? = nil, hbbtvCompliance: DashIsoHbbtvCompliance? = nil, minBufferTime: Int32? = nil, segmentControl: DashIsoSegmentControl? = nil, segmentLength: Int32? = nil, writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation? = nil) {
             self.baseUrl = baseUrl
             self.destination = destination
@@ -1970,7 +1972,7 @@ extension MediaConvert {
         public let control: DeinterlacerControl?
         /// Use Deinterlacer (DeinterlaceMode) to choose how the service will do deinterlacing. Default is Deinterlace. - Deinterlace converts interlaced to progressive. - Inverse telecine converts Hard Telecine 29.97i to progressive 23.976p. - Adaptive auto-detects and converts to progressive.
         public let mode: DeinterlacerMode?
-        
+
         public init(algorithm: DeinterlaceAlgorithm? = nil, control: DeinterlacerControl? = nil, mode: DeinterlacerMode? = nil) {
             self.algorithm = algorithm
             self.control = control
@@ -2004,7 +2006,7 @@ extension MediaConvert {
 
         /// The name of the job template to be deleted.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -2015,11 +2017,12 @@ extension MediaConvert {
     }
 
     public struct DeleteJobTemplateResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeletePresetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2028,7 +2031,7 @@ extension MediaConvert {
 
         /// The name of the preset to be deleted.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -2039,11 +2042,12 @@ extension MediaConvert {
     }
 
     public struct DeletePresetResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteQueueRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2052,7 +2056,7 @@ extension MediaConvert {
 
         /// The name of the queue that you want to delete.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -2063,11 +2067,12 @@ extension MediaConvert {
     }
 
     public struct DeleteQueueResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum DescribeEndpointsMode: String, CustomStringConvertible, Codable {
         case `default` = "DEFAULT"
@@ -2088,7 +2093,7 @@ extension MediaConvert {
         public let mode: DescribeEndpointsMode?
         /// Use this string, provided with the response to a previous request, to request the next batch of endpoints.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, mode: DescribeEndpointsMode? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.mode = mode
@@ -2112,7 +2117,7 @@ extension MediaConvert {
         public let endpoints: [Endpoint]?
         /// Use this string to request the next batch of endpoints.
         public let nextToken: String?
-        
+
         public init(endpoints: [Endpoint]? = nil, nextToken: String? = nil) {
             self.endpoints = endpoints
             self.nextToken = nextToken
@@ -2131,7 +2136,7 @@ extension MediaConvert {
 
         /// Settings associated with S3 destination
         public let s3Settings: S3DestinationSettings?
-        
+
         public init(s3Settings: S3DestinationSettings? = nil) {
             self.s3Settings = s3Settings
         }
@@ -2152,7 +2157,7 @@ extension MediaConvert {
 
         /// The ARN of the ACM certificate that you want to disassociate from your MediaConvert resource.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -2163,11 +2168,12 @@ extension MediaConvert {
     }
 
     public struct DisassociateCertificateResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum DropFrameTimecode: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
@@ -2188,7 +2194,7 @@ extension MediaConvert {
         public let networkName: String?
         /// The number of milliseconds between instances of this table in the output transport stream.
         public let nitInterval: Int32?
-        
+
         public init(networkId: Int32? = nil, networkName: String? = nil, nitInterval: Int32? = nil) {
             self.networkId = networkId
             self.networkName = networkName
@@ -2227,7 +2233,7 @@ extension MediaConvert {
         public let serviceName: String?
         /// The service provider name placed in the service_descriptor in the Service Description Table. Maximum length is 256 characters.
         public let serviceProviderName: String?
-        
+
         public init(outputSdt: OutputSdt? = nil, sdtInterval: Int32? = nil, serviceName: String? = nil, serviceProviderName: String? = nil) {
             self.outputSdt = outputSdt
             self.sdtInterval = sdtInterval
@@ -2311,7 +2317,7 @@ extension MediaConvert {
         public let xPosition: Int32?
         /// Specifies the vertical position of the caption relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit y_position is provided, the caption will be positioned towards the bottom of the output. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let yPosition: Int32?
-        
+
         public init(alignment: DvbSubtitleAlignment? = nil, backgroundColor: DvbSubtitleBackgroundColor? = nil, backgroundOpacity: Int32? = nil, fontColor: DvbSubtitleFontColor? = nil, fontOpacity: Int32? = nil, fontResolution: Int32? = nil, fontScript: FontScript? = nil, fontSize: Int32? = nil, outlineColor: DvbSubtitleOutlineColor? = nil, outlineSize: Int32? = nil, shadowColor: DvbSubtitleShadowColor? = nil, shadowOpacity: Int32? = nil, shadowXOffset: Int32? = nil, shadowYOffset: Int32? = nil, teletextSpacing: DvbSubtitleTeletextSpacing? = nil, xPosition: Int32? = nil, yPosition: Int32? = nil) {
             self.alignment = alignment
             self.backgroundColor = backgroundColor
@@ -2383,7 +2389,7 @@ extension MediaConvert {
 
         /// When using DVB-Sub with Burn-In or SMPTE-TT, use this PID for the source content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless of selectors.
         public let pid: Int32?
-        
+
         public init(pid: Int32? = nil) {
             self.pid = pid
         }
@@ -2451,7 +2457,7 @@ extension MediaConvert {
 
         /// The number of milliseconds between instances of this table in the output transport stream.
         public let tdtInterval: Int32?
-        
+
         public init(tdtInterval: Int32? = nil) {
             self.tdtInterval = tdtInterval
         }
@@ -2615,7 +2621,7 @@ extension MediaConvert {
         public let surroundExMode: Eac3SurroundExMode?
         /// When encoding 2/0 audio, sets whether Dolby Surround is matrix encoded into the two channels.
         public let surroundMode: Eac3SurroundMode?
-        
+
         public init(attenuationControl: Eac3AttenuationControl? = nil, bitrate: Int32? = nil, bitstreamMode: Eac3BitstreamMode? = nil, codingMode: Eac3CodingMode? = nil, dcFilter: Eac3DcFilter? = nil, dialnorm: Int32? = nil, dynamicRangeCompressionLine: Eac3DynamicRangeCompressionLine? = nil, dynamicRangeCompressionRf: Eac3DynamicRangeCompressionRf? = nil, lfeControl: Eac3LfeControl? = nil, lfeFilter: Eac3LfeFilter? = nil, loRoCenterMixLevel: Double? = nil, loRoSurroundMixLevel: Double? = nil, ltRtCenterMixLevel: Double? = nil, ltRtSurroundMixLevel: Double? = nil, metadataControl: Eac3MetadataControl? = nil, passthroughControl: Eac3PassthroughControl? = nil, phaseControl: Eac3PhaseControl? = nil, sampleRate: Int32? = nil, stereoDownmix: Eac3StereoDownmix? = nil, surroundExMode: Eac3SurroundExMode? = nil, surroundMode: Eac3SurroundMode? = nil) {
             self.attenuationControl = attenuationControl
             self.bitrate = bitrate
@@ -2709,7 +2715,7 @@ extension MediaConvert {
 
         /// Ignore this setting unless your input captions are SCC format and your output container is MXF. With this combination of input captions format and output container, you can optionally use this setting to replace the input channel number with the track number that you specify. Specify a different number for each output captions track. If you don't specify an output track number, the system uses the input channel number for the output channel number. This setting applies to each output individually. You can optionally combine two captions channels in your output. The two output channel numbers can be one of the following pairs: 1,3; 2,4; 1,4; or 2,3.
         public let destination608ChannelNumber: Int32?
-        
+
         public init(destination608ChannelNumber: Int32? = nil) {
             self.destination608ChannelNumber = destination608ChannelNumber
         }
@@ -2737,7 +2743,7 @@ extension MediaConvert {
         public let source608ChannelNumber: Int32?
         /// Specifies the video track index used for extracting captions. The system only supports one input video track, so this should always be set to '1'.
         public let source608TrackNumber: Int32?
-        
+
         public init(convert608To708: EmbeddedConvert608To708? = nil, source608ChannelNumber: Int32? = nil, source608TrackNumber: Int32? = nil) {
             self.convert608To708 = convert608To708
             self.source608ChannelNumber = source608ChannelNumber
@@ -2765,7 +2771,7 @@ extension MediaConvert {
 
         /// URL of endpoint
         public let url: String?
-        
+
         public init(url: String? = nil) {
             self.url = url
         }
@@ -2782,7 +2788,7 @@ extension MediaConvert {
 
         /// Provide your ESAM ManifestConfirmConditionNotification XML document inside your JSON job settings. Form the XML document as per OC-SP-ESAM-API-I03-131025. The transcoder will use the Manifest Conditioning instructions in the message that you supply.
         public let mccXml: String?
-        
+
         public init(mccXml: String? = nil) {
             self.mccXml = mccXml
         }
@@ -2809,7 +2815,7 @@ extension MediaConvert {
         public let responseSignalPreroll: Int32?
         /// Specifies an ESAM SignalProcessingNotification XML as per OC-SP-ESAM-API-I03-131025. The transcoder uses the signal processing instructions that you provide in the setting SCC XML (sccXml).
         public let signalProcessingNotification: EsamSignalProcessingNotification?
-        
+
         public init(manifestConfirmConditionNotification: EsamManifestConfirmConditionNotification? = nil, responseSignalPreroll: Int32? = nil, signalProcessingNotification: EsamSignalProcessingNotification? = nil) {
             self.manifestConfirmConditionNotification = manifestConfirmConditionNotification
             self.responseSignalPreroll = responseSignalPreroll
@@ -2837,7 +2843,7 @@ extension MediaConvert {
 
         /// Provide your ESAM SignalProcessingNotification XML document inside your JSON job settings. Form the XML document as per OC-SP-ESAM-API-I03-131025. The transcoder will use the signal processing instructions in the message that you supply. Provide your ESAM SignalProcessingNotification XML document inside your JSON job settings. If you want the service to place SCTE-35 markers at the insertion points you specify in the XML document, you must also enable SCTE-35 ESAM (scte35Esam). Note that you can either specify an ESAM XML document or enable SCTE-35 passthrough. You can't do both.
         public let sccXml: String?
-        
+
         public init(sccXml: String? = nil) {
             self.sccXml = sccXml
         }
@@ -2857,7 +2863,7 @@ extension MediaConvert {
         ]
 
         public let message: String?
-        
+
         public init(message: String? = nil) {
             self.message = message
         }
@@ -2880,7 +2886,7 @@ extension MediaConvert {
 
         /// If set to PROGRESSIVE_DOWNLOAD, the MOOV atom is relocated to the beginning of the archive as required for progressive downloading. Otherwise it is placed normally at the end.
         public let moovPlacement: F4vMoovPlacement?
-        
+
         public init(moovPlacement: F4vMoovPlacement? = nil) {
             self.moovPlacement = moovPlacement
         }
@@ -2900,7 +2906,7 @@ extension MediaConvert {
         public let destination: String?
         /// Settings associated with the destination. Will vary based on the type of destination
         public let destinationSettings: DestinationSettings?
-        
+
         public init(destination: String? = nil, destinationSettings: DestinationSettings? = nil) {
             self.destination = destination
             self.destinationSettings = destinationSettings
@@ -2936,7 +2942,7 @@ extension MediaConvert {
         public let sourceFile: String?
         /// Specifies a time delta in seconds to offset the captions from the source file.
         public let timeDelta: Int32?
-        
+
         public init(convert608To708: FileSourceConvert608To708? = nil, sourceFile: String? = nil, timeDelta: Int32? = nil) {
             self.convert608To708 = convert608To708
             self.sourceFile = sourceFile
@@ -2980,7 +2986,7 @@ extension MediaConvert {
         public let maxCaptures: Int32?
         /// JPEG Quality - a higher value equals higher quality.
         public let quality: Int32?
-        
+
         public init(framerateDenominator: Int32? = nil, framerateNumerator: Int32? = nil, maxCaptures: Int32? = nil, quality: Int32? = nil) {
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
@@ -3014,7 +3020,7 @@ extension MediaConvert {
 
         /// the job ID of the job.
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -3031,7 +3037,7 @@ extension MediaConvert {
 
         /// Each job converts an input file into an output file or files. For more information, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
         public let job: Job?
-        
+
         public init(job: Job? = nil) {
             self.job = job
         }
@@ -3052,7 +3058,7 @@ extension MediaConvert {
 
         /// The name of the job template.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -3069,7 +3075,7 @@ extension MediaConvert {
 
         /// A job template is a pre-made set of encoding instructions that you can use to quickly create a job.
         public let jobTemplate: JobTemplate?
-        
+
         public init(jobTemplate: JobTemplate? = nil) {
             self.jobTemplate = jobTemplate
         }
@@ -3090,7 +3096,7 @@ extension MediaConvert {
 
         /// The name of the preset.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -3107,7 +3113,7 @@ extension MediaConvert {
 
         /// A preset is a collection of preconfigured media conversion settings that you want MediaConvert to apply to the output during the conversion process.
         public let preset: Preset?
-        
+
         public init(preset: Preset? = nil) {
             self.preset = preset
         }
@@ -3128,7 +3134,7 @@ extension MediaConvert {
 
         /// The name of the queue that you want information about.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -3145,7 +3151,7 @@ extension MediaConvert {
 
         /// You can use queues to manage the resources that are available to your AWS account for running multiple transcoding jobs at the same time. If you don't specify a queue, the service sends all jobs through the default queue. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html.
         public let queue: Queue?
-        
+
         public init(queue: Queue? = nil) {
             self.queue = queue
         }
@@ -3276,7 +3282,7 @@ extension MediaConvert {
         public let maxAverageBitrate: Int32?
         /// Required when you use QVBR rate control mode. That is, when you specify qvbrSettings within h264Settings. Specify the target quality level for this output, from 1 to 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9.
         public let qvbrQualityLevel: Int32?
-        
+
         public init(maxAverageBitrate: Int32? = nil, qvbrQualityLevel: Int32? = nil) {
             self.maxAverageBitrate = maxAverageBitrate
             self.qvbrQualityLevel = qvbrQualityLevel
@@ -3437,7 +3443,7 @@ extension MediaConvert {
         public let temporalAdaptiveQuantization: H264TemporalAdaptiveQuantization?
         /// Inserts timecode for each frame as 4 bytes of an unregistered SEI message.
         public let unregisteredSeiTimecode: H264UnregisteredSeiTimecode?
-        
+
         public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, bitrate: Int32? = nil, codecLevel: H264CodecLevel? = nil, codecProfile: H264CodecProfile? = nil, dynamicSubGop: H264DynamicSubGop? = nil, entropyEncoding: H264EntropyEncoding? = nil, fieldEncoding: H264FieldEncoding? = nil, flickerAdaptiveQuantization: H264FlickerAdaptiveQuantization? = nil, framerateControl: H264FramerateControl? = nil, framerateConversionAlgorithm: H264FramerateConversionAlgorithm? = nil, framerateDenominator: Int32? = nil, framerateNumerator: Int32? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int32? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, hrdBufferInitialFillPercentage: Int32? = nil, hrdBufferSize: Int32? = nil, interlaceMode: H264InterlaceMode? = nil, maxBitrate: Int32? = nil, minIInterval: Int32? = nil, numberBFramesBetweenReferenceFrames: Int32? = nil, numberReferenceFrames: Int32? = nil, parControl: H264ParControl? = nil, parDenominator: Int32? = nil, parNumerator: Int32? = nil, qualityTuningLevel: H264QualityTuningLevel? = nil, qvbrSettings: H264QvbrSettings? = nil, rateControlMode: H264RateControlMode? = nil, repeatPps: H264RepeatPps? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int32? = nil, slowPal: H264SlowPal? = nil, softness: Int32? = nil, spatialAdaptiveQuantization: H264SpatialAdaptiveQuantization? = nil, syntax: H264Syntax? = nil, telecine: H264Telecine? = nil, temporalAdaptiveQuantization: H264TemporalAdaptiveQuantization? = nil, unregisteredSeiTimecode: H264UnregisteredSeiTimecode? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.bitrate = bitrate
@@ -3706,7 +3712,7 @@ extension MediaConvert {
         public let maxAverageBitrate: Int32?
         /// Required when you use QVBR rate control mode. That is, when you specify qvbrSettings within h265Settings. Specify the target quality level for this output, from 1 to 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9.
         public let qvbrQualityLevel: Int32?
-        
+
         public init(maxAverageBitrate: Int32? = nil, qvbrQualityLevel: Int32? = nil) {
             self.maxAverageBitrate = maxAverageBitrate
             self.qvbrQualityLevel = qvbrQualityLevel
@@ -3868,7 +3874,7 @@ extension MediaConvert {
         public let unregisteredSeiTimecode: H265UnregisteredSeiTimecode?
         /// Use this setting only for outputs encoded with H.265 that are in CMAF or DASH output groups. If you include writeMp4PackagingType in your JSON job specification for other outputs, your video might not work properly with downstream systems and video players. If the location of parameter set NAL units don't matter in your workflow, ignore this setting. The service defaults to marking your output as HEV1. Choose HVC1 to mark your output as HVC1. This makes your output compliant with this specification: ISO IECJTC1 SC29 N13798 Text ISO/IEC FDIS 14496-15 3rd Edition. For these outputs, the service stores parameter set NAL units in the sample headers but not in the samples directly. Keep the default HEV1 to mark your output as HEV1. For these outputs, the service writes parameter set NAL units directly into the samples.
         public let writeMp4PackagingType: H265WriteMp4PackagingType?
-        
+
         public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, alternateTransferFunctionSei: H265AlternateTransferFunctionSei? = nil, bitrate: Int32? = nil, codecLevel: H265CodecLevel? = nil, codecProfile: H265CodecProfile? = nil, dynamicSubGop: H265DynamicSubGop? = nil, flickerAdaptiveQuantization: H265FlickerAdaptiveQuantization? = nil, framerateControl: H265FramerateControl? = nil, framerateConversionAlgorithm: H265FramerateConversionAlgorithm? = nil, framerateDenominator: Int32? = nil, framerateNumerator: Int32? = nil, gopBReference: H265GopBReference? = nil, gopClosedCadence: Int32? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, hrdBufferInitialFillPercentage: Int32? = nil, hrdBufferSize: Int32? = nil, interlaceMode: H265InterlaceMode? = nil, maxBitrate: Int32? = nil, minIInterval: Int32? = nil, numberBFramesBetweenReferenceFrames: Int32? = nil, numberReferenceFrames: Int32? = nil, parControl: H265ParControl? = nil, parDenominator: Int32? = nil, parNumerator: Int32? = nil, qualityTuningLevel: H265QualityTuningLevel? = nil, qvbrSettings: H265QvbrSettings? = nil, rateControlMode: H265RateControlMode? = nil, sampleAdaptiveOffsetFilterMode: H265SampleAdaptiveOffsetFilterMode? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int32? = nil, slowPal: H265SlowPal? = nil, spatialAdaptiveQuantization: H265SpatialAdaptiveQuantization? = nil, telecine: H265Telecine? = nil, temporalAdaptiveQuantization: H265TemporalAdaptiveQuantization? = nil, temporalIds: H265TemporalIds? = nil, tiles: H265Tiles? = nil, unregisteredSeiTimecode: H265UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H265WriteMp4PackagingType? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.alternateTransferFunctionSei = alternateTransferFunctionSei
@@ -4073,7 +4079,7 @@ extension MediaConvert {
         public let whitePointX: Int32?
         /// HDR Master Display Information must be provided by a color grader, using color grading tools. Range is 0 to 50,000, each increment represents 0.00002 in CIE1931 color coordinate. Note that this setting is not for color correction.
         public let whitePointY: Int32?
-        
+
         public init(bluePrimaryX: Int32? = nil, bluePrimaryY: Int32? = nil, greenPrimaryX: Int32? = nil, greenPrimaryY: Int32? = nil, maxContentLightLevel: Int32? = nil, maxFrameAverageLightLevel: Int32? = nil, maxLuminance: Int32? = nil, minLuminance: Int32? = nil, redPrimaryX: Int32? = nil, redPrimaryY: Int32? = nil, whitePointX: Int32? = nil, whitePointY: Int32? = nil) {
             self.bluePrimaryX = bluePrimaryX
             self.bluePrimaryY = bluePrimaryY
@@ -4162,7 +4168,7 @@ extension MediaConvert {
         public let languageCode: LanguageCode?
         /// Caption language description.
         public let languageDescription: String?
-        
+
         public init(captionChannel: Int32? = nil, customLanguageCode: String? = nil, languageCode: LanguageCode? = nil, languageDescription: String? = nil) {
             self.captionChannel = captionChannel
             self.customLanguageCode = customLanguageCode
@@ -4236,7 +4242,7 @@ extension MediaConvert {
         public let staticKeyProvider: StaticKeyProvider?
         /// Indicates which type of key provider is used for encryption.
         public let `type`: HlsKeyProviderType?
-        
+
         public init(constantInitializationVector: String? = nil, encryptionMethod: HlsEncryptionType? = nil, initializationVectorInManifest: HlsInitializationVectorInManifest? = nil, offlineEncrypted: HlsOfflineEncrypted? = nil, spekeKeyProvider: SpekeKeyProvider? = nil, staticKeyProvider: StaticKeyProvider? = nil, type: HlsKeyProviderType? = nil) {
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
@@ -4348,7 +4354,7 @@ extension MediaConvert {
         public let timedMetadataId3Period: Int32?
         /// Provides an extra millisecond delta offset to fine tune the timestamps.
         public let timestampDeltaMilliseconds: Int32?
-        
+
         public init(adMarkers: [HlsAdMarkers]? = nil, baseUrl: String? = nil, captionLanguageMappings: [HlsCaptionLanguageMapping]? = nil, captionLanguageSetting: HlsCaptionLanguageSetting? = nil, clientCache: HlsClientCache? = nil, codecSpecification: HlsCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, directoryStructure: HlsDirectoryStructure? = nil, encryption: HlsEncryptionSettings? = nil, manifestCompression: HlsManifestCompression? = nil, manifestDurationFormat: HlsManifestDurationFormat? = nil, minFinalSegmentLength: Double? = nil, minSegmentLength: Int32? = nil, outputSelection: HlsOutputSelection? = nil, programDateTime: HlsProgramDateTime? = nil, programDateTimePeriod: Int32? = nil, segmentControl: HlsSegmentControl? = nil, segmentLength: Int32? = nil, segmentsPerSubdirectory: Int32? = nil, streamInfResolution: HlsStreamInfResolution? = nil, timedMetadataId3Frame: HlsTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int32? = nil, timestampDeltaMilliseconds: Int32? = nil) {
             self.adMarkers = adMarkers
             self.baseUrl = baseUrl
@@ -4498,7 +4504,7 @@ extension MediaConvert {
         public let iFrameOnlyManifest: HlsIFrameOnlyManifest?
         /// String concatenated to end of segment filenames. Accepts "Format Identifiers":#format_identifier_parameters.
         public let segmentModifier: String?
-        
+
         public init(audioGroupId: String? = nil, audioRenditionSets: String? = nil, audioTrackType: HlsAudioTrackType? = nil, iFrameOnlyManifest: HlsIFrameOnlyManifest? = nil, segmentModifier: String? = nil) {
             self.audioGroupId = audioGroupId
             self.audioRenditionSets = audioRenditionSets
@@ -4539,7 +4545,7 @@ extension MediaConvert {
         public let id3: String?
         /// Provide a Timecode (TimeCode) in HH:MM:SS:FF or HH:MM:SS;FF format.
         public let timecode: String?
-        
+
         public init(id3: String? = nil, timecode: String? = nil) {
             self.id3 = id3
             self.timecode = timecode
@@ -4563,7 +4569,7 @@ extension MediaConvert {
 
         /// Specify the images that you want to overlay on your video. The images must be PNG or TGA files.
         public let insertableImages: [InsertableImage]?
-        
+
         public init(insertableImages: [InsertableImage]? = nil) {
             self.insertableImages = insertableImages
         }
@@ -4631,7 +4637,7 @@ extension MediaConvert {
         public let timecodeSource: InputTimecodeSource?
         /// Selector for video.
         public let videoSelector: VideoSelector?
-        
+
         public init(audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, deblockFilter: InputDeblockFilter? = nil, decryptionSettings: InputDecryptionSettings? = nil, denoiseFilter: InputDenoiseFilter? = nil, fileInput: String? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int32? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, programNumber: Int32? = nil, psiControl: InputPsiControl? = nil, supplementalImps: [String]? = nil, timecodeSource: InputTimecodeSource? = nil, videoSelector: VideoSelector? = nil) {
             self.audioSelectorGroups = audioSelectorGroups
             self.audioSelectors = audioSelectors
@@ -4698,7 +4704,7 @@ extension MediaConvert {
         public let endTimecode: String?
         /// Set Start timecode (StartTimecode) to the beginning of the portion of the input you are clipping. The frame corresponding to the Start timecode value is included in the clip. Start timecode or End timecode may be left blank, but not both. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When choosing this value, take into account your setting for Input timecode source. For example, if you have embedded timecodes that start at 01:00:00:00 and you want your clip to begin five minutes into the video, use 01:05:00:00.
         public let startTimecode: String?
-        
+
         public init(endTimecode: String? = nil, startTimecode: String? = nil) {
             self.endTimecode = endTimecode
             self.startTimecode = startTimecode
@@ -4737,7 +4743,7 @@ extension MediaConvert {
         public let initializationVector: String?
         /// Specify the AWS Region for AWS Key Management Service (KMS) that you used to encrypt your data key, if that Region is different from the one you are using for AWS Elemental MediaConvert.
         public let kmsKeyRegion: String?
-        
+
         public init(decryptionMode: DecryptionMode? = nil, encryptedDecryptionKey: String? = nil, initializationVector: String? = nil, kmsKeyRegion: String? = nil) {
             self.decryptionMode = decryptionMode
             self.encryptedDecryptionKey = encryptedDecryptionKey
@@ -4836,7 +4842,7 @@ extension MediaConvert {
         public let timecodeSource: InputTimecodeSource?
         /// Selector for video.
         public let videoSelector: VideoSelector?
-        
+
         public init(audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, deblockFilter: InputDeblockFilter? = nil, denoiseFilter: InputDenoiseFilter? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int32? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, programNumber: Int32? = nil, psiControl: InputPsiControl? = nil, timecodeSource: InputTimecodeSource? = nil, videoSelector: VideoSelector? = nil) {
             self.audioSelectorGroups = audioSelectorGroups
             self.audioSelectors = audioSelectors
@@ -4926,7 +4932,7 @@ extension MediaConvert {
         public let startTime: String?
         /// Specify the width of the inserted image in pixels. If you specify a value that's larger than the video resolution width, the service will crop your overlaid image to fit. To use the native width of the image, keep this setting blank.
         public let width: Int32?
-        
+
         public init(duration: Int32? = nil, fadeIn: Int32? = nil, fadeOut: Int32? = nil, height: Int32? = nil, imageInserterInput: String? = nil, imageX: Int32? = nil, imageY: Int32? = nil, layer: Int32? = nil, opacity: Int32? = nil, startTime: String? = nil, width: Int32? = nil) {
             self.duration = duration
             self.fadeIn = fadeIn
@@ -5041,7 +5047,7 @@ extension MediaConvert {
         public let timing: Timing?
         /// User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs.
         public let userMetadata: [String: String]?
-        
+
         public init(accelerationSettings: AccelerationSettings? = nil, arn: String? = nil, billingTagsSource: BillingTagsSource? = nil, createdAt: TimeStamp? = nil, currentPhase: JobPhase? = nil, errorCode: Int32? = nil, errorMessage: String? = nil, id: String? = nil, jobPercentComplete: Int32? = nil, jobTemplate: String? = nil, outputGroupDetails: [OutputGroupDetail]? = nil, queue: String? = nil, retryCount: Int32? = nil, role: String, settings: JobSettings, status: JobStatus? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, timing: Timing? = nil, userMetadata: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.arn = arn
@@ -5129,7 +5135,7 @@ extension MediaConvert {
         public let timecodeConfig: TimecodeConfig?
         /// Enable Timed metadata insertion (TimedMetadataInsertion) to include ID3 tags in your job. To include timed metadata, you must enable it here, enable it in each output container, and specify tags and timecodes in ID3 insertion (Id3Insertion) objects.
         public let timedMetadataInsertion: TimedMetadataInsertion?
-        
+
         public init(adAvailOffset: Int32? = nil, availBlanking: AvailBlanking? = nil, esam: EsamSettings? = nil, inputs: [Input]? = nil, motionImageInserter: MotionImageInserter? = nil, nielsenConfiguration: NielsenConfiguration? = nil, outputGroups: [OutputGroup]? = nil, timecodeConfig: TimecodeConfig? = nil, timedMetadataInsertion: TimedMetadataInsertion? = nil) {
             self.adAvailOffset = adAvailOffset
             self.availBlanking = availBlanking
@@ -5218,7 +5224,7 @@ extension MediaConvert {
         public let statusUpdateInterval: StatusUpdateInterval?
         /// A job template can be of two types: system or custom. System or built-in job templates can't be modified or deleted by the user.
         public let `type`: `Type`?
-        
+
         public init(accelerationSettings: AccelerationSettings? = nil, arn: String? = nil, category: String? = nil, createdAt: TimeStamp? = nil, description: String? = nil, lastUpdated: TimeStamp? = nil, name: String, queue: String? = nil, settings: JobTemplateSettings, statusUpdateInterval: StatusUpdateInterval? = nil, type: `Type`? = nil) {
             self.accelerationSettings = accelerationSettings
             self.arn = arn
@@ -5290,7 +5296,7 @@ extension MediaConvert {
         public let timecodeConfig: TimecodeConfig?
         /// Enable Timed metadata insertion (TimedMetadataInsertion) to include ID3 tags in your job. To include timed metadata, you must enable it here, enable it in each output container, and specify tags and timecodes in ID3 insertion (Id3Insertion) objects.
         public let timedMetadataInsertion: TimedMetadataInsertion?
-        
+
         public init(adAvailOffset: Int32? = nil, availBlanking: AvailBlanking? = nil, esam: EsamSettings? = nil, inputs: [InputTemplate]? = nil, motionImageInserter: MotionImageInserter? = nil, nielsenConfiguration: NielsenConfiguration? = nil, outputGroups: [OutputGroup]? = nil, timecodeConfig: TimecodeConfig? = nil, timedMetadataInsertion: TimedMetadataInsertion? = nil) {
             self.adAvailOffset = adAvailOffset
             self.availBlanking = availBlanking
@@ -5547,7 +5553,7 @@ extension MediaConvert {
         public let nextToken: String?
         /// When you request lists of resources, you can optionally specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
         public let order: Order?
-        
+
         public init(category: String? = nil, listBy: JobTemplateListBy? = nil, maxResults: Int32? = nil, nextToken: String? = nil, order: Order? = nil) {
             self.category = category
             self.listBy = listBy
@@ -5580,7 +5586,7 @@ extension MediaConvert {
         public let jobTemplates: [JobTemplate]?
         /// Use this string to request the next batch of job templates.
         public let nextToken: String?
-        
+
         public init(jobTemplates: [JobTemplate]? = nil, nextToken: String? = nil) {
             self.jobTemplates = jobTemplates
             self.nextToken = nextToken
@@ -5617,7 +5623,7 @@ extension MediaConvert {
         public let queue: String?
         /// A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED, or ERROR.
         public let status: JobStatus?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, order: Order? = nil, queue: String? = nil, status: JobStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5650,7 +5656,7 @@ extension MediaConvert {
         public let jobs: [Job]?
         /// Use this string to request the next batch of jobs.
         public let nextToken: String?
-        
+
         public init(jobs: [Job]? = nil, nextToken: String? = nil) {
             self.jobs = jobs
             self.nextToken = nextToken
@@ -5687,7 +5693,7 @@ extension MediaConvert {
         public let nextToken: String?
         /// When you request lists of resources, you can optionally specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
         public let order: Order?
-        
+
         public init(category: String? = nil, listBy: PresetListBy? = nil, maxResults: Int32? = nil, nextToken: String? = nil, order: Order? = nil) {
             self.category = category
             self.listBy = listBy
@@ -5720,7 +5726,7 @@ extension MediaConvert {
         public let nextToken: String?
         /// List of presets
         public let presets: [Preset]?
-        
+
         public init(nextToken: String? = nil, presets: [Preset]? = nil) {
             self.nextToken = nextToken
             self.presets = presets
@@ -5754,7 +5760,7 @@ extension MediaConvert {
         public let nextToken: String?
         /// When you request lists of resources, you can optionally specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
         public let order: Order?
-        
+
         public init(listBy: QueueListBy? = nil, maxResults: Int32? = nil, nextToken: String? = nil, order: Order? = nil) {
             self.listBy = listBy
             self.maxResults = maxResults
@@ -5785,7 +5791,7 @@ extension MediaConvert {
         public let nextToken: String?
         /// List of queues.
         public let queues: [Queue]?
-        
+
         public init(nextToken: String? = nil, queues: [Queue]? = nil) {
             self.nextToken = nextToken
             self.queues = queues
@@ -5804,7 +5810,7 @@ extension MediaConvert {
 
         /// The Amazon Resource Name (ARN) of the resource that you want to list tags for. To get the ARN, send a GET request with the resource name.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -5821,7 +5827,7 @@ extension MediaConvert {
 
         /// The Amazon Resource Name (ARN) and tags for an AWS Elemental MediaConvert resource.
         public let resourceTags: ResourceTags?
-        
+
         public init(resourceTags: ResourceTags? = nil) {
             self.resourceTags = resourceTags
         }
@@ -5892,7 +5898,7 @@ extension MediaConvert {
 
         /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream generated by ESAM.
         public let scte35EsamPid: Int32?
-        
+
         public init(scte35EsamPid: Int32? = nil) {
             self.scte35EsamPid = scte35EsamPid
         }
@@ -6041,7 +6047,7 @@ extension MediaConvert {
         public let transportStreamId: Int32?
         /// Specify the packet identifier (PID) of the elementary video stream in the transport stream.
         public let videoPid: Int32?
-        
+
         public init(audioBufferModel: M2tsAudioBufferModel? = nil, audioFramesPerPes: Int32? = nil, audioPids: [Int32]? = nil, bitrate: Int32? = nil, bufferModel: M2tsBufferModel? = nil, dvbNitSettings: DvbNitSettings? = nil, dvbSdtSettings: DvbSdtSettings? = nil, dvbSubPids: [Int32]? = nil, dvbTdtSettings: DvbTdtSettings? = nil, dvbTeletextPid: Int32? = nil, ebpAudioInterval: M2tsEbpAudioInterval? = nil, ebpPlacement: M2tsEbpPlacement? = nil, esRateInPes: M2tsEsRateInPes? = nil, forceTsVideoEbpOrder: M2tsForceTsVideoEbpOrder? = nil, fragmentTime: Double? = nil, maxPcrInterval: Int32? = nil, minEbpInterval: Int32? = nil, nielsenId3: M2tsNielsenId3? = nil, nullPacketBitrate: Double? = nil, patInterval: Int32? = nil, pcrControl: M2tsPcrControl? = nil, pcrPid: Int32? = nil, pmtInterval: Int32? = nil, pmtPid: Int32? = nil, privateMetadataPid: Int32? = nil, programNumber: Int32? = nil, rateMode: M2tsRateMode? = nil, scte35Esam: M2tsScte35Esam? = nil, scte35Pid: Int32? = nil, scte35Source: M2tsScte35Source? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, segmentationTime: Double? = nil, timedMetadataPid: Int32? = nil, transportStreamId: Int32? = nil, videoPid: Int32? = nil) {
             self.audioBufferModel = audioBufferModel
             self.audioFramesPerPes = audioFramesPerPes
@@ -6236,7 +6242,7 @@ extension MediaConvert {
         public let transportStreamId: Int32?
         /// Packet Identifier (PID) of the elementary video stream in the transport stream.
         public let videoPid: Int32?
-        
+
         public init(audioFramesPerPes: Int32? = nil, audioPids: [Int32]? = nil, nielsenId3: M3u8NielsenId3? = nil, patInterval: Int32? = nil, pcrControl: M3u8PcrControl? = nil, pcrPid: Int32? = nil, pmtInterval: Int32? = nil, pmtPid: Int32? = nil, privateMetadataPid: Int32? = nil, programNumber: Int32? = nil, scte35Pid: Int32? = nil, scte35Source: M3u8Scte35Source? = nil, timedMetadata: TimedMetadata? = nil, timedMetadataPid: Int32? = nil, transportStreamId: Int32? = nil, videoPid: Int32? = nil) {
             self.audioFramesPerPes = audioFramesPerPes
             self.audioPids = audioPids
@@ -6327,7 +6333,7 @@ extension MediaConvert {
         public let playback: MotionImagePlayback?
         /// Specify when the motion overlay begins. Use timecode format (HH:MM:SS:FF or HH:MM:SS;FF). Make sure that the timecode you provide here takes into account how you have set up your timecode configuration under both job settings and input settings. The simplest way to do that is to set both to start at 0. If you need to set up your job to follow timecodes embedded in your source that don't start at zero, make sure that you specify a start time that is after the first embedded timecode. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/setting-up-timecode.html Find job-wide and input timecode configuration settings in your JSON job settings specification at settings>timecodeConfig>source and settings>inputs>timecodeSource.
         public let startTime: String?
-        
+
         public init(framerate: MotionImageInsertionFramerate? = nil, input: String? = nil, insertionMode: MotionImageInsertionMode? = nil, offset: MotionImageInsertionOffset? = nil, playback: MotionImagePlayback? = nil, startTime: String? = nil) {
             self.framerate = framerate
             self.input = input
@@ -6368,7 +6374,7 @@ extension MediaConvert {
         public let framerateDenominator: Int32?
         /// The top of the fraction that expresses your overlay frame rate. For example, if your frame rate is 24 fps, set this value to 24.
         public let framerateNumerator: Int32?
-        
+
         public init(framerateDenominator: Int32? = nil, framerateNumerator: Int32? = nil) {
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
@@ -6403,7 +6409,7 @@ extension MediaConvert {
         public let imageX: Int32?
         /// Set the distance, in pixels, between the overlay and the top edge of the video frame.
         public let imageY: Int32?
-        
+
         public init(imageX: Int32? = nil, imageY: Int32? = nil) {
             self.imageX = imageX
             self.imageY = imageY
@@ -6477,7 +6483,7 @@ extension MediaConvert {
         public let paddingControl: MovPaddingControl?
         /// Always keep the default value (SELF_CONTAINED) for this setting.
         public let reference: MovReference?
-        
+
         public init(clapAtom: MovClapAtom? = nil, cslgAtom: MovCslgAtom? = nil, mpeg2FourCCControl: MovMpeg2FourCCControl? = nil, paddingControl: MovPaddingControl? = nil, reference: MovReference? = nil) {
             self.clapAtom = clapAtom
             self.cslgAtom = cslgAtom
@@ -6508,7 +6514,7 @@ extension MediaConvert {
         public let channels: Int32?
         /// Sample rate in hz.
         public let sampleRate: Int32?
-        
+
         public init(bitrate: Int32? = nil, channels: Int32? = nil, sampleRate: Int32? = nil) {
             self.bitrate = bitrate
             self.channels = channels
@@ -6565,7 +6571,7 @@ extension MediaConvert {
         public let moovPlacement: Mp4MoovPlacement?
         /// Overrides the "Major Brand" field in the output file. Usually not necessary to specify.
         public let mp4MajorBrand: String?
-        
+
         public init(cslgAtom: Mp4CslgAtom? = nil, freeSpaceBox: Mp4FreeSpaceBox? = nil, moovPlacement: Mp4MoovPlacement? = nil, mp4MajorBrand: String? = nil) {
             self.cslgAtom = cslgAtom
             self.freeSpaceBox = freeSpaceBox
@@ -6769,7 +6775,7 @@ extension MediaConvert {
         public let telecine: Mpeg2Telecine?
         /// Adjust quantization within each frame based on temporal variation of content complexity.
         public let temporalAdaptiveQuantization: Mpeg2TemporalAdaptiveQuantization?
-        
+
         public init(adaptiveQuantization: Mpeg2AdaptiveQuantization? = nil, bitrate: Int32? = nil, codecLevel: Mpeg2CodecLevel? = nil, codecProfile: Mpeg2CodecProfile? = nil, dynamicSubGop: Mpeg2DynamicSubGop? = nil, framerateControl: Mpeg2FramerateControl? = nil, framerateConversionAlgorithm: Mpeg2FramerateConversionAlgorithm? = nil, framerateDenominator: Int32? = nil, framerateNumerator: Int32? = nil, gopClosedCadence: Int32? = nil, gopSize: Double? = nil, gopSizeUnits: Mpeg2GopSizeUnits? = nil, hrdBufferInitialFillPercentage: Int32? = nil, hrdBufferSize: Int32? = nil, interlaceMode: Mpeg2InterlaceMode? = nil, intraDcPrecision: Mpeg2IntraDcPrecision? = nil, maxBitrate: Int32? = nil, minIInterval: Int32? = nil, numberBFramesBetweenReferenceFrames: Int32? = nil, parControl: Mpeg2ParControl? = nil, parDenominator: Int32? = nil, parNumerator: Int32? = nil, qualityTuningLevel: Mpeg2QualityTuningLevel? = nil, rateControlMode: Mpeg2RateControlMode? = nil, sceneChangeDetect: Mpeg2SceneChangeDetect? = nil, slowPal: Mpeg2SlowPal? = nil, softness: Int32? = nil, spatialAdaptiveQuantization: Mpeg2SpatialAdaptiveQuantization? = nil, syntax: Mpeg2Syntax? = nil, telecine: Mpeg2Telecine? = nil, temporalAdaptiveQuantization: Mpeg2TemporalAdaptiveQuantization? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.bitrate = bitrate
@@ -6910,7 +6916,7 @@ extension MediaConvert {
 
         /// Settings for use with a SPEKE key provider
         public let spekeKeyProvider: SpekeKeyProvider?
-        
+
         public init(spekeKeyProvider: SpekeKeyProvider? = nil) {
             self.spekeKeyProvider = spekeKeyProvider
         }
@@ -6946,7 +6952,7 @@ extension MediaConvert {
         public let fragmentLength: Int32?
         /// Use Manifest encoding (MsSmoothManifestEncoding) to specify the encoding format for the server and client manifest. Valid options are utf8 and utf16.
         public let manifestEncoding: MsSmoothManifestEncoding?
-        
+
         public init(audioDeduplication: MsSmoothAudioDeduplication? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: MsSmoothEncryptionSettings? = nil, fragmentLength: Int32? = nil, manifestEncoding: MsSmoothManifestEncoding? = nil) {
             self.audioDeduplication = audioDeduplication
             self.destination = destination
@@ -6990,7 +6996,7 @@ extension MediaConvert {
         public let breakoutCode: Int32?
         /// Use Distributor ID (DistributorID) to specify the distributor ID that is assigned to your organization by Neilsen.
         public let distributorId: String?
-        
+
         public init(breakoutCode: Int32? = nil, distributorId: String? = nil) {
             self.breakoutCode = breakoutCode
             self.distributorId = distributorId
@@ -7020,7 +7026,7 @@ extension MediaConvert {
         public let filterSettings: NoiseReducerFilterSettings?
         /// Noise reducer filter settings for spatial filter.
         public let spatialFilterSettings: NoiseReducerSpatialFilterSettings?
-        
+
         public init(filter: NoiseReducerFilter? = nil, filterSettings: NoiseReducerFilterSettings? = nil, spatialFilterSettings: NoiseReducerSpatialFilterSettings? = nil) {
             self.filter = filter
             self.filterSettings = filterSettings
@@ -7057,7 +7063,7 @@ extension MediaConvert {
 
         /// Relative strength of noise reducing filter. Higher values produce stronger filtering.
         public let strength: Int32?
-        
+
         public init(strength: Int32? = nil) {
             self.strength = strength
         }
@@ -7085,7 +7091,7 @@ extension MediaConvert {
         public let speed: Int32?
         /// Relative strength of noise reducing filter. Higher values produce stronger filtering.
         public let strength: Int32?
-        
+
         public init(postFilterSharpenStrength: Int32? = nil, speed: Int32? = nil, strength: Int32? = nil) {
             self.postFilterSharpenStrength = postFilterSharpenStrength
             self.speed = speed
@@ -7142,7 +7148,7 @@ extension MediaConvert {
         public let preset: String?
         /// (VideoDescription) contains a group of video encoding settings. The specific video settings depend on the video codec you choose when you specify a value for Video codec (codec). Include one instance of (VideoDescription) per output.
         public let videoDescription: VideoDescription?
-        
+
         public init(audioDescriptions: [AudioDescription]? = nil, captionDescriptions: [CaptionDescription]? = nil, containerSettings: ContainerSettings? = nil, extension: String? = nil, nameModifier: String? = nil, outputSettings: OutputSettings? = nil, preset: String? = nil, videoDescription: VideoDescription? = nil) {
             self.audioDescriptions = audioDescriptions
             self.captionDescriptions = captionDescriptions
@@ -7186,7 +7192,7 @@ extension MediaConvert {
 
         /// List of input channels
         public let inputChannels: [Int32]?
-        
+
         public init(inputChannels: [Int32]? = nil) {
             self.inputChannels = inputChannels
         }
@@ -7213,7 +7219,7 @@ extension MediaConvert {
         public let durationInMs: Int32?
         /// Contains details about the output's video stream
         public let videoDetails: VideoDetail?
-        
+
         public init(durationInMs: Int32? = nil, videoDetails: VideoDetail? = nil) {
             self.durationInMs = durationInMs
             self.videoDetails = videoDetails
@@ -7241,7 +7247,7 @@ extension MediaConvert {
         public let outputGroupSettings: OutputGroupSettings?
         /// This object holds groups of encoding settings, one group of settings per output.
         public let outputs: [Output]?
-        
+
         public init(customName: String? = nil, name: String? = nil, outputGroupSettings: OutputGroupSettings? = nil, outputs: [Output]? = nil) {
             self.customName = customName
             self.name = name
@@ -7271,7 +7277,7 @@ extension MediaConvert {
 
         /// Details about the output
         public let outputDetails: [OutputDetail]?
-        
+
         public init(outputDetails: [OutputDetail]? = nil) {
             self.outputDetails = outputDetails
         }
@@ -7303,7 +7309,7 @@ extension MediaConvert {
         public let msSmoothGroupSettings: MsSmoothGroupSettings?
         /// Type of output group (File group, Apple HLS, DASH ISO, Microsoft Smooth Streaming, CMAF)
         public let `type`: OutputGroupType?
-        
+
         public init(cmafGroupSettings: CmafGroupSettings? = nil, dashIsoGroupSettings: DashIsoGroupSettings? = nil, fileGroupSettings: FileGroupSettings? = nil, hlsGroupSettings: HlsGroupSettings? = nil, msSmoothGroupSettings: MsSmoothGroupSettings? = nil, type: OutputGroupType? = nil) {
             self.cmafGroupSettings = cmafGroupSettings
             self.dashIsoGroupSettings = dashIsoGroupSettings
@@ -7355,7 +7361,7 @@ extension MediaConvert {
 
         /// Settings for HLS output groups
         public let hlsSettings: HlsSettings?
-        
+
         public init(hlsSettings: HlsSettings? = nil) {
             self.hlsSettings = hlsSettings
         }
@@ -7393,7 +7399,7 @@ extension MediaConvert {
         public let settings: PresetSettings
         /// A preset can be of two types: system or custom. System or built-in preset can't be modified or deleted by the user.
         public let `type`: `Type`?
-        
+
         public init(arn: String? = nil, category: String? = nil, createdAt: TimeStamp? = nil, description: String? = nil, lastUpdated: TimeStamp? = nil, name: String, settings: PresetSettings, type: `Type`? = nil) {
             self.arn = arn
             self.category = category
@@ -7444,7 +7450,7 @@ extension MediaConvert {
         public let containerSettings: ContainerSettings?
         /// (VideoDescription) contains a group of video encoding settings. The specific video settings depend on the video codec you choose when you specify a value for Video codec (codec). Include one instance of (VideoDescription) per output.
         public let videoDescription: VideoDescription?
-        
+
         public init(audioDescriptions: [AudioDescription]? = nil, captionDescriptions: [CaptionDescriptionPreset]? = nil, containerSettings: ContainerSettings? = nil, videoDescription: VideoDescription? = nil) {
             self.audioDescriptions = audioDescriptions
             self.captionDescriptions = captionDescriptions
@@ -7551,7 +7557,7 @@ extension MediaConvert {
         public let slowPal: ProresSlowPal?
         /// Only use Telecine (ProresTelecine) when you set Framerate (Framerate) to 29.970. Set Telecine (ProresTelecine) to Hard (hard) to produce a 29.97i output from a 23.976 input. Set it to Soft (soft) to produce 23.976 output and leave converstion to the player.
         public let telecine: ProresTelecine?
-        
+
         public init(codecProfile: ProresCodecProfile? = nil, framerateControl: ProresFramerateControl? = nil, framerateConversionAlgorithm: ProresFramerateConversionAlgorithm? = nil, framerateDenominator: Int32? = nil, framerateNumerator: Int32? = nil, interlaceMode: ProresInterlaceMode? = nil, parControl: ProresParControl? = nil, parDenominator: Int32? = nil, parNumerator: Int32? = nil, slowPal: ProresSlowPal? = nil, telecine: ProresTelecine? = nil) {
             self.codecProfile = codecProfile
             self.framerateControl = framerateControl
@@ -7641,7 +7647,7 @@ extension MediaConvert {
         public let submittedJobsCount: Int32?
         /// Specifies whether this on-demand queue is system or custom. System queues are built in. You can't modify or delete system queues. You can create and modify custom queues.
         public let `type`: `Type`?
-        
+
         public init(arn: String? = nil, createdAt: TimeStamp? = nil, description: String? = nil, lastUpdated: TimeStamp? = nil, name: String, pricingPlan: PricingPlan? = nil, progressingJobsCount: Int32? = nil, reservationPlan: ReservationPlan? = nil, status: QueueStatus? = nil, submittedJobsCount: Int32? = nil, type: `Type`? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -7699,7 +7705,7 @@ extension MediaConvert {
         public let x: Int32?
         /// The distance, in pixels, between the rectangle and the top edge of the video frame. Specify only even numbers.
         public let y: Int32?
-        
+
         public init(height: Int32? = nil, width: Int32? = nil, x: Int32? = nil, y: Int32? = nil) {
             self.height = height
             self.width = width
@@ -7739,7 +7745,7 @@ extension MediaConvert {
         public let channelsIn: Int32?
         /// Specify the number of channels in this output after remixing. Valid values: 1, 2, 4, 6, 8
         public let channelsOut: Int32?
-        
+
         public init(channelMapping: ChannelMapping? = nil, channelsIn: Int32? = nil, channelsOut: Int32? = nil) {
             self.channelMapping = channelMapping
             self.channelsIn = channelsIn
@@ -7789,7 +7795,7 @@ extension MediaConvert {
         public let reservedSlots: Int32?
         /// Specifies whether the pricing plan for your reserved queue is ACTIVE or EXPIRED.
         public let status: ReservationPlanStatus?
-        
+
         public init(commitment: Commitment? = nil, expiresAt: TimeStamp? = nil, purchasedAt: TimeStamp? = nil, renewalType: RenewalType? = nil, reservedSlots: Int32? = nil, status: ReservationPlanStatus? = nil) {
             self.commitment = commitment
             self.expiresAt = expiresAt
@@ -7822,7 +7828,7 @@ extension MediaConvert {
         public let renewalType: RenewalType
         /// Specifies the number of reserved transcode slots (RTS) for this queue. The number of RTS determines how many jobs the queue can process in parallel; each RTS can process one job at a time. You can't decrease the number of RTS in your reserved queue. You can increase the number of RTS by extending your existing commitment with a new 12-month commitment for the larger number. The new commitment begins when you purchase the additional capacity. You can't cancel your commitment or revert to your original commitment after you increase the capacity.
         public let reservedSlots: Int32
-        
+
         public init(commitment: Commitment, renewalType: RenewalType, reservedSlots: Int32) {
             self.commitment = commitment
             self.renewalType = renewalType
@@ -7852,7 +7858,7 @@ extension MediaConvert {
         public let arn: String?
         /// The tags for the resource.
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.tags = tags
@@ -7878,7 +7884,7 @@ extension MediaConvert {
 
         /// Settings for how your job outputs are encrypted as they are uploaded to Amazon S3.
         public let encryption: S3EncryptionSettings?
-        
+
         public init(encryption: S3EncryptionSettings? = nil) {
             self.encryption = encryption
         }
@@ -7902,7 +7908,7 @@ extension MediaConvert {
         public let encryptionType: S3ServerSideEncryptionType?
         /// Optionally, specify the customer master key (CMK) that you want to use to encrypt the data key that AWS uses to encrypt your output content. Enter the Amazon Resource Name (ARN) of the CMK. To use this setting, you must also set Server-side encryption (S3ServerSideEncryptionType) to AWS KMS (SERVER_SIDE_ENCRYPTION_KMS). If you set Server-side encryption to AWS KMS but don't specify a CMK here, AWS uses the AWS managed CMK associated with Amazon S3.
         public let kmsKeyArn: String?
-        
+
         public init(encryptionType: S3ServerSideEncryptionType? = nil, kmsKeyArn: String? = nil) {
             self.encryptionType = encryptionType
             self.kmsKeyArn = kmsKeyArn
@@ -7945,7 +7951,7 @@ extension MediaConvert {
 
         /// Set Framerate (SccDestinationFramerate) to make sure that the captions and the video are synchronized in the output. Specify a frame rate that matches the frame rate of the associated video. If the video frame rate is 29.97, choose 29.97 dropframe (FRAMERATE_29_97_DROPFRAME) only if the video has video_insertion=true and drop_frame_timecode=true; otherwise, choose 29.97 non-dropframe (FRAMERATE_29_97_NON_DROPFRAME).
         public let framerate: SccDestinationFramerate?
-        
+
         public init(framerate: SccDestinationFramerate? = nil) {
             self.framerate = framerate
         }
@@ -7971,7 +7977,7 @@ extension MediaConvert {
         public let systemIds: [String]?
         /// Use URL (Url) to specify the SPEKE-compliant server that will provide keys for content.
         public let url: String?
-        
+
         public init(certificateArn: String? = nil, resourceId: String? = nil, systemIds: [String]? = nil, url: String? = nil) {
             self.certificateArn = certificateArn
             self.resourceId = resourceId
@@ -8011,7 +8017,7 @@ extension MediaConvert {
         public let staticKeyValue: String?
         /// Relates to DRM implementation. The location of the license server used for protecting content.
         public let url: String?
-        
+
         public init(keyFormat: String? = nil, keyFormatVersions: String? = nil, staticKeyValue: String? = nil, url: String? = nil) {
             self.keyFormat = keyFormat
             self.keyFormatVersions = keyFormatVersions
@@ -8062,7 +8068,7 @@ extension MediaConvert {
         public let arn: String
         /// The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
         public let tags: [String: String]
-        
+
         public init(arn: String, tags: [String: String]) {
             self.arn = arn
             self.tags = tags
@@ -8075,11 +8081,12 @@ extension MediaConvert {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct TeletextDestinationSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -8088,7 +8095,7 @@ extension MediaConvert {
 
         /// Set pageNumber to the Teletext page number for the destination captions for this output. This value must be a three-digit hexadecimal string; strings ending in -FF are invalid. If you are passing through the entire set of Teletext data, do not use this field.
         public let pageNumber: String?
-        
+
         public init(pageNumber: String? = nil) {
             self.pageNumber = pageNumber
         }
@@ -8111,7 +8118,7 @@ extension MediaConvert {
 
         /// Use Page Number (PageNumber) to specify the three-digit hexadecimal page number that will be used for Teletext captions. Do not use this setting if you are passing through teletext from the input source to output.
         public let pageNumber: String?
-        
+
         public init(pageNumber: String? = nil) {
             self.pageNumber = pageNumber
         }
@@ -8140,7 +8147,7 @@ extension MediaConvert {
         public let position: TimecodeBurninPosition?
         /// Use Prefix (Prefix) to place ASCII characters before any burned-in timecode. For example, a prefix of "EZ-" will result in the timecode "EZ-00:00:00:00". Provide either the characters themselves or the ASCII code equivalents. The supported range of characters is 0x20 through 0x7e. This includes letters, numbers, and all special characters represented on a standard English keyboard.
         public let prefix: String?
-        
+
         public init(fontSize: Int32? = nil, position: TimecodeBurninPosition? = nil, prefix: String? = nil) {
             self.fontSize = fontSize
             self.position = position
@@ -8189,7 +8196,7 @@ extension MediaConvert {
         public let start: String?
         /// Only applies to outputs that support program-date-time stamp. Use Timestamp offset (TimestampOffset) to overwrite the timecode date without affecting the time and frame number. Provide the new date as a string in the format "yyyy-mm-dd".  To use Time stamp offset, you must also enable Insert program-date-time (InsertProgramDateTime) in the output settings. For example, if the date part of your timecodes is 2002-1-25 and you want to change it to one year later, set Timestamp offset (TimestampOffset) to 2003-1-25.
         public let timestampOffset: String?
-        
+
         public init(anchor: String? = nil, source: TimecodeSource? = nil, start: String? = nil, timestampOffset: String? = nil) {
             self.anchor = anchor
             self.source = source
@@ -8231,7 +8238,7 @@ extension MediaConvert {
 
         /// Id3Insertions contains the array of Id3Insertion instances.
         public let id3Insertions: [Id3Insertion]?
-        
+
         public init(id3Insertions: [Id3Insertion]? = nil) {
             self.id3Insertions = id3Insertions
         }
@@ -8260,7 +8267,7 @@ extension MediaConvert {
         public let startTime: TimeStamp?
         /// The time, in Unix epoch format, that you submitted the job.
         public let submitTime: TimeStamp?
-        
+
         public init(finishTime: TimeStamp? = nil, startTime: TimeStamp? = nil, submitTime: TimeStamp? = nil) {
             self.finishTime = finishTime
             self.startTime = startTime
@@ -8281,7 +8288,7 @@ extension MediaConvert {
 
         /// Use this setting to select a single captions track from a source. Track numbers correspond to the order in the captions source file. For IMF sources, track numbering is based on the order that the captions appear in the CPL. For example, use 1 to select the captions asset that is listed first in the CPL. To include more than one captions track in your job outputs, create multiple input captions selectors. Specify one track per selector.
         public let trackNumber: Int32?
-        
+
         public init(trackNumber: Int32? = nil) {
             self.trackNumber = trackNumber
         }
@@ -8303,7 +8310,7 @@ extension MediaConvert {
 
         /// Pass through style and position information from a TTML-like input source (TTML, SMPTE-TT, CFF-TT) to the CFF-TT output or TTML output.
         public let stylePassthrough: TtmlStylePassthrough?
-        
+
         public init(stylePassthrough: TtmlStylePassthrough? = nil) {
             self.stylePassthrough = stylePassthrough
         }
@@ -8335,7 +8342,7 @@ extension MediaConvert {
         public let arn: String
         /// The keys of the tags that you want to remove from the resource.
         public let tagKeys: [String]?
-        
+
         public init(arn: String, tagKeys: [String]? = nil) {
             self.arn = arn
             self.tagKeys = tagKeys
@@ -8348,11 +8355,12 @@ extension MediaConvert {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateJobTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -8379,7 +8387,7 @@ extension MediaConvert {
         public let settings: JobTemplateSettings?
         /// Specify how often MediaConvert sends STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between status updates. MediaConvert sends an update at this interval from the time the service begins processing your job to the time it completes the transcode or encounters an error.
         public let statusUpdateInterval: StatusUpdateInterval?
-        
+
         public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, name: String, queue: String? = nil, settings: JobTemplateSettings? = nil, statusUpdateInterval: StatusUpdateInterval? = nil) {
             self.accelerationSettings = accelerationSettings
             self.category = category
@@ -8412,7 +8420,7 @@ extension MediaConvert {
 
         /// A job template is a pre-made set of encoding instructions that you can use to quickly create a job.
         public let jobTemplate: JobTemplate?
-        
+
         public init(jobTemplate: JobTemplate? = nil) {
             self.jobTemplate = jobTemplate
         }
@@ -8442,7 +8450,7 @@ extension MediaConvert {
         public let name: String
         /// Settings for preset
         public let settings: PresetSettings?
-        
+
         public init(category: String? = nil, description: String? = nil, name: String, settings: PresetSettings? = nil) {
             self.category = category
             self.description = description
@@ -8469,7 +8477,7 @@ extension MediaConvert {
 
         /// A preset is a collection of preconfigured media conversion settings that you want MediaConvert to apply to the output during the conversion process.
         public let preset: Preset?
-        
+
         public init(preset: Preset? = nil) {
             self.preset = preset
         }
@@ -8499,7 +8507,7 @@ extension MediaConvert {
         public let reservationPlanSettings: ReservationPlanSettings?
         /// Pause or activate a queue by changing its status between ACTIVE and PAUSED. If you pause a queue, jobs in that queue won't begin. Jobs that are running when you pause the queue continue to run until they finish or result in an error.
         public let status: QueueStatus?
-        
+
         public init(description: String? = nil, name: String, reservationPlanSettings: ReservationPlanSettings? = nil, status: QueueStatus? = nil) {
             self.description = description
             self.name = name
@@ -8522,7 +8530,7 @@ extension MediaConvert {
 
         /// You can use queues to manage the resources that are available to your AWS account for running multiple transcoding jobs at the same time. If you don't specify a queue, the service sends all jobs through the default queue. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html.
         public let queue: Queue?
-        
+
         public init(queue: Queue? = nil) {
             self.queue = queue
         }
@@ -8563,7 +8571,7 @@ extension MediaConvert {
         public let mpeg2Settings: Mpeg2Settings?
         /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to the value PRORES.
         public let proresSettings: ProresSettings?
-        
+
         public init(codec: VideoCodec? = nil, frameCaptureSettings: FrameCaptureSettings? = nil, h264Settings: H264Settings? = nil, h265Settings: H265Settings? = nil, mpeg2Settings: Mpeg2Settings? = nil, proresSettings: ProresSettings? = nil) {
             self.codec = codec
             self.frameCaptureSettings = frameCaptureSettings
@@ -8640,7 +8648,7 @@ extension MediaConvert {
         public let videoPreprocessors: VideoPreprocessor?
         /// Use Width (Width) to define the video resolution width, in pixels, for this output. If you don't provide a value here, the service will use the input width.
         public let width: Int32?
-        
+
         public init(afdSignaling: AfdSignaling? = nil, antiAlias: AntiAlias? = nil, codecSettings: VideoCodecSettings? = nil, colorMetadata: ColorMetadata? = nil, crop: Rectangle? = nil, dropFrameTimecode: DropFrameTimecode? = nil, fixedAfd: Int32? = nil, height: Int32? = nil, position: Rectangle? = nil, respondToAfd: RespondToAfd? = nil, scalingBehavior: ScalingBehavior? = nil, sharpness: Int32? = nil, timecodeInsertion: VideoTimecodeInsertion? = nil, videoPreprocessors: VideoPreprocessor? = nil, width: Int32? = nil) {
             self.afdSignaling = afdSignaling
             self.antiAlias = antiAlias
@@ -8703,7 +8711,7 @@ extension MediaConvert {
         public let heightInPx: Int32?
         /// Width in pixels for the output
         public let widthInPx: Int32?
-        
+
         public init(heightInPx: Int32? = nil, widthInPx: Int32? = nil) {
             self.heightInPx = heightInPx
             self.widthInPx = widthInPx
@@ -8734,7 +8742,7 @@ extension MediaConvert {
         public let noiseReducer: NoiseReducer?
         /// Timecode burn-in (TimecodeBurnIn)--Burns the output timecode and specified prefix into the output.
         public let timecodeBurnin: TimecodeBurnin?
-        
+
         public init(colorCorrector: ColorCorrector? = nil, deinterlacer: Deinterlacer? = nil, imageInserter: ImageInserter? = nil, noiseReducer: NoiseReducer? = nil, timecodeBurnin: TimecodeBurnin? = nil) {
             self.colorCorrector = colorCorrector
             self.deinterlacer = deinterlacer
@@ -8781,7 +8789,7 @@ extension MediaConvert {
         public let programNumber: Int32?
         /// Use Rotate (InputRotate) to specify how the service rotates your video. You can choose automatic rotation or specify a rotation. You can specify a clockwise rotation of 0, 90, 180, or 270 degrees. If your input video container is .mov or .mp4 and your input has rotation metadata, you can choose Automatic to have the service rotate your video according to the rotation specified in the metadata. The rotation must be within one degree of 90, 180, or 270 degrees. If the rotation metadata specifies any other rotation, the service will default to no rotation. By default, the service does no rotation, even if your input video has rotation metadata. The service doesn't pass through rotation metadata.
         public let rotate: InputRotate?
-        
+
         public init(colorSpace: ColorSpace? = nil, colorSpaceUsage: ColorSpaceUsage? = nil, hdr10Metadata: Hdr10Metadata? = nil, pid: Int32? = nil, programNumber: Int32? = nil, rotate: InputRotate? = nil) {
             self.colorSpace = colorSpace
             self.colorSpaceUsage = colorSpaceUsage
@@ -8837,7 +8845,7 @@ extension MediaConvert {
         public let format: WavFormat?
         /// Sample rate in Hz.
         public let sampleRate: Int32?
-        
+
         public init(bitDepth: Int32? = nil, channels: Int32? = nil, format: WavFormat? = nil, sampleRate: Int32? = nil) {
             self.bitDepth = bitDepth
             self.channels = channels
@@ -8861,5 +8869,4 @@ extension MediaConvert {
             case sampleRate = "sampleRate"
         }
     }
-
 }

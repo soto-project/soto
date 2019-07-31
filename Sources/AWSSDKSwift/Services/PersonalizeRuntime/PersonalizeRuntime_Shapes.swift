@@ -18,7 +18,7 @@ extension PersonalizeRuntime {
         public let inputList: [String]
         /// The user for which you want the campaign to provide a personalized ranking.
         public let userId: String
-        
+
         public init(campaignArn: String, inputList: [String], userId: String) {
             self.campaignArn = campaignArn
             self.inputList = inputList
@@ -49,7 +49,7 @@ extension PersonalizeRuntime {
 
         /// A list of items in order of most likely interest to the user.
         public let personalizedRanking: [PredictedItem]?
-        
+
         public init(personalizedRanking: [PredictedItem]? = nil) {
             self.personalizedRanking = personalizedRanking
         }
@@ -82,7 +82,7 @@ extension PersonalizeRuntime {
         public let numResults: Int32?
         /// The user ID to provide recommendations for. Required for USER_PERSONALIZATION recipe type.
         public let userId: String?
-        
+
         public init(campaignArn: String, itemId: String? = nil, numResults: Int32? = nil, userId: String? = nil) {
             self.campaignArn = campaignArn
             self.itemId = itemId
@@ -114,7 +114,7 @@ extension PersonalizeRuntime {
 
         /// A list of recommendations.
         public let itemList: [PredictedItem]?
-        
+
         public init(itemList: [PredictedItem]? = nil) {
             self.itemList = itemList
         }
@@ -138,7 +138,7 @@ extension PersonalizeRuntime {
 
         /// The recommended item ID.
         public let itemId: String?
-        
+
         public init(itemId: String? = nil) {
             self.itemId = itemId
         }
@@ -151,5 +151,4 @@ extension PersonalizeRuntime {
             case itemId = "itemId"
         }
     }
-
 }

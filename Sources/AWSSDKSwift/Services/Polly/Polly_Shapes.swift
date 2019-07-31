@@ -12,7 +12,7 @@ extension Polly {
 
         /// The name of the lexicon to delete. Must be an existing lexicon in the region.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -27,11 +27,12 @@ extension Polly {
     }
 
     public struct DeleteLexiconOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeVoicesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -46,7 +47,7 @@ extension Polly {
         public let languageCode: LanguageCode?
         /// An opaque pagination token returned from the previous DescribeVoices operation. If present, this indicates where to continue the listing.
         public let nextToken: String?
-        
+
         public init(includeAdditionalLanguageCodes: Bool? = nil, languageCode: LanguageCode? = nil, nextToken: String? = nil) {
             self.includeAdditionalLanguageCodes = includeAdditionalLanguageCodes
             self.languageCode = languageCode
@@ -75,7 +76,7 @@ extension Polly {
         public let nextToken: String?
         /// A list of voices with their properties.
         public let voices: [Voice]?
-        
+
         public init(nextToken: String? = nil, voices: [Voice]? = nil) {
             self.nextToken = nextToken
             self.voices = voices
@@ -105,7 +106,7 @@ extension Polly {
 
         /// Name of the lexicon.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -129,7 +130,7 @@ extension Polly {
         public let lexicon: Lexicon?
         /// Metadata of the lexicon, including phonetic alphabetic used, language code, lexicon ARN, number of lexemes defined in the lexicon, and size of lexicon in bytes.
         public let lexiconAttributes: LexiconAttributes?
-        
+
         public init(lexicon: Lexicon? = nil, lexiconAttributes: LexiconAttributes? = nil) {
             self.lexicon = lexicon
             self.lexiconAttributes = lexiconAttributes
@@ -152,7 +153,7 @@ extension Polly {
 
         /// The Amazon Polly generated identifier for a speech synthesis task.
         public let taskId: String
-        
+
         public init(taskId: String) {
             self.taskId = taskId
         }
@@ -173,7 +174,7 @@ extension Polly {
 
         /// SynthesisTask object that provides information from the requested task, including output format, creation time, task status, and so on.
         public let synthesisTask: SynthesisTask?
-        
+
         public init(synthesisTask: SynthesisTask? = nil) {
             self.synthesisTask = synthesisTask
         }
@@ -230,7 +231,7 @@ extension Polly {
         public let content: String?
         /// Name of the lexicon.
         public let name: String?
-        
+
         public init(content: String? = nil, name: String? = nil) {
             self.content = content
             self.name = name
@@ -268,7 +269,7 @@ extension Polly {
         public let lexiconArn: String?
         /// Total size of the lexicon, in characters.
         public let size: Int32?
-        
+
         public init(alphabet: String? = nil, languageCode: LanguageCode? = nil, lastModified: TimeStamp? = nil, lexemesCount: Int32? = nil, lexiconArn: String? = nil, size: Int32? = nil) {
             self.alphabet = alphabet
             self.languageCode = languageCode
@@ -298,7 +299,7 @@ extension Polly {
         public let attributes: LexiconAttributes?
         /// Name of the lexicon.
         public let name: String?
-        
+
         public init(attributes: LexiconAttributes? = nil, name: String? = nil) {
             self.attributes = attributes
             self.name = name
@@ -321,7 +322,7 @@ extension Polly {
 
         /// An opaque pagination token returned from previous ListLexicons operation. If present, indicates where to continue the list of lexicons.
         public let nextToken: String?
-        
+
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -346,7 +347,7 @@ extension Polly {
         public let lexicons: [LexiconDescription]?
         /// The pagination token to use in the next request to continue the listing of lexicons. NextToken is returned only if the response is truncated.
         public let nextToken: String?
-        
+
         public init(lexicons: [LexiconDescription]? = nil, nextToken: String? = nil) {
             self.lexicons = lexicons
             self.nextToken = nextToken
@@ -379,7 +380,7 @@ extension Polly {
         public let nextToken: String?
         /// Status of the speech synthesis tasks returned in a List operation
         public let status: TaskStatus?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, status: TaskStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -410,7 +411,7 @@ extension Polly {
         public let nextToken: String?
         /// List of SynthesisTask objects that provides information from the specified task in the list request, including output format, creation time, task status, and so on.
         public let synthesisTasks: [SynthesisTask]?
-        
+
         public init(nextToken: String? = nil, synthesisTasks: [SynthesisTask]? = nil) {
             self.nextToken = nextToken
             self.synthesisTasks = synthesisTasks
@@ -448,7 +449,7 @@ extension Polly {
         public let content: String
         /// Name of the lexicon. The name must follow the regular express format [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive alphanumeric string up to 20 characters long. 
         public let name: String
-        
+
         public init(content: String, name: String) {
             self.content = content
             self.name = name
@@ -465,11 +466,12 @@ extension Polly {
     }
 
     public struct PutLexiconOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum SpeechMarkType: String, CustomStringConvertible, Codable {
         case sentence = "sentence"
@@ -516,7 +518,7 @@ extension Polly {
         public let textType: TextType?
         /// Voice ID to use for the synthesis. 
         public let voiceId: VoiceId
-        
+
         public init(languageCode: LanguageCode? = nil, lexiconNames: [String]? = nil, outputFormat: OutputFormat, outputS3BucketName: String, outputS3KeyPrefix: String? = nil, sampleRate: String? = nil, snsTopicArn: String? = nil, speechMarkTypes: [SpeechMarkType]? = nil, text: String, textType: TextType? = nil, voiceId: VoiceId) {
             self.languageCode = languageCode
             self.lexiconNames = lexiconNames
@@ -564,7 +566,7 @@ extension Polly {
 
         /// SynthesisTask object that provides information and attributes about a newly submitted speech synthesis task.
         public let synthesisTask: SynthesisTask?
-        
+
         public init(synthesisTask: SynthesisTask? = nil) {
             self.synthesisTask = synthesisTask
         }
@@ -624,7 +626,7 @@ extension Polly {
         public let textType: TextType?
         /// Voice ID to use for the synthesis. 
         public let voiceId: VoiceId?
-        
+
         public init(creationTime: TimeStamp? = nil, languageCode: LanguageCode? = nil, lexiconNames: [String]? = nil, outputFormat: OutputFormat? = nil, outputUri: String? = nil, requestCharacters: Int32? = nil, sampleRate: String? = nil, snsTopicArn: String? = nil, speechMarkTypes: [SpeechMarkType]? = nil, taskId: String? = nil, taskStatus: TaskStatus? = nil, taskStatusReason: String? = nil, textType: TextType? = nil, voiceId: VoiceId? = nil) {
             self.creationTime = creationTime
             self.languageCode = languageCode
@@ -698,7 +700,7 @@ extension Polly {
         public let textType: TextType?
         ///  Voice ID to use for the synthesis. You can get a list of available voice IDs by calling the DescribeVoices operation. 
         public let voiceId: VoiceId
-        
+
         public init(languageCode: LanguageCode? = nil, lexiconNames: [String]? = nil, outputFormat: OutputFormat, sampleRate: String? = nil, speechMarkTypes: [SpeechMarkType]? = nil, text: String, textType: TextType? = nil, voiceId: VoiceId) {
             self.languageCode = languageCode
             self.lexiconNames = lexiconNames
@@ -745,7 +747,7 @@ extension Polly {
         public let contentType: String?
         /// Number of characters synthesized.
         public let requestCharacters: Int32?
-        
+
         public init(audioStream: Data? = nil, contentType: String? = nil, requestCharacters: Int32? = nil) {
             self.audioStream = audioStream
             self.contentType = contentType
@@ -795,7 +797,7 @@ extension Polly {
         public let languageName: String?
         /// Name of the voice (for example, Salli, Kendra, etc.). This provides a human readable voice name that you might display in your application.
         public let name: String?
-        
+
         public init(additionalLanguageCodes: [LanguageCode]? = nil, gender: Gender? = nil, id: VoiceId? = nil, languageCode: LanguageCode? = nil, languageName: String? = nil, name: String? = nil) {
             self.additionalLanguageCodes = additionalLanguageCodes
             self.gender = gender
@@ -876,5 +878,4 @@ extension Polly {
         case zhiyu = "Zhiyu"
         public var description: String { return self.rawValue }
     }
-
 }

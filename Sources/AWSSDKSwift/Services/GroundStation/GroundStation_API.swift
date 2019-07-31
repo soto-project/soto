@@ -168,5 +168,4 @@ public struct GroundStation {
     public func updateMissionProfile(_ input: UpdateMissionProfileRequest) throws -> Future<MissionProfileIdResponse> {
         return try client.send(operation: "UpdateMissionProfile", path: "/missionprofile/{missionProfileId}", httpMethod: "PUT", input: input)
     }
-
 }

@@ -21,7 +21,7 @@ extension FMS {
 
         /// The AWS account ID to associate with AWS Firewall Manager as the AWS Firewall Manager administrator account. This can be an AWS Organizations master account or a member account. For more information about AWS Organizations and master accounts, see Managing the AWS Accounts in Your Organization.
         public let adminAccount: String
-        
+
         public init(adminAccount: String) {
             self.adminAccount = adminAccount
         }
@@ -50,7 +50,7 @@ extension FMS {
         public let resourceType: String?
         /// The reason that the resource is not protected by the policy.
         public let violationReason: ViolationReason?
-        
+
         public init(resourceId: String? = nil, resourceType: String? = nil, violationReason: ViolationReason? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -79,11 +79,12 @@ extension FMS {
     }
 
     public struct DeleteNotificationChannelRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeletePolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -95,7 +96,7 @@ extension FMS {
         public let deleteAllPolicyResources: Bool?
         /// The ID of the policy that you want to delete. PolicyId is returned by PutPolicy and by ListPolicies.
         public let policyId: String
-        
+
         public init(deleteAllPolicyResources: Bool? = nil, policyId: String) {
             self.deleteAllPolicyResources = deleteAllPolicyResources
             self.policyId = policyId
@@ -121,11 +122,12 @@ extension FMS {
     }
 
     public struct DisassociateAdminAccountRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct EvaluationResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -140,7 +142,7 @@ extension FMS {
         public let evaluationLimitExceeded: Bool?
         /// Number of resources that are non-compliant with the specified policy. A resource is considered non-compliant if it is not associated with the specified policy.
         public let violatorCount: Int64?
-        
+
         public init(complianceStatus: PolicyComplianceStatusType? = nil, evaluationLimitExceeded: Bool? = nil, violatorCount: Int64? = nil) {
             self.complianceStatus = complianceStatus
             self.evaluationLimitExceeded = evaluationLimitExceeded
@@ -159,11 +161,12 @@ extension FMS {
     }
 
     public struct GetAdminAccountRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetAdminAccountResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -175,7 +178,7 @@ extension FMS {
         public let adminAccount: String?
         /// The status of the AWS account that you set as the AWS Firewall Manager administrator.
         public let roleStatus: AccountRoleStatus?
-        
+
         public init(adminAccount: String? = nil, roleStatus: AccountRoleStatus? = nil) {
             self.adminAccount = adminAccount
             self.roleStatus = roleStatus
@@ -203,7 +206,7 @@ extension FMS {
         public let memberAccount: String
         /// The ID of the policy that you want to get the details for. PolicyId is returned by PutPolicy and by ListPolicies.
         public let policyId: String
-        
+
         public init(memberAccount: String, policyId: String) {
             self.memberAccount = memberAccount
             self.policyId = policyId
@@ -231,7 +234,7 @@ extension FMS {
 
         /// Information about the resources and the policy that you specified in the GetComplianceDetail request.
         public let policyComplianceDetail: PolicyComplianceDetail?
-        
+
         public init(policyComplianceDetail: PolicyComplianceDetail? = nil) {
             self.policyComplianceDetail = policyComplianceDetail
         }
@@ -246,11 +249,12 @@ extension FMS {
     }
 
     public struct GetNotificationChannelRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetNotificationChannelResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -262,7 +266,7 @@ extension FMS {
         public let snsRoleName: String?
         /// The SNS topic that records AWS Firewall Manager activity. 
         public let snsTopicArn: String?
-        
+
         public init(snsRoleName: String? = nil, snsTopicArn: String? = nil) {
             self.snsRoleName = snsRoleName
             self.snsTopicArn = snsTopicArn
@@ -290,7 +294,7 @@ extension FMS {
 
         /// The ID of the AWS Firewall Manager policy that you want the details for.
         public let policyId: String
-        
+
         public init(policyId: String) {
             self.policyId = policyId
         }
@@ -316,7 +320,7 @@ extension FMS {
         public let policy: Policy?
         /// The Amazon Resource Name (ARN) of the specified policy.
         public let policyArn: String?
-        
+
         public init(policy: Policy? = nil, policyArn: String? = nil) {
             self.policy = policy
             self.policyArn = policyArn
@@ -357,7 +361,7 @@ extension FMS {
         public let policyId: String
         /// The start of the time period to query for the attacks. This is a timestamp type. The sample request above indicates a number type because the default used by AWS Firewall Manager is Unix time in seconds. However, any valid timestamp format is allowed.
         public let startTime: TimeStamp?
-        
+
         public init(endTime: TimeStamp? = nil, maxResults: Int32? = nil, memberAccountId: String? = nil, nextToken: String? = nil, policyId: String, startTime: TimeStamp? = nil) {
             self.endTime = endTime
             self.maxResults = maxResults
@@ -406,7 +410,7 @@ extension FMS {
         public let nextToken: String?
         /// The service type that is protected by the policy. Currently, this is always SHIELD_ADVANCED.
         public let serviceType: SecurityServiceType?
-        
+
         public init(adminAccountId: String? = nil, data: String? = nil, nextToken: String? = nil, serviceType: SecurityServiceType? = nil) {
             self.adminAccountId = adminAccountId
             self.data = data
@@ -443,7 +447,7 @@ extension FMS {
         public let nextToken: String?
         /// The ID of the AWS Firewall Manager policy that you want the details for.
         public let policyId: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, policyId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -477,7 +481,7 @@ extension FMS {
         public let nextToken: String?
         /// An array of PolicyComplianceStatus objects.
         public let policyComplianceStatusList: [PolicyComplianceStatus]?
-        
+
         public init(nextToken: String? = nil, policyComplianceStatusList: [PolicyComplianceStatus]? = nil) {
             self.nextToken = nextToken
             self.policyComplianceStatusList = policyComplianceStatusList
@@ -507,7 +511,7 @@ extension FMS {
         public let maxResults: Int32?
         /// If you specify a value for MaxResults and you have more account IDs than the number that you specify for MaxResults, AWS Firewall Manager returns a NextToken value in the response that allows you to list another group of IDs. For the second and subsequent ListMemberAccountsRequest requests, specify the value of NextToken from the previous response to get information about another batch of member account IDs.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -536,7 +540,7 @@ extension FMS {
         public let memberAccounts: [String]?
         /// If you have more member account IDs than the number that you specified for MaxResults in the request, the response includes a NextToken value. To list more IDs, submit another ListMemberAccounts request, and specify the NextToken value from the response in the NextToken value in the next request.
         public let nextToken: String?
-        
+
         public init(memberAccounts: [String]? = nil, nextToken: String? = nil) {
             self.memberAccounts = memberAccounts
             self.nextToken = nextToken
@@ -568,7 +572,7 @@ extension FMS {
         public let maxResults: Int32?
         /// If you specify a value for MaxResults and you have more PolicySummary objects than the number that you specify for MaxResults, AWS Firewall Manager returns a NextToken value in the response that allows you to list another group of PolicySummary objects. For the second and subsequent ListPolicies requests, specify the value of NextToken from the previous response to get information about another batch of PolicySummary objects.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -597,7 +601,7 @@ extension FMS {
         public let nextToken: String?
         /// An array of PolicySummary objects.
         public let policyList: [PolicySummary]?
-        
+
         public init(nextToken: String? = nil, policyList: [PolicySummary]? = nil) {
             self.nextToken = nextToken
             self.policyList = policyList
@@ -654,7 +658,7 @@ extension FMS {
         public let resourceTypeList: [String]?
         /// Details about the security service that is being used to protect the resources.
         public let securityServicePolicyData: SecurityServicePolicyData
-        
+
         public init(excludeMap: [CustomerPolicyScopeIdType: [String]]? = nil, excludeResourceTags: Bool, includeMap: [CustomerPolicyScopeIdType: [String]]? = nil, policyId: String? = nil, policyName: String, policyUpdateToken: String? = nil, remediationEnabled: Bool, resourceTags: [ResourceTag]? = nil, resourceType: String, resourceTypeList: [String]? = nil, securityServicePolicyData: SecurityServicePolicyData) {
             self.excludeMap = excludeMap
             self.excludeResourceTags = excludeResourceTags
@@ -735,7 +739,7 @@ extension FMS {
         public let policyOwner: String?
         /// An array of resources that are not protected by the policy.
         public let violators: [ComplianceViolator]?
-        
+
         public init(evaluationLimitExceeded: Bool? = nil, expiredAt: TimeStamp? = nil, issueInfoMap: [DependentServiceName: String]? = nil, memberAccount: String? = nil, policyId: String? = nil, policyOwner: String? = nil, violators: [ComplianceViolator]? = nil) {
             self.evaluationLimitExceeded = evaluationLimitExceeded
             self.expiredAt = expiredAt
@@ -797,7 +801,7 @@ extension FMS {
         public let policyName: String?
         /// The AWS account that created the AWS Firewall Manager policy.
         public let policyOwner: String?
-        
+
         public init(evaluationResults: [EvaluationResult]? = nil, issueInfoMap: [DependentServiceName: String]? = nil, lastUpdated: TimeStamp? = nil, memberAccount: String? = nil, policyId: String? = nil, policyName: String? = nil, policyOwner: String? = nil) {
             self.evaluationResults = evaluationResults
             self.issueInfoMap = issueInfoMap
@@ -865,7 +869,7 @@ extension FMS {
         public let resourceType: String?
         /// The service that the policy is using to protect the resources. This specifies the type of policy that is created, either a WAF policy or Shield Advanced policy.
         public let securityServiceType: SecurityServiceType?
-        
+
         public init(policyArn: String? = nil, policyId: String? = nil, policyName: String? = nil, remediationEnabled: Bool? = nil, resourceType: String? = nil, securityServiceType: SecurityServiceType? = nil) {
             self.policyArn = policyArn
             self.policyId = policyId
@@ -910,7 +914,7 @@ extension FMS {
         public let snsRoleName: String
         /// The Amazon Resource Name (ARN) of the SNS topic that collects notifications from AWS Firewall Manager.
         public let snsTopicArn: String
-        
+
         public init(snsRoleName: String, snsTopicArn: String) {
             self.snsRoleName = snsRoleName
             self.snsTopicArn = snsTopicArn
@@ -938,7 +942,7 @@ extension FMS {
 
         /// The details of the AWS Firewall Manager policy to be created.
         public let policy: Policy
-        
+
         public init(policy: Policy) {
             self.policy = policy
         }
@@ -962,7 +966,7 @@ extension FMS {
         public let policy: Policy?
         /// The Amazon Resource Name (ARN) of the policy that was created.
         public let policyArn: String?
-        
+
         public init(policy: Policy? = nil, policyArn: String? = nil) {
             self.policy = policy
             self.policyArn = policyArn
@@ -991,7 +995,7 @@ extension FMS {
         public let key: String
         /// The resource tag value.
         public let value: String?
-        
+
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1021,7 +1025,7 @@ extension FMS {
         public let managedServiceData: String?
         /// The service that the policy is using to protect the resources. This specifies the type of policy that is created, either a WAF policy or Shield Advanced policy.
         public let `type`: SecurityServiceType
-        
+
         public init(managedServiceData: String? = nil, type: SecurityServiceType) {
             self.managedServiceData = managedServiceData
             self.`type` = `type`
@@ -1051,5 +1055,4 @@ extension FMS {
         case resourceMissingShieldProtection = "RESOURCE_MISSING_SHIELD_PROTECTION"
         public var description: String { return self.rawValue }
     }
-
 }

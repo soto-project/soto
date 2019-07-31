@@ -210,5 +210,4 @@ public struct SWF {
     @discardableResult public func untagResource(_ input: UntagResourceInput) throws -> Future<Void> {
         return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
-
 }

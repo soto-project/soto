@@ -80,5 +80,4 @@ public struct FSx {
     public func updateFileSystem(_ input: UpdateFileSystemRequest) throws -> Future<UpdateFileSystemResponse> {
         return try client.send(operation: "UpdateFileSystem", path: "/", httpMethod: "POST", input: input)
     }
-
 }

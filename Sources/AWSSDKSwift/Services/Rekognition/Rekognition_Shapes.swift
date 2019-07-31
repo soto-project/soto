@@ -15,7 +15,7 @@ extension Rekognition {
         public let high: Int32?
         /// The lowest estimated age.
         public let low: Int32?
-        
+
         public init(high: Int32? = nil, low: Int32? = nil) {
             self.high = high
             self.low = low
@@ -48,7 +48,7 @@ extension Rekognition {
         public let confidence: Float?
         /// Boolean value that indicates whether the face has beard or not.
         public let value: Bool?
-        
+
         public init(confidence: Float? = nil, value: Bool? = nil) {
             self.confidence = confidence
             self.value = value
@@ -81,7 +81,7 @@ extension Rekognition {
         public let top: Float?
         /// Width of the bounding box as a ratio of the overall image width.
         public let width: Float?
-        
+
         public init(height: Float? = nil, left: Float? = nil, top: Float? = nil, width: Float? = nil) {
             self.height = height
             self.left = left
@@ -116,7 +116,7 @@ extension Rekognition {
         public let name: String?
         /// An array of URLs pointing to additional information about the celebrity. If there is no additional information about the celebrity, this list is empty.
         public let urls: [String]?
-        
+
         public init(face: ComparedFace? = nil, id: String? = nil, matchConfidence: Float? = nil, name: String? = nil, urls: [String]? = nil) {
             self.face = face
             self.id = id
@@ -163,7 +163,7 @@ extension Rekognition {
         public let name: String?
         /// An array of URLs pointing to additional celebrity information. 
         public let urls: [String]?
-        
+
         public init(boundingBox: BoundingBox? = nil, confidence: Float? = nil, face: FaceDetail? = nil, id: String? = nil, name: String? = nil, urls: [String]? = nil) {
             self.boundingBox = boundingBox
             self.confidence = confidence
@@ -200,7 +200,7 @@ extension Rekognition {
         public let celebrity: CelebrityDetail?
         /// The time, in milliseconds from the start of the video, that the celebrity was recognized.
         public let timestamp: Int64?
-        
+
         public init(celebrity: CelebrityDetail? = nil, timestamp: Int64? = nil) {
             self.celebrity = celebrity
             self.timestamp = timestamp
@@ -232,7 +232,7 @@ extension Rekognition {
         public let face: ComparedFace?
         /// Level of confidence that the faces match.
         public let similarity: Float?
-        
+
         public init(face: ComparedFace? = nil, similarity: Float? = nil) {
             self.face = face
             self.similarity = similarity
@@ -263,7 +263,7 @@ extension Rekognition {
         public let sourceImage: Image
         /// The target image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let targetImage: Image
-        
+
         public init(similarityThreshold: Float? = nil, sourceImage: Image, targetImage: Image) {
             self.similarityThreshold = similarityThreshold
             self.sourceImage = sourceImage
@@ -303,7 +303,7 @@ extension Rekognition {
         public let targetImageOrientationCorrection: OrientationCorrection?
         /// An array of faces in the target image that did not match the source image face.
         public let unmatchedFaces: [ComparedFace]?
-        
+
         public init(faceMatches: [CompareFacesMatch]? = nil, sourceImageFace: ComparedSourceImageFace? = nil, sourceImageOrientationCorrection: OrientationCorrection? = nil, targetImageOrientationCorrection: OrientationCorrection? = nil, unmatchedFaces: [ComparedFace]? = nil) {
             self.faceMatches = faceMatches
             self.sourceImageFace = sourceImageFace
@@ -350,7 +350,7 @@ extension Rekognition {
         public let pose: Pose?
         /// Identifies face image brightness and sharpness. 
         public let quality: ImageQuality?
-        
+
         public init(boundingBox: BoundingBox? = nil, confidence: Float? = nil, landmarks: [Landmark]? = nil, pose: Pose? = nil, quality: ImageQuality? = nil) {
             self.boundingBox = boundingBox
             self.confidence = confidence
@@ -384,7 +384,7 @@ extension Rekognition {
         public let boundingBox: BoundingBox?
         /// Confidence level that the selected bounding box contains a face.
         public let confidence: Float?
-        
+
         public init(boundingBox: BoundingBox? = nil, confidence: Float? = nil) {
             self.boundingBox = boundingBox
             self.confidence = confidence
@@ -411,7 +411,7 @@ extension Rekognition {
         public let moderationLabel: ModerationLabel?
         /// Time, in milliseconds from the beginning of the video, that the moderation label was detected.
         public let timestamp: Int64?
-        
+
         public init(moderationLabel: ModerationLabel? = nil, timestamp: Int64? = nil) {
             self.moderationLabel = moderationLabel
             self.timestamp = timestamp
@@ -440,7 +440,7 @@ extension Rekognition {
 
         /// ID for the collection that you are creating.
         public let collectionId: String
-        
+
         public init(collectionId: String) {
             self.collectionId = collectionId
         }
@@ -469,7 +469,7 @@ extension Rekognition {
         public let faceModelVersion: String?
         /// HTTP status code indicating the result of the operation.
         public let statusCode: Int32?
-        
+
         public init(collectionArn: String? = nil, faceModelVersion: String? = nil, statusCode: Int32? = nil) {
             self.collectionArn = collectionArn
             self.faceModelVersion = faceModelVersion
@@ -506,7 +506,7 @@ extension Rekognition {
         public let roleArn: String
         /// Face recognition input parameters to be used by the stream processor. Includes the collection to use for face recognition and the face attributes to detect.
         public let settings: StreamProcessorSettings
-        
+
         public init(input: StreamProcessorInput, name: String, output: StreamProcessorOutput, roleArn: String, settings: StreamProcessorSettings) {
             self.input = input
             self.name = name
@@ -541,7 +541,7 @@ extension Rekognition {
 
         /// ARN for the newly create stream processor.
         public let streamProcessorArn: String?
-        
+
         public init(streamProcessorArn: String? = nil) {
             self.streamProcessorArn = streamProcessorArn
         }
@@ -562,7 +562,7 @@ extension Rekognition {
 
         /// ID of the collection to delete.
         public let collectionId: String
-        
+
         public init(collectionId: String) {
             self.collectionId = collectionId
         }
@@ -585,7 +585,7 @@ extension Rekognition {
 
         /// HTTP status code that indicates the result of the operation.
         public let statusCode: Int32?
-        
+
         public init(statusCode: Int32? = nil) {
             self.statusCode = statusCode
         }
@@ -609,7 +609,7 @@ extension Rekognition {
         public let collectionId: String
         /// An array of face IDs to delete.
         public let faceIds: [String]
-        
+
         public init(collectionId: String, faceIds: [String]) {
             self.collectionId = collectionId
             self.faceIds = faceIds
@@ -639,7 +639,7 @@ extension Rekognition {
 
         /// An array of strings (face IDs) of the faces that were deleted.
         public let deletedFaces: [String]?
-        
+
         public init(deletedFaces: [String]? = nil) {
             self.deletedFaces = deletedFaces
         }
@@ -664,7 +664,7 @@ extension Rekognition {
 
         /// The name of the stream processor you want to delete.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -681,11 +681,12 @@ extension Rekognition {
     }
 
     public struct DeleteStreamProcessorResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeCollectionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -694,7 +695,7 @@ extension Rekognition {
 
         /// The ID of the collection to describe.
         public let collectionId: String
-        
+
         public init(collectionId: String) {
             self.collectionId = collectionId
         }
@@ -726,7 +727,7 @@ extension Rekognition {
         public let faceCount: Int64?
         /// The version of the face model that's used by the collection for face detection. For more information, see Model Versioning in the Amazon Rekognition Developer Guide.
         public let faceModelVersion: String?
-        
+
         public init(collectionARN: String? = nil, creationTimestamp: TimeStamp? = nil, faceCount: Int64? = nil, faceModelVersion: String? = nil) {
             self.collectionARN = collectionARN
             self.creationTimestamp = creationTimestamp
@@ -753,7 +754,7 @@ extension Rekognition {
 
         /// Name of the stream processor for which you want information.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -803,7 +804,7 @@ extension Rekognition {
         public let statusMessage: String?
         /// ARN of the stream processor.
         public let streamProcessorArn: String?
-        
+
         public init(creationTimestamp: TimeStamp? = nil, input: StreamProcessorInput? = nil, lastUpdateTimestamp: TimeStamp? = nil, name: String? = nil, output: StreamProcessorOutput? = nil, roleArn: String? = nil, settings: StreamProcessorSettings? = nil, status: StreamProcessorStatus? = nil, statusMessage: String? = nil, streamProcessorArn: String? = nil) {
             self.creationTimestamp = creationTimestamp
             self.input = input
@@ -852,7 +853,7 @@ extension Rekognition {
         public let attributes: [Attribute]?
         /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
-        
+
         public init(attributes: [Attribute]? = nil, image: Image) {
             self.attributes = attributes
             self.image = image
@@ -878,7 +879,7 @@ extension Rekognition {
         public let faceDetails: [FaceDetail]?
         /// The value of OrientationCorrection is always null. If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform image correction. The bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. Amazon Rekognition doesn’t perform image correction for images in .png format and .jpeg images without orientation information in the image Exif metadata. The bounding box coordinates aren't translated and represent the object locations before the image is rotated. 
         public let orientationCorrection: OrientationCorrection?
-        
+
         public init(faceDetails: [FaceDetail]? = nil, orientationCorrection: OrientationCorrection? = nil) {
             self.faceDetails = faceDetails
             self.orientationCorrection = orientationCorrection
@@ -909,7 +910,7 @@ extension Rekognition {
         public let maxLabels: Int32?
         /// Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with confidence lower than this specified value. If MinConfidence is not specified, the operation returns labels with a confidence values greater than or equal to 55 percent.
         public let minConfidence: Float?
-        
+
         public init(image: Image, maxLabels: Int32? = nil, minConfidence: Float? = nil) {
             self.image = image
             self.maxLabels = maxLabels
@@ -943,7 +944,7 @@ extension Rekognition {
         public let labels: [Label]?
         /// The value of OrientationCorrection is always null. If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform image correction. The bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. Amazon Rekognition doesn’t perform image correction for images in .png format and .jpeg images without orientation information in the image Exif metadata. The bounding box coordinates aren't translated and represent the object locations before the image is rotated. 
         public let orientationCorrection: OrientationCorrection?
-        
+
         public init(labelModelVersion: String? = nil, labels: [Label]? = nil, orientationCorrection: OrientationCorrection? = nil) {
             self.labelModelVersion = labelModelVersion
             self.labels = labels
@@ -973,7 +974,7 @@ extension Rekognition {
         public let image: Image
         /// Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with a confidence level lower than this specified value. If you don't specify MinConfidence, the operation returns labels with confidence values greater than or equal to 50 percent.
         public let minConfidence: Float?
-        
+
         public init(image: Image, minConfidence: Float? = nil) {
             self.image = image
             self.minConfidence = minConfidence
@@ -1001,7 +1002,7 @@ extension Rekognition {
         public let moderationLabels: [ModerationLabel]?
         /// Version number of the moderation detection model that was used to detect unsafe content.
         public let moderationModelVersion: String?
-        
+
         public init(moderationLabels: [ModerationLabel]? = nil, moderationModelVersion: String? = nil) {
             self.moderationLabels = moderationLabels
             self.moderationModelVersion = moderationModelVersion
@@ -1026,7 +1027,7 @@ extension Rekognition {
 
         /// The input image as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Rekognition operations, you can't pass image bytes.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
-        
+
         public init(image: Image) {
             self.image = image
         }
@@ -1047,7 +1048,7 @@ extension Rekognition {
 
         /// An array of text that was detected in the input image.
         public let textDetections: [TextDetection]?
-        
+
         public init(textDetections: [TextDetection]? = nil) {
             self.textDetections = textDetections
         }
@@ -1073,7 +1074,7 @@ extension Rekognition {
         public let confidence: Float?
         /// Type of emotion detected.
         public let `type`: EmotionName?
-        
+
         public init(confidence: Float? = nil, type: EmotionName? = nil) {
             self.confidence = confidence
             self.`type` = `type`
@@ -1112,7 +1113,7 @@ extension Rekognition {
         public let confidence: Float?
         /// Boolean value that indicates whether the eyes on the face are open.
         public let value: Bool?
-        
+
         public init(confidence: Float? = nil, value: Bool? = nil) {
             self.confidence = confidence
             self.value = value
@@ -1139,7 +1140,7 @@ extension Rekognition {
         public let confidence: Float?
         /// Boolean value that indicates whether the face is wearing eye glasses or not.
         public let value: Bool?
-        
+
         public init(confidence: Float? = nil, value: Bool? = nil) {
             self.confidence = confidence
             self.value = value
@@ -1175,7 +1176,7 @@ extension Rekognition {
         public let faceId: String?
         /// Unique identifier that Amazon Rekognition assigns to the input image.
         public let imageId: String?
-        
+
         public init(boundingBox: BoundingBox? = nil, confidence: Float? = nil, externalImageId: String? = nil, faceId: String? = nil, imageId: String? = nil) {
             self.boundingBox = boundingBox
             self.confidence = confidence
@@ -1258,7 +1259,7 @@ extension Rekognition {
         public let smile: Smile?
         /// Indicates whether or not the face is wearing sunglasses, and the confidence level in the determination.
         public let sunglasses: Sunglasses?
-        
+
         public init(ageRange: AgeRange? = nil, beard: Beard? = nil, boundingBox: BoundingBox? = nil, confidence: Float? = nil, emotions: [Emotion]? = nil, eyeglasses: Eyeglasses? = nil, eyesOpen: EyeOpen? = nil, gender: Gender? = nil, landmarks: [Landmark]? = nil, mouthOpen: MouthOpen? = nil, mustache: Mustache? = nil, pose: Pose? = nil, quality: ImageQuality? = nil, smile: Smile? = nil, sunglasses: Sunglasses? = nil) {
             self.ageRange = ageRange
             self.beard = beard
@@ -1324,7 +1325,7 @@ extension Rekognition {
         public let face: FaceDetail?
         /// Time, in milliseconds from the start of the video, that the face was detected.
         public let timestamp: Int64?
-        
+
         public init(face: FaceDetail? = nil, timestamp: Int64? = nil) {
             self.face = face
             self.timestamp = timestamp
@@ -1350,7 +1351,7 @@ extension Rekognition {
         public let face: Face?
         /// Confidence in the match of this face with the input face.
         public let similarity: Float?
-        
+
         public init(face: Face? = nil, similarity: Float? = nil) {
             self.face = face
             self.similarity = similarity
@@ -1378,7 +1379,7 @@ extension Rekognition {
         public let face: Face?
         /// Structure containing attributes of the face that the algorithm detected.
         public let faceDetail: FaceDetail?
-        
+
         public init(face: Face? = nil, faceDetail: FaceDetail? = nil) {
             self.face = face
             self.faceDetail = faceDetail
@@ -1405,7 +1406,7 @@ extension Rekognition {
         public let collectionId: String?
         /// Minimum face match confidence score that must be met to return a result for a recognized face. Default is 70. 0 is the lowest confidence. 100 is the highest confidence.
         public let faceMatchThreshold: Float?
-        
+
         public init(collectionId: String? = nil, faceMatchThreshold: Float? = nil) {
             self.collectionId = collectionId
             self.faceMatchThreshold = faceMatchThreshold
@@ -1441,7 +1442,7 @@ extension Rekognition {
         public let confidence: Float?
         /// Gender of the face.
         public let value: GenderType?
-        
+
         public init(confidence: Float? = nil, value: GenderType? = nil) {
             self.confidence = confidence
             self.value = value
@@ -1474,7 +1475,7 @@ extension Rekognition {
         public let boundingBox: BoundingBox?
         /// Within the bounding box, a fine-grained polygon around the detected text.
         public let polygon: [Point]?
-        
+
         public init(boundingBox: BoundingBox? = nil, polygon: [Point]? = nil) {
             self.boundingBox = boundingBox
             self.polygon = polygon
@@ -1493,7 +1494,7 @@ extension Rekognition {
 
         /// The ID for the celebrity. You get the celebrity ID from a call to the RecognizeCelebrities operation, which recognizes celebrities in an image. 
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -1517,7 +1518,7 @@ extension Rekognition {
         public let name: String?
         /// An array of URLs pointing to additional celebrity information. 
         public let urls: [String]?
-        
+
         public init(name: String? = nil, urls: [String]? = nil) {
             self.name = name
             self.urls = urls
@@ -1545,7 +1546,7 @@ extension Rekognition {
         public let nextToken: String?
         /// Sort to use for celebrities returned in Celebrities field. Specify ID to sort by the celebrity identifier, specify TIMESTAMP to sort by the time the celebrity was recognized.
         public let sortBy: CelebrityRecognitionSortBy?
-        
+
         public init(jobId: String, maxResults: Int32? = nil, nextToken: String? = nil, sortBy: CelebrityRecognitionSortBy? = nil) {
             self.jobId = jobId
             self.maxResults = maxResults
@@ -1588,7 +1589,7 @@ extension Rekognition {
         public let statusMessage: String?
         /// Information about a video that Amazon Rekognition Video analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition Video operation.
         public let videoMetadata: VideoMetadata?
-        
+
         public init(celebrities: [CelebrityRecognition]? = nil, jobStatus: VideoJobStatus? = nil, nextToken: String? = nil, statusMessage: String? = nil, videoMetadata: VideoMetadata? = nil) {
             self.celebrities = celebrities
             self.jobStatus = jobStatus
@@ -1630,7 +1631,7 @@ extension Rekognition {
         public let nextToken: String?
         /// Sort to use for elements in the ModerationLabelDetections array. Use TIMESTAMP to sort array elements by the time labels are detected. Use NAME to alphabetically group elements for a label together. Within each label group, the array element are sorted by detection confidence. The default sort is by TIMESTAMP.
         public let sortBy: ContentModerationSortBy?
-        
+
         public init(jobId: String, maxResults: Int32? = nil, nextToken: String? = nil, sortBy: ContentModerationSortBy? = nil) {
             self.jobId = jobId
             self.maxResults = maxResults
@@ -1676,7 +1677,7 @@ extension Rekognition {
         public let statusMessage: String?
         /// Information about a video that Amazon Rekognition analyzed. Videometadata is returned in every page of paginated responses from GetContentModeration. 
         public let videoMetadata: VideoMetadata?
-        
+
         public init(jobStatus: VideoJobStatus? = nil, moderationLabels: [ContentModerationDetection]? = nil, moderationModelVersion: String? = nil, nextToken: String? = nil, statusMessage: String? = nil, videoMetadata: VideoMetadata? = nil) {
             self.jobStatus = jobStatus
             self.moderationLabels = moderationLabels
@@ -1717,7 +1718,7 @@ extension Rekognition {
         public let maxResults: Int32?
         /// If the previous response was incomplete (because there are more faces to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of faces.
         public let nextToken: String?
-        
+
         public init(jobId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.jobId = jobId
             self.maxResults = maxResults
@@ -1758,7 +1759,7 @@ extension Rekognition {
         public let statusMessage: String?
         /// Information about a video that Amazon Rekognition Video analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition video operation.
         public let videoMetadata: VideoMetadata?
-        
+
         public init(faces: [FaceDetection]? = nil, jobStatus: VideoJobStatus? = nil, nextToken: String? = nil, statusMessage: String? = nil, videoMetadata: VideoMetadata? = nil) {
             self.faces = faces
             self.jobStatus = jobStatus
@@ -1800,7 +1801,7 @@ extension Rekognition {
         public let nextToken: String?
         /// Sort to use for grouping faces in the response. Use TIMESTAMP to group faces by the time that they are recognized. Use INDEX to sort by recognized faces. 
         public let sortBy: FaceSearchSortBy?
-        
+
         public init(jobId: String, maxResults: Int32? = nil, nextToken: String? = nil, sortBy: FaceSearchSortBy? = nil) {
             self.jobId = jobId
             self.maxResults = maxResults
@@ -1843,7 +1844,7 @@ extension Rekognition {
         public let statusMessage: String?
         /// Information about a video that Amazon Rekognition analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition Video operation. 
         public let videoMetadata: VideoMetadata?
-        
+
         public init(jobStatus: VideoJobStatus? = nil, nextToken: String? = nil, persons: [PersonMatch]? = nil, statusMessage: String? = nil, videoMetadata: VideoMetadata? = nil) {
             self.jobStatus = jobStatus
             self.nextToken = nextToken
@@ -1885,7 +1886,7 @@ extension Rekognition {
         public let nextToken: String?
         /// Sort to use for elements in the Labels array. Use TIMESTAMP to sort array elements by the time labels are detected. Use NAME to alphabetically group elements for a label together. Within each label group, the array element are sorted by detection confidence. The default sort is by TIMESTAMP.
         public let sortBy: LabelDetectionSortBy?
-        
+
         public init(jobId: String, maxResults: Int32? = nil, nextToken: String? = nil, sortBy: LabelDetectionSortBy? = nil) {
             self.jobId = jobId
             self.maxResults = maxResults
@@ -1931,7 +1932,7 @@ extension Rekognition {
         public let statusMessage: String?
         /// Information about a video that Amazon Rekognition Video analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition video operation.
         public let videoMetadata: VideoMetadata?
-        
+
         public init(jobStatus: VideoJobStatus? = nil, labelModelVersion: String? = nil, labels: [LabelDetection]? = nil, nextToken: String? = nil, statusMessage: String? = nil, videoMetadata: VideoMetadata? = nil) {
             self.jobStatus = jobStatus
             self.labelModelVersion = labelModelVersion
@@ -1975,7 +1976,7 @@ extension Rekognition {
         public let nextToken: String?
         /// Sort to use for elements in the Persons array. Use TIMESTAMP to sort array elements by the time persons are detected. Use INDEX to sort by the tracked persons. If you sort by INDEX, the array elements for each person are sorted by detection confidence. The default sort is by TIMESTAMP.
         public let sortBy: PersonTrackingSortBy?
-        
+
         public init(jobId: String, maxResults: Int32? = nil, nextToken: String? = nil, sortBy: PersonTrackingSortBy? = nil) {
             self.jobId = jobId
             self.maxResults = maxResults
@@ -2018,7 +2019,7 @@ extension Rekognition {
         public let statusMessage: String?
         /// Information about a video that Amazon Rekognition Video analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition Video operation.
         public let videoMetadata: VideoMetadata?
-        
+
         public init(jobStatus: VideoJobStatus? = nil, nextToken: String? = nil, persons: [PersonDetection]? = nil, statusMessage: String? = nil, videoMetadata: VideoMetadata? = nil) {
             self.jobStatus = jobStatus
             self.nextToken = nextToken
@@ -2054,7 +2055,7 @@ extension Rekognition {
         public let bytes: Data?
         /// Identifies an S3 object as the image source.
         public let s3Object: S3Object?
-        
+
         public init(bytes: Data? = nil, s3Object: S3Object? = nil) {
             self.bytes = bytes
             self.s3Object = s3Object
@@ -2082,7 +2083,7 @@ extension Rekognition {
         public let brightness: Float?
         /// Value representing sharpness of the face. The service returns a value between 0 and 100 (inclusive). A higher value indicates a sharper face image.
         public let sharpness: Float?
-        
+
         public init(brightness: Float? = nil, sharpness: Float? = nil) {
             self.brightness = brightness
             self.sharpness = sharpness
@@ -2116,7 +2117,7 @@ extension Rekognition {
         public let maxFaces: Int32?
         /// A filter that specifies how much filtering is done to identify faces that are detected with low quality. Filtered faces aren't indexed. If you specify AUTO, filtering prioritizes the identification of faces that don’t meet the required quality bar chosen by Amazon Rekognition. The quality bar is based on a variety of common use cases. Low-quality detections can occur for a number of reasons. Some examples are an object that's misidentified as a face, a face that's too blurry, or a face with a pose that's too extreme to use. If you specify NONE, no filtering is performed. The default value is AUTO. To use quality filtering, the collection you are using must be associated with version 3 of the face model.
         public let qualityFilter: QualityFilter?
-        
+
         public init(collectionId: String, detectionAttributes: [Attribute]? = nil, externalImageId: String? = nil, image: Image, maxFaces: Int32? = nil, qualityFilter: QualityFilter? = nil) {
             self.collectionId = collectionId
             self.detectionAttributes = detectionAttributes
@@ -2163,7 +2164,7 @@ extension Rekognition {
         public let orientationCorrection: OrientationCorrection?
         /// An array of faces that were detected in the image but weren't indexed. They weren't indexed because the quality filter identified them as low quality, or the MaxFaces request parameter filtered them out. To use the quality filter, you specify the QualityFilter request parameter.
         public let unindexedFaces: [UnindexedFace]?
-        
+
         public init(faceModelVersion: String? = nil, faceRecords: [FaceRecord]? = nil, orientationCorrection: OrientationCorrection? = nil, unindexedFaces: [UnindexedFace]? = nil) {
             self.faceModelVersion = faceModelVersion
             self.faceRecords = faceRecords
@@ -2198,7 +2199,7 @@ extension Rekognition {
         public let boundingBox: BoundingBox?
         /// The confidence that Amazon Rekognition has in the accuracy of the bounding box.
         public let confidence: Float?
-        
+
         public init(boundingBox: BoundingBox? = nil, confidence: Float? = nil) {
             self.boundingBox = boundingBox
             self.confidence = confidence
@@ -2222,7 +2223,7 @@ extension Rekognition {
 
         /// ARN of the output Amazon Kinesis Data Streams stream.
         public let arn: String?
-        
+
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -2243,7 +2244,7 @@ extension Rekognition {
 
         /// ARN of the Kinesis video stream stream that streams the source video.
         public let arn: String?
-        
+
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -2273,7 +2274,7 @@ extension Rekognition {
         public let name: String?
         /// The parent labels for a label. The response includes all ancestor labels.
         public let parents: [Parent]?
-        
+
         public init(confidence: Float? = nil, instances: [Instance]? = nil, name: String? = nil, parents: [Parent]? = nil) {
             self.confidence = confidence
             self.instances = instances
@@ -2307,7 +2308,7 @@ extension Rekognition {
         public let label: Label?
         /// Time, in milliseconds from the start of the video, that the label was detected.
         public let timestamp: Int64?
-        
+
         public init(label: Label? = nil, timestamp: Int64? = nil) {
             self.label = label
             self.timestamp = timestamp
@@ -2342,7 +2343,7 @@ extension Rekognition {
         public let x: Float?
         /// The y-coordinate from the top left of the landmark expressed as the ratio of the height of the image. For example, if the image is 700 x 200 and the y-coordinate of the landmark is at 100 pixels, this value is 0.5.
         public let y: Float?
-        
+
         public init(type: LandmarkType? = nil, x: Float? = nil, y: Float? = nil) {
             self.`type` = `type`
             self.x = x
@@ -2400,7 +2401,7 @@ extension Rekognition {
         public let maxResults: Int32?
         /// Pagination token from the previous response.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2431,7 +2432,7 @@ extension Rekognition {
         public let faceModelVersions: [String]?
         /// If the result is truncated, the response provides a NextToken that you can use in the subsequent request to fetch the next set of collection IDs.
         public let nextToken: String?
-        
+
         public init(collectionIds: [String]? = nil, faceModelVersions: [String]? = nil, nextToken: String? = nil) {
             self.collectionIds = collectionIds
             self.faceModelVersions = faceModelVersions
@@ -2467,7 +2468,7 @@ extension Rekognition {
         public let maxResults: Int32?
         /// If the previous response was incomplete (because there is more data to retrieve), Amazon Rekognition returns a pagination token in the response. You can use this pagination token to retrieve the next set of faces.
         public let nextToken: String?
-        
+
         public init(collectionId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.collectionId = collectionId
             self.maxResults = maxResults
@@ -2503,7 +2504,7 @@ extension Rekognition {
         public let faces: [Face]?
         /// If the response is truncated, Amazon Rekognition returns this token that you can use in the subsequent request to retrieve the next set of faces.
         public let nextToken: String?
-        
+
         public init(faceModelVersion: String? = nil, faces: [Face]? = nil, nextToken: String? = nil) {
             self.faceModelVersion = faceModelVersion
             self.faces = faces
@@ -2533,7 +2534,7 @@ extension Rekognition {
         public let maxResults: Int32?
         /// If the previous response was incomplete (because there are more stream processors to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of stream processors. 
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2560,7 +2561,7 @@ extension Rekognition {
         public let nextToken: String?
         /// List of stream processors that you have created.
         public let streamProcessors: [StreamProcessor]?
-        
+
         public init(nextToken: String? = nil, streamProcessors: [StreamProcessor]? = nil) {
             self.nextToken = nextToken
             self.streamProcessors = streamProcessors
@@ -2592,7 +2593,7 @@ extension Rekognition {
         public let name: String?
         /// The name for the parent label. Labels at the top level of the hierarchy have the parent label "".
         public let parentName: String?
-        
+
         public init(confidence: Float? = nil, name: String? = nil, parentName: String? = nil) {
             self.confidence = confidence
             self.name = name
@@ -2621,7 +2622,7 @@ extension Rekognition {
         public let confidence: Float?
         /// Boolean value that indicates whether the mouth on the face is open or not.
         public let value: Bool?
-        
+
         public init(confidence: Float? = nil, value: Bool? = nil) {
             self.confidence = confidence
             self.value = value
@@ -2648,7 +2649,7 @@ extension Rekognition {
         public let confidence: Float?
         /// Boolean value that indicates whether the face has mustache or not.
         public let value: Bool?
-        
+
         public init(confidence: Float? = nil, value: Bool? = nil) {
             self.confidence = confidence
             self.value = value
@@ -2675,7 +2676,7 @@ extension Rekognition {
         public let roleArn: String
         /// The Amazon SNS topic to which Amazon Rekognition to posts the completion status.
         public let sNSTopicArn: String
-        
+
         public init(roleArn: String, sNSTopicArn: String) {
             self.roleArn = roleArn
             self.sNSTopicArn = sNSTopicArn
@@ -2707,7 +2708,7 @@ extension Rekognition {
 
         /// The name of the parent label.
         public let name: String?
-        
+
         public init(name: String? = nil) {
             self.name = name
         }
@@ -2730,7 +2731,7 @@ extension Rekognition {
         public let face: FaceDetail?
         /// Identifier for the person detected person within a video. Use to keep track of the person throughout the video. The identifier is not stored by Amazon Rekognition.
         public let index: Int64?
-        
+
         public init(boundingBox: BoundingBox? = nil, face: FaceDetail? = nil, index: Int64? = nil) {
             self.boundingBox = boundingBox
             self.face = face
@@ -2758,7 +2759,7 @@ extension Rekognition {
         public let person: PersonDetail?
         /// The time, in milliseconds from the start of the video, that the person's path was tracked.
         public let timestamp: Int64?
-        
+
         public init(person: PersonDetail? = nil, timestamp: Int64? = nil) {
             self.person = person
             self.timestamp = timestamp
@@ -2787,7 +2788,7 @@ extension Rekognition {
         public let person: PersonDetail?
         /// The time, in milliseconds from the beginning of the video, that the person was matched in the video.
         public let timestamp: Int64?
-        
+
         public init(faceMatches: [FaceMatch]? = nil, person: PersonDetail? = nil, timestamp: Int64? = nil) {
             self.faceMatches = faceMatches
             self.person = person
@@ -2824,7 +2825,7 @@ extension Rekognition {
         public let x: Float?
         /// The value of the Y coordinate for a point on a Polygon.
         public let y: Float?
-        
+
         public init(x: Float? = nil, y: Float? = nil) {
             self.x = x
             self.y = y
@@ -2849,7 +2850,7 @@ extension Rekognition {
         public let roll: Float?
         /// Value representing the face rotation on the yaw axis.
         public let yaw: Float?
-        
+
         public init(pitch: Float? = nil, roll: Float? = nil, yaw: Float? = nil) {
             self.pitch = pitch
             self.roll = roll
@@ -2895,7 +2896,7 @@ extension Rekognition {
 
         /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
-        
+
         public init(image: Image) {
             self.image = image
         }
@@ -2922,7 +2923,7 @@ extension Rekognition {
         public let orientationCorrection: OrientationCorrection?
         /// Details about each unrecognized face in the image.
         public let unrecognizedFaces: [ComparedFace]?
-        
+
         public init(celebrityFaces: [Celebrity]? = nil, orientationCorrection: OrientationCorrection? = nil, unrecognizedFaces: [ComparedFace]? = nil) {
             self.celebrityFaces = celebrityFaces
             self.orientationCorrection = orientationCorrection
@@ -2958,7 +2959,7 @@ extension Rekognition {
         public let name: String?
         /// If the bucket is versioning enabled, you can specify the object version. 
         public let version: String?
-        
+
         public init(bucket: String? = nil, name: String? = nil, version: String? = nil) {
             self.bucket = bucket
             self.name = name
@@ -2998,7 +2999,7 @@ extension Rekognition {
         public let image: Image
         /// Maximum number of faces to return. The operation returns the maximum number of faces with the highest confidence in the match.
         public let maxFaces: Int32?
-        
+
         public init(collectionId: String, faceMatchThreshold: Float? = nil, image: Image, maxFaces: Int32? = nil) {
             self.collectionId = collectionId
             self.faceMatchThreshold = faceMatchThreshold
@@ -3041,7 +3042,7 @@ extension Rekognition {
         public let searchedFaceBoundingBox: BoundingBox?
         /// The level of confidence that the searchedFaceBoundingBox, contains a face.
         public let searchedFaceConfidence: Float?
-        
+
         public init(faceMatches: [FaceMatch]? = nil, faceModelVersion: String? = nil, searchedFaceBoundingBox: BoundingBox? = nil, searchedFaceConfidence: Float? = nil) {
             self.faceMatches = faceMatches
             self.faceModelVersion = faceModelVersion
@@ -3081,7 +3082,7 @@ extension Rekognition {
         public let faceMatchThreshold: Float?
         /// Maximum number of faces to return. The operation returns the maximum number of faces with the highest confidence in the match.
         public let maxFaces: Int32?
-        
+
         public init(collectionId: String, faceId: String, faceMatchThreshold: Float? = nil, maxFaces: Int32? = nil) {
             self.collectionId = collectionId
             self.faceId = faceId
@@ -3121,7 +3122,7 @@ extension Rekognition {
         public let faceModelVersion: String?
         /// ID of the face that was searched for matches in a collection.
         public let searchedFaceId: String?
-        
+
         public init(faceMatches: [FaceMatch]? = nil, faceModelVersion: String? = nil, searchedFaceId: String? = nil) {
             self.faceMatches = faceMatches
             self.faceModelVersion = faceModelVersion
@@ -3152,7 +3153,7 @@ extension Rekognition {
         public let confidence: Float?
         /// Boolean value that indicates whether the face is smiling or not.
         public let value: Bool?
-        
+
         public init(confidence: Float? = nil, value: Bool? = nil) {
             self.confidence = confidence
             self.value = value
@@ -3185,7 +3186,7 @@ extension Rekognition {
         public let notificationChannel: NotificationChannel?
         /// The video in which you want to recognize celebrities. The video must be stored in an Amazon S3 bucket.
         public let video: Video
-        
+
         public init(clientRequestToken: String? = nil, jobTag: String? = nil, notificationChannel: NotificationChannel? = nil, video: Video) {
             self.clientRequestToken = clientRequestToken
             self.jobTag = jobTag
@@ -3219,7 +3220,7 @@ extension Rekognition {
 
         /// The identifier for the celebrity recognition analysis job. Use JobId to identify the job in a subsequent call to GetCelebrityRecognition.
         public let jobId: String?
-        
+
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -3254,7 +3255,7 @@ extension Rekognition {
         public let notificationChannel: NotificationChannel?
         /// The video in which you want to moderate content. The video must be stored in an Amazon S3 bucket.
         public let video: Video
-        
+
         public init(clientRequestToken: String? = nil, jobTag: String? = nil, minConfidence: Float? = nil, notificationChannel: NotificationChannel? = nil, video: Video) {
             self.clientRequestToken = clientRequestToken
             self.jobTag = jobTag
@@ -3292,7 +3293,7 @@ extension Rekognition {
 
         /// The identifier for the content moderation analysis job. Use JobId to identify the job in a subsequent call to GetContentModeration.
         public let jobId: String?
-        
+
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -3327,7 +3328,7 @@ extension Rekognition {
         public let notificationChannel: NotificationChannel?
         /// The video in which you want to detect faces. The video must be stored in an Amazon S3 bucket.
         public let video: Video
-        
+
         public init(clientRequestToken: String? = nil, faceAttributes: FaceAttributes? = nil, jobTag: String? = nil, notificationChannel: NotificationChannel? = nil, video: Video) {
             self.clientRequestToken = clientRequestToken
             self.faceAttributes = faceAttributes
@@ -3363,7 +3364,7 @@ extension Rekognition {
 
         /// The identifier for the face detection job. Use JobId to identify the job in a subsequent call to GetFaceDetection.
         public let jobId: String?
-        
+
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -3401,7 +3402,7 @@ extension Rekognition {
         public let notificationChannel: NotificationChannel?
         /// The video you want to search. The video must be stored in an Amazon S3 bucket. 
         public let video: Video
-        
+
         public init(clientRequestToken: String? = nil, collectionId: String, faceMatchThreshold: Float? = nil, jobTag: String? = nil, notificationChannel: NotificationChannel? = nil, video: Video) {
             self.clientRequestToken = clientRequestToken
             self.collectionId = collectionId
@@ -3444,7 +3445,7 @@ extension Rekognition {
 
         /// The identifier for the search job. Use JobId to identify the job in a subsequent call to GetFaceSearch. 
         public let jobId: String?
-        
+
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -3479,7 +3480,7 @@ extension Rekognition {
         public let notificationChannel: NotificationChannel?
         /// The video in which you want to detect labels. The video must be stored in an Amazon S3 bucket.
         public let video: Video
-        
+
         public init(clientRequestToken: String? = nil, jobTag: String? = nil, minConfidence: Float? = nil, notificationChannel: NotificationChannel? = nil, video: Video) {
             self.clientRequestToken = clientRequestToken
             self.jobTag = jobTag
@@ -3517,7 +3518,7 @@ extension Rekognition {
 
         /// The identifier for the label detection job. Use JobId to identify the job in a subsequent call to GetLabelDetection. 
         public let jobId: String?
-        
+
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -3549,7 +3550,7 @@ extension Rekognition {
         public let notificationChannel: NotificationChannel?
         /// The video in which you want to detect people. The video must be stored in an Amazon S3 bucket.
         public let video: Video
-        
+
         public init(clientRequestToken: String? = nil, jobTag: String? = nil, notificationChannel: NotificationChannel? = nil, video: Video) {
             self.clientRequestToken = clientRequestToken
             self.jobTag = jobTag
@@ -3583,7 +3584,7 @@ extension Rekognition {
 
         /// The identifier for the person detection job. Use JobId to identify the job in a subsequent call to GetPersonTracking.
         public let jobId: String?
-        
+
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -3606,7 +3607,7 @@ extension Rekognition {
 
         /// The name of the stream processor to start processing.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -3623,11 +3624,12 @@ extension Rekognition {
     }
 
     public struct StartStreamProcessorResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct StopStreamProcessorRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3636,7 +3638,7 @@ extension Rekognition {
 
         /// The name of a stream processor created by CreateStreamProcessor.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -3653,11 +3655,12 @@ extension Rekognition {
     }
 
     public struct StopStreamProcessorResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct StreamProcessor: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3669,7 +3672,7 @@ extension Rekognition {
         public let name: String?
         /// Current status of the Amazon Rekognition stream processor.
         public let status: StreamProcessorStatus?
-        
+
         public init(name: String? = nil, status: StreamProcessorStatus? = nil) {
             self.name = name
             self.status = status
@@ -3694,7 +3697,7 @@ extension Rekognition {
 
         /// The Kinesis video stream input stream for the source streaming video.
         public let kinesisVideoStream: KinesisVideoStream?
-        
+
         public init(kinesisVideoStream: KinesisVideoStream? = nil) {
             self.kinesisVideoStream = kinesisVideoStream
         }
@@ -3715,7 +3718,7 @@ extension Rekognition {
 
         /// The Amazon Kinesis Data Streams stream to which the Amazon Rekognition stream processor streams the analysis results.
         public let kinesisDataStream: KinesisDataStream?
-        
+
         public init(kinesisDataStream: KinesisDataStream? = nil) {
             self.kinesisDataStream = kinesisDataStream
         }
@@ -3736,7 +3739,7 @@ extension Rekognition {
 
         /// Face search settings to use on a streaming video. 
         public let faceSearch: FaceSearchSettings?
-        
+
         public init(faceSearch: FaceSearchSettings? = nil) {
             self.faceSearch = faceSearch
         }
@@ -3769,7 +3772,7 @@ extension Rekognition {
         public let confidence: Float?
         /// Boolean value that indicates whether the face is wearing sunglasses or not.
         public let value: Bool?
-        
+
         public init(confidence: Float? = nil, value: Bool? = nil) {
             self.confidence = confidence
             self.value = value
@@ -3808,7 +3811,7 @@ extension Rekognition {
         public let parentId: Int32?
         /// The type of text that was detected.
         public let `type`: TextTypes?
-        
+
         public init(confidence: Float? = nil, detectedText: String? = nil, geometry: Geometry? = nil, id: Int32? = nil, parentId: Int32? = nil, type: TextTypes? = nil) {
             self.confidence = confidence
             self.detectedText = detectedText
@@ -3851,7 +3854,7 @@ extension Rekognition {
         public let faceDetail: FaceDetail?
         /// An array of reasons that specify why a face wasn't indexed.    EXTREME_POSE - The face is at a pose that can't be detected. For example, the head is turned too far away from the camera.   EXCEEDS_MAX_FACES - The number of faces detected is already higher than that specified by the MaxFaces input parameter for IndexFaces.   LOW_BRIGHTNESS - The image is too dark.   LOW_SHARPNESS - The image is too blurry.   LOW_CONFIDENCE - The face was detected with a low confidence.   SMALL_BOUNDING_BOX - The bounding box around the face is too small.  
         public let reasons: [Reason]?
-        
+
         public init(faceDetail: FaceDetail? = nil, reasons: [Reason]? = nil) {
             self.faceDetail = faceDetail
             self.reasons = reasons
@@ -3874,7 +3877,7 @@ extension Rekognition {
 
         /// The Amazon S3 bucket name and file name for the video.
         public let s3Object: S3Object?
-        
+
         public init(s3Object: S3Object? = nil) {
             self.s3Object = s3Object
         }
@@ -3917,7 +3920,7 @@ extension Rekognition {
         public let frameRate: Float?
         /// Horizontal pixel dimension of the video.
         public let frameWidth: Int64?
-        
+
         public init(codec: String? = nil, durationMillis: Int64? = nil, format: String? = nil, frameHeight: Int64? = nil, frameRate: Float? = nil, frameWidth: Int64? = nil) {
             self.codec = codec
             self.durationMillis = durationMillis
@@ -3942,5 +3945,4 @@ extension Rekognition {
             case frameWidth = "FrameWidth"
         }
     }
-
 }

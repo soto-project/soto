@@ -69,5 +69,4 @@ public struct Polly {
     public func synthesizeSpeech(_ input: SynthesizeSpeechInput) throws -> Future<SynthesizeSpeechOutput> {
         return try client.send(operation: "SynthesizeSpeech", path: "/v1/speech", httpMethod: "POST", input: input)
     }
-
 }

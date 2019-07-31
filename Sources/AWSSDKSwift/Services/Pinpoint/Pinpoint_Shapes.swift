@@ -18,7 +18,7 @@ extension Pinpoint {
         public let clientSecret: String
         /// Specifies whether to enable the ADM channel for the application.
         public let enabled: Bool?
-        
+
         public init(clientId: String, clientSecret: String, enabled: Bool? = nil) {
             self.clientId = clientId
             self.clientSecret = clientSecret
@@ -66,7 +66,7 @@ extension Pinpoint {
         public let platform: String
         /// The current version of the ADM channel.
         public let version: Int32?
-        
+
         public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int32? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
@@ -146,7 +146,7 @@ extension Pinpoint {
         public let title: String?
         /// The URL to open in the recipient's default mobile browser, if a recipient taps the push notification and the value of the Action property is URL.
         public let url: String?
-        
+
         public init(action: Action? = nil, body: String? = nil, consolidationKey: String? = nil, data: [String: String]? = nil, expiresAfter: String? = nil, iconReference: String? = nil, imageIconUrl: String? = nil, imageUrl: String? = nil, md5: String? = nil, rawContent: String? = nil, silentPush: Bool? = nil, smallImageIconUrl: String? = nil, sound: String? = nil, substitutions: [String: [String]]? = nil, title: String? = nil, url: String? = nil) {
             self.action = action
             self.body = body
@@ -214,7 +214,7 @@ extension Pinpoint {
         public let tokenKey: String?
         /// The key identifier that's assigned to your APNs signing key, if you want Amazon Pinpoint to communicate with APNs by using APNs tokens.
         public let tokenKeyId: String?
-        
+
         public init(bundleId: String? = nil, certificate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, privateKey: String? = nil, teamId: String? = nil, tokenKey: String? = nil, tokenKeyId: String? = nil) {
             self.bundleId = bundleId
             self.certificate = certificate
@@ -278,7 +278,7 @@ extension Pinpoint {
         public let platform: String
         /// The current version of the APNs channel.
         public let version: Int32?
-        
+
         public init(applicationId: String? = nil, creationDate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasTokenKey: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int32? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
@@ -365,7 +365,7 @@ extension Pinpoint {
         public let title: String?
         /// The URL to open in the recipient's default mobile browser, if a recipient taps the push notification and the value of the Action property is URL.
         public let url: String?
-        
+
         public init(action: Action? = nil, badge: Int32? = nil, body: String? = nil, category: String? = nil, collapseId: String? = nil, data: [String: String]? = nil, mediaUrl: String? = nil, preferredAuthenticationMethod: String? = nil, priority: String? = nil, rawContent: String? = nil, silentPush: Bool? = nil, sound: String? = nil, substitutions: [String: [String]]? = nil, threadId: String? = nil, timeToLive: Int32? = nil, title: String? = nil, url: String? = nil) {
             self.action = action
             self.badge = badge
@@ -435,7 +435,7 @@ extension Pinpoint {
         public let tokenKey: String?
         /// The key identifier that's assigned to your APNs signing key, if you want Amazon Pinpoint to communicate with the APNs sandbox environment by using APNs tokens.
         public let tokenKeyId: String?
-        
+
         public init(bundleId: String? = nil, certificate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, privateKey: String? = nil, teamId: String? = nil, tokenKey: String? = nil, tokenKeyId: String? = nil) {
             self.bundleId = bundleId
             self.certificate = certificate
@@ -499,7 +499,7 @@ extension Pinpoint {
         public let platform: String
         /// The current version of the APNs sandbox channel.
         public let version: Int32?
-        
+
         public init(applicationId: String? = nil, creationDate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasTokenKey: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int32? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
@@ -559,7 +559,7 @@ extension Pinpoint {
         public let tokenKey: String?
         /// The key identifier that's assigned to your APNs signing key, if you want Amazon Pinpoint to communicate with APNs by using APNs tokens.
         public let tokenKeyId: String?
-        
+
         public init(bundleId: String? = nil, certificate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, privateKey: String? = nil, teamId: String? = nil, tokenKey: String? = nil, tokenKeyId: String? = nil) {
             self.bundleId = bundleId
             self.certificate = certificate
@@ -623,7 +623,7 @@ extension Pinpoint {
         public let platform: String
         /// The current version of the APNs VoIP channel.
         public let version: Int32?
-        
+
         public init(applicationId: String? = nil, creationDate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasTokenKey: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int32? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
@@ -683,7 +683,7 @@ extension Pinpoint {
         public let tokenKey: String?
         /// The key identifier that's assigned to your APNs signing key, if you want Amazon Pinpoint to communicate with the APNs sandbox environment by using APNs tokens.
         public let tokenKeyId: String?
-        
+
         public init(bundleId: String? = nil, certificate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, privateKey: String? = nil, teamId: String? = nil, tokenKey: String? = nil, tokenKeyId: String? = nil) {
             self.bundleId = bundleId
             self.certificate = certificate
@@ -747,7 +747,7 @@ extension Pinpoint {
         public let platform: String
         /// The current version of the APNs VoIP sandbox channel.
         public let version: Int32?
-        
+
         public init(applicationId: String? = nil, creationDate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasTokenKey: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int32? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
@@ -796,7 +796,7 @@ extension Pinpoint {
         public let item: [ActivityResponse]
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
-        
+
         public init(item: [ActivityResponse], nextToken: String? = nil) {
             self.item = item
             self.nextToken = nextToken
@@ -851,7 +851,7 @@ extension Pinpoint {
         public let totalEndpointCount: Int32?
         /// The unique identifier for the campaign treatment that the activity applies to. A treatment is a variation of a campaign that's used for A/B testing of a campaign.
         public let treatmentId: String?
-        
+
         public init(applicationId: String, campaignId: String, end: String? = nil, id: String, result: String? = nil, scheduledStart: String? = nil, start: String? = nil, state: String? = nil, successfulEndpointCount: Int32? = nil, timezonesCompletedCount: Int32? = nil, timezonesTotalCount: Int32? = nil, totalEndpointCount: Int32? = nil, treatmentId: String? = nil) {
             self.applicationId = applicationId
             self.campaignId = campaignId
@@ -907,7 +907,7 @@ extension Pinpoint {
         public let substitutions: [String: [String]]?
         /// The message title to use instead of the default message title. This value overrides the default message title.
         public let titleOverride: String?
-        
+
         public init(bodyOverride: String? = nil, channelType: ChannelType? = nil, context: [String: String]? = nil, rawContent: String? = nil, substitutions: [String: [String]]? = nil, titleOverride: String? = nil) {
             self.bodyOverride = bodyOverride
             self.channelType = channelType
@@ -943,7 +943,7 @@ extension Pinpoint {
         public let name: String
         /// A string-to-string map of key-value pairs that identifies the tags that are associated with the application. Each tag consists of a required tag key and an associated tag value.
         public let tags: [String: String]?
-        
+
         public init(arn: String, id: String, name: String, tags: [String: String]? = nil) {
             self.arn = arn
             self.id = id
@@ -978,7 +978,7 @@ extension Pinpoint {
         public let limits: CampaignLimits?
         /// The default quiet time for campaigns in the application. Quiet time is a specific time range when campaigns don't send messages to endpoints, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint is set to a valid value. The current time in the endpoint's time zone is later than or equal to the time specified by the QuietTime.Start property for the application (or a campaign that has custom quiet time settings). The current time in the endpoint's time zone is earlier than or equal to the time specified by the QuietTime.End property for the application (or a campaign that has custom quiet time settings). If any of the preceding conditions isn't met, the endpoint will receive messages from a campaign, even if quiet time is enabled.
         public let quietTime: QuietTime?
-        
+
         public init(applicationId: String, campaignHook: CampaignHook? = nil, lastModifiedDate: String? = nil, limits: CampaignLimits? = nil, quietTime: QuietTime? = nil) {
             self.applicationId = applicationId
             self.campaignHook = campaignHook
@@ -1006,7 +1006,7 @@ extension Pinpoint {
         public let item: [ApplicationResponse]?
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
-        
+
         public init(item: [ApplicationResponse]? = nil, nextToken: String? = nil) {
             self.item = item
             self.nextToken = nextToken
@@ -1028,7 +1028,7 @@ extension Pinpoint {
         public let attributeType: AttributeType?
         /// The criteria values to use for the segment dimension. Depending on the value of the AttributeType property, endpoints are included or excluded from the segment if their attribute values match the criteria values.
         public let values: [String]
-        
+
         public init(attributeType: AttributeType? = nil, values: [String]) {
             self.attributeType = attributeType
             self.values = values
@@ -1059,7 +1059,7 @@ extension Pinpoint {
         public let attributes: [String]?
         /// The type of attribute or attributes that were removed from the endpoints. Valid values are: endpoint-custom-attributes - Custom attributes that describe endpoints endpoint-custom-metrics - Custom metrics that your app reports to Amazon Pinpoint for endpoints endpoint-user-attributes - Custom attributes that describe users
         public let attributeType: String
-        
+
         public init(applicationId: String, attributes: [String]? = nil, attributeType: String) {
             self.applicationId = applicationId
             self.attributes = attributes
@@ -1086,7 +1086,7 @@ extension Pinpoint {
         public let enabled: Bool?
         /// The secret key that you received from the Baidu Cloud Push service to communicate with the service.
         public let secretKey: String
-        
+
         public init(apiKey: String, enabled: Bool? = nil, secretKey: String) {
             self.apiKey = apiKey
             self.enabled = enabled
@@ -1137,7 +1137,7 @@ extension Pinpoint {
         public let platform: String
         /// The current version of the Baidu channel.
         public let version: Int32?
-        
+
         public init(applicationId: String? = nil, creationDate: String? = nil, credential: String, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int32? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
@@ -1213,7 +1213,7 @@ extension Pinpoint {
         public let title: String?
         /// The URL to open in the recipient's default mobile browser, if a recipient taps the push notification and the value of the Action property is URL.
         public let url: String?
-        
+
         public init(action: Action? = nil, body: String? = nil, data: [String: String]? = nil, iconReference: String? = nil, imageIconUrl: String? = nil, imageUrl: String? = nil, rawContent: String? = nil, silentPush: Bool? = nil, smallImageIconUrl: String? = nil, sound: String? = nil, substitutions: [String: [String]]? = nil, timeToLive: Int32? = nil, title: String? = nil, url: String? = nil) {
             self.action = action
             self.body = body
@@ -1265,7 +1265,7 @@ extension Pinpoint {
         public let htmlBody: String?
         /// The subject line, or title, of the email.
         public let title: String
-        
+
         public init(body: String? = nil, fromAddress: String? = nil, htmlBody: String? = nil, title: String) {
             self.body = body
             self.fromAddress = fromAddress
@@ -1291,7 +1291,7 @@ extension Pinpoint {
         public let dimensions: EventDimensions
         /// The type of event that causes the campaign to be sent. Valid values are: SYSTEM, sends the campaign when a system event occurs; and, ENDPOINT, sends the campaign when an endpoint event (Events resource) occurs.
         public let filterType: FilterType
-        
+
         public init(dimensions: EventDimensions, filterType: FilterType) {
             self.dimensions = dimensions
             self.filterType = filterType
@@ -1316,7 +1316,7 @@ extension Pinpoint {
         public let mode: Mode?
         ///  The web URL that Amazon Pinpoint calls to invoke the AWS Lambda function over HTTPS.
         public let webUrl: String?
-        
+
         public init(lambdaFunctionName: String? = nil, mode: Mode? = nil, webUrl: String? = nil) {
             self.lambdaFunctionName = lambdaFunctionName
             self.mode = mode
@@ -1346,7 +1346,7 @@ extension Pinpoint {
         public let messagesPerSecond: Int32?
         /// The maximum number of messages that a campaign can send to a single endpoint during the course of the campaign. The maximum value is 100.
         public let total: Int32?
-        
+
         public init(daily: Int32? = nil, maximumDuration: Int32? = nil, messagesPerSecond: Int32? = nil, total: Int32? = nil) {
             self.daily = daily
             self.maximumDuration = maximumDuration
@@ -1432,7 +1432,7 @@ extension Pinpoint {
         public let treatmentName: String?
         /// The version number of the campaign.
         public let version: Int32?
-        
+
         public init(additionalTreatments: [TreatmentResource]? = nil, applicationId: String, arn: String, creationDate: String, defaultState: CampaignState? = nil, description: String? = nil, holdoutPercent: Int32? = nil, hook: CampaignHook? = nil, id: String, isPaused: Bool? = nil, lastModifiedDate: String, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, schedule: Schedule? = nil, segmentId: String, segmentVersion: Int32, state: CampaignState? = nil, tags: [String: String]? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil, version: Int32? = nil) {
             self.additionalTreatments = additionalTreatments
             self.applicationId = applicationId
@@ -1497,7 +1497,7 @@ extension Pinpoint {
         public let messageType: MessageType?
         /// The sender ID to display on recipients' devices when they receive the SMS message.
         public let senderId: String?
-        
+
         public init(body: String? = nil, messageType: MessageType? = nil, senderId: String? = nil) {
             self.body = body
             self.messageType = messageType
@@ -1518,7 +1518,7 @@ extension Pinpoint {
 
         /// The status of the campaign, or the status of a treatment that belongs to an A/B test campaign. If a campaign uses A/B testing, the campaign has a status of COMPLETED only when all campaign treatments have a status of COMPLETED.
         public let campaignStatus: CampaignStatus?
-        
+
         public init(campaignStatus: CampaignStatus? = nil) {
             self.campaignStatus = campaignStatus
         }
@@ -1548,7 +1548,7 @@ extension Pinpoint {
         public let item: [CampaignResponse]
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
-        
+
         public init(item: [CampaignResponse], nextToken: String? = nil) {
             self.item = item
             self.nextToken = nextToken
@@ -1591,7 +1591,7 @@ extension Pinpoint {
         public let lastModifiedDate: String?
         /// The current version of the channel.
         public let version: Int32?
-        
+
         public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, version: Int32? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
@@ -1639,7 +1639,7 @@ extension Pinpoint {
 
         /// A map that contains a multipart response for each channel. For each item in this object, the ChannelType is the key and the Channel is the value.
         public let channels: [String: ChannelResponse]
-        
+
         public init(channels: [String: ChannelResponse]) {
             self.channels = channels
         }
@@ -1657,7 +1657,7 @@ extension Pinpoint {
         ]
 
         public let createApplicationRequest: CreateApplicationRequest
-        
+
         public init(createApplicationRequest: CreateApplicationRequest) {
             self.createApplicationRequest = createApplicationRequest
         }
@@ -1675,7 +1675,7 @@ extension Pinpoint {
         ]
 
         public let applicationResponse: ApplicationResponse
-        
+
         public init(applicationResponse: ApplicationResponse) {
             self.applicationResponse = applicationResponse
         }
@@ -1695,7 +1695,7 @@ extension Pinpoint {
         public let name: String
         /// A string-to-string map of key-value pairs that defines the tags to associate with the application. Each tag consists of a required tag key and an associated tag value.
         public let tags: [String: String]?
-        
+
         public init(name: String, tags: [String: String]? = nil) {
             self.name = name
             self.tags = tags
@@ -1717,7 +1717,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let writeCampaignRequest: WriteCampaignRequest
-        
+
         public init(applicationId: String, writeCampaignRequest: WriteCampaignRequest) {
             self.applicationId = applicationId
             self.writeCampaignRequest = writeCampaignRequest
@@ -1737,7 +1737,7 @@ extension Pinpoint {
         ]
 
         public let campaignResponse: CampaignResponse
-        
+
         public init(campaignResponse: CampaignResponse) {
             self.campaignResponse = campaignResponse
         }
@@ -1757,7 +1757,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let exportJobRequest: ExportJobRequest
-        
+
         public init(applicationId: String, exportJobRequest: ExportJobRequest) {
             self.applicationId = applicationId
             self.exportJobRequest = exportJobRequest
@@ -1777,7 +1777,7 @@ extension Pinpoint {
         ]
 
         public let exportJobResponse: ExportJobResponse
-        
+
         public init(exportJobResponse: ExportJobResponse) {
             self.exportJobResponse = exportJobResponse
         }
@@ -1797,7 +1797,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let importJobRequest: ImportJobRequest
-        
+
         public init(applicationId: String, importJobRequest: ImportJobRequest) {
             self.applicationId = applicationId
             self.importJobRequest = importJobRequest
@@ -1817,7 +1817,7 @@ extension Pinpoint {
         ]
 
         public let importJobResponse: ImportJobResponse
-        
+
         public init(importJobResponse: ImportJobResponse) {
             self.importJobResponse = importJobResponse
         }
@@ -1837,7 +1837,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let writeSegmentRequest: WriteSegmentRequest
-        
+
         public init(applicationId: String, writeSegmentRequest: WriteSegmentRequest) {
             self.applicationId = applicationId
             self.writeSegmentRequest = writeSegmentRequest
@@ -1857,7 +1857,7 @@ extension Pinpoint {
         ]
 
         public let segmentResponse: SegmentResponse
-        
+
         public init(segmentResponse: SegmentResponse) {
             self.segmentResponse = segmentResponse
         }
@@ -1877,7 +1877,7 @@ extension Pinpoint {
         public let body: String?
         /// The default message variables to use in the push notification, email, or SMS message. You can override these default variables with individual address variables.
         public let substitutions: [String: [String]]?
-        
+
         public init(body: String? = nil, substitutions: [String: [String]]? = nil) {
             self.body = body
             self.substitutions = substitutions
@@ -1914,7 +1914,7 @@ extension Pinpoint {
         public let title: String?
         /// The default URL to open in a recipient's default mobile browser, if a recipient taps the push notification and the value of the Action property is URL.
         public let url: String?
-        
+
         public init(action: Action? = nil, body: String? = nil, data: [String: String]? = nil, silentPush: Bool? = nil, substitutions: [String: [String]]? = nil, title: String? = nil, url: String? = nil) {
             self.action = action
             self.body = body
@@ -1942,7 +1942,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -1960,7 +1960,7 @@ extension Pinpoint {
         ]
 
         public let aDMChannelResponse: ADMChannelResponse
-        
+
         public init(aDMChannelResponse: ADMChannelResponse) {
             self.aDMChannelResponse = aDMChannelResponse
         }
@@ -1976,7 +1976,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -1994,7 +1994,7 @@ extension Pinpoint {
         ]
 
         public let aPNSChannelResponse: APNSChannelResponse
-        
+
         public init(aPNSChannelResponse: APNSChannelResponse) {
             self.aPNSChannelResponse = aPNSChannelResponse
         }
@@ -2010,7 +2010,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -2028,7 +2028,7 @@ extension Pinpoint {
         ]
 
         public let aPNSSandboxChannelResponse: APNSSandboxChannelResponse
-        
+
         public init(aPNSSandboxChannelResponse: APNSSandboxChannelResponse) {
             self.aPNSSandboxChannelResponse = aPNSSandboxChannelResponse
         }
@@ -2044,7 +2044,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -2062,7 +2062,7 @@ extension Pinpoint {
         ]
 
         public let aPNSVoipChannelResponse: APNSVoipChannelResponse
-        
+
         public init(aPNSVoipChannelResponse: APNSVoipChannelResponse) {
             self.aPNSVoipChannelResponse = aPNSVoipChannelResponse
         }
@@ -2078,7 +2078,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -2096,7 +2096,7 @@ extension Pinpoint {
         ]
 
         public let aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
-        
+
         public init(aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse) {
             self.aPNSVoipSandboxChannelResponse = aPNSVoipSandboxChannelResponse
         }
@@ -2112,7 +2112,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -2130,7 +2130,7 @@ extension Pinpoint {
         ]
 
         public let applicationResponse: ApplicationResponse
-        
+
         public init(applicationResponse: ApplicationResponse) {
             self.applicationResponse = applicationResponse
         }
@@ -2146,7 +2146,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -2164,7 +2164,7 @@ extension Pinpoint {
         ]
 
         public let baiduChannelResponse: BaiduChannelResponse
-        
+
         public init(baiduChannelResponse: BaiduChannelResponse) {
             self.baiduChannelResponse = baiduChannelResponse
         }
@@ -2182,7 +2182,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let campaignId: String
-        
+
         public init(applicationId: String, campaignId: String) {
             self.applicationId = applicationId
             self.campaignId = campaignId
@@ -2202,7 +2202,7 @@ extension Pinpoint {
         ]
 
         public let campaignResponse: CampaignResponse
-        
+
         public init(campaignResponse: CampaignResponse) {
             self.campaignResponse = campaignResponse
         }
@@ -2218,7 +2218,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -2236,7 +2236,7 @@ extension Pinpoint {
         ]
 
         public let emailChannelResponse: EmailChannelResponse
-        
+
         public init(emailChannelResponse: EmailChannelResponse) {
             self.emailChannelResponse = emailChannelResponse
         }
@@ -2254,7 +2254,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let endpointId: String
-        
+
         public init(applicationId: String, endpointId: String) {
             self.applicationId = applicationId
             self.endpointId = endpointId
@@ -2274,7 +2274,7 @@ extension Pinpoint {
         ]
 
         public let endpointResponse: EndpointResponse
-        
+
         public init(endpointResponse: EndpointResponse) {
             self.endpointResponse = endpointResponse
         }
@@ -2290,7 +2290,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -2308,7 +2308,7 @@ extension Pinpoint {
         ]
 
         public let eventStream: EventStream
-        
+
         public init(eventStream: EventStream) {
             self.eventStream = eventStream
         }
@@ -2324,7 +2324,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -2342,7 +2342,7 @@ extension Pinpoint {
         ]
 
         public let gCMChannelResponse: GCMChannelResponse
-        
+
         public init(gCMChannelResponse: GCMChannelResponse) {
             self.gCMChannelResponse = gCMChannelResponse
         }
@@ -2360,7 +2360,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let segmentId: String
-        
+
         public init(applicationId: String, segmentId: String) {
             self.applicationId = applicationId
             self.segmentId = segmentId
@@ -2380,7 +2380,7 @@ extension Pinpoint {
         ]
 
         public let segmentResponse: SegmentResponse
-        
+
         public init(segmentResponse: SegmentResponse) {
             self.segmentResponse = segmentResponse
         }
@@ -2396,7 +2396,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -2414,7 +2414,7 @@ extension Pinpoint {
         ]
 
         public let sMSChannelResponse: SMSChannelResponse
-        
+
         public init(sMSChannelResponse: SMSChannelResponse) {
             self.sMSChannelResponse = sMSChannelResponse
         }
@@ -2432,7 +2432,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let userId: String
-        
+
         public init(applicationId: String, userId: String) {
             self.applicationId = applicationId
             self.userId = userId
@@ -2452,7 +2452,7 @@ extension Pinpoint {
         ]
 
         public let endpointsResponse: EndpointsResponse
-        
+
         public init(endpointsResponse: EndpointsResponse) {
             self.endpointsResponse = endpointsResponse
         }
@@ -2468,7 +2468,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -2486,7 +2486,7 @@ extension Pinpoint {
         ]
 
         public let voiceChannelResponse: VoiceChannelResponse
-        
+
         public init(voiceChannelResponse: VoiceChannelResponse) {
             self.voiceChannelResponse = voiceChannelResponse
         }
@@ -2544,7 +2544,7 @@ extension Pinpoint {
         public let sMSMessage: SMSMessage?
         /// The default message for the voice channel. This message overrides the default message (DefaultMessage).
         public let voiceMessage: VoiceMessage?
-        
+
         public init(aDMMessage: ADMMessage? = nil, aPNSMessage: APNSMessage? = nil, baiduMessage: BaiduMessage? = nil, defaultMessage: DefaultMessage? = nil, defaultPushNotificationMessage: DefaultPushNotificationMessage? = nil, emailMessage: EmailMessage? = nil, gCMMessage: GCMMessage? = nil, sMSMessage: SMSMessage? = nil, voiceMessage: VoiceMessage? = nil) {
             self.aDMMessage = aDMMessage
             self.aPNSMessage = aPNSMessage
@@ -2597,7 +2597,7 @@ extension Pinpoint {
         public let identity: String
         ///  The ARN of the AWS Identity and Access Management (IAM) role that you want Amazon Pinpoint to use when it submits email-related event data for the channel.
         public let roleArn: String?
-        
+
         public init(configurationSet: String? = nil, enabled: Bool? = nil, fromAddress: String, identity: String, roleArn: String? = nil) {
             self.configurationSet = configurationSet
             self.enabled = enabled
@@ -2664,7 +2664,7 @@ extension Pinpoint {
         public let roleArn: String?
         /// The current version of the email channel.
         public let version: Int32?
-        
+
         public init(applicationId: String? = nil, configurationSet: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, fromAddress: String? = nil, hasCredential: Bool? = nil, id: String? = nil, identity: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, messagesPerSecond: Int32? = nil, platform: String, roleArn: String? = nil, version: Int32? = nil) {
             self.applicationId = applicationId
             self.configurationSet = configurationSet
@@ -2727,7 +2727,7 @@ extension Pinpoint {
         public let simpleEmail: SimpleEmail?
         /// The default message variables to use in the email message. You can override the default variables with individual address variables.
         public let substitutions: [String: [String]]?
-        
+
         public init(body: String? = nil, feedbackForwardingAddress: String? = nil, fromAddress: String? = nil, rawEmail: RawEmail? = nil, replyToAddresses: [String]? = nil, simpleEmail: SimpleEmail? = nil, substitutions: [String: [String]]? = nil) {
             self.body = body
             self.feedbackForwardingAddress = feedbackForwardingAddress
@@ -2789,7 +2789,7 @@ extension Pinpoint {
         public let requestId: String?
         /// One or more custom user attributes that your app reports to Amazon Pinpoint for the user who's associated with the endpoint.
         public let user: EndpointUser?
-        
+
         public init(address: String? = nil, attributes: [String: [String]]? = nil, channelType: ChannelType? = nil, demographic: EndpointDemographic? = nil, effectiveDate: String? = nil, endpointStatus: String? = nil, id: String? = nil, location: EndpointLocation? = nil, metrics: [String: Double]? = nil, optOut: String? = nil, requestId: String? = nil, user: EndpointUser? = nil) {
             self.address = address
             self.attributes = attributes
@@ -2828,7 +2828,7 @@ extension Pinpoint {
 
         /// An array that defines the endpoints to create or update and, for each endpoint, the property values to set or change. An array can contain a maximum of 100 items.
         public let item: [EndpointBatchItem]
-        
+
         public init(item: [EndpointBatchItem]) {
             self.item = item
         }
@@ -2866,7 +2866,7 @@ extension Pinpoint {
         public let platformVersion: String?
         /// The time zone of the endpoint, specified as a tz database name value, such as America/Los_Angeles.
         public let timezone: String?
-        
+
         public init(appVersion: String? = nil, locale: String? = nil, make: String? = nil, model: String? = nil, modelVersion: String? = nil, platform: String? = nil, platformVersion: String? = nil, timezone: String? = nil) {
             self.appVersion = appVersion
             self.locale = locale
@@ -2900,7 +2900,7 @@ extension Pinpoint {
         public let message: String?
         /// The status code that's returned in the response as a result of processing the endpoint data.
         public let statusCode: Int32?
-        
+
         public init(message: String? = nil, statusCode: Int32? = nil) {
             self.message = message
             self.statusCode = statusCode
@@ -2934,7 +2934,7 @@ extension Pinpoint {
         public let postalCode: String?
         /// The name of the region where the endpoint is located. For locations in the United States, this value is the name of a state.
         public let region: String?
-        
+
         public init(city: String? = nil, country: String? = nil, latitude: Double? = nil, longitude: Double? = nil, postalCode: String? = nil, region: String? = nil) {
             self.city = city
             self.country = country
@@ -2976,7 +2976,7 @@ extension Pinpoint {
         public let statusMessage: String?
         /// For push notifications that are sent through the GCM channel, specifies whether the token was updated as part of delivering the message.
         public let updatedToken: String?
-        
+
         public init(address: String? = nil, deliveryStatus: DeliveryStatus, messageId: String? = nil, statusCode: Int32, statusMessage: String? = nil, updatedToken: String? = nil) {
             self.address = address
             self.deliveryStatus = deliveryStatus
@@ -3033,7 +3033,7 @@ extension Pinpoint {
         public let requestId: String?
         /// One or more custom user attributes that describe the user who's associated with the endpoint.
         public let user: EndpointUser?
-        
+
         public init(address: String? = nil, attributes: [String: [String]]? = nil, channelType: ChannelType? = nil, demographic: EndpointDemographic? = nil, effectiveDate: String? = nil, endpointStatus: String? = nil, location: EndpointLocation? = nil, metrics: [String: Double]? = nil, optOut: String? = nil, requestId: String? = nil, user: EndpointUser? = nil) {
             self.address = address
             self.attributes = attributes
@@ -3112,7 +3112,7 @@ extension Pinpoint {
         public let requestId: String?
         /// One or more custom user attributes that your app reports to Amazon Pinpoint for the user who's associated with the endpoint.
         public let user: EndpointUser?
-        
+
         public init(address: String? = nil, applicationId: String? = nil, attributes: [String: [String]]? = nil, channelType: ChannelType? = nil, cohortId: String? = nil, creationDate: String? = nil, demographic: EndpointDemographic? = nil, effectiveDate: String? = nil, endpointStatus: String? = nil, id: String? = nil, location: EndpointLocation? = nil, metrics: [String: Double]? = nil, optOut: String? = nil, requestId: String? = nil, user: EndpointUser? = nil) {
             self.address = address
             self.applicationId = applicationId
@@ -3169,7 +3169,7 @@ extension Pinpoint {
         public let substitutions: [String: [String]]?
         /// The title or subject line of the message. If specified, this value overrides the default message title or subject line.
         public let titleOverride: String?
-        
+
         public init(bodyOverride: String? = nil, context: [String: String]? = nil, rawContent: String? = nil, substitutions: [String: [String]]? = nil, titleOverride: String? = nil) {
             self.bodyOverride = bodyOverride
             self.context = context
@@ -3197,7 +3197,7 @@ extension Pinpoint {
         public let userAttributes: [String: [String]]?
         /// The unique identifier for the user.
         public let userId: String?
-        
+
         public init(userAttributes: [String: [String]]? = nil, userId: String? = nil) {
             self.userAttributes = userAttributes
             self.userId = userId
@@ -3216,7 +3216,7 @@ extension Pinpoint {
 
         /// An array of responses, one for each endpoint that's associated with the user ID.
         public let item: [EndpointResponse]
-        
+
         public init(item: [EndpointResponse]) {
             self.item = item
         }
@@ -3260,7 +3260,7 @@ extension Pinpoint {
         public let session: Session?
         /// The date and time, in ISO 8601 format, when the event occurred.
         public let timestamp: String
-        
+
         public init(appPackageName: String? = nil, appTitle: String? = nil, appVersionCode: String? = nil, attributes: [String: String]? = nil, clientSdkVersion: String? = nil, eventType: String, metrics: [String: Double]? = nil, sdkName: String? = nil, session: Session? = nil, timestamp: String) {
             self.appPackageName = appPackageName
             self.appTitle = appTitle
@@ -3301,7 +3301,7 @@ extension Pinpoint {
         public let eventType: SetDimension?
         /// One or more custom metrics that your app reports to Amazon Pinpoint. You can use these metrics as selection criteria when you create an event filter.
         public let metrics: [String: MetricDimension]?
-        
+
         public init(attributes: [String: AttributeDimension]? = nil, eventType: SetDimension? = nil, metrics: [String: MetricDimension]? = nil) {
             self.attributes = attributes
             self.eventType = eventType
@@ -3325,7 +3325,7 @@ extension Pinpoint {
         public let message: String?
         /// The status code that's returned in the response as a result of processing the event. Possible values are: 202, for events that were accepted; and, 400, for events that weren't valid.
         public let statusCode: Int32?
-        
+
         public init(message: String? = nil, statusCode: Int32? = nil) {
             self.message = message
             self.statusCode = statusCode
@@ -3361,7 +3361,7 @@ extension Pinpoint {
         public let lastUpdatedBy: String?
         /// The AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to publish event data to the stream in your AWS account.
         public let roleArn: String
-        
+
         public init(applicationId: String, destinationStreamArn: String, externalId: String? = nil, lastModifiedDate: String? = nil, lastUpdatedBy: String? = nil, roleArn: String) {
             self.applicationId = applicationId
             self.destinationStreamArn = destinationStreamArn
@@ -3391,7 +3391,7 @@ extension Pinpoint {
         public let endpoint: PublicEndpoint
         /// A set of properties that are associated with the event.
         public let events: [String: Event]
-        
+
         public init(endpoint: PublicEndpoint, events: [String: Event]) {
             self.endpoint = endpoint
             self.events = events
@@ -3410,7 +3410,7 @@ extension Pinpoint {
 
         /// The batch of events to process. For each item in a batch, the endpoint ID acts as a key that has an EventsBatch object as its value.
         public let batchItem: [String: EventsBatch]
-        
+
         public init(batchItem: [String: EventsBatch]) {
             self.batchItem = batchItem
         }
@@ -3427,7 +3427,7 @@ extension Pinpoint {
 
         /// A map that contains a multipart response for each endpoint. For each item in this object, the endpoint ID is the key and the item response is the value. If no item response exists, the value can also be one of the following: 202, the request was processed successfully; or 400, the payload wasn't valid or required fields were missing.
         public let results: [String: ItemResponse]?
-        
+
         public init(results: [String: ItemResponse]? = nil) {
             self.results = results
         }
@@ -3453,7 +3453,7 @@ extension Pinpoint {
         public let segmentId: String?
         /// The version of the segment to export endpoint definitions from, if specified.
         public let segmentVersion: Int32?
-        
+
         public init(roleArn: String, s3UrlPrefix: String, segmentId: String? = nil, segmentVersion: Int32? = nil) {
             self.roleArn = roleArn
             self.s3UrlPrefix = s3UrlPrefix
@@ -3485,7 +3485,7 @@ extension Pinpoint {
         public let segmentId: String?
         /// The version of the segment that the endpoint definitions were exported from.
         public let segmentVersion: Int32?
-        
+
         public init(roleArn: String, s3UrlPrefix: String, segmentId: String? = nil, segmentVersion: Int32? = nil) {
             self.roleArn = roleArn
             self.s3UrlPrefix = s3UrlPrefix
@@ -3544,7 +3544,7 @@ extension Pinpoint {
         public let totalProcessed: Int32?
         /// The job type. This value is EXPORT for export jobs.
         public let `type`: String
-        
+
         public init(applicationId: String, completedPieces: Int32? = nil, completionDate: String? = nil, creationDate: String, definition: ExportJobResource, failedPieces: Int32? = nil, failures: [String]? = nil, id: String, jobStatus: JobStatus, totalFailures: Int32? = nil, totalPieces: Int32? = nil, totalProcessed: Int32? = nil, type: String) {
             self.applicationId = applicationId
             self.completedPieces = completedPieces
@@ -3588,7 +3588,7 @@ extension Pinpoint {
         public let item: [ExportJobResponse]
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
-        
+
         public init(item: [ExportJobResponse], nextToken: String? = nil) {
             self.item = item
             self.nextToken = nextToken
@@ -3632,7 +3632,7 @@ extension Pinpoint {
         public let apiKey: String
         /// Specifies whether to enable the GCM channel for the application.
         public let enabled: Bool?
-        
+
         public init(apiKey: String, enabled: Bool? = nil) {
             self.apiKey = apiKey
             self.enabled = enabled
@@ -3681,7 +3681,7 @@ extension Pinpoint {
         public let platform: String
         /// The current version of the GCM channel.
         public let version: Int32?
-        
+
         public init(applicationId: String? = nil, creationDate: String? = nil, credential: String, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int32? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
@@ -3766,7 +3766,7 @@ extension Pinpoint {
         public let title: String?
         /// The URL to open in the recipient's default mobile browser, if a recipient taps the push notification and the value of the Action property is URL.
         public let url: String?
-        
+
         public init(action: Action? = nil, body: String? = nil, collapseKey: String? = nil, data: [String: String]? = nil, iconReference: String? = nil, imageIconUrl: String? = nil, imageUrl: String? = nil, priority: String? = nil, rawContent: String? = nil, restrictedPackageName: String? = nil, silentPush: Bool? = nil, smallImageIconUrl: String? = nil, sound: String? = nil, substitutions: [String: [String]]? = nil, timeToLive: Int32? = nil, title: String? = nil, url: String? = nil) {
             self.action = action
             self.body = body
@@ -3818,7 +3818,7 @@ extension Pinpoint {
         public let latitude: Double
         /// The longitude coordinate of the location.
         public let longitude: Double
-        
+
         public init(latitude: Double, longitude: Double) {
             self.latitude = latitude
             self.longitude = longitude
@@ -3840,7 +3840,7 @@ extension Pinpoint {
         public let coordinates: GPSCoordinates
         /// The range, in kilometers, from the GPS coordinates.
         public let rangeInKilometers: Double?
-        
+
         public init(coordinates: GPSCoordinates, rangeInKilometers: Double? = nil) {
             self.coordinates = coordinates
             self.rangeInKilometers = rangeInKilometers
@@ -3858,7 +3858,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -3876,7 +3876,7 @@ extension Pinpoint {
         ]
 
         public let aDMChannelResponse: ADMChannelResponse
-        
+
         public init(aDMChannelResponse: ADMChannelResponse) {
             self.aDMChannelResponse = aDMChannelResponse
         }
@@ -3892,7 +3892,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -3910,7 +3910,7 @@ extension Pinpoint {
         ]
 
         public let aPNSChannelResponse: APNSChannelResponse
-        
+
         public init(aPNSChannelResponse: APNSChannelResponse) {
             self.aPNSChannelResponse = aPNSChannelResponse
         }
@@ -3926,7 +3926,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -3944,7 +3944,7 @@ extension Pinpoint {
         ]
 
         public let aPNSSandboxChannelResponse: APNSSandboxChannelResponse
-        
+
         public init(aPNSSandboxChannelResponse: APNSSandboxChannelResponse) {
             self.aPNSSandboxChannelResponse = aPNSSandboxChannelResponse
         }
@@ -3960,7 +3960,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -3978,7 +3978,7 @@ extension Pinpoint {
         ]
 
         public let aPNSVoipChannelResponse: APNSVoipChannelResponse
-        
+
         public init(aPNSVoipChannelResponse: APNSVoipChannelResponse) {
             self.aPNSVoipChannelResponse = aPNSVoipChannelResponse
         }
@@ -3994,7 +3994,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -4012,7 +4012,7 @@ extension Pinpoint {
         ]
 
         public let aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
-        
+
         public init(aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse) {
             self.aPNSVoipSandboxChannelResponse = aPNSVoipSandboxChannelResponse
         }
@@ -4028,7 +4028,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -4046,7 +4046,7 @@ extension Pinpoint {
         ]
 
         public let applicationResponse: ApplicationResponse
-        
+
         public init(applicationResponse: ApplicationResponse) {
             self.applicationResponse = applicationResponse
         }
@@ -4062,7 +4062,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -4080,7 +4080,7 @@ extension Pinpoint {
         ]
 
         public let applicationSettingsResource: ApplicationSettingsResource
-        
+
         public init(applicationSettingsResource: ApplicationSettingsResource) {
             self.applicationSettingsResource = applicationSettingsResource
         }
@@ -4098,7 +4098,7 @@ extension Pinpoint {
 
         public let pageSize: String?
         public let token: String?
-        
+
         public init(pageSize: String? = nil, token: String? = nil) {
             self.pageSize = pageSize
             self.token = token
@@ -4118,7 +4118,7 @@ extension Pinpoint {
         ]
 
         public let applicationsResponse: ApplicationsResponse
-        
+
         public init(applicationsResponse: ApplicationsResponse) {
             self.applicationsResponse = applicationsResponse
         }
@@ -4134,7 +4134,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -4152,7 +4152,7 @@ extension Pinpoint {
         ]
 
         public let baiduChannelResponse: BaiduChannelResponse
-        
+
         public init(baiduChannelResponse: BaiduChannelResponse) {
             self.baiduChannelResponse = baiduChannelResponse
         }
@@ -4174,7 +4174,7 @@ extension Pinpoint {
         public let campaignId: String
         public let pageSize: String?
         public let token: String?
-        
+
         public init(applicationId: String, campaignId: String, pageSize: String? = nil, token: String? = nil) {
             self.applicationId = applicationId
             self.campaignId = campaignId
@@ -4198,7 +4198,7 @@ extension Pinpoint {
         ]
 
         public let activitiesResponse: ActivitiesResponse
-        
+
         public init(activitiesResponse: ActivitiesResponse) {
             self.activitiesResponse = activitiesResponse
         }
@@ -4216,7 +4216,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let campaignId: String
-        
+
         public init(applicationId: String, campaignId: String) {
             self.applicationId = applicationId
             self.campaignId = campaignId
@@ -4236,7 +4236,7 @@ extension Pinpoint {
         ]
 
         public let campaignResponse: CampaignResponse
-        
+
         public init(campaignResponse: CampaignResponse) {
             self.campaignResponse = campaignResponse
         }
@@ -4256,7 +4256,7 @@ extension Pinpoint {
         public let applicationId: String
         public let campaignId: String
         public let version: String
-        
+
         public init(applicationId: String, campaignId: String, version: String) {
             self.applicationId = applicationId
             self.campaignId = campaignId
@@ -4278,7 +4278,7 @@ extension Pinpoint {
         ]
 
         public let campaignResponse: CampaignResponse
-        
+
         public init(campaignResponse: CampaignResponse) {
             self.campaignResponse = campaignResponse
         }
@@ -4300,7 +4300,7 @@ extension Pinpoint {
         public let campaignId: String
         public let pageSize: String?
         public let token: String?
-        
+
         public init(applicationId: String, campaignId: String, pageSize: String? = nil, token: String? = nil) {
             self.applicationId = applicationId
             self.campaignId = campaignId
@@ -4324,7 +4324,7 @@ extension Pinpoint {
         ]
 
         public let campaignsResponse: CampaignsResponse
-        
+
         public init(campaignsResponse: CampaignsResponse) {
             self.campaignsResponse = campaignsResponse
         }
@@ -4344,7 +4344,7 @@ extension Pinpoint {
         public let applicationId: String
         public let pageSize: String?
         public let token: String?
-        
+
         public init(applicationId: String, pageSize: String? = nil, token: String? = nil) {
             self.applicationId = applicationId
             self.pageSize = pageSize
@@ -4366,7 +4366,7 @@ extension Pinpoint {
         ]
 
         public let campaignsResponse: CampaignsResponse
-        
+
         public init(campaignsResponse: CampaignsResponse) {
             self.campaignsResponse = campaignsResponse
         }
@@ -4382,7 +4382,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -4400,7 +4400,7 @@ extension Pinpoint {
         ]
 
         public let channelsResponse: ChannelsResponse
-        
+
         public init(channelsResponse: ChannelsResponse) {
             self.channelsResponse = channelsResponse
         }
@@ -4416,7 +4416,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -4434,7 +4434,7 @@ extension Pinpoint {
         ]
 
         public let emailChannelResponse: EmailChannelResponse
-        
+
         public init(emailChannelResponse: EmailChannelResponse) {
             self.emailChannelResponse = emailChannelResponse
         }
@@ -4452,7 +4452,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let endpointId: String
-        
+
         public init(applicationId: String, endpointId: String) {
             self.applicationId = applicationId
             self.endpointId = endpointId
@@ -4472,7 +4472,7 @@ extension Pinpoint {
         ]
 
         public let endpointResponse: EndpointResponse
-        
+
         public init(endpointResponse: EndpointResponse) {
             self.endpointResponse = endpointResponse
         }
@@ -4488,7 +4488,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -4506,7 +4506,7 @@ extension Pinpoint {
         ]
 
         public let eventStream: EventStream
-        
+
         public init(eventStream: EventStream) {
             self.eventStream = eventStream
         }
@@ -4524,7 +4524,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let jobId: String
-        
+
         public init(applicationId: String, jobId: String) {
             self.applicationId = applicationId
             self.jobId = jobId
@@ -4544,7 +4544,7 @@ extension Pinpoint {
         ]
 
         public let exportJobResponse: ExportJobResponse
-        
+
         public init(exportJobResponse: ExportJobResponse) {
             self.exportJobResponse = exportJobResponse
         }
@@ -4564,7 +4564,7 @@ extension Pinpoint {
         public let applicationId: String
         public let pageSize: String?
         public let token: String?
-        
+
         public init(applicationId: String, pageSize: String? = nil, token: String? = nil) {
             self.applicationId = applicationId
             self.pageSize = pageSize
@@ -4586,7 +4586,7 @@ extension Pinpoint {
         ]
 
         public let exportJobsResponse: ExportJobsResponse
-        
+
         public init(exportJobsResponse: ExportJobsResponse) {
             self.exportJobsResponse = exportJobsResponse
         }
@@ -4602,7 +4602,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -4620,7 +4620,7 @@ extension Pinpoint {
         ]
 
         public let gCMChannelResponse: GCMChannelResponse
-        
+
         public init(gCMChannelResponse: GCMChannelResponse) {
             self.gCMChannelResponse = gCMChannelResponse
         }
@@ -4638,7 +4638,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let jobId: String
-        
+
         public init(applicationId: String, jobId: String) {
             self.applicationId = applicationId
             self.jobId = jobId
@@ -4658,7 +4658,7 @@ extension Pinpoint {
         ]
 
         public let importJobResponse: ImportJobResponse
-        
+
         public init(importJobResponse: ImportJobResponse) {
             self.importJobResponse = importJobResponse
         }
@@ -4678,7 +4678,7 @@ extension Pinpoint {
         public let applicationId: String
         public let pageSize: String?
         public let token: String?
-        
+
         public init(applicationId: String, pageSize: String? = nil, token: String? = nil) {
             self.applicationId = applicationId
             self.pageSize = pageSize
@@ -4700,7 +4700,7 @@ extension Pinpoint {
         ]
 
         public let importJobsResponse: ImportJobsResponse
-        
+
         public init(importJobsResponse: ImportJobsResponse) {
             self.importJobsResponse = importJobsResponse
         }
@@ -4722,7 +4722,7 @@ extension Pinpoint {
         public let pageSize: String?
         public let segmentId: String
         public let token: String?
-        
+
         public init(applicationId: String, pageSize: String? = nil, segmentId: String, token: String? = nil) {
             self.applicationId = applicationId
             self.pageSize = pageSize
@@ -4746,7 +4746,7 @@ extension Pinpoint {
         ]
 
         public let exportJobsResponse: ExportJobsResponse
-        
+
         public init(exportJobsResponse: ExportJobsResponse) {
             self.exportJobsResponse = exportJobsResponse
         }
@@ -4768,7 +4768,7 @@ extension Pinpoint {
         public let pageSize: String?
         public let segmentId: String
         public let token: String?
-        
+
         public init(applicationId: String, pageSize: String? = nil, segmentId: String, token: String? = nil) {
             self.applicationId = applicationId
             self.pageSize = pageSize
@@ -4792,7 +4792,7 @@ extension Pinpoint {
         ]
 
         public let importJobsResponse: ImportJobsResponse
-        
+
         public init(importJobsResponse: ImportJobsResponse) {
             self.importJobsResponse = importJobsResponse
         }
@@ -4810,7 +4810,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let segmentId: String
-        
+
         public init(applicationId: String, segmentId: String) {
             self.applicationId = applicationId
             self.segmentId = segmentId
@@ -4830,7 +4830,7 @@ extension Pinpoint {
         ]
 
         public let segmentResponse: SegmentResponse
-        
+
         public init(segmentResponse: SegmentResponse) {
             self.segmentResponse = segmentResponse
         }
@@ -4850,7 +4850,7 @@ extension Pinpoint {
         public let applicationId: String
         public let segmentId: String
         public let version: String
-        
+
         public init(applicationId: String, segmentId: String, version: String) {
             self.applicationId = applicationId
             self.segmentId = segmentId
@@ -4872,7 +4872,7 @@ extension Pinpoint {
         ]
 
         public let segmentResponse: SegmentResponse
-        
+
         public init(segmentResponse: SegmentResponse) {
             self.segmentResponse = segmentResponse
         }
@@ -4894,7 +4894,7 @@ extension Pinpoint {
         public let pageSize: String?
         public let segmentId: String
         public let token: String?
-        
+
         public init(applicationId: String, pageSize: String? = nil, segmentId: String, token: String? = nil) {
             self.applicationId = applicationId
             self.pageSize = pageSize
@@ -4918,7 +4918,7 @@ extension Pinpoint {
         ]
 
         public let segmentsResponse: SegmentsResponse
-        
+
         public init(segmentsResponse: SegmentsResponse) {
             self.segmentsResponse = segmentsResponse
         }
@@ -4938,7 +4938,7 @@ extension Pinpoint {
         public let applicationId: String
         public let pageSize: String?
         public let token: String?
-        
+
         public init(applicationId: String, pageSize: String? = nil, token: String? = nil) {
             self.applicationId = applicationId
             self.pageSize = pageSize
@@ -4960,7 +4960,7 @@ extension Pinpoint {
         ]
 
         public let segmentsResponse: SegmentsResponse
-        
+
         public init(segmentsResponse: SegmentsResponse) {
             self.segmentsResponse = segmentsResponse
         }
@@ -4976,7 +4976,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -4994,7 +4994,7 @@ extension Pinpoint {
         ]
 
         public let sMSChannelResponse: SMSChannelResponse
-        
+
         public init(sMSChannelResponse: SMSChannelResponse) {
             self.sMSChannelResponse = sMSChannelResponse
         }
@@ -5012,7 +5012,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let userId: String
-        
+
         public init(applicationId: String, userId: String) {
             self.applicationId = applicationId
             self.userId = userId
@@ -5032,7 +5032,7 @@ extension Pinpoint {
         ]
 
         public let endpointsResponse: EndpointsResponse
-        
+
         public init(endpointsResponse: EndpointsResponse) {
             self.endpointsResponse = endpointsResponse
         }
@@ -5048,7 +5048,7 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        
+
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -5066,7 +5066,7 @@ extension Pinpoint {
         ]
 
         public let voiceChannelResponse: VoiceChannelResponse
-        
+
         public init(voiceChannelResponse: VoiceChannelResponse) {
             self.voiceChannelResponse = voiceChannelResponse
         }
@@ -5104,7 +5104,7 @@ extension Pinpoint {
         public let segmentId: String?
         /// The custom name for the segment that's created by the import job, if the value of the DefineSegment property is true.
         public let segmentName: String?
-        
+
         public init(defineSegment: Bool? = nil, externalId: String? = nil, format: Format, registerEndpoints: Bool? = nil, roleArn: String, s3Url: String, segmentId: String? = nil, segmentName: String? = nil) {
             self.defineSegment = defineSegment
             self.externalId = externalId
@@ -5156,7 +5156,7 @@ extension Pinpoint {
         public let segmentId: String?
         /// The custom name for the segment that's created by the import job, if the value of the DefineSegment property is true.
         public let segmentName: String?
-        
+
         public init(defineSegment: Bool? = nil, externalId: String? = nil, format: Format, registerEndpoints: Bool? = nil, roleArn: String, s3Url: String, segmentId: String? = nil, segmentName: String? = nil) {
             self.defineSegment = defineSegment
             self.externalId = externalId
@@ -5223,7 +5223,7 @@ extension Pinpoint {
         public let totalProcessed: Int32?
         /// The job type. This value is IMPORT for import jobs.
         public let `type`: String
-        
+
         public init(applicationId: String, completedPieces: Int32? = nil, completionDate: String? = nil, creationDate: String, definition: ImportJobResource, failedPieces: Int32? = nil, failures: [String]? = nil, id: String, jobStatus: JobStatus, totalFailures: Int32? = nil, totalPieces: Int32? = nil, totalProcessed: Int32? = nil, type: String) {
             self.applicationId = applicationId
             self.completedPieces = completedPieces
@@ -5267,7 +5267,7 @@ extension Pinpoint {
         public let item: [ImportJobResponse]
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
-        
+
         public init(item: [ImportJobResponse], nextToken: String? = nil) {
             self.item = item
             self.nextToken = nextToken
@@ -5296,7 +5296,7 @@ extension Pinpoint {
         public let endpointItemResponse: EndpointItemResponse?
         /// A multipart response object that contains a key and a value for each event in the request. In each object, the event ID is the key and an EventItemResponse object is the value.
         public let eventsItemResponse: [String: EventItemResponse]?
-        
+
         public init(endpointItemResponse: EndpointItemResponse? = nil, eventsItemResponse: [String: EventItemResponse]? = nil) {
             self.endpointItemResponse = endpointItemResponse
             self.eventsItemResponse = eventsItemResponse
@@ -5325,7 +5325,7 @@ extension Pinpoint {
         ]
 
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -5343,7 +5343,7 @@ extension Pinpoint {
         ]
 
         public let tagsModel: TagsModel
-        
+
         public init(tagsModel: TagsModel) {
             self.tagsModel = tagsModel
         }
@@ -5393,7 +5393,7 @@ extension Pinpoint {
         public let title: String?
         /// The URL to open in a recipient's default mobile browser, if a recipient taps the push notification and the value of the Action property is URL.
         public let url: String?
-        
+
         public init(action: Action? = nil, body: String? = nil, imageIconUrl: String? = nil, imageSmallIconUrl: String? = nil, imageUrl: String? = nil, jsonBody: String? = nil, mediaUrl: String? = nil, rawContent: String? = nil, silentPush: Bool? = nil, timeToLive: Int32? = nil, title: String? = nil, url: String? = nil) {
             self.action = action
             self.body = body
@@ -5435,7 +5435,7 @@ extension Pinpoint {
         public let message: String?
         /// The unique identifier for the request or response.
         public let requestID: String?
-        
+
         public init(message: String? = nil, requestID: String? = nil) {
             self.message = message
             self.requestID = requestID
@@ -5472,7 +5472,7 @@ extension Pinpoint {
         public let gCMMessage: Message?
         /// The message that the campaign sends through the SMS channel.
         public let sMSMessage: CampaignSmsMessage?
-        
+
         public init(aDMMessage: Message? = nil, aPNSMessage: Message? = nil, baiduMessage: Message? = nil, defaultMessage: Message? = nil, emailMessage: CampaignEmailMessage? = nil, gCMMessage: Message? = nil, sMSMessage: CampaignSmsMessage? = nil) {
             self.aDMMessage = aDMMessage
             self.aPNSMessage = aPNSMessage
@@ -5513,7 +5513,7 @@ extension Pinpoint {
         public let messageConfiguration: DirectMessageConfiguration
         /// The unique identifier for tracing the message. This identifier is visible to message recipients.
         public let traceId: String?
-        
+
         public init(addresses: [String: AddressConfiguration]? = nil, context: [String: String]? = nil, endpoints: [String: EndpointSendConfiguration]? = nil, messageConfiguration: DirectMessageConfiguration, traceId: String? = nil) {
             self.addresses = addresses
             self.context = context
@@ -5547,7 +5547,7 @@ extension Pinpoint {
         public let requestId: String?
         /// A map that contains a multipart response for each address (email address, phone number, or push notification token) that the message was sent to. In the map, the address is the key and the result is the value.
         public let result: [String: MessageResult]?
-        
+
         public init(applicationId: String, endpointResult: [String: EndpointMessageResult]? = nil, requestId: String? = nil, result: [String: MessageResult]? = nil) {
             self.applicationId = applicationId
             self.endpointResult = endpointResult
@@ -5582,7 +5582,7 @@ extension Pinpoint {
         public let statusMessage: String?
         /// For push notifications that are sent through the GCM channel, specifies whether the token was updated as part of delivering the message.
         public let updatedToken: String?
-        
+
         public init(deliveryStatus: DeliveryStatus, messageId: String? = nil, statusCode: Int32, statusMessage: String? = nil, updatedToken: String? = nil) {
             self.deliveryStatus = deliveryStatus
             self.messageId = messageId
@@ -5616,7 +5616,7 @@ extension Pinpoint {
         public let comparisonOperator: String
         /// The value to compare.
         public let value: Double
-        
+
         public init(comparisonOperator: String, value: Double) {
             self.comparisonOperator = comparisonOperator
             self.value = value
@@ -5644,7 +5644,7 @@ extension Pinpoint {
         public let isoCountryCode: String?
         /// The phone number to retrieve information about. The phone number that you provide should include a valid numeric country code. Otherwise, the operation might result in an error.
         public let phoneNumber: String?
-        
+
         public init(isoCountryCode: String? = nil, phoneNumber: String? = nil) {
             self.isoCountryCode = isoCountryCode
             self.phoneNumber = phoneNumber
@@ -5703,7 +5703,7 @@ extension Pinpoint {
         public let timezone: String?
         /// The postal or ZIP code for the location where the phone number was originally registered.
         public let zipCode: String?
-        
+
         public init(carrier: String? = nil, city: String? = nil, cleansedPhoneNumberE164: String? = nil, cleansedPhoneNumberNational: String? = nil, country: String? = nil, countryCodeIso2: String? = nil, countryCodeNumeric: String? = nil, county: String? = nil, originalCountryCodeIso2: String? = nil, originalPhoneNumber: String? = nil, phoneType: String? = nil, phoneTypeCode: Int32? = nil, timezone: String? = nil, zipCode: String? = nil) {
             self.carrier = carrier
             self.city = city
@@ -5747,7 +5747,7 @@ extension Pinpoint {
         ]
 
         public let numberValidateRequest: NumberValidateRequest
-        
+
         public init(numberValidateRequest: NumberValidateRequest) {
             self.numberValidateRequest = numberValidateRequest
         }
@@ -5765,7 +5765,7 @@ extension Pinpoint {
         ]
 
         public let numberValidateResponse: NumberValidateResponse
-        
+
         public init(numberValidateResponse: NumberValidateResponse) {
             self.numberValidateResponse = numberValidateResponse
         }
@@ -5812,7 +5812,7 @@ extension Pinpoint {
         public let requestId: String?
         /// One or more custom user attributes that your app reports to Amazon Pinpoint for the user who's associated with the endpoint.
         public let user: EndpointUser?
-        
+
         public init(address: String? = nil, attributes: [String: [String]]? = nil, channelType: ChannelType? = nil, demographic: EndpointDemographic? = nil, effectiveDate: String? = nil, endpointStatus: String? = nil, location: EndpointLocation? = nil, metrics: [String: Double]? = nil, optOut: String? = nil, requestId: String? = nil, user: EndpointUser? = nil) {
             self.address = address
             self.attributes = attributes
@@ -5852,7 +5852,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let writeEventStream: WriteEventStream
-        
+
         public init(applicationId: String, writeEventStream: WriteEventStream) {
             self.applicationId = applicationId
             self.writeEventStream = writeEventStream
@@ -5872,7 +5872,7 @@ extension Pinpoint {
         ]
 
         public let eventStream: EventStream
-        
+
         public init(eventStream: EventStream) {
             self.eventStream = eventStream
         }
@@ -5892,7 +5892,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let eventsRequest: EventsRequest
-        
+
         public init(applicationId: String, eventsRequest: EventsRequest) {
             self.applicationId = applicationId
             self.eventsRequest = eventsRequest
@@ -5912,7 +5912,7 @@ extension Pinpoint {
         ]
 
         public let eventsResponse: EventsResponse
-        
+
         public init(eventsResponse: EventsResponse) {
             self.eventsResponse = eventsResponse
         }
@@ -5932,7 +5932,7 @@ extension Pinpoint {
         public let end: String?
         /// The specific time when quiet time begins. This value has to use 24-hour notation and be in HH:MM format, where HH is the hour (with a leading zero, if applicable) and MM is the minutes. For example, use 02:30 to represent 2:30 AM, or 14:30 to represent 2:30 PM.
         public let start: String?
-        
+
         public init(end: String? = nil, start: String? = nil) {
             self.end = end
             self.start = start
@@ -5951,7 +5951,7 @@ extension Pinpoint {
 
         /// The email message, represented as a raw MIME message. The entire message must be base64 encoded.
         public let data: Data?
-        
+
         public init(data: Data? = nil) {
             self.data = data
         }
@@ -5971,7 +5971,7 @@ extension Pinpoint {
         public let duration: Duration
         /// The type of recency dimension to use for the segment. Valid values are: ACTIVE, endpoints that were active within the specified duration are included in the segment; and, INACTIVE, endpoints that weren't active within the specified duration are included in the segment.
         public let recencyType: RecencyType
-        
+
         public init(duration: Duration, recencyType: RecencyType) {
             self.duration = duration
             self.recencyType = recencyType
@@ -6001,7 +6001,7 @@ extension Pinpoint {
         public let applicationId: String
         public let attributeType: String
         public let updateAttributesRequest: UpdateAttributesRequest
-        
+
         public init(applicationId: String, attributeType: String, updateAttributesRequest: UpdateAttributesRequest) {
             self.applicationId = applicationId
             self.attributeType = attributeType
@@ -6023,7 +6023,7 @@ extension Pinpoint {
         ]
 
         public let attributesResource: AttributesResource
-        
+
         public init(attributesResource: AttributesResource) {
             self.attributesResource = attributesResource
         }
@@ -6046,7 +6046,7 @@ extension Pinpoint {
         public let senderId: String?
         /// The registered short code that you want to use when you send messages through the SMS channel.
         public let shortCode: String?
-        
+
         public init(enabled: Bool? = nil, senderId: String? = nil, shortCode: String? = nil) {
             self.enabled = enabled
             self.senderId = senderId
@@ -6106,7 +6106,7 @@ extension Pinpoint {
         public let transactionalMessagesPerSecond: Int32?
         /// The current version of the SMS channel.
         public let version: Int32?
-        
+
         public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, promotionalMessagesPerSecond: Int32? = nil, senderId: String? = nil, shortCode: String? = nil, transactionalMessagesPerSecond: Int32? = nil, version: Int32? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
@@ -6164,7 +6164,7 @@ extension Pinpoint {
         public let senderId: String?
         /// The message variables to use in the SMS message. You can override the default variables with individual address variables.
         public let substitutions: [String: [String]]?
-        
+
         public init(body: String? = nil, keyword: String? = nil, messageType: MessageType? = nil, originationNumber: String? = nil, senderId: String? = nil, substitutions: [String: [String]]? = nil) {
             self.body = body
             self.keyword = keyword
@@ -6212,7 +6212,7 @@ extension Pinpoint {
         ///                   UTC+10, UTC+10:30, UTC+11, UTC+12, UTC+13, UTC-02, UTC-03, UTC-04, UTC-05, UTC-06,
         ///                   UTC-07, UTC-08, UTC-09, UTC-10, and UTC-11.
         public let timezone: String?
-        
+
         public init(endTime: String? = nil, eventFilter: CampaignEventFilter? = nil, frequency: Frequency? = nil, isLocalTime: Bool? = nil, quietTime: QuietTime? = nil, startTime: String, timezone: String? = nil) {
             self.endTime = endTime
             self.eventFilter = eventFilter
@@ -6241,7 +6241,7 @@ extension Pinpoint {
 
         /// The dimension settings that are based on how recently an endpoint was active.
         public let recency: RecencyDimension?
-        
+
         public init(recency: RecencyDimension? = nil) {
             self.recency = recency
         }
@@ -6273,7 +6273,7 @@ extension Pinpoint {
         public let model: SetDimension?
         /// The device platform criteria for the segment.
         public let platform: SetDimension?
-        
+
         public init(appVersion: SetDimension? = nil, channel: SetDimension? = nil, deviceType: SetDimension? = nil, make: SetDimension? = nil, model: SetDimension? = nil, platform: SetDimension? = nil) {
             self.appVersion = appVersion
             self.channel = channel
@@ -6315,7 +6315,7 @@ extension Pinpoint {
         public let metrics: [String: MetricDimension]?
         /// One or more custom user attributes to use as criteria for the segment.
         public let userAttributes: [String: AttributeDimension]?
-        
+
         public init(attributes: [String: AttributeDimension]? = nil, behavior: SegmentBehaviors? = nil, demographic: SegmentDemographics? = nil, location: SegmentLocation? = nil, metrics: [String: MetricDimension]? = nil, userAttributes: [String: AttributeDimension]? = nil) {
             self.attributes = attributes
             self.behavior = behavior
@@ -6351,7 +6351,7 @@ extension Pinpoint {
         public let sourceType: SourceType?
         /// Specifies how to handle multiple dimensions for the segment. For example, if you specify three dimensions for the segment, whether the resulting segment includes endpoints that match all, any, or none of the dimensions.
         public let `type`: `Type`?
-        
+
         public init(dimensions: [SegmentDimensions]? = nil, sourceSegments: [SegmentReference]? = nil, sourceType: SourceType? = nil, type: `Type`? = nil) {
             self.dimensions = dimensions
             self.sourceSegments = sourceSegments
@@ -6377,7 +6377,7 @@ extension Pinpoint {
         public let groups: [SegmentGroup]?
         /// Specifies how to handle multiple segment groups for the segment. For example, if the segment includes three segment groups, whether the resulting segment includes endpoints that match all, any, or none of the segment groups.
         public let include: Include?
-        
+
         public init(groups: [SegmentGroup]? = nil, include: Include? = nil) {
             self.groups = groups
             self.include = include
@@ -6411,7 +6411,7 @@ extension Pinpoint {
         public let s3Url: String
         /// The number of endpoint definitions that were imported successfully to create the segment.
         public let size: Int32
-        
+
         public init(channelCounts: [String: Int32]? = nil, externalId: String, format: Format, roleArn: String, s3Url: String, size: Int32) {
             self.channelCounts = channelCounts
             self.externalId = externalId
@@ -6441,7 +6441,7 @@ extension Pinpoint {
         public let country: SetDimension?
         /// The GPS location and range for the segment.
         public let gPSPoint: GPSPointDimension?
-        
+
         public init(country: SetDimension? = nil, gPSPoint: GPSPointDimension? = nil) {
             self.country = country
             self.gPSPoint = gPSPoint
@@ -6463,7 +6463,7 @@ extension Pinpoint {
         public let id: String
         /// The version number of the segment.
         public let version: Int32?
-        
+
         public init(id: String, version: Int32? = nil) {
             self.id = id
             self.version = version
@@ -6515,7 +6515,7 @@ extension Pinpoint {
         public let tags: [String: String]?
         /// The version number of the segment.
         public let version: Int32?
-        
+
         public init(applicationId: String, arn: String, creationDate: String, dimensions: SegmentDimensions? = nil, id: String, importDefinition: SegmentImportResource? = nil, lastModifiedDate: String? = nil, name: String? = nil, segmentGroups: SegmentGroupList? = nil, segmentType: SegmentType, tags: [String: String]? = nil, version: Int32? = nil) {
             self.applicationId = applicationId
             self.arn = arn
@@ -6563,7 +6563,7 @@ extension Pinpoint {
         public let item: [SegmentResponse]
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
-        
+
         public init(item: [SegmentResponse], nextToken: String? = nil) {
             self.item = item
             self.nextToken = nextToken
@@ -6585,7 +6585,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let messageRequest: MessageRequest
-        
+
         public init(applicationId: String, messageRequest: MessageRequest) {
             self.applicationId = applicationId
             self.messageRequest = messageRequest
@@ -6605,7 +6605,7 @@ extension Pinpoint {
         ]
 
         public let messageResponse: MessageResponse
-        
+
         public init(messageResponse: MessageResponse) {
             self.messageResponse = messageResponse
         }
@@ -6631,7 +6631,7 @@ extension Pinpoint {
         public let traceId: String?
         /// A map that associates user IDs with EndpointSendConfiguration objects. You can use an EndpointSendConfiguration object to tailor the message for a user by specifying settings such as content overrides and message variables.
         public let users: [String: EndpointSendConfiguration]
-        
+
         public init(context: [String: String]? = nil, messageConfiguration: DirectMessageConfiguration, traceId: String? = nil, users: [String: EndpointSendConfiguration]) {
             self.context = context
             self.messageConfiguration = messageConfiguration
@@ -6660,7 +6660,7 @@ extension Pinpoint {
         public let requestId: String?
         /// An object that indicates which endpoints the message was sent to, for each user. The object lists user IDs and, for each user ID, provides the endpoint IDs that the message was sent to. For each endpoint ID, it provides an EndpointMessageResult object.
         public let result: [String: [String: EndpointMessageResult]]?
-        
+
         public init(applicationId: String, requestId: String? = nil, result: [String: [String: EndpointMessageResult]]? = nil) {
             self.applicationId = applicationId
             self.requestId = requestId
@@ -6684,7 +6684,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let sendUsersMessageRequest: SendUsersMessageRequest
-        
+
         public init(applicationId: String, sendUsersMessageRequest: SendUsersMessageRequest) {
             self.applicationId = applicationId
             self.sendUsersMessageRequest = sendUsersMessageRequest
@@ -6704,7 +6704,7 @@ extension Pinpoint {
         ]
 
         public let sendUsersMessageResponse: SendUsersMessageResponse
-        
+
         public init(sendUsersMessageResponse: SendUsersMessageResponse) {
             self.sendUsersMessageResponse = sendUsersMessageResponse
         }
@@ -6730,7 +6730,7 @@ extension Pinpoint {
         public let startTimestamp: String
         /// The date and time when the session ended.
         public let stopTimestamp: String?
-        
+
         public init(duration: Int32? = nil, id: String, startTimestamp: String, stopTimestamp: String? = nil) {
             self.duration = duration
             self.id = id
@@ -6756,7 +6756,7 @@ extension Pinpoint {
         public let dimensionType: DimensionType?
         /// The criteria values to use for the segment dimension. Depending on the value of the DimensionType property, endpoints are included or excluded from the segment if their values match the criteria values.
         public let values: [String]
-        
+
         public init(dimensionType: DimensionType? = nil, values: [String]) {
             self.dimensionType = dimensionType
             self.values = values
@@ -6781,7 +6781,7 @@ extension Pinpoint {
         public let subject: SimpleEmailPart?
         /// The body of the email message, in text format. We recommend using a text part for email clients that don't support HTML and clients that are connected to high-latency networks, such as mobile devices.
         public let textPart: SimpleEmailPart?
-        
+
         public init(htmlPart: SimpleEmailPart? = nil, subject: SimpleEmailPart? = nil, textPart: SimpleEmailPart? = nil) {
             self.htmlPart = htmlPart
             self.subject = subject
@@ -6805,7 +6805,7 @@ extension Pinpoint {
         public let charset: String?
         /// The textual data of the message content.
         public let data: String?
-        
+
         public init(charset: String? = nil, data: String? = nil) {
             self.charset = charset
             self.data = data
@@ -6834,7 +6834,7 @@ extension Pinpoint {
 
         public let resourceArn: String
         public let tagsModel: TagsModel
-        
+
         public init(resourceArn: String, tagsModel: TagsModel) {
             self.resourceArn = resourceArn
             self.tagsModel = tagsModel
@@ -6853,7 +6853,7 @@ extension Pinpoint {
 
         /// A string-to-string map of key-value pairs that defines the tags for an application, campaign, or segment. A project, campaign, or segment can have a maximum of 50 tags. Each tag consists of a required tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [String: String]
-        
+
         public init(tags: [String: String]) {
             self.tags = tags
         }
@@ -6888,7 +6888,7 @@ extension Pinpoint {
         public let treatmentDescription: String?
         /// The custom name of the treatment. A treatment is a variation of a campaign that's used for A/B testing of a campaign.
         public let treatmentName: String?
-        
+
         public init(id: String, messageConfiguration: MessageConfiguration? = nil, schedule: Schedule? = nil, sizePercent: Int32, state: CampaignState? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
             self.id = id
             self.messageConfiguration = messageConfiguration
@@ -6925,7 +6925,7 @@ extension Pinpoint {
 
         public let resourceArn: String
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -6947,7 +6947,7 @@ extension Pinpoint {
 
         public let aDMChannelRequest: ADMChannelRequest
         public let applicationId: String
-        
+
         public init(aDMChannelRequest: ADMChannelRequest, applicationId: String) {
             self.aDMChannelRequest = aDMChannelRequest
             self.applicationId = applicationId
@@ -6967,7 +6967,7 @@ extension Pinpoint {
         ]
 
         public let aDMChannelResponse: ADMChannelResponse
-        
+
         public init(aDMChannelResponse: ADMChannelResponse) {
             self.aDMChannelResponse = aDMChannelResponse
         }
@@ -6987,7 +6987,7 @@ extension Pinpoint {
 
         public let aPNSChannelRequest: APNSChannelRequest
         public let applicationId: String
-        
+
         public init(aPNSChannelRequest: APNSChannelRequest, applicationId: String) {
             self.aPNSChannelRequest = aPNSChannelRequest
             self.applicationId = applicationId
@@ -7007,7 +7007,7 @@ extension Pinpoint {
         ]
 
         public let aPNSChannelResponse: APNSChannelResponse
-        
+
         public init(aPNSChannelResponse: APNSChannelResponse) {
             self.aPNSChannelResponse = aPNSChannelResponse
         }
@@ -7027,7 +7027,7 @@ extension Pinpoint {
 
         public let aPNSSandboxChannelRequest: APNSSandboxChannelRequest
         public let applicationId: String
-        
+
         public init(aPNSSandboxChannelRequest: APNSSandboxChannelRequest, applicationId: String) {
             self.aPNSSandboxChannelRequest = aPNSSandboxChannelRequest
             self.applicationId = applicationId
@@ -7047,7 +7047,7 @@ extension Pinpoint {
         ]
 
         public let aPNSSandboxChannelResponse: APNSSandboxChannelResponse
-        
+
         public init(aPNSSandboxChannelResponse: APNSSandboxChannelResponse) {
             self.aPNSSandboxChannelResponse = aPNSSandboxChannelResponse
         }
@@ -7067,7 +7067,7 @@ extension Pinpoint {
 
         public let aPNSVoipChannelRequest: APNSVoipChannelRequest
         public let applicationId: String
-        
+
         public init(aPNSVoipChannelRequest: APNSVoipChannelRequest, applicationId: String) {
             self.aPNSVoipChannelRequest = aPNSVoipChannelRequest
             self.applicationId = applicationId
@@ -7087,7 +7087,7 @@ extension Pinpoint {
         ]
 
         public let aPNSVoipChannelResponse: APNSVoipChannelResponse
-        
+
         public init(aPNSVoipChannelResponse: APNSVoipChannelResponse) {
             self.aPNSVoipChannelResponse = aPNSVoipChannelResponse
         }
@@ -7107,7 +7107,7 @@ extension Pinpoint {
 
         public let aPNSVoipSandboxChannelRequest: APNSVoipSandboxChannelRequest
         public let applicationId: String
-        
+
         public init(aPNSVoipSandboxChannelRequest: APNSVoipSandboxChannelRequest, applicationId: String) {
             self.aPNSVoipSandboxChannelRequest = aPNSVoipSandboxChannelRequest
             self.applicationId = applicationId
@@ -7127,7 +7127,7 @@ extension Pinpoint {
         ]
 
         public let aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
-        
+
         public init(aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse) {
             self.aPNSVoipSandboxChannelResponse = aPNSVoipSandboxChannelResponse
         }
@@ -7147,7 +7147,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let writeApplicationSettingsRequest: WriteApplicationSettingsRequest
-        
+
         public init(applicationId: String, writeApplicationSettingsRequest: WriteApplicationSettingsRequest) {
             self.applicationId = applicationId
             self.writeApplicationSettingsRequest = writeApplicationSettingsRequest
@@ -7167,7 +7167,7 @@ extension Pinpoint {
         ]
 
         public let applicationSettingsResource: ApplicationSettingsResource
-        
+
         public init(applicationSettingsResource: ApplicationSettingsResource) {
             self.applicationSettingsResource = applicationSettingsResource
         }
@@ -7184,7 +7184,7 @@ extension Pinpoint {
 
         /// An array of the attributes to remove from all the endpoints that are associated with the application. The array can specify the complete, exact name of each attribute to remove or it can specify a glob pattern that an attribute name must match in order for the attribute to be removed.
         public let blacklist: [String]?
-        
+
         public init(blacklist: [String]? = nil) {
             self.blacklist = blacklist
         }
@@ -7204,7 +7204,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let baiduChannelRequest: BaiduChannelRequest
-        
+
         public init(applicationId: String, baiduChannelRequest: BaiduChannelRequest) {
             self.applicationId = applicationId
             self.baiduChannelRequest = baiduChannelRequest
@@ -7224,7 +7224,7 @@ extension Pinpoint {
         ]
 
         public let baiduChannelResponse: BaiduChannelResponse
-        
+
         public init(baiduChannelResponse: BaiduChannelResponse) {
             self.baiduChannelResponse = baiduChannelResponse
         }
@@ -7246,7 +7246,7 @@ extension Pinpoint {
         public let applicationId: String
         public let campaignId: String
         public let writeCampaignRequest: WriteCampaignRequest
-        
+
         public init(applicationId: String, campaignId: String, writeCampaignRequest: WriteCampaignRequest) {
             self.applicationId = applicationId
             self.campaignId = campaignId
@@ -7268,7 +7268,7 @@ extension Pinpoint {
         ]
 
         public let campaignResponse: CampaignResponse
-        
+
         public init(campaignResponse: CampaignResponse) {
             self.campaignResponse = campaignResponse
         }
@@ -7288,7 +7288,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let emailChannelRequest: EmailChannelRequest
-        
+
         public init(applicationId: String, emailChannelRequest: EmailChannelRequest) {
             self.applicationId = applicationId
             self.emailChannelRequest = emailChannelRequest
@@ -7308,7 +7308,7 @@ extension Pinpoint {
         ]
 
         public let emailChannelResponse: EmailChannelResponse
-        
+
         public init(emailChannelResponse: EmailChannelResponse) {
             self.emailChannelResponse = emailChannelResponse
         }
@@ -7330,7 +7330,7 @@ extension Pinpoint {
         public let applicationId: String
         public let endpointId: String
         public let endpointRequest: EndpointRequest
-        
+
         public init(applicationId: String, endpointId: String, endpointRequest: EndpointRequest) {
             self.applicationId = applicationId
             self.endpointId = endpointId
@@ -7352,7 +7352,7 @@ extension Pinpoint {
         ]
 
         public let messageBody: MessageBody
-        
+
         public init(messageBody: MessageBody) {
             self.messageBody = messageBody
         }
@@ -7372,7 +7372,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let endpointBatchRequest: EndpointBatchRequest
-        
+
         public init(applicationId: String, endpointBatchRequest: EndpointBatchRequest) {
             self.applicationId = applicationId
             self.endpointBatchRequest = endpointBatchRequest
@@ -7392,7 +7392,7 @@ extension Pinpoint {
         ]
 
         public let messageBody: MessageBody
-        
+
         public init(messageBody: MessageBody) {
             self.messageBody = messageBody
         }
@@ -7412,7 +7412,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let gCMChannelRequest: GCMChannelRequest
-        
+
         public init(applicationId: String, gCMChannelRequest: GCMChannelRequest) {
             self.applicationId = applicationId
             self.gCMChannelRequest = gCMChannelRequest
@@ -7432,7 +7432,7 @@ extension Pinpoint {
         ]
 
         public let gCMChannelResponse: GCMChannelResponse
-        
+
         public init(gCMChannelResponse: GCMChannelResponse) {
             self.gCMChannelResponse = gCMChannelResponse
         }
@@ -7454,7 +7454,7 @@ extension Pinpoint {
         public let applicationId: String
         public let segmentId: String
         public let writeSegmentRequest: WriteSegmentRequest
-        
+
         public init(applicationId: String, segmentId: String, writeSegmentRequest: WriteSegmentRequest) {
             self.applicationId = applicationId
             self.segmentId = segmentId
@@ -7476,7 +7476,7 @@ extension Pinpoint {
         ]
 
         public let segmentResponse: SegmentResponse
-        
+
         public init(segmentResponse: SegmentResponse) {
             self.segmentResponse = segmentResponse
         }
@@ -7496,7 +7496,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let sMSChannelRequest: SMSChannelRequest
-        
+
         public init(applicationId: String, sMSChannelRequest: SMSChannelRequest) {
             self.applicationId = applicationId
             self.sMSChannelRequest = sMSChannelRequest
@@ -7516,7 +7516,7 @@ extension Pinpoint {
         ]
 
         public let sMSChannelResponse: SMSChannelResponse
-        
+
         public init(sMSChannelResponse: SMSChannelResponse) {
             self.sMSChannelResponse = sMSChannelResponse
         }
@@ -7536,7 +7536,7 @@ extension Pinpoint {
 
         public let applicationId: String
         public let voiceChannelRequest: VoiceChannelRequest
-        
+
         public init(applicationId: String, voiceChannelRequest: VoiceChannelRequest) {
             self.applicationId = applicationId
             self.voiceChannelRequest = voiceChannelRequest
@@ -7556,7 +7556,7 @@ extension Pinpoint {
         ]
 
         public let voiceChannelResponse: VoiceChannelResponse
-        
+
         public init(voiceChannelResponse: VoiceChannelResponse) {
             self.voiceChannelResponse = voiceChannelResponse
         }
@@ -7573,7 +7573,7 @@ extension Pinpoint {
 
         /// Specifies whether to enable the voice channel for the application.
         public let enabled: Bool?
-        
+
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -7617,7 +7617,7 @@ extension Pinpoint {
         public let platform: String
         /// The current version of the voice channel.
         public let version: Int32?
-        
+
         public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int32? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
@@ -7664,7 +7664,7 @@ extension Pinpoint {
         public let substitutions: [String: [String]]?
         /// The name of the voice to use when delivering the message. For a list of supported voices, see the Amazon Polly Developer Guide.
         public let voiceId: String?
-        
+
         public init(body: String? = nil, languageCode: String? = nil, originationNumber: String? = nil, substitutions: [String: [String]]? = nil, voiceId: String? = nil) {
             self.body = body
             self.languageCode = languageCode
@@ -7698,7 +7698,7 @@ extension Pinpoint {
         public let limits: CampaignLimits?
         /// The default quiet time for campaigns in the application. Quiet time is a specific time range when campaigns don't send messages to endpoints, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint is set to a valid value. The current time in the endpoint's time zone is later than or equal to the time specified by the QuietTime.Start property for the application (or a campaign that has custom quiet time settings). The current time in the endpoint's time zone is earlier than or equal to the time specified by the QuietTime.End property for the application (or a campaign that has custom quiet time settings). If any of the preceding conditions isn't met, the endpoint will receive messages from a campaign, even if quiet time is enabled. To override the default quiet time settings for a specific campaign, use the Campaign resource to define a custom quiet time for the campaign.
         public let quietTime: QuietTime?
-        
+
         public init(campaignHook: CampaignHook? = nil, cloudWatchMetricsEnabled: Bool? = nil, limits: CampaignLimits? = nil, quietTime: QuietTime? = nil) {
             self.campaignHook = campaignHook
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
@@ -7760,7 +7760,7 @@ extension Pinpoint {
         public let treatmentDescription: String?
         /// The custom name of a variation of the campaign to use for A/B testing.
         public let treatmentName: String?
-        
+
         public init(additionalTreatments: [WriteTreatmentResource]? = nil, description: String? = nil, holdoutPercent: Int32? = nil, hook: CampaignHook? = nil, isPaused: Bool? = nil, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, schedule: Schedule? = nil, segmentId: String? = nil, segmentVersion: Int32? = nil, tags: [String: String]? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
             self.additionalTreatments = additionalTreatments
             self.description = description
@@ -7808,7 +7808,7 @@ extension Pinpoint {
         public let destinationStreamArn: String
         /// The AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to publish event data to the stream in your AWS account.
         public let roleArn: String
-        
+
         public init(destinationStreamArn: String, roleArn: String) {
             self.destinationStreamArn = destinationStreamArn
             self.roleArn = roleArn
@@ -7836,7 +7836,7 @@ extension Pinpoint {
         public let segmentGroups: SegmentGroupList?
         /// A string-to-string map of key-value pairs that defines the tags to associate with the segment. Each tag consists of a required tag key and an associated tag value.
         public let tags: [String: String]?
-        
+
         public init(dimensions: SegmentDimensions? = nil, name: String? = nil, segmentGroups: SegmentGroupList? = nil, tags: [String: String]? = nil) {
             self.dimensions = dimensions
             self.name = name
@@ -7871,7 +7871,7 @@ extension Pinpoint {
         public let treatmentDescription: String?
         /// The custom name of the treatment. A treatment is a variation of a campaign that's used for A/B testing of a campaign.
         public let treatmentName: String?
-        
+
         public init(messageConfiguration: MessageConfiguration? = nil, schedule: Schedule? = nil, sizePercent: Int32, treatmentDescription: String? = nil, treatmentName: String? = nil) {
             self.messageConfiguration = messageConfiguration
             self.schedule = schedule
@@ -7888,5 +7888,4 @@ extension Pinpoint {
             case treatmentName = "TreatmentName"
         }
     }
-
 }

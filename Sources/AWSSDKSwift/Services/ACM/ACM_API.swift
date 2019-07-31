@@ -90,5 +90,4 @@ public struct ACM {
     @discardableResult public func updateCertificateOptions(_ input: UpdateCertificateOptionsRequest) throws -> Future<Void> {
         return try client.send(operation: "UpdateCertificateOptions", path: "/", httpMethod: "POST", input: input)
     }
-
 }

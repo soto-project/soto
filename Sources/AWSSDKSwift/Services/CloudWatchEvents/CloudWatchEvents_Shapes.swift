@@ -24,7 +24,7 @@ extension CloudWatchEvents {
         public let securityGroups: [String]?
         /// Specifies the subnets associated with the task. These subnets must all be in the same VPC. You can specify as many as 16 subnets.
         public let subnets: [String]
-        
+
         public init(assignPublicIp: AssignPublicIp? = nil, securityGroups: [String]? = nil, subnets: [String]) {
             self.assignPublicIp = assignPublicIp
             self.securityGroups = securityGroups
@@ -45,7 +45,7 @@ extension CloudWatchEvents {
 
         /// The size of the array, if this is an array batch job. Valid values are integers between 2 and 10,000.
         public let size: Int32?
-        
+
         public init(size: Int32? = nil) {
             self.size = size
         }
@@ -71,7 +71,7 @@ extension CloudWatchEvents {
         public let jobName: String
         /// The retry strategy to use for failed jobs, if the target is an AWS Batch job. The retry strategy is the number of times to retry the failed job execution. Valid values are 1–10. When you specify a retry strategy here, it overrides the retry strategy defined in the job definition.
         public let retryStrategy: BatchRetryStrategy?
-        
+
         public init(arrayProperties: BatchArrayProperties? = nil, jobDefinition: String, jobName: String, retryStrategy: BatchRetryStrategy? = nil) {
             self.arrayProperties = arrayProperties
             self.jobDefinition = jobDefinition
@@ -94,7 +94,7 @@ extension CloudWatchEvents {
 
         /// The number of times to attempt to retry, if the job fails. Valid values are 1–10.
         public let attempts: Int32?
-        
+
         public init(attempts: Int32? = nil) {
             self.attempts = attempts
         }
@@ -117,7 +117,7 @@ extension CloudWatchEvents {
         public let `type`: String
         /// Specifies the value for the key. Currently, this must be the ID of the organization.
         public let value: String
-        
+
         public init(key: String, type: String, value: String) {
             self.key = key
             self.`type` = `type`
@@ -141,7 +141,7 @@ extension CloudWatchEvents {
         public let force: Bool?
         /// The name of the rule.
         public let name: String
-        
+
         public init(force: Bool? = nil, name: String) {
             self.force = force
             self.name = name
@@ -160,11 +160,12 @@ extension CloudWatchEvents {
     }
 
     public struct DescribeEventBusRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeEventBusResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -179,7 +180,7 @@ extension CloudWatchEvents {
         public let name: String?
         /// The policy that enables the external account to send events to your account.
         public let policy: String?
-        
+
         public init(arn: String? = nil, name: String? = nil, policy: String? = nil) {
             self.arn = arn
             self.name = name
@@ -200,7 +201,7 @@ extension CloudWatchEvents {
 
         /// The name of the rule.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -244,7 +245,7 @@ extension CloudWatchEvents {
         public let scheduleExpression: String?
         /// Specifies whether the rule is enabled or disabled.
         public let state: RuleState?
-        
+
         public init(arn: String? = nil, description: String? = nil, eventPattern: String? = nil, managedBy: String? = nil, name: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, state: RuleState? = nil) {
             self.arn = arn
             self.description = description
@@ -289,7 +290,7 @@ extension CloudWatchEvents {
 
         /// The name of the rule.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -327,7 +328,7 @@ extension CloudWatchEvents {
         public let taskCount: Int32?
         /// The ARN of the task definition to use if the event target is an Amazon ECS task. 
         public let taskDefinitionArn: String
-        
+
         public init(group: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, platformVersion: String? = nil, taskCount: Int32? = nil, taskDefinitionArn: String) {
             self.group = group
             self.launchType = launchType
@@ -360,7 +361,7 @@ extension CloudWatchEvents {
 
         /// The name of the rule.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -386,7 +387,7 @@ extension CloudWatchEvents {
         public let inputPathsMap: [String: String]?
         /// Input template where you specify placeholders that will be filled with the values of the keys from InputPathsMap to customize the data sent to the target. Enclose each InputPathsMaps value in brackets: &lt;value&gt; The InputTemplate must be valid JSON. If InputTemplate is a JSON object (surrounded by curly braces), the following restrictions apply:   The placeholder cannot be used as an object key.   Object values cannot include quote marks.   The following example shows the syntax for using InputPathsMap and InputTemplate.   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state &lt;status&gt;"   }  To have the InputTemplate include quote marks within a JSON string, escape each quote marks with a slash, as in the following example:   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state \"&lt;status&gt;\""   } 
         public let inputTemplate: String
-        
+
         public init(inputPathsMap: [String: String]? = nil, inputTemplate: String) {
             self.inputPathsMap = inputPathsMap
             self.inputTemplate = inputTemplate
@@ -410,7 +411,7 @@ extension CloudWatchEvents {
 
         /// The JSON path to be extracted from the event and used as the partition key. For more information, see Amazon Kinesis Streams Key Concepts in the Amazon Kinesis Streams Developer Guide.
         public let partitionKeyPath: String
-        
+
         public init(partitionKeyPath: String) {
             self.partitionKeyPath = partitionKeyPath
         }
@@ -443,7 +444,7 @@ extension CloudWatchEvents {
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the target resource.
         public let targetArn: String
-        
+
         public init(limit: Int32? = nil, nextToken: String? = nil, targetArn: String) {
             self.limit = limit
             self.nextToken = nextToken
@@ -476,7 +477,7 @@ extension CloudWatchEvents {
         public let nextToken: String?
         /// The names of the rules that can invoke the given target.
         public let ruleNames: [String]?
-        
+
         public init(nextToken: String? = nil, ruleNames: [String]? = nil) {
             self.nextToken = nextToken
             self.ruleNames = ruleNames
@@ -511,7 +512,7 @@ extension CloudWatchEvents {
         public let namePrefix: String?
         /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
-        
+
         public init(limit: Int32? = nil, namePrefix: String? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.namePrefix = namePrefix
@@ -545,7 +546,7 @@ extension CloudWatchEvents {
         public let nextToken: String?
         /// The rules that match the specified criteria.
         public let rules: [Rule]?
-        
+
         public init(nextToken: String? = nil, rules: [Rule]? = nil) {
             self.nextToken = nextToken
             self.rules = rules
@@ -572,7 +573,7 @@ extension CloudWatchEvents {
 
         /// The ARN of the CloudWatch Events rule for which you want to view tags.
         public let resourceARN: String
-        
+
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -594,7 +595,7 @@ extension CloudWatchEvents {
 
         /// The list of tag keys and values associated with the rule you specified
         public let tags: [Tag]?
-        
+
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -623,7 +624,7 @@ extension CloudWatchEvents {
         public let nextToken: String?
         /// The name of the rule.
         public let rule: String
-        
+
         public init(limit: Int32? = nil, nextToken: String? = nil, rule: String) {
             self.limit = limit
             self.nextToken = nextToken
@@ -657,7 +658,7 @@ extension CloudWatchEvents {
         public let nextToken: String?
         /// The targets assigned to the rule.
         public let targets: [Target]?
-        
+
         public init(nextToken: String? = nil, targets: [Target]? = nil) {
             self.nextToken = nextToken
             self.targets = targets
@@ -686,7 +687,7 @@ extension CloudWatchEvents {
 
         /// Use this structure to specify the VPC subnets and security groups for the task, and whether a public IP address is to be used. This structure is relevant only for ECS tasks that use the awsvpc network mode.
         public let awsvpcConfiguration: AwsVpcConfiguration?
-        
+
         public init(awsvpcConfiguration: AwsVpcConfiguration? = nil) {
             self.awsvpcConfiguration = awsvpcConfiguration
         }
@@ -703,7 +704,7 @@ extension CloudWatchEvents {
 
         /// The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.
         public let entries: [PutEventsRequestEntry]
-        
+
         public init(entries: [PutEventsRequestEntry]) {
             self.entries = entries
         }
@@ -737,7 +738,7 @@ extension CloudWatchEvents {
         public let source: String?
         /// The time stamp of the event, per RFC3339. If no time stamp is provided, the time stamp of the PutEvents call is used.
         public let time: TimeStamp?
-        
+
         public init(detail: String? = nil, detailType: String? = nil, resources: [String]? = nil, source: String? = nil, time: TimeStamp? = nil) {
             self.detail = detail
             self.detailType = detailType
@@ -765,7 +766,7 @@ extension CloudWatchEvents {
         public let entries: [PutEventsResultEntry]?
         /// The number of failed entries.
         public let failedEntryCount: Int32?
-        
+
         public init(entries: [PutEventsResultEntry]? = nil, failedEntryCount: Int32? = nil) {
             self.entries = entries
             self.failedEntryCount = failedEntryCount
@@ -790,7 +791,7 @@ extension CloudWatchEvents {
         public let errorMessage: String?
         /// The ID of the event.
         public let eventId: String?
-        
+
         public init(errorCode: String? = nil, errorMessage: String? = nil, eventId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -820,7 +821,7 @@ extension CloudWatchEvents {
         public let principal: String
         /// An identifier string for the external account that you are granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission.
         public let statementId: String
-        
+
         public init(action: String, condition: Condition? = nil, principal: String, statementId: String) {
             self.action = action
             self.condition = condition
@@ -873,7 +874,7 @@ extension CloudWatchEvents {
         public let state: RuleState?
         /// The list of key-value pairs to associate with the rule.
         public let tags: [Tag]?
-        
+
         public init(description: String? = nil, eventPattern: String? = nil, name: String, roleArn: String? = nil, scheduleExpression: String? = nil, state: RuleState? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.eventPattern = eventPattern
@@ -915,7 +916,7 @@ extension CloudWatchEvents {
 
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String?
-        
+
         public init(ruleArn: String? = nil) {
             self.ruleArn = ruleArn
         }
@@ -940,7 +941,7 @@ extension CloudWatchEvents {
         public let rule: String
         /// The targets to update or add to the rule.
         public let targets: [Target]
-        
+
         public init(rule: String, targets: [Target]) {
             self.rule = rule
             self.targets = targets
@@ -973,7 +974,7 @@ extension CloudWatchEvents {
         public let failedEntries: [PutTargetsResultEntry]?
         /// The number of failed entries.
         public let failedEntryCount: Int32?
-        
+
         public init(failedEntries: [PutTargetsResultEntry]? = nil, failedEntryCount: Int32? = nil) {
             self.failedEntries = failedEntries
             self.failedEntryCount = failedEntryCount
@@ -1004,7 +1005,7 @@ extension CloudWatchEvents {
         public let errorMessage: String?
         /// The ID of the target.
         public let targetId: String?
-        
+
         public init(errorCode: String? = nil, errorMessage: String? = nil, targetId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1031,7 +1032,7 @@ extension CloudWatchEvents {
 
         /// The statement ID corresponding to the account that is no longer allowed to put events to the default event bus.
         public let statementId: String
-        
+
         public init(statementId: String) {
             self.statementId = statementId
         }
@@ -1060,7 +1061,7 @@ extension CloudWatchEvents {
         public let ids: [String]
         /// The name of the rule.
         public let rule: String
-        
+
         public init(force: Bool? = nil, ids: [String], rule: String) {
             self.force = force
             self.ids = ids
@@ -1097,7 +1098,7 @@ extension CloudWatchEvents {
         public let failedEntries: [RemoveTargetsResultEntry]?
         /// The number of failed entries.
         public let failedEntryCount: Int32?
-        
+
         public init(failedEntries: [RemoveTargetsResultEntry]? = nil, failedEntryCount: Int32? = nil) {
             self.failedEntries = failedEntries
             self.failedEntryCount = failedEntryCount
@@ -1128,7 +1129,7 @@ extension CloudWatchEvents {
         public let errorMessage: String?
         /// The ID of the target.
         public let targetId: String?
-        
+
         public init(errorCode: String? = nil, errorMessage: String? = nil, targetId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1176,7 +1177,7 @@ extension CloudWatchEvents {
         public let scheduleExpression: String?
         /// The state of the rule.
         public let state: RuleState?
-        
+
         public init(arn: String? = nil, description: String? = nil, eventPattern: String? = nil, managedBy: String? = nil, name: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, state: RuleState? = nil) {
             self.arn = arn
             self.description = description
@@ -1227,7 +1228,7 @@ extension CloudWatchEvents {
 
         /// Currently, we support including only one RunCommandTarget block, which specifies either an array of InstanceIds or a tag.
         public let runCommandTargets: [RunCommandTarget]
-        
+
         public init(runCommandTargets: [RunCommandTarget]) {
             self.runCommandTargets = runCommandTargets
         }
@@ -1255,7 +1256,7 @@ extension CloudWatchEvents {
         public let key: String
         /// If Key is tag: tag-key, Values is a list of tag values. If Key is InstanceIds, Values is a list of Amazon EC2 instance IDs.
         public let values: [String]
-        
+
         public init(key: String, values: [String]) {
             self.key = key
             self.values = values
@@ -1286,7 +1287,7 @@ extension CloudWatchEvents {
 
         /// The FIFO message group ID to use as the target.
         public let messageGroupId: String?
-        
+
         public init(messageGroupId: String? = nil) {
             self.messageGroupId = messageGroupId
         }
@@ -1306,7 +1307,7 @@ extension CloudWatchEvents {
         public let key: String
         /// The value for the specified tag key.
         public let value: String
-        
+
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1335,7 +1336,7 @@ extension CloudWatchEvents {
         public let resourceARN: String
         /// The list of key-value pairs to associate with the rule.
         public let tags: [Tag]
-        
+
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -1356,11 +1357,12 @@ extension CloudWatchEvents {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Target: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1399,7 +1401,7 @@ extension CloudWatchEvents {
         public let runCommandParameters: RunCommandParameters?
         /// Contains the message group ID to use when the target is a FIFO queue. If you specify an SQS FIFO queue as a target, the queue must have content-based deduplication enabled.
         public let sqsParameters: SqsParameters?
-        
+
         public init(arn: String, batchParameters: BatchParameters? = nil, ecsParameters: EcsParameters? = nil, id: String, input: String? = nil, inputPath: String? = nil, inputTransformer: InputTransformer? = nil, kinesisParameters: KinesisParameters? = nil, roleArn: String? = nil, runCommandParameters: RunCommandParameters? = nil, sqsParameters: SqsParameters? = nil) {
             self.arn = arn
             self.batchParameters = batchParameters
@@ -1455,7 +1457,7 @@ extension CloudWatchEvents {
         public let event: String
         /// The event pattern. For more information, see Events and Event Patterns in the Amazon CloudWatch Events User Guide.
         public let eventPattern: String
-        
+
         public init(event: String, eventPattern: String) {
             self.event = event
             self.eventPattern = eventPattern
@@ -1474,7 +1476,7 @@ extension CloudWatchEvents {
 
         /// Indicates whether the event matches the event pattern.
         public let result: Bool?
-        
+
         public init(result: Bool? = nil) {
             self.result = result
         }
@@ -1494,7 +1496,7 @@ extension CloudWatchEvents {
         public let resourceARN: String
         /// The list of tag keys to remove from the resource.
         public let tagKeys: [String]
-        
+
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -1516,10 +1518,10 @@ extension CloudWatchEvents {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
-
+    }
 }

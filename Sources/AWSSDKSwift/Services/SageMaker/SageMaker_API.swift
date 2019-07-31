@@ -401,5 +401,4 @@ public struct SageMaker {
     public func updateWorkteam(_ input: UpdateWorkteamRequest) throws -> Future<UpdateWorkteamResponse> {
         return try client.send(operation: "UpdateWorkteam", path: "/", httpMethod: "POST", input: input)
     }
-
 }

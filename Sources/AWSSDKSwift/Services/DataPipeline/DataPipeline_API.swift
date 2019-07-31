@@ -120,5 +120,4 @@ public struct DataPipeline {
     public func validatePipelineDefinition(_ input: ValidatePipelineDefinitionInput) throws -> Future<ValidatePipelineDefinitionOutput> {
         return try client.send(operation: "ValidatePipelineDefinition", path: "/", httpMethod: "POST", input: input)
     }
-
 }

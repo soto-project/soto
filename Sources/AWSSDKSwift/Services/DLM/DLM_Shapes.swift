@@ -21,7 +21,7 @@ extension DLM {
         public let policyDetails: PolicyDetails
         /// The desired activation state of the lifecycle policy after creation.
         public let state: SettablePolicyStateValues
-        
+
         public init(description: String, executionRoleArn: String, policyDetails: PolicyDetails, state: SettablePolicyStateValues) {
             self.description = description
             self.executionRoleArn = executionRoleArn
@@ -50,7 +50,7 @@ extension DLM {
 
         /// The identifier of the lifecycle policy.
         public let policyId: String?
-        
+
         public init(policyId: String? = nil) {
             self.policyId = policyId
         }
@@ -73,7 +73,7 @@ extension DLM {
         public let intervalUnit: IntervalUnitValues
         /// The time, in UTC, to start the operation. The supported format is hh:mm. The operation occurs within a one-hour window following the specified time.
         public let times: [String]?
-        
+
         public init(interval: Int32, intervalUnit: IntervalUnitValues, times: [String]? = nil) {
             self.interval = interval
             self.intervalUnit = intervalUnit
@@ -102,7 +102,7 @@ extension DLM {
 
         /// The identifier of the lifecycle policy.
         public let policyId: String
-        
+
         public init(policyId: String) {
             self.policyId = policyId
         }
@@ -113,11 +113,12 @@ extension DLM {
     }
 
     public struct DeleteLifecyclePolicyResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetLifecyclePoliciesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -138,7 +139,7 @@ extension DLM {
         public let tagsToAdd: [String]?
         /// The target tag for a policy. Tags are strings in the format key=value.
         public let targetTags: [String]?
-        
+
         public init(policyIds: [String]? = nil, resourceTypes: [ResourceTypeValues]? = nil, state: GettablePolicyStateValues? = nil, tagsToAdd: [String]? = nil, targetTags: [String]? = nil) {
             self.policyIds = policyIds
             self.resourceTypes = resourceTypes
@@ -172,7 +173,7 @@ extension DLM {
 
         /// Summary information about the lifecycle policies.
         public let policies: [LifecyclePolicySummary]?
-        
+
         public init(policies: [LifecyclePolicySummary]? = nil) {
             self.policies = policies
         }
@@ -195,7 +196,7 @@ extension DLM {
 
         /// The identifier of the lifecycle policy.
         public let policyId: String
-        
+
         public init(policyId: String) {
             self.policyId = policyId
         }
@@ -212,7 +213,7 @@ extension DLM {
 
         /// Detailed information about the lifecycle policy.
         public let policy: LifecyclePolicy?
-        
+
         public init(policy: LifecyclePolicy? = nil) {
             self.policy = policy
         }
@@ -263,7 +264,7 @@ extension DLM {
         public let policyId: String?
         /// The activation state of the lifecycle policy.
         public let state: GettablePolicyStateValues?
-        
+
         public init(dateCreated: TimeStamp? = nil, dateModified: TimeStamp? = nil, description: String? = nil, executionRoleArn: String? = nil, policyDetails: PolicyDetails? = nil, policyId: String? = nil, state: GettablePolicyStateValues? = nil) {
             self.dateCreated = dateCreated
             self.dateModified = dateModified
@@ -304,7 +305,7 @@ extension DLM {
         public let policyId: String?
         /// The activation state of the lifecycle policy.
         public let state: GettablePolicyStateValues?
-        
+
         public init(description: String? = nil, policyId: String? = nil, state: GettablePolicyStateValues? = nil) {
             self.description = description
             self.policyId = policyId
@@ -330,7 +331,7 @@ extension DLM {
 
         /// When executing an EBS Snapshot Management – Instance policy, execute all CreateSnapshots calls with the excludeBootVolume set to the supplied field. Defaults to false. Only valid for EBS Snapshot Management – Instance policies.
         public let excludeBootVolume: Bool?
-        
+
         public init(excludeBootVolume: Bool? = nil) {
             self.excludeBootVolume = excludeBootVolume
         }
@@ -359,7 +360,7 @@ extension DLM {
         public let schedules: [Schedule]?
         /// The single tag that identifies targeted resources for this policy.
         public let targetTags: [Tag]?
-        
+
         public init(parameters: Parameters? = nil, policyType: PolicyTypeValues? = nil, resourceTypes: [ResourceTypeValues]? = nil, schedules: [Schedule]? = nil, targetTags: [Tag]? = nil) {
             self.parameters = parameters
             self.policyType = policyType
@@ -407,7 +408,7 @@ extension DLM {
 
         /// The number of snapshots to keep for each volume, up to a maximum of 1000.
         public let count: Int32
-        
+
         public init(count: Int32) {
             self.count = count
         }
@@ -444,7 +445,7 @@ extension DLM {
         public let tagsToAdd: [Tag]?
         /// A collection of key/value pairs with values determined dynamically when the policy is executed. Keys may be any valid Amazon EC2 tag key. Values must be in one of the two following formats: $(instance-id) or $(timestamp). Variable tags are only valid for EBS Snapshot Management – Instance policies.
         public let variableTags: [Tag]?
-        
+
         public init(copyTags: Bool? = nil, createRule: CreateRule? = nil, name: String? = nil, retainRule: RetainRule? = nil, tagsToAdd: [Tag]? = nil, variableTags: [Tag]? = nil) {
             self.copyTags = copyTags
             self.createRule = createRule
@@ -491,7 +492,7 @@ extension DLM {
         public let key: String
         /// The tag value.
         public let value: String
-        
+
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -522,7 +523,7 @@ extension DLM {
         public let policyId: String
         /// The desired activation state of the lifecycle policy after creation.
         public let state: SettablePolicyStateValues?
-        
+
         public init(description: String? = nil, executionRoleArn: String? = nil, policyDetails: PolicyDetails? = nil, policyId: String, state: SettablePolicyStateValues? = nil) {
             self.description = description
             self.executionRoleArn = executionRoleArn
@@ -547,10 +548,10 @@ extension DLM {
     }
 
     public struct UpdateLifecyclePolicyResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
-
+    }
 }

@@ -106,5 +106,4 @@ public struct IoT1ClickDevicesService {
     public func updateDeviceState(_ input: UpdateDeviceStateRequest) throws -> Future<UpdateDeviceStateResponse> {
         return try client.send(operation: "UpdateDeviceState", path: "/devices/{deviceId}/state", httpMethod: "PUT", input: input)
     }
-
 }

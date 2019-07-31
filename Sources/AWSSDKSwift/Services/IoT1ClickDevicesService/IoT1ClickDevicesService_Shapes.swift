@@ -6,11 +6,12 @@ import AWSSDKSwiftCore
 extension IoT1ClickDevicesService {
 
     public struct Attributes: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct ClaimDevicesByClaimCodeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -18,7 +19,7 @@ extension IoT1ClickDevicesService {
         ]
 
         public let claimCode: String
-        
+
         public init(claimCode: String) {
             self.claimCode = claimCode
         }
@@ -39,7 +40,7 @@ extension IoT1ClickDevicesService {
         /// The total number of devices associated with the claim code that has been processed in
         ///  the claim request.
         public let total: Int32?
-        
+
         public init(claimCode: String? = nil, total: Int32? = nil) {
             self.claimCode = claimCode
             self.total = total
@@ -62,7 +63,7 @@ extension IoT1ClickDevicesService {
         ]
 
         public let deviceId: String
-        
+
         public init(deviceId: String) {
             self.deviceId = deviceId
         }
@@ -79,7 +80,7 @@ extension IoT1ClickDevicesService {
 
         /// Device details.
         public let deviceDescription: DeviceDescription?
-        
+
         public init(deviceDescription: DeviceDescription? = nil) {
             self.deviceDescription = deviceDescription
         }
@@ -102,7 +103,7 @@ extension IoT1ClickDevicesService {
         public let deviceId: String?
         /// The device type, such as "button".
         public let `type`: String?
-        
+
         public init(attributes: Attributes? = nil, deviceId: String? = nil, type: String? = nil) {
             self.attributes = attributes
             self.deviceId = deviceId
@@ -123,7 +124,7 @@ extension IoT1ClickDevicesService {
 
         /// The device's final claim state.
         public let state: String?
-        
+
         public init(state: String? = nil) {
             self.state = state
         }
@@ -159,7 +160,7 @@ extension IoT1ClickDevicesService {
         public let tags: [String: String]?
         /// The type of the device, such as "button".
         public let `type`: String?
-        
+
         public init(arn: String? = nil, attributes: [String: String]? = nil, deviceId: String? = nil, enabled: Bool? = nil, remainingLife: Double? = nil, tags: [String: String]? = nil, type: String? = nil) {
             self.arn = arn
             self.attributes = attributes
@@ -191,7 +192,7 @@ extension IoT1ClickDevicesService {
         public let device: Device?
         /// A serialized JSON object representing the device-type specific event.
         public let stdEvent: String?
-        
+
         public init(device: Device? = nil, stdEvent: String? = nil) {
             self.device = device
             self.stdEvent = stdEvent
@@ -214,7 +215,7 @@ extension IoT1ClickDevicesService {
         public let events: [DeviceEvent]?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
-        
+
         public init(events: [DeviceEvent]? = nil, nextToken: String? = nil) {
             self.events = events
             self.nextToken = nextToken
@@ -236,7 +237,7 @@ extension IoT1ClickDevicesService {
         public let deviceType: String?
         /// The name of the method applicable to the deviceType.
         public let methodName: String?
-        
+
         public init(deviceType: String? = nil, methodName: String? = nil) {
             self.deviceType = deviceType
             self.methodName = methodName
@@ -249,11 +250,12 @@ extension IoT1ClickDevicesService {
     }
 
     public struct Empty: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct FinalizeDeviceClaimRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -263,7 +265,7 @@ extension IoT1ClickDevicesService {
 
         public let deviceId: String
         public let tags: [String: String]?
-        
+
         public init(deviceId: String, tags: [String: String]? = nil) {
             self.deviceId = deviceId
             self.tags = tags
@@ -281,7 +283,7 @@ extension IoT1ClickDevicesService {
         ]
 
         public let state: String?
-        
+
         public init(state: String? = nil) {
             self.state = state
         }
@@ -297,7 +299,7 @@ extension IoT1ClickDevicesService {
         ]
 
         public let deviceId: String
-        
+
         public init(deviceId: String) {
             self.deviceId = deviceId
         }
@@ -314,7 +316,7 @@ extension IoT1ClickDevicesService {
 
         /// List of available device APIs.
         public let deviceMethods: [DeviceMethod]?
-        
+
         public init(deviceMethods: [DeviceMethod]? = nil) {
             self.deviceMethods = deviceMethods
         }
@@ -330,7 +332,7 @@ extension IoT1ClickDevicesService {
         ]
 
         public let deviceId: String
-        
+
         public init(deviceId: String) {
             self.deviceId = deviceId
         }
@@ -346,7 +348,7 @@ extension IoT1ClickDevicesService {
         ]
 
         public let state: String?
-        
+
         public init(state: String? = nil) {
             self.state = state
         }
@@ -368,7 +370,7 @@ extension IoT1ClickDevicesService {
         public let deviceMethod: DeviceMethod?
         /// A JSON encoded string containing the device method request parameters.
         public let deviceMethodParameters: String?
-        
+
         public init(deviceId: String, deviceMethod: DeviceMethod? = nil, deviceMethodParameters: String? = nil) {
             self.deviceId = deviceId
             self.deviceMethod = deviceMethod
@@ -389,7 +391,7 @@ extension IoT1ClickDevicesService {
 
         /// A JSON encoded string containing the device method response.
         public let deviceMethodResponse: String?
-        
+
         public init(deviceMethodResponse: String? = nil) {
             self.deviceMethodResponse = deviceMethodResponse
         }
@@ -413,7 +415,7 @@ extension IoT1ClickDevicesService {
         public let maxResults: Int32?
         public let nextToken: String?
         public let toTimeStamp: TimeStamp
-        
+
         public init(deviceId: String, fromTimeStamp: TimeStamp, maxResults: Int32? = nil, nextToken: String? = nil, toTimeStamp: TimeStamp) {
             self.deviceId = deviceId
             self.fromTimeStamp = fromTimeStamp
@@ -444,7 +446,7 @@ extension IoT1ClickDevicesService {
 
         public let events: [DeviceEvent]?
         public let nextToken: String?
-        
+
         public init(events: [DeviceEvent]? = nil, nextToken: String? = nil) {
             self.events = events
             self.nextToken = nextToken
@@ -466,7 +468,7 @@ extension IoT1ClickDevicesService {
         public let deviceType: String?
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(deviceType: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.deviceType = deviceType
             self.maxResults = maxResults
@@ -495,7 +497,7 @@ extension IoT1ClickDevicesService {
         public let devices: [DeviceDescription]?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
-        
+
         public init(devices: [DeviceDescription]? = nil, nextToken: String? = nil) {
             self.devices = devices
             self.nextToken = nextToken
@@ -513,7 +515,7 @@ extension IoT1ClickDevicesService {
         ]
 
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -529,7 +531,7 @@ extension IoT1ClickDevicesService {
         ]
 
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -547,7 +549,7 @@ extension IoT1ClickDevicesService {
 
         public let resourceArn: String
         public let tags: [String: String]
-        
+
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -565,7 +567,7 @@ extension IoT1ClickDevicesService {
         ]
 
         public let deviceId: String
-        
+
         public init(deviceId: String) {
             self.deviceId = deviceId
         }
@@ -581,7 +583,7 @@ extension IoT1ClickDevicesService {
         ]
 
         public let state: String?
-        
+
         public init(state: String? = nil) {
             self.state = state
         }
@@ -599,7 +601,7 @@ extension IoT1ClickDevicesService {
 
         public let resourceArn: String
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -621,7 +623,7 @@ extension IoT1ClickDevicesService {
         /// If true, the device is enabled. If false, the device is
         ///  disabled.
         public let enabled: Bool?
-        
+
         public init(deviceId: String, enabled: Bool? = nil) {
             self.deviceId = deviceId
             self.enabled = enabled
@@ -634,10 +636,10 @@ extension IoT1ClickDevicesService {
     }
 
     public struct UpdateDeviceStateResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
-
+    }
 }

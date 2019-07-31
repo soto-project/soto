@@ -24,7 +24,7 @@ extension Lambda {
         public let totalCodeSize: Int64?
         /// The maximum number of simultaneous function executions, minus the capacity that's reserved for individual functions with PutFunctionConcurrency.
         public let unreservedConcurrentExecutions: Int32?
-        
+
         public init(codeSizeUnzipped: Int64? = nil, codeSizeZipped: Int64? = nil, concurrentExecutions: Int32? = nil, totalCodeSize: Int64? = nil, unreservedConcurrentExecutions: Int32? = nil) {
             self.codeSizeUnzipped = codeSizeUnzipped
             self.codeSizeZipped = codeSizeZipped
@@ -56,7 +56,7 @@ extension Lambda {
         public let functionCount: Int64?
         /// The amount of storage space, in bytes, that's being used by deployment packages and layer archives.
         public let totalCodeSize: Int64?
-        
+
         public init(functionCount: Int64? = nil, totalCodeSize: Int64? = nil) {
             self.functionCount = functionCount
             self.totalCodeSize = totalCodeSize
@@ -93,7 +93,7 @@ extension Lambda {
         public let statementId: String
         /// The version number.
         public let versionNumber: Int64
-        
+
         public init(action: String, layerName: String, organizationId: String? = nil, principal: String, revisionId: String? = nil, statementId: String, versionNumber: Int64) {
             self.action = action
             self.layerName = layerName
@@ -137,7 +137,7 @@ extension Lambda {
         public let revisionId: String?
         /// The permission statement.
         public let statement: String?
-        
+
         public init(revisionId: String? = nil, statement: String? = nil) {
             self.revisionId = revisionId
             self.statement = statement
@@ -180,7 +180,7 @@ extension Lambda {
         public let sourceArn: String?
         /// A statement identifier that differentiates the statement from others in the same policy.
         public let statementId: String
-        
+
         public init(action: String, eventSourceToken: String? = nil, functionName: String, principal: String, qualifier: String? = nil, revisionId: String? = nil, sourceAccount: String? = nil, sourceArn: String? = nil, statementId: String) {
             self.action = action
             self.eventSourceToken = eventSourceToken
@@ -232,7 +232,7 @@ extension Lambda {
 
         /// The permission statement that's added to the function policy.
         public let statement: String?
-        
+
         public init(statement: String? = nil) {
             self.statement = statement
         }
@@ -264,7 +264,7 @@ extension Lambda {
         public let revisionId: String?
         /// The routing configuration of the alias.
         public let routingConfig: AliasRoutingConfiguration?
-        
+
         public init(aliasArn: String? = nil, description: String? = nil, functionVersion: String? = nil, name: String? = nil, revisionId: String? = nil, routingConfig: AliasRoutingConfiguration? = nil) {
             self.aliasArn = aliasArn
             self.description = description
@@ -303,7 +303,7 @@ extension Lambda {
 
         /// The name of the second alias, and the percentage of traffic that's routed to it.
         public let additionalVersionWeights: [String: Double]?
-        
+
         public init(additionalVersionWeights: [String: Double]? = nil) {
             self.additionalVersionWeights = additionalVersionWeights
         }
@@ -320,7 +320,7 @@ extension Lambda {
 
         /// The number of concurrent executions that are reserved for this function. For more information, see Managing Concurrency.
         public let reservedConcurrentExecutions: Int32?
-        
+
         public init(reservedConcurrentExecutions: Int32? = nil) {
             self.reservedConcurrentExecutions = reservedConcurrentExecutions
         }
@@ -353,7 +353,7 @@ extension Lambda {
         public let name: String
         /// The routing configuration of the alias.
         public let routingConfig: AliasRoutingConfiguration?
-        
+
         public init(description: String? = nil, functionName: String, functionVersion: String, name: String, routingConfig: AliasRoutingConfiguration? = nil) {
             self.description = description
             self.functionName = functionName
@@ -407,7 +407,7 @@ extension Lambda {
         public let startingPosition: EventSourcePosition?
         /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
         public let startingPositionTimestamp: TimeStamp?
-        
+
         public init(batchSize: Int32? = nil, enabled: Bool? = nil, eventSourceArn: String, functionName: String, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: TimeStamp? = nil) {
             self.batchSize = batchSize
             self.enabled = enabled
@@ -488,7 +488,7 @@ extension Lambda {
         public let tracingConfig: TracingConfig?
         /// For network connectivity to AWS resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
         public let vpcConfig: VpcConfig?
-        
+
         public init(code: FunctionCode, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, functionName: String, handler: String, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int32? = nil, publish: Bool? = nil, role: String, runtime: Runtime, tags: [String: String]? = nil, timeout: Int32? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
             self.code = code
             self.deadLetterConfig = deadLetterConfig
@@ -558,7 +558,7 @@ extension Lambda {
 
         /// The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic.
         public let targetArn: String?
-        
+
         public init(targetArn: String? = nil) {
             self.targetArn = targetArn
         }
@@ -582,7 +582,7 @@ extension Lambda {
         public let functionName: String
         /// The name of the alias.
         public let name: String
-        
+
         public init(functionName: String, name: String) {
             self.functionName = functionName
             self.name = name
@@ -610,7 +610,7 @@ extension Lambda {
 
         /// The identifier of the event source mapping.
         public let uuid: String
-        
+
         public init(uuid: String) {
             self.uuid = uuid
         }
@@ -627,7 +627,7 @@ extension Lambda {
 
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
-        
+
         public init(functionName: String) {
             self.functionName = functionName
         }
@@ -653,7 +653,7 @@ extension Lambda {
         public let functionName: String
         /// Specify a version to delete. You can't delete a version that's referenced by an alias.
         public let qualifier: String?
-        
+
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
@@ -684,7 +684,7 @@ extension Lambda {
         public let layerName: String
         /// The version number.
         public let versionNumber: Int64
-        
+
         public init(layerName: String, versionNumber: Int64) {
             self.layerName = layerName
             self.versionNumber = versionNumber
@@ -709,7 +709,7 @@ extension Lambda {
 
         /// Environment variable key-value pairs.
         public let variables: [String: String]?
-        
+
         public init(variables: [String: String]? = nil) {
             self.variables = variables
         }
@@ -729,7 +729,7 @@ extension Lambda {
         public let errorCode: String?
         /// The error message.
         public let message: String?
-        
+
         public init(errorCode: String? = nil, message: String? = nil) {
             self.errorCode = errorCode
             self.message = message
@@ -751,7 +751,7 @@ extension Lambda {
         public let error: EnvironmentError?
         /// Environment variable key-value pairs.
         public let variables: [String: String]?
-        
+
         public init(error: EnvironmentError? = nil, variables: [String: String]? = nil) {
             self.error = error
             self.variables = variables
@@ -791,7 +791,7 @@ extension Lambda {
         public let stateTransitionReason: String?
         /// The identifier of the event source mapping.
         public let uuid: String?
-        
+
         public init(batchSize: Int32? = nil, eventSourceArn: String? = nil, functionArn: String? = nil, lastModified: TimeStamp? = nil, lastProcessingResult: String? = nil, state: String? = nil, stateTransitionReason: String? = nil, uuid: String? = nil) {
             self.batchSize = batchSize
             self.eventSourceArn = eventSourceArn
@@ -845,7 +845,7 @@ extension Lambda {
         public let s3ObjectVersion: String?
         /// The base64-encoded contents of the deployment package. AWS SDK and AWS CLI clients handle the encoding for you.
         public let zipFile: Data?
-        
+
         public init(s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: Data? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
@@ -881,7 +881,7 @@ extension Lambda {
         public let location: String?
         /// The service that's hosting the file.
         public let repositoryType: String?
-        
+
         public init(location: String? = nil, repositoryType: String? = nil) {
             self.location = location
             self.repositoryType = repositoryType
@@ -957,7 +957,7 @@ extension Lambda {
         public let version: String?
         /// The function's networking configuration.
         public let vpcConfig: VpcConfigResponse?
-        
+
         public init(codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, kMSKeyArn: String? = nil, lastModified: String? = nil, layers: [Layer]? = nil, masterArn: String? = nil, memorySize: Int32? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, timeout: Int32? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
             self.codeSha256 = codeSha256
             self.codeSize = codeSize
@@ -1036,11 +1036,12 @@ extension Lambda {
     }
 
     public struct GetAccountSettingsRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetAccountSettingsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1052,7 +1053,7 @@ extension Lambda {
         public let accountLimit: AccountLimit?
         /// The number of functions and amount of storage in use.
         public let accountUsage: AccountUsage?
-        
+
         public init(accountLimit: AccountLimit? = nil, accountUsage: AccountUsage? = nil) {
             self.accountLimit = accountLimit
             self.accountUsage = accountUsage
@@ -1078,7 +1079,7 @@ extension Lambda {
         public let functionName: String
         /// The name of the alias.
         public let name: String
-        
+
         public init(functionName: String, name: String) {
             self.functionName = functionName
             self.name = name
@@ -1106,7 +1107,7 @@ extension Lambda {
 
         /// The identifier of the event source mapping.
         public let uuid: String
-        
+
         public init(uuid: String) {
             self.uuid = uuid
         }
@@ -1126,7 +1127,7 @@ extension Lambda {
         public let functionName: String
         /// Specify a version or alias to get details about a published version of the function.
         public let qualifier: String?
-        
+
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
@@ -1157,7 +1158,7 @@ extension Lambda {
         public let functionName: String
         /// Specify a version or alias to get details about a published version of the function.
         public let qualifier: String?
-        
+
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
@@ -1194,7 +1195,7 @@ extension Lambda {
         public let configuration: FunctionConfiguration?
         /// The function's tags.
         public let tags: [String: String]?
-        
+
         public init(code: FunctionCodeLocation? = nil, concurrency: Concurrency? = nil, configuration: FunctionConfiguration? = nil, tags: [String: String]? = nil) {
             self.code = code
             self.concurrency = concurrency
@@ -1222,7 +1223,7 @@ extension Lambda {
 
         /// The ARN of the layer version.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -1248,7 +1249,7 @@ extension Lambda {
         public let layerName: String
         /// The version number.
         public let versionNumber: Int64
-        
+
         public init(layerName: String, versionNumber: Int64) {
             self.layerName = layerName
             self.versionNumber = versionNumber
@@ -1276,7 +1277,7 @@ extension Lambda {
         public let policy: String?
         /// A unique identifier for the current revision of the policy.
         public let revisionId: String?
-        
+
         public init(policy: String? = nil, revisionId: String? = nil) {
             self.policy = policy
             self.revisionId = revisionId
@@ -1298,7 +1299,7 @@ extension Lambda {
         public let layerName: String
         /// The version number.
         public let versionNumber: Int64
-        
+
         public init(layerName: String, versionNumber: Int64) {
             self.layerName = layerName
             self.versionNumber = versionNumber
@@ -1344,7 +1345,7 @@ extension Lambda {
         public let licenseInfo: String?
         /// The version number.
         public let version: Int64?
-        
+
         public init(compatibleRuntimes: [Runtime]? = nil, content: LayerVersionContentOutput? = nil, createdDate: String? = nil, description: String? = nil, layerArn: String? = nil, layerVersionArn: String? = nil, licenseInfo: String? = nil, version: Int64? = nil) {
             self.compatibleRuntimes = compatibleRuntimes
             self.content = content
@@ -1391,7 +1392,7 @@ extension Lambda {
         public let functionName: String
         /// Specify a version or alias to get the policy for that resource.
         public let qualifier: String?
-        
+
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
@@ -1422,7 +1423,7 @@ extension Lambda {
         public let policy: String?
         /// A unique identifier for the current revision of the policy.
         public let revisionId: String?
-        
+
         public init(policy: String? = nil, revisionId: String? = nil) {
             self.policy = policy
             self.revisionId = revisionId
@@ -1458,7 +1459,7 @@ extension Lambda {
         public let payload: Data?
         /// Specify a version or alias to invoke a published version of the function.
         public let qualifier: String?
-        
+
         public init(clientContext: String? = nil, functionName: String, invocationType: InvocationType? = nil, logType: LogType? = nil, payload: Data? = nil, qualifier: String? = nil) {
             self.clientContext = clientContext
             self.functionName = functionName
@@ -1508,7 +1509,7 @@ extension Lambda {
         public let payload: Data?
         /// The HTTP status code is in the 200 range for a successful request. For the RequestResponse invocation type, this status code is 200. For the Event invocation type, this status code is 202. For the DryRun invocation type, the status code is 204.
         public let statusCode: Int32?
-        
+
         public init(executedVersion: String? = nil, functionError: String? = nil, logResult: String? = nil, payload: Data? = nil, statusCode: Int32? = nil) {
             self.executedVersion = executedVersion
             self.functionError = functionError
@@ -1551,7 +1552,7 @@ extension Lambda {
         public let functionName: String
         /// The JSON that you want to provide to your Lambda function as input.
         public let invokeArgs: Data
-        
+
         public init(functionName: String, invokeArgs: Data) {
             self.functionName = functionName
             self.invokeArgs = invokeArgs
@@ -1576,7 +1577,7 @@ extension Lambda {
 
         /// The status code.
         public let status: Int32?
-        
+
         public init(status: Int32? = nil) {
             self.status = status
         }
@@ -1596,7 +1597,7 @@ extension Lambda {
         public let arn: String?
         /// The size of the layer archive in bytes.
         public let codeSize: Int64?
-        
+
         public init(arn: String? = nil, codeSize: Int64? = nil) {
             self.arn = arn
             self.codeSize = codeSize
@@ -1630,7 +1631,7 @@ extension Lambda {
         public let s3ObjectVersion: String?
         /// The base64-encoded contents of the layer archive. AWS SDK and AWS CLI clients handle the encoding for you.
         public let zipFile: Data?
-        
+
         public init(s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: Data? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
@@ -1669,7 +1670,7 @@ extension Lambda {
         public let codeSize: Int64?
         /// A link to the layer archive in Amazon S3 that is valid for 10 minutes.
         public let location: String?
-        
+
         public init(codeSha256: String? = nil, codeSize: Int64? = nil, location: String? = nil) {
             self.codeSha256 = codeSha256
             self.codeSize = codeSize
@@ -1705,7 +1706,7 @@ extension Lambda {
         public let licenseInfo: String?
         /// The version number.
         public let version: Int64?
-        
+
         public init(compatibleRuntimes: [Runtime]? = nil, createdDate: String? = nil, description: String? = nil, layerVersionArn: String? = nil, licenseInfo: String? = nil, version: Int64? = nil) {
             self.compatibleRuntimes = compatibleRuntimes
             self.createdDate = createdDate
@@ -1748,7 +1749,7 @@ extension Lambda {
         public let layerArn: String?
         /// The name of the layer.
         public let layerName: String?
-        
+
         public init(latestMatchingVersion: LayerVersionsListItem? = nil, layerArn: String? = nil, layerName: String? = nil) {
             self.latestMatchingVersion = latestMatchingVersion
             self.layerArn = layerArn
@@ -1788,7 +1789,7 @@ extension Lambda {
         public let marker: String?
         /// Limit the number of aliases returned.
         public let maxItems: Int32?
-        
+
         public init(functionName: String, functionVersion: String? = nil, marker: String? = nil, maxItems: Int32? = nil) {
             self.functionName = functionName
             self.functionVersion = functionVersion
@@ -1825,7 +1826,7 @@ extension Lambda {
         public let aliases: [AliasConfiguration]?
         /// The pagination token that's included if more results are available.
         public let nextMarker: String?
-        
+
         public init(aliases: [AliasConfiguration]? = nil, nextMarker: String? = nil) {
             self.aliases = aliases
             self.nextMarker = nextMarker
@@ -1859,7 +1860,7 @@ extension Lambda {
         public let marker: String?
         /// The maximum number of event source mappings to return.
         public let maxItems: Int32?
-        
+
         public init(eventSourceArn: String? = nil, functionName: String? = nil, marker: String? = nil, maxItems: Int32? = nil) {
             self.eventSourceArn = eventSourceArn
             self.functionName = functionName
@@ -1894,7 +1895,7 @@ extension Lambda {
         public let eventSourceMappings: [EventSourceMappingConfiguration]?
         /// A pagination token that's returned when the response doesn't contain all event source mappings.
         public let nextMarker: String?
-        
+
         public init(eventSourceMappings: [EventSourceMappingConfiguration]? = nil, nextMarker: String? = nil) {
             self.eventSourceMappings = eventSourceMappings
             self.nextMarker = nextMarker
@@ -1928,7 +1929,7 @@ extension Lambda {
         public let masterRegion: String?
         /// Specify a value between 1 and 50 to limit the number of functions in the response.
         public let maxItems: Int32?
-        
+
         public init(functionVersion: FunctionVersion? = nil, marker: String? = nil, masterRegion: String? = nil, maxItems: Int32? = nil) {
             self.functionVersion = functionVersion
             self.marker = marker
@@ -1960,7 +1961,7 @@ extension Lambda {
         public let functions: [FunctionConfiguration]?
         /// The pagination token that's included if more results are available.
         public let nextMarker: String?
-        
+
         public init(functions: [FunctionConfiguration]? = nil, nextMarker: String? = nil) {
             self.functions = functions
             self.nextMarker = nextMarker
@@ -1994,7 +1995,7 @@ extension Lambda {
         public let marker: String?
         /// The maximum number of versions to return.
         public let maxItems: Int32?
-        
+
         public init(compatibleRuntime: Runtime? = nil, layerName: String, marker: String? = nil, maxItems: Int32? = nil) {
             self.compatibleRuntime = compatibleRuntime
             self.layerName = layerName
@@ -2028,7 +2029,7 @@ extension Lambda {
         public let layerVersions: [LayerVersionsListItem]?
         /// A pagination token returned when the response doesn't contain all versions.
         public let nextMarker: String?
-        
+
         public init(layerVersions: [LayerVersionsListItem]? = nil, nextMarker: String? = nil) {
             self.layerVersions = layerVersions
             self.nextMarker = nextMarker
@@ -2059,7 +2060,7 @@ extension Lambda {
         public let marker: String?
         /// The maximum number of layers to return.
         public let maxItems: Int32?
-        
+
         public init(compatibleRuntime: Runtime? = nil, marker: String? = nil, maxItems: Int32? = nil) {
             self.compatibleRuntime = compatibleRuntime
             self.marker = marker
@@ -2088,7 +2089,7 @@ extension Lambda {
         public let layers: [LayersListItem]?
         /// A pagination token returned when the response doesn't contain all layers.
         public let nextMarker: String?
-        
+
         public init(layers: [LayersListItem]? = nil, nextMarker: String? = nil) {
             self.layers = layers
             self.nextMarker = nextMarker
@@ -2113,7 +2114,7 @@ extension Lambda {
 
         /// The function's Amazon Resource Name (ARN).
         public let resource: String
-        
+
         public init(resource: String) {
             self.resource = resource
         }
@@ -2134,7 +2135,7 @@ extension Lambda {
 
         /// The function's tags.
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2157,7 +2158,7 @@ extension Lambda {
         public let marker: String?
         /// Limit the number of versions that are returned.
         public let maxItems: Int32?
-        
+
         public init(functionName: String, marker: String? = nil, maxItems: Int32? = nil) {
             self.functionName = functionName
             self.marker = marker
@@ -2189,7 +2190,7 @@ extension Lambda {
         public let nextMarker: String?
         /// A list of Lambda function versions.
         public let versions: [FunctionConfiguration]?
-        
+
         public init(nextMarker: String? = nil, versions: [FunctionConfiguration]? = nil) {
             self.nextMarker = nextMarker
             self.versions = versions
@@ -2232,7 +2233,7 @@ extension Lambda {
         public let layerName: String
         /// The layer's software license. It can be any of the following:   An SPDX license identifier. For example, MIT.   The URL of a license hosted on the internet. For example, https://opensource.org/licenses/MIT.   The full text of the license.  
         public let licenseInfo: String?
-        
+
         public init(compatibleRuntimes: [Runtime]? = nil, content: LayerVersionContentInput, description: String? = nil, layerName: String, licenseInfo: String? = nil) {
             self.compatibleRuntimes = compatibleRuntimes
             self.content = content
@@ -2289,7 +2290,7 @@ extension Lambda {
         public let licenseInfo: String?
         /// The version number.
         public let version: Int64?
-        
+
         public init(compatibleRuntimes: [Runtime]? = nil, content: LayerVersionContentOutput? = nil, createdDate: String? = nil, description: String? = nil, layerArn: String? = nil, layerVersionArn: String? = nil, licenseInfo: String? = nil, version: Int64? = nil) {
             self.compatibleRuntimes = compatibleRuntimes
             self.content = content
@@ -2342,7 +2343,7 @@ extension Lambda {
         public let functionName: String
         /// Only update the function if the revision ID matches the ID that's specified. Use this option to avoid publishing a version if the function configuration has changed since you last updated it.
         public let revisionId: String?
-        
+
         public init(codeSha256: String? = nil, description: String? = nil, functionName: String, revisionId: String? = nil) {
             self.codeSha256 = codeSha256
             self.description = description
@@ -2376,7 +2377,7 @@ extension Lambda {
         public let functionName: String
         /// The number of simultaneous executions to reserve for the function.
         public let reservedConcurrentExecutions: Int32
-        
+
         public init(functionName: String, reservedConcurrentExecutions: Int32) {
             self.functionName = functionName
             self.reservedConcurrentExecutions = reservedConcurrentExecutions
@@ -2411,7 +2412,7 @@ extension Lambda {
         public let statementId: String
         /// The version number.
         public let versionNumber: Int64
-        
+
         public init(layerName: String, revisionId: String? = nil, statementId: String, versionNumber: Int64) {
             self.layerName = layerName
             self.revisionId = revisionId
@@ -2452,7 +2453,7 @@ extension Lambda {
         public let revisionId: String?
         /// Statement ID of the permission to remove.
         public let statementId: String
-        
+
         public init(functionName: String, qualifier: String? = nil, revisionId: String? = nil, statementId: String) {
             self.functionName = functionName
             self.qualifier = qualifier
@@ -2510,7 +2511,7 @@ extension Lambda {
         public let resource: String
         /// A list of tags to apply to the function.
         public let tags: [String: String]
-        
+
         public init(resource: String, tags: [String: String]) {
             self.resource = resource
             self.tags = tags
@@ -2542,7 +2543,7 @@ extension Lambda {
 
         /// The tracing mode.
         public let mode: TracingMode?
-        
+
         public init(mode: TracingMode? = nil) {
             self.mode = mode
         }
@@ -2559,7 +2560,7 @@ extension Lambda {
 
         /// The tracing mode.
         public let mode: TracingMode?
-        
+
         public init(mode: TracingMode? = nil) {
             self.mode = mode
         }
@@ -2585,7 +2586,7 @@ extension Lambda {
         public let resource: String
         /// A list of tag keys to remove from the function.
         public let tagKeys: [String]
-        
+
         public init(resource: String, tagKeys: [String]) {
             self.resource = resource
             self.tagKeys = tagKeys
@@ -2623,7 +2624,7 @@ extension Lambda {
         public let revisionId: String?
         /// The routing configuration of the alias.
         public let routingConfig: AliasRoutingConfiguration?
-        
+
         public init(description: String? = nil, functionName: String, functionVersion: String? = nil, name: String, revisionId: String? = nil, routingConfig: AliasRoutingConfiguration? = nil) {
             self.description = description
             self.functionName = functionName
@@ -2673,7 +2674,7 @@ extension Lambda {
         public let functionName: String?
         /// The identifier of the event source mapping.
         public let uuid: String
-        
+
         public init(batchSize: Int32? = nil, enabled: Bool? = nil, functionName: String? = nil, uuid: String) {
             self.batchSize = batchSize
             self.enabled = enabled
@@ -2725,7 +2726,7 @@ extension Lambda {
         public let s3ObjectVersion: String?
         /// The base64-encoded contents of the deployment package. AWS SDK and AWS CLI clients handle the encoding for you.
         public let zipFile: Data?
-        
+
         public init(dryRun: Bool? = nil, functionName: String, publish: Bool? = nil, revisionId: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: Data? = nil) {
             self.dryRun = dryRun
             self.functionName = functionName
@@ -2808,7 +2809,7 @@ extension Lambda {
         public let tracingConfig: TracingConfig?
         /// For network connectivity to AWS resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
         public let vpcConfig: VpcConfig?
-        
+
         public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, functionName: String, handler: String? = nil, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int32? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, timeout: Int32? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
             self.deadLetterConfig = deadLetterConfig
             self.description = description
@@ -2876,7 +2877,7 @@ extension Lambda {
         public let securityGroupIds: [String]?
         /// A list of VPC subnet IDs.
         public let subnetIds: [String]?
-        
+
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -2906,7 +2907,7 @@ extension Lambda {
         public let subnetIds: [String]?
         /// The ID of the VPC.
         public let vpcId: String?
-        
+
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -2924,5 +2925,4 @@ extension Lambda {
             case vpcId = "VpcId"
         }
     }
-
 }

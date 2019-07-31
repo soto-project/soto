@@ -436,5 +436,4 @@ public struct ServiceCatalog {
     public func updateTagOption(_ input: UpdateTagOptionInput) throws -> Future<UpdateTagOptionOutput> {
         return try client.send(operation: "UpdateTagOption", path: "/", httpMethod: "POST", input: input)
     }
-
 }

@@ -60,5 +60,4 @@ public struct Macie {
     public func updateS3Resources(_ input: UpdateS3ResourcesRequest) throws -> Future<UpdateS3ResourcesResult> {
         return try client.send(operation: "UpdateS3Resources", path: "/", httpMethod: "POST", input: input)
     }
-
 }

@@ -104,5 +104,4 @@ public struct RAM {
     public func updateResourceShare(_ input: UpdateResourceShareRequest) throws -> Future<UpdateResourceShareResponse> {
         return try client.send(operation: "UpdateResourceShare", path: "/updateresourceshare", httpMethod: "POST", input: input)
     }
-
 }

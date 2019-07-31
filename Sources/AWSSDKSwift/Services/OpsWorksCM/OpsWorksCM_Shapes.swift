@@ -18,7 +18,7 @@ extension OpsWorksCM {
         public let name: String?
         ///  The current usage, such as the current number of servers that are associated with the account. 
         public let used: Int32?
-        
+
         public init(maximum: Int32? = nil, name: String? = nil, used: Int32? = nil) {
             self.maximum = maximum
             self.name = name
@@ -45,7 +45,7 @@ extension OpsWorksCM {
         public let nodeName: String
         /// The name of the server with which to associate the node. 
         public let serverName: String
-        
+
         public init(engineAttributes: [EngineAttribute], nodeName: String, serverName: String) {
             self.engineAttributes = engineAttributes
             self.nodeName = nodeName
@@ -73,7 +73,7 @@ extension OpsWorksCM {
 
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the association request. 
         public let nodeAssociationStatusToken: String?
-        
+
         public init(nodeAssociationStatusToken: String? = nil) {
             self.nodeAssociationStatusToken = nodeAssociationStatusToken
         }
@@ -153,7 +153,7 @@ extension OpsWorksCM {
         public let toolsVersion: String?
         ///  The IAM user ARN of the requester for manual backups. This field is empty for automated backups. 
         public let userArn: String?
-        
+
         public init(backupArn: String? = nil, backupId: String? = nil, backupType: BackupType? = nil, createdAt: TimeStamp? = nil, description: String? = nil, engine: String? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, instanceType: String? = nil, keyPair: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, s3LogUrl: String? = nil, securityGroupIds: [String]? = nil, serverName: String? = nil, serviceRoleArn: String? = nil, status: BackupStatus? = nil, statusDescription: String? = nil, subnetIds: [String]? = nil, toolsVersion: String? = nil, userArn: String? = nil) {
             self.backupArn = backupArn
             self.backupId = backupId
@@ -238,7 +238,7 @@ extension OpsWorksCM {
         public let description: String?
         /// The name of the server that you want to back up. 
         public let serverName: String
-        
+
         public init(description: String? = nil, serverName: String) {
             self.description = description
             self.serverName = serverName
@@ -263,7 +263,7 @@ extension OpsWorksCM {
 
         /// Backup created by request.
         public let backup: Backup?
-        
+
         public init(backup: Backup? = nil) {
             self.backup = backup
         }
@@ -332,7 +332,7 @@ extension OpsWorksCM {
         public let serviceRoleArn: String
         ///  The IDs of subnets in which to launch the server EC2 instance.   Amazon EC2-Classic customers: This field is required. All servers must run within a VPC. The VPC must have "Auto Assign Public IP" enabled.   EC2-VPC customers: This field is optional. If you do not specify subnet IDs, your EC2 instances are created in a default subnet that is selected by Amazon EC2. If you specify subnet IDs, the VPC must have "Auto Assign Public IP" enabled.  For more information about supported Amazon EC2 platforms, see Supported Platforms.
         public let subnetIds: [String]?
-        
+
         public init(associatePublicIpAddress: Bool? = nil, backupId: String? = nil, backupRetentionCount: Int32? = nil, disableAutomatedBackup: Bool? = nil, engine: String? = nil, engineAttributes: [EngineAttribute]? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String, instanceType: String, keyPair: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, serverName: String, serviceRoleArn: String, subnetIds: [String]? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.backupId = backupId
@@ -393,7 +393,7 @@ extension OpsWorksCM {
 
         /// The server that is created by the request. 
         public let server: Server?
-        
+
         public init(server: Server? = nil) {
             self.server = server
         }
@@ -414,7 +414,7 @@ extension OpsWorksCM {
 
         /// The ID of the backup to delete. Run the DescribeBackups command to get a list of backup IDs. Backup IDs are in the format ServerName-yyyyMMddHHmmssSSS. 
         public let backupId: String
-        
+
         public init(backupId: String) {
             self.backupId = backupId
         }
@@ -429,11 +429,12 @@ extension OpsWorksCM {
     }
 
     public struct DeleteBackupResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteServerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -442,7 +443,7 @@ extension OpsWorksCM {
 
         /// The ID of the server to delete.
         public let serverName: String
-        
+
         public init(serverName: String) {
             self.serverName = serverName
         }
@@ -459,18 +460,20 @@ extension OpsWorksCM {
     }
 
     public struct DeleteServerResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeAccountAttributesRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeAccountAttributesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -479,7 +482,7 @@ extension OpsWorksCM {
 
         ///  The attributes that are currently set for the account. 
         public let attributes: [AccountAttribute]?
-        
+
         public init(attributes: [AccountAttribute]? = nil) {
             self.attributes = attributes
         }
@@ -505,7 +508,7 @@ extension OpsWorksCM {
         public let nextToken: String?
         /// Returns backups for the server with the specified ServerName. 
         public let serverName: String?
-        
+
         public init(backupId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, serverName: String? = nil) {
             self.backupId = backupId
             self.maxResults = maxResults
@@ -539,7 +542,7 @@ extension OpsWorksCM {
         public let backups: [Backup]?
         /// This is not currently implemented for DescribeBackups requests.
         public let nextToken: String?
-        
+
         public init(backups: [Backup]? = nil, nextToken: String? = nil) {
             self.backups = backups
             self.nextToken = nextToken
@@ -570,7 +573,7 @@ extension OpsWorksCM {
         public let nextToken: String?
         /// The name of the server for which you want to view events.
         public let serverName: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, serverName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -601,7 +604,7 @@ extension OpsWorksCM {
         public let nextToken: String?
         /// Contains the response to a DescribeEvents request. 
         public let serverEvents: [ServerEvent]?
-        
+
         public init(nextToken: String? = nil, serverEvents: [ServerEvent]? = nil) {
             self.nextToken = nextToken
             self.serverEvents = serverEvents
@@ -623,7 +626,7 @@ extension OpsWorksCM {
         public let nodeAssociationStatusToken: String
         /// The name of the server from which to disassociate the node. 
         public let serverName: String
-        
+
         public init(nodeAssociationStatusToken: String, serverName: String) {
             self.nodeAssociationStatusToken = nodeAssociationStatusToken
             self.serverName = serverName
@@ -651,7 +654,7 @@ extension OpsWorksCM {
         public let engineAttributes: [EngineAttribute]?
         /// The status of the association or disassociation request.   Possible values:     SUCCESS: The association or disassociation succeeded.     FAILED: The association or disassociation failed.     IN_PROGRESS: The association or disassociation is still in progress.   
         public let nodeAssociationStatus: NodeAssociationStatus?
-        
+
         public init(engineAttributes: [EngineAttribute]? = nil, nodeAssociationStatus: NodeAssociationStatus? = nil) {
             self.engineAttributes = engineAttributes
             self.nodeAssociationStatus = nodeAssociationStatus
@@ -676,7 +679,7 @@ extension OpsWorksCM {
         public let nextToken: String?
         /// Describes the server with the specified ServerName.
         public let serverName: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, serverName: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -707,7 +710,7 @@ extension OpsWorksCM {
         public let nextToken: String?
         /// Contains the response to a DescribeServers request.  For Puppet Server: DescribeServersResponse$Servers$EngineAttributes contains PUPPET_API_CA_CERT. This is the PEM-encoded CA certificate that is used by the Puppet API over TCP port number 8140. The CA certificate is also used to sign node certificates.
         public let servers: [Server]?
-        
+
         public init(nextToken: String? = nil, servers: [Server]? = nil) {
             self.nextToken = nextToken
             self.servers = servers
@@ -738,7 +741,7 @@ extension OpsWorksCM {
         public let nodeName: String
         /// The name of the server from which to disassociate the node. 
         public let serverName: String
-        
+
         public init(engineAttributes: [EngineAttribute]? = nil, nodeName: String, serverName: String) {
             self.engineAttributes = engineAttributes
             self.nodeName = nodeName
@@ -766,7 +769,7 @@ extension OpsWorksCM {
 
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the disassociation request. 
         public let nodeAssociationStatusToken: String?
-        
+
         public init(nodeAssociationStatusToken: String? = nil) {
             self.nodeAssociationStatusToken = nodeAssociationStatusToken
         }
@@ -786,7 +789,7 @@ extension OpsWorksCM {
         public let name: String?
         /// The value of the engine attribute. 
         public let value: String?
-        
+
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -811,7 +814,7 @@ extension OpsWorksCM {
         public let inputAttributes: [EngineAttribute]?
         /// The name of the server from which you are exporting the attribute.
         public let serverName: String
-        
+
         public init(exportAttributeName: String, inputAttributes: [EngineAttribute]? = nil, serverName: String) {
             self.exportAttributeName = exportAttributeName
             self.inputAttributes = inputAttributes
@@ -841,7 +844,7 @@ extension OpsWorksCM {
         public let engineAttribute: EngineAttribute?
         /// The server name used in the request.
         public let serverName: String?
-        
+
         public init(engineAttribute: EngineAttribute? = nil, serverName: String? = nil) {
             self.engineAttribute = engineAttribute
             self.serverName = serverName
@@ -888,7 +891,7 @@ extension OpsWorksCM {
         public let keyPair: String?
         ///  The name of the server that you want to restore. 
         public let serverName: String
-        
+
         public init(backupId: String, instanceType: String? = nil, keyPair: String? = nil, serverName: String) {
             self.backupId = backupId
             self.instanceType = instanceType
@@ -912,11 +915,12 @@ extension OpsWorksCM {
     }
 
     public struct RestoreServerResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Server: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -991,7 +995,7 @@ extension OpsWorksCM {
         public let statusReason: String?
         ///  The subnet IDs specified in a CreateServer request. 
         public let subnetIds: [String]?
-        
+
         public init(associatePublicIpAddress: Bool? = nil, backupRetentionCount: Int32? = nil, cloudFormationStackArn: String? = nil, createdAt: TimeStamp? = nil, disableAutomatedBackup: Bool? = nil, endpoint: String? = nil, engine: String? = nil, engineAttributes: [EngineAttribute]? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, instanceType: String? = nil, keyPair: String? = nil, maintenanceStatus: MaintenanceStatus? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, serverArn: String? = nil, serverName: String? = nil, serviceRoleArn: String? = nil, status: ServerStatus? = nil, statusReason: String? = nil, subnetIds: [String]? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.backupRetentionCount = backupRetentionCount
@@ -1066,7 +1070,7 @@ extension OpsWorksCM {
         public let message: String?
         /// The name of the server on or for which the event occurred. 
         public let serverName: String?
-        
+
         public init(createdAt: TimeStamp? = nil, logUrl: String? = nil, message: String? = nil, serverName: String? = nil) {
             self.createdAt = createdAt
             self.logUrl = logUrl
@@ -1109,7 +1113,7 @@ extension OpsWorksCM {
         public let engineAttributes: [EngineAttribute]?
         /// The name of the server on which to run maintenance. 
         public let serverName: String
-        
+
         public init(engineAttributes: [EngineAttribute]? = nil, serverName: String) {
             self.engineAttributes = engineAttributes
             self.serverName = serverName
@@ -1134,7 +1138,7 @@ extension OpsWorksCM {
 
         /// Contains the response to a StartMaintenance request. 
         public let server: Server?
-        
+
         public init(server: Server? = nil) {
             self.server = server
         }
@@ -1161,7 +1165,7 @@ extension OpsWorksCM {
         public let attributeValue: String?
         /// The name of the server to update. 
         public let serverName: String
-        
+
         public init(attributeName: String, attributeValue: String? = nil, serverName: String) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
@@ -1191,7 +1195,7 @@ extension OpsWorksCM {
 
         /// Contains the response to an UpdateServerEngineAttributes request. 
         public let server: Server?
-        
+
         public init(server: Server? = nil) {
             self.server = server
         }
@@ -1222,7 +1226,7 @@ extension OpsWorksCM {
         public let preferredMaintenanceWindow: String?
         /// The name of the server to update. 
         public let serverName: String
-        
+
         public init(backupRetentionCount: Int32? = nil, disableAutomatedBackup: Bool? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, serverName: String) {
             self.backupRetentionCount = backupRetentionCount
             self.disableAutomatedBackup = disableAutomatedBackup
@@ -1255,7 +1259,7 @@ extension OpsWorksCM {
 
         /// Contains the response to a UpdateServer request. 
         public let server: Server?
-        
+
         public init(server: Server? = nil) {
             self.server = server
         }
@@ -1268,5 +1272,4 @@ extension OpsWorksCM {
             case server = "Server"
         }
     }
-
 }

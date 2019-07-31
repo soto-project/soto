@@ -15,7 +15,7 @@ extension SageMaker {
         public let resourceArn: String
         /// An array of Tag objects. Each tag is a key-value pair. Only the key parameter is required. If you don't specify a value, Amazon SageMaker sets the value to an empty string. 
         public let tags: [Tag]
-        
+
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -44,7 +44,7 @@ extension SageMaker {
 
         /// A list of tags associated with the Amazon SageMaker resource.
         public let tags: [Tag]?
-        
+
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -84,7 +84,7 @@ extension SageMaker {
         public let trainingImage: String?
         /// The input mode that the algorithm supports. For the input modes that Amazon SageMaker algorithms support, see Algorithms. If an algorithm supports the File input mode, Amazon SageMaker downloads the training data from S3 to the provisioned ML storage Volume, and mounts the directory to docker volume for training container. If an algorithm supports the Pipe input mode, Amazon SageMaker streams data directly from S3 to the container.   In File mode, make sure you provision ML storage volume with sufficient capacity to accommodate the data download from S3. In addition to the training data, the ML storage volume also stores the output model. The algorithm container use ML storage volume to also store intermediate information, if any.   For distributed algorithms using File mode, training data is distributed uniformly, and your training duration is predictable if the input data objects size is approximately same. Amazon SageMaker does not split the files any further for model training. If the object sizes are skewed, training won't be optimal as the data distribution is also skewed where one host in a training cluster is overloaded, thus becoming bottleneck in training. 
         public let trainingInputMode: TrainingInputMode
-        
+
         public init(algorithmName: String? = nil, metricDefinitions: [MetricDefinition]? = nil, trainingImage: String? = nil, trainingInputMode: TrainingInputMode) {
             self.algorithmName = algorithmName
             self.metricDefinitions = metricDefinitions
@@ -132,7 +132,7 @@ extension SageMaker {
         public let imageScanStatuses: [AlgorithmStatusItem]?
         /// The status of algorithm validation.
         public let validationStatuses: [AlgorithmStatusItem]?
-        
+
         public init(imageScanStatuses: [AlgorithmStatusItem]? = nil, validationStatuses: [AlgorithmStatusItem]? = nil) {
             self.imageScanStatuses = imageScanStatuses
             self.validationStatuses = validationStatuses
@@ -166,7 +166,7 @@ extension SageMaker {
         public let name: String
         /// The current status.
         public let status: DetailedAlgorithmStatus
-        
+
         public init(failureReason: String? = nil, name: String, status: DetailedAlgorithmStatus) {
             self.failureReason = failureReason
             self.name = name
@@ -205,7 +205,7 @@ extension SageMaker {
         public let algorithmStatus: AlgorithmStatus
         /// A timestamp that shows when the algorithm was created.
         public let creationTime: TimeStamp
-        
+
         public init(algorithmArn: String, algorithmDescription: String? = nil, algorithmName: String, algorithmStatus: AlgorithmStatus, creationTime: TimeStamp) {
             self.algorithmArn = algorithmArn
             self.algorithmDescription = algorithmDescription
@@ -247,7 +247,7 @@ extension SageMaker {
         public let trainingJobDefinition: TrainingJobDefinition
         /// The TransformJobDefinition object that describes the transform job that Amazon SageMaker runs to validate your algorithm.
         public let transformJobDefinition: TransformJobDefinition?
-        
+
         public init(profileName: String, trainingJobDefinition: TrainingJobDefinition, transformJobDefinition: TransformJobDefinition? = nil) {
             self.profileName = profileName
             self.trainingJobDefinition = trainingJobDefinition
@@ -279,7 +279,7 @@ extension SageMaker {
         public let validationProfiles: [AlgorithmValidationProfile]
         /// The IAM roles that Amazon SageMaker uses to run the training jobs.
         public let validationRole: String
-        
+
         public init(validationProfiles: [AlgorithmValidationProfile], validationRole: String) {
             self.validationProfiles = validationProfiles
             self.validationRole = validationRole
@@ -309,7 +309,7 @@ extension SageMaker {
 
         /// The Amazon Resource Name (ARN) of a Lambda function implements the logic for annotation consolidation. For the built-in bounding box, image classification, semantic segmentation, and text classification task types, Amazon SageMaker Ground Truth provides the following Lambda functions:    Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.  arn:aws:lambda:us-east-1:432418664414:function:ACS-BoundingBox   arn:aws:lambda:us-east-2:266458841044:function:ACS-BoundingBox   arn:aws:lambda:us-west-2:081040173940:function:ACS-BoundingBox   arn:aws:lambda:eu-west-1:568282634449:function:ACS-BoundingBox   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-BoundingBox   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-BoundingBox     Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.  arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClass   arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClass   arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClass   arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClass   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClass   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClass     Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.  arn:aws:lambda:us-east-1:432418664414:function:ACS-SemanticSegmentation   arn:aws:lambda:us-east-2:266458841044:function:ACS-SemanticSegmentation   arn:aws:lambda:us-west-2:081040173940:function:ACS-SemanticSegmentation   arn:aws:lambda:eu-west-1:568282634449:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-SemanticSegmentation     Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.  arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClass   arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClass   arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClass   arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClass   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClass   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClass    For more information, see Annotation Consolidation.
         public let annotationConsolidationLambdaArn: String
-        
+
         public init(annotationConsolidationLambdaArn: String) {
             self.annotationConsolidationLambdaArn = annotationConsolidationLambdaArn
         }
@@ -352,7 +352,7 @@ extension SageMaker {
         public let name: String
         /// A list of the categories for the hyperparameter.
         public let values: [String]
-        
+
         public init(name: String, values: [String]) {
             self.name = name
             self.values = values
@@ -382,7 +382,7 @@ extension SageMaker {
 
         /// The allowed categories for the hyperparameter.
         public let values: [String]
-        
+
         public init(values: [String]) {
             self.values = values
         }
@@ -426,7 +426,7 @@ extension SageMaker {
         public let recordWrapperType: RecordWrapper?
         /// A configuration for a shuffle option for input data in a channel. If you use S3Prefix for S3DataType, this shuffles the results of the S3 key prefix matches. If you use ManifestFile, the order of the S3 object references in the ManifestFile is shuffled. If you use AugmentedManifestFile, the order of the JSON lines in the AugmentedManifestFile is shuffled. The shuffling order is determined using the Seed value. For Pipe input mode, shuffling is done at the start of every epoch. With large datasets this ensures that the order of the training data is different for each epoch, it helps reduce bias and possible overfitting. In a multi-node training job when ShuffleConfig is combined with S3DataDistributionType of ShardedByS3Key, the data is shuffled across nodes so that the content sent to a particular node on the first epoch might be sent to a different node on the second epoch.
         public let shuffleConfig: ShuffleConfig?
-        
+
         public init(channelName: String, compressionType: CompressionType? = nil, contentType: String? = nil, dataSource: DataSource, inputMode: TrainingInputMode? = nil, recordWrapperType: RecordWrapper? = nil, shuffleConfig: ShuffleConfig? = nil) {
             self.channelName = channelName
             self.compressionType = compressionType
@@ -479,7 +479,7 @@ extension SageMaker {
         public let supportedContentTypes: [String]
         /// The allowed input mode, either FILE or PIPE. In FILE mode, Amazon SageMaker copies the data from the input source onto the local Amazon Elastic Block Store (Amazon EBS) volumes before starting your training algorithm. This is the most commonly used input mode. In PIPE mode, Amazon SageMaker streams input data from the source directly to your algorithm without using the EBS volume.
         public let supportedInputModes: [TrainingInputMode]
-        
+
         public init(description: String? = nil, isRequired: Bool? = nil, name: String, supportedCompressionTypes: [CompressionType]? = nil, supportedContentTypes: [String], supportedInputModes: [TrainingInputMode]) {
             self.description = description
             self.isRequired = isRequired
@@ -544,7 +544,7 @@ extension SageMaker {
         public let gitConfig: GitConfig?
         /// The date and time that the Git repository was last modified.
         public let lastModifiedTime: TimeStamp
-        
+
         public init(codeRepositoryArn: String, codeRepositoryName: String, creationTime: TimeStamp, gitConfig: GitConfig? = nil, lastModifiedTime: TimeStamp) {
             self.codeRepositoryArn = codeRepositoryArn
             self.codeRepositoryName = codeRepositoryName
@@ -585,7 +585,7 @@ extension SageMaker {
         public let userGroup: String
         /// An identifier for a user pool. The user pool must be in the same region as the service that you are calling.
         public let userPool: String
-        
+
         public init(clientId: String, userGroup: String, userPool: String) {
             self.clientId = clientId
             self.userGroup = userGroup
@@ -649,7 +649,7 @@ extension SageMaker {
         public let creationTime: TimeStamp
         /// The time when the model compilation job was last modified.
         public let lastModifiedTime: TimeStamp?
-        
+
         public init(compilationEndTime: TimeStamp? = nil, compilationJobArn: String, compilationJobName: String, compilationJobStatus: CompilationJobStatus, compilationStartTime: TimeStamp? = nil, compilationTargetDevice: TargetDevice, creationTime: TimeStamp, lastModifiedTime: TimeStamp? = nil) {
             self.compilationEndTime = compilationEndTime
             self.compilationJobArn = compilationJobArn
@@ -706,7 +706,7 @@ extension SageMaker {
         public let modelDataUrl: String?
         /// The name or Amazon Resource Name (ARN) of the model package to use to create the model.
         public let modelPackageName: String?
-        
+
         public init(containerHostname: String? = nil, environment: [String: String]? = nil, image: String? = nil, modelDataUrl: String? = nil, modelPackageName: String? = nil) {
             self.containerHostname = containerHostname
             self.environment = environment
@@ -758,7 +758,7 @@ extension SageMaker {
         public let name: String
         /// The scale that hyperparameter tuning uses to search the hyperparameter range. For information about choosing a hyperparameter scale, see Hyperparameter Scaling. One of the following values:  Auto  Amazon SageMaker hyperparameter tuning chooses the best scale for the hyperparameter.  Linear  Hyperparameter tuning searches the values in the hyperparameter range by using a linear scale.  Logarithmic  Hyperparameter tuning searches the values in the hyperparameter range by using a logarithmic scale. Logarithmic scaling works only for ranges that have only values greater than 0.  ReverseLogarithmic  Hyperparemeter tuning searches the values in the hyperparameter range by using a reverse logarithmic scale. Reverse logarithmic scaling works only for ranges that are entirely within the range 0&lt;=x&lt;1.0.  
         public let scalingType: HyperParameterScalingType?
-        
+
         public init(maxValue: String, minValue: String, name: String, scalingType: HyperParameterScalingType? = nil) {
             self.maxValue = maxValue
             self.minValue = minValue
@@ -793,7 +793,7 @@ extension SageMaker {
         public let maxValue: String
         /// The minimum floating-point value allowed.
         public let minValue: String
-        
+
         public init(maxValue: String, minValue: String) {
             self.maxValue = maxValue
             self.minValue = minValue
@@ -834,7 +834,7 @@ extension SageMaker {
         public let trainingSpecification: TrainingSpecification
         /// Specifies configurations for one or more training jobs and that Amazon SageMaker runs to test the algorithm's training code and, optionally, one or more batch transform jobs that Amazon SageMaker runs to test the algorithm's inference code.
         public let validationSpecification: AlgorithmValidationSpecification?
-        
+
         public init(algorithmDescription: String? = nil, algorithmName: String, certifyForMarketplace: Bool? = nil, inferenceSpecification: InferenceSpecification? = nil, trainingSpecification: TrainingSpecification, validationSpecification: AlgorithmValidationSpecification? = nil) {
             self.algorithmDescription = algorithmDescription
             self.algorithmName = algorithmName
@@ -872,7 +872,7 @@ extension SageMaker {
 
         /// The Amazon Resource Name (ARN) of the new algorithm.
         public let algorithmArn: String
-        
+
         public init(algorithmArn: String) {
             self.algorithmArn = algorithmArn
         }
@@ -898,7 +898,7 @@ extension SageMaker {
         public let codeRepositoryName: String
         /// Specifies details about the repository, including the URL where the repository is located, the default branch, and credentials to use to access the repository.
         public let gitConfig: GitConfig
-        
+
         public init(codeRepositoryName: String, gitConfig: GitConfig) {
             self.codeRepositoryName = codeRepositoryName
             self.gitConfig = gitConfig
@@ -924,7 +924,7 @@ extension SageMaker {
 
         /// The Amazon Resource Name (ARN) of the new repository.
         public let codeRepositoryArn: String
-        
+
         public init(codeRepositoryArn: String) {
             self.codeRepositoryArn = codeRepositoryArn
         }
@@ -959,7 +959,7 @@ extension SageMaker {
         public let roleArn: String
         /// Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker ends the compilation job. Use this API to cap model training costs.
         public let stoppingCondition: StoppingCondition
-        
+
         public init(compilationJobName: String, inputConfig: InputConfig, outputConfig: OutputConfig, roleArn: String, stoppingCondition: StoppingCondition) {
             self.compilationJobName = compilationJobName
             self.inputConfig = inputConfig
@@ -996,7 +996,7 @@ extension SageMaker {
 
         /// If the action is successful, the service sends back an HTTP 200 response. Amazon SageMaker returns the following data in JSON format:    CompilationJobArn: The Amazon Resource Name (ARN) of the compiled job.  
         public let compilationJobArn: String
-        
+
         public init(compilationJobArn: String) {
             self.compilationJobArn = compilationJobArn
         }
@@ -1027,7 +1027,7 @@ extension SageMaker {
         public let productionVariants: [ProductionVariant]
         /// A list of key-value pairs. For more information, see Using Cost Allocation Tags in the  AWS Billing and Cost Management User Guide. 
         public let tags: [Tag]?
-        
+
         public init(endpointConfigName: String, kmsKeyId: String? = nil, productionVariants: [ProductionVariant], tags: [Tag]? = nil) {
             self.endpointConfigName = endpointConfigName
             self.kmsKeyId = kmsKeyId
@@ -1066,7 +1066,7 @@ extension SageMaker {
 
         /// The Amazon Resource Name (ARN) of the endpoint configuration. 
         public let endpointConfigArn: String
-        
+
         public init(endpointConfigArn: String) {
             self.endpointConfigArn = endpointConfigArn
         }
@@ -1095,7 +1095,7 @@ extension SageMaker {
         public let endpointName: String
         /// An array of key-value pairs. For more information, see Using Cost Allocation Tagsin the AWS Billing and Cost Management User Guide. 
         public let tags: [Tag]?
-        
+
         public init(endpointConfigName: String, endpointName: String, tags: [Tag]? = nil) {
             self.endpointConfigName = endpointConfigName
             self.endpointName = endpointName
@@ -1128,7 +1128,7 @@ extension SageMaker {
 
         /// The Amazon Resource Name (ARN) of the endpoint.
         public let endpointArn: String
-        
+
         public init(endpointArn: String) {
             self.endpointArn = endpointArn
         }
@@ -1163,7 +1163,7 @@ extension SageMaker {
         public let trainingJobDefinition: HyperParameterTrainingJobDefinition?
         /// Specifies the configuration for starting the hyperparameter tuning job using one or more previous tuning jobs as a starting point. The results of previous tuning jobs are used to inform which combinations of hyperparameters to search over in the new tuning job. All training jobs launched by the new hyperparameter tuning job are evaluated by using the objective metric. If you specify IDENTICAL_DATA_AND_ALGORITHM as the WarmStartType value for the warm start configuration, the training job that performs the best in the new tuning job is compared to the best training jobs from the parent tuning jobs. From these, the training job that performs the best as measured by the objective metric is returned as the overall best training job.  All training jobs launched by parent hyperparameter tuning jobs and the new hyperparameter tuning jobs count against the limit of training jobs for the tuning job. 
         public let warmStartConfig: HyperParameterTuningJobWarmStartConfig?
-        
+
         public init(hyperParameterTuningJobConfig: HyperParameterTuningJobConfig, hyperParameterTuningJobName: String, tags: [Tag]? = nil, trainingJobDefinition: HyperParameterTrainingJobDefinition? = nil, warmStartConfig: HyperParameterTuningJobWarmStartConfig? = nil) {
             self.hyperParameterTuningJobConfig = hyperParameterTuningJobConfig
             self.hyperParameterTuningJobName = hyperParameterTuningJobName
@@ -1202,7 +1202,7 @@ extension SageMaker {
 
         /// The Amazon Resource Name (ARN) of the tuning job. Amazon SageMaker assigns an ARN to a hyperparameter tuning job when you create it.
         public let hyperParameterTuningJobArn: String
-        
+
         public init(hyperParameterTuningJobArn: String) {
             self.hyperParameterTuningJobArn = hyperParameterTuningJobArn
         }
@@ -1251,7 +1251,7 @@ extension SageMaker {
         public let stoppingConditions: LabelingJobStoppingConditions?
         /// An array of key/value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
         public let tags: [Tag]?
-        
+
         public init(humanTaskConfig: HumanTaskConfig, inputConfig: LabelingJobInputConfig, labelAttributeName: String, labelCategoryConfigS3Uri: String? = nil, labelingJobAlgorithmsConfig: LabelingJobAlgorithmsConfig? = nil, labelingJobName: String, outputConfig: LabelingJobOutputConfig, roleArn: String, stoppingConditions: LabelingJobStoppingConditions? = nil, tags: [Tag]? = nil) {
             self.humanTaskConfig = humanTaskConfig
             self.inputConfig = inputConfig
@@ -1310,7 +1310,7 @@ extension SageMaker {
 
         /// The Amazon Resource Name (ARN) of the labeling job. You use this ARN to identify the labeling job.
         public let labelingJobArn: String
-        
+
         public init(labelingJobArn: String) {
             self.labelingJobArn = labelingJobArn
         }
@@ -1350,7 +1350,7 @@ extension SageMaker {
         public let tags: [Tag]?
         /// A VpcConfig object that specifies the VPC that you want your model to connect to. Control access to and from your model container by configuring the VPC. VpcConfig is used in hosting services and in batch transform. For more information, see Protect Endpoints by Using an Amazon Virtual Private Cloud and Protect Data in Batch Transform Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
-        
+
         public init(containers: [ContainerDefinition]? = nil, enableNetworkIsolation: Bool? = nil, executionRoleArn: String, modelName: String, primaryContainer: ContainerDefinition? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.containers = containers
             self.enableNetworkIsolation = enableNetworkIsolation
@@ -1398,7 +1398,7 @@ extension SageMaker {
 
         /// The ARN of the model created in Amazon SageMaker.
         public let modelArn: String
-        
+
         public init(modelArn: String) {
             self.modelArn = modelArn
         }
@@ -1436,7 +1436,7 @@ extension SageMaker {
         public let sourceAlgorithmSpecification: SourceAlgorithmSpecification?
         /// Specifies configurations for one or more transform jobs that Amazon SageMaker runs to test the model package.
         public let validationSpecification: ModelPackageValidationSpecification?
-        
+
         public init(certifyForMarketplace: Bool? = nil, inferenceSpecification: InferenceSpecification? = nil, modelPackageDescription: String? = nil, modelPackageName: String, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
             self.certifyForMarketplace = certifyForMarketplace
             self.inferenceSpecification = inferenceSpecification
@@ -1474,7 +1474,7 @@ extension SageMaker {
 
         /// The Amazon Resource Name (ARN) of the new model package.
         public let modelPackageArn: String
-        
+
         public init(modelPackageArn: String) {
             self.modelPackageArn = modelPackageArn
         }
@@ -1536,7 +1536,7 @@ extension SageMaker {
         public let tags: [Tag]?
         /// The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB.
         public let volumeSizeInGB: Int32?
-        
+
         public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, instanceType: InstanceType, kmsKeyId: String? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String, roleArn: String, rootAccess: RootAccess? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tags: [Tag]? = nil, volumeSizeInGB: Int32? = nil) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
@@ -1620,7 +1620,7 @@ extension SageMaker {
         public let onCreate: [NotebookInstanceLifecycleHook]?
         /// A shell script that runs every time you start a notebook instance, including when you create the notebook instance. The shell script must be a base64-encoded string.
         public let onStart: [NotebookInstanceLifecycleHook]?
-        
+
         public init(notebookInstanceLifecycleConfigName: String, onCreate: [NotebookInstanceLifecycleHook]? = nil, onStart: [NotebookInstanceLifecycleHook]? = nil) {
             self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
             self.onCreate = onCreate
@@ -1654,7 +1654,7 @@ extension SageMaker {
 
         /// The Amazon Resource Name (ARN) of the lifecycle configuration.
         public let notebookInstanceLifecycleConfigArn: String?
-        
+
         public init(notebookInstanceLifecycleConfigArn: String? = nil) {
             self.notebookInstanceLifecycleConfigArn = notebookInstanceLifecycleConfigArn
         }
@@ -1675,7 +1675,7 @@ extension SageMaker {
 
         /// The Amazon Resource Name (ARN) of the notebook instance. 
         public let notebookInstanceArn: String?
-        
+
         public init(notebookInstanceArn: String? = nil) {
             self.notebookInstanceArn = notebookInstanceArn
         }
@@ -1699,7 +1699,7 @@ extension SageMaker {
         public let notebookInstanceName: String
         /// The duration of the session, in seconds. The default is 12 hours.
         public let sessionExpirationDurationInSeconds: Int32?
-        
+
         public init(notebookInstanceName: String, sessionExpirationDurationInSeconds: Int32? = nil) {
             self.notebookInstanceName = notebookInstanceName
             self.sessionExpirationDurationInSeconds = sessionExpirationDurationInSeconds
@@ -1725,7 +1725,7 @@ extension SageMaker {
 
         /// A JSON object that contains the URL string. 
         public let authorizedUrl: String?
-        
+
         public init(authorizedUrl: String? = nil) {
             self.authorizedUrl = authorizedUrl
         }
@@ -1775,7 +1775,7 @@ extension SageMaker {
         public let trainingJobName: String
         /// A VpcConfig object that specifies the VPC that you want your training job to connect to. Control access to and from your training container by configuring the VPC. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
-        
+
         public init(algorithmSpecification: AlgorithmSpecification, enableInterContainerTrafficEncryption: Bool? = nil, enableNetworkIsolation: Bool? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, resourceConfig: ResourceConfig, roleArn: String, stoppingCondition: StoppingCondition, tags: [Tag]? = nil, trainingJobName: String, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
@@ -1838,7 +1838,7 @@ extension SageMaker {
 
         /// The Amazon Resource Name (ARN) of the training job.
         public let trainingJobArn: String
-        
+
         public init(trainingJobArn: String) {
             self.trainingJobArn = trainingJobArn
         }
@@ -1890,7 +1890,7 @@ extension SageMaker {
         public let transformOutput: TransformOutput
         /// Describes the resources, including ML instance types and ML instance count, to use for the transform job.
         public let transformResources: TransformResources
-        
+
         public init(batchStrategy: BatchStrategy? = nil, dataProcessing: DataProcessing? = nil, environment: [String: String]? = nil, maxConcurrentTransforms: Int32? = nil, maxPayloadInMB: Int32? = nil, modelName: String, tags: [Tag]? = nil, transformInput: TransformInput, transformJobName: String, transformOutput: TransformOutput, transformResources: TransformResources) {
             self.batchStrategy = batchStrategy
             self.dataProcessing = dataProcessing
@@ -1946,7 +1946,7 @@ extension SageMaker {
 
         /// The Amazon Resource Name (ARN) of the transform job.
         public let transformJobArn: String
-        
+
         public init(transformJobArn: String) {
             self.transformJobArn = transformJobArn
         }
@@ -1979,7 +1979,7 @@ extension SageMaker {
         public let tags: [Tag]?
         /// The name of the work team. Use this name to identify the work team.
         public let workteamName: String
-        
+
         public init(description: String, memberDefinitions: [MemberDefinition], notificationConfiguration: NotificationConfiguration? = nil, tags: [Tag]? = nil, workteamName: String) {
             self.description = description
             self.memberDefinitions = memberDefinitions
@@ -2024,7 +2024,7 @@ extension SageMaker {
 
         /// The Amazon Resource Name (ARN) of the work team. You can use this ARN to identify the work team.
         public let workteamArn: String?
-        
+
         public init(workteamArn: String? = nil) {
             self.workteamArn = workteamArn
         }
@@ -2052,7 +2052,7 @@ extension SageMaker {
         public let joinSource: JoinSource?
         /// A JSONPath expression used to select a portion of the joined dataset to save in the output file for a batch transform job. If you want Amazon SageMaker to store the entire input dataset in the output file, leave the default value, $. If you specify indexes that aren't within the dimension size of the joined dataset, you get an error. Examples: "$", "$[0,5:]", "$.['id','SageMakerOutput']" 
         public let outputFilter: String?
-        
+
         public init(inputFilter: String? = nil, joinSource: JoinSource? = nil, outputFilter: String? = nil) {
             self.inputFilter = inputFilter
             self.joinSource = joinSource
@@ -2080,7 +2080,7 @@ extension SageMaker {
 
         /// The S3 location of the data source that is associated with a channel.
         public let s3DataSource: S3DataSource?
-        
+
         public init(s3DataSource: S3DataSource? = nil) {
             self.s3DataSource = s3DataSource
         }
@@ -2101,7 +2101,7 @@ extension SageMaker {
 
         /// The name of the algorithm to delete.
         public let algorithmName: String
-        
+
         public init(algorithmName: String) {
             self.algorithmName = algorithmName
         }
@@ -2124,7 +2124,7 @@ extension SageMaker {
 
         /// The name of the Git repository to delete.
         public let codeRepositoryName: String
-        
+
         public init(codeRepositoryName: String) {
             self.codeRepositoryName = codeRepositoryName
         }
@@ -2147,7 +2147,7 @@ extension SageMaker {
 
         /// The name of the endpoint configuration that you want to delete.
         public let endpointConfigName: String
-        
+
         public init(endpointConfigName: String) {
             self.endpointConfigName = endpointConfigName
         }
@@ -2169,7 +2169,7 @@ extension SageMaker {
 
         /// The name of the endpoint that you want to delete.
         public let endpointName: String
-        
+
         public init(endpointName: String) {
             self.endpointName = endpointName
         }
@@ -2191,7 +2191,7 @@ extension SageMaker {
 
         /// The name of the model to delete.
         public let modelName: String
-        
+
         public init(modelName: String) {
             self.modelName = modelName
         }
@@ -2213,7 +2213,7 @@ extension SageMaker {
 
         /// The name of the model package. The name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
         public let modelPackageName: String
-        
+
         public init(modelPackageName: String) {
             self.modelPackageName = modelPackageName
         }
@@ -2236,7 +2236,7 @@ extension SageMaker {
 
         /// The name of the Amazon SageMaker notebook instance to delete.
         public let notebookInstanceName: String
-        
+
         public init(notebookInstanceName: String) {
             self.notebookInstanceName = notebookInstanceName
         }
@@ -2258,7 +2258,7 @@ extension SageMaker {
 
         /// The name of the lifecycle configuration to delete.
         public let notebookInstanceLifecycleConfigName: String
-        
+
         public init(notebookInstanceLifecycleConfigName: String) {
             self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
         }
@@ -2283,7 +2283,7 @@ extension SageMaker {
         public let resourceArn: String
         /// An array or one or more tag keys to delete.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2308,11 +2308,12 @@ extension SageMaker {
     }
 
     public struct DeleteTagsOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteWorkteamRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2321,7 +2322,7 @@ extension SageMaker {
 
         /// The name of the work team to delete.
         public let workteamName: String
-        
+
         public init(workteamName: String) {
             self.workteamName = workteamName
         }
@@ -2344,7 +2345,7 @@ extension SageMaker {
 
         /// Returns true if the work team was successfully deleted; otherwise, returns false.
         public let success: Bool
-        
+
         public init(success: Bool) {
             self.success = success
         }
@@ -2367,7 +2368,7 @@ extension SageMaker {
         public let resolvedImage: String?
         /// The image path you specified when you created the model.
         public let specifiedImage: String?
-        
+
         public init(resolutionTime: TimeStamp? = nil, resolvedImage: String? = nil, specifiedImage: String? = nil) {
             self.resolutionTime = resolutionTime
             self.resolvedImage = resolvedImage
@@ -2395,7 +2396,7 @@ extension SageMaker {
 
         /// The name of the algorithm to describe.
         public let algorithmName: String
-        
+
         public init(algorithmName: String) {
             self.algorithmName = algorithmName
         }
@@ -2448,7 +2449,7 @@ extension SageMaker {
         public let trainingSpecification: TrainingSpecification
         /// Details about configurations for one or more training jobs that Amazon SageMaker runs to test the algorithm.
         public let validationSpecification: AlgorithmValidationSpecification?
-        
+
         public init(algorithmArn: String, algorithmDescription: String? = nil, algorithmName: String, algorithmStatus: AlgorithmStatus, algorithmStatusDetails: AlgorithmStatusDetails, certifyForMarketplace: Bool? = nil, creationTime: TimeStamp, inferenceSpecification: InferenceSpecification? = nil, productId: String? = nil, trainingSpecification: TrainingSpecification, validationSpecification: AlgorithmValidationSpecification? = nil) {
             self.algorithmArn = algorithmArn
             self.algorithmDescription = algorithmDescription
@@ -2502,7 +2503,7 @@ extension SageMaker {
 
         /// The name of the Git repository to describe.
         public let codeRepositoryName: String
-        
+
         public init(codeRepositoryName: String) {
             self.codeRepositoryName = codeRepositoryName
         }
@@ -2537,7 +2538,7 @@ extension SageMaker {
         public let gitConfig: GitConfig?
         /// The date and time that the repository was last changed.
         public let lastModifiedTime: TimeStamp
-        
+
         public init(codeRepositoryArn: String, codeRepositoryName: String, creationTime: TimeStamp, gitConfig: GitConfig? = nil, lastModifiedTime: TimeStamp) {
             self.codeRepositoryArn = codeRepositoryArn
             self.codeRepositoryName = codeRepositoryName
@@ -2572,7 +2573,7 @@ extension SageMaker {
 
         /// The name of the model compilation job that you want information about.
         public let compilationJobName: String
-        
+
         public init(compilationJobName: String) {
             self.compilationJobName = compilationJobName
         }
@@ -2631,7 +2632,7 @@ extension SageMaker {
         public let roleArn: String
         /// Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker ends the compilation job. Use this API to cap model training costs.
         public let stoppingCondition: StoppingCondition
-        
+
         public init(compilationEndTime: TimeStamp? = nil, compilationJobArn: String, compilationJobName: String, compilationJobStatus: CompilationJobStatus, compilationStartTime: TimeStamp? = nil, creationTime: TimeStamp, failureReason: String, inputConfig: InputConfig, lastModifiedTime: TimeStamp, modelArtifacts: ModelArtifacts, outputConfig: OutputConfig, roleArn: String, stoppingCondition: StoppingCondition) {
             self.compilationEndTime = compilationEndTime
             self.compilationJobArn = compilationJobArn
@@ -2688,7 +2689,7 @@ extension SageMaker {
 
         /// The name of the endpoint configuration.
         public let endpointConfigName: String
-        
+
         public init(endpointConfigName: String) {
             self.endpointConfigName = endpointConfigName
         }
@@ -2722,7 +2723,7 @@ extension SageMaker {
         public let kmsKeyId: String?
         /// An array of ProductionVariant objects, one for each model that you want to host at this endpoint.
         public let productionVariants: [ProductionVariant]
-        
+
         public init(creationTime: TimeStamp, endpointConfigArn: String, endpointConfigName: String, kmsKeyId: String? = nil, productionVariants: [ProductionVariant]) {
             self.creationTime = creationTime
             self.endpointConfigArn = endpointConfigArn
@@ -2761,7 +2762,7 @@ extension SageMaker {
 
         /// The name of the endpoint.
         public let endpointName: String
-        
+
         public init(endpointName: String) {
             self.endpointName = endpointName
         }
@@ -2804,7 +2805,7 @@ extension SageMaker {
         public let lastModifiedTime: TimeStamp
         ///  An array of ProductionVariantSummary objects, one for each model hosted behind this endpoint. 
         public let productionVariants: [ProductionVariantSummary]?
-        
+
         public init(creationTime: TimeStamp, endpointArn: String, endpointConfigName: String, endpointName: String, endpointStatus: EndpointStatus, failureReason: String? = nil, lastModifiedTime: TimeStamp, productionVariants: [ProductionVariantSummary]? = nil) {
             self.creationTime = creationTime
             self.endpointArn = endpointArn
@@ -2850,7 +2851,7 @@ extension SageMaker {
 
         /// The name of the tuning job to describe.
         public let hyperParameterTuningJobName: String
-        
+
         public init(hyperParameterTuningJobName: String) {
             self.hyperParameterTuningJobName = hyperParameterTuningJobName
         }
@@ -2912,7 +2913,7 @@ extension SageMaker {
         public let trainingJobStatusCounters: TrainingJobStatusCounters
         /// The configuration for starting the hyperparameter parameter tuning job using one or more previous tuning jobs as a starting point. The results of previous tuning jobs are used to inform which combinations of hyperparameters to search over in the new tuning job.
         public let warmStartConfig: HyperParameterTuningJobWarmStartConfig?
-        
+
         public init(bestTrainingJob: HyperParameterTrainingJobSummary? = nil, creationTime: TimeStamp, failureReason: String? = nil, hyperParameterTuningEndTime: TimeStamp? = nil, hyperParameterTuningJobArn: String, hyperParameterTuningJobConfig: HyperParameterTuningJobConfig, hyperParameterTuningJobName: String, hyperParameterTuningJobStatus: HyperParameterTuningJobStatus, lastModifiedTime: TimeStamp? = nil, objectiveStatusCounters: ObjectiveStatusCounters, overallBestTrainingJob: HyperParameterTrainingJobSummary? = nil, trainingJobDefinition: HyperParameterTrainingJobDefinition? = nil, trainingJobStatusCounters: TrainingJobStatusCounters, warmStartConfig: HyperParameterTuningJobWarmStartConfig? = nil) {
             self.bestTrainingJob = bestTrainingJob
             self.creationTime = creationTime
@@ -2971,7 +2972,7 @@ extension SageMaker {
 
         /// The name of the labeling job to return information for.
         public let labelingJobName: String
-        
+
         public init(labelingJobName: String) {
             self.labelingJobName = labelingJobName
         }
@@ -3045,7 +3046,7 @@ extension SageMaker {
         public let stoppingConditions: LabelingJobStoppingConditions?
         /// An array of key/value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
         public let tags: [Tag]?
-        
+
         public init(creationTime: TimeStamp, failureReason: String? = nil, humanTaskConfig: HumanTaskConfig, inputConfig: LabelingJobInputConfig, jobReferenceCode: String, labelAttributeName: String? = nil, labelCategoryConfigS3Uri: String? = nil, labelCounters: LabelCounters, labelingJobAlgorithmsConfig: LabelingJobAlgorithmsConfig? = nil, labelingJobArn: String, labelingJobName: String, labelingJobOutput: LabelingJobOutput? = nil, labelingJobStatus: LabelingJobStatus, lastModifiedTime: TimeStamp, outputConfig: LabelingJobOutputConfig, roleArn: String, stoppingConditions: LabelingJobStoppingConditions? = nil, tags: [Tag]? = nil) {
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -3127,7 +3128,7 @@ extension SageMaker {
 
         /// The name of the model.
         public let modelName: String
-        
+
         public init(modelName: String) {
             self.modelName = modelName
         }
@@ -3170,7 +3171,7 @@ extension SageMaker {
         public let primaryContainer: ContainerDefinition?
         /// A VpcConfig object that specifies the VPC that this model has access to. For more information, see Protect Endpoints by Using an Amazon Virtual Private Cloud 
         public let vpcConfig: VpcConfig?
-        
+
         public init(containers: [ContainerDefinition]? = nil, creationTime: TimeStamp, enableNetworkIsolation: Bool? = nil, executionRoleArn: String, modelArn: String, modelName: String, primaryContainer: ContainerDefinition? = nil, vpcConfig: VpcConfig? = nil) {
             self.containers = containers
             self.creationTime = creationTime
@@ -3218,7 +3219,7 @@ extension SageMaker {
 
         /// The name of the model package to describe.
         public let modelPackageName: String
-        
+
         public init(modelPackageName: String) {
             self.modelPackageName = modelPackageName
         }
@@ -3268,7 +3269,7 @@ extension SageMaker {
         public let sourceAlgorithmSpecification: SourceAlgorithmSpecification?
         /// Configurations for one or more transform jobs that Amazon SageMaker runs to test the model package.
         public let validationSpecification: ModelPackageValidationSpecification?
-        
+
         public init(certifyForMarketplace: Bool? = nil, creationTime: TimeStamp, inferenceSpecification: InferenceSpecification? = nil, modelPackageArn: String, modelPackageDescription: String? = nil, modelPackageName: String, modelPackageStatus: ModelPackageStatus, modelPackageStatusDetails: ModelPackageStatusDetails, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
             self.certifyForMarketplace = certifyForMarketplace
             self.creationTime = creationTime
@@ -3318,7 +3319,7 @@ extension SageMaker {
 
         /// The name of the notebook instance that you want information about.
         public let notebookInstanceName: String
-        
+
         public init(notebookInstanceName: String) {
             self.notebookInstanceName = notebookInstanceName
         }
@@ -3340,7 +3341,7 @@ extension SageMaker {
 
         /// The name of the lifecycle configuration to describe.
         public let notebookInstanceLifecycleConfigName: String
-        
+
         public init(notebookInstanceLifecycleConfigName: String) {
             self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
         }
@@ -3377,7 +3378,7 @@ extension SageMaker {
         public let onCreate: [NotebookInstanceLifecycleHook]?
         /// The shell script that runs every time you start a notebook instance, including when you create the notebook instance.
         public let onStart: [NotebookInstanceLifecycleHook]?
-        
+
         public init(creationTime: TimeStamp? = nil, lastModifiedTime: TimeStamp? = nil, notebookInstanceLifecycleConfigArn: String? = nil, notebookInstanceLifecycleConfigName: String? = nil, onCreate: [NotebookInstanceLifecycleHook]? = nil, onStart: [NotebookInstanceLifecycleHook]? = nil) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
@@ -3475,7 +3476,7 @@ extension SageMaker {
         public let url: String?
         /// The size, in GB, of the ML storage volume attached to the notebook instance.
         public let volumeSizeInGB: Int32?
-        
+
         public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, creationTime: TimeStamp? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, failureReason: String? = nil, instanceType: InstanceType? = nil, kmsKeyId: String? = nil, lastModifiedTime: TimeStamp? = nil, networkInterfaceId: String? = nil, notebookInstanceArn: String? = nil, notebookInstanceLifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, notebookInstanceStatus: NotebookInstanceStatus? = nil, roleArn: String? = nil, rootAccess: RootAccess? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, url: String? = nil, volumeSizeInGB: Int32? = nil) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
@@ -3562,7 +3563,7 @@ extension SageMaker {
 
         /// The Amazon Resource Name (ARN) of the subscribed work team to describe.
         public let workteamArn: String
-        
+
         public init(workteamArn: String) {
             self.workteamArn = workteamArn
         }
@@ -3584,7 +3585,7 @@ extension SageMaker {
 
         /// A Workteam instance that contains information about the work team.
         public let subscribedWorkteam: SubscribedWorkteam
-        
+
         public init(subscribedWorkteam: SubscribedWorkteam) {
             self.subscribedWorkteam = subscribedWorkteam
         }
@@ -3605,7 +3606,7 @@ extension SageMaker {
 
         /// The name of the training job.
         public let trainingJobName: String
-        
+
         public init(trainingJobName: String) {
             self.trainingJobName = trainingJobName
         }
@@ -3697,7 +3698,7 @@ extension SageMaker {
         public let tuningJobArn: String?
         /// A VpcConfig object that specifies the VPC that this training job has access to. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
-        
+
         public init(algorithmSpecification: AlgorithmSpecification, creationTime: TimeStamp, enableInterContainerTrafficEncryption: Bool? = nil, enableNetworkIsolation: Bool? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: TimeStamp? = nil, modelArtifacts: ModelArtifacts, outputDataConfig: OutputDataConfig? = nil, resourceConfig: ResourceConfig, roleArn: String? = nil, secondaryStatus: SecondaryStatus, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition, trainingEndTime: TimeStamp? = nil, trainingJobArn: String, trainingJobName: String, trainingJobStatus: TrainingJobStatus, trainingStartTime: TimeStamp? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.creationTime = creationTime
@@ -3792,7 +3793,7 @@ extension SageMaker {
 
         /// The name of the transform job that you want to view details of.
         public let transformJobName: String
-        
+
         public init(transformJobName: String) {
             self.transformJobName = transformJobName
         }
@@ -3862,7 +3863,7 @@ extension SageMaker {
         public let transformResources: TransformResources
         /// Indicates when the transform job starts on ML instances. You are billed for the time interval between this time and the value of TransformEndTime.
         public let transformStartTime: TimeStamp?
-        
+
         public init(batchStrategy: BatchStrategy? = nil, creationTime: TimeStamp, dataProcessing: DataProcessing? = nil, environment: [String: String]? = nil, failureReason: String? = nil, labelingJobArn: String? = nil, maxConcurrentTransforms: Int32? = nil, maxPayloadInMB: Int32? = nil, modelName: String, transformEndTime: TimeStamp? = nil, transformInput: TransformInput, transformJobArn: String, transformJobName: String, transformJobStatus: TransformJobStatus, transformOutput: TransformOutput? = nil, transformResources: TransformResources, transformStartTime: TimeStamp? = nil) {
             self.batchStrategy = batchStrategy
             self.creationTime = creationTime
@@ -3930,7 +3931,7 @@ extension SageMaker {
 
         /// The name of the work team to return a description of.
         public let workteamName: String
-        
+
         public init(workteamName: String) {
             self.workteamName = workteamName
         }
@@ -3953,7 +3954,7 @@ extension SageMaker {
 
         /// A Workteam instance that contains information about the work team. 
         public let workteam: Workteam
-        
+
         public init(workteam: Workteam) {
             self.workteam = workteam
         }
@@ -3980,7 +3981,7 @@ extension SageMaker {
         public let desiredWeight: Float?
         /// The name of the variant to update.
         public let variantName: String
-        
+
         public init(desiredInstanceCount: Int32? = nil, desiredWeight: Float? = nil, variantName: String) {
             self.desiredInstanceCount = desiredInstanceCount
             self.desiredWeight = desiredWeight
@@ -4042,7 +4043,7 @@ extension SageMaker {
         public let endpointConfigArn: String
         /// The name of the endpoint configuration.
         public let endpointConfigName: String
-        
+
         public init(creationTime: TimeStamp, endpointConfigArn: String, endpointConfigName: String) {
             self.creationTime = creationTime
             self.endpointConfigArn = endpointConfigArn
@@ -4102,7 +4103,7 @@ extension SageMaker {
         public let endpointStatus: EndpointStatus
         /// A timestamp that shows when the endpoint was last modified.
         public let lastModifiedTime: TimeStamp
-        
+
         public init(creationTime: TimeStamp, endpointArn: String, endpointName: String, endpointStatus: EndpointStatus, lastModifiedTime: TimeStamp) {
             self.creationTime = creationTime
             self.endpointArn = endpointArn
@@ -4141,7 +4142,7 @@ extension SageMaker {
         public let `operator`: Operator?
         /// A value used with Resource and Operator to determine if objects satisfy the filter's condition. For numerical properties, Value must be an integer or floating-point decimal. For timestamp properties, Value must be an ISO 8601 date-time string of the following format: YYYY-mm-dd'T'HH:MM:SS.
         public let value: String?
-        
+
         public init(name: String, operator: Operator? = nil, value: String? = nil) {
             self.name = name
             self.`operator` = `operator`
@@ -4177,7 +4178,7 @@ extension SageMaker {
         public let `type`: HyperParameterTuningJobObjectiveType?
         /// The value of the objective metric.
         public let value: Float
-        
+
         public init(metricName: String, type: HyperParameterTuningJobObjectiveType? = nil, value: Float) {
             self.metricName = metricName
             self.`type` = `type`
@@ -4216,7 +4217,7 @@ extension SageMaker {
         public let resource: ResourceType
         /// Limits the property names that are included in the response.
         public let suggestionQuery: SuggestionQuery?
-        
+
         public init(resource: ResourceType, suggestionQuery: SuggestionQuery? = nil) {
             self.resource = resource
             self.suggestionQuery = suggestionQuery
@@ -4239,7 +4240,7 @@ extension SageMaker {
 
         /// A list of property names for a Resource that match a SuggestionQuery.
         public let propertyNameSuggestions: [PropertyNameSuggestion]?
-        
+
         public init(propertyNameSuggestions: [PropertyNameSuggestion]? = nil) {
             self.propertyNameSuggestions = propertyNameSuggestions
         }
@@ -4268,7 +4269,7 @@ extension SageMaker {
         public let repositoryUrl: String
         /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret that contains the credentials used to access the git repository. The secret must have a staging label of AWSCURRENT and must be in the following format:  {"username": UserName, "password": Password} 
         public let secretArn: String?
-        
+
         public init(branch: String? = nil, repositoryUrl: String, secretArn: String? = nil) {
             self.branch = branch
             self.repositoryUrl = repositoryUrl
@@ -4299,7 +4300,7 @@ extension SageMaker {
 
         /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret that contains the credentials used to access the git repository. The secret must have a staging label of AWSCURRENT and must be in the following format:  {"username": UserName, "password": Password} 
         public let secretArn: String?
-        
+
         public init(secretArn: String? = nil) {
             self.secretArn = secretArn
         }
@@ -4355,7 +4356,7 @@ extension SageMaker {
         public let uiConfig: UiConfig
         /// The Amazon Resource Name (ARN) of the work team assigned to complete the tasks.
         public let workteamArn: String
-        
+
         public init(annotationConsolidationConfig: AnnotationConsolidationConfig, maxConcurrentTaskCount: Int32? = nil, numberOfHumanWorkersPerDataObject: Int32, preHumanTaskLambdaArn: String, publicWorkforceTaskPrice: PublicWorkforceTaskPrice? = nil, taskAvailabilityLifetimeInSeconds: Int32? = nil, taskDescription: String, taskKeywords: [String]? = nil, taskTimeLimitInSeconds: Int32, taskTitle: String, uiConfig: UiConfig, workteamArn: String) {
             self.annotationConsolidationConfig = annotationConsolidationConfig
             self.maxConcurrentTaskCount = maxConcurrentTaskCount
@@ -4434,7 +4435,7 @@ extension SageMaker {
         public let trainingImage: String?
         /// The input mode that the algorithm supports: File or Pipe. In File input mode, Amazon SageMaker downloads the training data from Amazon S3 to the storage volume that is attached to the training instance and mounts the directory to the Docker volume for the training container. In Pipe input mode, Amazon SageMaker streams data directly from Amazon S3 to the container.  If you specify File mode, make sure that you provision the storage volume that is attached to the training instance with enough capacity to accommodate the training data downloaded from Amazon S3, the model artifacts, and intermediate information.  For more information about input modes, see Algorithms. 
         public let trainingInputMode: TrainingInputMode
-        
+
         public init(algorithmName: String? = nil, metricDefinitions: [MetricDefinition]? = nil, trainingImage: String? = nil, trainingInputMode: TrainingInputMode) {
             self.algorithmName = algorithmName
             self.metricDefinitions = metricDefinitions
@@ -4496,7 +4497,7 @@ extension SageMaker {
         public let range: ParameterRange?
         /// The type of this hyperparameter. The valid types are Integer, Continuous, Categorical, and FreeText.
         public let `type`: ParameterType
-        
+
         public init(defaultValue: String? = nil, description: String? = nil, isRequired: Bool? = nil, isTunable: Bool? = nil, name: String, range: ParameterRange? = nil, type: ParameterType) {
             self.defaultValue = defaultValue
             self.description = description
@@ -4562,7 +4563,7 @@ extension SageMaker {
         public let stoppingCondition: StoppingCondition
         /// The VpcConfig object that specifies the VPC that you want the training jobs that this hyperparameter tuning job launches to connect to. Control access to and from your training container by configuring the VPC. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
-        
+
         public init(algorithmSpecification: HyperParameterAlgorithmSpecification, enableInterContainerTrafficEncryption: Bool? = nil, enableNetworkIsolation: Bool? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, resourceConfig: ResourceConfig, roleArn: String, staticHyperParameters: [String: String]? = nil, stoppingCondition: StoppingCondition, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
@@ -4643,7 +4644,7 @@ extension SageMaker {
         public let tunedHyperParameters: [String: String]
         /// The HyperParameter tuning job that launched the training job.
         public let tuningJobName: String?
-        
+
         public init(creationTime: TimeStamp, failureReason: String? = nil, finalHyperParameterTuningJobObjectiveMetric: FinalHyperParameterTuningJobObjectiveMetric? = nil, objectiveStatus: ObjectiveStatus? = nil, trainingEndTime: TimeStamp? = nil, trainingJobArn: String, trainingJobName: String, trainingJobStatus: TrainingJobStatus, trainingStartTime: TimeStamp? = nil, tunedHyperParameters: [String: String], tuningJobName: String? = nil) {
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -4705,7 +4706,7 @@ extension SageMaker {
         public let strategy: HyperParameterTuningJobStrategyType
         /// Specifies whether to use early stopping for training jobs launched by the hyperparameter tuning job. This can be one of the following values (the default value is OFF):  OFF  Training jobs launched by the hyperparameter tuning job do not use early stopping.  AUTO  Amazon SageMaker stops training jobs launched by the hyperparameter tuning job when they are unlikely to perform better than previously completed training jobs. For more information, see Stop Training Jobs Early.  
         public let trainingJobEarlyStoppingType: TrainingJobEarlyStoppingType?
-        
+
         public init(hyperParameterTuningJobObjective: HyperParameterTuningJobObjective? = nil, parameterRanges: ParameterRanges? = nil, resourceLimits: ResourceLimits, strategy: HyperParameterTuningJobStrategyType, trainingJobEarlyStoppingType: TrainingJobEarlyStoppingType? = nil) {
             self.hyperParameterTuningJobObjective = hyperParameterTuningJobObjective
             self.parameterRanges = parameterRanges
@@ -4739,7 +4740,7 @@ extension SageMaker {
         public let metricName: String
         /// Whether to minimize or maximize the objective metric.
         public let `type`: HyperParameterTuningJobObjectiveType
-        
+
         public init(metricName: String, type: HyperParameterTuningJobObjectiveType) {
             self.metricName = metricName
             self.`type` = `type`
@@ -4819,7 +4820,7 @@ extension SageMaker {
         public let strategy: HyperParameterTuningJobStrategyType
         /// The TrainingJobStatusCounters object that specifies the numbers of training jobs, categorized by status, that this tuning job launched.
         public let trainingJobStatusCounters: TrainingJobStatusCounters
-        
+
         public init(creationTime: TimeStamp, hyperParameterTuningEndTime: TimeStamp? = nil, hyperParameterTuningJobArn: String, hyperParameterTuningJobName: String, hyperParameterTuningJobStatus: HyperParameterTuningJobStatus, lastModifiedTime: TimeStamp? = nil, objectiveStatusCounters: ObjectiveStatusCounters, resourceLimits: ResourceLimits? = nil, strategy: HyperParameterTuningJobStrategyType, trainingJobStatusCounters: TrainingJobStatusCounters) {
             self.creationTime = creationTime
             self.hyperParameterTuningEndTime = hyperParameterTuningEndTime
@@ -4868,7 +4869,7 @@ extension SageMaker {
         public let parentHyperParameterTuningJobs: [ParentHyperParameterTuningJob]
         /// Specifies one of the following:  IDENTICAL_DATA_AND_ALGORITHM  The new hyperparameter tuning job uses the same input data and training image as the parent tuning jobs. You can change the hyperparameter ranges to search and the maximum number of training jobs that the hyperparameter tuning job launches. You cannot use a new version of the training algorithm, unless the changes in the new version do not affect the algorithm itself. For example, changes that improve logging or adding support for a different data format are allowed. You can also change hyperparameters from tunable to static, and from static to tunable, but the total number of static plus tunable hyperparameters must remain the same as it is in all parent jobs. The objective metric for the new tuning job must be the same as for all parent jobs.  TRANSFER_LEARNING  The new hyperparameter tuning job can include input data, hyperparameter ranges, maximum number of concurrent training jobs, and maximum number of training jobs that are different than those of its parent hyperparameter tuning jobs. The training image can also be a different version from the version used in the parent hyperparameter tuning job. You can also change hyperparameters from tunable to static, and from static to tunable, but the total number of static plus tunable hyperparameters must remain the same as it is in all parent jobs. The objective metric for the new tuning job must be the same as for all parent jobs.  
         public let warmStartType: HyperParameterTuningJobWarmStartType
-        
+
         public init(parentHyperParameterTuningJobs: [ParentHyperParameterTuningJob], warmStartType: HyperParameterTuningJobWarmStartType) {
             self.parentHyperParameterTuningJobs = parentHyperParameterTuningJobs
             self.warmStartType = warmStartType
@@ -4913,7 +4914,7 @@ extension SageMaker {
         public let supportedResponseMIMETypes: [String]
         /// A list of the instance types on which a transformation job can be run or on which an endpoint can be deployed.
         public let supportedTransformInstanceTypes: [TransformInstanceType]
-        
+
         public init(containers: [ModelPackageContainerDefinition], supportedContentTypes: [String], supportedRealtimeInferenceInstanceTypes: [ProductionVariantInstanceType], supportedResponseMIMETypes: [String], supportedTransformInstanceTypes: [TransformInstanceType]) {
             self.containers = containers
             self.supportedContentTypes = supportedContentTypes
@@ -4961,7 +4962,7 @@ extension SageMaker {
         public let framework: Framework
         /// The S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).
         public let s3Uri: String
-        
+
         public init(dataInputConfig: String, framework: Framework, s3Uri: String) {
             self.dataInputConfig = dataInputConfig
             self.framework = framework
@@ -5041,7 +5042,7 @@ extension SageMaker {
         public let name: String
         /// The scale that hyperparameter tuning uses to search the hyperparameter range. For information about choosing a hyperparameter scale, see Hyperparameter Scaling. One of the following values:  Auto  Amazon SageMaker hyperparameter tuning chooses the best scale for the hyperparameter.  Linear  Hyperparameter tuning searches the values in the hyperparameter range by using a linear scale.  Logarithmic  Hyperparemeter tuning searches the values in the hyperparameter range by using a logarithmic scale. Logarithmic scaling works only for ranges that have only values greater than 0.  
         public let scalingType: HyperParameterScalingType?
-        
+
         public init(maxValue: String, minValue: String, name: String, scalingType: HyperParameterScalingType? = nil) {
             self.maxValue = maxValue
             self.minValue = minValue
@@ -5076,7 +5077,7 @@ extension SageMaker {
         public let maxValue: String
         /// The minimum integer value allowed.
         public let minValue: String
-        
+
         public init(maxValue: String, minValue: String) {
             self.maxValue = maxValue
             self.minValue = minValue
@@ -5120,7 +5121,7 @@ extension SageMaker {
         public let totalLabeled: Int32?
         /// The total number of objects not yet labeled.
         public let unlabeled: Int32?
-        
+
         public init(failedNonRetryableError: Int32? = nil, humanLabeled: Int32? = nil, machineLabeled: Int32? = nil, totalLabeled: Int32? = nil, unlabeled: Int32? = nil) {
             self.failedNonRetryableError = failedNonRetryableError
             self.humanLabeled = humanLabeled
@@ -5159,7 +5160,7 @@ extension SageMaker {
         public let pendingHuman: Int32?
         /// The total number of tasks in the labeling job.
         public let total: Int32?
-        
+
         public init(humanLabeled: Int32? = nil, pendingHuman: Int32? = nil, total: Int32? = nil) {
             self.humanLabeled = humanLabeled
             self.pendingHuman = pendingHuman
@@ -5192,7 +5193,7 @@ extension SageMaker {
         public let labelingJobAlgorithmSpecificationArn: String
         /// Provides configuration information for a labeling job.
         public let labelingJobResourceConfig: LabelingJobResourceConfig?
-        
+
         public init(initialActiveLearningModelArn: String? = nil, labelingJobAlgorithmSpecificationArn: String, labelingJobResourceConfig: LabelingJobResourceConfig? = nil) {
             self.initialActiveLearningModelArn = initialActiveLearningModelArn
             self.labelingJobAlgorithmSpecificationArn = labelingJobAlgorithmSpecificationArn
@@ -5222,7 +5223,7 @@ extension SageMaker {
 
         /// Declares that your content is free of personally identifiable information or adult content. Amazon SageMaker may restrict the Amazon Mechanical Turk workers that can view your task based on this information.
         public let contentClassifiers: [ContentClassifier]?
-        
+
         public init(contentClassifiers: [ContentClassifier]? = nil) {
             self.contentClassifiers = contentClassifiers
         }
@@ -5243,7 +5244,7 @@ extension SageMaker {
 
         /// The Amazon S3 location of the input data objects.
         public let s3DataSource: LabelingJobS3DataSource
-        
+
         public init(s3DataSource: LabelingJobS3DataSource) {
             self.s3DataSource = s3DataSource
         }
@@ -5278,7 +5279,7 @@ extension SageMaker {
         /// The configured number of workers per data object.
         public let numberOfHumanWorkersPerDataObject: Int32?
         public let workRequesterAccountId: String
-        
+
         public init(creationTime: TimeStamp, jobReferenceCode: String, labelCounters: LabelCountersForWorkteam? = nil, labelingJobName: String? = nil, numberOfHumanWorkersPerDataObject: Int32? = nil, workRequesterAccountId: String) {
             self.creationTime = creationTime
             self.jobReferenceCode = jobReferenceCode
@@ -5320,7 +5321,7 @@ extension SageMaker {
         public let dataAttributes: LabelingJobDataAttributes?
         /// The location of the input data.
         public let dataSource: LabelingJobDataSource
-        
+
         public init(dataAttributes: LabelingJobDataAttributes? = nil, dataSource: LabelingJobDataSource) {
             self.dataAttributes = dataAttributes
             self.dataSource = dataSource
@@ -5347,7 +5348,7 @@ extension SageMaker {
         public let finalActiveLearningModelArn: String?
         /// The Amazon S3 bucket location of the manifest file for labeled data. 
         public let outputDatasetS3Uri: String
-        
+
         public init(finalActiveLearningModelArn: String? = nil, outputDatasetS3Uri: String) {
             self.finalActiveLearningModelArn = finalActiveLearningModelArn
             self.outputDatasetS3Uri = outputDatasetS3Uri
@@ -5377,7 +5378,7 @@ extension SageMaker {
         public let kmsKeyId: String?
         /// The Amazon S3 location to write output data.
         public let s3OutputPath: String
-        
+
         public init(kmsKeyId: String? = nil, s3OutputPath: String) {
             self.kmsKeyId = kmsKeyId
             self.s3OutputPath = s3OutputPath
@@ -5403,7 +5404,7 @@ extension SageMaker {
 
         /// The AWS Key Management Service key ID for the key used to encrypt the output data, if any.
         public let volumeKmsKeyId: String?
-        
+
         public init(volumeKmsKeyId: String? = nil) {
             self.volumeKmsKeyId = volumeKmsKeyId
         }
@@ -5425,7 +5426,7 @@ extension SageMaker {
 
         /// The Amazon S3 location of the manifest file that describes the input data objects.
         public let manifestS3Uri: String
-        
+
         public init(manifestS3Uri: String) {
             self.manifestS3Uri = manifestS3Uri
         }
@@ -5459,7 +5460,7 @@ extension SageMaker {
         public let maxHumanLabeledObjectCount: Int32?
         /// The maximum number of input data objects that should be labeled.
         public let maxPercentageOfInputDatasetLabeled: Int32?
-        
+
         public init(maxHumanLabeledObjectCount: Int32? = nil, maxPercentageOfInputDatasetLabeled: Int32? = nil) {
             self.maxHumanLabeledObjectCount = maxHumanLabeledObjectCount
             self.maxPercentageOfInputDatasetLabeled = maxPercentageOfInputDatasetLabeled
@@ -5517,7 +5518,7 @@ extension SageMaker {
         public let preHumanTaskLambdaArn: String
         /// The Amazon Resource Name (ARN) of the work team assigned to the job.
         public let workteamArn: String
-        
+
         public init(annotationConsolidationLambdaArn: String? = nil, creationTime: TimeStamp, failureReason: String? = nil, inputConfig: LabelingJobInputConfig? = nil, labelCounters: LabelCounters, labelingJobArn: String, labelingJobName: String, labelingJobOutput: LabelingJobOutput? = nil, labelingJobStatus: LabelingJobStatus, lastModifiedTime: TimeStamp, preHumanTaskLambdaArn: String, workteamArn: String) {
             self.annotationConsolidationLambdaArn = annotationConsolidationLambdaArn
             self.creationTime = creationTime
@@ -5592,7 +5593,7 @@ extension SageMaker {
         public let sortBy: AlgorithmSortBy?
         /// The sort order for the results. The default is Ascending.
         public let sortOrder: SortOrder?
-        
+
         public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: AlgorithmSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -5633,7 +5634,7 @@ extension SageMaker {
         public let algorithmSummaryList: [AlgorithmSummary]
         /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of algorithms, use it in the subsequent request.
         public let nextToken: String?
-        
+
         public init(algorithmSummaryList: [AlgorithmSummary], nextToken: String? = nil) {
             self.algorithmSummaryList = algorithmSummaryList
             self.nextToken = nextToken
@@ -5684,7 +5685,7 @@ extension SageMaker {
         public let sortBy: CodeRepositorySortBy?
         /// The sort order for results. The default is Ascending.
         public let sortOrder: CodeRepositorySortOrder?
-        
+
         public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: CodeRepositorySortBy? = nil, sortOrder: CodeRepositorySortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -5729,7 +5730,7 @@ extension SageMaker {
         public let codeRepositorySummaryList: [CodeRepositorySummary]
         /// If the result of a ListCodeRepositoriesOutput request was truncated, the response includes a NextToken. To get the next set of Git repositories, use the token in the next request.
         public let nextToken: String?
-        
+
         public init(codeRepositorySummaryList: [CodeRepositorySummary], nextToken: String? = nil) {
             self.codeRepositorySummaryList = codeRepositorySummaryList
             self.nextToken = nextToken
@@ -5783,7 +5784,7 @@ extension SageMaker {
         public let sortOrder: SortOrder?
         /// A filter that retrieves model compilation jobs with a specific DescribeCompilationJobResponse$CompilationJobStatus status.
         public let statusEquals: CompilationJobStatus?
-        
+
         public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ListCompilationJobsSortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: CompilationJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -5830,7 +5831,7 @@ extension SageMaker {
         public let compilationJobSummaries: [CompilationJobSummary]
         /// If the response is truncated, Amazon SageMaker returns this NextToken. To retrieve the next set of model compilation jobs, use this token in the next request.
         public let nextToken: String?
-        
+
         public init(compilationJobSummaries: [CompilationJobSummary], nextToken: String? = nil) {
             self.compilationJobSummaries = compilationJobSummaries
             self.nextToken = nextToken
@@ -5882,7 +5883,7 @@ extension SageMaker {
         public let sortBy: EndpointConfigSortKey?
         /// The sort order for results. The default is Descending.
         public let sortOrder: OrderKey?
-        
+
         public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: EndpointConfigSortKey? = nil, sortOrder: OrderKey? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -5923,7 +5924,7 @@ extension SageMaker {
         public let endpointConfigs: [EndpointConfigSummary]
         ///  If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of endpoint configurations, use it in the subsequent request 
         public let nextToken: String?
-        
+
         public init(endpointConfigs: [EndpointConfigSummary], nextToken: String? = nil) {
             self.endpointConfigs = endpointConfigs
             self.nextToken = nextToken
@@ -5977,7 +5978,7 @@ extension SageMaker {
         public let sortOrder: OrderKey?
         ///  A filter that returns only endpoints with the specified status.
         public let statusEquals: EndpointStatus?
-        
+
         public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: EndpointSortKey? = nil, sortOrder: OrderKey? = nil, statusEquals: EndpointStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -6024,7 +6025,7 @@ extension SageMaker {
         public let endpoints: [EndpointSummary]
         ///  If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of training jobs, use it in the subsequent request. 
         public let nextToken: String?
-        
+
         public init(endpoints: [EndpointSummary], nextToken: String? = nil) {
             self.endpoints = endpoints
             self.nextToken = nextToken
@@ -6078,7 +6079,7 @@ extension SageMaker {
         public let sortOrder: SortOrder?
         /// A filter that returns only tuning jobs with the specified status.
         public let statusEquals: HyperParameterTuningJobStatus?
-        
+
         public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: HyperParameterTuningJobSortByOptions? = nil, sortOrder: SortOrder? = nil, statusEquals: HyperParameterTuningJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -6125,7 +6126,7 @@ extension SageMaker {
         public let hyperParameterTuningJobSummaries: [HyperParameterTuningJobSummary]
         /// If the result of this ListHyperParameterTuningJobs request was truncated, the response includes a NextToken. To retrieve the next set of tuning jobs, use the token in the next request.
         public let nextToken: String?
-        
+
         public init(hyperParameterTuningJobSummaries: [HyperParameterTuningJobSummary], nextToken: String? = nil) {
             self.hyperParameterTuningJobSummaries = hyperParameterTuningJobSummaries
             self.nextToken = nextToken
@@ -6173,7 +6174,7 @@ extension SageMaker {
         public let sortOrder: SortOrder?
         /// The Amazon Resource Name (ARN) of the work team for which you want to see labeling jobs for.
         public let workteamArn: String
-        
+
         public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, jobReferenceCodeContains: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortBy: ListLabelingJobsForWorkteamSortByOptions? = nil, sortOrder: SortOrder? = nil, workteamArn: String) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -6219,7 +6220,7 @@ extension SageMaker {
         public let labelingJobSummaryList: [LabelingJobForWorkteamSummary]
         /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of labeling jobs, use it in the subsequent request.
         public let nextToken: String?
-        
+
         public init(labelingJobSummaryList: [LabelingJobForWorkteamSummary], nextToken: String? = nil) {
             self.labelingJobSummaryList = labelingJobSummaryList
             self.nextToken = nextToken
@@ -6278,7 +6279,7 @@ extension SageMaker {
         public let sortOrder: SortOrder?
         /// A filter that retrieves only labeling jobs with a specific status.
         public let statusEquals: LabelingJobStatus?
-        
+
         public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: LabelingJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -6325,7 +6326,7 @@ extension SageMaker {
         public let labelingJobSummaryList: [LabelingJobSummary]?
         /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of labeling jobs, use it in the subsequent request.
         public let nextToken: String?
-        
+
         public init(labelingJobSummaryList: [LabelingJobSummary]? = nil, nextToken: String? = nil) {
             self.labelingJobSummaryList = labelingJobSummaryList
             self.nextToken = nextToken
@@ -6370,7 +6371,7 @@ extension SageMaker {
         public let sortBy: ModelPackageSortBy?
         /// The sort order for the results. The default is Ascending.
         public let sortOrder: SortOrder?
-        
+
         public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ModelPackageSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -6411,7 +6412,7 @@ extension SageMaker {
         public let modelPackageSummaryList: [ModelPackageSummary]
         /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of model packages, use it in the subsequent request.
         public let nextToken: String?
-        
+
         public init(modelPackageSummaryList: [ModelPackageSummary], nextToken: String? = nil) {
             self.modelPackageSummaryList = modelPackageSummaryList
             self.nextToken = nextToken
@@ -6456,7 +6457,7 @@ extension SageMaker {
         public let sortBy: ModelSortKey?
         /// The sort order for results. The default is Descending.
         public let sortOrder: OrderKey?
-        
+
         public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ModelSortKey? = nil, sortOrder: OrderKey? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -6497,7 +6498,7 @@ extension SageMaker {
         public let models: [ModelSummary]
         ///  If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of models, use it in the subsequent request. 
         public let nextToken: String?
-        
+
         public init(models: [ModelSummary], nextToken: String? = nil) {
             self.models = models
             self.nextToken = nextToken
@@ -6548,7 +6549,7 @@ extension SageMaker {
         public let sortBy: NotebookInstanceLifecycleConfigSortKey?
         /// The sort order for results.
         public let sortOrder: NotebookInstanceLifecycleConfigSortOrder?
-        
+
         public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: NotebookInstanceLifecycleConfigSortKey? = nil, sortOrder: NotebookInstanceLifecycleConfigSortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -6593,7 +6594,7 @@ extension SageMaker {
         public let nextToken: String?
         /// An array of NotebookInstanceLifecycleConfiguration objects, each listing a lifecycle configuration.
         public let notebookInstanceLifecycleConfigs: [NotebookInstanceLifecycleConfigSummary]?
-        
+
         public init(nextToken: String? = nil, notebookInstanceLifecycleConfigs: [NotebookInstanceLifecycleConfigSummary]? = nil) {
             self.nextToken = nextToken
             self.notebookInstanceLifecycleConfigs = notebookInstanceLifecycleConfigs
@@ -6656,7 +6657,7 @@ extension SageMaker {
         public let sortOrder: NotebookInstanceSortOrder?
         /// A filter that returns only notebook instances with the specified status.
         public let statusEquals: NotebookInstanceStatus?
-        
+
         public init(additionalCodeRepositoryEquals: String? = nil, creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, defaultCodeRepositoryContains: String? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, notebookInstanceLifecycleConfigNameContains: String? = nil, sortBy: NotebookInstanceSortKey? = nil, sortOrder: NotebookInstanceSortOrder? = nil, statusEquals: NotebookInstanceStatus? = nil) {
             self.additionalCodeRepositoryEquals = additionalCodeRepositoryEquals
             self.creationTimeAfter = creationTimeAfter
@@ -6716,7 +6717,7 @@ extension SageMaker {
         public let nextToken: String?
         /// An array of NotebookInstanceSummary objects, one for each notebook instance.
         public let notebookInstances: [NotebookInstanceSummary]?
-        
+
         public init(nextToken: String? = nil, notebookInstances: [NotebookInstanceSummary]? = nil) {
             self.nextToken = nextToken
             self.notebookInstances = notebookInstances
@@ -6749,7 +6750,7 @@ extension SageMaker {
         public let nameContains: String?
         /// If the result of the previous ListSubscribedWorkteams request was truncated, the response includes a NextToken. To retrieve the next set of labeling jobs, use the token in the next request.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
@@ -6783,7 +6784,7 @@ extension SageMaker {
         public let nextToken: String?
         /// An array of Workteam objects, each describing a work team.
         public let subscribedWorkteams: [SubscribedWorkteam]
-        
+
         public init(nextToken: String? = nil, subscribedWorkteams: [SubscribedWorkteam]) {
             self.nextToken = nextToken
             self.subscribedWorkteams = subscribedWorkteams
@@ -6816,7 +6817,7 @@ extension SageMaker {
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve.
         public let resourceArn: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6848,7 +6849,7 @@ extension SageMaker {
         public let nextToken: String?
         /// An array of Tag objects, each with a tag key and a value.
         public let tags: [Tag]?
-        
+
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -6892,7 +6893,7 @@ extension SageMaker {
         public let sortOrder: SortOrder?
         /// A filter that returns only training jobs with the specified status.
         public let statusEquals: TrainingJobStatus?
-        
+
         public init(hyperParameterTuningJobName: String, maxResults: Int32? = nil, nextToken: String? = nil, sortBy: TrainingJobSortByOptions? = nil, sortOrder: SortOrder? = nil, statusEquals: TrainingJobStatus? = nil) {
             self.hyperParameterTuningJobName = hyperParameterTuningJobName
             self.maxResults = maxResults
@@ -6932,7 +6933,7 @@ extension SageMaker {
         public let nextToken: String?
         /// A list of TrainingJobSummary objects that describe the training jobs that the ListTrainingJobsForHyperParameterTuningJob request returned.
         public let trainingJobSummaries: [HyperParameterTrainingJobSummary]
-        
+
         public init(nextToken: String? = nil, trainingJobSummaries: [HyperParameterTrainingJobSummary]) {
             self.nextToken = nextToken
             self.trainingJobSummaries = trainingJobSummaries
@@ -6986,7 +6987,7 @@ extension SageMaker {
         public let sortOrder: SortOrder?
         /// A filter that retrieves only training jobs with a specific status.
         public let statusEquals: TrainingJobStatus?
-        
+
         public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: TrainingJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -7033,7 +7034,7 @@ extension SageMaker {
         public let nextToken: String?
         /// An array of TrainingJobSummary objects, each listing a training job.
         public let trainingJobSummaries: [TrainingJobSummary]
-        
+
         public init(nextToken: String? = nil, trainingJobSummaries: [TrainingJobSummary]) {
             self.nextToken = nextToken
             self.trainingJobSummaries = trainingJobSummaries
@@ -7087,7 +7088,7 @@ extension SageMaker {
         public let sortOrder: SortOrder?
         /// A filter that retrieves only transform jobs with a specific status.
         public let statusEquals: TransformJobStatus?
-        
+
         public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: TransformJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -7134,7 +7135,7 @@ extension SageMaker {
         public let nextToken: String?
         /// An array of TransformJobSummary objects.
         public let transformJobSummaries: [TransformJobSummary]
-        
+
         public init(nextToken: String? = nil, transformJobSummaries: [TransformJobSummary]) {
             self.nextToken = nextToken
             self.transformJobSummaries = transformJobSummaries
@@ -7173,7 +7174,7 @@ extension SageMaker {
         public let sortBy: ListWorkteamsSortByOptions?
         /// The sort order for results. The default is Ascending.
         public let sortOrder: SortOrder?
-        
+
         public init(maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ListWorkteamsSortByOptions? = nil, sortOrder: SortOrder? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
@@ -7211,7 +7212,7 @@ extension SageMaker {
         public let nextToken: String?
         /// An array of Workteam objects, each describing a work team.
         public let workteams: [Workteam]
-        
+
         public init(nextToken: String? = nil, workteams: [Workteam]) {
             self.nextToken = nextToken
             self.workteams = workteams
@@ -7244,7 +7245,7 @@ extension SageMaker {
 
         /// The Amazon Cognito user group that is part of the work team.
         public let cognitoMemberDefinition: CognitoMemberDefinition?
-        
+
         public init(cognitoMemberDefinition: CognitoMemberDefinition? = nil) {
             self.cognitoMemberDefinition = cognitoMemberDefinition
         }
@@ -7271,7 +7272,7 @@ extension SageMaker {
         public let timestamp: TimeStamp?
         /// The value of the metric.
         public let value: Float?
-        
+
         public init(metricName: String? = nil, timestamp: TimeStamp? = nil, value: Float? = nil) {
             self.metricName = metricName
             self.timestamp = timestamp
@@ -7301,7 +7302,7 @@ extension SageMaker {
         public let name: String
         /// A regular expression that searches the output of a training job and gets the value of the metric. For more information about using regular expressions to define metrics, see Defining Objective Metrics.
         public let regex: String
-        
+
         public init(name: String, regex: String) {
             self.name = name
             self.regex = regex
@@ -7329,7 +7330,7 @@ extension SageMaker {
 
         /// The path of the S3 object that contains the model artifacts. For example, s3://bucket-name/keynameprefix/model.tar.gz.
         public let s3ModelArtifacts: String
-        
+
         public init(s3ModelArtifacts: String) {
             self.s3ModelArtifacts = s3ModelArtifacts
         }
@@ -7363,7 +7364,7 @@ extension SageMaker {
         public let modelDataUrl: String?
         /// The AWS Marketplace product ID of the model package.
         public let productId: String?
-        
+
         public init(containerHostname: String? = nil, image: String, imageDigest: String? = nil, modelDataUrl: String? = nil, productId: String? = nil) {
             self.containerHostname = containerHostname
             self.image = image
@@ -7419,7 +7420,7 @@ extension SageMaker {
         public let imageScanStatuses: [ModelPackageStatusItem]?
         /// The validation status of the model package.
         public let validationStatuses: [ModelPackageStatusItem]
-        
+
         public init(imageScanStatuses: [ModelPackageStatusItem]? = nil, validationStatuses: [ModelPackageStatusItem]) {
             self.imageScanStatuses = imageScanStatuses
             self.validationStatuses = validationStatuses
@@ -7453,7 +7454,7 @@ extension SageMaker {
         public let name: String
         /// The current status.
         public let status: DetailedModelPackageStatus
-        
+
         public init(failureReason: String? = nil, name: String, status: DetailedModelPackageStatus) {
             self.failureReason = failureReason
             self.name = name
@@ -7492,7 +7493,7 @@ extension SageMaker {
         public let modelPackageName: String
         /// The overall status of the model package.
         public let modelPackageStatus: ModelPackageStatus
-        
+
         public init(creationTime: TimeStamp, modelPackageArn: String, modelPackageDescription: String? = nil, modelPackageName: String, modelPackageStatus: ModelPackageStatus) {
             self.creationTime = creationTime
             self.modelPackageArn = modelPackageArn
@@ -7531,7 +7532,7 @@ extension SageMaker {
         public let profileName: String
         /// The TransformJobDefinition object that describes the transform job used for the validation of the model package.
         public let transformJobDefinition: TransformJobDefinition
-        
+
         public init(profileName: String, transformJobDefinition: TransformJobDefinition) {
             self.profileName = profileName
             self.transformJobDefinition = transformJobDefinition
@@ -7560,7 +7561,7 @@ extension SageMaker {
         public let validationProfiles: [ModelPackageValidationProfile]
         /// The IAM roles to be used for the validation of the model package.
         public let validationRole: String
-        
+
         public init(validationProfiles: [ModelPackageValidationProfile], validationRole: String) {
             self.validationProfiles = validationProfiles
             self.validationRole = validationRole
@@ -7602,7 +7603,7 @@ extension SageMaker {
         public let modelArn: String
         /// The name of the model that you want a summary for.
         public let modelName: String
-        
+
         public init(creationTime: TimeStamp, modelArn: String, modelName: String) {
             self.creationTime = creationTime
             self.modelArn = modelArn
@@ -7634,7 +7635,7 @@ extension SageMaker {
         public let filters: [Filter]
         /// The name of the property to use in the nested filters. The value must match a listed property name, such as InputDataConfig.
         public let nestedPropertyName: String
-        
+
         public init(filters: [Filter], nestedPropertyName: String) {
             self.filters = filters
             self.nestedPropertyName = nestedPropertyName
@@ -7693,7 +7694,7 @@ extension SageMaker {
         public let notebookInstanceLifecycleConfigArn: String
         /// The name of the lifecycle configuration.
         public let notebookInstanceLifecycleConfigName: String
-        
+
         public init(creationTime: TimeStamp? = nil, lastModifiedTime: TimeStamp? = nil, notebookInstanceLifecycleConfigArn: String, notebookInstanceLifecycleConfigName: String) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
@@ -7722,7 +7723,7 @@ extension SageMaker {
 
         /// A base64-encoded string that contains a shell script for a notebook instance lifecycle configuration.
         public let content: String?
-        
+
         public init(content: String? = nil) {
             self.content = content
         }
@@ -7796,7 +7797,7 @@ extension SageMaker {
         public let notebookInstanceStatus: NotebookInstanceStatus?
         /// The URL that you use to connect to the Jupyter instance running in your notebook instance. 
         public let url: String?
-        
+
         public init(additionalCodeRepositories: [String]? = nil, creationTime: TimeStamp? = nil, defaultCodeRepository: String? = nil, instanceType: InstanceType? = nil, lastModifiedTime: TimeStamp? = nil, notebookInstanceArn: String, notebookInstanceLifecycleConfigName: String? = nil, notebookInstanceName: String, notebookInstanceStatus: NotebookInstanceStatus? = nil, url: String? = nil) {
             self.additionalCodeRepositories = additionalCodeRepositories
             self.creationTime = creationTime
@@ -7848,7 +7849,7 @@ extension SageMaker {
 
         /// The ARN for the SNS topic to which notifications should be published.
         public let notificationTopicArn: String?
-        
+
         public init(notificationTopicArn: String? = nil) {
             self.notificationTopicArn = notificationTopicArn
         }
@@ -7882,7 +7883,7 @@ extension SageMaker {
         public let pending: Int32?
         /// The number of training jobs whose final objective metric was evaluated by the hyperparameter tuning job and used in the hyperparameter tuning process.
         public let succeeded: Int32?
-        
+
         public init(failed: Int32? = nil, pending: Int32? = nil, succeeded: Int32? = nil) {
             self.failed = failed
             self.pending = pending
@@ -7929,7 +7930,7 @@ extension SageMaker {
         public let s3OutputLocation: String
         /// Identifies the device that you want to run your model on after it has been compiled. For example: ml_c5.
         public let targetDevice: TargetDevice
-        
+
         public init(s3OutputLocation: String, targetDevice: TargetDevice) {
             self.s3OutputLocation = s3OutputLocation
             self.targetDevice = targetDevice
@@ -7956,7 +7957,7 @@ extension SageMaker {
         public let kmsKeyId: String?
         /// Identifies the S3 path where you want Amazon SageMaker to store the model artifacts. For example, s3://bucket-name/key-name-prefix. 
         public let s3OutputPath: String
-        
+
         public init(kmsKeyId: String? = nil, s3OutputPath: String) {
             self.kmsKeyId = kmsKeyId
             self.s3OutputPath = s3OutputPath
@@ -7988,7 +7989,7 @@ extension SageMaker {
         public let continuousParameterRangeSpecification: ContinuousParameterRangeSpecification?
         /// A IntegerParameterRangeSpecification object that defines the possible values for an integer hyperparameter.
         public let integerParameterRangeSpecification: IntegerParameterRangeSpecification?
-        
+
         public init(categoricalParameterRangeSpecification: CategoricalParameterRangeSpecification? = nil, continuousParameterRangeSpecification: ContinuousParameterRangeSpecification? = nil, integerParameterRangeSpecification: IntegerParameterRangeSpecification? = nil) {
             self.categoricalParameterRangeSpecification = categoricalParameterRangeSpecification
             self.continuousParameterRangeSpecification = continuousParameterRangeSpecification
@@ -8021,7 +8022,7 @@ extension SageMaker {
         public let continuousParameterRanges: [ContinuousParameterRange]?
         /// The array of IntegerParameterRange objects that specify ranges of integer hyperparameters that a hyperparameter tuning job searches.
         public let integerParameterRanges: [IntegerParameterRange]?
-        
+
         public init(categoricalParameterRanges: [CategoricalParameterRange]? = nil, continuousParameterRanges: [ContinuousParameterRange]? = nil, integerParameterRanges: [IntegerParameterRange]? = nil) {
             self.categoricalParameterRanges = categoricalParameterRanges
             self.continuousParameterRanges = continuousParameterRanges
@@ -8068,7 +8069,7 @@ extension SageMaker {
 
         /// The name of the hyperparameter tuning job to be used as a starting point for a new hyperparameter tuning job.
         public let hyperParameterTuningJobName: String?
-        
+
         public init(hyperParameterTuningJobName: String? = nil) {
             self.hyperParameterTuningJobName = hyperParameterTuningJobName
         }
@@ -8106,7 +8107,7 @@ extension SageMaker {
         public let modelName: String
         /// The name of the production variant.
         public let variantName: String
-        
+
         public init(acceleratorType: ProductionVariantAcceleratorType? = nil, initialInstanceCount: Int32, initialVariantWeight: Float? = nil, instanceType: ProductionVariantInstanceType, modelName: String, variantName: String) {
             self.acceleratorType = acceleratorType
             self.initialInstanceCount = initialInstanceCount
@@ -8200,7 +8201,7 @@ extension SageMaker {
         public let desiredWeight: Float?
         /// The name of the variant.
         public let variantName: String
-        
+
         public init(currentInstanceCount: Int32? = nil, currentWeight: Float? = nil, deployedImages: [DeployedImage]? = nil, desiredInstanceCount: Int32? = nil, desiredWeight: Float? = nil, variantName: String) {
             self.currentInstanceCount = currentInstanceCount
             self.currentWeight = currentWeight
@@ -8239,7 +8240,7 @@ extension SageMaker {
 
         /// Text that is part of a property's name. The property names of hyperparameter, metric, and tag key names that begin with the specified text in the PropertyNameHint.
         public let propertyNameHint: String
-        
+
         public init(propertyNameHint: String) {
             self.propertyNameHint = propertyNameHint
         }
@@ -8262,7 +8263,7 @@ extension SageMaker {
 
         /// A suggested property name based on what you entered in the search textbox in the Amazon SageMaker console.
         public let propertyName: String?
-        
+
         public init(propertyName: String? = nil) {
             self.propertyName = propertyName
         }
@@ -8285,7 +8286,7 @@ extension SageMaker {
 
         /// Defines the amount of money paid to a worker in United States dollars.
         public let amountInUsd: USD?
-        
+
         public init(amountInUsd: USD? = nil) {
             self.amountInUsd = amountInUsd
         }
@@ -8318,7 +8319,7 @@ extension SageMaker {
         public let task: RenderableTask
         /// A Template object containing the worker UI template to render.
         public let uiTemplate: UiTemplate
-        
+
         public init(roleArn: String, task: RenderableTask, uiTemplate: UiTemplate) {
             self.roleArn = roleArn
             self.task = task
@@ -8350,7 +8351,7 @@ extension SageMaker {
         public let errors: [RenderingError]
         /// A Liquid template that renders the HTML for the worker UI.
         public let renderedContent: String
-        
+
         public init(errors: [RenderingError], renderedContent: String) {
             self.errors = errors
             self.renderedContent = renderedContent
@@ -8369,7 +8370,7 @@ extension SageMaker {
 
         /// A JSON object that contains values for the variables defined in the template. It is made available to the template under the substitution variable task.input. For example, if you define a variable task.input.text in your template, you can supply the variable in the JSON object as "text": "sample text".
         public let input: String
-        
+
         public init(input: String) {
             self.input = input
         }
@@ -8395,7 +8396,7 @@ extension SageMaker {
         public let code: String
         /// A human-readable message describing the error.
         public let message: String
-        
+
         public init(code: String, message: String) {
             self.code = code
             self.message = message
@@ -8423,7 +8424,7 @@ extension SageMaker {
         public let volumeKmsKeyId: String?
         /// The size of the ML storage volume that you want to provision.  ML storage volumes store model artifacts and incremental states. Training algorithms might also use the ML storage volume for scratch space. If you want to store the training data in the ML storage volume, choose File as the TrainingInputMode in the algorithm specification.  You must specify sufficient ML storage for your scenario.    Amazon SageMaker supports only the General Purpose SSD (gp2) ML storage volume type.  
         public let volumeSizeInGB: Int32
-        
+
         public init(instanceCount: Int32, instanceType: TrainingInstanceType, volumeKmsKeyId: String? = nil, volumeSizeInGB: Int32) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
@@ -8456,7 +8457,7 @@ extension SageMaker {
         public let maxNumberOfTrainingJobs: Int32
         /// The maximum number of concurrent training jobs that a hyperparameter tuning job can launch.
         public let maxParallelTrainingJobs: Int32
-        
+
         public init(maxNumberOfTrainingJobs: Int32, maxParallelTrainingJobs: Int32) {
             self.maxNumberOfTrainingJobs = maxNumberOfTrainingJobs
             self.maxParallelTrainingJobs = maxParallelTrainingJobs
@@ -8506,7 +8507,7 @@ extension SageMaker {
         public let s3DataType: S3DataType
         /// Depending on the value specified for the S3DataType, identifies either a key name prefix or a manifest. For example:     A key name prefix might look like this: s3://bucketname/exampleprefix.     A manifest might look like this: s3://bucketname/example.manifest   The manifest is an S3 object which is a JSON file with the following format:   [    {"prefix": "s3://customer_bucket/some/prefix/"},    "relative/path/to/custdata-1",    "relative/path/custdata-2",    ...    ]   The preceding JSON matches the following s3Uris:   s3://customer_bucket/some/prefix/relative/path/to/custdata-1   s3://customer_bucket/some/prefix/relative/path/custdata-2   ...  The complete set of s3uris in this manifest is the input data for the channel for this datasource. The object that each s3uris points to must be readable by the IAM role that Amazon SageMaker uses to perform tasks on your behalf.   
         public let s3Uri: String
-        
+
         public init(attributeNames: [String]? = nil, s3DataDistributionType: S3DataDistribution? = nil, s3DataType: S3DataType, s3Uri: String) {
             self.attributeNames = attributeNames
             self.s3DataDistributionType = s3DataDistributionType
@@ -8556,7 +8557,7 @@ extension SageMaker {
         public let `operator`: BooleanOperator?
         /// A list of search expression objects.
         public let subExpressions: [SearchExpression]?
-        
+
         public init(filters: [Filter]? = nil, nestedFilters: [NestedFilters]? = nil, operator: BooleanOperator? = nil, subExpressions: [SearchExpression]? = nil) {
             self.filters = filters
             self.nestedFilters = nestedFilters
@@ -8597,7 +8598,7 @@ extension SageMaker {
 
         /// A TrainingJob object that is returned as part of a Search request.
         public let trainingJob: TrainingJob?
-        
+
         public init(trainingJob: TrainingJob? = nil) {
             self.trainingJob = trainingJob
         }
@@ -8633,7 +8634,7 @@ extension SageMaker {
         public let sortBy: String?
         /// How SearchResults are ordered. Valid values are Ascending or Descending. The default is Descending.
         public let sortOrder: SearchSortOrder?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, resource: ResourceType, searchExpression: SearchExpression? = nil, sortBy: String? = nil, sortOrder: SearchSortOrder? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -8674,7 +8675,7 @@ extension SageMaker {
         public let nextToken: String?
         /// A list of SearchResult objects.
         public let results: [SearchRecord]?
-        
+
         public init(nextToken: String? = nil, results: [SearchRecord]? = nil) {
             self.nextToken = nextToken
             self.results = results
@@ -8732,7 +8733,7 @@ extension SageMaker {
         public let status: SecondaryStatus
         /// A detailed description of the progress within a secondary status.  Amazon SageMaker provides secondary statuses and status messages that apply to each of them:  Starting    Starting the training job.   Launching requested ML instances.   Insufficient capacity error from EC2 while launching instances, retrying!   Launched instance was unhealthy, replacing it!   Preparing the instances for training.    Training    Downloading the training image.   Training image download completed. Training in progress.      Status messages are subject to change. Therefore, we recommend not including them in code that programmatically initiates actions. For examples, don't use status messages in if statements.  To have an overview of your training job's progress, view TrainingJobStatus and SecondaryStatus in DescribeTrainingJob, and StatusMessage together. For example, at the start of a training job, you might see the following:    TrainingJobStatus - InProgress    SecondaryStatus - Training    StatusMessage - Downloading the training image  
         public let statusMessage: String?
-        
+
         public init(endTime: TimeStamp? = nil, startTime: TimeStamp, status: SecondaryStatus, statusMessage: String? = nil) {
             self.endTime = endTime
             self.startTime = startTime
@@ -8755,7 +8756,7 @@ extension SageMaker {
 
         /// Determines the shuffling order in ShuffleConfig value.
         public let seed: Int64
-        
+
         public init(seed: Int64) {
             self.seed = seed
         }
@@ -8788,7 +8789,7 @@ extension SageMaker {
         public let algorithmName: String
         /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).
         public let modelDataUrl: String?
-        
+
         public init(algorithmName: String, modelDataUrl: String? = nil) {
             self.algorithmName = algorithmName
             self.modelDataUrl = modelDataUrl
@@ -8815,7 +8816,7 @@ extension SageMaker {
 
         /// A list of the algorithms that were used to create a model package.
         public let sourceAlgorithms: [SourceAlgorithm]
-        
+
         public init(sourceAlgorithms: [SourceAlgorithm]) {
             self.sourceAlgorithms = sourceAlgorithms
         }
@@ -8848,7 +8849,7 @@ extension SageMaker {
 
         /// The name of the notebook instance to start.
         public let notebookInstanceName: String
-        
+
         public init(notebookInstanceName: String) {
             self.notebookInstanceName = notebookInstanceName
         }
@@ -8870,7 +8871,7 @@ extension SageMaker {
 
         /// The name of the model compilation job to stop.
         public let compilationJobName: String
-        
+
         public init(compilationJobName: String) {
             self.compilationJobName = compilationJobName
         }
@@ -8893,7 +8894,7 @@ extension SageMaker {
 
         /// The name of the tuning job to stop.
         public let hyperParameterTuningJobName: String
-        
+
         public init(hyperParameterTuningJobName: String) {
             self.hyperParameterTuningJobName = hyperParameterTuningJobName
         }
@@ -8916,7 +8917,7 @@ extension SageMaker {
 
         /// The name of the labeling job to stop.
         public let labelingJobName: String
-        
+
         public init(labelingJobName: String) {
             self.labelingJobName = labelingJobName
         }
@@ -8939,7 +8940,7 @@ extension SageMaker {
 
         /// The name of the notebook instance to terminate.
         public let notebookInstanceName: String
-        
+
         public init(notebookInstanceName: String) {
             self.notebookInstanceName = notebookInstanceName
         }
@@ -8961,7 +8962,7 @@ extension SageMaker {
 
         /// The name of the training job to stop.
         public let trainingJobName: String
-        
+
         public init(trainingJobName: String) {
             self.trainingJobName = trainingJobName
         }
@@ -8984,7 +8985,7 @@ extension SageMaker {
 
         /// The name of the transform job to stop.
         public let transformJobName: String
-        
+
         public init(transformJobName: String) {
             self.transformJobName = transformJobName
         }
@@ -9007,7 +9008,7 @@ extension SageMaker {
 
         /// The maximum length of time, in seconds, that the training or compilation job can run. If job does not complete during this time, Amazon SageMaker ends the job. If value is not specified, default value is 1 day. The maximum value is 28 days.
         public let maxRuntimeInSeconds: Int32?
-        
+
         public init(maxRuntimeInSeconds: Int32? = nil) {
             self.maxRuntimeInSeconds = maxRuntimeInSeconds
         }
@@ -9039,7 +9040,7 @@ extension SageMaker {
         public let sellerName: String?
         /// The Amazon Resource Name (ARN) of the vendor that you have subscribed.
         public let workteamArn: String
-        
+
         public init(listingId: String? = nil, marketplaceDescription: String? = nil, marketplaceTitle: String? = nil, sellerName: String? = nil, workteamArn: String) {
             self.listingId = listingId
             self.marketplaceDescription = marketplaceDescription
@@ -9075,7 +9076,7 @@ extension SageMaker {
 
         /// A type of SuggestionQuery. Defines a property name hint. Only property names that match the specified hint are included in the response.
         public let propertyNameQuery: PropertyNameQuery?
-        
+
         public init(propertyNameQuery: PropertyNameQuery? = nil) {
             self.propertyNameQuery = propertyNameQuery
         }
@@ -9099,7 +9100,7 @@ extension SageMaker {
         public let key: String
         /// The tag value.
         public let value: String
-        
+
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -9254,7 +9255,7 @@ extension SageMaker {
         public let tuningJobArn: String?
         /// A VpcConfig object that specifies the VPC that this training job has access to. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
-        
+
         public init(algorithmSpecification: AlgorithmSpecification? = nil, creationTime: TimeStamp? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableNetworkIsolation: Bool? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: TimeStamp? = nil, modelArtifacts: ModelArtifacts? = nil, outputDataConfig: OutputDataConfig? = nil, resourceConfig: ResourceConfig? = nil, roleArn: String? = nil, secondaryStatus: SecondaryStatus? = nil, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, trainingEndTime: TimeStamp? = nil, trainingJobArn: String? = nil, trainingJobName: String? = nil, trainingJobStatus: TrainingJobStatus? = nil, trainingStartTime: TimeStamp? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.creationTime = creationTime
@@ -9371,7 +9372,7 @@ extension SageMaker {
         public let stoppingCondition: StoppingCondition
         /// The input mode used by the algorithm for the training job. For the input modes that Amazon SageMaker algorithms support, see Algorithms. If an algorithm supports the File input mode, Amazon SageMaker downloads the training data from S3 to the provisioned ML storage Volume, and mounts the directory to docker volume for training container. If an algorithm supports the Pipe input mode, Amazon SageMaker streams data directly from S3 to the container.
         public let trainingInputMode: TrainingInputMode
-        
+
         public init(hyperParameters: [String: String]? = nil, inputDataConfig: [Channel], outputDataConfig: OutputDataConfig, resourceConfig: ResourceConfig, stoppingCondition: StoppingCondition, trainingInputMode: TrainingInputMode) {
             self.hyperParameters = hyperParameters
             self.inputDataConfig = inputDataConfig
@@ -9444,7 +9445,7 @@ extension SageMaker {
         public let retryableError: Int32?
         /// The number of training jobs launched by a hyperparameter tuning job that were manually stopped.
         public let stopped: Int32?
-        
+
         public init(completed: Int32? = nil, inProgress: Int32? = nil, nonRetryableError: Int32? = nil, retryableError: Int32? = nil, stopped: Int32? = nil) {
             self.completed = completed
             self.inProgress = inProgress
@@ -9492,7 +9493,7 @@ extension SageMaker {
         public let trainingJobName: String
         /// The status of the training job.
         public let trainingJobStatus: TrainingJobStatus
-        
+
         public init(creationTime: TimeStamp, lastModifiedTime: TimeStamp? = nil, trainingEndTime: TimeStamp? = nil, trainingJobArn: String, trainingJobName: String, trainingJobStatus: TrainingJobStatus) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
@@ -9548,7 +9549,7 @@ extension SageMaker {
         public let trainingImage: String
         /// An MD5 hash of the training algorithm that identifies the Docker image used for training.
         public let trainingImageDigest: String?
-        
+
         public init(metricDefinitions: [MetricDefinition]? = nil, supportedHyperParameters: [HyperParameterSpecification]? = nil, supportedTrainingInstanceTypes: [TrainingInstanceType], supportedTuningJobObjectiveMetrics: [HyperParameterTuningJobObjective]? = nil, supportsDistributedTraining: Bool? = nil, trainingChannels: [ChannelSpecification], trainingImage: String, trainingImageDigest: String? = nil) {
             self.metricDefinitions = metricDefinitions
             self.supportedHyperParameters = supportedHyperParameters
@@ -9604,7 +9605,7 @@ extension SageMaker {
 
         /// The S3 location of the data source that is associated with a channel.
         public let s3DataSource: TransformS3DataSource
-        
+
         public init(s3DataSource: TransformS3DataSource) {
             self.s3DataSource = s3DataSource
         }
@@ -9634,7 +9635,7 @@ extension SageMaker {
         public let dataSource: TransformDataSource
         /// The method to use to split the transform job's data files into smaller batches. Splitting is necessary when the total size of each object is too large to fit in a single request. You can also use data splitting to improve performance by processing multiple concurrent mini-batches. The default value for SplitType is None, which indicates that input data files are not split, and request payloads contain the entire contents of an input object. Set the value of this parameter to Line to split records on a newline character boundary. SplitType also supports a number of record-oriented binary data formats. When splitting is enabled, the size of a mini-batch depends on the values of the BatchStrategy and MaxPayloadInMB parameters. When the value of BatchStrategy is MultiRecord, Amazon SageMaker sends the maximum number of records in each request, up to the MaxPayloadInMB limit. If the value of BatchStrategy is SingleRecord, Amazon SageMaker sends individual records in each request.  Some data formats represent a record as a binary payload wrapped with extra padding bytes. When splitting is applied to a binary data format, padding is removed if the value of BatchStrategy is set to SingleRecord. Padding is not removed if the value of BatchStrategy is set to MultiRecord. For more information about the RecordIO, see Data Format in the MXNet documentation. For more information about the TFRecord, see Consuming TFRecord data in the TensorFlow documentation. 
         public let splitType: SplitType?
-        
+
         public init(compressionType: CompressionType? = nil, contentType: String? = nil, dataSource: TransformDataSource, splitType: SplitType? = nil) {
             self.compressionType = compressionType
             self.contentType = contentType
@@ -9711,7 +9712,7 @@ extension SageMaker {
         public let transformOutput: TransformOutput
         /// Identifies the ML compute instances for the transform job.
         public let transformResources: TransformResources
-        
+
         public init(batchStrategy: BatchStrategy? = nil, environment: [String: String]? = nil, maxConcurrentTransforms: Int32? = nil, maxPayloadInMB: Int32? = nil, transformInput: TransformInput, transformOutput: TransformOutput, transformResources: TransformResources) {
             self.batchStrategy = batchStrategy
             self.environment = environment
@@ -9775,7 +9776,7 @@ extension SageMaker {
         public let transformJobName: String
         /// The status of the transform job.
         public let transformJobStatus: TransformJobStatus
-        
+
         public init(creationTime: TimeStamp, failureReason: String? = nil, lastModifiedTime: TimeStamp? = nil, transformEndTime: TimeStamp? = nil, transformJobArn: String, transformJobName: String, transformJobStatus: TransformJobStatus) {
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -9822,7 +9823,7 @@ extension SageMaker {
         public let kmsKeyId: String?
         /// The Amazon S3 path where you want Amazon SageMaker to store the results of the transform job. For example, s3://bucket-name/key-name-prefix. For every S3 object used as input for the transform job, batch transform stores the transformed data with an .out suffix in a corresponding subfolder in the location in the output prefix. For example, for the input data stored at s3://bucket-name/input-name-prefix/dataset01/data.csv, batch transform stores the transformed data at s3://bucket-name/output-name-prefix/input-name-prefix/data.csv.out. Batch transform doesn't upload partially processed objects. For an input S3 object that contains multiple records, it creates an .out file only if the transform job succeeds on the entire file. When the input contains multiple S3 objects, the batch transform job processes the listed S3 objects and uploads only the output for successfully processed objects. If any object fails in the transform job batch transform marks the job as failed to prompt investigation.
         public let s3OutputPath: String
-        
+
         public init(accept: String? = nil, assembleWith: AssemblyType? = nil, kmsKeyId: String? = nil, s3OutputPath: String) {
             self.accept = accept
             self.assembleWith = assembleWith
@@ -9860,7 +9861,7 @@ extension SageMaker {
         public let instanceType: TransformInstanceType
         /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the batch transform job. The VolumeKmsKeyId can be any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
-        
+
         public init(instanceCount: Int32, instanceType: TransformInstanceType, volumeKmsKeyId: String? = nil) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
@@ -9890,7 +9891,7 @@ extension SageMaker {
         public let s3DataType: S3DataType
         /// Depending on the value specified for the S3DataType, identifies either a key name prefix or a manifest. For example:    A key name prefix might look like this: s3://bucketname/exampleprefix.     A manifest might look like this: s3://bucketname/example.manifest   The manifest is an S3 object which is a JSON file with the following format:   [    {"prefix": "s3://customer_bucket/some/prefix/"},    "relative/path/to/custdata-1",    "relative/path/custdata-2",    ...    ]   The preceding JSON matches the following S3Uris:   s3://customer_bucket/some/prefix/relative/path/to/custdata-1   s3://customer_bucket/some/prefix/relative/path/custdata-1   ...   The complete set of S3Uris in this manifest constitutes the input data for the channel for this datasource. The object that each S3Uris points to must be readable by the IAM role that Amazon SageMaker uses to perform tasks on your behalf.  
         public let s3Uri: String
-        
+
         public init(s3DataType: S3DataType, s3Uri: String) {
             self.s3DataType = s3DataType
             self.s3Uri = s3Uri
@@ -9920,7 +9921,7 @@ extension SageMaker {
         public let dollars: Int32?
         /// Fractions of a cent, in tenths.
         public let tenthFractionsOfACent: Int32?
-        
+
         public init(cents: Int32? = nil, dollars: Int32? = nil, tenthFractionsOfACent: Int32? = nil) {
             self.cents = cents
             self.dollars = dollars
@@ -9950,7 +9951,7 @@ extension SageMaker {
 
         /// The Amazon S3 bucket location of the UI template. For more information about the contents of a UI template, see  Creating Your Custom Labeling Task Template.
         public let uiTemplateS3Uri: String
-        
+
         public init(uiTemplateS3Uri: String) {
             self.uiTemplateS3Uri = uiTemplateS3Uri
         }
@@ -9972,7 +9973,7 @@ extension SageMaker {
 
         /// The content of the Liquid template for the worker user interface.
         public let content: String
-        
+
         public init(content: String) {
             self.content = content
         }
@@ -9998,7 +9999,7 @@ extension SageMaker {
         public let codeRepositoryName: String
         /// The configuration of the git repository, including the URL and the Amazon Resource Name (ARN) of the AWS Secrets Manager secret that contains the credentials used to access the repository. The secret must have a staging label of AWSCURRENT and must be in the following format:  {"username": UserName, "password": Password} 
         public let gitConfig: GitConfigForUpdate?
-        
+
         public init(codeRepositoryName: String, gitConfig: GitConfigForUpdate? = nil) {
             self.codeRepositoryName = codeRepositoryName
             self.gitConfig = gitConfig
@@ -10024,7 +10025,7 @@ extension SageMaker {
 
         /// The ARN of the Git repository.
         public let codeRepositoryArn: String
-        
+
         public init(codeRepositoryArn: String) {
             self.codeRepositoryArn = codeRepositoryArn
         }
@@ -10050,7 +10051,7 @@ extension SageMaker {
         public let endpointConfigName: String
         /// The name of the endpoint whose configuration you want to update.
         public let endpointName: String
-        
+
         public init(endpointConfigName: String, endpointName: String) {
             self.endpointConfigName = endpointConfigName
             self.endpointName = endpointName
@@ -10076,7 +10077,7 @@ extension SageMaker {
 
         /// The Amazon Resource Name (ARN) of the endpoint.
         public let endpointArn: String
-        
+
         public init(endpointArn: String) {
             self.endpointArn = endpointArn
         }
@@ -10102,7 +10103,7 @@ extension SageMaker {
         public let desiredWeightsAndCapacities: [DesiredWeightAndCapacity]
         /// The name of an existing Amazon SageMaker endpoint.
         public let endpointName: String
-        
+
         public init(desiredWeightsAndCapacities: [DesiredWeightAndCapacity], endpointName: String) {
             self.desiredWeightsAndCapacities = desiredWeightsAndCapacities
             self.endpointName = endpointName
@@ -10130,7 +10131,7 @@ extension SageMaker {
 
         /// The Amazon Resource Name (ARN) of the updated endpoint.
         public let endpointArn: String
-        
+
         public init(endpointArn: String) {
             self.endpointArn = endpointArn
         }
@@ -10189,7 +10190,7 @@ extension SageMaker {
         public let rootAccess: RootAccess?
         /// The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB. ML storage volumes are encrypted, so Amazon SageMaker can't determine the amount of available free space on the volume. Because of this, you can increase the volume size when you update a notebook instance, but you can't decrease the volume size. If you want to decrease the size of the ML storage volume in use, create a new notebook instance with the desired size.
         public let volumeSizeInGB: Int32?
-        
+
         public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, disassociateAcceleratorTypes: Bool? = nil, disassociateAdditionalCodeRepositories: Bool? = nil, disassociateDefaultCodeRepository: Bool? = nil, disassociateLifecycleConfig: Bool? = nil, instanceType: InstanceType? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String, roleArn: String? = nil, rootAccess: RootAccess? = nil, volumeSizeInGB: Int32? = nil) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
@@ -10257,7 +10258,7 @@ extension SageMaker {
         public let onCreate: [NotebookInstanceLifecycleHook]?
         /// The shell script that runs every time you start a notebook instance, including when you create the notebook instance.
         public let onStart: [NotebookInstanceLifecycleHook]?
-        
+
         public init(notebookInstanceLifecycleConfigName: String, onCreate: [NotebookInstanceLifecycleHook]? = nil, onStart: [NotebookInstanceLifecycleHook]? = nil) {
             self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
             self.onCreate = onCreate
@@ -10285,18 +10286,20 @@ extension SageMaker {
     }
 
     public struct UpdateNotebookInstanceLifecycleConfigOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateNotebookInstanceOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateWorkteamRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -10314,7 +10317,7 @@ extension SageMaker {
         public let notificationConfiguration: NotificationConfiguration?
         /// The name of the work team to update.
         public let workteamName: String
-        
+
         public init(description: String? = nil, memberDefinitions: [MemberDefinition]? = nil, notificationConfiguration: NotificationConfiguration? = nil, workteamName: String) {
             self.description = description
             self.memberDefinitions = memberDefinitions
@@ -10352,7 +10355,7 @@ extension SageMaker {
 
         /// A Workteam object that describes the updated work team.
         public let workteam: Workteam
-        
+
         public init(workteam: Workteam) {
             self.workteam = workteam
         }
@@ -10376,7 +10379,7 @@ extension SageMaker {
         public let securityGroupIds: [String]
         /// The ID of the subnets in the VPC to which you want to connect your training job or model.   Amazon EC2 P3 accelerated computing instances are not available in the c/d/e availability zones of region us-east-1. If you want to create endpoints with P3 instances in VPC mode in region us-east-1, create subnets in a/b/f availability zones instead. 
         public let subnets: [String]
-        
+
         public init(securityGroupIds: [String], subnets: [String]) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
@@ -10433,7 +10436,7 @@ extension SageMaker {
         public let workteamArn: String
         /// The name of the work team.
         public let workteamName: String
-        
+
         public init(createDate: TimeStamp? = nil, description: String, lastUpdatedDate: TimeStamp? = nil, memberDefinitions: [MemberDefinition], notificationConfiguration: NotificationConfiguration? = nil, productListingIds: [String]? = nil, subDomain: String? = nil, workteamArn: String, workteamName: String) {
             self.createDate = createDate
             self.description = description
@@ -10475,5 +10478,4 @@ extension SageMaker {
             case workteamName = "WorkteamName"
         }
     }
-
 }

@@ -24,7 +24,7 @@ extension PinpointEmail {
         public let listingTime: TimeStamp?
         /// The name of the blacklist that the IP address appears on.
         public let rblName: String?
-        
+
         public init(description: String? = nil, listingTime: TimeStamp? = nil, rblName: String? = nil) {
             self.description = description
             self.listingTime = listingTime
@@ -48,7 +48,7 @@ extension PinpointEmail {
         public let html: Content?
         /// An object that represents the version of the message that is displayed in email clients that don't support HTML, or clients where the recipient has disabled HTML rendering.
         public let text: Content?
-        
+
         public init(html: Content? = nil, text: Content? = nil) {
             self.html = html
             self.text = text
@@ -67,7 +67,7 @@ extension PinpointEmail {
 
         /// An array of objects that define the dimensions to use when you send email events to Amazon CloudWatch.
         public let dimensionConfigurations: [CloudWatchDimensionConfiguration]
-        
+
         public init(dimensionConfigurations: [CloudWatchDimensionConfiguration]) {
             self.dimensionConfigurations = dimensionConfigurations
         }
@@ -90,7 +90,7 @@ extension PinpointEmail {
         public let dimensionName: String
         /// The location where Amazon Pinpoint finds the value of a dimension to publish to Amazon CloudWatch. If you want Amazon Pinpoint to use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail/SendRawEmail API, choose messageTag. If you want Amazon Pinpoint to use your own email headers, choose emailHeader. If you want Amazon Pinpoint to use link tags, choose linkTags.
         public let dimensionValueSource: DimensionValueSource
-        
+
         public init(defaultDimensionValue: String, dimensionName: String, dimensionValueSource: DimensionValueSource) {
             self.defaultDimensionValue = defaultDimensionValue
             self.dimensionName = dimensionName
@@ -114,7 +114,7 @@ extension PinpointEmail {
         public let charset: String?
         /// The content of the message itself.
         public let data: String
-        
+
         public init(charset: String? = nil, data: String) {
             self.charset = charset
             self.data = data
@@ -139,7 +139,7 @@ extension PinpointEmail {
         public let eventDestination: EventDestinationDefinition
         /// A name that identifies the event destination within the configuration set.
         public let eventDestinationName: String
-        
+
         public init(configurationSetName: String, eventDestination: EventDestinationDefinition, eventDestinationName: String) {
             self.configurationSetName = configurationSetName
             self.eventDestination = eventDestination
@@ -154,11 +154,12 @@ extension PinpointEmail {
     }
 
     public struct CreateConfigurationSetEventDestinationResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateConfigurationSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -182,7 +183,7 @@ extension PinpointEmail {
         public let tags: [Tag]?
         /// An object that defines the open and click tracking options for emails that you send using the configuration set.
         public let trackingOptions: TrackingOptions?
-        
+
         public init(configurationSetName: String, deliveryOptions: DeliveryOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, tags: [Tag]? = nil, trackingOptions: TrackingOptions? = nil) {
             self.configurationSetName = configurationSetName
             self.deliveryOptions = deliveryOptions
@@ -203,11 +204,12 @@ extension PinpointEmail {
     }
 
     public struct CreateConfigurationSetResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateDedicatedIpPoolRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -219,7 +221,7 @@ extension PinpointEmail {
         public let poolName: String
         /// An object that defines the tags (keys and values) that you want to associate with the pool.
         public let tags: [Tag]?
-        
+
         public init(poolName: String, tags: [Tag]? = nil) {
             self.poolName = poolName
             self.tags = tags
@@ -232,11 +234,12 @@ extension PinpointEmail {
     }
 
     public struct CreateDedicatedIpPoolResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateDeliverabilityTestReportRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -254,7 +257,7 @@ extension PinpointEmail {
         public let reportName: String?
         /// An array of objects that define the tags (keys and values) that you want to associate with the predictive inbox placement test.
         public let tags: [Tag]?
-        
+
         public init(content: EmailContent, fromEmailAddress: String, reportName: String? = nil, tags: [Tag]? = nil) {
             self.content = content
             self.fromEmailAddress = fromEmailAddress
@@ -280,7 +283,7 @@ extension PinpointEmail {
         public let deliverabilityTestStatus: DeliverabilityTestStatus
         /// A unique string that identifies the predictive inbox placement test.
         public let reportId: String
-        
+
         public init(deliverabilityTestStatus: DeliverabilityTestStatus, reportId: String) {
             self.deliverabilityTestStatus = deliverabilityTestStatus
             self.reportId = reportId
@@ -302,7 +305,7 @@ extension PinpointEmail {
         public let emailIdentity: String
         /// An array of objects that define the tags (keys and values) that you want to associate with the email identity.
         public let tags: [Tag]?
-        
+
         public init(emailIdentity: String, tags: [Tag]? = nil) {
             self.emailIdentity = emailIdentity
             self.tags = tags
@@ -327,7 +330,7 @@ extension PinpointEmail {
         public let identityType: IdentityType?
         /// Specifies whether or not the identity is verified. In Amazon Pinpoint, you can only send email from verified email addresses or domains. For more information about verifying identities, see the Amazon Pinpoint User Guide.
         public let verifiedForSendingStatus: Bool?
-        
+
         public init(dkimAttributes: DkimAttributes? = nil, identityType: IdentityType? = nil, verifiedForSendingStatus: Bool? = nil) {
             self.dkimAttributes = dkimAttributes
             self.identityType = identityType
@@ -354,7 +357,7 @@ extension PinpointEmail {
         public let startDate: TimeStamp?
         /// An object that contains inbox placement metrics for a specific day in the analysis period.
         public let volumeStatistics: VolumeStatistics?
-        
+
         public init(domainIspPlacements: [DomainIspPlacement]? = nil, startDate: TimeStamp? = nil, volumeStatistics: VolumeStatistics? = nil) {
             self.domainIspPlacements = domainIspPlacements
             self.startDate = startDate
@@ -384,7 +387,7 @@ extension PinpointEmail {
         public let warmupPercentage: Int32
         /// The warm-up status of a dedicated IP address. The status can have one of the following values:    IN_PROGRESS – The IP address isn't ready to use because the dedicated IP warm-up process is ongoing.    DONE – The dedicated IP warm-up process is complete, and the IP address is ready to use.  
         public let warmupStatus: WarmupStatus
-        
+
         public init(ip: String, poolName: String? = nil, warmupPercentage: Int32, warmupStatus: WarmupStatus) {
             self.ip = ip
             self.poolName = poolName
@@ -410,7 +413,7 @@ extension PinpointEmail {
         public let configurationSetName: String
         /// The name of the event destination that you want to delete.
         public let eventDestinationName: String
-        
+
         public init(configurationSetName: String, eventDestinationName: String) {
             self.configurationSetName = configurationSetName
             self.eventDestinationName = eventDestinationName
@@ -423,11 +426,12 @@ extension PinpointEmail {
     }
 
     public struct DeleteConfigurationSetEventDestinationResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteConfigurationSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -436,7 +440,7 @@ extension PinpointEmail {
 
         /// The name of the configuration set that you want to delete.
         public let configurationSetName: String
-        
+
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
         }
@@ -447,11 +451,12 @@ extension PinpointEmail {
     }
 
     public struct DeleteConfigurationSetResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteDedicatedIpPoolRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -460,7 +465,7 @@ extension PinpointEmail {
 
         /// The name of the dedicated IP pool that you want to delete.
         public let poolName: String
-        
+
         public init(poolName: String) {
             self.poolName = poolName
         }
@@ -471,11 +476,12 @@ extension PinpointEmail {
     }
 
     public struct DeleteDedicatedIpPoolResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteEmailIdentityRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -484,7 +490,7 @@ extension PinpointEmail {
 
         /// The identity (that is, the email address or domain) that you want to delete from your Amazon Pinpoint account.
         public let emailIdentity: String
-        
+
         public init(emailIdentity: String) {
             self.emailIdentity = emailIdentity
         }
@@ -495,11 +501,12 @@ extension PinpointEmail {
     }
 
     public struct DeleteEmailIdentityResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum DeliverabilityDashboardAccountStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
@@ -530,7 +537,7 @@ extension PinpointEmail {
         public let reportName: String?
         /// The subject line for an email that you submitted in a predictive inbox placement test.
         public let subject: String?
-        
+
         public init(createDate: TimeStamp? = nil, deliverabilityTestStatus: DeliverabilityTestStatus? = nil, fromEmailAddress: String? = nil, reportId: String? = nil, reportName: String? = nil, subject: String? = nil) {
             self.createDate = createDate
             self.deliverabilityTestStatus = deliverabilityTestStatus
@@ -566,7 +573,7 @@ extension PinpointEmail {
         public let sendingPoolName: String?
         /// Specifies whether Amazon Pinpoint should require that incoming email is delivered over a connection that’s encrypted by using Transport Layer Security (TLS). If this value is set to Require, Amazon Pinpoint will bounce email messages that cannot be delivered over TLS. The default value is Optional.
         public let tlsPolicy: TlsPolicy?
-        
+
         public init(sendingPoolName: String? = nil, tlsPolicy: TlsPolicy? = nil) {
             self.sendingPoolName = sendingPoolName
             self.tlsPolicy = tlsPolicy
@@ -591,7 +598,7 @@ extension PinpointEmail {
         public let ccAddresses: [String]?
         /// An array that contains the email addresses of the "To" recipients for the email.
         public let toAddresses: [String]?
-        
+
         public init(bccAddresses: [String]? = nil, ccAddresses: [String]? = nil, toAddresses: [String]? = nil) {
             self.bccAddresses = bccAddresses
             self.ccAddresses = ccAddresses
@@ -625,7 +632,7 @@ extension PinpointEmail {
         public let status: DkimStatus?
         /// A set of unique strings that you use to create a set of CNAME records that you add to the DNS configuration for your domain. When Amazon Pinpoint detects these records in the DNS configuration for your domain, the DKIM authentication process is complete. Amazon Pinpoint usually detects these records within about 72 hours of adding them to the DNS configuration for your domain.
         public let tokens: [String]?
-        
+
         public init(signingEnabled: Bool? = nil, status: DkimStatus? = nil, tokens: [String]? = nil) {
             self.signingEnabled = signingEnabled
             self.status = status
@@ -694,7 +701,7 @@ extension PinpointEmail {
         public let spamCount: Int64?
         /// The subject line, or title, of the email message.
         public let subject: String?
-        
+
         public init(campaignId: String? = nil, deleteRate: Double? = nil, esps: [String]? = nil, firstSeenDateTime: TimeStamp? = nil, fromAddress: String? = nil, imageUrl: String? = nil, inboxCount: Int64? = nil, lastSeenDateTime: TimeStamp? = nil, projectedVolume: Int64? = nil, readDeleteRate: Double? = nil, readRate: Double? = nil, sendingIps: [String]? = nil, spamCount: Int64? = nil, subject: String? = nil) {
             self.campaignId = campaignId
             self.deleteRate = deleteRate
@@ -743,7 +750,7 @@ extension PinpointEmail {
         public let inboxPlacementTrackingOption: InboxPlacementTrackingOption?
         /// The date, in Unix time format, when you enabled the Deliverability dashboard for the domain.
         public let subscriptionStartDate: TimeStamp?
-        
+
         public init(domain: String? = nil, inboxPlacementTrackingOption: InboxPlacementTrackingOption? = nil, subscriptionStartDate: TimeStamp? = nil) {
             self.domain = domain
             self.inboxPlacementTrackingOption = inboxPlacementTrackingOption
@@ -776,7 +783,7 @@ extension PinpointEmail {
         public let spamPercentage: Double?
         /// The total number of messages that were sent from the selected domain to the specified email provider that arrived in recipients' spam or junk mail folders.
         public let spamRawCount: Int64?
-        
+
         public init(inboxPercentage: Double? = nil, inboxRawCount: Int64? = nil, ispName: String? = nil, spamPercentage: Double? = nil, spamRawCount: Int64? = nil) {
             self.inboxPercentage = inboxPercentage
             self.inboxRawCount = inboxRawCount
@@ -804,7 +811,7 @@ extension PinpointEmail {
         public let raw: RawMessage?
         /// The simple email message. The message consists of a subject and a message body.
         public let simple: Message?
-        
+
         public init(raw: RawMessage? = nil, simple: Message? = nil) {
             self.raw = raw
             self.simple = simple
@@ -841,7 +848,7 @@ extension PinpointEmail {
         public let pinpointDestination: PinpointDestination?
         /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notification when certain email events occur.
         public let snsDestination: SnsDestination?
-        
+
         public init(cloudWatchDestination: CloudWatchDestination? = nil, enabled: Bool? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType], name: String, pinpointDestination: PinpointDestination? = nil, snsDestination: SnsDestination? = nil) {
             self.cloudWatchDestination = cloudWatchDestination
             self.enabled = enabled
@@ -885,7 +892,7 @@ extension PinpointEmail {
         public let pinpointDestination: PinpointDestination?
         /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notification when certain email events occur.
         public let snsDestination: SnsDestination?
-        
+
         public init(cloudWatchDestination: CloudWatchDestination? = nil, enabled: Bool? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType]? = nil, pinpointDestination: PinpointDestination? = nil, snsDestination: SnsDestination? = nil) {
             self.cloudWatchDestination = cloudWatchDestination
             self.enabled = enabled
@@ -918,11 +925,12 @@ extension PinpointEmail {
     }
 
     public struct GetAccountRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetAccountResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -943,7 +951,7 @@ extension PinpointEmail {
         public let sendingEnabled: Bool?
         /// An object that contains information about the per-day and per-second sending limits for your Amazon Pinpoint account in the current AWS Region.
         public let sendQuota: SendQuota?
-        
+
         public init(dedicatedIpAutoWarmupEnabled: Bool? = nil, enforcementStatus: String? = nil, productionAccessEnabled: Bool? = nil, sendingEnabled: Bool? = nil, sendQuota: SendQuota? = nil) {
             self.dedicatedIpAutoWarmupEnabled = dedicatedIpAutoWarmupEnabled
             self.enforcementStatus = enforcementStatus
@@ -968,7 +976,7 @@ extension PinpointEmail {
 
         /// A list of IP addresses that you want to retrieve blacklist information about. You can only specify the dedicated IP addresses that you use to send email using Amazon Pinpoint or Amazon SES.
         public let blacklistItemNames: [String]
-        
+
         public init(blacklistItemNames: [String]) {
             self.blacklistItemNames = blacklistItemNames
         }
@@ -985,7 +993,7 @@ extension PinpointEmail {
 
         /// An object that contains information about a blacklist that one of your dedicated IP addresses appears on.
         public let blacklistReport: [String: [BlacklistEntry]]
-        
+
         public init(blacklistReport: [String: [BlacklistEntry]]) {
             self.blacklistReport = blacklistReport
         }
@@ -1002,7 +1010,7 @@ extension PinpointEmail {
 
         /// The name of the configuration set that contains the event destination.
         public let configurationSetName: String
-        
+
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
         }
@@ -1019,7 +1027,7 @@ extension PinpointEmail {
 
         /// An array that includes all of the events destinations that have been configured for the configuration set.
         public let eventDestinations: [EventDestination]?
-        
+
         public init(eventDestinations: [EventDestination]? = nil) {
             self.eventDestinations = eventDestinations
         }
@@ -1036,7 +1044,7 @@ extension PinpointEmail {
 
         /// The name of the configuration set that you want to obtain more information about.
         public let configurationSetName: String
-        
+
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
         }
@@ -1068,7 +1076,7 @@ extension PinpointEmail {
         public let tags: [Tag]?
         /// An object that defines the open and click tracking options for emails that you send using the configuration set.
         public let trackingOptions: TrackingOptions?
-        
+
         public init(configurationSetName: String? = nil, deliveryOptions: DeliveryOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, tags: [Tag]? = nil, trackingOptions: TrackingOptions? = nil) {
             self.configurationSetName = configurationSetName
             self.deliveryOptions = deliveryOptions
@@ -1095,7 +1103,7 @@ extension PinpointEmail {
 
         /// The IP address that you want to obtain more information about. The value you specify has to be a dedicated IP address that's assocaited with your Amazon Pinpoint account.
         public let ip: String
-        
+
         public init(ip: String) {
             self.ip = ip
         }
@@ -1112,7 +1120,7 @@ extension PinpointEmail {
 
         /// An object that contains information about a dedicated IP address.
         public let dedicatedIp: DedicatedIp?
-        
+
         public init(dedicatedIp: DedicatedIp? = nil) {
             self.dedicatedIp = dedicatedIp
         }
@@ -1135,7 +1143,7 @@ extension PinpointEmail {
         public let pageSize: Int32?
         /// The name of the IP pool that the dedicated IP address is associated with.
         public let poolName: String?
-        
+
         public init(nextToken: String? = nil, pageSize: Int32? = nil, poolName: String? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -1159,7 +1167,7 @@ extension PinpointEmail {
         public let dedicatedIps: [DedicatedIp]?
         /// A token that indicates that there are additional dedicated IP addresses to list. To view additional addresses, issue another request to GetDedicatedIps, passing this token in the NextToken parameter.
         public let nextToken: String?
-        
+
         public init(dedicatedIps: [DedicatedIp]? = nil, nextToken: String? = nil) {
             self.dedicatedIps = dedicatedIps
             self.nextToken = nextToken
@@ -1172,11 +1180,12 @@ extension PinpointEmail {
     }
 
     public struct GetDeliverabilityDashboardOptionsRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetDeliverabilityDashboardOptionsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1197,7 +1206,7 @@ extension PinpointEmail {
         public let pendingExpirationSubscribedDomains: [DomainDeliverabilityTrackingOption]?
         /// The date, in Unix time format, when your current subscription to the Deliverability dashboard is scheduled to expire, if your subscription is scheduled to expire at the end of the current calendar month. This value is null if you have an active subscription that isn’t due to expire at the end of the month.
         public let subscriptionExpiryDate: TimeStamp?
-        
+
         public init(accountStatus: DeliverabilityDashboardAccountStatus? = nil, activeSubscribedDomains: [DomainDeliverabilityTrackingOption]? = nil, dashboardEnabled: Bool, pendingExpirationSubscribedDomains: [DomainDeliverabilityTrackingOption]? = nil, subscriptionExpiryDate: TimeStamp? = nil) {
             self.accountStatus = accountStatus
             self.activeSubscribedDomains = activeSubscribedDomains
@@ -1222,7 +1231,7 @@ extension PinpointEmail {
 
         /// A unique string that identifies the predictive inbox placement test.
         public let reportId: String
-        
+
         public init(reportId: String) {
             self.reportId = reportId
         }
@@ -1251,7 +1260,7 @@ extension PinpointEmail {
         public let overallPlacement: PlacementStatistics
         /// An array of objects that define the tags (keys and values) that are associated with the predictive inbox placement test.
         public let tags: [Tag]?
-        
+
         public init(deliverabilityTestReport: DeliverabilityTestReport, ispPlacements: [IspPlacement], message: String? = nil, overallPlacement: PlacementStatistics, tags: [Tag]? = nil) {
             self.deliverabilityTestReport = deliverabilityTestReport
             self.ispPlacements = ispPlacements
@@ -1276,7 +1285,7 @@ extension PinpointEmail {
 
         /// The unique identifier for the campaign. Amazon Pinpoint automatically generates and assigns this identifier to a campaign. This value is not the same as the campaign identifier that Amazon Pinpoint assigns to campaigns that you create and manage by using the Amazon Pinpoint API or the Amazon Pinpoint console.
         public let campaignId: String
-        
+
         public init(campaignId: String) {
             self.campaignId = campaignId
         }
@@ -1293,7 +1302,7 @@ extension PinpointEmail {
 
         /// An object that contains the deliverability data for the campaign.
         public let domainDeliverabilityCampaign: DomainDeliverabilityCampaign
-        
+
         public init(domainDeliverabilityCampaign: DomainDeliverabilityCampaign) {
             self.domainDeliverabilityCampaign = domainDeliverabilityCampaign
         }
@@ -1316,7 +1325,7 @@ extension PinpointEmail {
         public let endDate: TimeStamp
         /// The first day (in Unix time) that you want to obtain domain deliverability metrics for.
         public let startDate: TimeStamp
-        
+
         public init(domain: String, endDate: TimeStamp, startDate: TimeStamp) {
             self.domain = domain
             self.endDate = endDate
@@ -1340,7 +1349,7 @@ extension PinpointEmail {
         public let dailyVolumes: [DailyVolume]
         /// An object that contains deliverability metrics for the domain that you specified. The data in this object is a summary of all of the data that was collected from the StartDate to the EndDate.
         public let overallVolume: OverallVolume
-        
+
         public init(dailyVolumes: [DailyVolume], overallVolume: OverallVolume) {
             self.dailyVolumes = dailyVolumes
             self.overallVolume = overallVolume
@@ -1359,7 +1368,7 @@ extension PinpointEmail {
 
         /// The email identity that you want to retrieve details for.
         public let emailIdentity: String
-        
+
         public init(emailIdentity: String) {
             self.emailIdentity = emailIdentity
         }
@@ -1391,7 +1400,7 @@ extension PinpointEmail {
         public let tags: [Tag]?
         /// Specifies whether or not the identity is verified. In Amazon Pinpoint, you can only send email from verified email addresses or domains. For more information about verifying identities, see the Amazon Pinpoint User Guide.
         public let verifiedForSendingStatus: Bool?
-        
+
         public init(dkimAttributes: DkimAttributes? = nil, feedbackForwardingStatus: Bool? = nil, identityType: IdentityType? = nil, mailFromAttributes: MailFromAttributes? = nil, tags: [Tag]? = nil, verifiedForSendingStatus: Bool? = nil) {
             self.dkimAttributes = dkimAttributes
             self.feedbackForwardingStatus = feedbackForwardingStatus
@@ -1424,7 +1433,7 @@ extension PinpointEmail {
         public let identityType: IdentityType?
         /// Indicates whether or not you can send email from the identity. In Amazon Pinpoint, an identity is an email address or domain that you send email from. Before you can send email from an identity, you have to demostrate that you own the identity, and that you authorize Amazon Pinpoint to send email from that identity.
         public let sendingEnabled: Bool?
-        
+
         public init(identityName: String? = nil, identityType: IdentityType? = nil, sendingEnabled: Bool? = nil) {
             self.identityName = identityName
             self.identityType = identityType
@@ -1455,7 +1464,7 @@ extension PinpointEmail {
         public let global: Bool?
         /// An array of strings, one for each major email provider that the inbox placement data applies to.
         public let trackedIsps: [String]?
-        
+
         public init(global: Bool? = nil, trackedIsps: [String]? = nil) {
             self.global = global
             self.trackedIsps = trackedIsps
@@ -1477,7 +1486,7 @@ extension PinpointEmail {
         public let ispName: String?
         /// An object that contains inbox placement metrics for a specific email provider.
         public let placementStatistics: PlacementStatistics?
-        
+
         public init(ispName: String? = nil, placementStatistics: PlacementStatistics? = nil) {
             self.ispName = ispName
             self.placementStatistics = placementStatistics
@@ -1499,7 +1508,7 @@ extension PinpointEmail {
         public let deliveryStreamArn: String
         /// The Amazon Resource Name (ARN) of the IAM role that Amazon Pinpoint uses when sending email events to the Amazon Kinesis Data Firehose stream.
         public let iamRoleArn: String
-        
+
         public init(deliveryStreamArn: String, iamRoleArn: String) {
             self.deliveryStreamArn = deliveryStreamArn
             self.iamRoleArn = iamRoleArn
@@ -1521,7 +1530,7 @@ extension PinpointEmail {
         public let nextToken: String?
         /// The number of results to show in a single call to ListConfigurationSets. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
         public let pageSize: Int32?
-        
+
         public init(nextToken: String? = nil, pageSize: Int32? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -1543,7 +1552,7 @@ extension PinpointEmail {
         public let configurationSets: [String]?
         /// A token that indicates that there are additional configuration sets to list. To view additional configuration sets, issue another request to ListConfigurationSets, and pass this token in the NextToken parameter.
         public let nextToken: String?
-        
+
         public init(configurationSets: [String]? = nil, nextToken: String? = nil) {
             self.configurationSets = configurationSets
             self.nextToken = nextToken
@@ -1565,7 +1574,7 @@ extension PinpointEmail {
         public let nextToken: String?
         /// The number of results to show in a single call to ListDedicatedIpPools. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
         public let pageSize: Int32?
-        
+
         public init(nextToken: String? = nil, pageSize: Int32? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -1587,7 +1596,7 @@ extension PinpointEmail {
         public let dedicatedIpPools: [String]?
         /// A token that indicates that there are additional IP pools to list. To view additional IP pools, issue another request to ListDedicatedIpPools, passing this token in the NextToken parameter.
         public let nextToken: String?
-        
+
         public init(dedicatedIpPools: [String]? = nil, nextToken: String? = nil) {
             self.dedicatedIpPools = dedicatedIpPools
             self.nextToken = nextToken
@@ -1609,7 +1618,7 @@ extension PinpointEmail {
         public let nextToken: String?
         /// The number of results to show in a single call to ListDeliverabilityTestReports. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
         public let pageSize: Int32?
-        
+
         public init(nextToken: String? = nil, pageSize: Int32? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -1631,7 +1640,7 @@ extension PinpointEmail {
         public let deliverabilityTestReports: [DeliverabilityTestReport]
         /// A token that indicates that there are additional predictive inbox placement tests to list. To view additional predictive inbox placement tests, issue another request to ListDeliverabilityTestReports, and pass this token in the NextToken parameter.
         public let nextToken: String?
-        
+
         public init(deliverabilityTestReports: [DeliverabilityTestReport], nextToken: String? = nil) {
             self.deliverabilityTestReports = deliverabilityTestReports
             self.nextToken = nextToken
@@ -1662,7 +1671,7 @@ extension PinpointEmail {
         public let startDate: TimeStamp
         /// The domain to obtain deliverability data for.
         public let subscribedDomain: String
-        
+
         public init(endDate: TimeStamp, nextToken: String? = nil, pageSize: Int32? = nil, startDate: TimeStamp, subscribedDomain: String) {
             self.endDate = endDate
             self.nextToken = nextToken
@@ -1690,7 +1699,7 @@ extension PinpointEmail {
         public let domainDeliverabilityCampaigns: [DomainDeliverabilityCampaign]
         /// A token that’s returned from a previous call to the ListDomainDeliverabilityCampaigns operation. This token indicates the position of the campaign in the list of campaigns.
         public let nextToken: String?
-        
+
         public init(domainDeliverabilityCampaigns: [DomainDeliverabilityCampaign], nextToken: String? = nil) {
             self.domainDeliverabilityCampaigns = domainDeliverabilityCampaigns
             self.nextToken = nextToken
@@ -1712,7 +1721,7 @@ extension PinpointEmail {
         public let nextToken: String?
         /// The number of results to show in a single call to ListEmailIdentities. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
         public let pageSize: Int32?
-        
+
         public init(nextToken: String? = nil, pageSize: Int32? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -1734,7 +1743,7 @@ extension PinpointEmail {
         public let emailIdentities: [IdentityInfo]?
         /// A token that indicates that there are additional configuration sets to list. To view additional configuration sets, issue another request to ListEmailIdentities, and pass this token in the NextToken parameter.
         public let nextToken: String?
-        
+
         public init(emailIdentities: [IdentityInfo]? = nil, nextToken: String? = nil) {
             self.emailIdentities = emailIdentities
             self.nextToken = nextToken
@@ -1753,7 +1762,7 @@ extension PinpointEmail {
 
         /// The Amazon Resource Name (ARN) of the resource that you want to retrieve tag information for.
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1770,7 +1779,7 @@ extension PinpointEmail {
 
         /// An array that lists all the tags that are associated with the resource. Each tag consists of a required tag key (Key) and an associated tag value (Value)
         public let tags: [Tag]
-        
+
         public init(tags: [Tag]) {
             self.tags = tags
         }
@@ -1793,7 +1802,7 @@ extension PinpointEmail {
         public let mailFromDomain: String
         /// The status of the MAIL FROM domain. This status can have the following values:    PENDING – Amazon Pinpoint hasn't started searching for the MX record yet.    SUCCESS – Amazon Pinpoint detected the required MX record for the MAIL FROM domain.    FAILED – Amazon Pinpoint can't find the required MX record, or the record no longer exists.    TEMPORARY_FAILURE – A temporary issue occurred, which prevented Amazon Pinpoint from determining the status of the MAIL FROM domain.  
         public let mailFromDomainStatus: MailFromDomainStatus
-        
+
         public init(behaviorOnMxFailure: BehaviorOnMxFailure, mailFromDomain: String, mailFromDomainStatus: MailFromDomainStatus) {
             self.behaviorOnMxFailure = behaviorOnMxFailure
             self.mailFromDomain = mailFromDomain
@@ -1825,7 +1834,7 @@ extension PinpointEmail {
         public let body: Body
         /// The subject line of the email. The subject line can only contain 7-bit ASCII characters. However, you can specify non-ASCII characters in the subject line by using encoded-word syntax, as described in RFC 2047.
         public let subject: Content
-        
+
         public init(body: Body, subject: Content) {
             self.body = body
             self.subject = subject
@@ -1847,7 +1856,7 @@ extension PinpointEmail {
         public let name: String
         /// The value of the message tag. The message tag value has to meet the following criteria:   It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).   It can contain no more than 256 characters.  
         public let value: String
-        
+
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -1872,7 +1881,7 @@ extension PinpointEmail {
         public let readRatePercent: Double?
         /// An object that contains information about the numbers of messages that arrived in recipients' inboxes and junk mail folders.
         public let volumeStatistics: VolumeStatistics?
-        
+
         public init(domainIspPlacements: [DomainIspPlacement]? = nil, readRatePercent: Double? = nil, volumeStatistics: VolumeStatistics? = nil) {
             self.domainIspPlacements = domainIspPlacements
             self.readRatePercent = readRatePercent
@@ -1893,7 +1902,7 @@ extension PinpointEmail {
 
         /// The Amazon Resource Name (ARN) of the Amazon Pinpoint project that you want to send email events to.
         public let applicationArn: String?
-        
+
         public init(applicationArn: String? = nil) {
             self.applicationArn = applicationArn
         }
@@ -1922,7 +1931,7 @@ extension PinpointEmail {
         public let spamPercentage: Double?
         /// The percentage of emails that were authenticated by using Sender Policy Framework (SPF) during the predictive inbox placement test.
         public let spfPercentage: Double?
-        
+
         public init(dkimPercentage: Double? = nil, inboxPercentage: Double? = nil, missingPercentage: Double? = nil, spamPercentage: Double? = nil, spfPercentage: Double? = nil) {
             self.dkimPercentage = dkimPercentage
             self.inboxPercentage = inboxPercentage
@@ -1947,7 +1956,7 @@ extension PinpointEmail {
 
         /// Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon Pinpoint account in the current AWS Region. Set to true to enable the automatic warm-up feature, or set to false to disable it.
         public let autoWarmupEnabled: Bool?
-        
+
         public init(autoWarmupEnabled: Bool? = nil) {
             self.autoWarmupEnabled = autoWarmupEnabled
         }
@@ -1958,11 +1967,12 @@ extension PinpointEmail {
     }
 
     public struct PutAccountDedicatedIpWarmupAttributesResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct PutAccountSendingAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1971,7 +1981,7 @@ extension PinpointEmail {
 
         /// Enables or disables your account's ability to send email. Set to true to enable email sending, or set to false to disable email sending.  If AWS paused your account's ability to send email, you can't use this operation to resume your account's ability to send email. 
         public let sendingEnabled: Bool?
-        
+
         public init(sendingEnabled: Bool? = nil) {
             self.sendingEnabled = sendingEnabled
         }
@@ -1982,11 +1992,12 @@ extension PinpointEmail {
     }
 
     public struct PutAccountSendingAttributesResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct PutConfigurationSetDeliveryOptionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2001,7 +2012,7 @@ extension PinpointEmail {
         public let sendingPoolName: String?
         /// Whether Amazon Pinpoint should require that incoming email is delivered over a connection encrypted with Transport Layer Security (TLS).
         public let tlsPolicy: TlsPolicy?
-        
+
         public init(configurationSetName: String, sendingPoolName: String? = nil, tlsPolicy: TlsPolicy? = nil) {
             self.configurationSetName = configurationSetName
             self.sendingPoolName = sendingPoolName
@@ -2016,11 +2027,12 @@ extension PinpointEmail {
     }
 
     public struct PutConfigurationSetDeliveryOptionsResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct PutConfigurationSetReputationOptionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2032,7 +2044,7 @@ extension PinpointEmail {
         public let configurationSetName: String
         /// If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
         public let reputationMetricsEnabled: Bool?
-        
+
         public init(configurationSetName: String, reputationMetricsEnabled: Bool? = nil) {
             self.configurationSetName = configurationSetName
             self.reputationMetricsEnabled = reputationMetricsEnabled
@@ -2045,11 +2057,12 @@ extension PinpointEmail {
     }
 
     public struct PutConfigurationSetReputationOptionsResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct PutConfigurationSetSendingOptionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2061,7 +2074,7 @@ extension PinpointEmail {
         public let configurationSetName: String
         /// If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
         public let sendingEnabled: Bool?
-        
+
         public init(configurationSetName: String, sendingEnabled: Bool? = nil) {
             self.configurationSetName = configurationSetName
             self.sendingEnabled = sendingEnabled
@@ -2074,11 +2087,12 @@ extension PinpointEmail {
     }
 
     public struct PutConfigurationSetSendingOptionsResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct PutConfigurationSetTrackingOptionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2090,7 +2104,7 @@ extension PinpointEmail {
         public let configurationSetName: String
         /// The domain that you want to use to track open and click events.
         public let customRedirectDomain: String?
-        
+
         public init(configurationSetName: String, customRedirectDomain: String? = nil) {
             self.configurationSetName = configurationSetName
             self.customRedirectDomain = customRedirectDomain
@@ -2103,11 +2117,12 @@ extension PinpointEmail {
     }
 
     public struct PutConfigurationSetTrackingOptionsResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct PutDedicatedIpInPoolRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2119,7 +2134,7 @@ extension PinpointEmail {
         public let destinationPoolName: String
         /// The IP address that you want to move to the dedicated IP pool. The value you specify has to be a dedicated IP address that's associated with your Amazon Pinpoint account.
         public let ip: String
-        
+
         public init(destinationPoolName: String, ip: String) {
             self.destinationPoolName = destinationPoolName
             self.ip = ip
@@ -2132,11 +2147,12 @@ extension PinpointEmail {
     }
 
     public struct PutDedicatedIpInPoolResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct PutDedicatedIpWarmupAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2148,7 +2164,7 @@ extension PinpointEmail {
         public let ip: String
         /// The warm-up percentage that you want to associate with the dedicated IP address.
         public let warmupPercentage: Int32
-        
+
         public init(ip: String, warmupPercentage: Int32) {
             self.ip = ip
             self.warmupPercentage = warmupPercentage
@@ -2161,11 +2177,12 @@ extension PinpointEmail {
     }
 
     public struct PutDedicatedIpWarmupAttributesResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct PutDeliverabilityDashboardOptionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2177,7 +2194,7 @@ extension PinpointEmail {
         public let dashboardEnabled: Bool
         /// An array of objects, one for each verified domain that you use to send email and enabled the Deliverability dashboard for.
         public let subscribedDomains: [DomainDeliverabilityTrackingOption]?
-        
+
         public init(dashboardEnabled: Bool, subscribedDomains: [DomainDeliverabilityTrackingOption]? = nil) {
             self.dashboardEnabled = dashboardEnabled
             self.subscribedDomains = subscribedDomains
@@ -2190,11 +2207,12 @@ extension PinpointEmail {
     }
 
     public struct PutDeliverabilityDashboardOptionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct PutEmailIdentityDkimAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2206,7 +2224,7 @@ extension PinpointEmail {
         public let emailIdentity: String
         /// Sets the DKIM signing configuration for the identity. When you set this value true, then the messages that Amazon Pinpoint sends from the identity are DKIM-signed. When you set this value to false, then the messages that Amazon Pinpoint sends from the identity aren't DKIM-signed.
         public let signingEnabled: Bool?
-        
+
         public init(emailIdentity: String, signingEnabled: Bool? = nil) {
             self.emailIdentity = emailIdentity
             self.signingEnabled = signingEnabled
@@ -2219,11 +2237,12 @@ extension PinpointEmail {
     }
 
     public struct PutEmailIdentityDkimAttributesResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct PutEmailIdentityFeedbackAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2235,7 +2254,7 @@ extension PinpointEmail {
         public let emailForwardingEnabled: Bool?
         /// The email identity that you want to configure bounce and complaint feedback forwarding for.
         public let emailIdentity: String
-        
+
         public init(emailForwardingEnabled: Bool? = nil, emailIdentity: String) {
             self.emailForwardingEnabled = emailForwardingEnabled
             self.emailIdentity = emailIdentity
@@ -2248,11 +2267,12 @@ extension PinpointEmail {
     }
 
     public struct PutEmailIdentityFeedbackAttributesResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct PutEmailIdentityMailFromAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2267,7 +2287,7 @@ extension PinpointEmail {
         public let emailIdentity: String
         ///  The custom MAIL FROM domain that you want the verified identity to use. The MAIL FROM domain must meet the following criteria:   It has to be a subdomain of the verified identity.   It can't be used to receive email.   It can't be used in a "From" address if the MAIL FROM domain is a destination for feedback forwarding emails.  
         public let mailFromDomain: String?
-        
+
         public init(behaviorOnMxFailure: BehaviorOnMxFailure? = nil, emailIdentity: String, mailFromDomain: String? = nil) {
             self.behaviorOnMxFailure = behaviorOnMxFailure
             self.emailIdentity = emailIdentity
@@ -2282,11 +2302,12 @@ extension PinpointEmail {
     }
 
     public struct PutEmailIdentityMailFromAttributesResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct RawMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2295,7 +2316,7 @@ extension PinpointEmail {
 
         /// The raw email message. The message has to meet the following criteria:   The message has to contain a header and a body, separated by one blank line.   All of the required header fields must be present in the message.   Each part of a multipart MIME message must be formatted properly.   Attachments must be in a file format that Amazon Pinpoint supports.    The entire message must be Base64 encoded.   If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly.   The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321.  
         public let data: Data
-        
+
         public init(data: Data) {
             self.data = data
         }
@@ -2315,7 +2336,7 @@ extension PinpointEmail {
         public let lastFreshStart: TimeStamp?
         /// If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
         public let reputationMetricsEnabled: Bool?
-        
+
         public init(lastFreshStart: TimeStamp? = nil, reputationMetricsEnabled: Bool? = nil) {
             self.lastFreshStart = lastFreshStart
             self.reputationMetricsEnabled = reputationMetricsEnabled
@@ -2352,7 +2373,7 @@ extension PinpointEmail {
         public let fromEmailAddress: String?
         /// The "Reply-to" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply.
         public let replyToAddresses: [String]?
-        
+
         public init(configurationSetName: String? = nil, content: EmailContent, destination: Destination, emailTags: [MessageTag]? = nil, feedbackForwardingEmailAddress: String? = nil, fromEmailAddress: String? = nil, replyToAddresses: [String]? = nil) {
             self.configurationSetName = configurationSetName
             self.content = content
@@ -2381,7 +2402,7 @@ extension PinpointEmail {
 
         /// A unique identifier for the message that is generated when Amazon Pinpoint accepts the message.  It is possible for Amazon Pinpoint to accept a message without sending it. This can happen when the message you're trying to send has an attachment doesn't pass a virus check, or when you send a templated email that contains invalid personalization content, for example. 
         public let messageId: String?
-        
+
         public init(messageId: String? = nil) {
             self.messageId = messageId
         }
@@ -2404,7 +2425,7 @@ extension PinpointEmail {
         public let maxSendRate: Double?
         /// The number of emails sent from your Amazon Pinpoint account in the current AWS Region over the past 24 hours.
         public let sentLast24Hours: Double?
-        
+
         public init(max24HourSend: Double? = nil, maxSendRate: Double? = nil, sentLast24Hours: Double? = nil) {
             self.max24HourSend = max24HourSend
             self.maxSendRate = maxSendRate
@@ -2425,7 +2446,7 @@ extension PinpointEmail {
 
         /// If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
         public let sendingEnabled: Bool?
-        
+
         public init(sendingEnabled: Bool? = nil) {
             self.sendingEnabled = sendingEnabled
         }
@@ -2442,7 +2463,7 @@ extension PinpointEmail {
 
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to publish email events to. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String
-        
+
         public init(topicArn: String) {
             self.topicArn = topicArn
         }
@@ -2462,7 +2483,7 @@ extension PinpointEmail {
         public let key: String
         /// The optional part of a key-value pair that defines a tag. The maximum length of a tag value is 256 characters. The minimum length is 0 characters. If you don’t want a resource to have a specific tag value, don’t specify a value for this parameter. Amazon Pinpoint will set the value to an empty string.
         public let value: String
-        
+
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -2484,7 +2505,7 @@ extension PinpointEmail {
         public let resourceArn: String
         /// A list of the tags that you want to add to the resource. A tag consists of a required tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [Tag]
-        
+
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2497,11 +2518,12 @@ extension PinpointEmail {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum TlsPolicy: String, CustomStringConvertible, Codable {
         case require = "REQUIRE"
@@ -2516,7 +2538,7 @@ extension PinpointEmail {
 
         /// The domain that you want to use for tracking open and click events.
         public let customRedirectDomain: String
-        
+
         public init(customRedirectDomain: String) {
             self.customRedirectDomain = customRedirectDomain
         }
@@ -2536,7 +2558,7 @@ extension PinpointEmail {
         public let resourceArn: String
         /// The tags (tag keys) that you want to remove from the resource. When you specify a tag key, the action removes both that key and its associated tag value. To remove more than one tag from the resource, append the TagKeys parameter and argument for each additional tag to remove, separated by an ampersand. For example: /v1/email/tags?ResourceArn=ResourceArn&amp;TagKeys=Key1&amp;TagKeys=Key2 
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2549,11 +2571,12 @@ extension PinpointEmail {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateConfigurationSetEventDestinationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2568,7 +2591,7 @@ extension PinpointEmail {
         public let eventDestination: EventDestinationDefinition
         /// The name of the event destination that you want to modify.
         public let eventDestinationName: String
-        
+
         public init(configurationSetName: String, eventDestination: EventDestinationDefinition, eventDestinationName: String) {
             self.configurationSetName = configurationSetName
             self.eventDestination = eventDestination
@@ -2583,11 +2606,12 @@ extension PinpointEmail {
     }
 
     public struct UpdateConfigurationSetEventDestinationResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct VolumeStatistics: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2605,7 +2629,7 @@ extension PinpointEmail {
         public let projectedSpam: Int64?
         /// The total number of emails that arrived in recipients' spam or junk mail folders.
         public let spamRawCount: Int64?
-        
+
         public init(inboxRawCount: Int64? = nil, projectedInbox: Int64? = nil, projectedSpam: Int64? = nil, spamRawCount: Int64? = nil) {
             self.inboxRawCount = inboxRawCount
             self.projectedInbox = projectedInbox
@@ -2626,5 +2650,4 @@ extension PinpointEmail {
         case done = "DONE"
         public var description: String { return self.rawValue }
     }
-
 }

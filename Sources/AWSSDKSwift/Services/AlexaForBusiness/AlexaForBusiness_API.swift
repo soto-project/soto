@@ -490,5 +490,4 @@ public struct AlexaForBusiness {
     public func updateSkillGroup(_ input: UpdateSkillGroupRequest) throws -> Future<UpdateSkillGroupResponse> {
         return try client.send(operation: "UpdateSkillGroup", path: "/", httpMethod: "POST", input: input)
     }
-
 }

@@ -51,7 +51,7 @@ extension Snowball {
         public let street2: String?
         /// The third line in a street address that a Snowball is to be delivered to.
         public let street3: String?
-        
+
         public init(addressId: String? = nil, city: String? = nil, company: String? = nil, country: String? = nil, isRestricted: Bool? = nil, landmark: String? = nil, name: String? = nil, phoneNumber: String? = nil, postalCode: String? = nil, prefectureOrDistrict: String? = nil, stateOrProvince: String? = nil, street1: String? = nil, street2: String? = nil, street3: String? = nil) {
             self.addressId = addressId
             self.city = city
@@ -112,7 +112,7 @@ extension Snowball {
 
         /// The 39-character ID for the cluster that you want to cancel, for example CID123e4567-e89b-12d3-a456-426655440000.
         public let clusterId: String
-        
+
         public init(clusterId: String) {
             self.clusterId = clusterId
         }
@@ -129,11 +129,12 @@ extension Snowball {
     }
 
     public struct CancelClusterResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CancelJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -142,7 +143,7 @@ extension Snowball {
 
         /// The 39-character job ID for the job that you want to cancel, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
-        
+
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -159,11 +160,12 @@ extension Snowball {
     }
 
     public struct CancelJobResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct ClusterListEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -181,7 +183,7 @@ extension Snowball {
         public let creationDate: TimeStamp?
         /// Defines an optional description of the cluster, for example Environmental Data Cluster-01.
         public let description: String?
-        
+
         public init(clusterId: String? = nil, clusterState: ClusterState? = nil, creationDate: TimeStamp? = nil, description: String? = nil) {
             self.clusterId = clusterId
             self.clusterState = clusterState
@@ -245,7 +247,7 @@ extension Snowball {
         public let shippingOption: ShippingOption?
         /// The type of AWS Snowball device to use for this cluster. The only supported device types for cluster jobs are EDGE, EDGE_C, and EDGE_CG.
         public let snowballType: SnowballType?
-        
+
         public init(addressId: String? = nil, clusterId: String? = nil, clusterState: ClusterState? = nil, creationDate: TimeStamp? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballType: SnowballType? = nil) {
             self.addressId = addressId
             self.clusterId = clusterId
@@ -315,7 +317,7 @@ extension Snowball {
         public let amiId: String?
         /// The optional name of a compatible image.
         public let name: String?
-        
+
         public init(amiId: String? = nil, name: String? = nil) {
             self.amiId = amiId
             self.name = name
@@ -339,7 +341,7 @@ extension Snowball {
 
         /// The address that you want the Snowball shipped to.
         public let address: Address
-        
+
         public init(address: Address) {
             self.address = address
         }
@@ -360,7 +362,7 @@ extension Snowball {
 
         /// The automatically generated ID for a specific address. You'll use this ID when you create a job to specify which address you want the Snowball for that job shipped to.
         public let addressId: String?
-        
+
         public init(addressId: String? = nil) {
             self.addressId = addressId
         }
@@ -408,7 +410,7 @@ extension Snowball {
         public let shippingOption: ShippingOption
         /// The type of AWS Snowball device to use for this cluster. The only supported device types for cluster jobs are EDGE, EDGE_C, and EDGE_CG.
         public let snowballType: SnowballType?
-        
+
         public init(addressId: String, description: String? = nil, forwardingAddressId: String? = nil, jobType: JobType, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource, roleARN: String, shippingOption: ShippingOption, snowballType: SnowballType? = nil) {
             self.addressId = addressId
             self.description = description
@@ -459,7 +461,7 @@ extension Snowball {
 
         /// The automatically generated ID for a cluster.
         public let clusterId: String?
-        
+
         public init(clusterId: String? = nil) {
             self.clusterId = clusterId
         }
@@ -515,7 +517,7 @@ extension Snowball {
         public let snowballCapacityPreference: SnowballCapacity?
         /// The type of AWS Snowball device to use for this job. The only supported device types for cluster jobs are EDGE, EDGE_C, and EDGE_CG.
         public let snowballType: SnowballType?
-        
+
         public init(addressId: String? = nil, clusterId: String? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil) {
             self.addressId = addressId
             self.clusterId = clusterId
@@ -573,7 +575,7 @@ extension Snowball {
 
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String?
-        
+
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -605,7 +607,7 @@ extension Snowball {
         public let totalBytes: Int64?
         /// The total number of objects for a transfer between a Snowball and Amazon S3. This value is set to 0 (zero) until all the keys that will be transferred have been listed.
         public let totalObjects: Int64?
-        
+
         public init(bytesTransferred: Int64? = nil, objectsTransferred: Int64? = nil, totalBytes: Int64? = nil, totalObjects: Int64? = nil) {
             self.bytesTransferred = bytesTransferred
             self.objectsTransferred = objectsTransferred
@@ -628,7 +630,7 @@ extension Snowball {
 
         /// The automatically generated ID for a specific address.
         public let addressId: String
-        
+
         public init(addressId: String) {
             self.addressId = addressId
         }
@@ -651,7 +653,7 @@ extension Snowball {
 
         /// The address that you want the Snowball or Snowballs associated with a specific job to be shipped to.
         public let address: Address?
-        
+
         public init(address: Address? = nil) {
             self.address = address
         }
@@ -675,7 +677,7 @@ extension Snowball {
         public let maxResults: Int32?
         /// HTTP requests are stateless. To identify what object comes "next" in the list of ADDRESS objects, you have the option of specifying a value for NextToken as the starting point for your list of returned addresses.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -703,7 +705,7 @@ extension Snowball {
         public let addresses: [Address]?
         /// HTTP requests are stateless. If you use the automatically generated NextToken value in your next DescribeAddresses call, your list of returned addresses will start from this point in the array.
         public let nextToken: String?
-        
+
         public init(addresses: [Address]? = nil, nextToken: String? = nil) {
             self.addresses = addresses
             self.nextToken = nextToken
@@ -729,7 +731,7 @@ extension Snowball {
 
         /// The automatically generated ID for a cluster.
         public let clusterId: String
-        
+
         public init(clusterId: String) {
             self.clusterId = clusterId
         }
@@ -752,7 +754,7 @@ extension Snowball {
 
         /// Information about a specific cluster, including shipping information, cluster status, and other important metadata.
         public let clusterMetadata: ClusterMetadata?
-        
+
         public init(clusterMetadata: ClusterMetadata? = nil) {
             self.clusterMetadata = clusterMetadata
         }
@@ -773,7 +775,7 @@ extension Snowball {
 
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
-        
+
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -799,7 +801,7 @@ extension Snowball {
         public let jobMetadata: JobMetadata?
         /// Information about a specific job part (in the case of an export job), including shipping information, job status, and other important metadata.
         public let subJobMetadata: [JobMetadata]?
-        
+
         public init(jobMetadata: JobMetadata? = nil, subJobMetadata: [JobMetadata]? = nil) {
             self.jobMetadata = jobMetadata
             self.subJobMetadata = subJobMetadata
@@ -828,7 +830,7 @@ extension Snowball {
         public let amiId: String
         /// The ID of the AMI on the supported device.
         public let snowballAmiId: String?
-        
+
         public init(amiId: String, snowballAmiId: String? = nil) {
             self.amiId = amiId
             self.snowballAmiId = snowballAmiId
@@ -854,7 +856,7 @@ extension Snowball {
 
         /// The Amazon Resource Name (ARN) for any local Amazon S3 resource that is an AWS Lambda function's event trigger associated with this job.
         public let eventResourceARN: String?
-        
+
         public init(eventResourceARN: String? = nil) {
             self.eventResourceARN = eventResourceARN
         }
@@ -875,7 +877,7 @@ extension Snowball {
 
         /// The ID for a job that you want to get the manifest file for, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
-        
+
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -898,7 +900,7 @@ extension Snowball {
 
         /// The Amazon S3 presigned URL for the manifest file associated with the specified JobId value.
         public let manifestURI: String?
-        
+
         public init(manifestURI: String? = nil) {
             self.manifestURI = manifestURI
         }
@@ -919,7 +921,7 @@ extension Snowball {
 
         /// The ID for the job that you want to get the UnlockCode value for, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
-        
+
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -942,7 +944,7 @@ extension Snowball {
 
         /// The UnlockCode value for the specified job. The UnlockCode value can be accessed for up to 90 days after the job has been created.
         public let unlockCode: String?
-        
+
         public init(unlockCode: String? = nil) {
             self.unlockCode = unlockCode
         }
@@ -957,11 +959,12 @@ extension Snowball {
     }
 
     public struct GetSnowballUsageRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetSnowballUsageResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -973,7 +976,7 @@ extension Snowball {
         public let snowballLimit: Int32?
         /// The number of Snowballs that this account is currently using.
         public let snowballsInUse: Int32?
-        
+
         public init(snowballLimit: Int32? = nil, snowballsInUse: Int32? = nil) {
             self.snowballLimit = snowballLimit
             self.snowballsInUse = snowballsInUse
@@ -1010,7 +1013,7 @@ extension Snowball {
         public let jobType: JobType?
         /// The type of device used with this job.
         public let snowballType: SnowballType?
-        
+
         public init(creationDate: TimeStamp? = nil, description: String? = nil, isMaster: Bool? = nil, jobId: String? = nil, jobState: JobState? = nil, jobType: JobType? = nil, snowballType: SnowballType? = nil) {
             self.creationDate = creationDate
             self.description = description
@@ -1050,7 +1053,7 @@ extension Snowball {
         public let jobFailureLogURI: String?
         /// A link to an Amazon S3 presigned URL where the job success log is located.
         public let jobSuccessLogURI: String?
-        
+
         public init(jobCompletionReportURI: String? = nil, jobFailureLogURI: String? = nil, jobSuccessLogURI: String? = nil) {
             self.jobCompletionReportURI = jobCompletionReportURI
             self.jobFailureLogURI = jobFailureLogURI
@@ -1125,7 +1128,7 @@ extension Snowball {
         public let snowballCapacityPreference: SnowballCapacity?
         /// The type of device used with this job.
         public let snowballType: SnowballType?
-        
+
         public init(addressId: String? = nil, clusterId: String? = nil, creationDate: TimeStamp? = nil, dataTransferProgress: DataTransfer? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobId: String? = nil, jobLogInfo: JobLogs? = nil, jobState: JobState? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingDetails: ShippingDetails? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil) {
             self.addressId = addressId
             self.clusterId = clusterId
@@ -1200,7 +1203,7 @@ extension Snowball {
         public let lambdaResources: [LambdaResource]?
         /// An array of S3Resource objects.
         public let s3Resources: [S3Resource]?
-        
+
         public init(ec2AmiResources: [Ec2AmiResource]? = nil, lambdaResources: [LambdaResource]? = nil, s3Resources: [S3Resource]? = nil) {
             self.ec2AmiResources = ec2AmiResources
             self.lambdaResources = lambdaResources
@@ -1260,7 +1263,7 @@ extension Snowball {
         public let beginMarker: String?
         /// The key that ends an optional key range for an export job. Ranges are inclusive and UTF-8 binary sorted.
         public let endMarker: String?
-        
+
         public init(beginMarker: String? = nil, endMarker: String? = nil) {
             self.beginMarker = beginMarker
             self.endMarker = endMarker
@@ -1287,7 +1290,7 @@ extension Snowball {
         public let eventTriggers: [EventTriggerDefinition]?
         /// An Amazon Resource Name (ARN) that represents an AWS Lambda function to be triggered by PUT object actions on the associated local Amazon S3 resource.
         public let lambdaArn: String?
-        
+
         public init(eventTriggers: [EventTriggerDefinition]? = nil, lambdaArn: String? = nil) {
             self.eventTriggers = eventTriggers
             self.lambdaArn = lambdaArn
@@ -1319,7 +1322,7 @@ extension Snowball {
         public let maxResults: Int32?
         /// HTTP requests are stateless. To identify what object comes "next" in the list of JobListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
         public let nextToken: String?
-        
+
         public init(clusterId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.clusterId = clusterId
             self.maxResults = maxResults
@@ -1352,7 +1355,7 @@ extension Snowball {
         public let jobListEntries: [JobListEntry]?
         /// HTTP requests are stateless. If you use the automatically generated NextToken value in your next ListClusterJobsResult call, your list of returned jobs will start from this point in the array.
         public let nextToken: String?
-        
+
         public init(jobListEntries: [JobListEntry]? = nil, nextToken: String? = nil) {
             self.jobListEntries = jobListEntries
             self.nextToken = nextToken
@@ -1381,7 +1384,7 @@ extension Snowball {
         public let maxResults: Int32?
         /// HTTP requests are stateless. To identify what object comes "next" in the list of ClusterListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1409,7 +1412,7 @@ extension Snowball {
         public let clusterListEntries: [ClusterListEntry]?
         /// HTTP requests are stateless. If you use the automatically generated NextToken value in your next ClusterListEntry call, your list of returned clusters will start from this point in the array.
         public let nextToken: String?
-        
+
         public init(clusterListEntries: [ClusterListEntry]? = nil, nextToken: String? = nil) {
             self.clusterListEntries = clusterListEntries
             self.nextToken = nextToken
@@ -1438,7 +1441,7 @@ extension Snowball {
         public let maxResults: Int32?
         /// HTTP requests are stateless. To identify what object comes "next" in the list of compatible images, you can specify a value for NextToken as the starting point for your list of returned images.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1466,7 +1469,7 @@ extension Snowball {
         public let compatibleImages: [CompatibleImage]?
         /// Because HTTP requests are stateless, this is the starting point for your next list of returned images.
         public let nextToken: String?
-        
+
         public init(compatibleImages: [CompatibleImage]? = nil, nextToken: String? = nil) {
             self.compatibleImages = compatibleImages
             self.nextToken = nextToken
@@ -1495,7 +1498,7 @@ extension Snowball {
         public let maxResults: Int32?
         /// HTTP requests are stateless. To identify what object comes "next" in the list of JobListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1523,7 +1526,7 @@ extension Snowball {
         public let jobListEntries: [JobListEntry]?
         /// HTTP requests are stateless. If you use this automatically generated NextToken value in your next ListJobs call, your returned JobListEntry objects will start from this point in the array.
         public let nextToken: String?
-        
+
         public init(jobListEntries: [JobListEntry]? = nil, nextToken: String? = nil) {
             self.jobListEntries = jobListEntries
             self.nextToken = nextToken
@@ -1555,7 +1558,7 @@ extension Snowball {
         public let notifyAll: Bool?
         /// The new SNS TopicArn that you want to associate with this job. You can create Amazon Resource Names (ARNs) for topics by using the CreateTopic Amazon SNS API action. You can subscribe email addresses to an Amazon SNS topic through the AWS Management Console, or by using the Subscribe AWS Simple Notification Service (SNS) API action.
         public let snsTopicARN: String?
-        
+
         public init(jobStatesToNotify: [JobState]? = nil, notifyAll: Bool? = nil, snsTopicARN: String? = nil) {
             self.jobStatesToNotify = jobStatesToNotify
             self.notifyAll = notifyAll
@@ -1584,7 +1587,7 @@ extension Snowball {
         public let bucketArn: String?
         /// For export jobs, you can provide an optional KeyRange within a specific Amazon S3 bucket. The length of the range is defined at job creation, and has either an inclusive BeginMarker, an inclusive EndMarker, or both. Ranges are UTF-8 binary sorted.
         public let keyRange: KeyRange?
-        
+
         public init(bucketArn: String? = nil, keyRange: KeyRange? = nil) {
             self.bucketArn = bucketArn
             self.keyRange = keyRange
@@ -1611,7 +1614,7 @@ extension Snowball {
         public let status: String?
         /// The tracking number for this job. Using this tracking number with your region's carrier's website, you can track a Snowball as the carrier transports it. For India, the carrier is Amazon Logistics. For all other regions, UPS is the carrier.
         public let trackingNumber: String?
-        
+
         public init(status: String? = nil, trackingNumber: String? = nil) {
             self.status = status
             self.trackingNumber = trackingNumber
@@ -1641,7 +1644,7 @@ extension Snowball {
         public let outboundShipment: Shipment?
         /// The shipping speed for a particular job. This speed doesn't dictate how soon you'll get the Snowball from the job's creation date. This speed represents how quickly it moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowballs are delivered in one to seven days.   In the United States of America (US), you have access to one-day shipping and two-day shipping.  
         public let shippingOption: ShippingOption?
-        
+
         public init(inboundShipment: Shipment? = nil, outboundShipment: Shipment? = nil, shippingOption: ShippingOption? = nil) {
             self.inboundShipment = inboundShipment
             self.outboundShipment = outboundShipment
@@ -1713,7 +1716,7 @@ extension Snowball {
         public let roleARN: String?
         /// The updated shipping option value of this cluster's ShippingDetails object.
         public let shippingOption: ShippingOption?
-        
+
         public init(addressId: String? = nil, clusterId: String, description: String? = nil, forwardingAddressId: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil) {
             self.addressId = addressId
             self.clusterId = clusterId
@@ -1755,11 +1758,12 @@ extension Snowball {
     }
 
     public struct UpdateClusterResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1792,7 +1796,7 @@ extension Snowball {
         public let shippingOption: ShippingOption?
         /// The updated SnowballCapacityPreference of this job's JobMetadata object. The 50 TB Snowballs are only available in the US regions.
         public let snowballCapacityPreference: SnowballCapacity?
-        
+
         public init(addressId: String? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobId: String, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil) {
             self.addressId = addressId
             self.description = description
@@ -1836,10 +1840,10 @@ extension Snowball {
     }
 
     public struct UpdateJobResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
-
+    }
 }

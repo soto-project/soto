@@ -294,5 +294,4 @@ public struct DirectConnect {
     public func updateVirtualInterfaceAttributes(_ input: UpdateVirtualInterfaceAttributesRequest) throws -> Future<VirtualInterface> {
         return try client.send(operation: "UpdateVirtualInterfaceAttributes", path: "/", httpMethod: "POST", input: input)
     }
-
 }

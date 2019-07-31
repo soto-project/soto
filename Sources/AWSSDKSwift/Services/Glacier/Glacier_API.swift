@@ -191,5 +191,4 @@ public struct Glacier {
     public func uploadMultipartPart(_ input: UploadMultipartPartInput) throws -> Future<UploadMultipartPartOutput> {
         return try client.send(operation: "UploadMultipartPart", path: "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}", httpMethod: "PUT", input: input)
     }
-
 }

@@ -60,7 +60,7 @@ extension AWSBackup {
         public let state: BackupJobState?
         /// A detailed message explaining the status of the job to back up a resource.
         public let statusMessage: String?
-        
+
         public init(backupJobId: String? = nil, backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, completionDate: TimeStamp? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: TimeStamp? = nil, expectedCompletionDate: TimeStamp? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, startBy: TimeStamp? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
             self.backupJobId = backupJobId
             self.backupSizeInBytes = backupSizeInBytes
@@ -129,7 +129,7 @@ extension AWSBackup {
         public let backupPlanName: String
         /// An array of BackupRule objects, each of which specifies a scheduled task that is used to back up a selection of resources.
         public let rules: [BackupRule]
-        
+
         public init(backupPlanName: String, rules: [BackupRule]) {
             self.backupPlanName = backupPlanName
             self.rules = rules
@@ -157,7 +157,7 @@ extension AWSBackup {
         public let backupPlanName: String
         /// An array of BackupRule objects, each of which specifies a scheduled task that is used to back up a selection of resources.
         public let rules: [BackupRuleInput]
-        
+
         public init(backupPlanName: String, rules: [BackupRuleInput]) {
             self.backupPlanName = backupPlanName
             self.rules = rules
@@ -185,7 +185,7 @@ extension AWSBackup {
         public let backupPlanTemplateId: String?
         /// The optional display name of a backup plan template.
         public let backupPlanTemplateName: String?
-        
+
         public init(backupPlanTemplateId: String? = nil, backupPlanTemplateName: String? = nil) {
             self.backupPlanTemplateId = backupPlanTemplateId
             self.backupPlanTemplateName = backupPlanTemplateName
@@ -225,7 +225,7 @@ extension AWSBackup {
         public let lastExecutionDate: TimeStamp?
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
         public let versionId: String?
-        
+
         public init(backupPlanArn: String? = nil, backupPlanId: String? = nil, backupPlanName: String? = nil, creationDate: TimeStamp? = nil, creatorRequestId: String? = nil, deletionDate: TimeStamp? = nil, lastExecutionDate: TimeStamp? = nil, versionId: String? = nil) {
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
@@ -277,7 +277,7 @@ extension AWSBackup {
         public let startWindowMinutes: Int64?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let targetBackupVaultName: String
-        
+
         public init(completionWindowMinutes: Int64? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleId: String? = nil, ruleName: String, scheduleExpression: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
             self.completionWindowMinutes = completionWindowMinutes
             self.lifecycle = lifecycle
@@ -331,7 +331,7 @@ extension AWSBackup {
         public let startWindowMinutes: Int64?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let targetBackupVaultName: String
-        
+
         public init(completionWindowMinutes: Int64? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleName: String, scheduleExpression: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
             self.completionWindowMinutes = completionWindowMinutes
             self.lifecycle = lifecycle
@@ -374,7 +374,7 @@ extension AWSBackup {
         public let resources: [String]?
         /// The display name of a resource selection document.
         public let selectionName: String
-        
+
         public init(iamRoleArn: String, listOfTags: [Condition]? = nil, resources: [String]? = nil, selectionName: String) {
             self.iamRoleArn = iamRoleArn
             self.listOfTags = listOfTags
@@ -416,7 +416,7 @@ extension AWSBackup {
         public let selectionId: String?
         /// The display name of a resource selection document.
         public let selectionName: String?
-        
+
         public init(backupPlanId: String? = nil, creationDate: TimeStamp? = nil, creatorRequestId: String? = nil, iamRoleArn: String? = nil, selectionId: String? = nil, selectionName: String? = nil) {
             self.backupPlanId = backupPlanId
             self.creationDate = creationDate
@@ -473,7 +473,7 @@ extension AWSBackup {
         public let encryptionKeyArn: String?
         /// The number of recovery points that are stored in a backup vault.
         public let numberOfRecoveryPoints: Int64?
-        
+
         public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: TimeStamp? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil, numberOfRecoveryPoints: Int64? = nil) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -507,7 +507,7 @@ extension AWSBackup {
         public let deleteAt: TimeStamp?
         /// A timestamp that specifies when to transition a recovery point to cold storage.
         public let moveToColdStorageAt: TimeStamp?
-        
+
         public init(deleteAt: TimeStamp? = nil, moveToColdStorageAt: TimeStamp? = nil) {
             self.deleteAt = deleteAt
             self.moveToColdStorageAt = moveToColdStorageAt
@@ -532,7 +532,7 @@ extension AWSBackup {
         public let conditionType: ConditionType
         /// The value in a key-value pair. For example, in "ec2:ResourceTag/Department": "accounting", "accounting" is the value.
         public let conditionValue: String
-        
+
         public init(conditionKey: String, conditionType: ConditionType, conditionValue: String) {
             self.conditionKey = conditionKey
             self.conditionType = conditionType
@@ -564,7 +564,7 @@ extension AWSBackup {
         public let backupPlanTags: [String: String]?
         /// Identifies the request and allows failed requests to be retried without the risk of executing the operation twice. If the request includes a CreatorRequestId that matches an existing backup plan, that plan is returned. This parameter is optional.
         public let creatorRequestId: String?
-        
+
         public init(backupPlan: BackupPlanInput, backupPlanTags: [String: String]? = nil, creatorRequestId: String? = nil) {
             self.backupPlan = backupPlan
             self.backupPlanTags = backupPlanTags
@@ -598,7 +598,7 @@ extension AWSBackup {
         public let creationDate: TimeStamp?
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1024 bytes long. They cannot be edited.
         public let versionId: String?
-        
+
         public init(backupPlanArn: String? = nil, backupPlanId: String? = nil, creationDate: TimeStamp? = nil, versionId: String? = nil) {
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
@@ -627,7 +627,7 @@ extension AWSBackup {
         public let backupSelection: BackupSelection
         /// A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
         public let creatorRequestId: String?
-        
+
         public init(backupPlanId: String, backupSelection: BackupSelection, creatorRequestId: String? = nil) {
             self.backupPlanId = backupPlanId
             self.backupSelection = backupSelection
@@ -658,7 +658,7 @@ extension AWSBackup {
         public let creationDate: TimeStamp?
         /// Uniquely identifies the body of a request to assign a set of resources to a backup plan.
         public let selectionId: String?
-        
+
         public init(backupPlanId: String? = nil, creationDate: TimeStamp? = nil, selectionId: String? = nil) {
             self.backupPlanId = backupPlanId
             self.creationDate = creationDate
@@ -688,7 +688,7 @@ extension AWSBackup {
         public let creatorRequestId: String?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public let encryptionKeyArn: String?
-        
+
         public init(backupVaultName: String, backupVaultTags: [String: String]? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil) {
             self.backupVaultName = backupVaultName
             self.backupVaultTags = backupVaultTags
@@ -721,7 +721,7 @@ extension AWSBackup {
         public let backupVaultName: String?
         /// The date and time a backup vault is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: TimeStamp?
-        
+
         public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: TimeStamp? = nil) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -746,7 +746,7 @@ extension AWSBackup {
 
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String
-        
+
         public init(backupPlanId: String) {
             self.backupPlanId = backupPlanId
         }
@@ -772,7 +772,7 @@ extension AWSBackup {
         public let deletionDate: TimeStamp?
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version Ids cannot be edited.
         public let versionId: String?
-        
+
         public init(backupPlanArn: String? = nil, backupPlanId: String? = nil, deletionDate: TimeStamp? = nil, versionId: String? = nil) {
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
@@ -798,7 +798,7 @@ extension AWSBackup {
         public let backupPlanId: String
         /// Uniquely identifies the body of a request to assign a set of resources to a backup plan.
         public let selectionId: String
-        
+
         public init(backupPlanId: String, selectionId: String) {
             self.backupPlanId = backupPlanId
             self.selectionId = selectionId
@@ -817,7 +817,7 @@ extension AWSBackup {
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
-        
+
         public init(backupVaultName: String) {
             self.backupVaultName = backupVaultName
         }
@@ -838,7 +838,7 @@ extension AWSBackup {
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and theAWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
-        
+
         public init(backupVaultName: String) {
             self.backupVaultName = backupVaultName
         }
@@ -855,7 +855,7 @@ extension AWSBackup {
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
-        
+
         public init(backupVaultName: String) {
             self.backupVaultName = backupVaultName
         }
@@ -879,7 +879,7 @@ extension AWSBackup {
         public let backupVaultName: String
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
-        
+
         public init(backupVaultName: String, recoveryPointArn: String) {
             self.backupVaultName = backupVaultName
             self.recoveryPointArn = recoveryPointArn
@@ -902,7 +902,7 @@ extension AWSBackup {
 
         /// Uniquely identifies a request to AWS Backup to back up a resource.
         public let backupJobId: String
-        
+
         public init(backupJobId: String) {
             self.backupJobId = backupJobId
         }
@@ -967,7 +967,7 @@ extension AWSBackup {
         public let state: BackupJobState?
         /// A detailed message explaining the status of the job to back up a resource.
         public let statusMessage: String?
-        
+
         public init(backupJobId: String? = nil, backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, completionDate: TimeStamp? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: TimeStamp? = nil, expectedCompletionDate: TimeStamp? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, startBy: TimeStamp? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
             self.backupJobId = backupJobId
             self.backupSizeInBytes = backupSizeInBytes
@@ -1021,7 +1021,7 @@ extension AWSBackup {
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
-        
+
         public init(backupVaultName: String) {
             self.backupVaultName = backupVaultName
         }
@@ -1053,7 +1053,7 @@ extension AWSBackup {
         public let encryptionKeyArn: String?
         /// The number of recovery points that are stored in a backup vault.
         public let numberOfRecoveryPoints: Int64?
-        
+
         public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: TimeStamp? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil, numberOfRecoveryPoints: Int64? = nil) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -1080,7 +1080,7 @@ extension AWSBackup {
 
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1103,7 +1103,7 @@ extension AWSBackup {
         public let resourceArn: String?
         /// The type of AWS resource saved as a recovery point; for example, an EBS volume or an Amazon RDS database.
         public let resourceType: String?
-        
+
         public init(lastBackupTime: TimeStamp? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
             self.lastBackupTime = lastBackupTime
             self.resourceArn = resourceArn
@@ -1131,7 +1131,7 @@ extension AWSBackup {
         public let backupVaultName: String
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
-        
+
         public init(backupVaultName: String, recoveryPointArn: String) {
             self.backupVaultName = backupVaultName
             self.recoveryPointArn = recoveryPointArn
@@ -1202,7 +1202,7 @@ extension AWSBackup {
         public let status: RecoveryPointStatus?
         /// Specifies the storage class of the recovery point. Valid values are WARM or COLD.
         public let storageClass: StorageClass?
-        
+
         public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: TimeStamp? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: TimeStamp? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, lastRestoreTime: TimeStamp? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, status: RecoveryPointStatus? = nil, storageClass: StorageClass? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
@@ -1256,7 +1256,7 @@ extension AWSBackup {
 
         /// Uniquely identifies the job that restores a recovery point.
         public let restoreJobId: String
-        
+
         public init(restoreJobId: String) {
             self.restoreJobId = restoreJobId
         }
@@ -1303,7 +1303,7 @@ extension AWSBackup {
         public let status: RestoreJobStatus?
         /// A detailed message explaining the status of a job to restore a recovery point.
         public let statusMessage: String?
-        
+
         public init(backupSizeInBytes: Int64? = nil, completionDate: TimeStamp? = nil, createdResourceArn: String? = nil, creationDate: TimeStamp? = nil, expectedCompletionTimeMinutes: Int64? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, restoreJobId: String? = nil, status: RestoreJobStatus? = nil, statusMessage: String? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.completionDate = completionDate
@@ -1340,7 +1340,7 @@ extension AWSBackup {
 
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String
-        
+
         public init(backupPlanId: String) {
             self.backupPlanId = backupPlanId
         }
@@ -1357,7 +1357,7 @@ extension AWSBackup {
 
         /// The body of a backup plan template in JSON format.  This is a signed JSON document that cannot be modified before being passed to GetBackupPlanFromJSON.  
         public let backupPlanTemplateJson: String?
-        
+
         public init(backupPlanTemplateJson: String? = nil) {
             self.backupPlanTemplateJson = backupPlanTemplateJson
         }
@@ -1374,7 +1374,7 @@ extension AWSBackup {
 
         /// A customer-supplied backup plan document in JSON format.
         public let backupPlanTemplateJson: String
-        
+
         public init(backupPlanTemplateJson: String) {
             self.backupPlanTemplateJson = backupPlanTemplateJson
         }
@@ -1391,7 +1391,7 @@ extension AWSBackup {
 
         /// Specifies the body of a backup plan. Includes a BackupPlanName and one or more sets of Rules.
         public let backupPlan: BackupPlan?
-        
+
         public init(backupPlan: BackupPlan? = nil) {
             self.backupPlan = backupPlan
         }
@@ -1412,7 +1412,7 @@ extension AWSBackup {
 
         /// Uniquely identifies a stored backup plan template.
         public let backupPlanTemplateId: String
-        
+
         public init(backupPlanTemplateId: String) {
             self.backupPlanTemplateId = backupPlanTemplateId
         }
@@ -1429,7 +1429,7 @@ extension AWSBackup {
 
         /// Returns the body of a backup plan based on the target template, including the name, rules, and backup vault of the plan.
         public let backupPlanDocument: BackupPlan?
-        
+
         public init(backupPlanDocument: BackupPlan? = nil) {
             self.backupPlanDocument = backupPlanDocument
         }
@@ -1453,7 +1453,7 @@ extension AWSBackup {
         public let backupPlanId: String
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
         public let versionId: String?
-        
+
         public init(backupPlanId: String, versionId: String? = nil) {
             self.backupPlanId = backupPlanId
             self.versionId = versionId
@@ -1493,7 +1493,7 @@ extension AWSBackup {
         public let lastExecutionDate: TimeStamp?
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
         public let versionId: String?
-        
+
         public init(backupPlan: BackupPlan? = nil, backupPlanArn: String? = nil, backupPlanId: String? = nil, creationDate: TimeStamp? = nil, creatorRequestId: String? = nil, deletionDate: TimeStamp? = nil, lastExecutionDate: TimeStamp? = nil, versionId: String? = nil) {
             self.backupPlan = backupPlan
             self.backupPlanArn = backupPlanArn
@@ -1531,7 +1531,7 @@ extension AWSBackup {
         public let backupPlanId: String
         /// Uniquely identifies the body of a request to assign a set of resources to a backup plan.
         public let selectionId: String
-        
+
         public init(backupPlanId: String, selectionId: String) {
             self.backupPlanId = backupPlanId
             self.selectionId = selectionId
@@ -1562,7 +1562,7 @@ extension AWSBackup {
         public let creatorRequestId: String?
         /// Uniquely identifies the body of a request to assign a set of resources to a backup plan.
         public let selectionId: String?
-        
+
         public init(backupPlanId: String? = nil, backupSelection: BackupSelection? = nil, creationDate: TimeStamp? = nil, creatorRequestId: String? = nil, selectionId: String? = nil) {
             self.backupPlanId = backupPlanId
             self.backupSelection = backupSelection
@@ -1591,7 +1591,7 @@ extension AWSBackup {
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
-        
+
         public init(backupVaultName: String) {
             self.backupVaultName = backupVaultName
         }
@@ -1618,7 +1618,7 @@ extension AWSBackup {
         public let backupVaultName: String?
         /// The backup vault access policy document in JSON format.
         public let policy: String?
-        
+
         public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, policy: String? = nil) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -1643,7 +1643,7 @@ extension AWSBackup {
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
-        
+
         public init(backupVaultName: String) {
             self.backupVaultName = backupVaultName
         }
@@ -1673,7 +1673,7 @@ extension AWSBackup {
         public let backupVaultName: String?
         /// An ARN that uniquely identifies an Amazon Simple Notification Service (Amazon SNS) topic; for example, arn:aws:sns:us-west-2:111122223333:MyTopic.
         public let sNSTopicArn: String?
-        
+
         public init(backupVaultArn: String? = nil, backupVaultEvents: [BackupVaultEvent]? = nil, backupVaultName: String? = nil, sNSTopicArn: String? = nil) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultEvents = backupVaultEvents
@@ -1703,7 +1703,7 @@ extension AWSBackup {
         public let backupVaultName: String
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
-        
+
         public init(backupVaultName: String, recoveryPointArn: String) {
             self.backupVaultName = backupVaultName
             self.recoveryPointArn = recoveryPointArn
@@ -1732,7 +1732,7 @@ extension AWSBackup {
         public let recoveryPointArn: String?
         /// A set of metadata key-value pairs that lists the metadata key-value pairs that are required to restore the recovery point.
         public let restoreMetadata: [String: String]?
-        
+
         public init(backupVaultArn: String? = nil, recoveryPointArn: String? = nil, restoreMetadata: [String: String]? = nil) {
             self.backupVaultArn = backupVaultArn
             self.recoveryPointArn = recoveryPointArn
@@ -1753,7 +1753,7 @@ extension AWSBackup {
 
         /// Contains a string with the supported AWS resource types:    EBS for Amazon Elastic Block Store    SGW for AWS Storage Gateway    RDS for Amazon Relational Database Service    DDB for Amazon DynamoDB    EFS for Amazon Elastic File System  
         public let resourceTypes: [String]?
-        
+
         public init(resourceTypes: [String]? = nil) {
             self.resourceTypes = resourceTypes
         }
@@ -1779,7 +1779,7 @@ extension AWSBackup {
         public let deleteAfterDays: Int64?
         /// Specifies the number of days after creation that a recovery point is moved to cold storage.
         public let moveToColdStorageAfterDays: Int64?
-        
+
         public init(deleteAfterDays: Int64? = nil, moveToColdStorageAfterDays: Int64? = nil) {
             self.deleteAfterDays = deleteAfterDays
             self.moveToColdStorageAfterDays = moveToColdStorageAfterDays
@@ -1819,7 +1819,7 @@ extension AWSBackup {
         public let maxResults: Int32?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
-        
+
         public init(byBackupVaultName: String? = nil, byCreatedAfter: TimeStamp? = nil, byCreatedBefore: TimeStamp? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: BackupJobState? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.byBackupVaultName = byBackupVaultName
             self.byCreatedAfter = byCreatedAfter
@@ -1860,7 +1860,7 @@ extension AWSBackup {
         public let backupJobs: [BackupJob]?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
-        
+
         public init(backupJobs: [BackupJob]? = nil, nextToken: String? = nil) {
             self.backupJobs = backupJobs
             self.nextToken = nextToken
@@ -1888,7 +1888,7 @@ extension AWSBackup {
         public let maxResults: Int32?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1915,7 +1915,7 @@ extension AWSBackup {
         public let backupPlanTemplatesList: [BackupPlanTemplatesListMember]?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
-        
+
         public init(backupPlanTemplatesList: [BackupPlanTemplatesListMember]? = nil, nextToken: String? = nil) {
             self.backupPlanTemplatesList = backupPlanTemplatesList
             self.nextToken = nextToken
@@ -1940,7 +1940,7 @@ extension AWSBackup {
         public let maxResults: Int32?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
-        
+
         public init(backupPlanId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.backupPlanId = backupPlanId
             self.maxResults = maxResults
@@ -1969,7 +1969,7 @@ extension AWSBackup {
         public let backupPlanVersionsList: [BackupPlansListMember]?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
-        
+
         public init(backupPlanVersionsList: [BackupPlansListMember]? = nil, nextToken: String? = nil) {
             self.backupPlanVersionsList = backupPlanVersionsList
             self.nextToken = nextToken
@@ -1994,7 +1994,7 @@ extension AWSBackup {
         public let maxResults: Int32?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
-        
+
         public init(includeDeleted: Bool? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.includeDeleted = includeDeleted
             self.maxResults = maxResults
@@ -2023,7 +2023,7 @@ extension AWSBackup {
         public let backupPlansList: [BackupPlansListMember]?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
-        
+
         public init(backupPlansList: [BackupPlansListMember]? = nil, nextToken: String? = nil) {
             self.backupPlansList = backupPlansList
             self.nextToken = nextToken
@@ -2048,7 +2048,7 @@ extension AWSBackup {
         public let maxResults: Int32?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
-        
+
         public init(backupPlanId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.backupPlanId = backupPlanId
             self.maxResults = maxResults
@@ -2077,7 +2077,7 @@ extension AWSBackup {
         public let backupSelectionsList: [BackupSelectionsListMember]?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
-        
+
         public init(backupSelectionsList: [BackupSelectionsListMember]? = nil, nextToken: String? = nil) {
             self.backupSelectionsList = backupSelectionsList
             self.nextToken = nextToken
@@ -2105,7 +2105,7 @@ extension AWSBackup {
         public let maxResults: Int32?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2132,7 +2132,7 @@ extension AWSBackup {
         public let backupVaultList: [BackupVaultListMember]?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
-        
+
         public init(backupVaultList: [BackupVaultListMember]? = nil, nextToken: String? = nil) {
             self.backupVaultList = backupVaultList
             self.nextToken = nextToken
@@ -2160,7 +2160,7 @@ extension AWSBackup {
         public let maxResults: Int32?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2187,7 +2187,7 @@ extension AWSBackup {
         public let nextToken: String?
         /// An array of resources successfully backed up by AWS Backup including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
         public let results: [ProtectedResource]?
-        
+
         public init(nextToken: String? = nil, results: [ProtectedResource]? = nil) {
             self.nextToken = nextToken
             self.results = results
@@ -2233,7 +2233,7 @@ extension AWSBackup {
         public let maxResults: Int32?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
-        
+
         public init(backupVaultName: String, byBackupPlanId: String? = nil, byCreatedAfter: TimeStamp? = nil, byCreatedBefore: TimeStamp? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.backupVaultName = backupVaultName
             self.byBackupPlanId = byBackupPlanId
@@ -2274,7 +2274,7 @@ extension AWSBackup {
         public let nextToken: String?
         /// An array of objects that contain detailed information about recovery points saved in a backup vault.
         public let recoveryPoints: [RecoveryPointByBackupVault]?
-        
+
         public init(nextToken: String? = nil, recoveryPoints: [RecoveryPointByBackupVault]? = nil) {
             self.nextToken = nextToken
             self.recoveryPoints = recoveryPoints
@@ -2305,7 +2305,7 @@ extension AWSBackup {
         public let nextToken: String?
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2334,7 +2334,7 @@ extension AWSBackup {
         public let nextToken: String?
         /// An array of objects that contain detailed information about recovery points of the specified resource type.
         public let recoveryPoints: [RecoveryPointByResource]?
-        
+
         public init(nextToken: String? = nil, recoveryPoints: [RecoveryPointByResource]? = nil) {
             self.nextToken = nextToken
             self.recoveryPoints = recoveryPoints
@@ -2362,7 +2362,7 @@ extension AWSBackup {
         public let maxResults: Int32?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2389,7 +2389,7 @@ extension AWSBackup {
         public let nextToken: String?
         /// An array of objects that contain detailed information about jobs to restore saved resources.
         public let restoreJobs: [RestoreJobsListMember]?
-        
+
         public init(nextToken: String? = nil, restoreJobs: [RestoreJobsListMember]? = nil) {
             self.nextToken = nextToken
             self.restoreJobs = restoreJobs
@@ -2414,7 +2414,7 @@ extension AWSBackup {
         public let nextToken: String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the type of resource. Valid targets for ListTags are recovery points, backup plans, and backup vaults.
         public let resourceArn: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2443,7 +2443,7 @@ extension AWSBackup {
         public let nextToken: String?
         /// To help organize your resources, you can assign your own metadata to the resources you create. Each tag is a key-value pair.
         public let tags: [String: String]?
-        
+
         public init(nextToken: String? = nil, tags: [String: String]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -2468,7 +2468,7 @@ extension AWSBackup {
         public let resourceArn: String?
         /// The type of AWS resource; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
         public let resourceType: String?
-        
+
         public init(lastBackupTime: TimeStamp? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
             self.lastBackupTime = lastBackupTime
             self.resourceArn = resourceArn
@@ -2496,7 +2496,7 @@ extension AWSBackup {
         public let backupVaultName: String
         /// The backup vault access policy document in JSON format.
         public let policy: String?
-        
+
         public init(backupVaultName: String, policy: String? = nil) {
             self.backupVaultName = backupVaultName
             self.policy = policy
@@ -2525,7 +2525,7 @@ extension AWSBackup {
         public let backupVaultName: String
         /// The Amazon Resource Name (ARN) that specifies the topic for a backup vault’s events; for example, arn:aws:sns:us-west-2:111122223333:MyVaultTopic.
         public let sNSTopicArn: String
-        
+
         public init(backupVaultEvents: [BackupVaultEvent], backupVaultName: String, sNSTopicArn: String) {
             self.backupVaultEvents = backupVaultEvents
             self.backupVaultName = backupVaultName
@@ -2595,7 +2595,7 @@ extension AWSBackup {
         public let resourceType: String?
         /// A status code specifying the state of the recovery point.
         public let status: RecoveryPointStatus?
-        
+
         public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: TimeStamp? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: TimeStamp? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, lastRestoreTime: TimeStamp? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, status: RecoveryPointStatus? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
@@ -2662,7 +2662,7 @@ extension AWSBackup {
         public let recoveryPointArn: String?
         /// A status code specifying the state of the recovery point.
         public let status: RecoveryPointStatus?
-        
+
         public init(backupSizeBytes: Int64? = nil, backupVaultName: String? = nil, creationDate: TimeStamp? = nil, encryptionKeyArn: String? = nil, recoveryPointArn: String? = nil, status: RecoveryPointStatus? = nil) {
             self.backupSizeBytes = backupSizeBytes
             self.backupVaultName = backupVaultName
@@ -2702,7 +2702,7 @@ extension AWSBackup {
         public let backupPlanVersion: String?
         /// Uniquely identifies a rule used to schedule the backup of a selection of resources.
         public let backupRuleId: String?
-        
+
         public init(backupPlanArn: String? = nil, backupPlanId: String? = nil, backupPlanVersion: String? = nil, backupRuleId: String? = nil) {
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
@@ -2772,7 +2772,7 @@ extension AWSBackup {
         public let status: RestoreJobStatus?
         /// A detailed message explaining the status of the job to restore a recovery point.
         public let statusMessage: String?
-        
+
         public init(backupSizeInBytes: Int64? = nil, completionDate: TimeStamp? = nil, createdResourceArn: String? = nil, creationDate: TimeStamp? = nil, expectedCompletionTimeMinutes: Int64? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, restoreJobId: String? = nil, status: RestoreJobStatus? = nil, statusMessage: String? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.completionDate = completionDate
@@ -2830,7 +2830,7 @@ extension AWSBackup {
         public let resourceArn: String
         /// The amount of time in minutes before beginning a backup.
         public let startWindowMinutes: Int64?
-        
+
         public init(backupVaultName: String, completeWindowMinutes: Int64? = nil, iamRoleArn: String, idempotencyToken: String? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, resourceArn: String, startWindowMinutes: Int64? = nil) {
             self.backupVaultName = backupVaultName
             self.completeWindowMinutes = completeWindowMinutes
@@ -2871,7 +2871,7 @@ extension AWSBackup {
         public let creationDate: TimeStamp?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
-        
+
         public init(backupJobId: String? = nil, creationDate: TimeStamp? = nil, recoveryPointArn: String? = nil) {
             self.backupJobId = backupJobId
             self.creationDate = creationDate
@@ -2904,7 +2904,7 @@ extension AWSBackup {
         public let recoveryPointArn: String
         /// Starts a job to restore a recovery point for one of the following resources:    EBS for Amazon Elastic Block Store    SGW for AWS Storage Gateway    RDS for Amazon Relational Database Service    DDB for Amazon DynamoDB    EFS for Amazon Elastic File System  
         public let resourceType: String?
-        
+
         public init(iamRoleArn: String, idempotencyToken: String? = nil, metadata: [String: String], recoveryPointArn: String, resourceType: String? = nil) {
             self.iamRoleArn = iamRoleArn
             self.idempotencyToken = idempotencyToken
@@ -2933,7 +2933,7 @@ extension AWSBackup {
 
         /// Uniquely identifies the job that restores a recovery point.
         public let restoreJobId: String?
-        
+
         public init(restoreJobId: String? = nil) {
             self.restoreJobId = restoreJobId
         }
@@ -2950,7 +2950,7 @@ extension AWSBackup {
 
         /// Uniquely identifies a request to AWS Backup to back up a resource.
         public let backupJobId: String
-        
+
         public init(backupJobId: String) {
             self.backupJobId = backupJobId
         }
@@ -2977,7 +2977,7 @@ extension AWSBackup {
         public let resourceArn: String
         /// Key-value pairs that are used to help organize your resources. You can assign your own metadata to the resources you create. 
         public let tags: [String: String]
-        
+
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2999,7 +2999,7 @@ extension AWSBackup {
         public let resourceArn: String
         /// A list of keys to identify which key-value tags to remove from a resource.
         public let tagKeyList: [String]
-        
+
         public init(resourceArn: String, tagKeyList: [String]) {
             self.resourceArn = resourceArn
             self.tagKeyList = tagKeyList
@@ -3021,7 +3021,7 @@ extension AWSBackup {
         public let backupPlan: BackupPlanInput
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String
-        
+
         public init(backupPlan: BackupPlanInput, backupPlanId: String) {
             self.backupPlan = backupPlan
             self.backupPlanId = backupPlanId
@@ -3053,7 +3053,7 @@ extension AWSBackup {
         public let creationDate: TimeStamp?
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version Ids cannot be edited.
         public let versionId: String?
-        
+
         public init(backupPlanArn: String? = nil, backupPlanId: String? = nil, creationDate: TimeStamp? = nil, versionId: String? = nil) {
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
@@ -3082,7 +3082,7 @@ extension AWSBackup {
         public let lifecycle: Lifecycle?
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
-        
+
         public init(backupVaultName: String, lifecycle: Lifecycle? = nil, recoveryPointArn: String) {
             self.backupVaultName = backupVaultName
             self.lifecycle = lifecycle
@@ -3116,7 +3116,7 @@ extension AWSBackup {
         public let lifecycle: Lifecycle?
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
-        
+
         public init(backupVaultArn: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String? = nil) {
             self.backupVaultArn = backupVaultArn
             self.calculatedLifecycle = calculatedLifecycle
@@ -3131,5 +3131,4 @@ extension AWSBackup {
             case recoveryPointArn = "RecoveryPointArn"
         }
     }
-
 }

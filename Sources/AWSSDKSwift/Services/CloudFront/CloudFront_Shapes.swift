@@ -18,7 +18,7 @@ extension CloudFront {
         public let items: [Signer]?
         /// The number of trusted signers specified in the TrustedSigners complex type.
         public let quantity: Int32
-        
+
         public init(enabled: Bool, items: [Signer]? = nil, quantity: Int32) {
             self.enabled = enabled
             self.items = items
@@ -42,7 +42,7 @@ extension CloudFront {
         public let cname: String?
         /// The Internet Content Provider (ICP) recordal status for a CNAME. The ICPRecordalStatus is set to APPROVED for all CNAMEs (aliases) in regions outside of China.  The status values returned are the following:    APPROVED indicates that the associated CNAME has a valid ICP recordal number. Multiple CNAMEs can be associated with a distribution, and CNAMEs can correspond to different ICP recordals. To be marked as APPROVED, that is, valid to use with China region, a CNAME must have one ICP recordal number associated with it.    SUSPENDED indicates that the associated CNAME does not have a valid ICP recordal number.    PENDING indicates that at least one CNAME associated with the distribution does not have a valid ICP recordal number.  
         public let iCPRecordalStatus: ICPRecordalStatus?
-        
+
         public init(cname: String? = nil, iCPRecordalStatus: ICPRecordalStatus? = nil) {
             self.cname = cname
             self.iCPRecordalStatus = iCPRecordalStatus
@@ -64,7 +64,7 @@ extension CloudFront {
         public let items: [String]?
         /// The number of CNAME aliases, if any, that you want to associate with this distribution.
         public let quantity: Int32
-        
+
         public init(items: [String]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
@@ -88,7 +88,7 @@ extension CloudFront {
         public let items: [Method]
         /// The number of HTTP methods that you want CloudFront to forward to your origin. Valid values are 2 (for GET and HEAD requests), 3 (for GET, HEAD, and OPTIONS requests) and 7 (for GET, HEAD, OPTIONS, PUT, PATCH, POST, and DELETE requests).
         public let quantity: Int32
-        
+
         public init(cachedMethods: CachedMethods? = nil, items: [Method], quantity: Int32) {
             self.cachedMethods = cachedMethods
             self.items = items
@@ -144,7 +144,7 @@ extension CloudFront {
         public let trustedSigners: TrustedSigners
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.     https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).    For more information about requiring the HTTPS protocol, see Using an HTTPS Connection to Access Your Objects in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. 
         public let viewerProtocolPolicy: ViewerProtocolPolicy
-        
+
         public init(allowedMethods: AllowedMethods? = nil, compress: Bool? = nil, defaultTTL: Int64? = nil, fieldLevelEncryptionId: String? = nil, forwardedValues: ForwardedValues, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, maxTTL: Int64? = nil, minTTL: Int64, pathPattern: String, smoothStreaming: Bool? = nil, targetOriginId: String, trustedSigners: TrustedSigners, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
             self.compress = compress
@@ -188,7 +188,7 @@ extension CloudFront {
         public let items: [CacheBehavior]?
         /// The number of cache behaviors for this distribution. 
         public let quantity: Int32
-        
+
         public init(items: [CacheBehavior]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
@@ -210,7 +210,7 @@ extension CloudFront {
         public let items: [Method]
         /// The number of HTTP methods for which you want CloudFront to cache responses. Valid values are 2 (for caching responses to GET and HEAD requests) and 3 (for caching responses to GET, HEAD, and OPTIONS requests).
         public let quantity: Int32
-        
+
         public init(items: [Method], quantity: Int32) {
             self.items = items
             self.quantity = quantity
@@ -242,7 +242,7 @@ extension CloudFront {
         public let id: String
         /// The Amazon S3 canonical user ID for the origin access identity, used when giving the origin access identity read permission to an object in Amazon S3. 
         public let s3CanonicalUserId: String
-        
+
         public init(cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig? = nil, id: String, s3CanonicalUserId: String) {
             self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
             self.id = id
@@ -266,7 +266,7 @@ extension CloudFront {
         public let callerReference: String
         /// Any comments you want to include about the origin access identity. 
         public let comment: String
-        
+
         public init(callerReference: String, comment: String) {
             self.callerReference = callerReference
             self.comment = comment
@@ -300,7 +300,7 @@ extension CloudFront {
         public let nextMarker: String?
         /// The number of CloudFront origin access identities that were created by the current AWS account. 
         public let quantity: Int32
-        
+
         public init(isTruncated: Bool, items: [CloudFrontOriginAccessIdentitySummary]? = nil, marker: String, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
             self.isTruncated = isTruncated
             self.items = items
@@ -333,7 +333,7 @@ extension CloudFront {
         public let id: String
         /// The Amazon S3 canonical user ID for the origin access identity, which you use when giving the origin access identity read permission to an object in Amazon S3.
         public let s3CanonicalUserId: String
-        
+
         public init(comment: String, id: String, s3CanonicalUserId: String) {
             self.comment = comment
             self.id = id
@@ -360,7 +360,7 @@ extension CloudFront {
         public let format: Format
         /// The profile ID for a field-level encryption content type-profile mapping. 
         public let profileId: String?
-        
+
         public init(contentType: String, format: Format, profileId: String? = nil) {
             self.contentType = contentType
             self.format = format
@@ -384,7 +384,7 @@ extension CloudFront {
         public let contentTypeProfiles: ContentTypeProfiles?
         /// The setting in a field-level encryption content type-profile mapping that specifies what to do when an unknown content type is provided for the profile. If true, content is forwarded without being encrypted when the content type is unknown. If false (the default), an error is returned when the content type is unknown. 
         public let forwardWhenContentTypeIsUnknown: Bool
-        
+
         public init(contentTypeProfiles: ContentTypeProfiles? = nil, forwardWhenContentTypeIsUnknown: Bool) {
             self.contentTypeProfiles = contentTypeProfiles
             self.forwardWhenContentTypeIsUnknown = forwardWhenContentTypeIsUnknown
@@ -406,7 +406,7 @@ extension CloudFront {
         public let items: [ContentTypeProfile]?
         /// The number of field-level encryption content type-profile mappings. 
         public let quantity: Int32
-        
+
         public init(items: [ContentTypeProfile]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
@@ -428,7 +428,7 @@ extension CloudFront {
         public let items: [String]?
         /// The number of different cookies that you want CloudFront to forward to the origin for this cache behavior.
         public let quantity: Int32
-        
+
         public init(items: [String]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
@@ -450,7 +450,7 @@ extension CloudFront {
         public let forward: ItemSelection
         /// Required if you specify whitelist for the value of Forward:. A complex type that specifies how many different cookies you want CloudFront to forward to the origin for this cache behavior and, if you want to forward selected cookies, the names of those cookies. If you specify all or none for the value of Forward, omit WhitelistedNames. If you change the value of Forward from whitelist to all or none and you don't delete the WhitelistedNames element and its child elements, CloudFront deletes them automatically. For the current limit on the number of cookie names that you can whitelist for each cache behavior, see  CloudFront Limits in the AWS General Reference.
         public let whitelistedNames: CookieNames?
-        
+
         public init(forward: ItemSelection, whitelistedNames: CookieNames? = nil) {
             self.forward = forward
             self.whitelistedNames = whitelistedNames
@@ -472,7 +472,7 @@ extension CloudFront {
 
         /// The current configuration information for the identity.
         public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig
-        
+
         public init(cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig) {
             self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
         }
@@ -497,7 +497,7 @@ extension CloudFront {
         public let eTag: String?
         /// The fully qualified URI of the new origin access identity just created. For example: https://cloudfront.amazonaws.com/2010-11-01/origin-access-identity/cloudfront/E74FTE3AJFJ256A.
         public let location: String?
-        
+
         public init(cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity? = nil, eTag: String? = nil, location: String? = nil) {
             self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
             self.eTag = eTag
@@ -521,7 +521,7 @@ extension CloudFront {
 
         /// The distribution's configuration information.
         public let distributionConfig: DistributionConfig
-        
+
         public init(distributionConfig: DistributionConfig) {
             self.distributionConfig = distributionConfig
         }
@@ -550,7 +550,7 @@ extension CloudFront {
         public let eTag: String?
         /// The fully qualified URI of the new distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/distribution/EDFDVBD632BHDS5.
         public let location: String?
-        
+
         public init(distribution: Distribution? = nil, eTag: String? = nil, location: String? = nil) {
             self.distribution = distribution
             self.eTag = eTag
@@ -578,7 +578,7 @@ extension CloudFront {
 
         /// The distribution's configuration information. 
         public let distributionConfigWithTags: DistributionConfigWithTags
-        
+
         public init(distributionConfigWithTags: DistributionConfigWithTags) {
             self.distributionConfigWithTags = distributionConfigWithTags
         }
@@ -607,7 +607,7 @@ extension CloudFront {
         public let eTag: String?
         /// The fully qualified URI of the new distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/distribution/EDFDVBD632BHDS5. 
         public let location: String?
-        
+
         public init(distribution: Distribution? = nil, eTag: String? = nil, location: String? = nil) {
             self.distribution = distribution
             self.eTag = eTag
@@ -635,7 +635,7 @@ extension CloudFront {
 
         /// The request to create a new field-level encryption configuration.
         public let fieldLevelEncryptionConfig: FieldLevelEncryptionConfig
-        
+
         public init(fieldLevelEncryptionConfig: FieldLevelEncryptionConfig) {
             self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
         }
@@ -660,7 +660,7 @@ extension CloudFront {
         public let fieldLevelEncryption: FieldLevelEncryption?
         /// The fully qualified URI of the new configuration resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/field-level-encryption-config/EDFDVBD632BHDS5.
         public let location: String?
-        
+
         public init(eTag: String? = nil, fieldLevelEncryption: FieldLevelEncryption? = nil, location: String? = nil) {
             self.eTag = eTag
             self.fieldLevelEncryption = fieldLevelEncryption
@@ -684,7 +684,7 @@ extension CloudFront {
 
         /// The request to create a field-level encryption profile.
         public let fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig
-        
+
         public init(fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig) {
             self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
         }
@@ -709,7 +709,7 @@ extension CloudFront {
         public let fieldLevelEncryptionProfile: FieldLevelEncryptionProfile?
         /// The fully qualified URI of the new profile resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/field-level-encryption-profile/EDFDVBD632BHDS5.
         public let location: String?
-        
+
         public init(eTag: String? = nil, fieldLevelEncryptionProfile: FieldLevelEncryptionProfile? = nil, location: String? = nil) {
             self.eTag = eTag
             self.fieldLevelEncryptionProfile = fieldLevelEncryptionProfile
@@ -736,7 +736,7 @@ extension CloudFront {
         public let distributionId: String
         /// The batch information for the invalidation.
         public let invalidationBatch: InvalidationBatch
-        
+
         public init(distributionId: String, invalidationBatch: InvalidationBatch) {
             self.distributionId = distributionId
             self.invalidationBatch = invalidationBatch
@@ -760,7 +760,7 @@ extension CloudFront {
         public let invalidation: Invalidation?
         /// The fully qualified URI of the distribution and invalidation batch request, including the Invalidation ID.
         public let location: String?
-        
+
         public init(invalidation: Invalidation? = nil, location: String? = nil) {
             self.invalidation = invalidation
             self.location = location
@@ -782,7 +782,7 @@ extension CloudFront {
 
         /// The request to add a public key to CloudFront.
         public let publicKeyConfig: PublicKeyConfig
-        
+
         public init(publicKeyConfig: PublicKeyConfig) {
             self.publicKeyConfig = publicKeyConfig
         }
@@ -807,7 +807,7 @@ extension CloudFront {
         public let location: String?
         /// Returned when you add a public key.
         public let publicKey: PublicKey?
-        
+
         public init(eTag: String? = nil, location: String? = nil, publicKey: PublicKey? = nil) {
             self.eTag = eTag
             self.location = location
@@ -831,7 +831,7 @@ extension CloudFront {
 
         /// The streaming distribution's configuration information.
         public let streamingDistributionConfig: StreamingDistributionConfig
-        
+
         public init(streamingDistributionConfig: StreamingDistributionConfig) {
             self.streamingDistributionConfig = streamingDistributionConfig
         }
@@ -856,7 +856,7 @@ extension CloudFront {
         public let location: String?
         /// The streaming distribution's information.
         public let streamingDistribution: StreamingDistribution?
-        
+
         public init(eTag: String? = nil, location: String? = nil, streamingDistribution: StreamingDistribution? = nil) {
             self.eTag = eTag
             self.location = location
@@ -880,7 +880,7 @@ extension CloudFront {
 
         ///  The streaming distribution's configuration information. 
         public let streamingDistributionConfigWithTags: StreamingDistributionConfigWithTags
-        
+
         public init(streamingDistributionConfigWithTags: StreamingDistributionConfigWithTags) {
             self.streamingDistributionConfigWithTags = streamingDistributionConfigWithTags
         }
@@ -909,7 +909,7 @@ extension CloudFront {
         public let location: String?
         /// The streaming distribution's information. 
         public let streamingDistribution: StreamingDistribution?
-        
+
         public init(eTag: String? = nil, location: String? = nil, streamingDistribution: StreamingDistribution? = nil) {
             self.eTag = eTag
             self.location = location
@@ -939,7 +939,7 @@ extension CloudFront {
         public let responseCode: String?
         /// The path to the custom error page that you want CloudFront to return to a viewer when your origin returns the HTTP status code specified by ErrorCode, for example, /4xx-errors/403-forbidden.html. If you want to store your objects and your custom error pages in different locations, your distribution must include a cache behavior for which the following is true:   The value of PathPattern matches the path to your custom error messages. For example, suppose you saved custom error pages for 4xx errors in an Amazon S3 bucket in a directory named /4xx-errors. Your distribution must include a cache behavior for which the path pattern routes requests for your custom error pages to that location, for example, /4xx-errors/*.    The value of TargetOriginId specifies the value of the ID element for the origin that contains your custom error pages.   If you specify a value for ResponsePagePath, you must also specify a value for ResponseCode. If you don't want to specify a value, include an empty element, &lt;ResponsePagePath&gt;, in the XML document. We recommend that you store custom error pages in an Amazon S3 bucket. If you store custom error pages on an HTTP server and the server starts to return 5xx errors, CloudFront can't get the files that you want to return to viewers because the origin server is unavailable.
         public let responsePagePath: String?
-        
+
         public init(errorCachingMinTTL: Int64? = nil, errorCode: Int32, responseCode: String? = nil, responsePagePath: String? = nil) {
             self.errorCachingMinTTL = errorCachingMinTTL
             self.errorCode = errorCode
@@ -965,7 +965,7 @@ extension CloudFront {
         public let items: [CustomErrorResponse]?
         /// The number of HTTP status codes for which you want to specify a custom error page and/or a caching duration. If Quantity is 0, you can omit Items.
         public let quantity: Int32
-        
+
         public init(items: [CustomErrorResponse]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
@@ -987,7 +987,7 @@ extension CloudFront {
         public let items: [OriginCustomHeader]?
         /// The number of custom headers, if any, for this distribution.
         public let quantity: Int32
-        
+
         public init(items: [OriginCustomHeader]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
@@ -1021,7 +1021,7 @@ extension CloudFront {
         public let originReadTimeout: Int32?
         /// The SSL/TLS protocols that you want CloudFront to use when communicating with your origin over HTTPS.
         public let originSslProtocols: OriginSslProtocols?
-        
+
         public init(hTTPPort: Int32, hTTPSPort: Int32, originKeepaliveTimeout: Int32? = nil, originProtocolPolicy: OriginProtocolPolicy, originReadTimeout: Int32? = nil, originSslProtocols: OriginSslProtocols? = nil) {
             self.hTTPPort = hTTPPort
             self.hTTPSPort = hTTPSPort
@@ -1080,7 +1080,7 @@ extension CloudFront {
         public let trustedSigners: TrustedSigners
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Using an HTTPS Connection to Access Your Objects in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. 
         public let viewerProtocolPolicy: ViewerProtocolPolicy
-        
+
         public init(allowedMethods: AllowedMethods? = nil, compress: Bool? = nil, defaultTTL: Int64? = nil, fieldLevelEncryptionId: String? = nil, forwardedValues: ForwardedValues, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, maxTTL: Int64? = nil, minTTL: Int64, smoothStreaming: Bool? = nil, targetOriginId: String, trustedSigners: TrustedSigners, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
             self.compress = compress
@@ -1122,7 +1122,7 @@ extension CloudFront {
         public let id: String
         /// The value of the ETag header you received from a previous GET or PUT request. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
-        
+
         public init(id: String, ifMatch: String? = nil) {
             self.id = id
             self.ifMatch = ifMatch
@@ -1144,7 +1144,7 @@ extension CloudFront {
         public let id: String
         /// The value of the ETag header that you received when you disabled the distribution. For example: E2QWRUHAPOMQZL. 
         public let ifMatch: String?
-        
+
         public init(id: String, ifMatch: String? = nil) {
             self.id = id
             self.ifMatch = ifMatch
@@ -1166,7 +1166,7 @@ extension CloudFront {
         public let id: String
         /// The value of the ETag header that you received when retrieving the configuration identity to delete. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
-        
+
         public init(id: String, ifMatch: String? = nil) {
             self.id = id
             self.ifMatch = ifMatch
@@ -1188,7 +1188,7 @@ extension CloudFront {
         public let id: String
         /// The value of the ETag header that you received when retrieving the profile to delete. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
-        
+
         public init(id: String, ifMatch: String? = nil) {
             self.id = id
             self.ifMatch = ifMatch
@@ -1210,7 +1210,7 @@ extension CloudFront {
         public let id: String
         /// The value of the ETag header that you received when retrieving the public key identity to delete. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
-        
+
         public init(id: String, ifMatch: String? = nil) {
             self.id = id
             self.ifMatch = ifMatch
@@ -1232,7 +1232,7 @@ extension CloudFront {
         public let id: String
         /// The value of the ETag header that you received when you disabled the streaming distribution. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
-        
+
         public init(id: String, ifMatch: String? = nil) {
             self.id = id
             self.ifMatch = ifMatch
@@ -1275,7 +1275,7 @@ extension CloudFront {
         public let lastModifiedTime: TimeStamp
         /// This response element indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated to all CloudFront edge locations. 
         public let status: String
-        
+
         public init(activeTrustedSigners: ActiveTrustedSigners, aliasICPRecordals: [AliasICPRecordal]? = nil, arn: String, distributionConfig: DistributionConfig, domainName: String, id: String, inProgressInvalidationBatches: Int32, lastModifiedTime: TimeStamp, status: String) {
             self.activeTrustedSigners = activeTrustedSigners
             self.aliasICPRecordals = aliasICPRecordals
@@ -1360,7 +1360,7 @@ extension CloudFront {
         public let viewerCertificate: ViewerCertificate?
         /// A unique identifier that specifies the AWS WAF web ACL, if any, to associate with this distribution. AWS WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to CloudFront, and lets you control access to your content. Based on conditions that you specify, such as the IP addresses that requests originate from or the values of query strings, CloudFront responds to requests either with the requested content or with an HTTP 403 status code (Forbidden). You can also configure CloudFront to return a custom error page when a request is blocked. For more information about AWS WAF, see the AWS WAF Developer Guide. 
         public let webACLId: String?
-        
+
         public init(aliases: Aliases? = nil, cacheBehaviors: CacheBehaviors? = nil, callerReference: String, comment: String, customErrorResponses: CustomErrorResponses? = nil, defaultCacheBehavior: DefaultCacheBehavior, defaultRootObject: String? = nil, enabled: Bool, httpVersion: HttpVersion? = nil, isIPV6Enabled: Bool? = nil, logging: LoggingConfig? = nil, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass? = nil, restrictions: Restrictions? = nil, viewerCertificate: ViewerCertificate? = nil, webACLId: String? = nil) {
             self.aliases = aliases
             self.cacheBehaviors = cacheBehaviors
@@ -1417,7 +1417,7 @@ extension CloudFront {
         public let distributionConfig: DistributionConfig
         /// A complex type that contains zero or more Tag elements.
         public let tags: Tags
-        
+
         public init(distributionConfig: DistributionConfig, tags: Tags) {
             self.distributionConfig = distributionConfig
             self.tags = tags
@@ -1456,7 +1456,7 @@ extension CloudFront {
         public let nextMarker: String?
         /// The number of distributions that were created by the current AWS account. 
         public let quantity: Int32
-        
+
         public init(isTruncated: Bool, items: [DistributionSummary]? = nil, marker: String, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
             self.isTruncated = isTruncated
             self.items = items
@@ -1546,7 +1546,7 @@ extension CloudFront {
         public let viewerCertificate: ViewerCertificate
         /// The Web ACL Id (if any) associated with the distribution.
         public let webACLId: String
-        
+
         public init(aliases: Aliases, aliasICPRecordals: [AliasICPRecordal]? = nil, arn: String, cacheBehaviors: CacheBehaviors, comment: String, customErrorResponses: CustomErrorResponses, defaultCacheBehavior: DefaultCacheBehavior, domainName: String, enabled: Bool, httpVersion: HttpVersion, id: String, isIPV6Enabled: Bool, lastModifiedTime: TimeStamp, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass, restrictions: Restrictions, status: String, viewerCertificate: ViewerCertificate, webACLId: String) {
             self.aliases = aliases
             self.aliasICPRecordals = aliasICPRecordals
@@ -1609,7 +1609,7 @@ extension CloudFront {
         public let items: [EncryptionEntity]?
         /// Number of field pattern items in a field-level encryption content type-profile mapping. 
         public let quantity: Int32
-        
+
         public init(items: [EncryptionEntity]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
@@ -1634,7 +1634,7 @@ extension CloudFront {
         public let providerId: String
         /// The public key associated with a set of field-level encryption patterns, to be used when encrypting the fields that match the patterns. 
         public let publicKeyId: String
-        
+
         public init(fieldPatterns: FieldPatterns, providerId: String, publicKeyId: String) {
             self.fieldPatterns = fieldPatterns
             self.providerId = providerId
@@ -1669,7 +1669,7 @@ extension CloudFront {
         public let id: String
         /// The last time the field-level encryption configuration was changed. 
         public let lastModifiedTime: TimeStamp
-        
+
         public init(fieldLevelEncryptionConfig: FieldLevelEncryptionConfig, id: String, lastModifiedTime: TimeStamp) {
             self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
             self.id = id
@@ -1699,7 +1699,7 @@ extension CloudFront {
         public let contentTypeProfileConfig: ContentTypeProfileConfig?
         /// A complex data type that specifies when to forward content if a profile isn't found and the profile that can be provided as a query argument in a request.
         public let queryArgProfileConfig: QueryArgProfileConfig?
-        
+
         public init(callerReference: String, comment: String? = nil, contentTypeProfileConfig: ContentTypeProfileConfig? = nil, queryArgProfileConfig: QueryArgProfileConfig? = nil) {
             self.callerReference = callerReference
             self.comment = comment
@@ -1731,7 +1731,7 @@ extension CloudFront {
         public let nextMarker: String?
         /// The number of field-level encryption items.
         public let quantity: Int32
-        
+
         public init(items: [FieldLevelEncryptionSummary]? = nil, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
             self.items = items
             self.maxItems = maxItems
@@ -1760,7 +1760,7 @@ extension CloudFront {
         public let id: String
         /// The last time the field-level encryption profile was updated.
         public let lastModifiedTime: TimeStamp
-        
+
         public init(fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig, id: String, lastModifiedTime: TimeStamp) {
             self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
             self.id = id
@@ -1790,7 +1790,7 @@ extension CloudFront {
         public let encryptionEntities: EncryptionEntities
         /// Profile name for the field-level encryption profile.
         public let name: String
-        
+
         public init(callerReference: String, comment: String? = nil, encryptionEntities: EncryptionEntities, name: String) {
             self.callerReference = callerReference
             self.comment = comment
@@ -1822,7 +1822,7 @@ extension CloudFront {
         public let nextMarker: String?
         /// The number of field-level encryption profiles.
         public let quantity: Int32
-        
+
         public init(items: [FieldLevelEncryptionProfileSummary]? = nil, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
             self.items = items
             self.maxItems = maxItems
@@ -1857,7 +1857,7 @@ extension CloudFront {
         public let lastModifiedTime: TimeStamp
         /// Name for the field-level encryption profile summary.
         public let name: String
-        
+
         public init(comment: String? = nil, encryptionEntities: EncryptionEntities, id: String, lastModifiedTime: TimeStamp, name: String) {
             self.comment = comment
             self.encryptionEntities = encryptionEntities
@@ -1894,7 +1894,7 @@ extension CloudFront {
         public let lastModifiedTime: TimeStamp
         ///  A summary of a query argument-profile mapping. 
         public let queryArgProfileConfig: QueryArgProfileConfig?
-        
+
         public init(comment: String? = nil, contentTypeProfileConfig: ContentTypeProfileConfig? = nil, id: String, lastModifiedTime: TimeStamp, queryArgProfileConfig: QueryArgProfileConfig? = nil) {
             self.comment = comment
             self.contentTypeProfileConfig = contentTypeProfileConfig
@@ -1922,7 +1922,7 @@ extension CloudFront {
         public let items: [String]?
         /// The number of field-level encryption field patterns.
         public let quantity: Int32
-        
+
         public init(items: [String]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
@@ -1955,7 +1955,7 @@ extension CloudFront {
         public let queryString: Bool
         /// A complex type that contains information about the query string parameters that you want CloudFront to use for caching for this cache behavior.
         public let queryStringCacheKeys: QueryStringCacheKeys?
-        
+
         public init(cookies: CookiePreference, headers: Headers? = nil, queryString: Bool, queryStringCacheKeys: QueryStringCacheKeys? = nil) {
             self.cookies = cookies
             self.headers = headers
@@ -1984,7 +1984,7 @@ extension CloudFront {
         public let quantity: Int32
         /// The method that you want to use to restrict distribution of your content by country:    none: No geo restriction is enabled, meaning access to content is not restricted by client geo location.    blacklist: The Location elements specify the countries in which you don't want CloudFront to distribute your content.    whitelist: The Location elements specify the countries in which you want CloudFront to distribute your content.  
         public let restrictionType: GeoRestrictionType
-        
+
         public init(items: [String]? = nil, quantity: Int32, restrictionType: GeoRestrictionType) {
             self.items = items
             self.quantity = quantity
@@ -2012,7 +2012,7 @@ extension CloudFront {
 
         /// The identity's ID. 
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -2034,7 +2034,7 @@ extension CloudFront {
         public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig?
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
-        
+
         public init(cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig? = nil, eTag: String? = nil) {
             self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
             self.eTag = eTag
@@ -2053,7 +2053,7 @@ extension CloudFront {
 
         /// The identity's ID.
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -2075,7 +2075,7 @@ extension CloudFront {
         public let cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity?
         /// The current version of the origin access identity's information. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
-        
+
         public init(cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity? = nil, eTag: String? = nil) {
             self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
             self.eTag = eTag
@@ -2094,7 +2094,7 @@ extension CloudFront {
 
         /// The distribution's ID. If the ID is empty, an empty distribution configuration is returned.
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -2116,7 +2116,7 @@ extension CloudFront {
         public let distributionConfig: DistributionConfig?
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
-        
+
         public init(distributionConfig: DistributionConfig? = nil, eTag: String? = nil) {
             self.distributionConfig = distributionConfig
             self.eTag = eTag
@@ -2139,7 +2139,7 @@ extension CloudFront {
 
         /// The distribution's ID. If the ID is empty, an empty distribution configuration is returned.
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -2161,7 +2161,7 @@ extension CloudFront {
         public let distribution: Distribution?
         /// The current version of the distribution's information. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
-        
+
         public init(distribution: Distribution? = nil, eTag: String? = nil) {
             self.distribution = distribution
             self.eTag = eTag
@@ -2184,7 +2184,7 @@ extension CloudFront {
 
         /// Request the ID for the field-level encryption configuration information.
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -2206,7 +2206,7 @@ extension CloudFront {
         public let eTag: String?
         /// Return the field-level encryption configuration information.
         public let fieldLevelEncryptionConfig: FieldLevelEncryptionConfig?
-        
+
         public init(eTag: String? = nil, fieldLevelEncryptionConfig: FieldLevelEncryptionConfig? = nil) {
             self.eTag = eTag
             self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
@@ -2225,7 +2225,7 @@ extension CloudFront {
 
         /// Get the ID for the field-level encryption profile configuration information.
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -2247,7 +2247,7 @@ extension CloudFront {
         public let eTag: String?
         /// Return the field-level encryption profile configuration information.
         public let fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig?
-        
+
         public init(eTag: String? = nil, fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig? = nil) {
             self.eTag = eTag
             self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
@@ -2266,7 +2266,7 @@ extension CloudFront {
 
         /// Get the ID for the field-level encryption profile information.
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -2288,7 +2288,7 @@ extension CloudFront {
         public let eTag: String?
         /// Return the field-level encryption profile information.
         public let fieldLevelEncryptionProfile: FieldLevelEncryptionProfile?
-        
+
         public init(eTag: String? = nil, fieldLevelEncryptionProfile: FieldLevelEncryptionProfile? = nil) {
             self.eTag = eTag
             self.fieldLevelEncryptionProfile = fieldLevelEncryptionProfile
@@ -2307,7 +2307,7 @@ extension CloudFront {
 
         /// Request the ID for the field-level encryption configuration information.
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -2329,7 +2329,7 @@ extension CloudFront {
         public let eTag: String?
         /// Return the field-level encryption configuration information.
         public let fieldLevelEncryption: FieldLevelEncryption?
-        
+
         public init(eTag: String? = nil, fieldLevelEncryption: FieldLevelEncryption? = nil) {
             self.eTag = eTag
             self.fieldLevelEncryption = fieldLevelEncryption
@@ -2351,7 +2351,7 @@ extension CloudFront {
         public let distributionId: String
         /// The identifier for the invalidation request, for example, IDFDVBD632BHDS5.
         public let id: String
-        
+
         public init(distributionId: String, id: String) {
             self.distributionId = distributionId
             self.id = id
@@ -2372,7 +2372,7 @@ extension CloudFront {
 
         /// The invalidation's information. For more information, see Invalidation Complex Type. 
         public let invalidation: Invalidation?
-        
+
         public init(invalidation: Invalidation? = nil) {
             self.invalidation = invalidation
         }
@@ -2389,7 +2389,7 @@ extension CloudFront {
 
         /// Request the ID for the public key configuration.
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -2411,7 +2411,7 @@ extension CloudFront {
         public let eTag: String?
         /// Return the result for the public key configuration.
         public let publicKeyConfig: PublicKeyConfig?
-        
+
         public init(eTag: String? = nil, publicKeyConfig: PublicKeyConfig? = nil) {
             self.eTag = eTag
             self.publicKeyConfig = publicKeyConfig
@@ -2430,7 +2430,7 @@ extension CloudFront {
 
         /// Request the ID for the public key.
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -2452,7 +2452,7 @@ extension CloudFront {
         public let eTag: String?
         /// Return the public key.
         public let publicKey: PublicKey?
-        
+
         public init(eTag: String? = nil, publicKey: PublicKey? = nil) {
             self.eTag = eTag
             self.publicKey = publicKey
@@ -2471,7 +2471,7 @@ extension CloudFront {
 
         /// The streaming distribution's ID.
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -2493,7 +2493,7 @@ extension CloudFront {
         public let eTag: String?
         /// The streaming distribution's configuration information.
         public let streamingDistributionConfig: StreamingDistributionConfig?
-        
+
         public init(eTag: String? = nil, streamingDistributionConfig: StreamingDistributionConfig? = nil) {
             self.eTag = eTag
             self.streamingDistributionConfig = streamingDistributionConfig
@@ -2512,7 +2512,7 @@ extension CloudFront {
 
         /// The streaming distribution's ID.
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -2534,7 +2534,7 @@ extension CloudFront {
         public let eTag: String?
         /// The streaming distribution's information.
         public let streamingDistribution: StreamingDistribution?
-        
+
         public init(eTag: String? = nil, streamingDistribution: StreamingDistribution? = nil) {
             self.eTag = eTag
             self.streamingDistribution = streamingDistribution
@@ -2556,7 +2556,7 @@ extension CloudFront {
         public let items: [String]?
         /// The number of different headers that you want CloudFront to base caching on for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:    Forward all headers to your origin: Specify 1 for Quantity and * for Name.  CloudFront doesn't cache the objects that are associated with this cache behavior. Instead, CloudFront sends every request to the origin.      Forward a whitelist of headers you specify: Specify the number of headers that you want CloudFront to base caching on. Then specify the header names in Name elements. CloudFront caches your objects based on the values in the specified headers.    Forward only the default headers: Specify 0 for Quantity and omit Items. In this configuration, CloudFront doesn't cache based on the values in the request headers.   Regardless of which option you choose, CloudFront forwards headers to your origin based on whether the origin is an S3 bucket or a custom origin. See the following documentation:    S3 bucket: See HTTP Request Headers That CloudFront Removes or Updates     Custom origin: See HTTP Request Headers and CloudFront Behavior   
         public let quantity: Int32
-        
+
         public init(items: [String]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
@@ -2597,7 +2597,7 @@ extension CloudFront {
         public let invalidationBatch: InvalidationBatch
         /// The status of the invalidation request. When the invalidation batch is finished, the status is Completed.
         public let status: String
-        
+
         public init(createTime: TimeStamp, id: String, invalidationBatch: InvalidationBatch, status: String) {
             self.createTime = createTime
             self.id = id
@@ -2623,7 +2623,7 @@ extension CloudFront {
         public let callerReference: String
         /// A complex type that contains information about the objects that you want to invalidate. For more information, see Specifying the Objects to Invalidate in the Amazon CloudFront Developer Guide. 
         public let paths: Paths
-        
+
         public init(callerReference: String, paths: Paths) {
             self.callerReference = callerReference
             self.paths = paths
@@ -2657,7 +2657,7 @@ extension CloudFront {
         public let nextMarker: String?
         /// The number of invalidation batches that were created by the current AWS account. 
         public let quantity: Int32
-        
+
         public init(isTruncated: Bool, items: [InvalidationSummary]? = nil, marker: String, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
             self.isTruncated = isTruncated
             self.items = items
@@ -2690,7 +2690,7 @@ extension CloudFront {
         public let id: String
         /// The status of an invalidation request.
         public let status: String
-        
+
         public init(createTime: TimeStamp, id: String, status: String) {
             self.createTime = createTime
             self.id = id
@@ -2721,7 +2721,7 @@ extension CloudFront {
         public let items: [String]?
         /// The number of active CloudFront key pairs for AwsAccountNumber. For more information, see ActiveTrustedSigners.
         public let quantity: Int32
-        
+
         public init(items: [String]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
@@ -2746,7 +2746,7 @@ extension CloudFront {
         public let includeBody: Bool?
         /// The ARN of the Lambda function. You must specify the ARN of a function version; you can't specify a Lambda alias or $LATEST.
         public let lambdaFunctionARN: String
-        
+
         public init(eventType: EventType, includeBody: Bool? = nil, lambdaFunctionARN: String) {
             self.eventType = eventType
             self.includeBody = includeBody
@@ -2770,7 +2770,7 @@ extension CloudFront {
         public let items: [LambdaFunctionAssociation]?
         /// The number of Lambda function associations for this cache behavior.
         public let quantity: Int32
-        
+
         public init(items: [LambdaFunctionAssociation]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
@@ -2792,7 +2792,7 @@ extension CloudFront {
         public let marker: String?
         /// The maximum number of origin access identities you want in the response body. 
         public let maxItems: String?
-        
+
         public init(marker: String? = nil, maxItems: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -2813,7 +2813,7 @@ extension CloudFront {
 
         /// The CloudFrontOriginAccessIdentityList type. 
         public let cloudFrontOriginAccessIdentityList: CloudFrontOriginAccessIdentityList?
-        
+
         public init(cloudFrontOriginAccessIdentityList: CloudFrontOriginAccessIdentityList? = nil) {
             self.cloudFrontOriginAccessIdentityList = cloudFrontOriginAccessIdentityList
         }
@@ -2836,7 +2836,7 @@ extension CloudFront {
         public let maxItems: String?
         /// The ID of the AWS WAF web ACL that you want to list the associated distributions. If you specify "null" for the ID, the request returns a list of the distributions that aren't associated with a web ACL. 
         public let webACLId: String
-        
+
         public init(marker: String? = nil, maxItems: String? = nil, webACLId: String) {
             self.marker = marker
             self.maxItems = maxItems
@@ -2859,7 +2859,7 @@ extension CloudFront {
 
         /// The DistributionList type. 
         public let distributionList: DistributionList?
-        
+
         public init(distributionList: DistributionList? = nil) {
             self.distributionList = distributionList
         }
@@ -2883,7 +2883,7 @@ extension CloudFront {
         public let marker: String?
         /// The maximum number of distributions you want in the response body.
         public let maxItems: String?
-        
+
         public init(marker: String? = nil, maxItems: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -2904,7 +2904,7 @@ extension CloudFront {
 
         /// The DistributionList type. 
         public let distributionList: DistributionList?
-        
+
         public init(distributionList: DistributionList? = nil) {
             self.distributionList = distributionList
         }
@@ -2928,7 +2928,7 @@ extension CloudFront {
         public let marker: String?
         /// The maximum number of field-level encryption configurations you want in the response body. 
         public let maxItems: String?
-        
+
         public init(marker: String? = nil, maxItems: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -2949,7 +2949,7 @@ extension CloudFront {
 
         /// Returns a list of all field-level encryption configurations that have been created in CloudFront for this account.
         public let fieldLevelEncryptionList: FieldLevelEncryptionList?
-        
+
         public init(fieldLevelEncryptionList: FieldLevelEncryptionList? = nil) {
             self.fieldLevelEncryptionList = fieldLevelEncryptionList
         }
@@ -2969,7 +2969,7 @@ extension CloudFront {
         public let marker: String?
         /// The maximum number of field-level encryption profiles you want in the response body. 
         public let maxItems: String?
-        
+
         public init(marker: String? = nil, maxItems: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -2990,7 +2990,7 @@ extension CloudFront {
 
         /// Returns a list of the field-level encryption profiles that have been created in CloudFront for this account.
         public let fieldLevelEncryptionProfileList: FieldLevelEncryptionProfileList?
-        
+
         public init(fieldLevelEncryptionProfileList: FieldLevelEncryptionProfileList? = nil) {
             self.fieldLevelEncryptionProfileList = fieldLevelEncryptionProfileList
         }
@@ -3013,7 +3013,7 @@ extension CloudFront {
         public let marker: String?
         /// The maximum number of invalidation batches that you want in the response body.
         public let maxItems: String?
-        
+
         public init(distributionId: String, marker: String? = nil, maxItems: String? = nil) {
             self.distributionId = distributionId
             self.marker = marker
@@ -3036,7 +3036,7 @@ extension CloudFront {
 
         /// Information about invalidation batches. 
         public let invalidationList: InvalidationList?
-        
+
         public init(invalidationList: InvalidationList? = nil) {
             self.invalidationList = invalidationList
         }
@@ -3056,7 +3056,7 @@ extension CloudFront {
         public let marker: String?
         /// The maximum number of public keys you want in the response body. 
         public let maxItems: String?
-        
+
         public init(marker: String? = nil, maxItems: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -3077,7 +3077,7 @@ extension CloudFront {
 
         /// Returns a list of all public keys that have been added to CloudFront for this account.
         public let publicKeyList: PublicKeyList?
-        
+
         public init(publicKeyList: PublicKeyList? = nil) {
             self.publicKeyList = publicKeyList
         }
@@ -3097,7 +3097,7 @@ extension CloudFront {
         public let marker: String?
         /// The value that you provided for the MaxItems request parameter.
         public let maxItems: String?
-        
+
         public init(marker: String? = nil, maxItems: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -3118,7 +3118,7 @@ extension CloudFront {
 
         /// The StreamingDistributionList type. 
         public let streamingDistributionList: StreamingDistributionList?
-        
+
         public init(streamingDistributionList: StreamingDistributionList? = nil) {
             self.streamingDistributionList = streamingDistributionList
         }
@@ -3135,7 +3135,7 @@ extension CloudFront {
 
         ///  An ARN of a CloudFront resource.
         public let resource: String
-        
+
         public init(resource: String) {
             self.resource = resource
         }
@@ -3158,7 +3158,7 @@ extension CloudFront {
 
         ///  A complex type that contains zero or more Tag elements.
         public let tags: Tags
-        
+
         public init(tags: Tags) {
             self.tags = tags
         }
@@ -3188,7 +3188,7 @@ extension CloudFront {
         public let includeCookies: Bool
         /// An optional string that you want CloudFront to prefix to the access log filenames for this distribution, for example, myprefix/. If you want to enable logging, but you don't want to specify a prefix, you still must include an empty Prefix element in the Logging element.
         public let prefix: String
-        
+
         public init(bucket: String, enabled: Bool, includeCookies: Bool, prefix: String) {
             self.bucket = bucket
             self.enabled = enabled
@@ -3246,7 +3246,7 @@ extension CloudFront {
         public let originPath: String?
         /// A complex type that contains information about the Amazon S3 origin. If the origin is a custom origin, use the CustomOriginConfig element instead.
         public let s3OriginConfig: S3OriginConfig?
-        
+
         public init(customHeaders: CustomHeaders? = nil, customOriginConfig: CustomOriginConfig? = nil, domainName: String, id: String, originPath: String? = nil, s3OriginConfig: S3OriginConfig? = nil) {
             self.customHeaders = customHeaders
             self.customOriginConfig = customOriginConfig
@@ -3276,7 +3276,7 @@ extension CloudFront {
         public let headerName: String
         /// The value for the header that you specified in the HeaderName field.
         public let headerValue: String
-        
+
         public init(headerName: String, headerValue: String) {
             self.headerName = headerName
             self.headerValue = headerValue
@@ -3301,7 +3301,7 @@ extension CloudFront {
         public let id: String
         /// A complex type that contains information about the origins in an origin group.
         public let members: OriginGroupMembers
-        
+
         public init(failoverCriteria: OriginGroupFailoverCriteria, id: String, members: OriginGroupMembers) {
             self.failoverCriteria = failoverCriteria
             self.id = id
@@ -3327,7 +3327,7 @@ extension CloudFront {
 
         /// The status codes that, when returned from the primary origin, will trigger CloudFront to failover to the second origin.
         public let statusCodes: StatusCodes
-        
+
         public init(statusCodes: StatusCodes) {
             self.statusCodes = statusCodes
         }
@@ -3348,7 +3348,7 @@ extension CloudFront {
 
         /// The ID for an origin in an origin group.
         public let originId: String
-        
+
         public init(originId: String) {
             self.originId = originId
         }
@@ -3368,7 +3368,7 @@ extension CloudFront {
         public let items: [OriginGroupMember]
         /// The number of origins in an origin group.
         public let quantity: Int32
-        
+
         public init(items: [OriginGroupMember], quantity: Int32) {
             self.items = items
             self.quantity = quantity
@@ -3395,7 +3395,7 @@ extension CloudFront {
         public let items: [OriginGroup]?
         /// The number of origin groups.
         public let quantity: Int32
-        
+
         public init(items: [OriginGroup]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
@@ -3430,7 +3430,7 @@ extension CloudFront {
         public let items: [SslProtocol]
         /// The number of SSL/TLS protocols that you want to allow CloudFront to use when establishing an HTTPS connection with this origin. 
         public let quantity: Int32
-        
+
         public init(items: [SslProtocol], quantity: Int32) {
             self.items = items
             self.quantity = quantity
@@ -3452,7 +3452,7 @@ extension CloudFront {
         public let items: [Origin]
         /// The number of origins or origin groups for this distribution.
         public let quantity: Int32
-        
+
         public init(items: [Origin], quantity: Int32) {
             self.items = items
             self.quantity = quantity
@@ -3478,7 +3478,7 @@ extension CloudFront {
         public let items: [String]?
         /// The number of invalidation paths specified for the objects that you want to invalidate.
         public let quantity: Int32
-        
+
         public init(items: [String]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
@@ -3510,7 +3510,7 @@ extension CloudFront {
         public let id: String
         /// A complex data type for a public key you add to CloudFront to use with features like field-level encryption.
         public let publicKeyConfig: PublicKeyConfig
-        
+
         public init(createdTime: TimeStamp, id: String, publicKeyConfig: PublicKeyConfig) {
             self.createdTime = createdTime
             self.id = id
@@ -3540,7 +3540,7 @@ extension CloudFront {
         public let encodedKey: String
         /// The name for a public key you add to CloudFront to use with features like field-level encryption.
         public let name: String
-        
+
         public init(callerReference: String, comment: String? = nil, encodedKey: String, name: String) {
             self.callerReference = callerReference
             self.comment = comment
@@ -3572,7 +3572,7 @@ extension CloudFront {
         public let nextMarker: String?
         /// The number of public keys you added to CloudFront to use with features like field-level encryption.
         public let quantity: Int32
-        
+
         public init(items: [PublicKeySummary]? = nil, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
             self.items = items
             self.maxItems = maxItems
@@ -3607,7 +3607,7 @@ extension CloudFront {
         public let id: String
         ///  Name for public key information summary. 
         public let name: String
-        
+
         public init(comment: String? = nil, createdTime: TimeStamp, encodedKey: String, id: String, name: String) {
             self.comment = comment
             self.createdTime = createdTime
@@ -3635,7 +3635,7 @@ extension CloudFront {
         public let profileId: String
         /// Query argument for field-level encryption query argument-profile mapping.
         public let queryArg: String
-        
+
         public init(profileId: String, queryArg: String) {
             self.profileId = profileId
             self.queryArg = queryArg
@@ -3657,7 +3657,7 @@ extension CloudFront {
         public let forwardWhenQueryArgProfileIsUnknown: Bool
         /// Profiles specified for query argument-profile mapping for field-level encryption.
         public let queryArgProfiles: QueryArgProfiles?
-        
+
         public init(forwardWhenQueryArgProfileIsUnknown: Bool, queryArgProfiles: QueryArgProfiles? = nil) {
             self.forwardWhenQueryArgProfileIsUnknown = forwardWhenQueryArgProfileIsUnknown
             self.queryArgProfiles = queryArgProfiles
@@ -3679,7 +3679,7 @@ extension CloudFront {
         public let items: [QueryArgProfile]?
         /// Number of profiles for query argument-profile mapping for field-level encryption.
         public let quantity: Int32
-        
+
         public init(items: [QueryArgProfile]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
@@ -3701,7 +3701,7 @@ extension CloudFront {
         public let items: [String]?
         /// The number of whitelisted query string parameters for a cache behavior.
         public let quantity: Int32
-        
+
         public init(items: [String]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
@@ -3720,7 +3720,7 @@ extension CloudFront {
 
         /// A complex type that controls the countries in which your content is distributed. CloudFront determines the location of your users using MaxMind GeoIP databases.
         public let geoRestriction: GeoRestriction
-        
+
         public init(geoRestriction: GeoRestriction) {
             self.geoRestriction = geoRestriction
         }
@@ -3740,7 +3740,7 @@ extension CloudFront {
         public let domainName: String
         /// The CloudFront origin access identity to associate with the distribution. Use an origin access identity to configure the distribution so that end users can only access objects in an Amazon S3 bucket through CloudFront. If you want end users to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information, see Using an Origin Access Identity to Restrict Access to Your Amazon S3 Content in the  Amazon CloudFront Developer Guide.
         public let originAccessIdentity: String
-        
+
         public init(domainName: String, originAccessIdentity: String) {
             self.domainName = domainName
             self.originAccessIdentity = originAccessIdentity
@@ -3759,7 +3759,7 @@ extension CloudFront {
 
         /// The CloudFront origin access identity to associate with the origin. Use an origin access identity to configure the origin so that viewers can only access objects in an Amazon S3 bucket through CloudFront. The format of the value is: origin-access-identity/cloudfront/ID-of-origin-access-identity  where  ID-of-origin-access-identity  is the value that CloudFront returned in the ID element when you created the origin access identity. If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information about the origin access identity, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
         public let originAccessIdentity: String
-        
+
         public init(originAccessIdentity: String) {
             self.originAccessIdentity = originAccessIdentity
         }
@@ -3785,7 +3785,7 @@ extension CloudFront {
         public let awsAccountNumber: String?
         /// A complex type that lists the active CloudFront key pairs, if any, that are associated with AwsAccountNumber.
         public let keyPairIds: KeyPairIds?
-        
+
         public init(awsAccountNumber: String? = nil, keyPairIds: KeyPairIds? = nil) {
             self.awsAccountNumber = awsAccountNumber
             self.keyPairIds = keyPairIds
@@ -3815,7 +3815,7 @@ extension CloudFront {
         public let items: [Int32]
         /// The number of status codes.
         public let quantity: Int32
-        
+
         public init(items: [Int32], quantity: Int32) {
             self.items = items
             self.quantity = quantity
@@ -3856,7 +3856,7 @@ extension CloudFront {
         public let status: String
         /// The current configuration information for the RTMP distribution.
         public let streamingDistributionConfig: StreamingDistributionConfig
-        
+
         public init(activeTrustedSigners: ActiveTrustedSigners, arn: String, domainName: String, id: String, lastModifiedTime: TimeStamp? = nil, status: String, streamingDistributionConfig: StreamingDistributionConfig) {
             self.activeTrustedSigners = activeTrustedSigners
             self.arn = arn
@@ -3906,7 +3906,7 @@ extension CloudFront {
         public let s3Origin: S3Origin
         /// A complex type that specifies any AWS accounts that you want to permit to create signed URLs for private content. If you want the distribution to use signed URLs, include this element; if you want the distribution to use public URLs, remove this element. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide. 
         public let trustedSigners: TrustedSigners
-        
+
         public init(aliases: Aliases? = nil, callerReference: String, comment: String, enabled: Bool, logging: StreamingLoggingConfig? = nil, priceClass: PriceClass? = nil, s3Origin: S3Origin, trustedSigners: TrustedSigners) {
             self.aliases = aliases
             self.callerReference = callerReference
@@ -3940,7 +3940,7 @@ extension CloudFront {
         public let streamingDistributionConfig: StreamingDistributionConfig
         /// A complex type that contains zero or more Tag elements.
         public let tags: Tags
-        
+
         public init(streamingDistributionConfig: StreamingDistributionConfig, tags: Tags) {
             self.streamingDistributionConfig = streamingDistributionConfig
             self.tags = tags
@@ -3978,7 +3978,7 @@ extension CloudFront {
         public let nextMarker: String?
         /// The number of streaming distributions that were created by the current AWS account. 
         public let quantity: Int32
-        
+
         public init(isTruncated: Bool, items: [StreamingDistributionSummary]? = nil, marker: String, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
             self.isTruncated = isTruncated
             self.items = items
@@ -4035,7 +4035,7 @@ extension CloudFront {
         public let status: String
         /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items.If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide. 
         public let trustedSigners: TrustedSigners
-        
+
         public init(aliases: Aliases, arn: String, comment: String, domainName: String, enabled: Bool, id: String, lastModifiedTime: TimeStamp, priceClass: PriceClass, s3Origin: S3Origin, status: String, trustedSigners: TrustedSigners) {
             self.aliases = aliases
             self.arn = arn
@@ -4078,7 +4078,7 @@ extension CloudFront {
         public let enabled: Bool
         /// An optional string that you want CloudFront to prefix to the access log filenames for this streaming distribution, for example, myprefix/. If you want to enable logging, but you don't want to specify a prefix, you still must include an empty Prefix element in the Logging element.
         public let prefix: String
-        
+
         public init(bucket: String, enabled: Bool, prefix: String) {
             self.bucket = bucket
             self.enabled = enabled
@@ -4102,7 +4102,7 @@ extension CloudFront {
         public let key: String
         ///  A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
         public let value: String?
-        
+
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -4130,7 +4130,7 @@ extension CloudFront {
 
         ///  A complex type that contains Tag key elements.
         public let items: [String]?
-        
+
         public init(items: [String]? = nil) {
             self.items = items
         }
@@ -4161,7 +4161,7 @@ extension CloudFront {
         public let resource: String
         ///  A complex type that contains zero or more Tag elements.
         public let tags: Tags
-        
+
         public init(resource: String, tags: Tags) {
             self.resource = resource
             self.tags = tags
@@ -4185,7 +4185,7 @@ extension CloudFront {
 
         ///  A complex type that contains Tag elements.
         public let items: [Tag]?
-        
+
         public init(items: [Tag]? = nil) {
             self.items = items
         }
@@ -4214,7 +4214,7 @@ extension CloudFront {
         public let items: [String]?
         /// The number of trusted signers for this cache behavior.
         public let quantity: Int32
-        
+
         public init(enabled: Bool, items: [String]? = nil, quantity: Int32) {
             self.enabled = enabled
             self.items = items
@@ -4241,7 +4241,7 @@ extension CloudFront {
         public let resource: String
         ///  A complex type that contains zero or more Tag key elements.
         public let tagKeys: TagKeys
-        
+
         public init(resource: String, tagKeys: TagKeys) {
             self.resource = resource
             self.tagKeys = tagKeys
@@ -4274,7 +4274,7 @@ extension CloudFront {
         public let id: String
         /// The value of the ETag header that you received when retrieving the identity's configuration. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
-        
+
         public init(cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig, id: String, ifMatch: String? = nil) {
             self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
             self.id = id
@@ -4300,7 +4300,7 @@ extension CloudFront {
         public let cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity?
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
-        
+
         public init(cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity? = nil, eTag: String? = nil) {
             self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
             self.eTag = eTag
@@ -4328,7 +4328,7 @@ extension CloudFront {
         public let id: String
         /// The value of the ETag header that you received when retrieving the distribution's configuration. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
-        
+
         public init(distributionConfig: DistributionConfig, id: String, ifMatch: String? = nil) {
             self.distributionConfig = distributionConfig
             self.id = id
@@ -4358,7 +4358,7 @@ extension CloudFront {
         public let distribution: Distribution?
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
-        
+
         public init(distribution: Distribution? = nil, eTag: String? = nil) {
             self.distribution = distribution
             self.eTag = eTag
@@ -4390,7 +4390,7 @@ extension CloudFront {
         public let id: String
         /// The value of the ETag header that you received when retrieving the configuration identity to update. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
-        
+
         public init(fieldLevelEncryptionConfig: FieldLevelEncryptionConfig, id: String, ifMatch: String? = nil) {
             self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
             self.id = id
@@ -4416,7 +4416,7 @@ extension CloudFront {
         public let eTag: String?
         /// Return the results of updating the configuration.
         public let fieldLevelEncryption: FieldLevelEncryption?
-        
+
         public init(eTag: String? = nil, fieldLevelEncryption: FieldLevelEncryption? = nil) {
             self.eTag = eTag
             self.fieldLevelEncryption = fieldLevelEncryption
@@ -4444,7 +4444,7 @@ extension CloudFront {
         public let id: String
         /// The value of the ETag header that you received when retrieving the profile identity to update. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
-        
+
         public init(fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig, id: String, ifMatch: String? = nil) {
             self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
             self.id = id
@@ -4470,7 +4470,7 @@ extension CloudFront {
         public let eTag: String?
         /// Return the results of updating the profile.
         public let fieldLevelEncryptionProfile: FieldLevelEncryptionProfile?
-        
+
         public init(eTag: String? = nil, fieldLevelEncryptionProfile: FieldLevelEncryptionProfile? = nil) {
             self.eTag = eTag
             self.fieldLevelEncryptionProfile = fieldLevelEncryptionProfile
@@ -4498,7 +4498,7 @@ extension CloudFront {
         public let ifMatch: String?
         /// Request to update public key information.
         public let publicKeyConfig: PublicKeyConfig
-        
+
         public init(id: String, ifMatch: String? = nil, publicKeyConfig: PublicKeyConfig) {
             self.id = id
             self.ifMatch = ifMatch
@@ -4524,7 +4524,7 @@ extension CloudFront {
         public let eTag: String?
         /// Return the results of updating the public key.
         public let publicKey: PublicKey?
-        
+
         public init(eTag: String? = nil, publicKey: PublicKey? = nil) {
             self.eTag = eTag
             self.publicKey = publicKey
@@ -4552,7 +4552,7 @@ extension CloudFront {
         public let ifMatch: String?
         /// The streaming distribution's configuration information.
         public let streamingDistributionConfig: StreamingDistributionConfig
-        
+
         public init(id: String, ifMatch: String? = nil, streamingDistributionConfig: StreamingDistributionConfig) {
             self.id = id
             self.ifMatch = ifMatch
@@ -4578,7 +4578,7 @@ extension CloudFront {
         public let eTag: String?
         /// The streaming distribution's information.
         public let streamingDistribution: StreamingDistribution?
-        
+
         public init(eTag: String? = nil, streamingDistribution: StreamingDistribution? = nil) {
             self.eTag = eTag
             self.streamingDistribution = streamingDistribution
@@ -4609,7 +4609,7 @@ extension CloudFront {
         public let minimumProtocolVersion: MinimumProtocolVersion?
         /// If you specify a value for ACMCertificateArn or for IAMCertificateId, you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for browsers and clients released after 2010 or one that works for all clients.    sni-only: CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but there are a few that don't. For a current list of the browsers that support SNI, see the Wikipedia entry Server Name Indication. To learn about options to explore if you have users with browsers that don't include SNI support, see Choosing How CloudFront Serves HTTPS Requests in the Amazon CloudFront Developer Guide.    vip: CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, there are additional monthly charges. For details, including specific pricing information, see Custom SSL options for Amazon CloudFront on the AWS marketing site.   Don't specify a value for SSLSupportMethod if you specified &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;. For more information, see Choosing How CloudFront Serves HTTPS Requests in the Amazon CloudFront Developer Guide.
         public let sSLSupportMethod: SSLSupportMethod?
-        
+
         public init(aCMCertificateArn: String? = nil, cloudFrontDefaultCertificate: Bool? = nil, iAMCertificateId: String? = nil, minimumProtocolVersion: MinimumProtocolVersion? = nil, sSLSupportMethod: SSLSupportMethod? = nil) {
             self.aCMCertificateArn = aCMCertificateArn
             self.cloudFrontDefaultCertificate = cloudFrontDefaultCertificate
@@ -4633,5 +4633,4 @@ extension CloudFront {
         case redirectToHttps = "redirect-to-https"
         public var description: String { return self.rawValue }
     }
-
 }

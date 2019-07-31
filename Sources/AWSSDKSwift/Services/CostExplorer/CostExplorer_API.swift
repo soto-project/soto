@@ -67,5 +67,4 @@ public struct CostExplorer {
     public func getUsageForecast(_ input: GetUsageForecastRequest) throws -> Future<GetUsageForecastResponse> {
         return try client.send(operation: "GetUsageForecast", path: "/", httpMethod: "POST", input: input)
     }
-
 }

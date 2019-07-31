@@ -317,5 +317,4 @@ public struct ApiGatewayV2 {
     public func updateStage(_ input: UpdateStageRequest) throws -> Future<UpdateStageResponse> {
         return try client.send(operation: "UpdateStage", path: "/v2/apis/{apiId}/stages/{stageName}", httpMethod: "PATCH", input: input)
     }
-
 }

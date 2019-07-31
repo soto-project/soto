@@ -21,7 +21,7 @@ extension ApplicationInsights {
         public let resourceType: String?
         /// The stack tier of the application component.
         public let tier: String?
-        
+
         public init(componentName: String? = nil, monitor: Bool? = nil, resourceType: String? = nil, tier: String? = nil) {
             self.componentName = componentName
             self.monitor = monitor
@@ -50,7 +50,7 @@ extension ApplicationInsights {
         public let remarks: String?
         /// The name of the resource group used for the application.
         public let resourceGroupName: String?
-        
+
         public init(lifeCycle: String? = nil, remarks: String? = nil, resourceGroupName: String? = nil) {
             self.lifeCycle = lifeCycle
             self.remarks = remarks
@@ -71,7 +71,7 @@ extension ApplicationInsights {
 
         /// The name of the resource group.
         public let resourceGroupName: String
-        
+
         public init(resourceGroupName: String) {
             self.resourceGroupName = resourceGroupName
         }
@@ -88,7 +88,7 @@ extension ApplicationInsights {
 
         /// Information about the application.
         public let applicationInfo: ApplicationInfo?
-        
+
         public init(applicationInfo: ApplicationInfo? = nil) {
             self.applicationInfo = applicationInfo
         }
@@ -111,7 +111,7 @@ extension ApplicationInsights {
         public let resourceGroupName: String
         /// The list of resource ARNs that belong to the component.
         public let resourceList: [String]
-        
+
         public init(componentName: String, resourceGroupName: String, resourceList: [String]) {
             self.componentName = componentName
             self.resourceGroupName = resourceGroupName
@@ -126,11 +126,12 @@ extension ApplicationInsights {
     }
 
     public struct CreateComponentResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteApplicationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -139,7 +140,7 @@ extension ApplicationInsights {
 
         /// The name of the resource group.
         public let resourceGroupName: String
-        
+
         public init(resourceGroupName: String) {
             self.resourceGroupName = resourceGroupName
         }
@@ -150,11 +151,12 @@ extension ApplicationInsights {
     }
 
     public struct DeleteApplicationResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteComponentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -166,7 +168,7 @@ extension ApplicationInsights {
         public let componentName: String
         /// The name of the resource group.
         public let resourceGroupName: String
-        
+
         public init(componentName: String, resourceGroupName: String) {
             self.componentName = componentName
             self.resourceGroupName = resourceGroupName
@@ -179,11 +181,12 @@ extension ApplicationInsights {
     }
 
     public struct DeleteComponentResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeApplicationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -192,7 +195,7 @@ extension ApplicationInsights {
 
         /// The name of the resource group.
         public let resourceGroupName: String
-        
+
         public init(resourceGroupName: String) {
             self.resourceGroupName = resourceGroupName
         }
@@ -209,7 +212,7 @@ extension ApplicationInsights {
 
         /// Information about the application.
         public let applicationInfo: ApplicationInfo?
-        
+
         public init(applicationInfo: ApplicationInfo? = nil) {
             self.applicationInfo = applicationInfo
         }
@@ -232,7 +235,7 @@ extension ApplicationInsights {
         public let resourceGroupName: String
         /// The tier of the application component. Supported tiers include DOT_NET_WORKER, DOT_NET_WEB_TIER, SQL_SERVER, and DEFAULT.
         public let tier: String
-        
+
         public init(componentName: String, resourceGroupName: String, tier: String) {
             self.componentName = componentName
             self.resourceGroupName = resourceGroupName
@@ -253,7 +256,7 @@ extension ApplicationInsights {
 
         /// The recommended configuration settings of the component. The value is the escaped JSON of the configuration.
         public let componentConfiguration: String?
-        
+
         public init(componentConfiguration: String? = nil) {
             self.componentConfiguration = componentConfiguration
         }
@@ -273,7 +276,7 @@ extension ApplicationInsights {
         public let componentName: String
         /// The name of the resource group.
         public let resourceGroupName: String
-        
+
         public init(componentName: String, resourceGroupName: String) {
             self.componentName = componentName
             self.resourceGroupName = resourceGroupName
@@ -298,7 +301,7 @@ extension ApplicationInsights {
         public let monitor: Bool?
         /// The tier of the application component. Supported tiers include DOT_NET_WORKER, DOT_NET_WEB_TIER, SQL_SERVER, and DEFAULT 
         public let tier: String?
-        
+
         public init(componentConfiguration: String? = nil, monitor: Bool? = nil, tier: String? = nil) {
             self.componentConfiguration = componentConfiguration
             self.monitor = monitor
@@ -322,7 +325,7 @@ extension ApplicationInsights {
         public let componentName: String
         /// The name of the resource group.
         public let resourceGroupName: String
-        
+
         public init(componentName: String, resourceGroupName: String) {
             self.componentName = componentName
             self.resourceGroupName = resourceGroupName
@@ -343,7 +346,7 @@ extension ApplicationInsights {
         public let applicationComponent: ApplicationComponent?
         /// The list of resource ARNs that belong to the component.
         public let resourceList: [String]?
-        
+
         public init(applicationComponent: ApplicationComponent? = nil, resourceList: [String]? = nil) {
             self.applicationComponent = applicationComponent
             self.resourceList = resourceList
@@ -362,7 +365,7 @@ extension ApplicationInsights {
 
         /// The ID of the observation.
         public let observationId: String
-        
+
         public init(observationId: String) {
             self.observationId = observationId
         }
@@ -379,7 +382,7 @@ extension ApplicationInsights {
 
         /// Information about the observation.
         public let observation: Observation?
-        
+
         public init(observation: Observation? = nil) {
             self.observation = observation
         }
@@ -396,7 +399,7 @@ extension ApplicationInsights {
 
         /// The ID of the problem.
         public let problemId: String
-        
+
         public init(problemId: String) {
             self.problemId = problemId
         }
@@ -413,7 +416,7 @@ extension ApplicationInsights {
 
         /// Observations related to the problem.
         public let relatedObservations: RelatedObservations?
-        
+
         public init(relatedObservations: RelatedObservations? = nil) {
             self.relatedObservations = relatedObservations
         }
@@ -430,7 +433,7 @@ extension ApplicationInsights {
 
         /// The ID of the problem.
         public let problemId: String
-        
+
         public init(problemId: String) {
             self.problemId = problemId
         }
@@ -447,7 +450,7 @@ extension ApplicationInsights {
 
         /// Information about the problem. 
         public let problem: Problem?
-        
+
         public init(problem: Problem? = nil) {
             self.problem = problem
         }
@@ -479,7 +482,7 @@ extension ApplicationInsights {
         public let maxResults: Int32?
         /// The token to request the next page of results.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -506,7 +509,7 @@ extension ApplicationInsights {
         public let applicationInfoList: [ApplicationInfo]?
         /// The token used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
-        
+
         public init(applicationInfoList: [ApplicationInfo]? = nil, nextToken: String? = nil) {
             self.applicationInfoList = applicationInfoList
             self.nextToken = nextToken
@@ -531,7 +534,7 @@ extension ApplicationInsights {
         public let nextToken: String?
         /// The name of the resource group.
         public let resourceGroupName: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceGroupName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -560,7 +563,7 @@ extension ApplicationInsights {
         public let applicationComponentList: [ApplicationComponent]?
         /// The token to request the next page of results.
         public let nextToken: String?
-        
+
         public init(applicationComponentList: [ApplicationComponent]? = nil, nextToken: String? = nil) {
             self.applicationComponentList = applicationComponentList
             self.nextToken = nextToken
@@ -591,7 +594,7 @@ extension ApplicationInsights {
         public let resourceGroupName: String?
         /// The time when the problem was detected, in epoch seconds. If you don't specify a time frame for the request, problems within the past seven days are returned.
         public let startTime: TimeStamp?
-        
+
         public init(endTime: TimeStamp? = nil, maxResults: Int32? = nil, nextToken: String? = nil, resourceGroupName: String? = nil, startTime: TimeStamp? = nil) {
             self.endTime = endTime
             self.maxResults = maxResults
@@ -624,7 +627,7 @@ extension ApplicationInsights {
         public let nextToken: String?
         /// The list of problems. 
         public let problemList: [Problem]?
-        
+
         public init(nextToken: String? = nil, problemList: [Problem]? = nil) {
             self.nextToken = nextToken
             self.problemList = problemList
@@ -686,7 +689,7 @@ extension ApplicationInsights {
         public let unit: String?
         /// The value of the source observation metric.
         public let value: Double?
-        
+
         public init(endTime: TimeStamp? = nil, id: String? = nil, lineTime: TimeStamp? = nil, logFilter: LogFilter? = nil, logGroup: String? = nil, logText: String? = nil, metricName: String? = nil, metricNamespace: String? = nil, sourceARN: String? = nil, sourceType: String? = nil, startTime: TimeStamp? = nil, unit: String? = nil, value: Double? = nil) {
             self.endTime = endTime
             self.id = id
@@ -754,7 +757,7 @@ extension ApplicationInsights {
         public let status: Status?
         /// The name of the problem.
         public let title: String?
-        
+
         public init(affectedResource: String? = nil, endTime: TimeStamp? = nil, feedback: [FeedbackKey: FeedbackValue]? = nil, id: String? = nil, insights: String? = nil, resourceGroupName: String? = nil, severityLevel: SeverityLevel? = nil, startTime: TimeStamp? = nil, status: Status? = nil, title: String? = nil) {
             self.affectedResource = affectedResource
             self.endTime = endTime
@@ -789,7 +792,7 @@ extension ApplicationInsights {
 
         /// The list of observations related to the problem.
         public let observationList: [Observation]?
-        
+
         public init(observationList: [Observation]? = nil) {
             self.observationList = observationList
         }
@@ -832,7 +835,7 @@ extension ApplicationInsights {
         public let resourceGroupName: String
         /// The tier of the application component. Supported tiers include DOT_NET_WORKER, DOT_NET_WEB_TIER, SQL_SERVER, and DEFAULT.
         public let tier: String?
-        
+
         public init(componentConfiguration: String? = nil, componentName: String, monitor: Bool? = nil, resourceGroupName: String, tier: String? = nil) {
             self.componentConfiguration = componentConfiguration
             self.componentName = componentName
@@ -851,11 +854,12 @@ extension ApplicationInsights {
     }
 
     public struct UpdateComponentConfigurationResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateComponentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -873,7 +877,7 @@ extension ApplicationInsights {
         public let resourceGroupName: String
         /// The list of resource ARNs that belong to the component.
         public let resourceList: [String]?
-        
+
         public init(componentName: String, newComponentName: String? = nil, resourceGroupName: String, resourceList: [String]? = nil) {
             self.componentName = componentName
             self.newComponentName = newComponentName
@@ -890,10 +894,10 @@ extension ApplicationInsights {
     }
 
     public struct UpdateComponentResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
-
+    }
 }

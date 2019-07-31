@@ -27,7 +27,7 @@ extension SWF {
         public let taskToken: String
         /// The workflow execution that started this activity task.
         public let workflowExecution: WorkflowExecution
-        
+
         public init(activityId: String, activityType: ActivityType, input: String? = nil, startedEventId: Int64, taskToken: String, workflowExecution: WorkflowExecution) {
             self.activityId = activityId
             self.activityType = activityType
@@ -67,7 +67,7 @@ extension SWF {
         public let activityId: String
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the RequestCancelActivityTask decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
-        
+
         public init(activityId: String, decisionTaskCompletedEventId: Int64) {
             self.activityId = activityId
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
@@ -100,7 +100,7 @@ extension SWF {
         public let scheduledEventId: Int64
         /// The ID of the ActivityTaskStarted event recorded when this activity task was started. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let startedEventId: Int64
-        
+
         public init(details: String? = nil, latestCancelRequestedEventId: Int64? = nil, scheduledEventId: Int64, startedEventId: Int64) {
             self.details = details
             self.latestCancelRequestedEventId = latestCancelRequestedEventId
@@ -133,7 +133,7 @@ extension SWF {
         public let scheduledEventId: Int64
         /// The ID of the ActivityTaskStarted event recorded when this activity task was started. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let startedEventId: Int64
-        
+
         public init(result: String? = nil, scheduledEventId: Int64, startedEventId: Int64) {
             self.result = result
             self.scheduledEventId = scheduledEventId
@@ -167,7 +167,7 @@ extension SWF {
         public let scheduledEventId: Int64
         /// The ID of the ActivityTaskStarted event recorded when this activity task was started. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let startedEventId: Int64
-        
+
         public init(details: String? = nil, reason: String? = nil, scheduledEventId: Int64, startedEventId: Int64) {
             self.details = details
             self.reason = reason
@@ -225,7 +225,7 @@ extension SWF {
         public let taskList: TaskList
         ///  The priority to assign to the scheduled activity task. If set, this overrides any default priority value that was assigned when the activity type was registered. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon SWF Developer Guide.
         public let taskPriority: String?
-        
+
         public init(activityId: String, activityType: ActivityType, control: String? = nil, decisionTaskCompletedEventId: Int64, heartbeatTimeout: String? = nil, input: String? = nil, scheduleToCloseTimeout: String? = nil, scheduleToStartTimeout: String? = nil, startToCloseTimeout: String? = nil, taskList: TaskList, taskPriority: String? = nil) {
             self.activityId = activityId
             self.activityType = activityType
@@ -278,7 +278,7 @@ extension SWF {
         public let identity: String?
         /// The ID of the ActivityTaskScheduled event that was recorded when this activity task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
-        
+
         public init(identity: String? = nil, scheduledEventId: Int64) {
             self.identity = identity
             self.scheduledEventId = scheduledEventId
@@ -301,7 +301,7 @@ extension SWF {
 
         /// Set to true if cancellation of the task is requested.
         public let cancelRequested: Bool
-        
+
         public init(cancelRequested: Bool) {
             self.cancelRequested = cancelRequested
         }
@@ -327,7 +327,7 @@ extension SWF {
         public let startedEventId: Int64
         /// The type of the timeout that caused this event.
         public let timeoutType: ActivityTaskTimeoutType
-        
+
         public init(details: String? = nil, scheduledEventId: Int64, startedEventId: Int64, timeoutType: ActivityTaskTimeoutType) {
             self.details = details
             self.scheduledEventId = scheduledEventId
@@ -365,7 +365,7 @@ extension SWF {
         public let name: String
         /// The version of this activity.  The combination of activity type name and version must be unique with in a domain. 
         public let version: String
-        
+
         public init(name: String, version: String) {
             self.name = name
             self.version = version
@@ -406,7 +406,7 @@ extension SWF {
         public let defaultTaskScheduleToStartTimeout: String?
         ///  The default maximum duration for tasks of an activity type specified when registering the activity type. You can override this default when scheduling a task through the ScheduleActivityTask Decision. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let defaultTaskStartToCloseTimeout: String?
-        
+
         public init(defaultTaskHeartbeatTimeout: String? = nil, defaultTaskList: TaskList? = nil, defaultTaskPriority: String? = nil, defaultTaskScheduleToCloseTimeout: String? = nil, defaultTaskScheduleToStartTimeout: String? = nil, defaultTaskStartToCloseTimeout: String? = nil) {
             self.defaultTaskHeartbeatTimeout = defaultTaskHeartbeatTimeout
             self.defaultTaskList = defaultTaskList
@@ -444,7 +444,7 @@ extension SWF {
         public let configuration: ActivityTypeConfiguration
         /// General information about the activity type. The status of activity type (returned in the ActivityTypeInfo structure) can be one of the following.    REGISTERED – The type is registered and available. Workers supporting this type should be running.     DEPRECATED – The type was deprecated using DeprecateActivityType, but is still in use. You should keep workers supporting this type running. You cannot create new tasks of this type.   
         public let typeInfo: ActivityTypeInfo
-        
+
         public init(configuration: ActivityTypeConfiguration, typeInfo: ActivityTypeInfo) {
             self.configuration = configuration
             self.typeInfo = typeInfo
@@ -480,7 +480,7 @@ extension SWF {
         public let description: String?
         /// The current status of the activity type.
         public let status: RegistrationStatus
-        
+
         public init(activityType: ActivityType, creationDate: TimeStamp, deprecationDate: TimeStamp? = nil, description: String? = nil, status: RegistrationStatus) {
             self.activityType = activityType
             self.creationDate = creationDate
@@ -513,7 +513,7 @@ extension SWF {
         public let nextPageToken: String?
         /// List of activity type information.
         public let typeInfos: [ActivityTypeInfo]
-        
+
         public init(nextPageToken: String? = nil, typeInfos: [ActivityTypeInfo]) {
             self.nextPageToken = nextPageToken
             self.typeInfos = typeInfos
@@ -539,7 +539,7 @@ extension SWF {
 
         ///  The unique ID of the timer to cancel.
         public let timerId: String
-        
+
         public init(timerId: String) {
             self.timerId = timerId
         }
@@ -573,7 +573,7 @@ extension SWF {
         public let decisionTaskCompletedEventId: Int64
         /// The timerId provided in the CancelTimer decision that failed.
         public let timerId: String
-        
+
         public init(cause: CancelTimerFailedCause, decisionTaskCompletedEventId: Int64, timerId: String) {
             self.cause = cause
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
@@ -599,7 +599,7 @@ extension SWF {
 
         ///  Details of the cancellation.
         public let details: String?
-        
+
         public init(details: String? = nil) {
             self.details = details
         }
@@ -629,7 +629,7 @@ extension SWF {
         public let cause: CancelWorkflowExecutionFailedCause
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CancelWorkflowExecution decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
-        
+
         public init(cause: CancelWorkflowExecutionFailedCause, decisionTaskCompletedEventId: Int64) {
             self.cause = cause
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
@@ -667,7 +667,7 @@ extension SWF {
         public let workflowExecution: WorkflowExecution
         /// The type of the child workflow execution.
         public let workflowType: WorkflowType
-        
+
         public init(details: String? = nil, initiatedEventId: Int64, startedEventId: Int64, workflowExecution: WorkflowExecution, workflowType: WorkflowType) {
             self.details = details
             self.initiatedEventId = initiatedEventId
@@ -710,7 +710,7 @@ extension SWF {
         public let workflowExecution: WorkflowExecution
         /// The type of the child workflow execution.
         public let workflowType: WorkflowType
-        
+
         public init(initiatedEventId: Int64, result: String? = nil, startedEventId: Int64, workflowExecution: WorkflowExecution, workflowType: WorkflowType) {
             self.initiatedEventId = initiatedEventId
             self.result = result
@@ -756,7 +756,7 @@ extension SWF {
         public let workflowExecution: WorkflowExecution
         /// The type of the child workflow execution.
         public let workflowType: WorkflowType
-        
+
         public init(details: String? = nil, initiatedEventId: Int64, reason: String? = nil, startedEventId: Int64, workflowExecution: WorkflowExecution, workflowType: WorkflowType) {
             self.details = details
             self.initiatedEventId = initiatedEventId
@@ -796,7 +796,7 @@ extension SWF {
         public let workflowExecution: WorkflowExecution
         /// The type of the child workflow execution.
         public let workflowType: WorkflowType
-        
+
         public init(initiatedEventId: Int64, workflowExecution: WorkflowExecution, workflowType: WorkflowType) {
             self.initiatedEventId = initiatedEventId
             self.workflowExecution = workflowExecution
@@ -831,7 +831,7 @@ extension SWF {
         public let workflowExecution: WorkflowExecution
         /// The type of the child workflow execution.
         public let workflowType: WorkflowType
-        
+
         public init(initiatedEventId: Int64, startedEventId: Int64, workflowExecution: WorkflowExecution, workflowType: WorkflowType) {
             self.initiatedEventId = initiatedEventId
             self.startedEventId = startedEventId
@@ -871,7 +871,7 @@ extension SWF {
         public let workflowExecution: WorkflowExecution
         /// The type of the child workflow execution.
         public let workflowType: WorkflowType
-        
+
         public init(initiatedEventId: Int64, startedEventId: Int64, timeoutType: WorkflowExecutionTimeoutType, workflowExecution: WorkflowExecution, workflowType: WorkflowType) {
             self.initiatedEventId = initiatedEventId
             self.startedEventId = startedEventId
@@ -911,7 +911,7 @@ extension SWF {
 
         ///  The close status that must match the close status of an execution for it to meet the criteria of this filter.
         public let status: CloseStatus
-        
+
         public init(status: CloseStatus) {
             self.status = status
         }
@@ -928,7 +928,7 @@ extension SWF {
 
         /// The result of the workflow execution. The form of the result is implementation defined.
         public let result: String?
-        
+
         public init(result: String? = nil) {
             self.result = result
         }
@@ -958,7 +958,7 @@ extension SWF {
         public let cause: CompleteWorkflowExecutionFailedCause
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CompleteWorkflowExecution decision to complete this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
-        
+
         public init(cause: CompleteWorkflowExecutionFailedCause, decisionTaskCompletedEventId: Int64) {
             self.cause = cause
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
@@ -1001,7 +1001,7 @@ extension SWF {
         public let taskStartToCloseTimeout: String?
         /// The version of the workflow to start.
         public let workflowTypeVersion: String?
-        
+
         public init(childPolicy: ChildPolicy? = nil, executionStartToCloseTimeout: String? = nil, input: String? = nil, lambdaRole: String? = nil, tagList: [String]? = nil, taskList: TaskList? = nil, taskPriority: String? = nil, taskStartToCloseTimeout: String? = nil, workflowTypeVersion: String? = nil) {
             self.childPolicy = childPolicy
             self.executionStartToCloseTimeout = executionStartToCloseTimeout
@@ -1066,7 +1066,7 @@ extension SWF {
         public let cause: ContinueAsNewWorkflowExecutionFailedCause
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the ContinueAsNewWorkflowExecution decision that started this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
-        
+
         public init(cause: ContinueAsNewWorkflowExecutionFailedCause, decisionTaskCompletedEventId: Int64) {
             self.cause = cause
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
@@ -1103,7 +1103,7 @@ extension SWF {
         public let tagFilter: TagFilter?
         /// If specified, indicates the type of the workflow executions to be counted.   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let typeFilter: WorkflowTypeFilter?
-        
+
         public init(closeStatusFilter: CloseStatusFilter? = nil, closeTimeFilter: ExecutionTimeFilter? = nil, domain: String, executionFilter: WorkflowExecutionFilter? = nil, startTimeFilter: ExecutionTimeFilter? = nil, tagFilter: TagFilter? = nil, typeFilter: WorkflowTypeFilter? = nil) {
             self.closeStatusFilter = closeStatusFilter
             self.closeTimeFilter = closeTimeFilter
@@ -1152,7 +1152,7 @@ extension SWF {
         public let tagFilter: TagFilter?
         /// Specifies the type of the workflow executions to be counted.   executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let typeFilter: WorkflowTypeFilter?
-        
+
         public init(domain: String, executionFilter: WorkflowExecutionFilter? = nil, startTimeFilter: ExecutionTimeFilter, tagFilter: TagFilter? = nil, typeFilter: WorkflowTypeFilter? = nil) {
             self.domain = domain
             self.executionFilter = executionFilter
@@ -1188,7 +1188,7 @@ extension SWF {
         public let domain: String
         /// The name of the task list.
         public let taskList: TaskList
-        
+
         public init(domain: String, taskList: TaskList) {
             self.domain = domain
             self.taskList = taskList
@@ -1216,7 +1216,7 @@ extension SWF {
         public let domain: String
         /// The name of the task list.
         public let taskList: TaskList
-        
+
         public init(domain: String, taskList: TaskList) {
             self.domain = domain
             self.taskList = taskList
@@ -1280,7 +1280,7 @@ extension SWF {
         public let startChildWorkflowExecutionDecisionAttributes: StartChildWorkflowExecutionDecisionAttributes?
         /// Provides the details of the StartTimer decision. It isn't set for other decision types.
         public let startTimerDecisionAttributes: StartTimerDecisionAttributes?
-        
+
         public init(cancelTimerDecisionAttributes: CancelTimerDecisionAttributes? = nil, cancelWorkflowExecutionDecisionAttributes: CancelWorkflowExecutionDecisionAttributes? = nil, completeWorkflowExecutionDecisionAttributes: CompleteWorkflowExecutionDecisionAttributes? = nil, continueAsNewWorkflowExecutionDecisionAttributes: ContinueAsNewWorkflowExecutionDecisionAttributes? = nil, decisionType: DecisionType, failWorkflowExecutionDecisionAttributes: FailWorkflowExecutionDecisionAttributes? = nil, recordMarkerDecisionAttributes: RecordMarkerDecisionAttributes? = nil, requestCancelActivityTaskDecisionAttributes: RequestCancelActivityTaskDecisionAttributes? = nil, requestCancelExternalWorkflowExecutionDecisionAttributes: RequestCancelExternalWorkflowExecutionDecisionAttributes? = nil, scheduleActivityTaskDecisionAttributes: ScheduleActivityTaskDecisionAttributes? = nil, scheduleLambdaFunctionDecisionAttributes: ScheduleLambdaFunctionDecisionAttributes? = nil, signalExternalWorkflowExecutionDecisionAttributes: SignalExternalWorkflowExecutionDecisionAttributes? = nil, startChildWorkflowExecutionDecisionAttributes: StartChildWorkflowExecutionDecisionAttributes? = nil, startTimerDecisionAttributes: StartTimerDecisionAttributes? = nil) {
             self.cancelTimerDecisionAttributes = cancelTimerDecisionAttributes
             self.cancelWorkflowExecutionDecisionAttributes = cancelWorkflowExecutionDecisionAttributes
@@ -1357,7 +1357,7 @@ extension SWF {
         public let workflowExecution: WorkflowExecution
         /// The type of the workflow execution for which this decision task was created.
         public let workflowType: WorkflowType
-        
+
         public init(events: [HistoryEvent], nextPageToken: String? = nil, previousStartedEventId: Int64? = nil, startedEventId: Int64, taskToken: String, workflowExecution: WorkflowExecution, workflowType: WorkflowType) {
             self.events = events
             self.nextPageToken = nextPageToken
@@ -1403,7 +1403,7 @@ extension SWF {
         public let scheduledEventId: Int64
         /// The ID of the DecisionTaskStarted event recorded when this decision task was started. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let startedEventId: Int64
-        
+
         public init(executionContext: String? = nil, scheduledEventId: Int64, startedEventId: Int64) {
             self.executionContext = executionContext
             self.scheduledEventId = scheduledEventId
@@ -1434,7 +1434,7 @@ extension SWF {
         public let taskList: TaskList
         ///  A task priority that, if set, specifies the priority for this decision task. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon SWF Developer Guide.
         public let taskPriority: String?
-        
+
         public init(startToCloseTimeout: String? = nil, taskList: TaskList, taskPriority: String? = nil) {
             self.startToCloseTimeout = startToCloseTimeout
             self.taskList = taskList
@@ -1463,7 +1463,7 @@ extension SWF {
         public let identity: String?
         /// The ID of the DecisionTaskScheduled event that was recorded when this decision task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
-        
+
         public init(identity: String? = nil, scheduledEventId: Int64) {
             self.identity = identity
             self.scheduledEventId = scheduledEventId
@@ -1492,7 +1492,7 @@ extension SWF {
         public let startedEventId: Int64
         /// The type of timeout that expired before the decision task could be completed.
         public let timeoutType: DecisionTaskTimeoutType
-        
+
         public init(scheduledEventId: Int64, startedEventId: Int64, timeoutType: DecisionTaskTimeoutType) {
             self.scheduledEventId = scheduledEventId
             self.startedEventId = startedEventId
@@ -1538,7 +1538,7 @@ extension SWF {
         public let activityType: ActivityType
         /// The name of the domain in which the activity type is registered.
         public let domain: String
-        
+
         public init(activityType: ActivityType, domain: String) {
             self.activityType = activityType
             self.domain = domain
@@ -1563,7 +1563,7 @@ extension SWF {
 
         /// The name of the domain to deprecate.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -1588,7 +1588,7 @@ extension SWF {
         public let domain: String
         /// The workflow type to deprecate.
         public let workflowType: WorkflowType
-        
+
         public init(domain: String, workflowType: WorkflowType) {
             self.domain = domain
             self.workflowType = workflowType
@@ -1616,7 +1616,7 @@ extension SWF {
         public let activityType: ActivityType
         /// The name of the domain in which the activity type is registered.
         public let domain: String
-        
+
         public init(activityType: ActivityType, domain: String) {
             self.activityType = activityType
             self.domain = domain
@@ -1641,7 +1641,7 @@ extension SWF {
 
         /// The name of the domain to describe.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -1666,7 +1666,7 @@ extension SWF {
         public let domain: String
         /// The workflow execution to describe.
         public let execution: WorkflowExecution
-        
+
         public init(domain: String, execution: WorkflowExecution) {
             self.domain = domain
             self.execution = execution
@@ -1694,7 +1694,7 @@ extension SWF {
         public let domain: String
         /// The workflow type to describe.
         public let workflowType: WorkflowType
-        
+
         public init(domain: String, workflowType: WorkflowType) {
             self.domain = domain
             self.workflowType = workflowType
@@ -1719,7 +1719,7 @@ extension SWF {
 
         /// The retention period for workflow executions in this domain.
         public let workflowExecutionRetentionPeriodInDays: String
-        
+
         public init(workflowExecutionRetentionPeriodInDays: String) {
             self.workflowExecutionRetentionPeriodInDays = workflowExecutionRetentionPeriodInDays
         }
@@ -1744,7 +1744,7 @@ extension SWF {
         public let configuration: DomainConfiguration
         /// The basic information about a domain, such as its name, status, and description.
         public let domainInfo: DomainInfo
-        
+
         public init(configuration: DomainConfiguration, domainInfo: DomainInfo) {
             self.configuration = configuration
             self.domainInfo = domainInfo
@@ -1777,7 +1777,7 @@ extension SWF {
         public let name: String
         /// The status of the domain:    REGISTERED – The domain is properly registered and available. You can use this domain for registering types and creating new workflow executions.     DEPRECATED – The domain was deprecated using DeprecateDomain, but is still in use. You should not create new workflow executions in this domain.   
         public let status: RegistrationStatus
-        
+
         public init(arn: String? = nil, description: String? = nil, name: String, status: RegistrationStatus) {
             self.arn = arn
             self.description = description
@@ -1811,7 +1811,7 @@ extension SWF {
         public let domainInfos: [DomainInfo]
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public let nextPageToken: String?
-        
+
         public init(domainInfos: [DomainInfo], nextPageToken: String? = nil) {
             self.domainInfos = domainInfos
             self.nextPageToken = nextPageToken
@@ -1904,7 +1904,7 @@ extension SWF {
         public let latestDate: TimeStamp?
         /// Specifies the oldest start or close date and time to return.
         public let oldestDate: TimeStamp
-        
+
         public init(latestDate: TimeStamp? = nil, oldestDate: TimeStamp) {
             self.latestDate = latestDate
             self.oldestDate = oldestDate
@@ -1926,7 +1926,7 @@ extension SWF {
         public let initiatedEventId: Int64
         /// The external workflow execution to which the cancellation request was delivered.
         public let workflowExecution: WorkflowExecution
-        
+
         public init(initiatedEventId: Int64, workflowExecution: WorkflowExecution) {
             self.initiatedEventId = initiatedEventId
             self.workflowExecution = workflowExecution
@@ -1952,7 +1952,7 @@ extension SWF {
         public let initiatedEventId: Int64
         /// The external workflow execution that the signal was delivered to.
         public let workflowExecution: WorkflowExecution
-        
+
         public init(initiatedEventId: Int64, workflowExecution: WorkflowExecution) {
             self.initiatedEventId = initiatedEventId
             self.workflowExecution = workflowExecution
@@ -1978,7 +1978,7 @@ extension SWF {
         public let details: String?
         /// A descriptive reason for the failure that may help in diagnostics.
         public let reason: String?
-        
+
         public init(details: String? = nil, reason: String? = nil) {
             self.details = details
             self.reason = reason
@@ -2011,7 +2011,7 @@ extension SWF {
         public let cause: FailWorkflowExecutionFailedCause
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the FailWorkflowExecution decision to fail this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
-        
+
         public init(cause: FailWorkflowExecutionFailedCause, decisionTaskCompletedEventId: Int64) {
             self.cause = cause
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
@@ -2042,7 +2042,7 @@ extension SWF {
         public let nextPageToken: String?
         /// When set to true, returns the events in reverse order. By default the results are returned in ascending order of the eventTimeStamp of the events.
         public let reverseOrder: Bool?
-        
+
         public init(domain: String, execution: WorkflowExecution, maximumPageSize: Int32? = nil, nextPageToken: String? = nil, reverseOrder: Bool? = nil) {
             self.domain = domain
             self.execution = execution
@@ -2079,7 +2079,7 @@ extension SWF {
         public let events: [HistoryEvent]
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public let nextPageToken: String?
-        
+
         public init(events: [HistoryEvent], nextPageToken: String? = nil) {
             self.events = events
             self.nextPageToken = nextPageToken
@@ -2273,7 +2273,7 @@ extension SWF {
         public let workflowExecutionTerminatedEventAttributes: WorkflowExecutionTerminatedEventAttributes?
         /// If the event is of type WorkflowExecutionTimedOut then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let workflowExecutionTimedOutEventAttributes: WorkflowExecutionTimedOutEventAttributes?
-        
+
         public init(activityTaskCanceledEventAttributes: ActivityTaskCanceledEventAttributes? = nil, activityTaskCancelRequestedEventAttributes: ActivityTaskCancelRequestedEventAttributes? = nil, activityTaskCompletedEventAttributes: ActivityTaskCompletedEventAttributes? = nil, activityTaskFailedEventAttributes: ActivityTaskFailedEventAttributes? = nil, activityTaskScheduledEventAttributes: ActivityTaskScheduledEventAttributes? = nil, activityTaskStartedEventAttributes: ActivityTaskStartedEventAttributes? = nil, activityTaskTimedOutEventAttributes: ActivityTaskTimedOutEventAttributes? = nil, cancelTimerFailedEventAttributes: CancelTimerFailedEventAttributes? = nil, cancelWorkflowExecutionFailedEventAttributes: CancelWorkflowExecutionFailedEventAttributes? = nil, childWorkflowExecutionCanceledEventAttributes: ChildWorkflowExecutionCanceledEventAttributes? = nil, childWorkflowExecutionCompletedEventAttributes: ChildWorkflowExecutionCompletedEventAttributes? = nil, childWorkflowExecutionFailedEventAttributes: ChildWorkflowExecutionFailedEventAttributes? = nil, childWorkflowExecutionStartedEventAttributes: ChildWorkflowExecutionStartedEventAttributes? = nil, childWorkflowExecutionTerminatedEventAttributes: ChildWorkflowExecutionTerminatedEventAttributes? = nil, childWorkflowExecutionTimedOutEventAttributes: ChildWorkflowExecutionTimedOutEventAttributes? = nil, completeWorkflowExecutionFailedEventAttributes: CompleteWorkflowExecutionFailedEventAttributes? = nil, continueAsNewWorkflowExecutionFailedEventAttributes: ContinueAsNewWorkflowExecutionFailedEventAttributes? = nil, decisionTaskCompletedEventAttributes: DecisionTaskCompletedEventAttributes? = nil, decisionTaskScheduledEventAttributes: DecisionTaskScheduledEventAttributes? = nil, decisionTaskStartedEventAttributes: DecisionTaskStartedEventAttributes? = nil, decisionTaskTimedOutEventAttributes: DecisionTaskTimedOutEventAttributes? = nil, eventId: Int64, eventTimestamp: TimeStamp, eventType: EventType, externalWorkflowExecutionCancelRequestedEventAttributes: ExternalWorkflowExecutionCancelRequestedEventAttributes? = nil, externalWorkflowExecutionSignaledEventAttributes: ExternalWorkflowExecutionSignaledEventAttributes? = nil, failWorkflowExecutionFailedEventAttributes: FailWorkflowExecutionFailedEventAttributes? = nil, lambdaFunctionCompletedEventAttributes: LambdaFunctionCompletedEventAttributes? = nil, lambdaFunctionFailedEventAttributes: LambdaFunctionFailedEventAttributes? = nil, lambdaFunctionScheduledEventAttributes: LambdaFunctionScheduledEventAttributes? = nil, lambdaFunctionStartedEventAttributes: LambdaFunctionStartedEventAttributes? = nil, lambdaFunctionTimedOutEventAttributes: LambdaFunctionTimedOutEventAttributes? = nil, markerRecordedEventAttributes: MarkerRecordedEventAttributes? = nil, recordMarkerFailedEventAttributes: RecordMarkerFailedEventAttributes? = nil, requestCancelActivityTaskFailedEventAttributes: RequestCancelActivityTaskFailedEventAttributes? = nil, requestCancelExternalWorkflowExecutionFailedEventAttributes: RequestCancelExternalWorkflowExecutionFailedEventAttributes? = nil, requestCancelExternalWorkflowExecutionInitiatedEventAttributes: RequestCancelExternalWorkflowExecutionInitiatedEventAttributes? = nil, scheduleActivityTaskFailedEventAttributes: ScheduleActivityTaskFailedEventAttributes? = nil, scheduleLambdaFunctionFailedEventAttributes: ScheduleLambdaFunctionFailedEventAttributes? = nil, signalExternalWorkflowExecutionFailedEventAttributes: SignalExternalWorkflowExecutionFailedEventAttributes? = nil, signalExternalWorkflowExecutionInitiatedEventAttributes: SignalExternalWorkflowExecutionInitiatedEventAttributes? = nil, startChildWorkflowExecutionFailedEventAttributes: StartChildWorkflowExecutionFailedEventAttributes? = nil, startChildWorkflowExecutionInitiatedEventAttributes: StartChildWorkflowExecutionInitiatedEventAttributes? = nil, startLambdaFunctionFailedEventAttributes: StartLambdaFunctionFailedEventAttributes? = nil, startTimerFailedEventAttributes: StartTimerFailedEventAttributes? = nil, timerCanceledEventAttributes: TimerCanceledEventAttributes? = nil, timerFiredEventAttributes: TimerFiredEventAttributes? = nil, timerStartedEventAttributes: TimerStartedEventAttributes? = nil, workflowExecutionCanceledEventAttributes: WorkflowExecutionCanceledEventAttributes? = nil, workflowExecutionCancelRequestedEventAttributes: WorkflowExecutionCancelRequestedEventAttributes? = nil, workflowExecutionCompletedEventAttributes: WorkflowExecutionCompletedEventAttributes? = nil, workflowExecutionContinuedAsNewEventAttributes: WorkflowExecutionContinuedAsNewEventAttributes? = nil, workflowExecutionFailedEventAttributes: WorkflowExecutionFailedEventAttributes? = nil, workflowExecutionSignaledEventAttributes: WorkflowExecutionSignaledEventAttributes? = nil, workflowExecutionStartedEventAttributes: WorkflowExecutionStartedEventAttributes? = nil, workflowExecutionTerminatedEventAttributes: WorkflowExecutionTerminatedEventAttributes? = nil, workflowExecutionTimedOutEventAttributes: WorkflowExecutionTimedOutEventAttributes? = nil) {
             self.activityTaskCanceledEventAttributes = activityTaskCanceledEventAttributes
             self.activityTaskCancelRequestedEventAttributes = activityTaskCancelRequestedEventAttributes
@@ -2457,7 +2457,7 @@ extension SWF {
         public let scheduledEventId: Int64
         /// The ID of the LambdaFunctionStarted event recorded when this activity task started. To help diagnose issues, use this information to trace back the chain of events leading up to this event.
         public let startedEventId: Int64
-        
+
         public init(result: String? = nil, scheduledEventId: Int64, startedEventId: Int64) {
             self.result = result
             self.scheduledEventId = scheduledEventId
@@ -2491,7 +2491,7 @@ extension SWF {
         public let scheduledEventId: Int64
         /// The ID of the LambdaFunctionStarted event recorded when this activity task started. To help diagnose issues, use this information to trace back the chain of events leading up to this event.
         public let startedEventId: Int64
-        
+
         public init(details: String? = nil, reason: String? = nil, scheduledEventId: Int64, startedEventId: Int64) {
             self.details = details
             self.reason = reason
@@ -2534,7 +2534,7 @@ extension SWF {
         public let name: String
         /// The maximum amount of time a worker can take to process the Lambda task.
         public let startToCloseTimeout: String?
-        
+
         public init(control: String? = nil, decisionTaskCompletedEventId: Int64, id: String, input: String? = nil, name: String, startToCloseTimeout: String? = nil) {
             self.control = control
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
@@ -2572,7 +2572,7 @@ extension SWF {
 
         /// The ID of the LambdaFunctionScheduled event that was recorded when this activity task was scheduled. To help diagnose issues, use this information to trace back the chain of events leading up to this event.
         public let scheduledEventId: Int64
-        
+
         public init(scheduledEventId: Int64) {
             self.scheduledEventId = scheduledEventId
         }
@@ -2595,7 +2595,7 @@ extension SWF {
         public let startedEventId: Int64
         /// The type of the timeout that caused this event.
         public let timeoutType: LambdaFunctionTimeoutType?
-        
+
         public init(scheduledEventId: Int64, startedEventId: Int64, timeoutType: LambdaFunctionTimeoutType? = nil) {
             self.scheduledEventId = scheduledEventId
             self.startedEventId = startedEventId
@@ -2636,7 +2636,7 @@ extension SWF {
         public let registrationStatus: RegistrationStatus
         /// When set to true, returns the results in reverse order. By default, the results are returned in ascending alphabetical order by name of the activity types.
         public let reverseOrder: Bool?
-        
+
         public init(domain: String, maximumPageSize: Int32? = nil, name: String? = nil, nextPageToken: String? = nil, registrationStatus: RegistrationStatus, reverseOrder: Bool? = nil) {
             self.domain = domain
             self.maximumPageSize = maximumPageSize
@@ -2700,7 +2700,7 @@ extension SWF {
         public let tagFilter: TagFilter?
         /// If specified, only executions of the type specified in the filter are returned.   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let typeFilter: WorkflowTypeFilter?
-        
+
         public init(closeStatusFilter: CloseStatusFilter? = nil, closeTimeFilter: ExecutionTimeFilter? = nil, domain: String, executionFilter: WorkflowExecutionFilter? = nil, maximumPageSize: Int32? = nil, nextPageToken: String? = nil, reverseOrder: Bool? = nil, startTimeFilter: ExecutionTimeFilter? = nil, tagFilter: TagFilter? = nil, typeFilter: WorkflowTypeFilter? = nil) {
             self.closeStatusFilter = closeStatusFilter
             self.closeTimeFilter = closeTimeFilter
@@ -2755,7 +2755,7 @@ extension SWF {
         public let registrationStatus: RegistrationStatus
         /// When set to true, returns the results in reverse order. By default, the results are returned in ascending alphabetical order by name of the domains.
         public let reverseOrder: Bool?
-        
+
         public init(maximumPageSize: Int32? = nil, nextPageToken: String? = nil, registrationStatus: RegistrationStatus, reverseOrder: Bool? = nil) {
             self.maximumPageSize = maximumPageSize
             self.nextPageToken = nextPageToken
@@ -2805,7 +2805,7 @@ extension SWF {
         public let tagFilter: TagFilter?
         /// If specified, only executions of the type specified in the filter are returned.   executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let typeFilter: WorkflowTypeFilter?
-        
+
         public init(domain: String, executionFilter: WorkflowExecutionFilter? = nil, maximumPageSize: Int32? = nil, nextPageToken: String? = nil, reverseOrder: Bool? = nil, startTimeFilter: ExecutionTimeFilter, tagFilter: TagFilter? = nil, typeFilter: WorkflowTypeFilter? = nil) {
             self.domain = domain
             self.executionFilter = executionFilter
@@ -2847,7 +2847,7 @@ extension SWF {
 
         /// The Amazon Resource Name (ARN) for the Amazon SWF domain.
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2869,7 +2869,7 @@ extension SWF {
 
         /// An array of tags associated with the domain.
         public let tags: [ResourceTag]?
-        
+
         public init(tags: [ResourceTag]? = nil) {
             self.tags = tags
         }
@@ -2907,7 +2907,7 @@ extension SWF {
         public let registrationStatus: RegistrationStatus
         /// When set to true, returns the results in reverse order. By default the results are returned in ascending alphabetical order of the name of the workflow types.
         public let reverseOrder: Bool?
-        
+
         public init(domain: String, maximumPageSize: Int32? = nil, name: String? = nil, nextPageToken: String? = nil, registrationStatus: RegistrationStatus, reverseOrder: Bool? = nil) {
             self.domain = domain
             self.maximumPageSize = maximumPageSize
@@ -2950,7 +2950,7 @@ extension SWF {
         public let details: String?
         /// The name of the marker.
         public let markerName: String
-        
+
         public init(decisionTaskCompletedEventId: Int64, details: String? = nil, markerName: String) {
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
             self.details = details
@@ -2980,7 +2980,7 @@ extension SWF {
         public let count: Int32
         /// If set to true, indicates that the actual count was more than the maximum supported by this API and the count returned is the truncated value.
         public let truncated: Bool?
-        
+
         public init(count: Int32, truncated: Bool? = nil) {
             self.count = count
             self.truncated = truncated
@@ -3009,7 +3009,7 @@ extension SWF {
         public let identity: String?
         /// Specifies the task list to poll for activity tasks. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
         public let taskList: TaskList
-        
+
         public init(domain: String, identity: String? = nil, taskList: TaskList) {
             self.domain = domain
             self.identity = identity
@@ -3052,7 +3052,7 @@ extension SWF {
         public let reverseOrder: Bool?
         /// Specifies the task list to poll for decision tasks. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
         public let taskList: TaskList
-        
+
         public init(domain: String, identity: String? = nil, maximumPageSize: Int32? = nil, nextPageToken: String? = nil, reverseOrder: Bool? = nil, taskList: TaskList) {
             self.domain = domain
             self.identity = identity
@@ -3092,7 +3092,7 @@ extension SWF {
         public let details: String?
         /// The taskToken of the ActivityTask.   taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.  
         public let taskToken: String
-        
+
         public init(details: String? = nil, taskToken: String) {
             self.details = details
             self.taskToken = taskToken
@@ -3120,7 +3120,7 @@ extension SWF {
         public let details: String?
         ///  The name of the marker.
         public let markerName: String
-        
+
         public init(details: String? = nil, markerName: String) {
             self.details = details
             self.markerName = markerName
@@ -3156,7 +3156,7 @@ extension SWF {
         public let decisionTaskCompletedEventId: Int64
         /// The marker's name.
         public let markerName: String
-        
+
         public init(cause: RecordMarkerFailedCause, decisionTaskCompletedEventId: Int64, markerName: String) {
             self.cause = cause
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
@@ -3209,7 +3209,7 @@ extension SWF {
         public let name: String
         /// The version of the activity type.  The activity type consists of the name and version, the combination of which must be unique within the domain.  The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
         public let version: String
-        
+
         public init(defaultTaskHeartbeatTimeout: String? = nil, defaultTaskList: TaskList? = nil, defaultTaskPriority: String? = nil, defaultTaskScheduleToCloseTimeout: String? = nil, defaultTaskScheduleToStartTimeout: String? = nil, defaultTaskStartToCloseTimeout: String? = nil, description: String? = nil, domain: String, name: String, version: String) {
             self.defaultTaskHeartbeatTimeout = defaultTaskHeartbeatTimeout
             self.defaultTaskList = defaultTaskList
@@ -3268,7 +3268,7 @@ extension SWF {
         public let tags: [ResourceTag]?
         /// The duration (in days) that records and histories of workflow executions on the domain should be kept by the service. After the retention period, the workflow execution isn't available in the results of visibility calls. If you pass the value NONE or 0 (zero), then the workflow execution history isn't retained. As soon as the workflow execution completes, the execution record and its history are deleted. The maximum workflow execution retention period is 90 days. For more information about Amazon SWF service limits, see: Amazon SWF Service Limits in the Amazon SWF Developer Guide.
         public let workflowExecutionRetentionPeriodInDays: String
-        
+
         public init(description: String? = nil, name: String, tags: [ResourceTag]? = nil, workflowExecutionRetentionPeriodInDays: String) {
             self.description = description
             self.name = name
@@ -3329,7 +3329,7 @@ extension SWF {
         public let name: String
         /// The version of the workflow type.  The workflow type consists of the name and version, the combination of which must be unique within the domain. To get a list of all currently registered workflow types, use the ListWorkflowTypes action.  The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
         public let version: String
-        
+
         public init(defaultChildPolicy: ChildPolicy? = nil, defaultExecutionStartToCloseTimeout: String? = nil, defaultLambdaRole: String? = nil, defaultTaskList: TaskList? = nil, defaultTaskPriority: String? = nil, defaultTaskStartToCloseTimeout: String? = nil, description: String? = nil, domain: String, name: String, version: String) {
             self.defaultChildPolicy = defaultChildPolicy
             self.defaultExecutionStartToCloseTimeout = defaultExecutionStartToCloseTimeout
@@ -3385,7 +3385,7 @@ extension SWF {
 
         /// The activityId of the activity task to be canceled.
         public let activityId: String
-        
+
         public init(activityId: String) {
             self.activityId = activityId
         }
@@ -3419,7 +3419,7 @@ extension SWF {
         public let cause: RequestCancelActivityTaskFailedCause
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the RequestCancelActivityTask decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
-        
+
         public init(activityId: String, cause: RequestCancelActivityTaskFailedCause, decisionTaskCompletedEventId: Int64) {
             self.activityId = activityId
             self.cause = cause
@@ -3451,7 +3451,7 @@ extension SWF {
         public let runId: String?
         ///  The workflowId of the external workflow execution to cancel.
         public let workflowId: String
-        
+
         public init(control: String? = nil, runId: String? = nil, workflowId: String) {
             self.control = control
             self.runId = runId
@@ -3501,7 +3501,7 @@ extension SWF {
         public let runId: String?
         /// The workflowId of the external workflow to which the cancel request was to be delivered.
         public let workflowId: String
-        
+
         public init(cause: RequestCancelExternalWorkflowExecutionFailedCause, control: String? = nil, decisionTaskCompletedEventId: Int64, initiatedEventId: Int64, runId: String? = nil, workflowId: String) {
             self.cause = cause
             self.control = control
@@ -3544,7 +3544,7 @@ extension SWF {
         public let runId: String?
         /// The workflowId of the external workflow execution to be canceled.
         public let workflowId: String
-        
+
         public init(control: String? = nil, decisionTaskCompletedEventId: Int64, runId: String? = nil, workflowId: String) {
             self.control = control
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
@@ -3580,7 +3580,7 @@ extension SWF {
         public let runId: String?
         /// The workflowId of the workflow execution to cancel.
         public let workflowId: String
-        
+
         public init(domain: String, runId: String? = nil, workflowId: String) {
             self.domain = domain
             self.runId = runId
@@ -3612,7 +3612,7 @@ extension SWF {
         public let key: String
         /// The value of a tag.
         public let value: String?
-        
+
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -3640,7 +3640,7 @@ extension SWF {
         public let details: String?
         /// The taskToken of the ActivityTask.   taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results. 
         public let taskToken: String
-        
+
         public init(details: String? = nil, taskToken: String) {
             self.details = details
             self.taskToken = taskToken
@@ -3668,7 +3668,7 @@ extension SWF {
         public let result: String?
         /// The taskToken of the ActivityTask.   taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results. 
         public let taskToken: String
-        
+
         public init(result: String? = nil, taskToken: String) {
             self.result = result
             self.taskToken = taskToken
@@ -3699,7 +3699,7 @@ extension SWF {
         public let reason: String?
         /// The taskToken of the ActivityTask.   taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results. 
         public let taskToken: String
-        
+
         public init(details: String? = nil, reason: String? = nil, taskToken: String) {
             self.details = details
             self.reason = reason
@@ -3733,7 +3733,7 @@ extension SWF {
         public let executionContext: String?
         /// The taskToken from the DecisionTask.   taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results. 
         public let taskToken: String
-        
+
         public init(decisions: [Decision]? = nil, executionContext: String? = nil, taskToken: String) {
             self.decisions = decisions
             self.executionContext = executionContext
@@ -3763,7 +3763,7 @@ extension SWF {
 
         /// The runId of a workflow execution. This ID is generated by the service and can be used to uniquely identify the workflow execution within a domain.
         public let runId: String?
-        
+
         public init(runId: String? = nil) {
             self.runId = runId
         }
@@ -3812,7 +3812,7 @@ extension SWF {
         public let taskList: TaskList?
         ///  If set, specifies the priority with which the activity task is to be assigned to a worker. This overrides the defaultTaskPriority specified when registering the activity type using RegisterActivityType. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon SWF Developer Guide.
         public let taskPriority: String?
-        
+
         public init(activityId: String, activityType: ActivityType, control: String? = nil, heartbeatTimeout: String? = nil, input: String? = nil, scheduleToCloseTimeout: String? = nil, scheduleToStartTimeout: String? = nil, startToCloseTimeout: String? = nil, taskList: TaskList? = nil, taskPriority: String? = nil) {
             self.activityId = activityId
             self.activityType = activityType
@@ -3884,7 +3884,7 @@ extension SWF {
         public let cause: ScheduleActivityTaskFailedCause
         /// The ID of the DecisionTaskCompleted event corresponding to the decision that resulted in the scheduling of this activity task. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
-        
+
         public init(activityId: String, activityType: ActivityType, cause: ScheduleActivityTaskFailedCause, decisionTaskCompletedEventId: Int64) {
             self.activityId = activityId
             self.activityType = activityType
@@ -3925,7 +3925,7 @@ extension SWF {
         public let name: String
         /// The timeout value, in seconds, after which the Lambda function is considered to be failed once it has started. This can be any integer from 1-300 (1s-5m). If no value is supplied, than a default value of 300s is assumed.
         public let startToCloseTimeout: String?
-        
+
         public init(control: String? = nil, id: String, input: String? = nil, name: String, startToCloseTimeout: String? = nil) {
             self.control = control
             self.id = id
@@ -3978,7 +3978,7 @@ extension SWF {
         public let id: String
         /// The name of the Lambda function.
         public let name: String
-        
+
         public init(cause: ScheduleLambdaFunctionFailedCause, decisionTaskCompletedEventId: Int64, id: String, name: String) {
             self.cause = cause
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
@@ -4020,7 +4020,7 @@ extension SWF {
         public let signalName: String
         ///  The workflowId of the workflow execution to be signaled.
         public let workflowId: String
-        
+
         public init(control: String? = nil, input: String? = nil, runId: String? = nil, signalName: String, workflowId: String) {
             self.control = control
             self.input = input
@@ -4077,7 +4077,7 @@ extension SWF {
         public let runId: String?
         /// The workflowId of the external workflow execution that the signal was being delivered to.
         public let workflowId: String
-        
+
         public init(cause: SignalExternalWorkflowExecutionFailedCause, control: String? = nil, decisionTaskCompletedEventId: Int64, initiatedEventId: Int64, runId: String? = nil, workflowId: String) {
             self.cause = cause
             self.control = control
@@ -4126,7 +4126,7 @@ extension SWF {
         public let signalName: String
         /// The workflowId of the external workflow execution.
         public let workflowId: String
-        
+
         public init(control: String? = nil, decisionTaskCompletedEventId: Int64, input: String? = nil, runId: String? = nil, signalName: String, workflowId: String) {
             self.control = control
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
@@ -4175,7 +4175,7 @@ extension SWF {
         public let signalName: String
         /// The workflowId of the workflow execution to signal.
         public let workflowId: String
-        
+
         public init(domain: String, input: String? = nil, runId: String? = nil, signalName: String, workflowId: String) {
             self.domain = domain
             self.input = input
@@ -4241,7 +4241,7 @@ extension SWF {
         public let workflowId: String
         ///  The type of the workflow execution to be started.
         public let workflowType: WorkflowType
-        
+
         public init(childPolicy: ChildPolicy? = nil, control: String? = nil, executionStartToCloseTimeout: String? = nil, input: String? = nil, lambdaRole: String? = nil, tagList: [String]? = nil, taskList: TaskList? = nil, taskPriority: String? = nil, taskStartToCloseTimeout: String? = nil, workflowId: String, workflowType: WorkflowType) {
             self.childPolicy = childPolicy
             self.control = control
@@ -4326,7 +4326,7 @@ extension SWF {
         public let workflowId: String
         /// The workflow type provided in the StartChildWorkflowExecution Decision that failed.
         public let workflowType: WorkflowType
-        
+
         public init(cause: StartChildWorkflowExecutionFailedCause, control: String? = nil, decisionTaskCompletedEventId: Int64, initiatedEventId: Int64, workflowId: String, workflowType: WorkflowType) {
             self.cause = cause
             self.control = control
@@ -4393,7 +4393,7 @@ extension SWF {
         public let workflowId: String
         /// The type of the child workflow execution.
         public let workflowType: WorkflowType
-        
+
         public init(childPolicy: ChildPolicy, control: String? = nil, decisionTaskCompletedEventId: Int64, executionStartToCloseTimeout: String? = nil, input: String? = nil, lambdaRole: String? = nil, tagList: [String]? = nil, taskList: TaskList, taskPriority: String? = nil, taskStartToCloseTimeout: String? = nil, workflowId: String, workflowType: WorkflowType) {
             self.childPolicy = childPolicy
             self.control = control
@@ -4461,7 +4461,7 @@ extension SWF {
         public let message: String?
         /// The ID of the ActivityTaskScheduled event that was recorded when this activity task was scheduled. To help diagnose issues, use this information to trace back the chain of events leading up to this event.
         public let scheduledEventId: Int64?
-        
+
         public init(cause: StartLambdaFunctionFailedCause? = nil, message: String? = nil, scheduledEventId: Int64? = nil) {
             self.cause = cause
             self.message = message
@@ -4492,7 +4492,7 @@ extension SWF {
         public let startToFireTimeout: String
         ///  The unique ID of the timer. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
         public let timerId: String
-        
+
         public init(control: String? = nil, startToFireTimeout: String, timerId: String) {
             self.control = control
             self.startToFireTimeout = startToFireTimeout
@@ -4535,7 +4535,7 @@ extension SWF {
         public let decisionTaskCompletedEventId: Int64
         /// The timerId provided in the StartTimer decision that failed.
         public let timerId: String
-        
+
         public init(cause: StartTimerFailedCause, decisionTaskCompletedEventId: Int64, timerId: String) {
             self.cause = cause
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
@@ -4591,7 +4591,7 @@ extension SWF {
         public let workflowId: String
         /// The type of the workflow to start.
         public let workflowType: WorkflowType
-        
+
         public init(childPolicy: ChildPolicy? = nil, domain: String, executionStartToCloseTimeout: String? = nil, input: String? = nil, lambdaRole: String? = nil, tagList: [String]? = nil, taskList: TaskList? = nil, taskPriority: String? = nil, taskStartToCloseTimeout: String? = nil, workflowId: String, workflowType: WorkflowType) {
             self.childPolicy = childPolicy
             self.domain = domain
@@ -4647,7 +4647,7 @@ extension SWF {
 
         ///  Specifies the tag that must be associated with the execution for it to meet the filter criteria. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @.
         public let tag: String
-        
+
         public init(tag: String) {
             self.tag = tag
         }
@@ -4672,7 +4672,7 @@ extension SWF {
         public let resourceArn: String
         /// The list of tags to add to a domain.  Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @.
         public let tags: [ResourceTag]
-        
+
         public init(resourceArn: String, tags: [ResourceTag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -4699,7 +4699,7 @@ extension SWF {
 
         /// The name of the task list.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -4736,7 +4736,7 @@ extension SWF {
         public let runId: String?
         /// The workflowId of the workflow execution to terminate.
         public let workflowId: String
-        
+
         public init(childPolicy: ChildPolicy? = nil, details: String? = nil, domain: String, reason: String? = nil, runId: String? = nil, workflowId: String) {
             self.childPolicy = childPolicy
             self.details = details
@@ -4779,7 +4779,7 @@ extension SWF {
         public let startedEventId: Int64
         /// The unique ID of the timer that was canceled.
         public let timerId: String
-        
+
         public init(decisionTaskCompletedEventId: Int64, startedEventId: Int64, timerId: String) {
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
             self.startedEventId = startedEventId
@@ -4808,7 +4808,7 @@ extension SWF {
         public let startedEventId: Int64
         /// The unique ID of the timer that fired.
         public let timerId: String
-        
+
         public init(startedEventId: Int64, timerId: String) {
             self.startedEventId = startedEventId
             self.timerId = timerId
@@ -4841,7 +4841,7 @@ extension SWF {
         public let startToFireTimeout: String
         /// The unique ID of the timer that was started.
         public let timerId: String
-        
+
         public init(control: String? = nil, decisionTaskCompletedEventId: Int64, startToFireTimeout: String, timerId: String) {
             self.control = control
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
@@ -4875,7 +4875,7 @@ extension SWF {
         public let activityType: ActivityType
         /// The name of the domain of the deprecated activity type.
         public let domain: String
-        
+
         public init(activityType: ActivityType, domain: String) {
             self.activityType = activityType
             self.domain = domain
@@ -4900,7 +4900,7 @@ extension SWF {
 
         /// The name of the domain of the deprecated workflow type.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -4925,7 +4925,7 @@ extension SWF {
         public let domain: String
         /// The name of the domain of the deprecated workflow type.
         public let workflowType: WorkflowType
-        
+
         public init(domain: String, workflowType: WorkflowType) {
             self.domain = domain
             self.workflowType = workflowType
@@ -4953,7 +4953,7 @@ extension SWF {
         public let resourceArn: String
         /// The list of tags to remove from the Amazon SWF domain.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -4984,7 +4984,7 @@ extension SWF {
         public let runId: String
         /// The user defined identifier associated with the workflow execution.
         public let workflowId: String
-        
+
         public init(runId: String, workflowId: String) {
             self.runId = runId
             self.workflowId = workflowId
@@ -5021,7 +5021,7 @@ extension SWF {
         public let externalInitiatedEventId: Int64?
         /// The external workflow execution for which the cancellation was requested.
         public let externalWorkflowExecution: WorkflowExecution?
-        
+
         public init(cause: WorkflowExecutionCancelRequestedCause? = nil, externalInitiatedEventId: Int64? = nil, externalWorkflowExecution: WorkflowExecution? = nil) {
             self.cause = cause
             self.externalInitiatedEventId = externalInitiatedEventId
@@ -5049,7 +5049,7 @@ extension SWF {
         public let decisionTaskCompletedEventId: Int64
         /// The details of the cancellation.
         public let details: String?
-        
+
         public init(decisionTaskCompletedEventId: Int64, details: String? = nil) {
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
             self.details = details
@@ -5075,7 +5075,7 @@ extension SWF {
         public let decisionTaskCompletedEventId: Int64
         /// The result produced by the workflow execution upon successful completion.
         public let result: String?
-        
+
         public init(decisionTaskCompletedEventId: Int64, result: String? = nil) {
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
             self.result = result
@@ -5113,7 +5113,7 @@ extension SWF {
         public let taskPriority: String?
         /// The maximum duration allowed for decision tasks for this workflow execution. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let taskStartToCloseTimeout: String
-        
+
         public init(childPolicy: ChildPolicy, executionStartToCloseTimeout: String, lambdaRole: String? = nil, taskList: TaskList, taskPriority: String? = nil, taskStartToCloseTimeout: String) {
             self.childPolicy = childPolicy
             self.executionStartToCloseTimeout = executionStartToCloseTimeout
@@ -5180,7 +5180,7 @@ extension SWF {
         public let taskStartToCloseTimeout: String?
         /// The workflow type of this execution.
         public let workflowType: WorkflowType
-        
+
         public init(childPolicy: ChildPolicy, decisionTaskCompletedEventId: Int64, executionStartToCloseTimeout: String? = nil, input: String? = nil, lambdaRole: String? = nil, newExecutionRunId: String, tagList: [String]? = nil, taskList: TaskList, taskPriority: String? = nil, taskStartToCloseTimeout: String? = nil, workflowType: WorkflowType) {
             self.childPolicy = childPolicy
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
@@ -5237,7 +5237,7 @@ extension SWF {
         public let count: Int32
         /// If set to true, indicates that the actual count was more than the maximum supported by this API and the count returned is the truncated value.
         public let truncated: Bool?
-        
+
         public init(count: Int32, truncated: Bool? = nil) {
             self.count = count
             self.truncated = truncated
@@ -5272,7 +5272,7 @@ extension SWF {
         public let latestExecutionContext: String?
         /// The number of tasks for this workflow execution. This includes open and closed tasks of all types.
         public let openCounts: WorkflowExecutionOpenCounts
-        
+
         public init(executionConfiguration: WorkflowExecutionConfiguration, executionInfo: WorkflowExecutionInfo, latestActivityTaskTimestamp: TimeStamp? = nil, latestExecutionContext: String? = nil, openCounts: WorkflowExecutionOpenCounts) {
             self.executionConfiguration = executionConfiguration
             self.executionInfo = executionInfo
@@ -5310,7 +5310,7 @@ extension SWF {
         public let details: String?
         /// The descriptive reason provided for the failure.
         public let reason: String?
-        
+
         public init(decisionTaskCompletedEventId: Int64, details: String? = nil, reason: String? = nil) {
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
             self.details = details
@@ -5336,7 +5336,7 @@ extension SWF {
 
         /// The workflowId to pass of match the criteria of this filter.
         public let workflowId: String
-        
+
         public init(workflowId: String) {
             self.workflowId = workflowId
         }
@@ -5382,7 +5382,7 @@ extension SWF {
         public let tagList: [String]?
         /// The type of the workflow execution.
         public let workflowType: WorkflowType
-        
+
         public init(cancelRequested: Bool? = nil, closeStatus: CloseStatus? = nil, closeTimestamp: TimeStamp? = nil, execution: WorkflowExecution, executionStatus: ExecutionStatus, parent: WorkflowExecution? = nil, startTimestamp: TimeStamp, tagList: [String]? = nil, workflowType: WorkflowType) {
             self.cancelRequested = cancelRequested
             self.closeStatus = closeStatus
@@ -5429,7 +5429,7 @@ extension SWF {
         public let executionInfos: [WorkflowExecutionInfo]
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public let nextPageToken: String?
-        
+
         public init(executionInfos: [WorkflowExecutionInfo], nextPageToken: String? = nil) {
             self.executionInfos = executionInfos
             self.nextPageToken = nextPageToken
@@ -5467,7 +5467,7 @@ extension SWF {
         public let openLambdaFunctions: Int32?
         /// The count of timers started by this workflow execution that have not fired yet.
         public let openTimers: Int32
-        
+
         public init(openActivityTasks: Int32, openChildWorkflowExecutions: Int32, openDecisionTasks: Int32, openLambdaFunctions: Int32? = nil, openTimers: Int32) {
             self.openActivityTasks = openActivityTasks
             self.openChildWorkflowExecutions = openChildWorkflowExecutions
@@ -5510,7 +5510,7 @@ extension SWF {
         public let input: String?
         /// The name of the signal received. The decider can use the signal name and inputs to determine how to the process the signal.
         public let signalName: String
-        
+
         public init(externalInitiatedEventId: Int64? = nil, externalWorkflowExecution: WorkflowExecution? = nil, input: String? = nil, signalName: String) {
             self.externalInitiatedEventId = externalInitiatedEventId
             self.externalWorkflowExecution = externalWorkflowExecution
@@ -5573,7 +5573,7 @@ extension SWF {
         public let taskStartToCloseTimeout: String?
         /// The workflow type of this execution.
         public let workflowType: WorkflowType
-        
+
         public init(childPolicy: ChildPolicy, continuedExecutionRunId: String? = nil, executionStartToCloseTimeout: String? = nil, input: String? = nil, lambdaRole: String? = nil, parentInitiatedEventId: Int64? = nil, parentWorkflowExecution: WorkflowExecution? = nil, tagList: [String]? = nil, taskList: TaskList, taskPriority: String? = nil, taskStartToCloseTimeout: String? = nil, workflowType: WorkflowType) {
             self.childPolicy = childPolicy
             self.continuedExecutionRunId = continuedExecutionRunId
@@ -5645,7 +5645,7 @@ extension SWF {
         public let details: String?
         /// The reason provided for the termination.
         public let reason: String?
-        
+
         public init(cause: WorkflowExecutionTerminatedCause? = nil, childPolicy: ChildPolicy, details: String? = nil, reason: String? = nil) {
             self.cause = cause
             self.childPolicy = childPolicy
@@ -5676,7 +5676,7 @@ extension SWF {
         public let childPolicy: ChildPolicy
         /// The type of timeout that caused this event.
         public let timeoutType: WorkflowExecutionTimeoutType
-        
+
         public init(childPolicy: ChildPolicy, timeoutType: WorkflowExecutionTimeoutType) {
             self.childPolicy = childPolicy
             self.timeoutType = timeoutType
@@ -5703,7 +5703,7 @@ extension SWF {
         public let name: String
         ///  The version of the workflow type.  The combination of workflow type name and version must be unique with in a domain. 
         public let version: String
-        
+
         public init(name: String, version: String) {
             self.name = name
             self.version = version
@@ -5744,7 +5744,7 @@ extension SWF {
         public let defaultTaskPriority: String?
         ///  The default maximum duration, specified when registering the workflow type, that a decision task for executions of this workflow type might take before returning completion or failure. If the task doesn'tdo close in the specified time then the task is automatically timed out and rescheduled. If the decider eventually reports a completion or failure, it is ignored. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution Decision. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let defaultTaskStartToCloseTimeout: String?
-        
+
         public init(defaultChildPolicy: ChildPolicy? = nil, defaultExecutionStartToCloseTimeout: String? = nil, defaultLambdaRole: String? = nil, defaultTaskList: TaskList? = nil, defaultTaskPriority: String? = nil, defaultTaskStartToCloseTimeout: String? = nil) {
             self.defaultChildPolicy = defaultChildPolicy
             self.defaultExecutionStartToCloseTimeout = defaultExecutionStartToCloseTimeout
@@ -5782,7 +5782,7 @@ extension SWF {
         public let configuration: WorkflowTypeConfiguration
         /// General information about the workflow type. The status of the workflow type (returned in the WorkflowTypeInfo structure) can be one of the following.    REGISTERED – The type is registered and available. Workers supporting this type should be running.    DEPRECATED – The type was deprecated using DeprecateWorkflowType, but is still in use. You should keep workers supporting this type running. You cannot create new workflow executions of this type.  
         public let typeInfo: WorkflowTypeInfo
-        
+
         public init(configuration: WorkflowTypeConfiguration, typeInfo: WorkflowTypeInfo) {
             self.configuration = configuration
             self.typeInfo = typeInfo
@@ -5809,7 +5809,7 @@ extension SWF {
         public let name: String
         /// Version of the workflow type.
         public let version: String?
-        
+
         public init(name: String, version: String? = nil) {
             self.name = name
             self.version = version
@@ -5846,7 +5846,7 @@ extension SWF {
         public let status: RegistrationStatus
         /// The workflow type this information is about.
         public let workflowType: WorkflowType
-        
+
         public init(creationDate: TimeStamp, deprecationDate: TimeStamp? = nil, description: String? = nil, status: RegistrationStatus, workflowType: WorkflowType) {
             self.creationDate = creationDate
             self.deprecationDate = deprecationDate
@@ -5879,7 +5879,7 @@ extension SWF {
         public let nextPageToken: String?
         /// The list of workflow type information.
         public let typeInfos: [WorkflowTypeInfo]
-        
+
         public init(nextPageToken: String? = nil, typeInfos: [WorkflowTypeInfo]) {
             self.nextPageToken = nextPageToken
             self.typeInfos = typeInfos
@@ -5897,5 +5897,4 @@ extension SWF {
             case typeInfos = "typeInfos"
         }
     }
-
 }

@@ -18,7 +18,7 @@ extension ServiceCatalog {
         public let portfolioId: String
         /// The type of shared portfolios to accept. The default is to accept imported portfolios.    AWS_ORGANIZATIONS - Accept portfolios shared by the master account of your organization.    IMPORTED - Accept imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog accept-portfolio-share --portfolio-id "port-2qwzkwxt3y5fk" --portfolio-share-type AWS_ORGANIZATIONS 
         public let portfolioShareType: PortfolioShareType?
-        
+
         public init(acceptLanguage: String? = nil, portfolioId: String, portfolioShareType: PortfolioShareType? = nil) {
             self.acceptLanguage = acceptLanguage
             self.portfolioId = portfolioId
@@ -40,11 +40,12 @@ extension ServiceCatalog {
     }
 
     public struct AcceptPortfolioShareOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct AccessLevelFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -56,7 +57,7 @@ extension ServiceCatalog {
         public let key: AccessLevelFilterKey?
         /// The user to which the access level applies. The only supported value is Self.
         public let value: String?
-        
+
         public init(key: AccessLevelFilterKey? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -92,7 +93,7 @@ extension ServiceCatalog {
         public let budgetName: String
         ///  The resource identifier. Either a portfolio-id or a product-id.
         public let resourceId: String
-        
+
         public init(budgetName: String, resourceId: String) {
             self.budgetName = budgetName
             self.resourceId = resourceId
@@ -113,11 +114,12 @@ extension ServiceCatalog {
     }
 
     public struct AssociateBudgetWithResourceOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct AssociatePrincipalWithPortfolioInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -135,7 +137,7 @@ extension ServiceCatalog {
         public let principalARN: String
         /// The principal type. The supported value is IAM.
         public let principalType: PrincipalType
-        
+
         public init(acceptLanguage: String? = nil, portfolioId: String, principalARN: String, principalType: PrincipalType) {
             self.acceptLanguage = acceptLanguage
             self.portfolioId = portfolioId
@@ -161,11 +163,12 @@ extension ServiceCatalog {
     }
 
     public struct AssociatePrincipalWithPortfolioOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct AssociateProductWithPortfolioInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -183,7 +186,7 @@ extension ServiceCatalog {
         public let productId: String
         /// The identifier of the source portfolio.
         public let sourcePortfolioId: String?
-        
+
         public init(acceptLanguage: String? = nil, portfolioId: String, productId: String, sourcePortfolioId: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.portfolioId = portfolioId
@@ -213,11 +216,12 @@ extension ServiceCatalog {
     }
 
     public struct AssociateProductWithPortfolioOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct AssociateServiceActionWithProvisioningArtifactInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -235,7 +239,7 @@ extension ServiceCatalog {
         public let provisioningArtifactId: String
         /// The self-service action identifier. For example, act-fs7abcd89wxyz.
         public let serviceActionId: String
-        
+
         public init(acceptLanguage: String? = nil, productId: String, provisioningArtifactId: String, serviceActionId: String) {
             self.acceptLanguage = acceptLanguage
             self.productId = productId
@@ -265,11 +269,12 @@ extension ServiceCatalog {
     }
 
     public struct AssociateServiceActionWithProvisioningArtifactOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct AssociateTagOptionWithResourceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -281,7 +286,7 @@ extension ServiceCatalog {
         public let resourceId: String
         /// The TagOption identifier.
         public let tagOptionId: String
-        
+
         public init(resourceId: String, tagOptionId: String) {
             self.resourceId = resourceId
             self.tagOptionId = tagOptionId
@@ -299,11 +304,12 @@ extension ServiceCatalog {
     }
 
     public struct AssociateTagOptionWithResourceOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct BatchAssociateServiceActionWithProvisioningArtifactInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -315,7 +321,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// One or more associations, each consisting of the Action ID, the Product ID, and the Provisioning Artifact ID.
         public let serviceActionAssociations: [ServiceActionAssociation]
-        
+
         public init(acceptLanguage: String? = nil, serviceActionAssociations: [ServiceActionAssociation]) {
             self.acceptLanguage = acceptLanguage
             self.serviceActionAssociations = serviceActionAssociations
@@ -343,7 +349,7 @@ extension ServiceCatalog {
 
         /// An object that contains a list of errors, along with information to help you identify the self-service action.
         public let failedServiceActionAssociations: [FailedServiceActionAssociation]?
-        
+
         public init(failedServiceActionAssociations: [FailedServiceActionAssociation]? = nil) {
             self.failedServiceActionAssociations = failedServiceActionAssociations
         }
@@ -370,7 +376,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// One or more associations, each consisting of the Action ID, the Product ID, and the Provisioning Artifact ID.
         public let serviceActionAssociations: [ServiceActionAssociation]
-        
+
         public init(acceptLanguage: String? = nil, serviceActionAssociations: [ServiceActionAssociation]) {
             self.acceptLanguage = acceptLanguage
             self.serviceActionAssociations = serviceActionAssociations
@@ -398,7 +404,7 @@ extension ServiceCatalog {
 
         /// An object that contains a list of errors, along with information to help you identify the self-service action.
         public let failedServiceActionAssociations: [FailedServiceActionAssociation]?
-        
+
         public init(failedServiceActionAssociations: [FailedServiceActionAssociation]? = nil) {
             self.failedServiceActionAssociations = failedServiceActionAssociations
         }
@@ -422,7 +428,7 @@ extension ServiceCatalog {
 
         /// Name of the associated budget.
         public let budgetName: String?
-        
+
         public init(budgetName: String? = nil) {
             self.budgetName = budgetName
         }
@@ -451,7 +457,7 @@ extension ServiceCatalog {
 
         /// The name of the CloudWatch dashboard.
         public let name: String?
-        
+
         public init(name: String? = nil) {
             self.name = name
         }
@@ -477,7 +483,7 @@ extension ServiceCatalog {
         public let owner: String?
         /// The type of constraint.    LAUNCH     NOTIFICATION    STACKSET    TEMPLATE   
         public let `type`: String?
-        
+
         public init(constraintId: String? = nil, description: String? = nil, owner: String? = nil, type: String? = nil) {
             self.constraintId = constraintId
             self.description = description
@@ -513,7 +519,7 @@ extension ServiceCatalog {
         public let description: String?
         /// The type of constraint.    LAUNCH     NOTIFICATION    STACKSET    TEMPLATE   
         public let `type`: String?
-        
+
         public init(description: String? = nil, type: String? = nil) {
             self.description = description
             self.`type` = `type`
@@ -561,7 +567,7 @@ extension ServiceCatalog {
         public let targetProductId: String?
         /// A name for the target product. The default is the name of the source product.
         public let targetProductName: String?
-        
+
         public init(acceptLanguage: String? = nil, copyOptions: [CopyOption]? = nil, idempotencyToken: String = CopyProductInput.idempotencyToken(), sourceProductArn: String, sourceProvisioningArtifactIdentifiers: [[ProvisioningArtifactPropertyName: String]]? = nil, targetProductId: String? = nil, targetProductName: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.copyOptions = copyOptions
@@ -604,7 +610,7 @@ extension ServiceCatalog {
 
         /// The token to use to track the progress of the operation.
         public let copyProductToken: String?
-        
+
         public init(copyProductToken: String? = nil) {
             self.copyProductToken = copyProductToken
         }
@@ -652,7 +658,7 @@ extension ServiceCatalog {
         public let productId: String
         /// The type of constraint.    LAUNCH     NOTIFICATION     RESOURCE_UPDATE     STACKSET     TEMPLATE   
         public let `type`: String
-        
+
         public init(acceptLanguage: String? = nil, description: String? = nil, idempotencyToken: String = CreateConstraintInput.idempotencyToken(), parameters: String, portfolioId: String, productId: String, type: String) {
             self.acceptLanguage = acceptLanguage
             self.description = description
@@ -703,7 +709,7 @@ extension ServiceCatalog {
         public let constraintParameters: String?
         /// The status of the current request.
         public let status: Status?
-        
+
         public init(constraintDetail: ConstraintDetail? = nil, constraintParameters: String? = nil, status: Status? = nil) {
             self.constraintDetail = constraintDetail
             self.constraintParameters = constraintParameters
@@ -743,7 +749,7 @@ extension ServiceCatalog {
         public let providerName: String
         /// One or more tags.
         public let tags: [Tag]?
-        
+
         public init(acceptLanguage: String? = nil, description: String? = nil, displayName: String, idempotencyToken: String = CreatePortfolioInput.idempotencyToken(), providerName: String, tags: [Tag]? = nil) {
             self.acceptLanguage = acceptLanguage
             self.description = description
@@ -789,7 +795,7 @@ extension ServiceCatalog {
         public let portfolioDetail: PortfolioDetail?
         /// Information about the tags associated with the portfolio.
         public let tags: [Tag]?
-        
+
         public init(portfolioDetail: PortfolioDetail? = nil, tags: [Tag]? = nil) {
             self.portfolioDetail = portfolioDetail
             self.tags = tags
@@ -825,7 +831,7 @@ extension ServiceCatalog {
         public let organizationNode: OrganizationNode?
         /// The portfolio identifier.
         public let portfolioId: String
-        
+
         public init(acceptLanguage: String? = nil, accountId: String? = nil, organizationNode: OrganizationNode? = nil, portfolioId: String) {
             self.acceptLanguage = acceptLanguage
             self.accountId = accountId
@@ -857,7 +863,7 @@ extension ServiceCatalog {
 
         /// The portfolio share unique identifier. This will only be returned if portfolio is shared to an organization node.
         public let portfolioShareToken: String?
-        
+
         public init(portfolioShareToken: String? = nil) {
             self.portfolioShareToken = portfolioShareToken
         }
@@ -913,7 +919,7 @@ extension ServiceCatalog {
         public let supportUrl: String?
         /// One or more tags.
         public let tags: [Tag]?
-        
+
         public init(acceptLanguage: String? = nil, description: String? = nil, distributor: String? = nil, idempotencyToken: String = CreateProductInput.idempotencyToken(), name: String, owner: String, productType: ProductType, provisioningArtifactParameters: ProvisioningArtifactProperties, supportDescription: String? = nil, supportEmail: String? = nil, supportUrl: String? = nil, tags: [Tag]? = nil) {
             self.acceptLanguage = acceptLanguage
             self.description = description
@@ -976,7 +982,7 @@ extension ServiceCatalog {
         public let provisioningArtifactDetail: ProvisioningArtifactDetail?
         /// Information about the tags associated with the product.
         public let tags: [Tag]?
-        
+
         public init(productViewDetail: ProductViewDetail? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, tags: [Tag]? = nil) {
             self.productViewDetail = productViewDetail
             self.provisioningArtifactDetail = provisioningArtifactDetail
@@ -1036,7 +1042,7 @@ extension ServiceCatalog {
         public let provisioningParameters: [UpdateProvisioningParameter]?
         /// One or more tags. If the plan is for an existing provisioned product, the product must have a RESOURCE_UPDATE constraint with TagUpdatesOnProvisionedProduct set to ALLOWED to allow tag updates.
         public let tags: [Tag]?
-        
+
         public init(acceptLanguage: String? = nil, idempotencyToken: String = CreateProvisionedProductPlanInput.idempotencyToken(), notificationArns: [String]? = nil, pathId: String? = nil, planName: String, planType: ProvisionedProductPlanType, productId: String, provisionedProductName: String, provisioningArtifactId: String, provisioningParameters: [UpdateProvisioningParameter]? = nil, tags: [Tag]? = nil) {
             self.acceptLanguage = acceptLanguage
             self.idempotencyToken = idempotencyToken
@@ -1117,7 +1123,7 @@ extension ServiceCatalog {
         public let provisioningArtifactId: String?
         /// The product identifier.
         public let provisionProductId: String?
-        
+
         public init(planId: String? = nil, planName: String? = nil, provisionedProductName: String? = nil, provisioningArtifactId: String? = nil, provisionProductId: String? = nil) {
             self.planId = planId
             self.planName = planName
@@ -1166,7 +1172,7 @@ extension ServiceCatalog {
         public let parameters: ProvisioningArtifactProperties
         /// The product identifier.
         public let productId: String
-        
+
         public init(acceptLanguage: String? = nil, idempotencyToken: String = CreateProvisioningArtifactInput.idempotencyToken(), parameters: ProvisioningArtifactProperties, productId: String) {
             self.acceptLanguage = acceptLanguage
             self.idempotencyToken = idempotencyToken
@@ -1205,7 +1211,7 @@ extension ServiceCatalog {
         public let provisioningArtifactDetail: ProvisioningArtifactDetail?
         /// The status of the current request.
         public let status: Status?
-        
+
         public init(info: [String: String]? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, status: Status? = nil) {
             self.info = info
             self.provisioningArtifactDetail = provisioningArtifactDetail
@@ -1245,7 +1251,7 @@ extension ServiceCatalog {
         public let idempotencyToken: String
         /// The self-service action name.
         public let name: String
-        
+
         public init(acceptLanguage: String? = nil, definition: [ServiceActionDefinitionKey: String], definitionType: ServiceActionDefinitionType, description: String? = nil, idempotencyToken: String = CreateServiceActionInput.idempotencyToken(), name: String) {
             self.acceptLanguage = acceptLanguage
             self.definition = definition
@@ -1283,7 +1289,7 @@ extension ServiceCatalog {
 
         /// An object containing information about the self-service action.
         public let serviceActionDetail: ServiceActionDetail?
-        
+
         public init(serviceActionDetail: ServiceActionDetail? = nil) {
             self.serviceActionDetail = serviceActionDetail
         }
@@ -1307,7 +1313,7 @@ extension ServiceCatalog {
         public let key: String
         /// The TagOption value.
         public let value: String
-        
+
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1335,7 +1341,7 @@ extension ServiceCatalog {
 
         /// Information about the TagOption.
         public let tagOptionDetail: TagOptionDetail?
-        
+
         public init(tagOptionDetail: TagOptionDetail? = nil) {
             self.tagOptionDetail = tagOptionDetail
         }
@@ -1359,7 +1365,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The identifier of the constraint.
         public let id: String
-        
+
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -1379,11 +1385,12 @@ extension ServiceCatalog {
     }
 
     public struct DeleteConstraintOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeletePortfolioInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1395,7 +1402,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let id: String
-        
+
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -1415,11 +1422,12 @@ extension ServiceCatalog {
     }
 
     public struct DeletePortfolioOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeletePortfolioShareInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1437,7 +1445,7 @@ extension ServiceCatalog {
         public let organizationNode: OrganizationNode?
         /// The portfolio identifier.
         public let portfolioId: String
-        
+
         public init(acceptLanguage: String? = nil, accountId: String? = nil, organizationNode: OrganizationNode? = nil, portfolioId: String) {
             self.acceptLanguage = acceptLanguage
             self.accountId = accountId
@@ -1469,7 +1477,7 @@ extension ServiceCatalog {
 
         /// The portfolio share unique identifier. This will only be returned if delete is made to an organization node.
         public let portfolioShareToken: String?
-        
+
         public init(portfolioShareToken: String? = nil) {
             self.portfolioShareToken = portfolioShareToken
         }
@@ -1495,7 +1503,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The product identifier.
         public let id: String
-        
+
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -1515,11 +1523,12 @@ extension ServiceCatalog {
     }
 
     public struct DeleteProductOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteProvisionedProductPlanInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1534,7 +1543,7 @@ extension ServiceCatalog {
         public let ignoreErrors: Bool?
         /// The plan identifier.
         public let planId: String
-        
+
         public init(acceptLanguage: String? = nil, ignoreErrors: Bool? = nil, planId: String) {
             self.acceptLanguage = acceptLanguage
             self.ignoreErrors = ignoreErrors
@@ -1556,11 +1565,12 @@ extension ServiceCatalog {
     }
 
     public struct DeleteProvisionedProductPlanOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteProvisioningArtifactInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1575,7 +1585,7 @@ extension ServiceCatalog {
         public let productId: String
         /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String
-        
+
         public init(acceptLanguage: String? = nil, productId: String, provisioningArtifactId: String) {
             self.acceptLanguage = acceptLanguage
             self.productId = productId
@@ -1600,11 +1610,12 @@ extension ServiceCatalog {
     }
 
     public struct DeleteProvisioningArtifactOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteServiceActionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1616,7 +1627,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The self-service action identifier. For example, act-fs7abcd89wxyz.
         public let id: String
-        
+
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -1636,11 +1647,12 @@ extension ServiceCatalog {
     }
 
     public struct DeleteServiceActionOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteTagOptionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1649,7 +1661,7 @@ extension ServiceCatalog {
 
         /// The TagOption identifier.
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -1665,11 +1677,12 @@ extension ServiceCatalog {
     }
 
     public struct DeleteTagOptionOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeConstraintInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1681,7 +1694,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The identifier of the constraint.
         public let id: String
-        
+
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -1713,7 +1726,7 @@ extension ServiceCatalog {
         public let constraintParameters: String?
         /// The status of the current request.
         public let status: Status?
-        
+
         public init(constraintDetail: ConstraintDetail? = nil, constraintParameters: String? = nil, status: Status? = nil) {
             self.constraintDetail = constraintDetail
             self.constraintParameters = constraintParameters
@@ -1741,7 +1754,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The token for the copy product operation. This token is returned by CopyProduct.
         public let copyProductToken: String
-        
+
         public init(acceptLanguage: String? = nil, copyProductToken: String) {
             self.acceptLanguage = acceptLanguage
             self.copyProductToken = copyProductToken
@@ -1773,7 +1786,7 @@ extension ServiceCatalog {
         public let statusDetail: String?
         /// The identifier of the copied product.
         public let targetProductId: String?
-        
+
         public init(copyProductStatus: CopyProductStatus? = nil, statusDetail: String? = nil, targetProductId: String? = nil) {
             self.copyProductStatus = copyProductStatus
             self.statusDetail = statusDetail
@@ -1803,7 +1816,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let id: String
-        
+
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -1838,7 +1851,7 @@ extension ServiceCatalog {
         public let tagOptions: [TagOptionDetail]?
         /// Information about the tags associated with the portfolio.
         public let tags: [Tag]?
-        
+
         public init(budgets: [BudgetDetail]? = nil, portfolioDetail: PortfolioDetail? = nil, tagOptions: [TagOptionDetail]? = nil, tags: [Tag]? = nil) {
             self.budgets = budgets
             self.portfolioDetail = portfolioDetail
@@ -1875,7 +1888,7 @@ extension ServiceCatalog {
 
         /// The token for the portfolio share operation. This token is returned either by CreatePortfolioShare or by DeletePortfolioShare.
         public let portfolioShareToken: String
-        
+
         public init(portfolioShareToken: String) {
             self.portfolioShareToken = portfolioShareToken
         }
@@ -1910,7 +1923,7 @@ extension ServiceCatalog {
         public let shareDetails: ShareDetails?
         /// Status of the portfolio share operation.
         public let status: ShareStatus?
-        
+
         public init(organizationNodeValue: String? = nil, portfolioId: String? = nil, portfolioShareToken: String? = nil, shareDetails: ShareDetails? = nil, status: ShareStatus? = nil) {
             self.organizationNodeValue = organizationNodeValue
             self.portfolioId = portfolioId
@@ -1949,7 +1962,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The product identifier.
         public let id: String
-        
+
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -1987,7 +2000,7 @@ extension ServiceCatalog {
         public let tagOptions: [TagOptionDetail]?
         /// Information about the tags associated with the product.
         public let tags: [Tag]?
-        
+
         public init(budgets: [BudgetDetail]? = nil, productViewDetail: ProductViewDetail? = nil, provisioningArtifactSummaries: [ProvisioningArtifactSummary]? = nil, tagOptions: [TagOptionDetail]? = nil, tags: [Tag]? = nil) {
             self.budgets = budgets
             self.productViewDetail = productViewDetail
@@ -2032,7 +2045,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The product identifier.
         public let id: String
-        
+
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -2064,7 +2077,7 @@ extension ServiceCatalog {
         public let productViewSummary: ProductViewSummary?
         /// Information about the provisioning artifacts for the specified product.
         public let provisioningArtifacts: [ProvisioningArtifact]?
-        
+
         public init(budgets: [BudgetDetail]? = nil, productViewSummary: ProductViewSummary? = nil, provisioningArtifacts: [ProvisioningArtifact]? = nil) {
             self.budgets = budgets
             self.productViewSummary = productViewSummary
@@ -2098,7 +2111,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The product view identifier.
         public let id: String
-        
+
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -2127,7 +2140,7 @@ extension ServiceCatalog {
         public let productViewSummary: ProductViewSummary?
         /// Information about the provisioning artifacts for the product.
         public let provisioningArtifacts: [ProvisioningArtifact]?
-        
+
         public init(productViewSummary: ProductViewSummary? = nil, provisioningArtifacts: [ProvisioningArtifact]? = nil) {
             self.productViewSummary = productViewSummary
             self.provisioningArtifacts = provisioningArtifacts
@@ -2156,7 +2169,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The provisioned product identifier.
         public let id: String
-        
+
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -2185,7 +2198,7 @@ extension ServiceCatalog {
         public let cloudWatchDashboards: [CloudWatchDashboard]?
         /// Information about the provisioned product.
         public let provisionedProductDetail: ProvisionedProductDetail?
-        
+
         public init(cloudWatchDashboards: [CloudWatchDashboard]? = nil, provisionedProductDetail: ProvisionedProductDetail? = nil) {
             self.cloudWatchDashboards = cloudWatchDashboards
             self.provisionedProductDetail = provisionedProductDetail
@@ -2217,7 +2230,7 @@ extension ServiceCatalog {
         public let pageToken: String?
         /// The plan identifier.
         public let planId: String
-        
+
         public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, planId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -2257,7 +2270,7 @@ extension ServiceCatalog {
         public let provisionedProductPlanDetails: ProvisionedProductPlanDetails?
         /// Information about the resource changes that will occur when the plan is executed.
         public let resourceChanges: [ResourceChange]?
-        
+
         public init(nextPageToken: String? = nil, provisionedProductPlanDetails: ProvisionedProductPlanDetails? = nil, resourceChanges: [ResourceChange]? = nil) {
             self.nextPageToken = nextPageToken
             self.provisionedProductPlanDetails = provisionedProductPlanDetails
@@ -2296,7 +2309,7 @@ extension ServiceCatalog {
         public let provisioningArtifactId: String
         /// Indicates whether a verbose level of detail is enabled.
         public let verbose: Bool?
-        
+
         public init(acceptLanguage: String? = nil, productId: String, provisioningArtifactId: String, verbose: Bool? = nil) {
             self.acceptLanguage = acceptLanguage
             self.productId = productId
@@ -2335,7 +2348,7 @@ extension ServiceCatalog {
         public let provisioningArtifactDetail: ProvisioningArtifactDetail?
         /// The status of the current request.
         public let status: Status?
-        
+
         public init(info: [String: String]? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, status: Status? = nil) {
             self.info = info
             self.provisioningArtifactDetail = provisioningArtifactDetail
@@ -2369,7 +2382,7 @@ extension ServiceCatalog {
         public let productId: String
         /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String
-        
+
         public init(acceptLanguage: String? = nil, pathId: String? = nil, productId: String, provisioningArtifactId: String) {
             self.acceptLanguage = acceptLanguage
             self.pathId = pathId
@@ -2417,7 +2430,7 @@ extension ServiceCatalog {
         public let tagOptions: [TagOptionSummary]?
         /// Any additional metadata specifically related to the provisioning of the product. For example, see the Version field of the CloudFormation template.
         public let usageInstructions: [UsageInstruction]?
-        
+
         public init(constraintSummaries: [ConstraintSummary]? = nil, provisioningArtifactParameters: [ProvisioningArtifactParameter]? = nil, provisioningArtifactPreferences: ProvisioningArtifactPreferences? = nil, tagOptions: [TagOptionSummary]? = nil, usageInstructions: [UsageInstruction]? = nil) {
             self.constraintSummaries = constraintSummaries
             self.provisioningArtifactParameters = provisioningArtifactParameters
@@ -2464,7 +2477,7 @@ extension ServiceCatalog {
         public let pageSize: Int32?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
-        
+
         public init(acceptLanguage: String? = nil, id: String, pageSize: Int32? = nil, pageToken: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -2504,7 +2517,7 @@ extension ServiceCatalog {
         public let recordDetail: RecordDetail?
         /// Information about the product created as the result of a request. For example, the output for a CloudFormation-backed product that creates an S3 bucket would include the S3 bucket URL.
         public let recordOutputs: [RecordOutput]?
-        
+
         public init(nextPageToken: String? = nil, recordDetail: RecordDetail? = nil, recordOutputs: [RecordOutput]? = nil) {
             self.nextPageToken = nextPageToken
             self.recordDetail = recordDetail
@@ -2534,7 +2547,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The self-service action identifier.
         public let id: String
-        
+
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -2560,7 +2573,7 @@ extension ServiceCatalog {
 
         /// Detailed information about the self-service action.
         public let serviceActionDetail: ServiceActionDetail?
-        
+
         public init(serviceActionDetail: ServiceActionDetail? = nil) {
             self.serviceActionDetail = serviceActionDetail
         }
@@ -2581,7 +2594,7 @@ extension ServiceCatalog {
 
         /// The TagOption identifier.
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -2603,7 +2616,7 @@ extension ServiceCatalog {
 
         /// Information about the TagOption.
         public let tagOptionDetail: TagOptionDetail?
-        
+
         public init(tagOptionDetail: TagOptionDetail? = nil) {
             self.tagOptionDetail = tagOptionDetail
         }
@@ -2618,18 +2631,20 @@ extension ServiceCatalog {
     }
 
     public struct DisableAWSOrganizationsAccessInput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisableAWSOrganizationsAccessOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociateBudgetFromResourceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2641,7 +2656,7 @@ extension ServiceCatalog {
         public let budgetName: String
         /// The resource identifier you want to disassociate from. Either a portfolio-id or a product-id.
         public let resourceId: String
-        
+
         public init(budgetName: String, resourceId: String) {
             self.budgetName = budgetName
             self.resourceId = resourceId
@@ -2662,11 +2677,12 @@ extension ServiceCatalog {
     }
 
     public struct DisassociateBudgetFromResourceOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociatePrincipalFromPortfolioInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2681,7 +2697,7 @@ extension ServiceCatalog {
         public let portfolioId: String
         /// The ARN of the principal (IAM user, role, or group).
         public let principalARN: String
-        
+
         public init(acceptLanguage: String? = nil, portfolioId: String, principalARN: String) {
             self.acceptLanguage = acceptLanguage
             self.portfolioId = portfolioId
@@ -2705,11 +2721,12 @@ extension ServiceCatalog {
     }
 
     public struct DisassociatePrincipalFromPortfolioOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociateProductFromPortfolioInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2724,7 +2741,7 @@ extension ServiceCatalog {
         public let portfolioId: String
         /// The product identifier.
         public let productId: String
-        
+
         public init(acceptLanguage: String? = nil, portfolioId: String, productId: String) {
             self.acceptLanguage = acceptLanguage
             self.portfolioId = portfolioId
@@ -2749,11 +2766,12 @@ extension ServiceCatalog {
     }
 
     public struct DisassociateProductFromPortfolioOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociateServiceActionFromProvisioningArtifactInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2771,7 +2789,7 @@ extension ServiceCatalog {
         public let provisioningArtifactId: String
         /// The self-service action identifier. For example, act-fs7abcd89wxyz.
         public let serviceActionId: String
-        
+
         public init(acceptLanguage: String? = nil, productId: String, provisioningArtifactId: String, serviceActionId: String) {
             self.acceptLanguage = acceptLanguage
             self.productId = productId
@@ -2801,11 +2819,12 @@ extension ServiceCatalog {
     }
 
     public struct DisassociateServiceActionFromProvisioningArtifactOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociateTagOptionFromResourceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2817,7 +2836,7 @@ extension ServiceCatalog {
         public let resourceId: String
         /// The TagOption identifier.
         public let tagOptionId: String
-        
+
         public init(resourceId: String, tagOptionId: String) {
             self.resourceId = resourceId
             self.tagOptionId = tagOptionId
@@ -2835,25 +2854,28 @@ extension ServiceCatalog {
     }
 
     public struct DisassociateTagOptionFromResourceOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct EnableAWSOrganizationsAccessInput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct EnableAWSOrganizationsAccessOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum EvaluationType: String, CustomStringConvertible, Codable {
         case `static` = "STATIC"
@@ -2874,7 +2896,7 @@ extension ServiceCatalog {
         public let idempotencyToken: String
         /// The plan identifier.
         public let planId: String
-        
+
         public init(acceptLanguage: String? = nil, idempotencyToken: String = ExecuteProvisionedProductPlanInput.idempotencyToken(), planId: String) {
             self.acceptLanguage = acceptLanguage
             self.idempotencyToken = idempotencyToken
@@ -2905,7 +2927,7 @@ extension ServiceCatalog {
 
         /// Information about the result of provisioning the product.
         public let recordDetail: RecordDetail?
-        
+
         public init(recordDetail: RecordDetail? = nil) {
             self.recordDetail = recordDetail
         }
@@ -2935,7 +2957,7 @@ extension ServiceCatalog {
         public let provisionedProductId: String
         /// The self-service action identifier. For example, act-fs7abcd89wxyz.
         public let serviceActionId: String
-        
+
         public init(acceptLanguage: String? = nil, executeToken: String = ExecuteProvisionedProductServiceActionInput.idempotencyToken(), provisionedProductId: String, serviceActionId: String) {
             self.acceptLanguage = acceptLanguage
             self.executeToken = executeToken
@@ -2971,7 +2993,7 @@ extension ServiceCatalog {
 
         /// An object containing detailed information about the result of provisioning the product.
         public let recordDetail: RecordDetail?
-        
+
         public init(recordDetail: RecordDetail? = nil) {
             self.recordDetail = recordDetail
         }
@@ -3004,7 +3026,7 @@ extension ServiceCatalog {
         public let provisioningArtifactId: String?
         /// The self-service action identifier. For example, act-fs7abcd89wxyz.
         public let serviceActionId: String?
-        
+
         public init(errorCode: ServiceActionAssociationErrorCode? = nil, errorMessage: String? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, serviceActionId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3037,11 +3059,12 @@ extension ServiceCatalog {
     }
 
     public struct GetAWSOrganizationsAccessStatusInput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetAWSOrganizationsAccessStatusOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3050,7 +3073,7 @@ extension ServiceCatalog {
 
         /// The status of the portfolio share feature.
         public let accessStatus: AccessStatus?
-        
+
         public init(accessStatus: AccessStatus? = nil) {
             self.accessStatus = accessStatus
         }
@@ -3076,7 +3099,7 @@ extension ServiceCatalog {
         public let name: String?
         /// The tags associated with this product path.
         public let tags: [Tag]?
-        
+
         public init(constraintSummaries: [ConstraintSummary]? = nil, id: String? = nil, name: String? = nil, tags: [Tag]? = nil) {
             self.constraintSummaries = constraintSummaries
             self.id = id
@@ -3121,7 +3144,7 @@ extension ServiceCatalog {
         public let pageToken: String?
         /// The type of shared portfolios to list. The default is to list imported portfolios.    AWS_ORGANIZATIONS - List portfolios shared by the master account of your organization    AWS_SERVICECATALOG - List default portfolios    IMPORTED - List imported portfolios  
         public let portfolioShareType: PortfolioShareType?
-        
+
         public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, portfolioShareType: PortfolioShareType? = nil) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -3155,7 +3178,7 @@ extension ServiceCatalog {
         public let nextPageToken: String?
         /// Information about the portfolios.
         public let portfolioDetails: [PortfolioDetail]?
-        
+
         public init(nextPageToken: String? = nil, portfolioDetails: [PortfolioDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.portfolioDetails = portfolioDetails
@@ -3191,7 +3214,7 @@ extension ServiceCatalog {
         public let pageToken: String?
         /// The resource identifier.
         public let resourceId: String
-        
+
         public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, resourceId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -3228,7 +3251,7 @@ extension ServiceCatalog {
         public let budgets: [BudgetDetail]?
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
-        
+
         public init(budgets: [BudgetDetail]? = nil, nextPageToken: String? = nil) {
             self.budgets = budgets
             self.nextPageToken = nextPageToken
@@ -3267,7 +3290,7 @@ extension ServiceCatalog {
         public let portfolioId: String
         /// The product identifier.
         public let productId: String?
-        
+
         public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, portfolioId: String, productId: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -3309,7 +3332,7 @@ extension ServiceCatalog {
         public let constraintDetails: [ConstraintDetail]?
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
-        
+
         public init(constraintDetails: [ConstraintDetail]? = nil, nextPageToken: String? = nil) {
             self.constraintDetails = constraintDetails
             self.nextPageToken = nextPageToken
@@ -3345,7 +3368,7 @@ extension ServiceCatalog {
         public let pageToken: String?
         /// The product identifier.
         public let productId: String
-        
+
         public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, productId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -3382,7 +3405,7 @@ extension ServiceCatalog {
         public let launchPathSummaries: [LaunchPathSummary]?
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
-        
+
         public init(launchPathSummaries: [LaunchPathSummary]? = nil, nextPageToken: String? = nil) {
             self.launchPathSummaries = launchPathSummaries
             self.nextPageToken = nextPageToken
@@ -3421,7 +3444,7 @@ extension ServiceCatalog {
         public let pageToken: String?
         /// The portfolio identifier. For example, port-2abcdext3y5fk.
         public let portfolioId: String
-        
+
         public init(acceptLanguage: String? = nil, organizationNodeType: OrganizationNodeType, pageSize: Int32? = nil, pageToken: String? = nil, portfolioId: String) {
             self.acceptLanguage = acceptLanguage
             self.organizationNodeType = organizationNodeType
@@ -3460,7 +3483,7 @@ extension ServiceCatalog {
         public let nextPageToken: String?
         /// Displays information about the organization nodes.
         public let organizationNodes: [OrganizationNode]?
-        
+
         public init(nextPageToken: String? = nil, organizationNodes: [OrganizationNode]? = nil) {
             self.nextPageToken = nextPageToken
             self.organizationNodes = organizationNodes
@@ -3490,7 +3513,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
-        
+
         public init(acceptLanguage: String? = nil, portfolioId: String) {
             self.acceptLanguage = acceptLanguage
             self.portfolioId = portfolioId
@@ -3519,7 +3542,7 @@ extension ServiceCatalog {
         public let accountIds: [String]?
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
-        
+
         public init(accountIds: [String]? = nil, nextPageToken: String? = nil) {
             self.accountIds = accountIds
             self.nextPageToken = nextPageToken
@@ -3555,7 +3578,7 @@ extension ServiceCatalog {
         public let pageToken: String?
         /// The product identifier.
         public let productId: String
-        
+
         public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, productId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -3592,7 +3615,7 @@ extension ServiceCatalog {
         public let nextPageToken: String?
         /// Information about the portfolios.
         public let portfolioDetails: [PortfolioDetail]?
-        
+
         public init(nextPageToken: String? = nil, portfolioDetails: [PortfolioDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.portfolioDetails = portfolioDetails
@@ -3625,7 +3648,7 @@ extension ServiceCatalog {
         public let pageSize: Int32?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
-        
+
         public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -3657,7 +3680,7 @@ extension ServiceCatalog {
         public let nextPageToken: String?
         /// Information about the portfolios.
         public let portfolioDetails: [PortfolioDetail]?
-        
+
         public init(nextPageToken: String? = nil, portfolioDetails: [PortfolioDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.portfolioDetails = portfolioDetails
@@ -3693,7 +3716,7 @@ extension ServiceCatalog {
         public let pageToken: String?
         /// The portfolio identifier.
         public let portfolioId: String
-        
+
         public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, portfolioId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -3730,7 +3753,7 @@ extension ServiceCatalog {
         public let nextPageToken: String?
         /// The IAM principals (users or roles) associated with the portfolio.
         public let principals: [Principal]?
-        
+
         public init(nextPageToken: String? = nil, principals: [Principal]? = nil) {
             self.nextPageToken = nextPageToken
             self.principals = principals
@@ -3769,7 +3792,7 @@ extension ServiceCatalog {
         public let pageToken: String?
         /// The product identifier.
         public let provisionProductId: String?
-        
+
         public init(acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, pageSize: Int32? = nil, pageToken: String? = nil, provisionProductId: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.accessLevelFilter = accessLevelFilter
@@ -3808,7 +3831,7 @@ extension ServiceCatalog {
         public let nextPageToken: String?
         /// Information about the plans.
         public let provisionedProductPlans: [ProvisionedProductPlanSummary]?
-        
+
         public init(nextPageToken: String? = nil, provisionedProductPlans: [ProvisionedProductPlanSummary]? = nil) {
             self.nextPageToken = nextPageToken
             self.provisionedProductPlans = provisionedProductPlans
@@ -3844,7 +3867,7 @@ extension ServiceCatalog {
         public let pageToken: String?
         /// The self-service action identifier. For example, act-fs7abcd89wxyz.
         public let serviceActionId: String
-        
+
         public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, serviceActionId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -3881,7 +3904,7 @@ extension ServiceCatalog {
         public let nextPageToken: String?
         /// An array of objects with information about product views and provisioning artifacts.
         public let provisioningArtifactViews: [ProvisioningArtifactView]?
-        
+
         public init(nextPageToken: String? = nil, provisioningArtifactViews: [ProvisioningArtifactView]? = nil) {
             self.nextPageToken = nextPageToken
             self.provisioningArtifactViews = provisioningArtifactViews
@@ -3911,7 +3934,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The product identifier.
         public let productId: String
-        
+
         public init(acceptLanguage: String? = nil, productId: String) {
             self.acceptLanguage = acceptLanguage
             self.productId = productId
@@ -3940,7 +3963,7 @@ extension ServiceCatalog {
         public let nextPageToken: String?
         /// Information about the provisioning artifacts.
         public let provisioningArtifactDetails: [ProvisioningArtifactDetail]?
-        
+
         public init(nextPageToken: String? = nil, provisioningArtifactDetails: [ProvisioningArtifactDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.provisioningArtifactDetails = provisioningArtifactDetails
@@ -3979,7 +4002,7 @@ extension ServiceCatalog {
         public let pageToken: String?
         /// The search filter to scope the results.
         public let searchFilter: ListRecordHistorySearchFilter?
-        
+
         public init(acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, pageSize: Int32? = nil, pageToken: String? = nil, searchFilter: ListRecordHistorySearchFilter? = nil) {
             self.acceptLanguage = acceptLanguage
             self.accessLevelFilter = accessLevelFilter
@@ -4015,7 +4038,7 @@ extension ServiceCatalog {
         public let nextPageToken: String?
         /// The records, in reverse chronological order.
         public let recordDetails: [RecordDetail]?
-        
+
         public init(nextPageToken: String? = nil, recordDetails: [RecordDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.recordDetails = recordDetails
@@ -4045,7 +4068,7 @@ extension ServiceCatalog {
         public let key: String?
         /// The filter value.
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -4073,7 +4096,7 @@ extension ServiceCatalog {
         public let resourceType: String?
         /// The TagOption identifier.
         public let tagOptionId: String
-        
+
         public init(pageSize: Int32? = nil, pageToken: String? = nil, resourceType: String? = nil, tagOptionId: String) {
             self.pageSize = pageSize
             self.pageToken = pageToken
@@ -4108,7 +4131,7 @@ extension ServiceCatalog {
         public let pageToken: String?
         /// Information about the resources.
         public let resourceDetails: [ResourceDetail]?
-        
+
         public init(pageToken: String? = nil, resourceDetails: [ResourceDetail]? = nil) {
             self.pageToken = pageToken
             self.resourceDetails = resourceDetails
@@ -4144,7 +4167,7 @@ extension ServiceCatalog {
         public let productId: String
         /// The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne.
         public let provisioningArtifactId: String
-        
+
         public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, productId: String, provisioningArtifactId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -4186,7 +4209,7 @@ extension ServiceCatalog {
         public let nextPageToken: String?
         /// An object containing information about the self-service actions associated with the provisioning artifact.
         public let serviceActionSummaries: [ServiceActionSummary]?
-        
+
         public init(nextPageToken: String? = nil, serviceActionSummaries: [ServiceActionSummary]? = nil) {
             self.nextPageToken = nextPageToken
             self.serviceActionSummaries = serviceActionSummaries
@@ -4219,7 +4242,7 @@ extension ServiceCatalog {
         public let pageSize: Int32?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
-        
+
         public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -4251,7 +4274,7 @@ extension ServiceCatalog {
         public let nextPageToken: String?
         /// An object containing information about the service actions associated with the provisioning artifact.
         public let serviceActionSummaries: [ServiceActionSummary]?
-        
+
         public init(nextPageToken: String? = nil, serviceActionSummaries: [ServiceActionSummary]? = nil) {
             self.nextPageToken = nextPageToken
             self.serviceActionSummaries = serviceActionSummaries
@@ -4287,7 +4310,7 @@ extension ServiceCatalog {
         public let pageToken: String?
         /// The identifier of the provisioned product.
         public let provisionedProductId: String
-        
+
         public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, provisionedProductId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -4324,7 +4347,7 @@ extension ServiceCatalog {
         public let nextPageToken: String?
         /// List of stack instances.
         public let stackInstances: [StackInstance]?
-        
+
         public init(nextPageToken: String? = nil, stackInstances: [StackInstance]? = nil) {
             self.nextPageToken = nextPageToken
             self.stackInstances = stackInstances
@@ -4357,7 +4380,7 @@ extension ServiceCatalog {
         public let key: String?
         /// The TagOption value.
         public let value: String?
-        
+
         public init(active: Bool? = nil, key: String? = nil, value: String? = nil) {
             self.active = active
             self.key = key
@@ -4393,7 +4416,7 @@ extension ServiceCatalog {
         public let pageSize: Int32?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
-        
+
         public init(filters: ListTagOptionsFilters? = nil, pageSize: Int32? = nil, pageToken: String? = nil) {
             self.filters = filters
             self.pageSize = pageSize
@@ -4425,7 +4448,7 @@ extension ServiceCatalog {
         public let pageToken: String?
         /// Information about the TagOptions.
         public let tagOptionDetails: [TagOptionDetail]?
-        
+
         public init(pageToken: String? = nil, tagOptionDetails: [TagOptionDetail]? = nil) {
             self.pageToken = pageToken
             self.tagOptionDetails = tagOptionDetails
@@ -4455,7 +4478,7 @@ extension ServiceCatalog {
         public let `type`: OrganizationNodeType?
         /// The identifier of the organization node.
         public let value: String?
-        
+
         public init(type: OrganizationNodeType? = nil, value: String? = nil) {
             self.`type` = `type`
             self.value = value
@@ -4485,7 +4508,7 @@ extension ServiceCatalog {
 
         /// The values that the administrator has allowed for the parameter.
         public let allowedValues: [String]?
-        
+
         public init(allowedValues: [String]? = nil) {
             self.allowedValues = allowedValues
         }
@@ -4517,7 +4540,7 @@ extension ServiceCatalog {
         public let id: String?
         /// The name of the portfolio provider.
         public let providerName: String?
-        
+
         public init(arn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, displayName: String? = nil, id: String? = nil, providerName: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -4567,7 +4590,7 @@ extension ServiceCatalog {
         public let principalARN: String?
         /// The principal type. The supported value is IAM.
         public let principalType: PrincipalType?
-        
+
         public init(principalARN: String? = nil, principalType: PrincipalType? = nil) {
             self.principalARN = principalARN
             self.principalType = principalType
@@ -4610,7 +4633,7 @@ extension ServiceCatalog {
         public let approximateCount: Int32?
         /// The value of the product view aggregation.
         public let value: String?
-        
+
         public init(approximateCount: Int32? = nil, value: String? = nil) {
             self.approximateCount = approximateCount
             self.value = value
@@ -4638,7 +4661,7 @@ extension ServiceCatalog {
         public let productViewSummary: ProductViewSummary?
         /// The status of the product.    AVAILABLE - The product is ready for use.    CREATING - Product creation has started; the product is not ready for use.    FAILED - An action failed.  
         public let status: Status?
-        
+
         public init(createdTime: TimeStamp? = nil, productARN: String? = nil, productViewSummary: ProductViewSummary? = nil, status: Status? = nil) {
             self.createdTime = createdTime
             self.productARN = productARN
@@ -4712,7 +4735,7 @@ extension ServiceCatalog {
         public let supportUrl: String?
         /// The product type. Contact the product administrator for the significance of this value. If this value is MARKETPLACE, the product was created by AWS Marketplace.
         public let `type`: ProductType?
-        
+
         public init(distributor: String? = nil, hasDefaultPath: Bool? = nil, id: String? = nil, name: String? = nil, owner: String? = nil, productId: String? = nil, shortDescription: String? = nil, supportDescription: String? = nil, supportEmail: String? = nil, supportUrl: String? = nil, type: ProductType? = nil) {
             self.distributor = distributor
             self.hasDefaultPath = hasDefaultPath
@@ -4796,7 +4819,7 @@ extension ServiceCatalog {
         public let provisionToken: String
         /// One or more tags.
         public let tags: [Tag]?
-        
+
         public init(acceptLanguage: String? = nil, notificationArns: [String]? = nil, pathId: String? = nil, productId: String, provisionedProductName: String, provisioningArtifactId: String, provisioningParameters: [ProvisioningParameter]? = nil, provisioningPreferences: ProvisioningPreferences? = nil, provisionToken: String = ProvisionProductInput.idempotencyToken(), tags: [Tag]? = nil) {
             self.acceptLanguage = acceptLanguage
             self.notificationArns = notificationArns
@@ -4864,7 +4887,7 @@ extension ServiceCatalog {
 
         /// Information about the result of provisioning the product.
         public let recordDetail: RecordDetail?
-        
+
         public init(recordDetail: RecordDetail? = nil) {
             self.recordDetail = recordDetail
         }
@@ -4927,7 +4950,7 @@ extension ServiceCatalog {
         public let userArn: String?
         /// The ARN of the IAM user in the session. This ARN might contain a session ID.
         public let userArnSession: String?
-        
+
         public init(arn: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil, idempotencyToken: String? = nil, lastRecordId: String? = nil, name: String? = nil, physicalId: String? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, status: ProvisionedProductStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil, type: String? = nil, userArn: String? = nil, userArnSession: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -5030,7 +5053,7 @@ extension ServiceCatalog {
         public let statusMessage: String?
         /// The type of provisioned product. The supported values are CFN_STACK and CFN_STACKSET.
         public let `type`: String?
-        
+
         public init(arn: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil, idempotencyToken: String? = nil, lastRecordId: String? = nil, name: String? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, status: ProvisionedProductStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -5127,7 +5150,7 @@ extension ServiceCatalog {
         public let tags: [Tag]?
         /// The time when the plan was last updated.
         public let updatedTime: TimeStamp?
-        
+
         public init(createdTime: TimeStamp? = nil, notificationArns: [String]? = nil, pathId: String? = nil, planId: String? = nil, planName: String? = nil, planType: ProvisionedProductPlanType? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, provisionProductId: String? = nil, provisionProductName: String? = nil, status: ProvisionedProductPlanStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil, updatedTime: TimeStamp? = nil) {
             self.createdTime = createdTime
             self.notificationArns = notificationArns
@@ -5232,7 +5255,7 @@ extension ServiceCatalog {
         public let provisionProductId: String?
         /// The user-friendly name of the provisioned product.
         public let provisionProductName: String?
-        
+
         public init(planId: String? = nil, planName: String? = nil, planType: ProvisionedProductPlanType? = nil, provisioningArtifactId: String? = nil, provisionProductId: String? = nil, provisionProductName: String? = nil) {
             self.planId = planId
             self.planName = planName
@@ -5305,7 +5328,7 @@ extension ServiceCatalog {
         public let id: String?
         /// The name of the provisioning artifact.
         public let name: String?
-        
+
         public init(createdTime: TimeStamp? = nil, description: String? = nil, guidance: ProvisioningArtifactGuidance? = nil, id: String? = nil, name: String? = nil) {
             self.createdTime = createdTime
             self.description = description
@@ -5354,7 +5377,7 @@ extension ServiceCatalog {
         public let name: String?
         /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - AWS CloudFormation template    MARKETPLACE_AMI - AWS Marketplace AMI    MARKETPLACE_CAR - AWS Marketplace Clusters and AWS Resources  
         public let `type`: ProvisioningArtifactType?
-        
+
         public init(active: Bool? = nil, createdTime: TimeStamp? = nil, description: String? = nil, guidance: ProvisioningArtifactGuidance? = nil, id: String? = nil, name: String? = nil, type: ProvisioningArtifactType? = nil) {
             self.active = active
             self.createdTime = createdTime
@@ -5410,7 +5433,7 @@ extension ServiceCatalog {
         public let parameterKey: String?
         /// The parameter type.
         public let parameterType: String?
-        
+
         public init(defaultValue: String? = nil, description: String? = nil, isNoEcho: Bool? = nil, parameterConstraints: ParameterConstraints? = nil, parameterKey: String? = nil, parameterType: String? = nil) {
             self.defaultValue = defaultValue
             self.description = description
@@ -5445,7 +5468,7 @@ extension ServiceCatalog {
         public let stackSetAccounts: [String]?
         /// One or more AWS Regions where stack instances are deployed from the stack set. These regions can be scoped in ProvisioningPreferences$StackSetRegions and UpdateProvisioningPreferences$StackSetRegions. Applicable only to a CFN_STACKSET provisioned product type.
         public let stackSetRegions: [String]?
-        
+
         public init(stackSetAccounts: [String]? = nil, stackSetRegions: [String]? = nil) {
             self.stackSetAccounts = stackSetAccounts
             self.stackSetRegions = stackSetRegions
@@ -5482,7 +5505,7 @@ extension ServiceCatalog {
         public let name: String?
         /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - AWS CloudFormation template    MARKETPLACE_AMI - AWS Marketplace AMI    MARKETPLACE_CAR - AWS Marketplace Clusters and AWS Resources  
         public let `type`: ProvisioningArtifactType?
-        
+
         public init(description: String? = nil, disableTemplateValidation: Bool? = nil, info: [String: String], name: String? = nil, type: ProvisioningArtifactType? = nil) {
             self.description = description
             self.disableTemplateValidation = disableTemplateValidation
@@ -5524,7 +5547,7 @@ extension ServiceCatalog {
         public let name: String?
         /// The metadata for the provisioning artifact. This is used with AWS Marketplace products.
         public let provisioningArtifactMetadata: [String: String]?
-        
+
         public init(createdTime: TimeStamp? = nil, description: String? = nil, id: String? = nil, name: String? = nil, provisioningArtifactMetadata: [String: String]? = nil) {
             self.createdTime = createdTime
             self.description = description
@@ -5565,7 +5588,7 @@ extension ServiceCatalog {
         public let productViewSummary: ProductViewSummary?
         /// Information about a provisioning artifact. A provisioning artifact is also known as a product version.
         public let provisioningArtifact: ProvisioningArtifact?
-        
+
         public init(productViewSummary: ProductViewSummary? = nil, provisioningArtifact: ProvisioningArtifact? = nil) {
             self.productViewSummary = productViewSummary
             self.provisioningArtifact = provisioningArtifact
@@ -5592,7 +5615,7 @@ extension ServiceCatalog {
         public let key: String?
         /// The parameter value.
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -5632,7 +5655,7 @@ extension ServiceCatalog {
         public let stackSetMaxConcurrencyPercentage: Int32?
         /// One or more AWS Regions where the provisioned product will be available. Applicable only to a CFN_STACKSET provisioned product type. The specified regions should be within the list of regions from the STACKSET constraint. To get the list of regions in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all regions from the STACKSET constraint.
         public let stackSetRegions: [String]?
-        
+
         public init(stackSetAccounts: [String]? = nil, stackSetFailureToleranceCount: Int32? = nil, stackSetFailureTolerancePercentage: Int32? = nil, stackSetMaxConcurrencyCount: Int32? = nil, stackSetMaxConcurrencyPercentage: Int32? = nil, stackSetRegions: [String]? = nil) {
             self.stackSetAccounts = stackSetAccounts
             self.stackSetFailureToleranceCount = stackSetFailureToleranceCount
@@ -5707,7 +5730,7 @@ extension ServiceCatalog {
         public let status: RecordStatus?
         /// The time when the record was last updated.
         public let updatedTime: TimeStamp?
-        
+
         public init(createdTime: TimeStamp? = nil, pathId: String? = nil, productId: String? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, provisionedProductType: String? = nil, provisioningArtifactId: String? = nil, recordErrors: [RecordError]? = nil, recordId: String? = nil, recordTags: [RecordTag]? = nil, recordType: String? = nil, status: RecordStatus? = nil, updatedTime: TimeStamp? = nil) {
             self.createdTime = createdTime
             self.pathId = pathId
@@ -5776,7 +5799,7 @@ extension ServiceCatalog {
         public let code: String?
         /// The description of the error.
         public let description: String?
-        
+
         public init(code: String? = nil, description: String? = nil) {
             self.code = code
             self.description = description
@@ -5801,7 +5824,7 @@ extension ServiceCatalog {
         public let outputKey: String?
         /// The output value.
         public let outputValue: String?
-        
+
         public init(description: String? = nil, outputKey: String? = nil, outputValue: String? = nil) {
             self.description = description
             self.outputKey = outputKey
@@ -5834,7 +5857,7 @@ extension ServiceCatalog {
         public let key: String?
         /// The value for this tag.
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -5868,7 +5891,7 @@ extension ServiceCatalog {
         public let portfolioId: String
         /// The type of shared portfolios to reject. The default is to reject imported portfolios.    AWS_ORGANIZATIONS - Reject portfolios shared by the master account of your organization.    IMPORTED - Reject imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog reject-portfolio-share --portfolio-id "port-2qwzkwxt3y5fk" --portfolio-share-type AWS_ORGANIZATIONS 
         public let portfolioShareType: PortfolioShareType?
-        
+
         public init(acceptLanguage: String? = nil, portfolioId: String, portfolioShareType: PortfolioShareType? = nil) {
             self.acceptLanguage = acceptLanguage
             self.portfolioId = portfolioId
@@ -5890,11 +5913,12 @@ extension ServiceCatalog {
     }
 
     public struct RejectPortfolioShareOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum Replacement: String, CustomStringConvertible, Codable {
         case `true` = "TRUE"
@@ -5945,7 +5969,7 @@ extension ServiceCatalog {
         public let resourceType: String?
         /// The change scope.
         public let scope: [ResourceAttribute]?
-        
+
         public init(action: ChangeAction? = nil, details: [ResourceChangeDetail]? = nil, logicalResourceId: String? = nil, physicalResourceId: String? = nil, replacement: Replacement? = nil, resourceType: String? = nil, scope: [ResourceAttribute]? = nil) {
             self.action = action
             self.details = details
@@ -5985,7 +6009,7 @@ extension ServiceCatalog {
         public let evaluation: EvaluationType?
         /// Information about the resource attribute to be modified.
         public let target: ResourceTargetDefinition?
-        
+
         public init(causingEntity: String? = nil, evaluation: EvaluationType? = nil, target: ResourceTargetDefinition? = nil) {
             self.causingEntity = causingEntity
             self.evaluation = evaluation
@@ -6018,7 +6042,7 @@ extension ServiceCatalog {
         public let id: String?
         /// The name of the resource.
         public let name: String?
-        
+
         public init(arn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -6049,7 +6073,7 @@ extension ServiceCatalog {
         public let name: String?
         /// If the attribute is Properties, indicates whether a change to this property causes the resource to be re-created.
         public let requiresRecreation: RequiresRecreation?
-        
+
         public init(attribute: ResourceAttribute? = nil, name: String? = nil, requiresRecreation: RequiresRecreation? = nil) {
             self.attribute = attribute
             self.name = name
@@ -6079,7 +6103,7 @@ extension ServiceCatalog {
         public let pageSize: Int32?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
-        
+
         public init(acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, pageSize: Int32? = nil, pageToken: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.accessLevelFilter = accessLevelFilter
@@ -6113,7 +6137,7 @@ extension ServiceCatalog {
         public let nextPageToken: String?
         /// Information about the provisioned products.
         public let provisionedProducts: [ProvisionedProductDetail]?
-        
+
         public init(nextPageToken: String? = nil, provisionedProducts: [ProvisionedProductDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.provisionedProducts = provisionedProducts
@@ -6161,7 +6185,7 @@ extension ServiceCatalog {
         public let sortBy: ProductViewSortBy?
         /// The sort order. If no value is specified, the results are not sorted.
         public let sortOrder: SortOrder?
-        
+
         public init(acceptLanguage: String? = nil, filters: [ProductViewFilterBy: [String]]? = nil, pageSize: Int32? = nil, pageToken: String? = nil, portfolioId: String? = nil, productSource: ProductSource? = nil, sortBy: ProductViewSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.acceptLanguage = acceptLanguage
             self.filters = filters
@@ -6206,7 +6230,7 @@ extension ServiceCatalog {
         public let nextPageToken: String?
         /// Information about the product views.
         public let productViewDetails: [ProductViewDetail]?
-        
+
         public init(nextPageToken: String? = nil, productViewDetails: [ProductViewDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.productViewDetails = productViewDetails
@@ -6248,7 +6272,7 @@ extension ServiceCatalog {
         public let sortBy: ProductViewSortBy?
         /// The sort order. If no value is specified, the results are not sorted.
         public let sortOrder: SortOrder?
-        
+
         public init(acceptLanguage: String? = nil, filters: [ProductViewFilterBy: [String]]? = nil, pageSize: Int32? = nil, pageToken: String? = nil, sortBy: ProductViewSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.acceptLanguage = acceptLanguage
             self.filters = filters
@@ -6289,7 +6313,7 @@ extension ServiceCatalog {
         public let productViewAggregations: [String: [ProductViewAggregationValue]]?
         /// Information about the product views.
         public let productViewSummaries: [ProductViewSummary]?
-        
+
         public init(nextPageToken: String? = nil, productViewAggregations: [String: [ProductViewAggregationValue]]? = nil, productViewSummaries: [ProductViewSummary]? = nil) {
             self.nextPageToken = nextPageToken
             self.productViewAggregations = productViewAggregations
@@ -6336,7 +6360,7 @@ extension ServiceCatalog {
         public let sortBy: String?
         /// The sort order. If no value is specified, the results are not sorted.
         public let sortOrder: SortOrder?
-        
+
         public init(acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, filters: [ProvisionedProductViewFilterBy: [String]]? = nil, pageSize: Int32? = nil, pageToken: String? = nil, sortBy: String? = nil, sortOrder: SortOrder? = nil) {
             self.acceptLanguage = acceptLanguage
             self.accessLevelFilter = accessLevelFilter
@@ -6379,7 +6403,7 @@ extension ServiceCatalog {
         public let provisionedProducts: [ProvisionedProductAttribute]?
         /// The number of provisioned products found.
         public let totalResultsCount: Int32?
-        
+
         public init(nextPageToken: String? = nil, provisionedProducts: [ProvisionedProductAttribute]? = nil, totalResultsCount: Int32? = nil) {
             self.nextPageToken = nextPageToken
             self.provisionedProducts = provisionedProducts
@@ -6414,7 +6438,7 @@ extension ServiceCatalog {
         public let provisioningArtifactId: String
         /// The self-service action identifier. For example, act-fs7abcd89wxyz.
         public let serviceActionId: String
-        
+
         public init(productId: String, provisioningArtifactId: String, serviceActionId: String) {
             self.productId = productId
             self.provisioningArtifactId = provisioningArtifactId
@@ -6472,7 +6496,7 @@ extension ServiceCatalog {
         public let definition: [ServiceActionDefinitionKey: String]?
         /// Summary information about the self-service action.
         public let serviceActionSummary: ServiceActionSummary?
-        
+
         public init(definition: [ServiceActionDefinitionKey: String]? = nil, serviceActionSummary: ServiceActionSummary? = nil) {
             self.definition = definition
             self.serviceActionSummary = serviceActionSummary
@@ -6504,7 +6528,7 @@ extension ServiceCatalog {
         public let id: String?
         /// The self-service action name.
         public let name: String?
-        
+
         public init(definitionType: ServiceActionDefinitionType? = nil, description: String? = nil, id: String? = nil, name: String? = nil) {
             self.definitionType = definitionType
             self.description = description
@@ -6540,7 +6564,7 @@ extension ServiceCatalog {
         public let shareErrors: [ShareError]?
         /// List of accounts for whom the operation succeeded.
         public let successfulShares: [String]?
-        
+
         public init(shareErrors: [ShareError]? = nil, successfulShares: [String]? = nil) {
             self.shareErrors = shareErrors
             self.successfulShares = successfulShares
@@ -6574,7 +6598,7 @@ extension ServiceCatalog {
         public let error: String?
         /// Information about the error.
         public let message: String?
-        
+
         public init(accounts: [String]? = nil, error: String? = nil, message: String? = nil) {
             self.accounts = accounts
             self.error = error
@@ -6622,7 +6646,7 @@ extension ServiceCatalog {
         public let region: String?
         /// The status of the stack instance, in terms of its synchronization with its associated stack set.     INOPERABLE: A DeleteStackInstances operation has failed and left the stack in an unstable state. Stacks in this state are excluded from further UpdateStackSet operations. You might need to perform a DeleteStackInstances operation, with RetainStacks set to true, to delete the stack instance, and then delete the stack manually.     OUTDATED: The stack isn't currently up to date with the stack set because either the associated stack failed during a CreateStackSet or UpdateStackSet operation, or the stack was part of a CreateStackSet or UpdateStackSet operation that failed or was stopped before the stack was created or updated.    CURRENT: The stack is currently up to date with the stack set.  
         public let stackInstanceStatus: StackInstanceStatus?
-        
+
         public init(account: String? = nil, region: String? = nil, stackInstanceStatus: StackInstanceStatus? = nil) {
             self.account = account
             self.region = region
@@ -6671,7 +6695,7 @@ extension ServiceCatalog {
         public let key: String
         /// The value for this key.
         public let value: String
-        
+
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -6708,7 +6732,7 @@ extension ServiceCatalog {
         public let key: String?
         /// The TagOption value.
         public let value: String?
-        
+
         public init(active: Bool? = nil, id: String? = nil, key: String? = nil, value: String? = nil) {
             self.active = active
             self.id = id
@@ -6745,7 +6769,7 @@ extension ServiceCatalog {
         public let key: String?
         /// The TagOption value.
         public let values: [String]?
-        
+
         public init(key: String? = nil, values: [String]? = nil) {
             self.key = key
             self.values = values
@@ -6787,7 +6811,7 @@ extension ServiceCatalog {
         public let provisionedProductName: String?
         /// An idempotency token that uniquely identifies the termination request. This token is only valid during the termination process. After the provisioned product is terminated, subsequent requests to terminate the same provisioned product always return ResourceNotFound.
         public let terminateToken: String
-        
+
         public init(acceptLanguage: String? = nil, ignoreErrors: Bool? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, terminateToken: String = TerminateProvisionedProductInput.idempotencyToken()) {
             self.acceptLanguage = acceptLanguage
             self.ignoreErrors = ignoreErrors
@@ -6825,7 +6849,7 @@ extension ServiceCatalog {
 
         /// Information about the result of this request.
         public let recordDetail: RecordDetail?
-        
+
         public init(recordDetail: RecordDetail? = nil) {
             self.recordDetail = recordDetail
         }
@@ -6855,7 +6879,7 @@ extension ServiceCatalog {
         public let id: String
         /// The constraint parameters, in JSON format. The syntax depends on the constraint type as follows:  LAUNCH  Specify the RoleArn property as follows:  {"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one LAUNCH constraint on a product and portfolio.  NOTIFICATION  Specify the NotificationArns property as follows:  {"NotificationArns" : ["arn:aws:sns:us-east-1:123456789012:Topic"]}   RESOURCE_UPDATE  Specify the TagUpdatesOnProvisionedProduct property as follows:  {"Version":"2.0","Properties":{"TagUpdateOnProvisionedProduct":"String"}}  The TagUpdatesOnProvisionedProduct property accepts a string value of ALLOWED or NOT_ALLOWED.  STACKSET  Specify the Parameters property as follows:  {"Version": "String", "Properties": {"AccountList": [ "String" ], "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole": "String"}}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a product and portfolio. Products with a STACKSET constraint will launch an AWS CloudFormation stack set.  TEMPLATE  Specify the Rules property. For more information, see Template Constraint Rules.  
         public let parameters: String?
-        
+
         public init(acceptLanguage: String? = nil, description: String? = nil, id: String, parameters: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.description = description
@@ -6892,7 +6916,7 @@ extension ServiceCatalog {
         public let constraintParameters: String?
         /// The status of the current request.
         public let status: Status?
-        
+
         public init(constraintDetail: ConstraintDetail? = nil, constraintParameters: String? = nil, status: Status? = nil) {
             self.constraintDetail = constraintDetail
             self.constraintParameters = constraintParameters
@@ -6935,7 +6959,7 @@ extension ServiceCatalog {
         public let providerName: String?
         /// The tags to remove.
         public let removeTags: [String]?
-        
+
         public init(acceptLanguage: String? = nil, addTags: [Tag]? = nil, description: String? = nil, displayName: String? = nil, id: String, providerName: String? = nil, removeTags: [String]? = nil) {
             self.acceptLanguage = acceptLanguage
             self.addTags = addTags
@@ -6988,7 +7012,7 @@ extension ServiceCatalog {
         public let portfolioDetail: PortfolioDetail?
         /// Information about the tags associated with the portfolio.
         public let tags: [Tag]?
-        
+
         public init(portfolioDetail: PortfolioDetail? = nil, tags: [Tag]? = nil) {
             self.portfolioDetail = portfolioDetail
             self.tags = tags
@@ -7045,7 +7069,7 @@ extension ServiceCatalog {
         public let supportEmail: String?
         /// The updated support URL for the product.
         public let supportUrl: String?
-        
+
         public init(acceptLanguage: String? = nil, addTags: [Tag]? = nil, description: String? = nil, distributor: String? = nil, id: String, name: String? = nil, owner: String? = nil, removeTags: [String]? = nil, supportDescription: String? = nil, supportEmail: String? = nil, supportUrl: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.addTags = addTags
@@ -7108,7 +7132,7 @@ extension ServiceCatalog {
         public let productViewDetail: ProductViewDetail?
         /// Information about the tags associated with the product.
         public let tags: [Tag]?
-        
+
         public init(productViewDetail: ProductViewDetail? = nil, tags: [Tag]? = nil) {
             self.productViewDetail = productViewDetail
             self.tags = tags
@@ -7162,7 +7186,7 @@ extension ServiceCatalog {
         public let tags: [Tag]?
         /// The idempotency token that uniquely identifies the provisioning update request.
         public let updateToken: String
-        
+
         public init(acceptLanguage: String? = nil, pathId: String? = nil, productId: String? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, provisioningArtifactId: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, provisioningPreferences: UpdateProvisioningPreferences? = nil, tags: [Tag]? = nil, updateToken: String = UpdateProvisionedProductInput.idempotencyToken()) {
             self.acceptLanguage = acceptLanguage
             self.pathId = pathId
@@ -7227,7 +7251,7 @@ extension ServiceCatalog {
 
         /// Information about the result of the request.
         public let recordDetail: RecordDetail?
-        
+
         public init(recordDetail: RecordDetail? = nil) {
             self.recordDetail = recordDetail
         }
@@ -7257,7 +7281,7 @@ extension ServiceCatalog {
         public let provisionedProductId: String
         /// A map that contains the provisioned product properties to be updated. The OWNER key only accepts user ARNs. The owner is the user that is allowed to see, update, terminate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM user within the same account. Both end user owners and administrators can see ownership history of the provisioned product using the ListRecordHistory API. The new owner can describe all past records for the provisioned product using the DescribeRecord API. The previous owner can no longer use DescribeRecord, but can still see the product's history from when he was an owner using ListRecordHistory. If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or Service Catalog console such as update, terminate, and execute service actions. If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through API or the Service Catalog console on that provisioned product.
         public let provisionedProductProperties: [PropertyKey: String]
-        
+
         public init(acceptLanguage: String? = nil, idempotencyToken: String = UpdateProvisionedProductPropertiesInput.idempotencyToken(), provisionedProductId: String, provisionedProductProperties: [PropertyKey: String]) {
             self.acceptLanguage = acceptLanguage
             self.idempotencyToken = idempotencyToken
@@ -7299,7 +7323,7 @@ extension ServiceCatalog {
         public let recordId: String?
         /// The status of the request.
         public let status: RecordStatus?
-        
+
         public init(provisionedProductId: String? = nil, provisionedProductProperties: [PropertyKey: String]? = nil, recordId: String? = nil, status: RecordStatus? = nil) {
             self.provisionedProductId = provisionedProductId
             self.provisionedProductProperties = provisionedProductProperties
@@ -7349,7 +7373,7 @@ extension ServiceCatalog {
         public let productId: String
         /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String
-        
+
         public init(acceptLanguage: String? = nil, active: Bool? = nil, description: String? = nil, guidance: ProvisioningArtifactGuidance? = nil, name: String? = nil, productId: String, provisioningArtifactId: String) {
             self.acceptLanguage = acceptLanguage
             self.active = active
@@ -7394,7 +7418,7 @@ extension ServiceCatalog {
         public let provisioningArtifactDetail: ProvisioningArtifactDetail?
         /// The status of the current request.
         public let status: Status?
-        
+
         public init(info: [String: String]? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, status: Status? = nil) {
             self.info = info
             self.provisioningArtifactDetail = provisioningArtifactDetail
@@ -7425,7 +7449,7 @@ extension ServiceCatalog {
         public let usePreviousValue: Bool?
         /// The parameter value.
         public let value: String?
-        
+
         public init(key: String? = nil, usePreviousValue: Bool? = nil, value: String? = nil) {
             self.key = key
             self.usePreviousValue = usePreviousValue
@@ -7470,7 +7494,7 @@ extension ServiceCatalog {
         public let stackSetOperationType: StackSetOperationType?
         /// One or more AWS Regions where the provisioned product will be available. Applicable only to a CFN_STACKSET provisioned product type. The specified regions should be within the list of regions from the STACKSET constraint. To get the list of regions in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all regions from the STACKSET constraint.
         public let stackSetRegions: [String]?
-        
+
         public init(stackSetAccounts: [String]? = nil, stackSetFailureToleranceCount: Int32? = nil, stackSetFailureTolerancePercentage: Int32? = nil, stackSetMaxConcurrencyCount: Int32? = nil, stackSetMaxConcurrencyPercentage: Int32? = nil, stackSetOperationType: StackSetOperationType? = nil, stackSetRegions: [String]? = nil) {
             self.stackSetAccounts = stackSetAccounts
             self.stackSetFailureToleranceCount = stackSetFailureToleranceCount
@@ -7523,7 +7547,7 @@ extension ServiceCatalog {
         public let id: String
         /// The self-service action name.
         public let name: String?
-        
+
         public init(acceptLanguage: String? = nil, definition: [ServiceActionDefinitionKey: String]? = nil, description: String? = nil, id: String, name: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.definition = definition
@@ -7559,7 +7583,7 @@ extension ServiceCatalog {
 
         /// Detailed information about the self-service action.
         public let serviceActionDetail: ServiceActionDetail?
-        
+
         public init(serviceActionDetail: ServiceActionDetail? = nil) {
             self.serviceActionDetail = serviceActionDetail
         }
@@ -7586,7 +7610,7 @@ extension ServiceCatalog {
         public let id: String
         /// The updated value.
         public let value: String?
-        
+
         public init(active: Bool? = nil, id: String, value: String? = nil) {
             self.active = active
             self.id = id
@@ -7615,7 +7639,7 @@ extension ServiceCatalog {
 
         /// Information about the TagOption.
         public let tagOptionDetail: TagOptionDetail?
-        
+
         public init(tagOptionDetail: TagOptionDetail? = nil) {
             self.tagOptionDetail = tagOptionDetail
         }
@@ -7639,7 +7663,7 @@ extension ServiceCatalog {
         public let `type`: String?
         /// The usage instruction value for this type.
         public let value: String?
-        
+
         public init(type: String? = nil, value: String? = nil) {
             self.`type` = `type`
             self.value = value
@@ -7650,5 +7674,4 @@ extension ServiceCatalog {
             case value = "Value"
         }
     }
-
 }

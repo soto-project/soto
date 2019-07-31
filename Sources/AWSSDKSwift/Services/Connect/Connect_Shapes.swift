@@ -46,7 +46,7 @@ extension Connect {
         public let securityProfileIds: [String]
         /// The user name in Amazon Connect for the account to create. If you are using SAML for identity management in your Amazon Connect, the value for Username can include up to 64 characters from [a-zA-Z0-9_-.\@]+.
         public let username: String
-        
+
         public init(directoryUserId: String? = nil, hierarchyGroupId: String? = nil, identityInfo: UserIdentityInfo? = nil, instanceId: String, password: String? = nil, phoneConfig: UserPhoneConfig, routingProfileId: String, securityProfileIds: [String], username: String) {
             self.directoryUserId = directoryUserId
             self.hierarchyGroupId = hierarchyGroupId
@@ -95,7 +95,7 @@ extension Connect {
         public let userArn: String?
         /// The unique identifier for the user account in Amazon Connect
         public let userId: String?
-        
+
         public init(userArn: String? = nil, userId: String? = nil) {
             self.userArn = userArn
             self.userId = userId
@@ -123,7 +123,7 @@ extension Connect {
         public let refreshToken: String?
         /// Renews the expiration timer for a generated token.
         public let refreshTokenExpiration: TimeStamp?
-        
+
         public init(accessToken: String? = nil, accessTokenExpiration: TimeStamp? = nil, refreshToken: String? = nil, refreshTokenExpiration: TimeStamp? = nil) {
             self.accessToken = accessToken
             self.accessTokenExpiration = accessTokenExpiration
@@ -149,7 +149,7 @@ extension Connect {
         public let name: CurrentMetricName?
         /// The unit for the metric.
         public let unit: Unit?
-        
+
         public init(name: CurrentMetricName? = nil, unit: Unit? = nil) {
             self.name = name
             self.unit = unit
@@ -171,7 +171,7 @@ extension Connect {
         public let metric: CurrentMetric?
         /// The value of the metric in the CurrentMetricData object.
         public let value: Double?
-        
+
         public init(metric: CurrentMetric? = nil, value: Double? = nil) {
             self.metric = metric
             self.value = value
@@ -207,7 +207,7 @@ extension Connect {
         public let collections: [CurrentMetricData]?
         /// The Dimensions for the CurrentMetricResult object.
         public let dimensions: Dimensions?
-        
+
         public init(collections: [CurrentMetricData]? = nil, dimensions: Dimensions? = nil) {
             self.collections = collections
             self.dimensions = dimensions
@@ -229,7 +229,7 @@ extension Connect {
         public let instanceId: String
         /// The unique identifier of the user to delete.
         public let userId: String
-        
+
         public init(instanceId: String, userId: String) {
             self.instanceId = instanceId
             self.userId = userId
@@ -256,7 +256,7 @@ extension Connect {
         public let hierarchyGroupId: String
         /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
         public let instanceId: String
-        
+
         public init(hierarchyGroupId: String, instanceId: String) {
             self.hierarchyGroupId = hierarchyGroupId
             self.instanceId = instanceId
@@ -280,7 +280,7 @@ extension Connect {
 
         /// Returns a HierarchyGroup object.
         public let hierarchyGroup: HierarchyGroup?
-        
+
         public init(hierarchyGroup: HierarchyGroup? = nil) {
             self.hierarchyGroup = hierarchyGroup
         }
@@ -297,7 +297,7 @@ extension Connect {
 
         /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
         public let instanceId: String
-        
+
         public init(instanceId: String) {
             self.instanceId = instanceId
         }
@@ -319,7 +319,7 @@ extension Connect {
 
         /// A HierarchyStructure object.
         public let hierarchyStructure: HierarchyStructure?
-        
+
         public init(hierarchyStructure: HierarchyStructure? = nil) {
             self.hierarchyStructure = hierarchyStructure
         }
@@ -339,7 +339,7 @@ extension Connect {
         public let instanceId: String
         /// Unique identifier for the user account to return.
         public let userId: String
-        
+
         public init(instanceId: String, userId: String) {
             self.instanceId = instanceId
             self.userId = userId
@@ -363,7 +363,7 @@ extension Connect {
 
         /// A User object that contains information about the user account and configuration settings.
         public let user: User?
-        
+
         public init(user: User? = nil) {
             self.user = user
         }
@@ -387,7 +387,7 @@ extension Connect {
         public let channel: Channel?
         /// A QueueReference object used as one part of dimension for the metrics results.
         public let queue: QueueReference?
-        
+
         public init(channel: Channel? = nil, queue: QueueReference? = nil) {
             self.channel = channel
             self.queue = queue
@@ -409,7 +409,7 @@ extension Connect {
         public let channels: [Channel]?
         /// A list of up to 100 queue IDs or queue ARNs to use to filter the metrics retrieved. You can include both IDs and ARNs in a request.
         public let queues: [String]?
-        
+
         public init(channels: [Channel]? = nil, queues: [String]? = nil) {
             self.channels = channels
             self.queues = queues
@@ -437,7 +437,7 @@ extension Connect {
         public let initialContactId: String
         /// The instance ID for the instance from which to retrieve contact attributes.
         public let instanceId: String
-        
+
         public init(initialContactId: String, instanceId: String) {
             self.initialContactId = initialContactId
             self.instanceId = instanceId
@@ -463,7 +463,7 @@ extension Connect {
 
         /// The attributes to update.
         public let attributes: [String: String]?
-        
+
         public init(attributes: [String: String]? = nil) {
             self.attributes = attributes
         }
@@ -495,7 +495,7 @@ extension Connect {
         public let maxResults: Int32?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. The token expires after 5 minutes from the time it is created. Subsequent requests that use the NextToken must use the same request parameters as the request that generated the token.
         public let nextToken: String?
-        
+
         public init(currentMetrics: [CurrentMetric], filters: Filters, groupings: [Grouping]? = nil, instanceId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.currentMetrics = currentMetrics
             self.filters = filters
@@ -537,7 +537,7 @@ extension Connect {
         public let metricResults: [CurrentMetricResult]?
         /// A string returned in the response. Use the value returned in the response as the value of the NextToken in a subsequent request to retrieve the next set of results. The token expires after 5 minutes from the time it is created. Subsequent requests that use the NextToken must use the same request parameters as the request that generated the token. 
         public let nextToken: String?
-        
+
         public init(dataSnapshotTime: TimeStamp? = nil, metricResults: [CurrentMetricResult]? = nil, nextToken: String? = nil) {
             self.dataSnapshotTime = dataSnapshotTime
             self.metricResults = metricResults
@@ -558,7 +558,7 @@ extension Connect {
 
         /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
         public let instanceId: String
-        
+
         public init(instanceId: String) {
             self.instanceId = instanceId
         }
@@ -580,7 +580,7 @@ extension Connect {
 
         /// The credentials to use for federation.
         public let credentials: Credentials?
-        
+
         public init(credentials: Credentials? = nil) {
             self.credentials = credentials
         }
@@ -618,7 +618,7 @@ extension Connect {
         public let nextToken: String?
         /// The timestamp, in UNIX Epoch time format, at which to start the reporting interval for the retrieval of historical metrics data. The time must be specified using a multiple of 5 minutes, such as 10:05, 10:10, 10:15.  StartTime cannot be earlier than 24 hours before the time of the request. Historical metrics are available in Amazon Connect only for 24 hours.
         public let startTime: TimeStamp
-        
+
         public init(endTime: TimeStamp, filters: Filters, groupings: [Grouping]? = nil, historicalMetrics: [HistoricalMetric], instanceId: String, maxResults: Int32? = nil, nextToken: String? = nil, startTime: TimeStamp) {
             self.endTime = endTime
             self.filters = filters
@@ -661,7 +661,7 @@ extension Connect {
         public let metricResults: [HistoricalMetricResult]?
         /// A string returned in the response. Use the value returned in the response as the value of the NextToken in a subsequent request to retrieve the next set of results. The token expires after 5 minutes from the time it is created. Subsequent requests that use the NextToken must use the same request parameters as the request that generated the token. 
         public let nextToken: String?
-        
+
         public init(metricResults: [HistoricalMetricResult]? = nil, nextToken: String? = nil) {
             self.metricResults = metricResults
             self.nextToken = nextToken
@@ -698,7 +698,7 @@ extension Connect {
         public let levelId: String?
         /// The name of the hierarchy group in your instance.
         public let name: String?
-        
+
         public init(arn: String? = nil, hierarchyPath: HierarchyPath? = nil, id: String? = nil, levelId: String? = nil, name: String? = nil) {
             self.arn = arn
             self.hierarchyPath = hierarchyPath
@@ -729,7 +729,7 @@ extension Connect {
         public let id: String?
         /// The name of the hierarchy group.
         public let name: String?
-        
+
         public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -756,7 +756,7 @@ extension Connect {
         public let id: String?
         /// The name of the hierarchy group level.
         public let name: String?
-        
+
         public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -789,7 +789,7 @@ extension Connect {
         public let levelThree: HierarchyGroupSummary?
         /// A HierarchyGroupSummary object that contains information about the level of the hierarchy group, including ARN, Id, and Name.
         public let levelTwo: HierarchyGroupSummary?
-        
+
         public init(levelFive: HierarchyGroupSummary? = nil, levelFour: HierarchyGroupSummary? = nil, levelOne: HierarchyGroupSummary? = nil, levelThree: HierarchyGroupSummary? = nil, levelTwo: HierarchyGroupSummary? = nil) {
             self.levelFive = levelFive
             self.levelFour = levelFour
@@ -826,7 +826,7 @@ extension Connect {
         public let levelThree: HierarchyLevel?
         /// A HierarchyLevel object that contains information about the hierarchy group level.
         public let levelTwo: HierarchyLevel?
-        
+
         public init(levelFive: HierarchyLevel? = nil, levelFour: HierarchyLevel? = nil, levelOne: HierarchyLevel? = nil, levelThree: HierarchyLevel? = nil, levelTwo: HierarchyLevel? = nil) {
             self.levelFive = levelFive
             self.levelFour = levelFour
@@ -860,7 +860,7 @@ extension Connect {
         public let threshold: Threshold?
         /// The unit for the metric.
         public let unit: Unit?
-        
+
         public init(name: HistoricalMetricName? = nil, statistic: Statistic? = nil, threshold: Threshold? = nil, unit: Unit? = nil) {
             self.name = name
             self.statistic = statistic
@@ -886,7 +886,7 @@ extension Connect {
         public let metric: HistoricalMetric?
         /// The Value of the metric.
         public let value: Double?
-        
+
         public init(metric: HistoricalMetric? = nil, value: Double? = nil) {
             self.metric = metric
             self.value = value
@@ -937,7 +937,7 @@ extension Connect {
         public let collections: [HistoricalMetricData]?
         /// The Dimensions for the metrics.
         public let dimensions: Dimensions?
-        
+
         public init(collections: [HistoricalMetricData]? = nil, dimensions: Dimensions? = nil) {
             self.collections = collections
             self.dimensions = dimensions
@@ -962,7 +962,7 @@ extension Connect {
         public let maxResults: Int32?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
-        
+
         public init(instanceId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -993,7 +993,7 @@ extension Connect {
         public let nextToken: String?
         /// An array of RoutingProfileSummary objects that include the ARN, Id, and Name of the routing profile.
         public let routingProfileSummaryList: [RoutingProfileSummary]?
-        
+
         public init(nextToken: String? = nil, routingProfileSummaryList: [RoutingProfileSummary]? = nil) {
             self.nextToken = nextToken
             self.routingProfileSummaryList = routingProfileSummaryList
@@ -1024,7 +1024,7 @@ extension Connect {
         public let maxResults: Int32?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
-        
+
         public init(instanceId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -1055,7 +1055,7 @@ extension Connect {
         public let nextToken: String?
         /// An array of SecurityProfileSummary objects.
         public let securityProfileSummaryList: [SecurityProfileSummary]?
-        
+
         public init(nextToken: String? = nil, securityProfileSummaryList: [SecurityProfileSummary]? = nil) {
             self.nextToken = nextToken
             self.securityProfileSummaryList = securityProfileSummaryList
@@ -1080,7 +1080,7 @@ extension Connect {
         public let maxResults: Int32?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
-        
+
         public init(instanceId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -1111,7 +1111,7 @@ extension Connect {
         public let nextToken: String?
         /// An array of HierarchyGroupSummary objects.
         public let userHierarchyGroupSummaryList: [HierarchyGroupSummary]?
-        
+
         public init(nextToken: String? = nil, userHierarchyGroupSummaryList: [HierarchyGroupSummary]? = nil) {
             self.nextToken = nextToken
             self.userHierarchyGroupSummaryList = userHierarchyGroupSummaryList
@@ -1136,7 +1136,7 @@ extension Connect {
         public let maxResults: Int32?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
-        
+
         public init(instanceId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -1167,7 +1167,7 @@ extension Connect {
         public let nextToken: String?
         /// An array of UserSummary objects that contain information about the users in your instance.
         public let userSummaryList: [UserSummary]?
-        
+
         public init(nextToken: String? = nil, userSummaryList: [UserSummary]? = nil) {
             self.nextToken = nextToken
             self.userSummaryList = userSummaryList
@@ -1201,7 +1201,7 @@ extension Connect {
         public let arn: String?
         /// The ID of the queue associated with the metrics returned.
         public let id: String?
-        
+
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -1226,7 +1226,7 @@ extension Connect {
         public let id: String?
         /// The name of the routing profile.
         public let name: String?
-        
+
         public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -1258,7 +1258,7 @@ extension Connect {
         public let id: String?
         /// The name of the security profile.
         public let name: String?
-        
+
         public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -1297,7 +1297,7 @@ extension Connect {
         public let queueId: String?
         /// The phone number, in E.164 format, associated with your Amazon Connect instance to use for the outbound call.
         public let sourcePhoneNumber: String?
-        
+
         public init(attributes: [String: String]? = nil, clientToken: String? = StartOutboundVoiceContactRequest.idempotencyToken(), contactFlowId: String, destinationPhoneNumber: String, instanceId: String, queueId: String? = nil, sourcePhoneNumber: String? = nil) {
             self.attributes = attributes
             self.clientToken = clientToken
@@ -1333,7 +1333,7 @@ extension Connect {
 
         /// The unique identifier of this contact within your Amazon Connect instance.
         public let contactId: String?
-        
+
         public init(contactId: String? = nil) {
             self.contactId = contactId
         }
@@ -1365,7 +1365,7 @@ extension Connect {
         public let contactId: String
         /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
         public let instanceId: String
-        
+
         public init(contactId: String, instanceId: String) {
             self.contactId = contactId
             self.instanceId = instanceId
@@ -1385,11 +1385,12 @@ extension Connect {
     }
 
     public struct StopContactResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Threshold: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1401,7 +1402,7 @@ extension Connect {
         public let comparison: Comparison?
         /// The value of the threshold to compare the metric to. Only "Less than" (LT) comparisons are supported.
         public let thresholdValue: Double?
-        
+
         public init(comparison: Comparison? = nil, thresholdValue: Double? = nil) {
             self.comparison = comparison
             self.thresholdValue = thresholdValue
@@ -1433,7 +1434,7 @@ extension Connect {
         public let initialContactId: String
         /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
         public let instanceId: String
-        
+
         public init(attributes: [String: String], initialContactId: String, instanceId: String) {
             self.attributes = attributes
             self.initialContactId = initialContactId
@@ -1455,11 +1456,12 @@ extension Connect {
     }
 
     public struct UpdateContactAttributesResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateUserHierarchyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1474,7 +1476,7 @@ extension Connect {
         public let instanceId: String
         /// The identifier of the user account to assign the hierarchy group to.
         public let userId: String
-        
+
         public init(hierarchyGroupId: String? = nil, instanceId: String, userId: String) {
             self.hierarchyGroupId = hierarchyGroupId
             self.instanceId = instanceId
@@ -1506,7 +1508,7 @@ extension Connect {
         public let instanceId: String
         /// The identifier for the user account to update identity information for.
         public let userId: String
-        
+
         public init(identityInfo: UserIdentityInfo, instanceId: String, userId: String) {
             self.identityInfo = identityInfo
             self.instanceId = instanceId
@@ -1539,7 +1541,7 @@ extension Connect {
         public let phoneConfig: UserPhoneConfig
         /// The identifier for the user account to change phone settings for.
         public let userId: String
-        
+
         public init(instanceId: String, phoneConfig: UserPhoneConfig, userId: String) {
             self.instanceId = instanceId
             self.phoneConfig = phoneConfig
@@ -1572,7 +1574,7 @@ extension Connect {
         public let routingProfileId: String
         /// The identifier for the user account to assign the routing profile to.
         public let userId: String
-        
+
         public init(instanceId: String, routingProfileId: String, userId: String) {
             self.instanceId = instanceId
             self.routingProfileId = routingProfileId
@@ -1604,7 +1606,7 @@ extension Connect {
         public let securityProfileIds: [String]
         /// The identifier of the user account to assign the security profiles.
         public let userId: String
-        
+
         public init(instanceId: String, securityProfileIds: [String], userId: String) {
             self.instanceId = instanceId
             self.securityProfileIds = securityProfileIds
@@ -1656,7 +1658,7 @@ extension Connect {
         public let securityProfileIds: [String]?
         /// The user name assigned to the user account.
         public let username: String?
-        
+
         public init(arn: String? = nil, directoryUserId: String? = nil, hierarchyGroupId: String? = nil, id: String? = nil, identityInfo: UserIdentityInfo? = nil, phoneConfig: UserPhoneConfig? = nil, routingProfileId: String? = nil, securityProfileIds: [String]? = nil, username: String? = nil) {
             self.arn = arn
             self.directoryUserId = directoryUserId
@@ -1705,7 +1707,7 @@ extension Connect {
         public let firstName: String?
         /// The last name used in the user account. This is required if you are using Amazon Connect or SAML for identity management.
         public let lastName: String?
-        
+
         public init(email: String? = nil, firstName: String? = nil, lastName: String? = nil) {
             self.email = email
             self.firstName = firstName
@@ -1742,7 +1744,7 @@ extension Connect {
         public let deskPhoneNumber: String?
         /// The phone type selected for the user, either Soft phone or Desk phone.
         public let phoneType: PhoneType
-        
+
         public init(afterContactWorkTimeLimit: Int32? = nil, autoAccept: Bool? = nil, deskPhoneNumber: String? = nil, phoneType: PhoneType) {
             self.afterContactWorkTimeLimit = afterContactWorkTimeLimit
             self.autoAccept = autoAccept
@@ -1775,7 +1777,7 @@ extension Connect {
         public let id: String?
         /// The Amazon Connect user name for the user account.
         public let username: String?
-        
+
         public init(arn: String? = nil, id: String? = nil, username: String? = nil) {
             self.arn = arn
             self.id = id
@@ -1794,5 +1796,4 @@ extension Connect {
             case username = "Username"
         }
     }
-
 }

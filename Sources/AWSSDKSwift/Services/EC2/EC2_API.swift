@@ -20,8 +20,7 @@ public struct EC2 {
             serviceProtocol: ServiceProtocol(type: .other("ec2")),
             apiVersion: "2016-11-15",
             endpoint: endpoint,
-            middlewares: []
-        )
+            middlewares: []        )
     }
 
     ///  Accepts the Convertible Reserved Instance exchange quote described in the GetReservedInstancesExchangeQuote call.
@@ -1783,5 +1782,4 @@ public struct EC2 {
     public func withdrawByoipCidr(_ input: WithdrawByoipCidrRequest) throws -> Future<WithdrawByoipCidrResult> {
         return try client.send(operation: "WithdrawByoipCidr", path: "/", httpMethod: "POST", input: input)
     }
-
 }

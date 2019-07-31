@@ -4,11 +4,15 @@ import Foundation
 import AWSSDKSwiftCore
 import NIO
 
-{% if middlewareFramework %}import {{ middlewareFramework }}
+{% if middlewareFramework %}
+import {{ middlewareFramework }}
 
-{% endif %}{%if description %}/**
+{% endif %}
+{%if description %}
+/**
 {{description}}
-*/{% endif %}
+*/
+{% endif %}
 public struct {{ name }} {
 
     let client: AWSClient
@@ -18,22 +22,34 @@ public struct {{ name }} {
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
             region: region,
-            {% if amzTarget %}amzTarget: "{{amzTarget}}",
-            {% endif %}service: "{{endpointPrefix}}",
+{% if amzTarget %}
+            amzTarget: "{{amzTarget}}",
+{% endif %}
+            service: "{{endpointPrefix}}",
             serviceProtocol: {{protocol}},
             apiVersion: "{{apiVersion}}",
             endpoint: endpoint,
-            {% if serviceEndpoints %}serviceEndpoints: [{{ serviceEndpoints|join:", "}}],
-            {% endif %}{% if partitionEndpoint %}partitionEndpoint: "{{partitionEndpoint}}",
-            {% endif %}middlewares: [{% if middlewareClass %}{{middlewareClass}}{% endif %}]{% if errorTypes %},
-            possibleErrorTypes: [{{errorTypes}}.self]{% endif %}
+{% if serviceEndpoints %}
+            serviceEndpoints: [{{ serviceEndpoints|join:", "}}],
+{% endif %}
+{% if partitionEndpoint %}
+            partitionEndpoint: "{{partitionEndpoint}}",
+{% endif %}
+            middlewares: [{% if middlewareClass %}{{middlewareClass}}{% endif %}]{% if errorTypes %},
+            possibleErrorTypes: [{{errorTypes}}.self]
+{% endif %}
         )
     }
-{% for op in operations %}
-    {%for comment in op.comment %}///  {{comment}}
-    {%endfor %}{%if op.deprecated %}@available(*, deprecated, message:"{{op.deprecated}}")
-    {%endif %}{% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}{% endif %}) throws -> Future<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
+{%for op in operations %}
+
+{%for comment in op.comment %}
+    ///  {{comment}}
+{%endfor %}
+{%if op.deprecated %}
+    @available(*, deprecated, message:"{{op.deprecated}}")
+{%endif %}
+    {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}{% endif %}) throws -> Future<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
         return try client.send(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: "{{op.httpMethod}}"{% if op.inputShape %}, input: input{% endif %})
     }
-{% endfor %}
+{%endfor %}
 }

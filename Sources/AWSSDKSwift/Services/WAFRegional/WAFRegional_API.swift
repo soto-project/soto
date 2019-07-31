@@ -422,5 +422,4 @@ public struct WAFRegional {
     public func updateXssMatchSet(_ input: UpdateXssMatchSetRequest) throws -> Future<UpdateXssMatchSetResponse> {
         return try client.send(operation: "UpdateXssMatchSet", path: "/", httpMethod: "POST", input: input)
     }
-
 }

@@ -104,5 +104,4 @@ public struct IoTEvents {
     public func updateInput(_ input: UpdateInputRequest) throws -> Future<UpdateInputResponse> {
         return try client.send(operation: "UpdateInput", path: "/inputs/{inputName}", httpMethod: "PUT", input: input)
     }
-
 }

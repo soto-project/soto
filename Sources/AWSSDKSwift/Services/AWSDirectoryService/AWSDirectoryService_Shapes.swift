@@ -12,7 +12,7 @@ extension AWSDirectoryService {
 
         /// Identifier of the shared directory in the directory consumer account. This identifier is different for each directory owner account. 
         public let sharedDirectoryId: String
-        
+
         public init(sharedDirectoryId: String) {
             self.sharedDirectoryId = sharedDirectoryId
         }
@@ -33,7 +33,7 @@ extension AWSDirectoryService {
 
         /// The shared directory in the directory consumer account.
         public let sharedDirectory: SharedDirectory?
-        
+
         public init(sharedDirectory: SharedDirectory? = nil) {
             self.sharedDirectory = sharedDirectory
         }
@@ -60,7 +60,7 @@ extension AWSDirectoryService {
         public let ipRoutes: [IpRoute]
         /// If set to true, updates the inbound and outbound rules of the security group that has the description: "AWS created security group for directory ID directory controllers." Following are the new rules:  Inbound:   Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: 0.0.0.0/0   Type: DNS (UDP), Protocol: UDP, Range: 53, Source: 0.0.0.0/0   Type: DNS (TCP), Protocol: TCP, Range: 53, Source: 0.0.0.0/0   Type: LDAP, Protocol: TCP, Range: 389, Source: 0.0.0.0/0   Type: All ICMP, Protocol: All, Range: N/A, Source: 0.0.0.0/0    Outbound:   Type: All traffic, Protocol: All, Range: All, Destination: 0.0.0.0/0   These security rules impact an internal network interface that is not exposed publicly.
         public let updateSecurityGroupForDirectoryControllers: Bool?
-        
+
         public init(directoryId: String, ipRoutes: [IpRoute], updateSecurityGroupForDirectoryControllers: Bool? = nil) {
             self.directoryId = directoryId
             self.ipRoutes = ipRoutes
@@ -82,11 +82,12 @@ extension AWSDirectoryService {
     }
 
     public struct AddIpRoutesResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct AddTagsToResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -98,7 +99,7 @@ extension AWSDirectoryService {
         public let resourceId: String
         /// The tags to be assigned to the directory.
         public let tags: [Tag]
-        
+
         public init(resourceId: String, tags: [Tag]) {
             self.resourceId = resourceId
             self.tags = tags
@@ -118,11 +119,12 @@ extension AWSDirectoryService {
     }
 
     public struct AddTagsToResourceResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Attribute: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -134,7 +136,7 @@ extension AWSDirectoryService {
         public let name: String?
         /// The value of the attribute.
         public let value: String?
-        
+
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -160,7 +162,7 @@ extension AWSDirectoryService {
         public let directoryId: String
         /// The identifier of the schema extension that will be canceled.
         public let schemaExtensionId: String
-        
+
         public init(directoryId: String, schemaExtensionId: String) {
             self.directoryId = directoryId
             self.schemaExtensionId = schemaExtensionId
@@ -178,11 +180,12 @@ extension AWSDirectoryService {
     }
 
     public struct CancelSchemaExtensionResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Computer: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -197,7 +200,7 @@ extension AWSDirectoryService {
         public let computerId: String?
         /// The computer name.
         public let computerName: String?
-        
+
         public init(computerAttributes: [Attribute]? = nil, computerId: String? = nil, computerName: String? = nil) {
             self.computerAttributes = computerAttributes
             self.computerId = computerId
@@ -235,7 +238,7 @@ extension AWSDirectoryService {
         public let remoteDomainName: String?
         /// The replication scope of the conditional forwarder. The only allowed value is Domain, which will replicate the conditional forwarder to all of the domain controllers for your AWS directory.
         public let replicationScope: ReplicationScope?
-        
+
         public init(dnsIpAddrs: [String]? = nil, remoteDomainName: String? = nil, replicationScope: ReplicationScope? = nil) {
             self.dnsIpAddrs = dnsIpAddrs
             self.remoteDomainName = remoteDomainName
@@ -281,7 +284,7 @@ extension AWSDirectoryService {
         public let size: DirectorySize
         /// The tags to be assigned to AD Connector.
         public let tags: [Tag]?
-        
+
         public init(connectSettings: DirectoryConnectSettings, description: String? = nil, name: String, password: String, shortName: String? = nil, size: DirectorySize, tags: [Tag]? = nil) {
             self.connectSettings = connectSettings
             self.description = description
@@ -324,7 +327,7 @@ extension AWSDirectoryService {
 
         /// The identifier of the new directory.
         public let directoryId: String?
-        
+
         public init(directoryId: String? = nil) {
             self.directoryId = directoryId
         }
@@ -348,7 +351,7 @@ extension AWSDirectoryService {
         public let alias: String
         /// The identifier of the directory for which to create the alias.
         public let directoryId: String
-        
+
         public init(alias: String, directoryId: String) {
             self.alias = alias
             self.directoryId = directoryId
@@ -377,7 +380,7 @@ extension AWSDirectoryService {
         public let alias: String?
         /// The identifier of the directory.
         public let directoryId: String?
-        
+
         public init(alias: String? = nil, directoryId: String? = nil) {
             self.alias = alias
             self.directoryId = directoryId
@@ -415,7 +418,7 @@ extension AWSDirectoryService {
         public let organizationalUnitDistinguishedName: String?
         /// A one-time password that is used to join the computer to the directory. You should generate a random, strong password to use for this parameter.
         public let password: String
-        
+
         public init(computerAttributes: [Attribute]? = nil, computerName: String, directoryId: String, organizationalUnitDistinguishedName: String? = nil, password: String) {
             self.computerAttributes = computerAttributes
             self.computerName = computerName
@@ -454,7 +457,7 @@ extension AWSDirectoryService {
 
         /// A Computer object that represents the computer account.
         public let computer: Computer?
-        
+
         public init(computer: Computer? = nil) {
             self.computer = computer
         }
@@ -481,7 +484,7 @@ extension AWSDirectoryService {
         public let dnsIpAddrs: [String]
         /// The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship.
         public let remoteDomainName: String
-        
+
         public init(directoryId: String, dnsIpAddrs: [String], remoteDomainName: String) {
             self.directoryId = directoryId
             self.dnsIpAddrs = dnsIpAddrs
@@ -504,11 +507,12 @@ extension AWSDirectoryService {
     }
 
     public struct CreateConditionalForwarderResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateDirectoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -535,7 +539,7 @@ extension AWSDirectoryService {
         public let tags: [Tag]?
         /// A DirectoryVpcSettings object that contains additional information for the operation.
         public let vpcSettings: DirectoryVpcSettings?
-        
+
         public init(description: String? = nil, name: String, password: String, shortName: String? = nil, size: DirectorySize, tags: [Tag]? = nil, vpcSettings: DirectoryVpcSettings? = nil) {
             self.description = description
             self.name = name
@@ -577,7 +581,7 @@ extension AWSDirectoryService {
 
         /// The identifier of the directory that was created.
         public let directoryId: String?
-        
+
         public init(directoryId: String? = nil) {
             self.directoryId = directoryId
         }
@@ -601,7 +605,7 @@ extension AWSDirectoryService {
         public let directoryId: String
         /// The name of the CloudWatch log group where the real-time domain controller logs are forwarded.
         public let logGroupName: String
-        
+
         public init(directoryId: String, logGroupName: String) {
             self.directoryId = directoryId
             self.logGroupName = logGroupName
@@ -621,11 +625,12 @@ extension AWSDirectoryService {
     }
 
     public struct CreateLogSubscriptionResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateMicrosoftADRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -652,7 +657,7 @@ extension AWSDirectoryService {
         public let tags: [Tag]?
         /// Contains VPC information for the CreateDirectory or CreateMicrosoftAD operation.
         public let vpcSettings: DirectoryVpcSettings
-        
+
         public init(description: String? = nil, edition: DirectoryEdition? = nil, name: String, password: String, shortName: String? = nil, tags: [Tag]? = nil, vpcSettings: DirectoryVpcSettings) {
             self.description = description
             self.edition = edition
@@ -694,7 +699,7 @@ extension AWSDirectoryService {
 
         /// The identifier of the directory that was created.
         public let directoryId: String?
-        
+
         public init(directoryId: String? = nil) {
             self.directoryId = directoryId
         }
@@ -718,7 +723,7 @@ extension AWSDirectoryService {
         public let directoryId: String
         /// The descriptive name to apply to the snapshot.
         public let name: String?
-        
+
         public init(directoryId: String, name: String? = nil) {
             self.directoryId = directoryId
             self.name = name
@@ -744,7 +749,7 @@ extension AWSDirectoryService {
 
         /// The identifier of the snapshot that was created.
         public let snapshotId: String?
-        
+
         public init(snapshotId: String? = nil) {
             self.snapshotId = snapshotId
         }
@@ -783,7 +788,7 @@ extension AWSDirectoryService {
         public let trustPassword: String
         /// The trust relationship type. Forest is the default.
         public let trustType: TrustType?
-        
+
         public init(conditionalForwarderIpAddrs: [String]? = nil, directoryId: String, remoteDomainName: String, selectiveAuth: SelectiveAuth? = nil, trustDirection: TrustDirection, trustPassword: String, trustType: TrustType? = nil) {
             self.conditionalForwarderIpAddrs = conditionalForwarderIpAddrs
             self.directoryId = directoryId
@@ -823,7 +828,7 @@ extension AWSDirectoryService {
 
         /// A unique identifier for the trust relationship that was created.
         public let trustId: String?
-        
+
         public init(trustId: String? = nil) {
             self.trustId = trustId
         }
@@ -847,7 +852,7 @@ extension AWSDirectoryService {
         public let directoryId: String
         /// The fully qualified domain name (FQDN) of the remote domain with which you are deleting the conditional forwarder.
         public let remoteDomainName: String
-        
+
         public init(directoryId: String, remoteDomainName: String) {
             self.directoryId = directoryId
             self.remoteDomainName = remoteDomainName
@@ -865,11 +870,12 @@ extension AWSDirectoryService {
     }
 
     public struct DeleteConditionalForwarderResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteDirectoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -878,7 +884,7 @@ extension AWSDirectoryService {
 
         /// The identifier of the directory to delete.
         public let directoryId: String
-        
+
         public init(directoryId: String) {
             self.directoryId = directoryId
         }
@@ -899,7 +905,7 @@ extension AWSDirectoryService {
 
         /// The directory identifier.
         public let directoryId: String?
-        
+
         public init(directoryId: String? = nil) {
             self.directoryId = directoryId
         }
@@ -920,7 +926,7 @@ extension AWSDirectoryService {
 
         /// Identifier (ID) of the directory whose log subscription you want to delete.
         public let directoryId: String
-        
+
         public init(directoryId: String) {
             self.directoryId = directoryId
         }
@@ -935,11 +941,12 @@ extension AWSDirectoryService {
     }
 
     public struct DeleteLogSubscriptionResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteSnapshotRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -948,7 +955,7 @@ extension AWSDirectoryService {
 
         /// The identifier of the directory snapshot to be deleted.
         public let snapshotId: String
-        
+
         public init(snapshotId: String) {
             self.snapshotId = snapshotId
         }
@@ -969,7 +976,7 @@ extension AWSDirectoryService {
 
         /// The identifier of the directory snapshot that was deleted.
         public let snapshotId: String?
-        
+
         public init(snapshotId: String? = nil) {
             self.snapshotId = snapshotId
         }
@@ -993,7 +1000,7 @@ extension AWSDirectoryService {
         public let deleteAssociatedConditionalForwarder: Bool?
         /// The Trust ID of the trust relationship to be deleted.
         public let trustId: String
-        
+
         public init(deleteAssociatedConditionalForwarder: Bool? = nil, trustId: String) {
             self.deleteAssociatedConditionalForwarder = deleteAssociatedConditionalForwarder
             self.trustId = trustId
@@ -1016,7 +1023,7 @@ extension AWSDirectoryService {
 
         /// The Trust ID of the trust relationship that was deleted.
         public let trustId: String?
-        
+
         public init(trustId: String? = nil) {
             self.trustId = trustId
         }
@@ -1040,7 +1047,7 @@ extension AWSDirectoryService {
         public let directoryId: String
         /// The name of the SNS topic from which to remove the directory as a publisher.
         public let topicName: String
-        
+
         public init(directoryId: String, topicName: String) {
             self.directoryId = directoryId
             self.topicName = topicName
@@ -1060,11 +1067,12 @@ extension AWSDirectoryService {
     }
 
     public struct DeregisterEventTopicResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeConditionalForwardersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1076,7 +1084,7 @@ extension AWSDirectoryService {
         public let directoryId: String
         /// The fully qualified domain names (FQDN) of the remote domains for which to get the list of associated conditional forwarders. If this member is null, all conditional forwarders are returned.
         public let remoteDomainNames: [String]?
-        
+
         public init(directoryId: String, remoteDomainNames: [String]? = nil) {
             self.directoryId = directoryId
             self.remoteDomainNames = remoteDomainNames
@@ -1102,7 +1110,7 @@ extension AWSDirectoryService {
 
         /// The list of conditional forwarders that have been created.
         public let conditionalForwarders: [ConditionalForwarder]?
-        
+
         public init(conditionalForwarders: [ConditionalForwarder]? = nil) {
             self.conditionalForwarders = conditionalForwarders
         }
@@ -1131,7 +1139,7 @@ extension AWSDirectoryService {
         public let limit: Int32?
         /// The DescribeDirectoriesResult.NextToken value from a previous call to DescribeDirectories. Pass null if this is the first call.
         public let nextToken: String?
-        
+
         public init(directoryIds: [String]? = nil, limit: Int32? = nil, nextToken: String? = nil) {
             self.directoryIds = directoryIds
             self.limit = limit
@@ -1162,7 +1170,7 @@ extension AWSDirectoryService {
         public let directoryDescriptions: [DirectoryDescription]?
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeDirectories to retrieve the next set of items.
         public let nextToken: String?
-        
+
         public init(directoryDescriptions: [DirectoryDescription]? = nil, nextToken: String? = nil) {
             self.directoryDescriptions = directoryDescriptions
             self.nextToken = nextToken
@@ -1196,7 +1204,7 @@ extension AWSDirectoryService {
         public let limit: Int32?
         /// The DescribeDomainControllers.NextToken value from a previous call to DescribeDomainControllers. Pass null if this is the first call. 
         public let nextToken: String?
-        
+
         public init(directoryId: String, domainControllerIds: [String]? = nil, limit: Int32? = nil, nextToken: String? = nil) {
             self.directoryId = directoryId
             self.domainControllerIds = domainControllerIds
@@ -1230,7 +1238,7 @@ extension AWSDirectoryService {
         public let domainControllers: [DomainController]?
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeDomainControllers retrieve the next set of items.
         public let nextToken: String?
-        
+
         public init(domainControllers: [DomainController]? = nil, nextToken: String? = nil) {
             self.domainControllers = domainControllers
             self.nextToken = nextToken
@@ -1258,7 +1266,7 @@ extension AWSDirectoryService {
         public let directoryId: String?
         /// A list of SNS topic names for which to obtain the information. If this member is null, all associations for the specified Directory ID are returned. An empty list results in an InvalidParameterException being thrown.
         public let topicNames: [String]?
-        
+
         public init(directoryId: String? = nil, topicNames: [String]? = nil) {
             self.directoryId = directoryId
             self.topicNames = topicNames
@@ -1286,7 +1294,7 @@ extension AWSDirectoryService {
 
         /// A list of SNS topic names that receive status messages from the specified Directory ID.
         public let eventTopics: [EventTopic]?
-        
+
         public init(eventTopics: [EventTopic]? = nil) {
             self.eventTopics = eventTopics
         }
@@ -1318,7 +1326,7 @@ extension AWSDirectoryService {
         public let ownerDirectoryId: String
         /// A list of identifiers of all shared directories in your account. 
         public let sharedDirectoryIds: [String]?
-        
+
         public init(limit: Int32? = nil, nextToken: String? = nil, ownerDirectoryId: String, sharedDirectoryIds: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -1352,7 +1360,7 @@ extension AWSDirectoryService {
         public let nextToken: String?
         /// A list of all shared directories in your account.
         public let sharedDirectories: [SharedDirectory]?
-        
+
         public init(nextToken: String? = nil, sharedDirectories: [SharedDirectory]? = nil) {
             self.nextToken = nextToken
             self.sharedDirectories = sharedDirectories
@@ -1386,7 +1394,7 @@ extension AWSDirectoryService {
         public let nextToken: String?
         /// A list of identifiers of the snapshots to obtain the information for. If this member is null or empty, all snapshots are returned using the Limit and NextToken members.
         public let snapshotIds: [String]?
-        
+
         public init(directoryId: String? = nil, limit: Int32? = nil, nextToken: String? = nil, snapshotIds: [String]? = nil) {
             self.directoryId = directoryId
             self.limit = limit
@@ -1420,7 +1428,7 @@ extension AWSDirectoryService {
         public let nextToken: String?
         /// The list of Snapshot objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
         public let snapshots: [Snapshot]?
-        
+
         public init(nextToken: String? = nil, snapshots: [Snapshot]? = nil) {
             self.nextToken = nextToken
             self.snapshots = snapshots
@@ -1454,7 +1462,7 @@ extension AWSDirectoryService {
         public let nextToken: String?
         /// A list of identifiers of the trust relationships for which to obtain the information. If this member is null, all trust relationships that belong to the current account are returned. An empty list results in an InvalidParameterException being thrown.
         public let trustIds: [String]?
-        
+
         public init(directoryId: String? = nil, limit: Int32? = nil, nextToken: String? = nil, trustIds: [String]? = nil) {
             self.directoryId = directoryId
             self.limit = limit
@@ -1488,7 +1496,7 @@ extension AWSDirectoryService {
         public let nextToken: String?
         /// The list of Trust objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
         public let trusts: [Trust]?
-        
+
         public init(nextToken: String? = nil, trusts: [Trust]? = nil) {
             self.nextToken = nextToken
             self.trusts = trusts
@@ -1522,7 +1530,7 @@ extension AWSDirectoryService {
         public let subnetIds: [String]
         /// The identifier of the VPC in which the AD Connector is created.
         public let vpcId: String
-        
+
         public init(customerDnsIps: [String], customerUserName: String, subnetIds: [String], vpcId: String) {
             self.customerDnsIps = customerDnsIps
             self.customerUserName = customerUserName
@@ -1572,7 +1580,7 @@ extension AWSDirectoryService {
         public let subnetIds: [String]?
         /// The identifier of the VPC that the AD Connector is in.
         public let vpcId: String?
-        
+
         public init(availabilityZones: [String]? = nil, connectIps: [String]? = nil, customerUserName: String? = nil, securityGroupId: String? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.connectIps = connectIps
@@ -1681,7 +1689,7 @@ extension AWSDirectoryService {
         public let `type`: DirectoryType?
         /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed AD directory.
         public let vpcSettings: DirectoryVpcSettingsDescription?
-        
+
         public init(accessUrl: String? = nil, alias: String? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, description: String? = nil, desiredNumberOfDomainControllers: Int32? = nil, directoryId: String? = nil, dnsIpAddrs: [String]? = nil, edition: DirectoryEdition? = nil, launchTime: TimeStamp? = nil, name: String? = nil, ownerDirectoryDescription: OwnerDirectoryDescription? = nil, radiusSettings: RadiusSettings? = nil, radiusStatus: RadiusStatus? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil, shortName: String? = nil, size: DirectorySize? = nil, ssoEnabled: Bool? = nil, stage: DirectoryStage? = nil, stageLastUpdatedDateTime: TimeStamp? = nil, stageReason: String? = nil, type: DirectoryType? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil) {
             self.accessUrl = accessUrl
             self.alias = alias
@@ -1797,7 +1805,7 @@ extension AWSDirectoryService {
         public let connectedDirectoriesLimit: Int32?
         /// Indicates if the connected directory limit has been reached.
         public let connectedDirectoriesLimitReached: Bool?
-        
+
         public init(cloudOnlyDirectoriesCurrentCount: Int32? = nil, cloudOnlyDirectoriesLimit: Int32? = nil, cloudOnlyDirectoriesLimitReached: Bool? = nil, cloudOnlyMicrosoftADCurrentCount: Int32? = nil, cloudOnlyMicrosoftADLimit: Int32? = nil, cloudOnlyMicrosoftADLimitReached: Bool? = nil, connectedDirectoriesCurrentCount: Int32? = nil, connectedDirectoriesLimit: Int32? = nil, connectedDirectoriesLimitReached: Bool? = nil) {
             self.cloudOnlyDirectoriesCurrentCount = cloudOnlyDirectoriesCurrentCount
             self.cloudOnlyDirectoriesLimit = cloudOnlyDirectoriesLimit
@@ -1871,7 +1879,7 @@ extension AWSDirectoryService {
         public let subnetIds: [String]
         /// The identifier of the VPC in which to create the directory.
         public let vpcId: String
-        
+
         public init(subnetIds: [String], vpcId: String) {
             self.subnetIds = subnetIds
             self.vpcId = vpcId
@@ -1906,7 +1914,7 @@ extension AWSDirectoryService {
         public let subnetIds: [String]?
         /// The identifier of the VPC that the directory is in.
         public let vpcId: String?
-        
+
         public init(availabilityZones: [String]? = nil, securityGroupId: String? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.securityGroupId = securityGroupId
@@ -1937,7 +1945,7 @@ extension AWSDirectoryService {
 
         /// The identifier of the directory for which to disable MFA.
         public let directoryId: String
-        
+
         public init(directoryId: String) {
             self.directoryId = directoryId
         }
@@ -1952,11 +1960,12 @@ extension AWSDirectoryService {
     }
 
     public struct DisableRadiusResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisableSsoRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1971,7 +1980,7 @@ extension AWSDirectoryService {
         public let password: String?
         /// The username of an alternate account to use to disable single-sign on. This is only used for AD Connector directories. This account must have privileges to remove a service principal name. If the AD Connector service account does not have privileges to remove a service principal name, you can specify an alternate account with the UserName and Password parameters. These credentials are only used to disable single sign-on and are not stored by the service. The AD Connector service account is not changed.
         public let userName: String?
-        
+
         public init(directoryId: String, password: String? = nil, userName: String? = nil) {
             self.directoryId = directoryId
             self.password = password
@@ -1994,11 +2003,12 @@ extension AWSDirectoryService {
     }
 
     public struct DisableSsoResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DomainController: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2034,7 +2044,7 @@ extension AWSDirectoryService {
         public let subnetId: String?
         /// The identifier of the VPC that contains the domain controller.
         public let vpcId: String?
-        
+
         public init(availabilityZone: String? = nil, directoryId: String? = nil, dnsIpAddr: String? = nil, domainControllerId: String? = nil, launchTime: TimeStamp? = nil, status: DomainControllerStatus? = nil, statusLastUpdatedDateTime: TimeStamp? = nil, statusReason: String? = nil, subnetId: String? = nil, vpcId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.directoryId = directoryId
@@ -2091,7 +2101,7 @@ extension AWSDirectoryService {
         public let directoryId: String
         /// A RadiusSettings object that contains information about the RADIUS server.
         public let radiusSettings: RadiusSettings
-        
+
         public init(directoryId: String, radiusSettings: RadiusSettings) {
             self.directoryId = directoryId
             self.radiusSettings = radiusSettings
@@ -2109,11 +2119,12 @@ extension AWSDirectoryService {
     }
 
     public struct EnableRadiusResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct EnableSsoRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2128,7 +2139,7 @@ extension AWSDirectoryService {
         public let password: String?
         /// The username of an alternate account to use to enable single-sign on. This is only used for AD Connector directories. This account must have privileges to add a service principal name. If the AD Connector service account does not have privileges to add a service principal name, you can specify an alternate account with the UserName and Password parameters. These credentials are only used to enable single sign-on and are not stored by the service. The AD Connector service account is not changed.
         public let userName: String?
-        
+
         public init(directoryId: String, password: String? = nil, userName: String? = nil) {
             self.directoryId = directoryId
             self.password = password
@@ -2151,11 +2162,12 @@ extension AWSDirectoryService {
     }
 
     public struct EnableSsoResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct EventTopic: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2176,7 +2188,7 @@ extension AWSDirectoryService {
         public let topicArn: String?
         /// The name of an AWS SNS topic the receives status messages from the directory.
         public let topicName: String?
-        
+
         public init(createdDateTime: TimeStamp? = nil, directoryId: String? = nil, status: TopicStatus? = nil, topicArn: String? = nil, topicName: String? = nil) {
             self.createdDateTime = createdDateTime
             self.directoryId = directoryId
@@ -2202,11 +2214,12 @@ extension AWSDirectoryService {
     }
 
     public struct GetDirectoryLimitsRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetDirectoryLimitsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2215,7 +2228,7 @@ extension AWSDirectoryService {
 
         /// A DirectoryLimits object that contains the directory limits for the current region.
         public let directoryLimits: DirectoryLimits?
-        
+
         public init(directoryLimits: DirectoryLimits? = nil) {
             self.directoryLimits = directoryLimits
         }
@@ -2236,7 +2249,7 @@ extension AWSDirectoryService {
 
         /// Contains the identifier of the directory to obtain the limits for.
         public let directoryId: String
-        
+
         public init(directoryId: String) {
             self.directoryId = directoryId
         }
@@ -2257,7 +2270,7 @@ extension AWSDirectoryService {
 
         /// A SnapshotLimits object that contains the manual snapshot limits for the specified directory.
         public let snapshotLimits: SnapshotLimits?
-        
+
         public init(snapshotLimits: SnapshotLimits? = nil) {
             self.snapshotLimits = snapshotLimits
         }
@@ -2281,7 +2294,7 @@ extension AWSDirectoryService {
         public let cidrIp: String?
         /// Description of the address block.
         public let description: String?
-        
+
         public init(cidrIp: String? = nil, description: String? = nil) {
             self.cidrIp = cidrIp
             self.description = description
@@ -2322,7 +2335,7 @@ extension AWSDirectoryService {
         public let ipRouteStatusMsg: IpRouteStatusMsg?
         /// The reason for the IpRouteStatusMsg.
         public let ipRouteStatusReason: String?
-        
+
         public init(addedDateTime: TimeStamp? = nil, cidrIp: String? = nil, description: String? = nil, directoryId: String? = nil, ipRouteStatusMsg: IpRouteStatusMsg? = nil, ipRouteStatusReason: String? = nil) {
             self.addedDateTime = addedDateTime
             self.cidrIp = cidrIp
@@ -2373,7 +2386,7 @@ extension AWSDirectoryService {
         public let limit: Int32?
         /// The ListIpRoutes.NextToken value from a previous call to ListIpRoutes. Pass null if this is the first call.
         public let nextToken: String?
-        
+
         public init(directoryId: String, limit: Int32? = nil, nextToken: String? = nil) {
             self.directoryId = directoryId
             self.limit = limit
@@ -2402,7 +2415,7 @@ extension AWSDirectoryService {
         public let ipRoutesInfo: [IpRouteInfo]?
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to ListIpRoutes to retrieve the next set of items.
         public let nextToken: String?
-        
+
         public init(ipRoutesInfo: [IpRouteInfo]? = nil, nextToken: String? = nil) {
             self.ipRoutesInfo = ipRoutesInfo
             self.nextToken = nextToken
@@ -2433,7 +2446,7 @@ extension AWSDirectoryService {
         public let limit: Int32?
         /// The token for the next set of items to return.
         public let nextToken: String?
-        
+
         public init(directoryId: String? = nil, limit: Int32? = nil, nextToken: String? = nil) {
             self.directoryId = directoryId
             self.limit = limit
@@ -2462,7 +2475,7 @@ extension AWSDirectoryService {
         public let logSubscriptions: [LogSubscription]?
         /// The token for the next set of items to return.
         public let nextToken: String?
-        
+
         public init(logSubscriptions: [LogSubscription]? = nil, nextToken: String? = nil) {
             self.logSubscriptions = logSubscriptions
             self.nextToken = nextToken
@@ -2493,7 +2506,7 @@ extension AWSDirectoryService {
         public let limit: Int32?
         /// The ListSchemaExtensions.NextToken value from a previous call to ListSchemaExtensions. Pass null if this is the first call.
         public let nextToken: String?
-        
+
         public init(directoryId: String, limit: Int32? = nil, nextToken: String? = nil) {
             self.directoryId = directoryId
             self.limit = limit
@@ -2522,7 +2535,7 @@ extension AWSDirectoryService {
         public let nextToken: String?
         /// Information about the schema extensions applied to the directory.
         public let schemaExtensionsInfo: [SchemaExtensionInfo]?
-        
+
         public init(nextToken: String? = nil, schemaExtensionsInfo: [SchemaExtensionInfo]? = nil) {
             self.nextToken = nextToken
             self.schemaExtensionsInfo = schemaExtensionsInfo
@@ -2553,7 +2566,7 @@ extension AWSDirectoryService {
         public let nextToken: String?
         /// Identifier (ID) of the directory for which you want to retrieve tags.
         public let resourceId: String
-        
+
         public init(limit: Int32? = nil, nextToken: String? = nil, resourceId: String) {
             self.limit = limit
             self.nextToken = nextToken
@@ -2582,7 +2595,7 @@ extension AWSDirectoryService {
         public let nextToken: String?
         /// List of tags returned by the ListTagsForResource operation.
         public let tags: [Tag]?
-        
+
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -2613,7 +2626,7 @@ extension AWSDirectoryService {
         public let logGroupName: String?
         /// The date and time that the log subscription was created.
         public let subscriptionCreatedDateTime: TimeStamp?
-        
+
         public init(directoryId: String? = nil, logGroupName: String? = nil, subscriptionCreatedDateTime: TimeStamp? = nil) {
             self.directoryId = directoryId
             self.logGroupName = logGroupName
@@ -2656,7 +2669,7 @@ extension AWSDirectoryService {
         public let radiusStatus: RadiusStatus?
         /// Information about the VPC settings for the directory.
         public let vpcSettings: DirectoryVpcSettingsDescription?
-        
+
         public init(accountId: String? = nil, directoryId: String? = nil, dnsIpAddrs: [String]? = nil, radiusSettings: RadiusSettings? = nil, radiusStatus: RadiusStatus? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil) {
             self.accountId = accountId
             self.directoryId = directoryId
@@ -2722,7 +2735,7 @@ extension AWSDirectoryService {
         public let sharedSecret: String?
         /// Not currently used.
         public let useSameUsername: Bool?
-        
+
         public init(authenticationProtocol: RadiusAuthenticationProtocol? = nil, displayLabel: String? = nil, radiusPort: Int32? = nil, radiusRetries: Int32? = nil, radiusServers: [String]? = nil, radiusTimeout: Int32? = nil, sharedSecret: String? = nil, useSameUsername: Bool? = nil) {
             self.authenticationProtocol = authenticationProtocol
             self.displayLabel = displayLabel
@@ -2780,7 +2793,7 @@ extension AWSDirectoryService {
         public let directoryId: String
         /// The SNS topic name to which the directory will publish status messages. This SNS topic must be in the same region as the specified Directory ID.
         public let topicName: String
-        
+
         public init(directoryId: String, topicName: String) {
             self.directoryId = directoryId
             self.topicName = topicName
@@ -2800,11 +2813,12 @@ extension AWSDirectoryService {
     }
 
     public struct RegisterEventTopicResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct RejectSharedDirectoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2813,7 +2827,7 @@ extension AWSDirectoryService {
 
         /// Identifier of the shared directory in the directory consumer account. This identifier is different for each directory owner account.
         public let sharedDirectoryId: String
-        
+
         public init(sharedDirectoryId: String) {
             self.sharedDirectoryId = sharedDirectoryId
         }
@@ -2834,7 +2848,7 @@ extension AWSDirectoryService {
 
         /// Identifier of the shared directory in the directory consumer account.
         public let sharedDirectoryId: String?
-        
+
         public init(sharedDirectoryId: String? = nil) {
             self.sharedDirectoryId = sharedDirectoryId
         }
@@ -2858,7 +2872,7 @@ extension AWSDirectoryService {
         public let cidrIps: [String]
         /// Identifier (ID) of the directory from which you want to remove the IP addresses.
         public let directoryId: String
-        
+
         public init(cidrIps: [String], directoryId: String) {
             self.cidrIps = cidrIps
             self.directoryId = directoryId
@@ -2878,11 +2892,12 @@ extension AWSDirectoryService {
     }
 
     public struct RemoveIpRoutesResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct RemoveTagsFromResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2894,7 +2909,7 @@ extension AWSDirectoryService {
         public let resourceId: String
         /// The tag key (name) of the tag to be removed.
         public let tagKeys: [String]
-        
+
         public init(resourceId: String, tagKeys: [String]) {
             self.resourceId = resourceId
             self.tagKeys = tagKeys
@@ -2916,11 +2931,12 @@ extension AWSDirectoryService {
     }
 
     public struct RemoveTagsFromResourceResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum ReplicationScope: String, CustomStringConvertible, Codable {
         case domain = "Domain"
@@ -2940,7 +2956,7 @@ extension AWSDirectoryService {
         public let newPassword: String
         /// The user name of the user whose password will be reset.
         public let userName: String
-        
+
         public init(directoryId: String, newPassword: String, userName: String) {
             self.directoryId = directoryId
             self.newPassword = newPassword
@@ -2964,11 +2980,12 @@ extension AWSDirectoryService {
     }
 
     public struct ResetUserPasswordResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct RestoreFromSnapshotRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2977,7 +2994,7 @@ extension AWSDirectoryService {
 
         /// The identifier of the snapshot to restore from.
         public let snapshotId: String
-        
+
         public init(snapshotId: String) {
             self.snapshotId = snapshotId
         }
@@ -2992,11 +3009,12 @@ extension AWSDirectoryService {
     }
 
     public struct RestoreFromSnapshotResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct SchemaExtensionInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3023,7 +3041,7 @@ extension AWSDirectoryService {
         public let schemaExtensionStatusReason: String?
         /// The date and time that the schema extension started being applied to the directory.
         public let startDateTime: TimeStamp?
-        
+
         public init(description: String? = nil, directoryId: String? = nil, endDateTime: TimeStamp? = nil, schemaExtensionId: String? = nil, schemaExtensionStatus: SchemaExtensionStatus? = nil, schemaExtensionStatusReason: String? = nil, startDateTime: TimeStamp? = nil) {
             self.description = description
             self.directoryId = directoryId
@@ -3088,7 +3106,7 @@ extension AWSDirectoryService {
         public let shareNotes: String?
         /// Identifier for the directory consumer account with whom the directory is to be shared.
         public let shareTarget: ShareTarget
-        
+
         public init(directoryId: String, shareMethod: ShareMethod, shareNotes: String? = nil, shareTarget: ShareTarget) {
             self.directoryId = directoryId
             self.shareMethod = shareMethod
@@ -3117,7 +3135,7 @@ extension AWSDirectoryService {
 
         /// Identifier of the directory that is stored in the directory consumer account that is shared from the specified directory (DirectoryId).
         public let sharedDirectoryId: String?
-        
+
         public init(sharedDirectoryId: String? = nil) {
             self.sharedDirectoryId = sharedDirectoryId
         }
@@ -3160,7 +3178,7 @@ extension AWSDirectoryService {
         public let id: String
         /// Type of identifier to be used in the Id field.
         public let `type`: TargetType
-        
+
         public init(id: String, type: TargetType) {
             self.id = id
             self.`type` = `type`
@@ -3208,7 +3226,7 @@ extension AWSDirectoryService {
         public let shareNotes: String?
         /// Current directory status of the shared AWS Managed Microsoft AD directory.
         public let shareStatus: ShareStatus?
-        
+
         public init(createdDateTime: TimeStamp? = nil, lastUpdatedDateTime: TimeStamp? = nil, ownerAccountId: String? = nil, ownerDirectoryId: String? = nil, sharedAccountId: String? = nil, sharedDirectoryId: String? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil) {
             self.createdDateTime = createdDateTime
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -3264,7 +3282,7 @@ extension AWSDirectoryService {
         public let status: SnapshotStatus?
         /// The snapshot type.
         public let `type`: SnapshotType?
-        
+
         public init(directoryId: String? = nil, name: String? = nil, snapshotId: String? = nil, startTime: TimeStamp? = nil, status: SnapshotStatus? = nil, type: SnapshotType? = nil) {
             self.directoryId = directoryId
             self.name = name
@@ -3305,7 +3323,7 @@ extension AWSDirectoryService {
         public let manualSnapshotsLimit: Int32?
         /// Indicates if the manual snapshot limit has been reached.
         public let manualSnapshotsLimitReached: Bool?
-        
+
         public init(manualSnapshotsCurrentCount: Int32? = nil, manualSnapshotsLimit: Int32? = nil, manualSnapshotsLimitReached: Bool? = nil) {
             self.manualSnapshotsCurrentCount = manualSnapshotsCurrentCount
             self.manualSnapshotsLimit = manualSnapshotsLimit
@@ -3353,7 +3371,7 @@ extension AWSDirectoryService {
         public let directoryId: String
         /// The LDIF file represented as a string. To construct the LdifContent string, precede each line as it would be formatted in an ldif file with \n. See the example request below for more details. The file size can be no larger than 1MB.
         public let ldifContent: String
-        
+
         public init(createSnapshotBeforeSchemaExtension: Bool, description: String, directoryId: String, ldifContent: String) {
             self.createSnapshotBeforeSchemaExtension = createSnapshotBeforeSchemaExtension
             self.description = description
@@ -3385,7 +3403,7 @@ extension AWSDirectoryService {
 
         /// The identifier of the schema extension that will be applied.
         public let schemaExtensionId: String?
-        
+
         public init(schemaExtensionId: String? = nil) {
             self.schemaExtensionId = schemaExtensionId
         }
@@ -3409,7 +3427,7 @@ extension AWSDirectoryService {
         public let key: String
         /// The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let value: String
-        
+
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -3480,7 +3498,7 @@ extension AWSDirectoryService {
         public let trustStateReason: String?
         /// The trust relationship type. Forest is the default.
         public let trustType: TrustType?
-        
+
         public init(createdDateTime: TimeStamp? = nil, directoryId: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, remoteDomainName: String? = nil, selectiveAuth: SelectiveAuth? = nil, stateLastUpdatedDateTime: TimeStamp? = nil, trustDirection: TrustDirection? = nil, trustId: String? = nil, trustState: TrustState? = nil, trustStateReason: String? = nil, trustType: TrustType? = nil) {
             self.createdDateTime = createdDateTime
             self.directoryId = directoryId
@@ -3554,7 +3572,7 @@ extension AWSDirectoryService {
         public let directoryId: String
         /// Identifier for the directory consumer account with whom the directory has to be unshared.
         public let unshareTarget: UnshareTarget
-        
+
         public init(directoryId: String, unshareTarget: UnshareTarget) {
             self.directoryId = directoryId
             self.unshareTarget = unshareTarget
@@ -3578,7 +3596,7 @@ extension AWSDirectoryService {
 
         /// Identifier of the directory stored in the directory consumer account that is to be unshared from the specified directory (DirectoryId).
         public let sharedDirectoryId: String?
-        
+
         public init(sharedDirectoryId: String? = nil) {
             self.sharedDirectoryId = sharedDirectoryId
         }
@@ -3602,7 +3620,7 @@ extension AWSDirectoryService {
         public let id: String
         /// Type of identifier to be used in the Id field.
         public let `type`: TargetType
-        
+
         public init(id: String, type: TargetType) {
             self.id = id
             self.`type` = `type`
@@ -3632,7 +3650,7 @@ extension AWSDirectoryService {
         public let dnsIpAddrs: [String]
         /// The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship.
         public let remoteDomainName: String
-        
+
         public init(directoryId: String, dnsIpAddrs: [String], remoteDomainName: String) {
             self.directoryId = directoryId
             self.dnsIpAddrs = dnsIpAddrs
@@ -3655,11 +3673,12 @@ extension AWSDirectoryService {
     }
 
     public struct UpdateConditionalForwarderResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateNumberOfDomainControllersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3671,7 +3690,7 @@ extension AWSDirectoryService {
         public let desiredNumber: Int32
         /// Identifier of the directory to which the domain controllers will be added or removed.
         public let directoryId: String
-        
+
         public init(desiredNumber: Int32, directoryId: String) {
             self.desiredNumber = desiredNumber
             self.directoryId = directoryId
@@ -3689,11 +3708,12 @@ extension AWSDirectoryService {
     }
 
     public struct UpdateNumberOfDomainControllersResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateRadiusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3705,7 +3725,7 @@ extension AWSDirectoryService {
         public let directoryId: String
         /// A RadiusSettings object that contains information about the RADIUS server.
         public let radiusSettings: RadiusSettings
-        
+
         public init(directoryId: String, radiusSettings: RadiusSettings) {
             self.directoryId = directoryId
             self.radiusSettings = radiusSettings
@@ -3723,11 +3743,12 @@ extension AWSDirectoryService {
     }
 
     public struct UpdateRadiusResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateTrustRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3739,7 +3760,7 @@ extension AWSDirectoryService {
         public let selectiveAuth: SelectiveAuth?
         /// Identifier of the trust relationship.
         public let trustId: String
-        
+
         public init(selectiveAuth: SelectiveAuth? = nil, trustId: String) {
             self.selectiveAuth = selectiveAuth
             self.trustId = trustId
@@ -3764,7 +3785,7 @@ extension AWSDirectoryService {
         public let requestId: String?
         /// Identifier of the trust relationship.
         public let trustId: String?
-        
+
         public init(requestId: String? = nil, trustId: String? = nil) {
             self.requestId = requestId
             self.trustId = trustId
@@ -3788,7 +3809,7 @@ extension AWSDirectoryService {
 
         /// The unique Trust ID of the trust relationship to verify.
         public let trustId: String
-        
+
         public init(trustId: String) {
             self.trustId = trustId
         }
@@ -3809,7 +3830,7 @@ extension AWSDirectoryService {
 
         /// The unique Trust ID of the trust relationship that was verified.
         public let trustId: String?
-        
+
         public init(trustId: String? = nil) {
             self.trustId = trustId
         }
@@ -3822,5 +3843,4 @@ extension AWSDirectoryService {
             case trustId = "TrustId"
         }
     }
-
 }

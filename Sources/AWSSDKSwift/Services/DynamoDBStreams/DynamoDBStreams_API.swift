@@ -46,5 +46,4 @@ public struct DynamoDBStreams {
     public func listStreams(_ input: ListStreamsInput) throws -> Future<ListStreamsOutput> {
         return try client.send(operation: "ListStreams", path: "/", httpMethod: "POST", input: input)
     }
-
 }

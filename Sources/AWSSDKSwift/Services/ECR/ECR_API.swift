@@ -151,5 +151,4 @@ public struct ECR {
     public func uploadLayerPart(_ input: UploadLayerPartRequest) throws -> Future<UploadLayerPartResponse> {
         return try client.send(operation: "UploadLayerPart", path: "/", httpMethod: "POST", input: input)
     }
-
 }

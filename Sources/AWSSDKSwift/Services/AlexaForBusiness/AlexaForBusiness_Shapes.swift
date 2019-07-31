@@ -18,7 +18,7 @@ extension AlexaForBusiness {
         public let description: String?
         /// The name of the address book.
         public let name: String?
-        
+
         public init(addressBookArn: String? = nil, description: String? = nil, name: String? = nil) {
             self.addressBookArn = addressBookArn
             self.description = description
@@ -55,7 +55,7 @@ extension AlexaForBusiness {
         public let description: String?
         /// The name of the address book.
         public let name: String?
-        
+
         public init(addressBookArn: String? = nil, description: String? = nil, name: String? = nil) {
             self.addressBookArn = addressBookArn
             self.description = description
@@ -86,7 +86,7 @@ extension AlexaForBusiness {
 
         /// The unique identifier of the skill.
         public let skillId: String
-        
+
         public init(skillId: String) {
             self.skillId = skillId
         }
@@ -101,11 +101,12 @@ extension AlexaForBusiness {
     }
 
     public struct ApproveSkillResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct AssociateContactWithAddressBookRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -117,7 +118,7 @@ extension AlexaForBusiness {
         public let addressBookArn: String
         /// The ARN of the contact to associate with an address book.
         public let contactArn: String
-        
+
         public init(addressBookArn: String, contactArn: String) {
             self.addressBookArn = addressBookArn
             self.contactArn = contactArn
@@ -135,11 +136,12 @@ extension AlexaForBusiness {
     }
 
     public struct AssociateContactWithAddressBookResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct AssociateDeviceWithNetworkProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -151,7 +153,7 @@ extension AlexaForBusiness {
         public let deviceArn: String
         /// The ARN of the network profile to associate with a device.
         public let networkProfileArn: String
-        
+
         public init(deviceArn: String, networkProfileArn: String) {
             self.deviceArn = deviceArn
             self.networkProfileArn = networkProfileArn
@@ -169,11 +171,12 @@ extension AlexaForBusiness {
     }
 
     public struct AssociateDeviceWithNetworkProfileResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct AssociateDeviceWithRoomRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -185,7 +188,7 @@ extension AlexaForBusiness {
         public let deviceArn: String?
         /// The ARN of the room with which to associate the device. Required.
         public let roomArn: String?
-        
+
         public init(deviceArn: String? = nil, roomArn: String? = nil) {
             self.deviceArn = deviceArn
             self.roomArn = roomArn
@@ -203,11 +206,12 @@ extension AlexaForBusiness {
     }
 
     public struct AssociateDeviceWithRoomResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct AssociateSkillGroupWithRoomRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -219,7 +223,7 @@ extension AlexaForBusiness {
         public let roomArn: String?
         /// The ARN of the skill group to associate with a room. Required.
         public let skillGroupArn: String?
-        
+
         public init(roomArn: String? = nil, skillGroupArn: String? = nil) {
             self.roomArn = roomArn
             self.skillGroupArn = skillGroupArn
@@ -237,11 +241,12 @@ extension AlexaForBusiness {
     }
 
     public struct AssociateSkillGroupWithRoomResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct AssociateSkillWithSkillGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -253,7 +258,7 @@ extension AlexaForBusiness {
         public let skillGroupArn: String?
         /// The unique identifier of the skill.
         public let skillId: String
-        
+
         public init(skillGroupArn: String? = nil, skillId: String) {
             self.skillGroupArn = skillGroupArn
             self.skillId = skillId
@@ -271,11 +276,12 @@ extension AlexaForBusiness {
     }
 
     public struct AssociateSkillWithSkillGroupResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct AssociateSkillWithUsersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -284,7 +290,7 @@ extension AlexaForBusiness {
 
         /// The private skill ID you want to make available to enrolled users.
         public let skillId: String
-        
+
         public init(skillId: String) {
             self.skillId = skillId
         }
@@ -299,11 +305,12 @@ extension AlexaForBusiness {
     }
 
     public struct AssociateSkillWithUsersResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Audio: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -315,7 +322,7 @@ extension AlexaForBusiness {
         public let locale: Locale
         /// The location of the audio file. Currently, S3 URLs are supported. Only S3 locations comprised of safe characters are valid. For more information, see Safe Characters.
         public let location: String
-        
+
         public init(locale: Locale, location: String) {
             self.locale = locale
             self.location = location
@@ -352,7 +359,7 @@ extension AlexaForBusiness {
         public let s3Location: BusinessReportS3Location?
         /// The status of the report generation execution (RUNNING, SUCCEEDED, or FAILED).
         public let status: BusinessReportStatus?
-        
+
         public init(deliveryTime: TimeStamp? = nil, downloadUrl: String? = nil, failureCode: BusinessReportFailureCode? = nil, s3Location: BusinessReportS3Location? = nil, status: BusinessReportStatus? = nil) {
             self.deliveryTime = deliveryTime
             self.downloadUrl = downloadUrl
@@ -381,7 +388,7 @@ extension AlexaForBusiness {
 
         /// The interval of the content range.
         public let interval: BusinessReportInterval?
-        
+
         public init(interval: BusinessReportInterval? = nil) {
             self.interval = interval
         }
@@ -417,7 +424,7 @@ extension AlexaForBusiness {
 
         /// The start date.
         public let startDate: String?
-        
+
         public init(startDate: String? = nil) {
             self.startDate = startDate
         }
@@ -441,7 +448,7 @@ extension AlexaForBusiness {
         public let bucketName: String?
         /// The path of the business report.
         public let path: String?
-        
+
         public init(bucketName: String? = nil, path: String? = nil) {
             self.bucketName = bucketName
             self.path = path
@@ -485,7 +492,7 @@ extension AlexaForBusiness {
         public let scheduleArn: String?
         /// The name identifier of the schedule.
         public let scheduleName: String?
-        
+
         public init(contentRange: BusinessReportContentRange? = nil, format: BusinessReportFormat? = nil, lastBusinessReport: BusinessReport? = nil, recurrence: BusinessReportRecurrence? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, scheduleArn: String? = nil, scheduleName: String? = nil) {
             self.contentRange = contentRange
             self.format = format
@@ -539,7 +546,7 @@ extension AlexaForBusiness {
         public let categoryId: Int64?
         /// The name of the skill store category.
         public let categoryName: String?
-        
+
         public init(categoryId: Int64? = nil, categoryName: String? = nil) {
             self.categoryId = categoryId
             self.categoryName = categoryName
@@ -569,7 +576,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the default conference provider.
         public let defaultConferenceProviderArn: String?
-        
+
         public init(defaultConferenceProviderArn: String? = nil) {
             self.defaultConferenceProviderArn = defaultConferenceProviderArn
         }
@@ -605,7 +612,7 @@ extension AlexaForBusiness {
         public let pSTNDialIn: PSTNDialIn?
         /// The type of conference providers.
         public let `type`: ConferenceProviderType?
-        
+
         public init(arn: String? = nil, iPDialIn: IPDialIn? = nil, meetingSetting: MeetingSetting? = nil, name: String? = nil, pSTNDialIn: PSTNDialIn? = nil, type: ConferenceProviderType? = nil) {
             self.arn = arn
             self.iPDialIn = iPDialIn
@@ -679,7 +686,7 @@ extension AlexaForBusiness {
         public let phoneNumbers: [PhoneNumber]?
         /// The list of SIP addresses for the contact.
         public let sipAddresses: [SipAddress]?
-        
+
         public init(contactArn: String? = nil, displayName: String? = nil, firstName: String? = nil, lastName: String? = nil, phoneNumber: String? = nil, phoneNumbers: [PhoneNumber]? = nil, sipAddresses: [SipAddress]? = nil) {
             self.contactArn = contactArn
             self.displayName = displayName
@@ -752,7 +759,7 @@ extension AlexaForBusiness {
         public let phoneNumbers: [PhoneNumber]?
         /// The list of SIP addresses for the contact.
         public let sipAddresses: [SipAddress]?
-        
+
         public init(contactArn: String? = nil, displayName: String? = nil, firstName: String? = nil, lastName: String? = nil, phoneNumber: String? = nil, phoneNumbers: [PhoneNumber]? = nil, sipAddresses: [SipAddress]? = nil) {
             self.contactArn = contactArn
             self.displayName = displayName
@@ -813,7 +820,7 @@ extension AlexaForBusiness {
         public let ssmlList: [Ssml]?
         /// The list of text messages.
         public let textList: [Text]?
-        
+
         public init(audioList: [Audio]? = nil, ssmlList: [Ssml]? = nil, textList: [Text]? = nil) {
             self.audioList = audioList
             self.ssmlList = ssmlList
@@ -855,7 +862,7 @@ extension AlexaForBusiness {
         public let description: String?
         /// The name of the address book.
         public let name: String
-        
+
         public init(clientRequestToken: String? = CreateAddressBookRequest.idempotencyToken(), description: String? = nil, name: String) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -888,7 +895,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the newly created address book.
         public let addressBookArn: String?
-        
+
         public init(addressBookArn: String? = nil) {
             self.addressBookArn = addressBookArn
         }
@@ -927,7 +934,7 @@ extension AlexaForBusiness {
         public let s3KeyPrefix: String?
         /// The name identifier of the schedule.
         public let scheduleName: String?
-        
+
         public init(clientRequestToken: String? = CreateBusinessReportScheduleRequest.idempotencyToken(), contentRange: BusinessReportContentRange, format: BusinessReportFormat, recurrence: BusinessReportRecurrence? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, scheduleName: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.contentRange = contentRange
@@ -970,7 +977,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the business report schedule.
         public let scheduleArn: String?
-        
+
         public init(scheduleArn: String? = nil) {
             self.scheduleArn = scheduleArn
         }
@@ -1006,7 +1013,7 @@ extension AlexaForBusiness {
         public let meetingSetting: MeetingSetting
         /// The information for PSTN conferencing.
         public let pSTNDialIn: PSTNDialIn?
-        
+
         public init(clientRequestToken: String? = CreateConferenceProviderRequest.idempotencyToken(), conferenceProviderName: String, conferenceProviderType: ConferenceProviderType, iPDialIn: IPDialIn? = nil, meetingSetting: MeetingSetting, pSTNDialIn: PSTNDialIn? = nil) {
             self.clientRequestToken = clientRequestToken
             self.conferenceProviderName = conferenceProviderName
@@ -1044,7 +1051,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the newly-created conference provider.
         public let conferenceProviderArn: String?
-        
+
         public init(conferenceProviderArn: String? = nil) {
             self.conferenceProviderArn = conferenceProviderArn
         }
@@ -1083,7 +1090,7 @@ extension AlexaForBusiness {
         public let phoneNumbers: [PhoneNumber]?
         /// The list of SIP addresses for the contact.
         public let sipAddresses: [SipAddress]?
-        
+
         public init(clientRequestToken: String? = CreateContactRequest.idempotencyToken(), displayName: String? = nil, firstName: String, lastName: String? = nil, phoneNumber: String? = nil, phoneNumbers: [PhoneNumber]? = nil, sipAddresses: [SipAddress]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.displayName = displayName
@@ -1140,7 +1147,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the newly created address book.
         public let contactArn: String?
-        
+
         public init(contactArn: String? = nil) {
             self.contactArn = contactArn
         }
@@ -1167,7 +1174,7 @@ extension AlexaForBusiness {
         public let description: String?
         /// The name of the gateway group.
         public let name: String
-        
+
         public init(clientRequestToken: String = CreateGatewayGroupRequest.idempotencyToken(), description: String? = nil, name: String) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -1199,7 +1206,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the created gateway group.
         public let gatewayGroupArn: String?
-        
+
         public init(gatewayGroupArn: String? = nil) {
             self.gatewayGroupArn = gatewayGroupArn
         }
@@ -1246,7 +1253,7 @@ extension AlexaForBusiness {
         public let ssid: String
         /// The root certificates of your authentication server that is installed on your devices and used to trust your authentication server during EAP negotiation. 
         public let trustAnchors: [String]?
-        
+
         public init(certificateAuthorityArn: String? = nil, clientRequestToken: String = CreateNetworkProfileRequest.idempotencyToken(), currentPassword: String? = nil, description: String? = nil, eapMethod: NetworkEapMethod? = nil, networkProfileName: String, nextPassword: String? = nil, securityType: NetworkSecurityType, ssid: String, trustAnchors: [String]? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.clientRequestToken = clientRequestToken
@@ -1308,7 +1315,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the network profile associated with a device.
         public let networkProfileArn: String?
-        
+
         public init(networkProfileArn: String? = nil) {
             self.networkProfileArn = networkProfileArn
         }
@@ -1356,7 +1363,7 @@ extension AlexaForBusiness {
         public let timezone: String
         /// A wake word for Alexa, Echo, Amazon, or a computer.
         public let wakeWord: WakeWord
-        
+
         public init(address: String, clientRequestToken: String? = CreateProfileRequest.idempotencyToken(), distanceUnit: DistanceUnit, maxVolumeLimit: Int32? = nil, profileName: String, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit, timezone: String, wakeWord: WakeWord) {
             self.address = address
             self.clientRequestToken = clientRequestToken
@@ -1404,7 +1411,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the newly created room profile in the response.
         public let profileArn: String?
-        
+
         public init(profileArn: String? = nil) {
             self.profileArn = profileArn
         }
@@ -1440,7 +1447,7 @@ extension AlexaForBusiness {
         public let roomName: String
         /// The tags for the room.
         public let tags: [Tag]?
-        
+
         public init(clientRequestToken: String? = CreateRoomRequest.idempotencyToken(), description: String? = nil, profileArn: String? = nil, providerCalendarId: String? = nil, roomName: String, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -1485,7 +1492,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the newly created room in the response.
         public let roomArn: String?
-        
+
         public init(roomArn: String? = nil) {
             self.roomArn = roomArn
         }
@@ -1512,7 +1519,7 @@ extension AlexaForBusiness {
         public let description: String?
         /// The name for the skill group.
         public let skillGroupName: String
-        
+
         public init(clientRequestToken: String? = CreateSkillGroupRequest.idempotencyToken(), description: String? = nil, skillGroupName: String) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -1545,7 +1552,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the newly created skill group in the response.
         public let skillGroupArn: String?
-        
+
         public init(skillGroupArn: String? = nil) {
             self.skillGroupArn = skillGroupArn
         }
@@ -1581,7 +1588,7 @@ extension AlexaForBusiness {
         public let tags: [Tag]?
         /// The ARN for the user.
         public let userId: String
-        
+
         public init(clientRequestToken: String? = CreateUserRequest.idempotencyToken(), email: String? = nil, firstName: String? = nil, lastName: String? = nil, tags: [Tag]? = nil, userId: String) {
             self.clientRequestToken = clientRequestToken
             self.email = email
@@ -1629,7 +1636,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the newly created user in the response.
         public let userArn: String?
-        
+
         public init(userArn: String? = nil) {
             self.userArn = userArn
         }
@@ -1650,7 +1657,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the address book to delete.
         public let addressBookArn: String
-        
+
         public init(addressBookArn: String) {
             self.addressBookArn = addressBookArn
         }
@@ -1665,11 +1672,12 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteAddressBookResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteBusinessReportScheduleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1678,7 +1686,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the business report schedule.
         public let scheduleArn: String
-        
+
         public init(scheduleArn: String) {
             self.scheduleArn = scheduleArn
         }
@@ -1693,11 +1701,12 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteBusinessReportScheduleResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteConferenceProviderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1706,7 +1715,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the conference provider.
         public let conferenceProviderArn: String
-        
+
         public init(conferenceProviderArn: String) {
             self.conferenceProviderArn = conferenceProviderArn
         }
@@ -1721,11 +1730,12 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteConferenceProviderResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteContactRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1734,7 +1744,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the contact to delete.
         public let contactArn: String
-        
+
         public init(contactArn: String) {
             self.contactArn = contactArn
         }
@@ -1749,11 +1759,12 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteContactResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteDeviceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1762,7 +1773,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the device for which to request details.
         public let deviceArn: String
-        
+
         public init(deviceArn: String) {
             self.deviceArn = deviceArn
         }
@@ -1777,11 +1788,12 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteDeviceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteDeviceUsageDataRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1793,7 +1805,7 @@ extension AlexaForBusiness {
         public let deviceArn: String
         /// The type of usage data to delete.
         public let deviceUsageType: DeviceUsageType
-        
+
         public init(deviceArn: String, deviceUsageType: DeviceUsageType) {
             self.deviceArn = deviceArn
             self.deviceUsageType = deviceUsageType
@@ -1810,11 +1822,12 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteDeviceUsageDataResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteGatewayGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1823,7 +1836,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the gateway group to delete.
         public let gatewayGroupArn: String
-        
+
         public init(gatewayGroupArn: String) {
             self.gatewayGroupArn = gatewayGroupArn
         }
@@ -1838,11 +1851,12 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteGatewayGroupResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteNetworkProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1851,7 +1865,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the network profile associated with a device.
         public let networkProfileArn: String
-        
+
         public init(networkProfileArn: String) {
             self.networkProfileArn = networkProfileArn
         }
@@ -1866,11 +1880,12 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteNetworkProfileResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1879,7 +1894,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the room profile to delete. Required.
         public let profileArn: String?
-        
+
         public init(profileArn: String? = nil) {
             self.profileArn = profileArn
         }
@@ -1894,11 +1909,12 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteProfileResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteRoomRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1907,7 +1923,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the room to delete. Required.
         public let roomArn: String?
-        
+
         public init(roomArn: String? = nil) {
             self.roomArn = roomArn
         }
@@ -1922,11 +1938,12 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteRoomResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteRoomSkillParameterRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1941,7 +1958,7 @@ extension AlexaForBusiness {
         public let roomArn: String?
         /// The ID of the skill from which to remove the room skill parameter details.
         public let skillId: String
-        
+
         public init(parameterKey: String, roomArn: String? = nil, skillId: String) {
             self.parameterKey = parameterKey
             self.roomArn = roomArn
@@ -1963,11 +1980,12 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteRoomSkillParameterResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteSkillAuthorizationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1979,7 +1997,7 @@ extension AlexaForBusiness {
         public let roomArn: String?
         /// The unique identifier of a skill.
         public let skillId: String
-        
+
         public init(roomArn: String? = nil, skillId: String) {
             self.roomArn = roomArn
             self.skillId = skillId
@@ -1997,11 +2015,12 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteSkillAuthorizationResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteSkillGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2010,7 +2029,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the skill group to delete. Required.
         public let skillGroupArn: String?
-        
+
         public init(skillGroupArn: String? = nil) {
             self.skillGroupArn = skillGroupArn
         }
@@ -2025,11 +2044,12 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteSkillGroupResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2041,7 +2061,7 @@ extension AlexaForBusiness {
         public let enrollmentId: String
         /// The ARN of the user to delete in the organization. Required.
         public let userArn: String?
-        
+
         public init(enrollmentId: String, userArn: String? = nil) {
             self.enrollmentId = enrollmentId
             self.userArn = userArn
@@ -2060,11 +2080,12 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteUserResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeveloperInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2082,7 +2103,7 @@ extension AlexaForBusiness {
         public let privacyPolicy: String?
         /// The website of the developer.
         public let url: String?
-        
+
         public init(developerName: String? = nil, email: String? = nil, privacyPolicy: String? = nil, url: String? = nil) {
             self.developerName = developerName
             self.email = email
@@ -2138,7 +2159,7 @@ extension AlexaForBusiness {
         public let roomArn: String?
         /// The software version of a device.
         public let softwareVersion: String?
-        
+
         public init(deviceArn: String? = nil, deviceName: String? = nil, deviceSerialNumber: String? = nil, deviceStatus: DeviceStatus? = nil, deviceStatusInfo: DeviceStatusInfo? = nil, deviceType: String? = nil, macAddress: String? = nil, networkProfileInfo: DeviceNetworkProfileInfo? = nil, roomArn: String? = nil, softwareVersion: String? = nil) {
             self.deviceArn = deviceArn
             self.deviceName = deviceName
@@ -2217,7 +2238,7 @@ extension AlexaForBusiness {
         public let roomName: String?
         /// The software version of a device.
         public let softwareVersion: String?
-        
+
         public init(deviceArn: String? = nil, deviceName: String? = nil, deviceSerialNumber: String? = nil, deviceStatus: DeviceStatus? = nil, deviceStatusInfo: DeviceStatusInfo? = nil, deviceType: String? = nil, macAddress: String? = nil, networkProfileArn: String? = nil, networkProfileName: String? = nil, roomArn: String? = nil, roomName: String? = nil, softwareVersion: String? = nil) {
             self.deviceArn = deviceArn
             self.deviceName = deviceName
@@ -2279,7 +2300,7 @@ extension AlexaForBusiness {
         public let `type`: DeviceEventType?
         /// The value of the event.
         public let value: String?
-        
+
         public init(timestamp: TimeStamp? = nil, type: DeviceEventType? = nil, value: String? = nil) {
             self.timestamp = timestamp
             self.`type` = `type`
@@ -2312,7 +2333,7 @@ extension AlexaForBusiness {
         public let certificateExpirationTime: TimeStamp?
         /// The ARN of the network profile associated with a device.
         public let networkProfileArn: String?
-        
+
         public init(certificateArn: String? = nil, certificateExpirationTime: TimeStamp? = nil, networkProfileArn: String? = nil) {
             self.certificateArn = certificateArn
             self.certificateExpirationTime = certificateExpirationTime
@@ -2350,7 +2371,7 @@ extension AlexaForBusiness {
         public let code: DeviceStatusDetailCode?
         /// The list of available features on the device.
         public let feature: Feature?
-        
+
         public init(code: DeviceStatusDetailCode? = nil, feature: Feature? = nil) {
             self.code = code
             self.feature = feature
@@ -2391,7 +2412,7 @@ extension AlexaForBusiness {
         public let connectionStatus: ConnectionStatus?
         /// One or more device status detail descriptions.
         public let deviceStatusDetails: [DeviceStatusDetail]?
-        
+
         public init(connectionStatus: ConnectionStatus? = nil, deviceStatusDetails: [DeviceStatusDetail]? = nil) {
             self.connectionStatus = connectionStatus
             self.deviceStatusDetails = deviceStatusDetails
@@ -2418,7 +2439,7 @@ extension AlexaForBusiness {
         public let addressBookArn: String
         /// The ARN of the contact to disassociate from an address book.
         public let contactArn: String
-        
+
         public init(addressBookArn: String, contactArn: String) {
             self.addressBookArn = addressBookArn
             self.contactArn = contactArn
@@ -2436,11 +2457,12 @@ extension AlexaForBusiness {
     }
 
     public struct DisassociateContactFromAddressBookResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociateDeviceFromRoomRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2449,7 +2471,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the device to disassociate from a room. Required.
         public let deviceArn: String?
-        
+
         public init(deviceArn: String? = nil) {
             self.deviceArn = deviceArn
         }
@@ -2464,11 +2486,12 @@ extension AlexaForBusiness {
     }
 
     public struct DisassociateDeviceFromRoomResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociateSkillFromSkillGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2480,7 +2503,7 @@ extension AlexaForBusiness {
         public let skillGroupArn: String?
         /// The ARN of a skill group to associate to a skill.
         public let skillId: String
-        
+
         public init(skillGroupArn: String? = nil, skillId: String) {
             self.skillGroupArn = skillGroupArn
             self.skillId = skillId
@@ -2498,11 +2521,12 @@ extension AlexaForBusiness {
     }
 
     public struct DisassociateSkillFromSkillGroupResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociateSkillFromUsersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2511,7 +2535,7 @@ extension AlexaForBusiness {
 
         ///  The private skill ID you want to make unavailable for enrolled users.
         public let skillId: String
-        
+
         public init(skillId: String) {
             self.skillId = skillId
         }
@@ -2526,11 +2550,12 @@ extension AlexaForBusiness {
     }
 
     public struct DisassociateSkillFromUsersResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociateSkillGroupFromRoomRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2542,7 +2567,7 @@ extension AlexaForBusiness {
         public let roomArn: String?
         /// The ARN of the skill group to disassociate from a room. Required.
         public let skillGroupArn: String?
-        
+
         public init(roomArn: String? = nil, skillGroupArn: String? = nil) {
             self.roomArn = roomArn
             self.skillGroupArn = skillGroupArn
@@ -2560,11 +2585,12 @@ extension AlexaForBusiness {
     }
 
     public struct DisassociateSkillGroupFromRoomResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum DistanceUnit: String, CustomStringConvertible, Codable {
         case metric = "METRIC"
@@ -2615,7 +2641,7 @@ extension AlexaForBusiness {
         public let key: String
         /// The values of a filter.
         public let values: [String]
-        
+
         public init(key: String, values: [String]) {
             self.key = key
             self.values = values
@@ -2644,7 +2670,7 @@ extension AlexaForBusiness {
 
         /// The room that the appliances are associated with.
         public let roomArn: String
-        
+
         public init(roomArn: String) {
             self.roomArn = roomArn
         }
@@ -2659,11 +2685,12 @@ extension AlexaForBusiness {
     }
 
     public struct ForgetSmartHomeAppliancesResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Gateway: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2684,7 +2711,7 @@ extension AlexaForBusiness {
         public let name: String?
         /// The software version of the gateway. The gateway automatically updates its software version during normal operation.
         public let softwareVersion: String?
-        
+
         public init(arn: String? = nil, description: String? = nil, gatewayGroupArn: String? = nil, name: String? = nil, softwareVersion: String? = nil) {
             self.arn = arn
             self.description = description
@@ -2728,7 +2755,7 @@ extension AlexaForBusiness {
         public let description: String?
         /// The name of the gateway group.
         public let name: String?
-        
+
         public init(arn: String? = nil, description: String? = nil, name: String? = nil) {
             self.arn = arn
             self.description = description
@@ -2764,7 +2791,7 @@ extension AlexaForBusiness {
         public let description: String?
         /// The name of the gateway group.
         public let name: String?
-        
+
         public init(arn: String? = nil, description: String? = nil, name: String? = nil) {
             self.arn = arn
             self.description = description
@@ -2806,7 +2833,7 @@ extension AlexaForBusiness {
         public let name: String?
         /// The software version of the gateway. The gateway automatically updates its software version during normal operation.
         public let softwareVersion: String?
-        
+
         public init(arn: String? = nil, description: String? = nil, gatewayGroupArn: String? = nil, name: String? = nil, softwareVersion: String? = nil) {
             self.arn = arn
             self.description = description
@@ -2844,7 +2871,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the address book for which to request details.
         public let addressBookArn: String
-        
+
         public init(addressBookArn: String) {
             self.addressBookArn = addressBookArn
         }
@@ -2865,7 +2892,7 @@ extension AlexaForBusiness {
 
         /// The details of the requested address book.
         public let addressBook: AddressBook?
-        
+
         public init(addressBook: AddressBook? = nil) {
             self.addressBook = addressBook
         }
@@ -2880,11 +2907,12 @@ extension AlexaForBusiness {
     }
 
     public struct GetConferencePreferenceRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetConferencePreferenceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2893,7 +2921,7 @@ extension AlexaForBusiness {
 
         /// The conference preference.
         public let preference: ConferencePreference?
-        
+
         public init(preference: ConferencePreference? = nil) {
             self.preference = preference
         }
@@ -2914,7 +2942,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the newly created conference provider.
         public let conferenceProviderArn: String
-        
+
         public init(conferenceProviderArn: String) {
             self.conferenceProviderArn = conferenceProviderArn
         }
@@ -2935,7 +2963,7 @@ extension AlexaForBusiness {
 
         /// The conference provider.
         public let conferenceProvider: ConferenceProvider?
-        
+
         public init(conferenceProvider: ConferenceProvider? = nil) {
             self.conferenceProvider = conferenceProvider
         }
@@ -2956,7 +2984,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the contact for which to request details.
         public let contactArn: String
-        
+
         public init(contactArn: String) {
             self.contactArn = contactArn
         }
@@ -2977,7 +3005,7 @@ extension AlexaForBusiness {
 
         /// The details of the requested contact.
         public let contact: Contact?
-        
+
         public init(contact: Contact? = nil) {
             self.contact = contact
         }
@@ -2998,7 +3026,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the device for which to request details. Required.
         public let deviceArn: String?
-        
+
         public init(deviceArn: String? = nil) {
             self.deviceArn = deviceArn
         }
@@ -3019,7 +3047,7 @@ extension AlexaForBusiness {
 
         /// The details of the device requested. Required.
         public let device: Device?
-        
+
         public init(device: Device? = nil) {
             self.device = device
         }
@@ -3040,7 +3068,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the gateway group to get.
         public let gatewayGroupArn: String
-        
+
         public init(gatewayGroupArn: String) {
             self.gatewayGroupArn = gatewayGroupArn
         }
@@ -3060,7 +3088,7 @@ extension AlexaForBusiness {
         ]
 
         public let gatewayGroup: GatewayGroup?
-        
+
         public init(gatewayGroup: GatewayGroup? = nil) {
             self.gatewayGroup = gatewayGroup
         }
@@ -3081,7 +3109,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the gateway to get.
         public let gatewayArn: String
-        
+
         public init(gatewayArn: String) {
             self.gatewayArn = gatewayArn
         }
@@ -3102,7 +3130,7 @@ extension AlexaForBusiness {
 
         /// The details of the gateway.
         public let gateway: Gateway?
-        
+
         public init(gateway: Gateway? = nil) {
             self.gateway = gateway
         }
@@ -3117,11 +3145,12 @@ extension AlexaForBusiness {
     }
 
     public struct GetInvitationConfigurationRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetInvitationConfigurationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3136,7 +3165,7 @@ extension AlexaForBusiness {
         public let organizationName: String?
         /// The list of private skill IDs that you want to recommend to the user to enable in the invitation.
         public let privateSkillIds: [String]?
-        
+
         public init(contactEmail: String? = nil, organizationName: String? = nil, privateSkillIds: [String]? = nil) {
             self.contactEmail = contactEmail
             self.organizationName = organizationName
@@ -3171,7 +3200,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the network profile associated with a device.
         public let networkProfileArn: String
-        
+
         public init(networkProfileArn: String) {
             self.networkProfileArn = networkProfileArn
         }
@@ -3192,7 +3221,7 @@ extension AlexaForBusiness {
 
         /// The network profile associated with a device.
         public let networkProfile: NetworkProfile?
-        
+
         public init(networkProfile: NetworkProfile? = nil) {
             self.networkProfile = networkProfile
         }
@@ -3213,7 +3242,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the room profile for which to request details. Required.
         public let profileArn: String?
-        
+
         public init(profileArn: String? = nil) {
             self.profileArn = profileArn
         }
@@ -3234,7 +3263,7 @@ extension AlexaForBusiness {
 
         /// The details of the room profile requested. Required.
         public let profile: Profile?
-        
+
         public init(profile: Profile? = nil) {
             self.profile = profile
         }
@@ -3255,7 +3284,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the room for which to request details. Required.
         public let roomArn: String?
-        
+
         public init(roomArn: String? = nil) {
             self.roomArn = roomArn
         }
@@ -3276,7 +3305,7 @@ extension AlexaForBusiness {
 
         /// The details of the room requested.
         public let room: Room?
-        
+
         public init(room: Room? = nil) {
             self.room = room
         }
@@ -3303,7 +3332,7 @@ extension AlexaForBusiness {
         public let roomArn: String?
         /// The ARN of the skill from which to get the room skill parameter details. Required.
         public let skillId: String
-        
+
         public init(parameterKey: String, roomArn: String? = nil, skillId: String) {
             self.parameterKey = parameterKey
             self.roomArn = roomArn
@@ -3331,7 +3360,7 @@ extension AlexaForBusiness {
 
         /// The details of the room skill parameter requested. Required.
         public let roomSkillParameter: RoomSkillParameter?
-        
+
         public init(roomSkillParameter: RoomSkillParameter? = nil) {
             self.roomSkillParameter = roomSkillParameter
         }
@@ -3352,7 +3381,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the skill group for which to get details. Required.
         public let skillGroupArn: String?
-        
+
         public init(skillGroupArn: String? = nil) {
             self.skillGroupArn = skillGroupArn
         }
@@ -3373,7 +3402,7 @@ extension AlexaForBusiness {
 
         /// The details of the skill group requested. Required.
         public let skillGroup: SkillGroup?
-        
+
         public init(skillGroup: SkillGroup? = nil) {
             self.skillGroup = skillGroup
         }
@@ -3397,7 +3426,7 @@ extension AlexaForBusiness {
         public let commsProtocol: CommsProtocol
         /// The IP address.
         public let endpoint: String
-        
+
         public init(commsProtocol: CommsProtocol, endpoint: String) {
             self.commsProtocol = commsProtocol
             self.endpoint = endpoint
@@ -3424,7 +3453,7 @@ extension AlexaForBusiness {
         public let maxResults: Int32?
         /// The token used to list the remaining schedules from the previous API call.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3453,7 +3482,7 @@ extension AlexaForBusiness {
         public let businessReportSchedules: [BusinessReportSchedule]?
         /// The token used to list the remaining schedules from the previous API call.
         public let nextToken: String?
-        
+
         public init(businessReportSchedules: [BusinessReportSchedule]? = nil, nextToken: String? = nil) {
             self.businessReportSchedules = businessReportSchedules
             self.nextToken = nextToken
@@ -3483,7 +3512,7 @@ extension AlexaForBusiness {
         public let maxResults: Int32?
         /// The tokens used for pagination.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3512,7 +3541,7 @@ extension AlexaForBusiness {
         public let conferenceProviders: [ConferenceProvider]?
         /// The tokens used for pagination.
         public let nextToken: String?
-        
+
         public init(conferenceProviders: [ConferenceProvider]? = nil, nextToken: String? = nil) {
             self.conferenceProviders = conferenceProviders
             self.nextToken = nextToken
@@ -3548,7 +3577,7 @@ extension AlexaForBusiness {
         public let maxResults: Int32?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response only includes results beyond the token, up to the value specified by MaxResults. When the end of results is reached, the response has a value of null.
         public let nextToken: String?
-        
+
         public init(deviceArn: String, eventType: DeviceEventType? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.deviceArn = deviceArn
             self.eventType = eventType
@@ -3582,7 +3611,7 @@ extension AlexaForBusiness {
         public let deviceEvents: [DeviceEvent]?
         /// The token returned to indicate that there is more data available.
         public let nextToken: String?
-        
+
         public init(deviceEvents: [DeviceEvent]? = nil, nextToken: String? = nil) {
             self.deviceEvents = deviceEvents
             self.nextToken = nextToken
@@ -3609,7 +3638,7 @@ extension AlexaForBusiness {
         public let maxResults: Int32?
         /// The token used to paginate though multiple pages of gateway group summaries.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3638,7 +3667,7 @@ extension AlexaForBusiness {
         public let gatewayGroups: [GatewayGroupSummary]?
         /// The token used to paginate though multiple pages of gateway group summaries.
         public let nextToken: String?
-        
+
         public init(gatewayGroups: [GatewayGroupSummary]? = nil, nextToken: String? = nil) {
             self.gatewayGroups = gatewayGroups
             self.nextToken = nextToken
@@ -3671,7 +3700,7 @@ extension AlexaForBusiness {
         public let maxResults: Int32?
         /// The token used to paginate though multiple pages of gateway summaries.
         public let nextToken: String?
-        
+
         public init(gatewayGroupArn: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.gatewayGroupArn = gatewayGroupArn
             self.maxResults = maxResults
@@ -3703,7 +3732,7 @@ extension AlexaForBusiness {
         public let gateways: [GatewaySummary]?
         /// The token used to paginate though multiple pages of gateway summaries.
         public let nextToken: String?
-        
+
         public init(gateways: [GatewaySummary]? = nil, nextToken: String? = nil) {
             self.gateways = gateways
             self.nextToken = nextToken
@@ -3742,7 +3771,7 @@ extension AlexaForBusiness {
         public let skillGroupArn: String?
         /// Whether the skill is publicly available or is a private skill.
         public let skillType: SkillTypeFilter?
-        
+
         public init(enablementType: EnablementTypeFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil, skillGroupArn: String? = nil, skillType: SkillTypeFilter? = nil) {
             self.enablementType = enablementType
             self.maxResults = maxResults
@@ -3778,7 +3807,7 @@ extension AlexaForBusiness {
         public let nextToken: String?
         /// The list of enabled skills requested. Required.
         public let skillSummaries: [SkillSummary]?
-        
+
         public init(nextToken: String? = nil, skillSummaries: [SkillSummary]? = nil) {
             self.nextToken = nextToken
             self.skillSummaries = skillSummaries
@@ -3808,7 +3837,7 @@ extension AlexaForBusiness {
         public let maxResults: Int32?
         /// The tokens used for pagination.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3837,7 +3866,7 @@ extension AlexaForBusiness {
         public let categoryList: [Category]?
         /// The tokens used for pagination.
         public let nextToken: String?
-        
+
         public init(categoryList: [Category]? = nil, nextToken: String? = nil) {
             self.categoryList = categoryList
             self.nextToken = nextToken
@@ -3870,7 +3899,7 @@ extension AlexaForBusiness {
         public let maxResults: Int32?
         /// The tokens used for pagination.
         public let nextToken: String?
-        
+
         public init(categoryId: Int64, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.categoryId = categoryId
             self.maxResults = maxResults
@@ -3902,7 +3931,7 @@ extension AlexaForBusiness {
         public let nextToken: String?
         /// The skill store skills.
         public let skillsStoreSkills: [SkillsStoreSkill]?
-        
+
         public init(nextToken: String? = nil, skillsStoreSkills: [SkillsStoreSkill]? = nil) {
             self.nextToken = nextToken
             self.skillsStoreSkills = skillsStoreSkills
@@ -3935,7 +3964,7 @@ extension AlexaForBusiness {
         public let nextToken: String?
         /// The room that the appliances are associated with.
         public let roomArn: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, roomArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3967,7 +3996,7 @@ extension AlexaForBusiness {
         public let nextToken: String?
         /// The smart home appliances.
         public let smartHomeAppliances: [SmartHomeAppliance]?
-        
+
         public init(nextToken: String? = nil, smartHomeAppliances: [SmartHomeAppliance]? = nil) {
             self.nextToken = nextToken
             self.smartHomeAppliances = smartHomeAppliances
@@ -3997,7 +4026,7 @@ extension AlexaForBusiness {
         public let maxResults: Int32?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. 
         public let nextToken: String?
-        
+
         public init(arn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.arn = arn
             self.maxResults = maxResults
@@ -4029,7 +4058,7 @@ extension AlexaForBusiness {
         public let nextToken: String?
         /// The tags requested for the specified resource.
         public let tags: [Tag]?
-        
+
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -4061,7 +4090,7 @@ extension AlexaForBusiness {
 
         /// The values that indicate whether the pin is always required.
         public let requirePin: RequirePin
-        
+
         public init(requirePin: RequirePin) {
             self.requirePin = requirePin
         }
@@ -4110,7 +4139,7 @@ extension AlexaForBusiness {
         public let ssid: String?
         /// The root certificates of your authentication server, which is installed on your devices and used to trust your authentication server during EAP negotiation.
         public let trustAnchors: [String]?
-        
+
         public init(certificateAuthorityArn: String? = nil, currentPassword: String? = nil, description: String? = nil, eapMethod: NetworkEapMethod? = nil, networkProfileArn: String? = nil, networkProfileName: String? = nil, nextPassword: String? = nil, securityType: NetworkSecurityType? = nil, ssid: String? = nil, trustAnchors: [String]? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.currentPassword = currentPassword
@@ -4188,7 +4217,7 @@ extension AlexaForBusiness {
         public let securityType: NetworkSecurityType?
         /// The SSID of the Wi-Fi network.
         public let ssid: String?
-        
+
         public init(certificateAuthorityArn: String? = nil, description: String? = nil, eapMethod: NetworkEapMethod? = nil, networkProfileArn: String? = nil, networkProfileName: String? = nil, securityType: NetworkSecurityType? = nil, ssid: String? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.description = description
@@ -4249,7 +4278,7 @@ extension AlexaForBusiness {
         public let oneClickPinDelay: String
         /// The phone number to call to join the conference.
         public let phoneNumber: String
-        
+
         public init(countryCode: String, oneClickIdDelay: String, oneClickPinDelay: String, phoneNumber: String) {
             self.countryCode = countryCode
             self.oneClickIdDelay = oneClickIdDelay
@@ -4284,7 +4313,7 @@ extension AlexaForBusiness {
         public let number: String
         /// The type of the phone number.
         public let `type`: PhoneNumberType
-        
+
         public init(number: String, type: PhoneNumberType) {
             self.number = number
             self.`type` = `type`
@@ -4349,7 +4378,7 @@ extension AlexaForBusiness {
         public let timezone: String?
         /// The wake word of a room profile.
         public let wakeWord: WakeWord?
-        
+
         public init(address: String? = nil, addressBookArn: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, maxVolumeLimit: Int32? = nil, profileArn: String? = nil, profileName: String? = nil, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
             self.address = address
             self.addressBookArn = addressBookArn
@@ -4421,7 +4450,7 @@ extension AlexaForBusiness {
         public let timezone: String?
         /// The wake word of a room profile.
         public let wakeWord: WakeWord?
-        
+
         public init(address: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, profileArn: String? = nil, profileName: String? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
             self.address = address
             self.distanceUnit = distanceUnit
@@ -4463,7 +4492,7 @@ extension AlexaForBusiness {
 
         /// The conference preference of a specific conference provider.
         public let conferencePreference: ConferencePreference
-        
+
         public init(conferencePreference: ConferencePreference) {
             self.conferencePreference = conferencePreference
         }
@@ -4478,11 +4507,12 @@ extension AlexaForBusiness {
     }
 
     public struct PutConferencePreferenceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct PutInvitationConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -4497,7 +4527,7 @@ extension AlexaForBusiness {
         public let organizationName: String
         /// The list of private skill IDs that you want to recommend to the user to enable in the invitation.
         public let privateSkillIds: [String]?
-        
+
         public init(contactEmail: String? = nil, organizationName: String, privateSkillIds: [String]? = nil) {
             self.contactEmail = contactEmail
             self.organizationName = organizationName
@@ -4526,11 +4556,12 @@ extension AlexaForBusiness {
     }
 
     public struct PutInvitationConfigurationResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct PutRoomSkillParameterRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -4545,7 +4576,7 @@ extension AlexaForBusiness {
         public let roomSkillParameter: RoomSkillParameter
         /// The ARN of the skill associated with the room skill parameter. Required.
         public let skillId: String
-        
+
         public init(roomArn: String? = nil, roomSkillParameter: RoomSkillParameter, skillId: String) {
             self.roomArn = roomArn
             self.roomSkillParameter = roomSkillParameter
@@ -4566,11 +4597,12 @@ extension AlexaForBusiness {
     }
 
     public struct PutRoomSkillParameterResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct PutSkillAuthorizationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -4585,7 +4617,7 @@ extension AlexaForBusiness {
         public let roomArn: String?
         /// The unique identifier of a skill.
         public let skillId: String
-        
+
         public init(authorizationResult: [String: String], roomArn: String? = nil, skillId: String) {
             self.authorizationResult = authorizationResult
             self.roomArn = roomArn
@@ -4605,11 +4637,12 @@ extension AlexaForBusiness {
     }
 
     public struct PutSkillAuthorizationResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct RegisterAVSDeviceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -4630,7 +4663,7 @@ extension AlexaForBusiness {
         public let productId: String
         /// The code that is obtained after your AVS device has made a POST request to LWA as a part of the Device Authorization Request component of the OAuth code-based linking specification.
         public let userCode: String
-        
+
         public init(amazonId: String, clientId: String, deviceSerialNumber: String, productId: String, userCode: String) {
             self.amazonId = amazonId
             self.clientId = clientId
@@ -4664,7 +4697,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the device.
         public let deviceArn: String?
-        
+
         public init(deviceArn: String? = nil) {
             self.deviceArn = deviceArn
         }
@@ -4685,7 +4718,7 @@ extension AlexaForBusiness {
 
         /// The unique identifier of the skill.
         public let skillId: String
-        
+
         public init(skillId: String) {
             self.skillId = skillId
         }
@@ -4700,11 +4733,12 @@ extension AlexaForBusiness {
     }
 
     public struct RejectSkillResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum RequirePin: String, CustomStringConvertible, Codable {
         case yes = "YES"
@@ -4723,7 +4757,7 @@ extension AlexaForBusiness {
         public let skillId: String
         /// The ARN of the user. Required.
         public let userId: String
-        
+
         public init(skillId: String, userId: String) {
             self.skillId = skillId
             self.userId = userId
@@ -4753,7 +4787,7 @@ extension AlexaForBusiness {
         public let roomName: String?
         /// Response to get the room profile request. Required.
         public let roomSkillParameters: [RoomSkillParameter]?
-        
+
         public init(roomArn: String? = nil, roomName: String? = nil, roomSkillParameters: [RoomSkillParameter]? = nil) {
             self.roomArn = roomArn
             self.roomName = roomName
@@ -4787,7 +4821,7 @@ extension AlexaForBusiness {
         public let enrollmentId: String?
         /// The ARN of the user for whom to revoke an enrollment invitation. Required.
         public let userArn: String?
-        
+
         public init(enrollmentId: String? = nil, userArn: String? = nil) {
             self.enrollmentId = enrollmentId
             self.userArn = userArn
@@ -4806,11 +4840,12 @@ extension AlexaForBusiness {
     }
 
     public struct RevokeInvitationResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Room: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -4831,7 +4866,7 @@ extension AlexaForBusiness {
         public let roomArn: String?
         /// The name of a room.
         public let roomName: String?
-        
+
         public init(description: String? = nil, profileArn: String? = nil, providerCalendarId: String? = nil, roomArn: String? = nil, roomName: String? = nil) {
             self.description = description
             self.profileArn = profileArn
@@ -4884,7 +4919,7 @@ extension AlexaForBusiness {
         public let roomArn: String?
         /// The name of a room.
         public let roomName: String?
-        
+
         public init(description: String? = nil, profileArn: String? = nil, profileName: String? = nil, providerCalendarId: String? = nil, roomArn: String? = nil, roomName: String? = nil) {
             self.description = description
             self.profileArn = profileArn
@@ -4930,7 +4965,7 @@ extension AlexaForBusiness {
         public let parameterKey: String
         /// The parameter value of a room skill parameter.
         public let parameterValue: String
-        
+
         public init(parameterKey: String, parameterValue: String) {
             self.parameterKey = parameterKey
             self.parameterValue = parameterValue
@@ -4965,7 +5000,7 @@ extension AlexaForBusiness {
         public let nextToken: String?
         /// The sort order to use in listing the specified set of address books. The supported sort key is AddressBookName.
         public let sortCriteria: [Sort]?
-        
+
         public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -5009,7 +5044,7 @@ extension AlexaForBusiness {
         public let nextToken: String?
         /// The total number of address books returned.
         public let totalCount: Int32?
-        
+
         public init(addressBooks: [AddressBookData]? = nil, nextToken: String? = nil, totalCount: Int32? = nil) {
             self.addressBooks = addressBooks
             self.nextToken = nextToken
@@ -5047,7 +5082,7 @@ extension AlexaForBusiness {
         public let nextToken: String?
         /// The sort order to use in listing the specified set of contacts. The supported sort keys are DisplayName, FirstName, and LastName.
         public let sortCriteria: [Sort]?
-        
+
         public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -5091,7 +5126,7 @@ extension AlexaForBusiness {
         public let nextToken: String?
         /// The total number of contacts returned.
         public let totalCount: Int32?
-        
+
         public init(contacts: [ContactData]? = nil, nextToken: String? = nil, totalCount: Int32? = nil) {
             self.contacts = contacts
             self.nextToken = nextToken
@@ -5129,7 +5164,7 @@ extension AlexaForBusiness {
         public let nextToken: String?
         /// The sort order to use in listing the specified set of devices. Supported sort keys are DeviceName, DeviceStatus, RoomName, DeviceType, DeviceSerialNumber, ConnectionStatus, NetworkProfileName, NetworkProfileArn, Feature, and FailureCode.
         public let sortCriteria: [Sort]?
-        
+
         public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -5173,7 +5208,7 @@ extension AlexaForBusiness {
         public let nextToken: String?
         /// The total number of devices returned.
         public let totalCount: Int32?
-        
+
         public init(devices: [DeviceData]? = nil, nextToken: String? = nil, totalCount: Int32? = nil) {
             self.devices = devices
             self.nextToken = nextToken
@@ -5211,7 +5246,7 @@ extension AlexaForBusiness {
         public let nextToken: String?
         /// The sort order to use to list the specified set of network profiles. Valid sort criteria includes NetworkProfileName, Ssid, and SecurityType.
         public let sortCriteria: [Sort]?
-        
+
         public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -5255,7 +5290,7 @@ extension AlexaForBusiness {
         public let nextToken: String?
         /// The total number of network profiles returned.
         public let totalCount: Int32?
-        
+
         public init(networkProfiles: [NetworkProfileData]? = nil, nextToken: String? = nil, totalCount: Int32? = nil) {
             self.networkProfiles = networkProfiles
             self.nextToken = nextToken
@@ -5293,7 +5328,7 @@ extension AlexaForBusiness {
         public let nextToken: String?
         /// The sort order to use in listing the specified set of room profiles. Supported sort keys are ProfileName and Address.
         public let sortCriteria: [Sort]?
-        
+
         public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -5337,7 +5372,7 @@ extension AlexaForBusiness {
         public let profiles: [ProfileData]?
         /// The total number of room profiles returned.
         public let totalCount: Int32?
-        
+
         public init(nextToken: String? = nil, profiles: [ProfileData]? = nil, totalCount: Int32? = nil) {
             self.nextToken = nextToken
             self.profiles = profiles
@@ -5375,7 +5410,7 @@ extension AlexaForBusiness {
         public let nextToken: String?
         /// The sort order to use in listing the specified set of rooms. The supported sort keys are RoomName and ProfileName.
         public let sortCriteria: [Sort]?
-        
+
         public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -5419,7 +5454,7 @@ extension AlexaForBusiness {
         public let rooms: [RoomData]?
         /// The total number of rooms returned.
         public let totalCount: Int32?
-        
+
         public init(nextToken: String? = nil, rooms: [RoomData]? = nil, totalCount: Int32? = nil) {
             self.nextToken = nextToken
             self.rooms = rooms
@@ -5457,7 +5492,7 @@ extension AlexaForBusiness {
         public let nextToken: String?
         /// The sort order to use in listing the specified set of skill groups. The supported sort key is SkillGroupName. 
         public let sortCriteria: [Sort]?
-        
+
         public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -5501,7 +5536,7 @@ extension AlexaForBusiness {
         public let skillGroups: [SkillGroupData]?
         /// The total number of skill groups returned.
         public let totalCount: Int32?
-        
+
         public init(nextToken: String? = nil, skillGroups: [SkillGroupData]? = nil, totalCount: Int32? = nil) {
             self.nextToken = nextToken
             self.skillGroups = skillGroups
@@ -5539,7 +5574,7 @@ extension AlexaForBusiness {
         public let nextToken: String?
         /// The sort order to use in listing the filtered set of users. Required. Supported sort keys are UserId, FirstName, LastName, Email, and EnrollmentStatus.
         public let sortCriteria: [Sort]?
-        
+
         public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -5583,7 +5618,7 @@ extension AlexaForBusiness {
         public let totalCount: Int32?
         /// The users that meet the specified set of filter criteria, in sort order.
         public let users: [UserData]?
-        
+
         public init(nextToken: String? = nil, totalCount: Int32? = nil, users: [UserData]? = nil) {
             self.nextToken = nextToken
             self.totalCount = totalCount
@@ -5621,7 +5656,7 @@ extension AlexaForBusiness {
         public let roomFilters: [Filter]
         /// The time to live for an announcement. Default is 300. If delivery doesn't occur within this time, the announcement is not delivered.
         public let timeToLiveInSeconds: Int32?
-        
+
         public init(clientRequestToken: String = SendAnnouncementRequest.idempotencyToken(), content: Content, roomFilters: [Filter], timeToLiveInSeconds: Int32? = nil) {
             self.clientRequestToken = clientRequestToken
             self.content = content
@@ -5657,7 +5692,7 @@ extension AlexaForBusiness {
 
         /// The identifier of the announcement.
         public let announcementArn: String?
-        
+
         public init(announcementArn: String? = nil) {
             self.announcementArn = announcementArn
         }
@@ -5678,7 +5713,7 @@ extension AlexaForBusiness {
 
         /// The ARN of the user to whom to send an invitation. Required.
         public let userArn: String?
-        
+
         public init(userArn: String? = nil) {
             self.userArn = userArn
         }
@@ -5693,11 +5728,12 @@ extension AlexaForBusiness {
     }
 
     public struct SendInvitationResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct SipAddress: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -5709,7 +5745,7 @@ extension AlexaForBusiness {
         public let `type`: SipType
         /// The URI for the SIP address.
         public let uri: String
-        
+
         public init(type: SipType, uri: String) {
             self.`type` = `type`
             self.uri = uri
@@ -5766,7 +5802,7 @@ extension AlexaForBusiness {
         public let reviews: [String: String]?
         /// The types of skills.
         public let skillTypes: [String]?
-        
+
         public init(bulletPoints: [String]? = nil, developerInfo: DeveloperInfo? = nil, endUserLicenseAgreement: String? = nil, genericKeywords: [String]? = nil, invocationPhrase: String? = nil, newInThisVersionBulletPoints: [String]? = nil, productDescription: String? = nil, releaseDate: String? = nil, reviews: [String: String]? = nil, skillTypes: [String]? = nil) {
             self.bulletPoints = bulletPoints
             self.developerInfo = developerInfo
@@ -5811,7 +5847,7 @@ extension AlexaForBusiness {
         public let skillGroupArn: String?
         /// The name of a skill group.
         public let skillGroupName: String?
-        
+
         public init(description: String? = nil, skillGroupArn: String? = nil, skillGroupName: String? = nil) {
             self.description = description
             self.skillGroupArn = skillGroupArn
@@ -5848,7 +5884,7 @@ extension AlexaForBusiness {
         public let skillGroupArn: String?
         /// The skill group name of a skill group.
         public let skillGroupName: String?
-        
+
         public init(description: String? = nil, skillGroupArn: String? = nil, skillGroupName: String? = nil) {
             self.description = description
             self.skillGroupArn = skillGroupArn
@@ -5891,7 +5927,7 @@ extension AlexaForBusiness {
         public let skillType: SkillType?
         /// Linking support for a skill.
         public let supportsLinking: Bool?
-        
+
         public init(enablementType: EnablementType? = nil, skillId: String? = nil, skillName: String? = nil, skillType: SkillType? = nil, supportsLinking: Bool? = nil) {
             self.enablementType = enablementType
             self.skillId = skillId
@@ -5954,7 +5990,7 @@ extension AlexaForBusiness {
         public let skillName: String?
         /// Linking support for a skill.
         public let supportsLinking: Bool?
-        
+
         public init(iconUrl: String? = nil, sampleUtterances: [String]? = nil, shortDescription: String? = nil, skillDetails: SkillDetails? = nil, skillId: String? = nil, skillName: String? = nil, supportsLinking: Bool? = nil) {
             self.iconUrl = iconUrl
             self.sampleUtterances = sampleUtterances
@@ -5997,7 +6033,7 @@ extension AlexaForBusiness {
         public let friendlyName: String?
         /// The name of the manufacturer of the smart home appliance.
         public let manufacturerName: String?
-        
+
         public init(description: String? = nil, friendlyName: String? = nil, manufacturerName: String? = nil) {
             self.description = description
             self.friendlyName = friendlyName
@@ -6021,7 +6057,7 @@ extension AlexaForBusiness {
         public let key: String
         /// The sort value of a sort object.
         public let value: SortValue
-        
+
         public init(key: String, value: SortValue) {
             self.key = key
             self.value = value
@@ -6054,7 +6090,7 @@ extension AlexaForBusiness {
         public let locale: Locale
         /// The value of the SSML message in the correct SSML format. The audio tag is not supported.
         public let value: String
-        
+
         public init(locale: Locale, value: String) {
             self.locale = locale
             self.value = value
@@ -6085,7 +6121,7 @@ extension AlexaForBusiness {
         public let features: [Feature]
         /// The ARN of the room with which the device to sync is associated. Required.
         public let roomArn: String?
-        
+
         public init(deviceArn: String? = nil, features: [Feature], roomArn: String? = nil) {
             self.deviceArn = deviceArn
             self.features = features
@@ -6105,11 +6141,12 @@ extension AlexaForBusiness {
     }
 
     public struct StartDeviceSyncResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct StartSmartHomeApplianceDiscoveryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -6118,7 +6155,7 @@ extension AlexaForBusiness {
 
         /// The room where smart home appliance discovery was initiated.
         public let roomArn: String
-        
+
         public init(roomArn: String) {
             self.roomArn = roomArn
         }
@@ -6133,11 +6170,12 @@ extension AlexaForBusiness {
     }
 
     public struct StartSmartHomeApplianceDiscoveryResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -6149,7 +6187,7 @@ extension AlexaForBusiness {
         public let key: String
         /// The value of a tag. Tag values are case-sensitive and can be null.
         public let value: String
-        
+
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -6180,7 +6218,7 @@ extension AlexaForBusiness {
         public let arn: String
         /// The tags to be added to the specified resource. Do not provide system tags. Required. 
         public let tags: [Tag]
-        
+
         public init(arn: String, tags: [Tag]) {
             self.arn = arn
             self.tags = tags
@@ -6200,11 +6238,12 @@ extension AlexaForBusiness {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum TemperatureUnit: String, CustomStringConvertible, Codable {
         case fahrenheit = "FAHRENHEIT"
@@ -6222,7 +6261,7 @@ extension AlexaForBusiness {
         public let locale: Locale
         /// The value of the text message.
         public let value: String
-        
+
         public init(locale: Locale, value: String) {
             self.locale = locale
             self.value = value
@@ -6250,7 +6289,7 @@ extension AlexaForBusiness {
         public let arn: String
         /// The tags to be removed from the specified resource. Do not provide system tags. Required. 
         public let tagKeys: [String]
-        
+
         public init(arn: String, tagKeys: [String]) {
             self.arn = arn
             self.tagKeys = tagKeys
@@ -6272,11 +6311,12 @@ extension AlexaForBusiness {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateAddressBookRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -6291,7 +6331,7 @@ extension AlexaForBusiness {
         public let description: String?
         /// The updated name of the room.
         public let name: String?
-        
+
         public init(addressBookArn: String, description: String? = nil, name: String? = nil) {
             self.addressBookArn = addressBookArn
             self.description = description
@@ -6316,11 +6356,12 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateAddressBookResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateBusinessReportScheduleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -6344,7 +6385,7 @@ extension AlexaForBusiness {
         public let scheduleArn: String
         /// The name identifier of the schedule.
         public let scheduleName: String?
-        
+
         public init(format: BusinessReportFormat? = nil, recurrence: BusinessReportRecurrence? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, scheduleArn: String, scheduleName: String? = nil) {
             self.format = format
             self.recurrence = recurrence
@@ -6377,11 +6418,12 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateBusinessReportScheduleResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateConferenceProviderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -6402,7 +6444,7 @@ extension AlexaForBusiness {
         public let meetingSetting: MeetingSetting
         /// The information for PSTN conferencing.
         public let pSTNDialIn: PSTNDialIn?
-        
+
         public init(conferenceProviderArn: String, conferenceProviderType: ConferenceProviderType, iPDialIn: IPDialIn? = nil, meetingSetting: MeetingSetting, pSTNDialIn: PSTNDialIn? = nil) {
             self.conferenceProviderArn = conferenceProviderArn
             self.conferenceProviderType = conferenceProviderType
@@ -6427,11 +6469,12 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateConferenceProviderResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateContactRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -6458,7 +6501,7 @@ extension AlexaForBusiness {
         public let phoneNumbers: [PhoneNumber]?
         /// The list of SIP addresses for the contact.
         public let sipAddresses: [SipAddress]?
-        
+
         public init(contactArn: String, displayName: String? = nil, firstName: String? = nil, lastName: String? = nil, phoneNumber: String? = nil, phoneNumbers: [PhoneNumber]? = nil, sipAddresses: [SipAddress]? = nil) {
             self.contactArn = contactArn
             self.displayName = displayName
@@ -6507,11 +6550,12 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateContactResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateDeviceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -6523,7 +6567,7 @@ extension AlexaForBusiness {
         public let deviceArn: String?
         /// The updated device name. Required.
         public let deviceName: String?
-        
+
         public init(deviceArn: String? = nil, deviceName: String? = nil) {
             self.deviceArn = deviceArn
             self.deviceName = deviceName
@@ -6543,11 +6587,12 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateDeviceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateGatewayGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -6562,7 +6607,7 @@ extension AlexaForBusiness {
         public let gatewayGroupArn: String
         /// The updated name of the gateway group.
         public let name: String?
-        
+
         public init(description: String? = nil, gatewayGroupArn: String, name: String? = nil) {
             self.description = description
             self.gatewayGroupArn = gatewayGroupArn
@@ -6586,11 +6631,12 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateGatewayGroupResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateGatewayRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -6608,7 +6654,7 @@ extension AlexaForBusiness {
         public let name: String?
         /// The updated software version of the gateway. The gateway automatically updates its software version during normal operation.
         public let softwareVersion: String?
-        
+
         public init(description: String? = nil, gatewayArn: String, name: String? = nil, softwareVersion: String? = nil) {
             self.description = description
             self.gatewayArn = gatewayArn
@@ -6637,11 +6683,12 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateGatewayResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateNetworkProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -6668,7 +6715,7 @@ extension AlexaForBusiness {
         public let nextPassword: String?
         /// The root certificate(s) of your authentication server that will be installed on your devices and used to trust your authentication server during EAP negotiation. 
         public let trustAnchors: [String]?
-        
+
         public init(certificateAuthorityArn: String? = nil, currentPassword: String? = nil, description: String? = nil, networkProfileArn: String, networkProfileName: String? = nil, nextPassword: String? = nil, trustAnchors: [String]? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.currentPassword = currentPassword
@@ -6713,11 +6760,12 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateNetworkProfileResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -6756,7 +6804,7 @@ extension AlexaForBusiness {
         public let timezone: String?
         /// The updated wake word for the room profile.
         public let wakeWord: WakeWord?
-        
+
         public init(address: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, maxVolumeLimit: Int32? = nil, profileArn: String? = nil, profileName: String? = nil, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
             self.address = address
             self.distanceUnit = distanceUnit
@@ -6798,11 +6846,12 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateProfileResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateRoomRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -6823,7 +6872,7 @@ extension AlexaForBusiness {
         public let roomArn: String?
         /// The updated name for the room.
         public let roomName: String?
-        
+
         public init(description: String? = nil, profileArn: String? = nil, providerCalendarId: String? = nil, roomArn: String? = nil, roomName: String? = nil) {
             self.description = description
             self.profileArn = profileArn
@@ -6855,11 +6904,12 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateRoomResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateSkillGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -6874,7 +6924,7 @@ extension AlexaForBusiness {
         public let skillGroupArn: String?
         /// The updated name for the skill group.
         public let skillGroupName: String?
-        
+
         public init(description: String? = nil, skillGroupArn: String? = nil, skillGroupName: String? = nil) {
             self.description = description
             self.skillGroupArn = skillGroupArn
@@ -6899,11 +6949,12 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateSkillGroupResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UserData: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -6927,7 +6978,7 @@ extension AlexaForBusiness {
         public let lastName: String?
         /// The ARN of a user.
         public let userArn: String?
-        
+
         public init(email: String? = nil, enrollmentId: String? = nil, enrollmentStatus: EnrollmentStatus? = nil, firstName: String? = nil, lastName: String? = nil, userArn: String? = nil) {
             self.email = email
             self.enrollmentId = enrollmentId
@@ -6969,5 +7020,4 @@ extension AlexaForBusiness {
         case computer = "COMPUTER"
         public var description: String { return self.rawValue }
     }
-
 }

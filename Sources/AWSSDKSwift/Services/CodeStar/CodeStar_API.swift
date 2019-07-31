@@ -115,5 +115,4 @@ public struct CodeStar {
     public func updateUserProfile(_ input: UpdateUserProfileRequest) throws -> Future<UpdateUserProfileResult> {
         return try client.send(operation: "UpdateUserProfile", path: "/", httpMethod: "POST", input: input)
     }
-
 }

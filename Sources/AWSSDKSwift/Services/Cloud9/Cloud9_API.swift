@@ -75,5 +75,4 @@ public struct Cloud9 {
     public func updateEnvironmentMembership(_ input: UpdateEnvironmentMembershipRequest) throws -> Future<UpdateEnvironmentMembershipResult> {
         return try client.send(operation: "UpdateEnvironmentMembership", path: "/", httpMethod: "POST", input: input)
     }
-
 }

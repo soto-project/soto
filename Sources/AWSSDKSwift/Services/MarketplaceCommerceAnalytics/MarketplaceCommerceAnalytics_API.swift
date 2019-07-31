@@ -35,5 +35,4 @@ public struct MarketplaceCommerceAnalytics {
     public func startSupportDataExport(_ input: StartSupportDataExportRequest) throws -> Future<StartSupportDataExportResult> {
         return try client.send(operation: "StartSupportDataExport", path: "/", httpMethod: "POST", input: input)
     }
-
 }

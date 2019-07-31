@@ -64,5 +64,4 @@ public struct PinpointSMSVoice {
     public func updateConfigurationSetEventDestination(_ input: UpdateConfigurationSetEventDestinationRequest) throws -> Future<UpdateConfigurationSetEventDestinationResponse> {
         return try client.send(operation: "UpdateConfigurationSetEventDestination", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: "PUT", input: input)
     }
-
 }

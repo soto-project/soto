@@ -34,7 +34,7 @@ extension RDSDataService {
         ///         If the SQL statement is not part of a transaction, don't set this
         ///             parameter.
         public let transactionId: String?
-        
+
         public init(database: String? = nil, parameterSets: [[SqlParameter]]? = nil, resourceArn: String, schema: String? = nil, secretArn: String, sql: String, transactionId: String? = nil) {
             self.database = database
             self.parameterSets = parameterSets
@@ -72,7 +72,7 @@ extension RDSDataService {
 
         /// The execution results of each batch entry.
         public let updateResults: [UpdateResult]?
-        
+
         public init(updateResults: [UpdateResult]? = nil) {
             self.updateResults = updateResults
         }
@@ -98,7 +98,7 @@ extension RDSDataService {
         public let schema: String?
         /// The name or ARN of the secret that enables access to the DB cluster.
         public let secretArn: String
-        
+
         public init(database: String? = nil, resourceArn: String, schema: String? = nil, secretArn: String) {
             self.database = database
             self.resourceArn = resourceArn
@@ -128,7 +128,7 @@ extension RDSDataService {
 
         /// The transaction ID of the transaction started by the call.
         public let transactionId: String?
-        
+
         public init(transactionId: String? = nil) {
             self.transactionId = transactionId
         }
@@ -188,7 +188,7 @@ extension RDSDataService {
         public let `type`: Int32?
         /// The database-specific data type of the column.
         public let typeName: String?
-        
+
         public init(arrayBaseColumnType: Int32? = nil, isAutoIncrement: Bool? = nil, isCaseSensitive: Bool? = nil, isCurrency: Bool? = nil, isSigned: Bool? = nil, label: String? = nil, name: String? = nil, nullable: Int32? = nil, precision: Int32? = nil, scale: Int32? = nil, schemaName: String? = nil, tableName: String? = nil, type: Int32? = nil, typeName: String? = nil) {
             self.arrayBaseColumnType = arrayBaseColumnType
             self.isAutoIncrement = isAutoIncrement
@@ -237,7 +237,7 @@ extension RDSDataService {
         public let secretArn: String
         /// The identifier of the transaction to end and commit.
         public let transactionId: String
-        
+
         public init(resourceArn: String, secretArn: String, transactionId: String) {
             self.resourceArn = resourceArn
             self.secretArn = secretArn
@@ -264,7 +264,7 @@ extension RDSDataService {
 
         /// The status of the commit operation.
         public let transactionStatus: String?
-        
+
         public init(transactionStatus: String? = nil) {
             self.transactionStatus = transactionStatus
         }
@@ -300,7 +300,7 @@ extension RDSDataService {
         ///             statement is permitted, including data definition, data manipulation, and commit
         ///             statements. 
         public let sqlStatements: String
-        
+
         public init(awsSecretStoreArn: String, database: String? = nil, dbClusterOrInstanceArn: String, schema: String? = nil, sqlStatements: String) {
             self.awsSecretStoreArn = awsSecretStoreArn
             self.database = database
@@ -333,7 +333,7 @@ extension RDSDataService {
 
         /// The results of the SQL statement or statements.
         public let sqlStatementResults: [SqlStatementResult]?
-        
+
         public init(sqlStatementResults: [SqlStatementResult]? = nil) {
             self.sqlStatementResults = sqlStatementResults
         }
@@ -384,7 +384,7 @@ extension RDSDataService {
         ///             transaction that you want to include the SQL statement in.
         ///         If the SQL statement is not part of a transaction, don't set this parameter.
         public let transactionId: String?
-        
+
         public init(continueAfterTimeout: Bool? = nil, database: String? = nil, includeResultMetadata: Bool? = nil, parameters: [SqlParameter]? = nil, resourceArn: String, schema: String? = nil, secretArn: String, sql: String, transactionId: String? = nil) {
             self.continueAfterTimeout = continueAfterTimeout
             self.database = database
@@ -435,7 +435,7 @@ extension RDSDataService {
         public let numberOfRecordsUpdated: Int64?
         /// The records returned by the SQL statement.
         public let records: [[Field]]?
-        
+
         public init(columnMetadata: [ColumnMetadata]? = nil, generatedFields: [Field]? = nil, numberOfRecordsUpdated: Int64? = nil, records: [[Field]]? = nil) {
             self.columnMetadata = columnMetadata
             self.generatedFields = generatedFields
@@ -473,7 +473,7 @@ extension RDSDataService {
         public let longValue: Int64?
         /// A value of string data type.
         public let stringValue: String?
-        
+
         public init(blobValue: Data? = nil, booleanValue: Bool? = nil, doubleValue: Double? = nil, isNull: Bool? = nil, longValue: Int64? = nil, stringValue: String? = nil) {
             self.blobValue = blobValue
             self.booleanValue = booleanValue
@@ -500,7 +500,7 @@ extension RDSDataService {
 
         /// The values returned in the record.
         public let values: [Value]?
-        
+
         public init(values: [Value]? = nil) {
             self.values = values
         }
@@ -520,7 +520,7 @@ extension RDSDataService {
         public let records: [Record]?
         /// The result-set metadata in the result set.
         public let resultSetMetadata: ResultSetMetadata?
-        
+
         public init(records: [Record]? = nil, resultSetMetadata: ResultSetMetadata? = nil) {
             self.records = records
             self.resultSetMetadata = resultSetMetadata
@@ -542,7 +542,7 @@ extension RDSDataService {
         public let columnCount: Int64?
         /// The metadata of the columns in the result set.
         public let columnMetadata: [ColumnMetadata]?
-        
+
         public init(columnCount: Int64? = nil, columnMetadata: [ColumnMetadata]? = nil) {
             self.columnCount = columnCount
             self.columnMetadata = columnMetadata
@@ -567,7 +567,7 @@ extension RDSDataService {
         public let secretArn: String
         /// The identifier of the transaction to roll back.
         public let transactionId: String
-        
+
         public init(resourceArn: String, secretArn: String, transactionId: String) {
             self.resourceArn = resourceArn
             self.secretArn = secretArn
@@ -594,7 +594,7 @@ extension RDSDataService {
 
         /// The status of the rollback operation.
         public let transactionStatus: String?
-        
+
         public init(transactionStatus: String? = nil) {
             self.transactionStatus = transactionStatus
         }
@@ -618,7 +618,7 @@ extension RDSDataService {
         public let name: String?
         /// The value of the parameter.
         public let value: Field?
-        
+
         public init(name: String? = nil, value: Field? = nil) {
             self.name = name
             self.value = value
@@ -640,7 +640,7 @@ extension RDSDataService {
         public let numberOfRecordsUpdated: Int64?
         /// The result set of the SQL statement.
         public let resultFrame: ResultFrame?
-        
+
         public init(numberOfRecordsUpdated: Int64? = nil, resultFrame: ResultFrame? = nil) {
             self.numberOfRecordsUpdated = numberOfRecordsUpdated
             self.resultFrame = resultFrame
@@ -659,7 +659,7 @@ extension RDSDataService {
 
         /// The attributes returned in the record.
         public let attributes: [Value]?
-        
+
         public init(attributes: [Value]? = nil) {
             self.attributes = attributes
         }
@@ -676,7 +676,7 @@ extension RDSDataService {
 
         /// Values for fields generated during the request.
         public let generatedFields: [Field]?
-        
+
         public init(generatedFields: [Field]? = nil) {
             self.generatedFields = generatedFields
         }
@@ -720,7 +720,7 @@ extension RDSDataService {
         public let stringValue: String?
         /// A value for a column of STRUCT data type.
         public let structValue: StructValue?
-        
+
         public init(arrayValues: [Value]? = nil, bigIntValue: Int64? = nil, bitValue: Bool? = nil, blobValue: Data? = nil, doubleValue: Double? = nil, intValue: Int32? = nil, isNull: Bool? = nil, realValue: Float? = nil, stringValue: String? = nil, structValue: StructValue? = nil) {
             self.arrayValues = arrayValues
             self.bigIntValue = bigIntValue
@@ -747,5 +747,4 @@ extension RDSDataService {
             case structValue = "structValue"
         }
     }
-
 }

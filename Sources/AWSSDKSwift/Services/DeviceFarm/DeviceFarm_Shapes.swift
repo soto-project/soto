@@ -33,7 +33,7 @@ extension DeviceFarm {
         public let unmeteredDevices: [DevicePlatform: Int32]?
         /// Returns the unmetered remote access devices you have purchased or want to purchase.
         public let unmeteredRemoteAccessDevices: [DevicePlatform: Int32]?
-        
+
         public init(awsAccountNumber: String? = nil, defaultJobTimeoutMinutes: Int32? = nil, maxJobTimeoutMinutes: Int32? = nil, maxSlots: [String: Int32]? = nil, skipAppResign: Bool? = nil, trialMinutes: TrialMinutes? = nil, unmeteredDevices: [DevicePlatform: Int32]? = nil, unmeteredRemoteAccessDevices: [DevicePlatform: Int32]? = nil) {
             self.awsAccountNumber = awsAccountNumber
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
@@ -81,7 +81,7 @@ extension DeviceFarm {
         public let `type`: ArtifactType?
         /// The pre-signed Amazon S3 URL that can be used with a corresponding GET request to download the artifact's file.
         public let url: String?
-        
+
         public init(arn: String? = nil, extension: String? = nil, name: String? = nil, type: ArtifactType? = nil, url: String? = nil) {
             self.arn = arn
             self.`extension` = `extension`
@@ -166,7 +166,7 @@ extension DeviceFarm {
         public let clock: Double?
         /// The CPU's frequency.
         public let frequency: String?
-        
+
         public init(architecture: String? = nil, clock: Double? = nil, frequency: String? = nil) {
             self.architecture = architecture
             self.clock = clock
@@ -205,7 +205,7 @@ extension DeviceFarm {
         public let total: Int32?
         /// The number of warned entities.
         public let warned: Int32?
-        
+
         public init(errored: Int32? = nil, failed: Int32? = nil, passed: Int32? = nil, skipped: Int32? = nil, stopped: Int32? = nil, total: Int32? = nil, warned: Int32? = nil) {
             self.errored = errored
             self.failed = failed
@@ -246,7 +246,7 @@ extension DeviceFarm {
         public let projectArn: String
         /// The device pool's rules.
         public let rules: [Rule]
-        
+
         public init(description: String? = nil, maxDevices: Int32? = nil, name: String, projectArn: String, rules: [Rule]) {
             self.description = description
             self.maxDevices = maxDevices
@@ -280,7 +280,7 @@ extension DeviceFarm {
 
         /// The newly created device pool.
         public let devicePool: DevicePool?
-        
+
         public init(devicePool: DevicePool? = nil) {
             self.devicePool = devicePool
         }
@@ -313,7 +313,7 @@ extension DeviceFarm {
         public let packageCleanup: Bool?
         /// When set to true, Device Farm will reboot the instance after a test run. The default value is true.
         public let rebootAfterUse: Bool?
-        
+
         public init(description: String? = nil, excludeAppPackagesFromCleanup: [String]? = nil, name: String, packageCleanup: Bool? = nil, rebootAfterUse: Bool? = nil) {
             self.description = description
             self.excludeAppPackagesFromCleanup = excludeAppPackagesFromCleanup
@@ -345,7 +345,7 @@ extension DeviceFarm {
 
         /// An object containing information about your instance profile.
         public let instanceProfile: InstanceProfile?
-        
+
         public init(instanceProfile: InstanceProfile? = nil) {
             self.instanceProfile = instanceProfile
         }
@@ -399,7 +399,7 @@ extension DeviceFarm {
         public let uplinkJitterMs: Int64?
         /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
         public let uplinkLossPercent: Int32?
-        
+
         public init(description: String? = nil, downlinkBandwidthBits: Int64? = nil, downlinkDelayMs: Int64? = nil, downlinkJitterMs: Int64? = nil, downlinkLossPercent: Int32? = nil, name: String, projectArn: String, type: NetworkProfileType? = nil, uplinkBandwidthBits: Int64? = nil, uplinkDelayMs: Int64? = nil, uplinkJitterMs: Int64? = nil, uplinkLossPercent: Int32? = nil) {
             self.description = description
             self.downlinkBandwidthBits = downlinkBandwidthBits
@@ -451,7 +451,7 @@ extension DeviceFarm {
 
         /// The network profile that is returned by the create network profile request.
         public let networkProfile: NetworkProfile?
-        
+
         public init(networkProfile: NetworkProfile? = nil) {
             self.networkProfile = networkProfile
         }
@@ -475,7 +475,7 @@ extension DeviceFarm {
         public let defaultJobTimeoutMinutes: Int32?
         /// The project's name.
         public let name: String
-        
+
         public init(defaultJobTimeoutMinutes: Int32? = nil, name: String) {
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
             self.name = name
@@ -499,7 +499,7 @@ extension DeviceFarm {
 
         /// The newly created project.
         public let project: Project?
-        
+
         public init(project: Project? = nil) {
             self.project = project
         }
@@ -523,7 +523,7 @@ extension DeviceFarm {
         public let billingMethod: BillingMethod?
         /// An array of Amazon Resource Names (ARNs) included in the VPC endpoint configuration.
         public let vpceConfigurationArns: [String]?
-        
+
         public init(billingMethod: BillingMethod? = nil, vpceConfigurationArns: [String]? = nil) {
             self.billingMethod = billingMethod
             self.vpceConfigurationArns = vpceConfigurationArns
@@ -582,7 +582,7 @@ extension DeviceFarm {
         public let skipAppResign: Bool?
         /// The public key of the ssh key pair you want to use for connecting to remote devices in your remote debugging session. This is only required if remoteDebugEnabled is set to true.
         public let sshPublicKey: String?
-        
+
         public init(clientId: String? = nil, configuration: CreateRemoteAccessSessionConfiguration? = nil, deviceArn: String, instanceArn: String? = nil, interactionMode: InteractionMode? = nil, name: String? = nil, projectArn: String, remoteDebugEnabled: Bool? = nil, remoteRecordAppArn: String? = nil, remoteRecordEnabled: Bool? = nil, skipAppResign: Bool? = nil, sshPublicKey: String? = nil) {
             self.clientId = clientId
             self.configuration = configuration
@@ -639,7 +639,7 @@ extension DeviceFarm {
 
         /// A container that describes the remote access session when the request to create a remote access session is sent.
         public let remoteAccessSession: RemoteAccessSession?
-        
+
         public init(remoteAccessSession: RemoteAccessSession? = nil) {
             self.remoteAccessSession = remoteAccessSession
         }
@@ -669,7 +669,7 @@ extension DeviceFarm {
         public let projectArn: String
         /// The upload's upload type. Must be one of the following values:   ANDROID_APP: An Android upload.   IOS_APP: An iOS upload.   WEB_APP: A web application upload.   EXTERNAL_DATA: An external data upload.   APPIUM_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload.   APPIUM_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload.   APPIUM_PYTHON_TEST_PACKAGE: An Appium Python test package upload.   APPIUM_NODE_TEST_PACKAGE: An Appium Node.js test package upload.   APPIUM_RUBY_TEST_PACKAGE: An Appium Ruby test package upload.   APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload for a web app.   APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload for a web app.   APPIUM_WEB_PYTHON_TEST_PACKAGE: An Appium Python test package upload for a web app.   APPIUM_WEB_NODE_TEST_PACKAGE: An Appium Node.js test package upload for a web app.   APPIUM_WEB_RUBY_TEST_PACKAGE: An Appium Ruby test package upload for a web app.   CALABASH_TEST_PACKAGE: A Calabash test package upload.   INSTRUMENTATION_TEST_PACKAGE: An instrumentation upload.   UIAUTOMATION_TEST_PACKAGE: A uiautomation test package upload.   UIAUTOMATOR_TEST_PACKAGE: A uiautomator test package upload.   XCTEST_TEST_PACKAGE: An Xcode test package upload.   XCTEST_UI_TEST_PACKAGE: An Xcode UI test package upload.   APPIUM_JAVA_JUNIT_TEST_SPEC: An Appium Java JUnit test spec upload.   APPIUM_JAVA_TESTNG_TEST_SPEC: An Appium Java TestNG test spec upload.   APPIUM_PYTHON_TEST_SPEC: An Appium Python test spec upload.   APPIUM_NODE_TEST_SPEC: An Appium Node.js test spec upload.   APPIUM_RUBY_TEST_SPEC: An Appium Ruby test spec upload.   APPIUM_WEB_JAVA_JUNIT_TEST_SPEC: An Appium Java JUnit test spec upload for a web app.   APPIUM_WEB_JAVA_TESTNG_TEST_SPEC: An Appium Java TestNG test spec upload for a web app.   APPIUM_WEB_PYTHON_TEST_SPEC: An Appium Python test spec upload for a web app.   APPIUM_WEB_NODE_TEST_SPEC: An Appium Node.js test spec upload for a web app.   APPIUM_WEB_RUBY_TEST_SPEC: An Appium Ruby test spec upload for a web app.   INSTRUMENTATION_TEST_SPEC: An instrumentation test spec upload.   XCTEST_UI_TEST_SPEC: An Xcode UI test spec upload.    Note If you call CreateUpload with WEB_APP specified, AWS Device Farm throws an ArgumentException error.
         public let `type`: UploadType
-        
+
         public init(contentType: String? = nil, name: String, projectArn: String, type: UploadType) {
             self.contentType = contentType
             self.name = name
@@ -701,7 +701,7 @@ extension DeviceFarm {
 
         /// The newly created upload.
         public let upload: Upload?
-        
+
         public init(upload: Upload? = nil) {
             self.upload = upload
         }
@@ -731,7 +731,7 @@ extension DeviceFarm {
         public let vpceConfigurationName: String
         /// The name of the VPC endpoint service running inside your AWS account that you want Device Farm to test.
         public let vpceServiceName: String
-        
+
         public init(serviceDnsName: String, vpceConfigurationDescription: String? = nil, vpceConfigurationName: String, vpceServiceName: String) {
             self.serviceDnsName = serviceDnsName
             self.vpceConfigurationDescription = vpceConfigurationDescription
@@ -765,7 +765,7 @@ extension DeviceFarm {
 
         /// An object containing information about your VPC endpoint configuration.
         public let vpceConfiguration: VPCEConfiguration?
-        
+
         public init(vpceConfiguration: VPCEConfiguration? = nil) {
             self.vpceConfiguration = vpceConfiguration
         }
@@ -797,7 +797,7 @@ extension DeviceFarm {
         public let deviceHostPaths: [String]?
         /// Comma-separated list of paths on the iOS device where the artifacts generated by the customer's tests will be pulled from.
         public let iosPaths: [String]?
-        
+
         public init(androidPaths: [String]? = nil, deviceHostPaths: [String]? = nil, iosPaths: [String]? = nil) {
             self.androidPaths = androidPaths
             self.deviceHostPaths = deviceHostPaths
@@ -818,7 +818,7 @@ extension DeviceFarm {
 
         /// Represents the Amazon Resource Name (ARN) of the Device Farm device pool you wish to delete.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -834,11 +834,12 @@ extension DeviceFarm {
     }
 
     public struct DeleteDevicePoolResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteInstanceProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -847,7 +848,7 @@ extension DeviceFarm {
 
         /// The Amazon Resource Name (ARN) of the instance profile you are requesting to delete.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -863,11 +864,12 @@ extension DeviceFarm {
     }
 
     public struct DeleteInstanceProfileResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteNetworkProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -876,7 +878,7 @@ extension DeviceFarm {
 
         /// The Amazon Resource Name (ARN) of the network profile you want to delete.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -892,11 +894,12 @@ extension DeviceFarm {
     }
 
     public struct DeleteNetworkProfileResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteProjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -905,7 +908,7 @@ extension DeviceFarm {
 
         /// Represents the Amazon Resource Name (ARN) of the Device Farm project you wish to delete.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -921,11 +924,12 @@ extension DeviceFarm {
     }
 
     public struct DeleteProjectResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteRemoteAccessSessionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -934,7 +938,7 @@ extension DeviceFarm {
 
         /// The Amazon Resource Name (ARN) of the session for which you want to delete remote access.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -950,11 +954,12 @@ extension DeviceFarm {
     }
 
     public struct DeleteRemoteAccessSessionResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteRunRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -963,7 +968,7 @@ extension DeviceFarm {
 
         /// The Amazon Resource Name (ARN) for the run you wish to delete.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -979,11 +984,12 @@ extension DeviceFarm {
     }
 
     public struct DeleteRunResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteUploadRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -992,7 +998,7 @@ extension DeviceFarm {
 
         /// Represents the Amazon Resource Name (ARN) of the Device Farm upload you wish to delete.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -1008,11 +1014,12 @@ extension DeviceFarm {
     }
 
     public struct DeleteUploadResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteVPCEConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1021,7 +1028,7 @@ extension DeviceFarm {
 
         /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to delete.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -1037,11 +1044,12 @@ extension DeviceFarm {
     }
 
     public struct DeleteVPCEConfigurationResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Device: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1110,7 +1118,7 @@ extension DeviceFarm {
         public let remoteDebugEnabled: Bool?
         /// The resolution of the device.
         public let resolution: Resolution?
-        
+
         public init(arn: String? = nil, availability: DeviceAvailability? = nil, carrier: String? = nil, cpu: CPU? = nil, fleetName: String? = nil, fleetType: String? = nil, formFactor: DeviceFormFactor? = nil, heapSize: Int64? = nil, image: String? = nil, instances: [DeviceInstance]? = nil, manufacturer: String? = nil, memory: Int64? = nil, model: String? = nil, modelId: String? = nil, name: String? = nil, os: String? = nil, platform: DevicePlatform? = nil, radio: String? = nil, remoteAccessEnabled: Bool? = nil, remoteDebugEnabled: Bool? = nil, resolution: Resolution? = nil) {
             self.arn = arn
             self.availability = availability
@@ -1208,7 +1216,7 @@ extension DeviceFarm {
         public let `operator`: RuleOperator?
         /// An array of one or more filter values used in a device filter.  Operator Values    The IN and NOT_IN operators can take a values array that has more than one element.   The other operators require an array with a single element.    Attribute Values    The PLATFORM attribute can be set to "ANDROID" or "IOS".   The AVAILABILITY attribute can be set to "AVAILABLE", "HIGHLY_AVAILABLE", "BUSY", or "TEMPORARY_NOT_AVAILABLE".   The FORM_FACTOR attribute can be set to "PHONE" or "TABLET".   The FLEET_TYPE attribute can be set to "PUBLIC" or "PRIVATE".  
         public let values: [String]?
-        
+
         public init(attribute: DeviceFilterAttribute? = nil, operator: RuleOperator? = nil, values: [String]? = nil) {
             self.attribute = attribute
             self.`operator` = `operator`
@@ -1266,7 +1274,7 @@ extension DeviceFarm {
         public let status: InstanceStatus?
         /// Unique device identifier for the device instance.
         public let udid: String?
-        
+
         public init(arn: String? = nil, deviceArn: String? = nil, instanceProfile: InstanceProfile? = nil, labels: [String]? = nil, status: InstanceStatus? = nil, udid: String? = nil) {
             self.arn = arn
             self.deviceArn = deviceArn
@@ -1307,7 +1315,7 @@ extension DeviceFarm {
         public let total: Double?
         /// When specified, represents only the sum of unmetered minutes used by the resource to run tests.
         public let unmetered: Double?
-        
+
         public init(metered: Double? = nil, total: Double? = nil, unmetered: Double? = nil) {
             self.metered = metered
             self.total = total
@@ -1349,7 +1357,7 @@ extension DeviceFarm {
         public let rules: [Rule]?
         /// The device pool's type. Allowed values include:   CURATED: A device pool that is created and managed by AWS Device Farm.   PRIVATE: A device pool that is created and managed by the device pool developer.  
         public let `type`: DevicePoolType?
-        
+
         public init(arn: String? = nil, description: String? = nil, maxDevices: Int32? = nil, name: String? = nil, rules: [Rule]? = nil, type: DevicePoolType? = nil) {
             self.arn = arn
             self.description = description
@@ -1391,7 +1399,7 @@ extension DeviceFarm {
         public let device: Device?
         /// Information about the compatibility.
         public let incompatibilityMessages: [IncompatibilityMessage]?
-        
+
         public init(compatible: Bool? = nil, device: Device? = nil, incompatibilityMessages: [IncompatibilityMessage]? = nil) {
             self.compatible = compatible
             self.device = device
@@ -1428,7 +1436,7 @@ extension DeviceFarm {
         public let filters: [DeviceFilter]
         /// The maximum number of devices to be included in a test run.
         public let maxDevices: Int32
-        
+
         public init(filters: [DeviceFilter], maxDevices: Int32) {
             self.filters = filters
             self.maxDevices = maxDevices
@@ -1453,7 +1461,7 @@ extension DeviceFarm {
         public let matchedDevicesCount: Int32?
         /// The maximum number of devices to be selected by a device filter and included in a test run.
         public let maxDevices: Int32?
-        
+
         public init(filters: [DeviceFilter]? = nil, matchedDevicesCount: Int32? = nil, maxDevices: Int32? = nil) {
             self.filters = filters
             self.matchedDevicesCount = matchedDevicesCount
@@ -1486,7 +1494,7 @@ extension DeviceFarm {
         public let skipAppResign: Bool?
         /// Set to true to enable video capture; otherwise, set to false. The default is true.
         public let videoCapture: Bool?
-        
+
         public init(accountsCleanup: Bool? = nil, appPackagesCleanup: Bool? = nil, jobTimeoutMinutes: Int32? = nil, skipAppResign: Bool? = nil, videoCapture: Bool? = nil) {
             self.accountsCleanup = accountsCleanup
             self.appPackagesCleanup = appPackagesCleanup
@@ -1535,11 +1543,12 @@ extension DeviceFarm {
     }
 
     public struct GetAccountSettingsRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetAccountSettingsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1548,7 +1557,7 @@ extension DeviceFarm {
 
         /// The account settings.
         public let accountSettings: AccountSettings?
-        
+
         public init(accountSettings: AccountSettings? = nil) {
             self.accountSettings = accountSettings
         }
@@ -1569,7 +1578,7 @@ extension DeviceFarm {
 
         /// The Amazon Resource Name (ARN) of the instance you're requesting information about.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -1591,7 +1600,7 @@ extension DeviceFarm {
 
         /// An object containing information about your device instance.
         public let deviceInstance: DeviceInstance?
-        
+
         public init(deviceInstance: DeviceInstance? = nil) {
             self.deviceInstance = deviceInstance
         }
@@ -1624,7 +1633,7 @@ extension DeviceFarm {
         public let test: ScheduleRunTest?
         /// The test type for the specified device pool. Allowed values include the following:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_NODE: The Appium Node.js type.   APPIUM_RUBY: The Appium Ruby type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for web apps.   APPIUM_WEB_PYTHON: The Appium Python type for web apps.   APPIUM_WEB_NODE: The Appium Node.js type for web apps.   APPIUM_WEB_RUBY: The Appium Ruby type for web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The Xcode test type.   XCTEST_UI: The Xcode UI test type.  
         public let testType: TestType?
-        
+
         public init(appArn: String? = nil, configuration: ScheduleRunConfiguration? = nil, devicePoolArn: String, test: ScheduleRunTest? = nil, testType: TestType? = nil) {
             self.appArn = appArn
             self.configuration = configuration
@@ -1661,7 +1670,7 @@ extension DeviceFarm {
         public let compatibleDevices: [DevicePoolCompatibilityResult]?
         /// Information about incompatible devices.
         public let incompatibleDevices: [DevicePoolCompatibilityResult]?
-        
+
         public init(compatibleDevices: [DevicePoolCompatibilityResult]? = nil, incompatibleDevices: [DevicePoolCompatibilityResult]? = nil) {
             self.compatibleDevices = compatibleDevices
             self.incompatibleDevices = incompatibleDevices
@@ -1689,7 +1698,7 @@ extension DeviceFarm {
 
         /// The device pool's ARN.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -1711,7 +1720,7 @@ extension DeviceFarm {
 
         /// An object containing information about the requested device pool.
         public let devicePool: DevicePool?
-        
+
         public init(devicePool: DevicePool? = nil) {
             self.devicePool = devicePool
         }
@@ -1732,7 +1741,7 @@ extension DeviceFarm {
 
         /// The device type's ARN.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -1754,7 +1763,7 @@ extension DeviceFarm {
 
         /// An object containing information about the requested device.
         public let device: Device?
-        
+
         public init(device: Device? = nil) {
             self.device = device
         }
@@ -1775,7 +1784,7 @@ extension DeviceFarm {
 
         /// The Amazon Resource Name (ARN) of your instance profile.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -1797,7 +1806,7 @@ extension DeviceFarm {
 
         /// An object containing information about your instance profile.
         public let instanceProfile: InstanceProfile?
-        
+
         public init(instanceProfile: InstanceProfile? = nil) {
             self.instanceProfile = instanceProfile
         }
@@ -1818,7 +1827,7 @@ extension DeviceFarm {
 
         /// The job's ARN.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -1840,7 +1849,7 @@ extension DeviceFarm {
 
         /// An object containing information about the requested job.
         public let job: Job?
-        
+
         public init(job: Job? = nil) {
             self.job = job
         }
@@ -1861,7 +1870,7 @@ extension DeviceFarm {
 
         /// The Amazon Resource Name (ARN) of the network profile you want to return information about.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -1883,7 +1892,7 @@ extension DeviceFarm {
 
         /// The network profile.
         public let networkProfile: NetworkProfile?
-        
+
         public init(networkProfile: NetworkProfile? = nil) {
             self.networkProfile = networkProfile
         }
@@ -1904,7 +1913,7 @@ extension DeviceFarm {
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -1932,7 +1941,7 @@ extension DeviceFarm {
         public let nextPeriod: [String: OfferingStatus]?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(current: [String: OfferingStatus]? = nil, nextPeriod: [String: OfferingStatus]? = nil, nextToken: String? = nil) {
             self.current = current
             self.nextPeriod = nextPeriod
@@ -1958,7 +1967,7 @@ extension DeviceFarm {
 
         /// The project's ARN.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -1980,7 +1989,7 @@ extension DeviceFarm {
 
         /// The project you wish to get information about.
         public let project: Project?
-        
+
         public init(project: Project? = nil) {
             self.project = project
         }
@@ -2001,7 +2010,7 @@ extension DeviceFarm {
 
         /// The Amazon Resource Name (ARN) of the remote access session about which you want to get session information.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -2023,7 +2032,7 @@ extension DeviceFarm {
 
         /// A container that lists detailed information about the remote access session.
         public let remoteAccessSession: RemoteAccessSession?
-        
+
         public init(remoteAccessSession: RemoteAccessSession? = nil) {
             self.remoteAccessSession = remoteAccessSession
         }
@@ -2044,7 +2053,7 @@ extension DeviceFarm {
 
         /// The run's ARN.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -2066,7 +2075,7 @@ extension DeviceFarm {
 
         /// The run you wish to get results from.
         public let run: Run?
-        
+
         public init(run: Run? = nil) {
             self.run = run
         }
@@ -2087,7 +2096,7 @@ extension DeviceFarm {
 
         /// The suite's ARN.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -2109,7 +2118,7 @@ extension DeviceFarm {
 
         /// A collection of one or more tests.
         public let suite: Suite?
-        
+
         public init(suite: Suite? = nil) {
             self.suite = suite
         }
@@ -2130,7 +2139,7 @@ extension DeviceFarm {
 
         /// The test's ARN.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -2152,7 +2161,7 @@ extension DeviceFarm {
 
         /// A test condition that is evaluated.
         public let test: Test?
-        
+
         public init(test: Test? = nil) {
             self.test = test
         }
@@ -2173,7 +2182,7 @@ extension DeviceFarm {
 
         /// The upload's ARN.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -2195,7 +2204,7 @@ extension DeviceFarm {
 
         /// An app or a set of one or more tests to upload or that have been uploaded.
         public let upload: Upload?
-        
+
         public init(upload: Upload? = nil) {
             self.upload = upload
         }
@@ -2216,7 +2225,7 @@ extension DeviceFarm {
 
         /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to describe.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -2238,7 +2247,7 @@ extension DeviceFarm {
 
         /// An object containing information about your VPC endpoint configuration.
         public let vpceConfiguration: VPCEConfiguration?
-        
+
         public init(vpceConfiguration: VPCEConfiguration? = nil) {
             self.vpceConfiguration = vpceConfiguration
         }
@@ -2262,7 +2271,7 @@ extension DeviceFarm {
         public let message: String?
         /// The type of incompatibility. Allowed values include:   ARN: The ARN.   FORM_FACTOR: The form factor (for example, phone or tablet).   MANUFACTURER: The manufacturer.   PLATFORM: The platform (for example, Android or iOS).   REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access.   APPIUM_VERSION: The Appium version for the test.  
         public let `type`: DeviceAttribute?
-        
+
         public init(message: String? = nil, type: DeviceAttribute? = nil) {
             self.message = message
             self.`type` = `type`
@@ -2289,7 +2298,7 @@ extension DeviceFarm {
         public let appArn: String
         /// The Amazon Resource Name (ARN) of the remote access session about which you are requesting information.
         public let remoteAccessSessionArn: String
-        
+
         public init(appArn: String, remoteAccessSessionArn: String) {
             self.appArn = appArn
             self.remoteAccessSessionArn = remoteAccessSessionArn
@@ -2315,7 +2324,7 @@ extension DeviceFarm {
 
         /// An app to upload or that has been uploaded.
         public let appUpload: Upload?
-        
+
         public init(appUpload: Upload? = nil) {
             self.appUpload = appUpload
         }
@@ -2351,7 +2360,7 @@ extension DeviceFarm {
         public let packageCleanup: Bool?
         /// When set to true, Device Farm will reboot the instance after a test run. The default value is true.
         public let rebootAfterUse: Bool?
-        
+
         public init(arn: String? = nil, description: String? = nil, excludeAppPackagesFromCleanup: [String]? = nil, name: String? = nil, packageCleanup: Bool? = nil, rebootAfterUse: Bool? = nil) {
             self.arn = arn
             self.description = description
@@ -2444,7 +2453,7 @@ extension DeviceFarm {
         public let videoCapture: Bool?
         /// The endpoint for streaming device video.
         public let videoEndpoint: String?
-        
+
         public init(arn: String? = nil, counters: Counters? = nil, created: TimeStamp? = nil, device: Device? = nil, deviceMinutes: DeviceMinutes? = nil, instanceArn: String? = nil, message: String? = nil, name: String? = nil, result: ExecutionResult? = nil, started: TimeStamp? = nil, status: ExecutionStatus? = nil, stopped: TimeStamp? = nil, type: TestType? = nil, videoCapture: Bool? = nil, videoEndpoint: String? = nil) {
             self.arn = arn
             self.counters = counters
@@ -2507,7 +2516,7 @@ extension DeviceFarm {
         public let nextToken: String?
         /// The artifacts' type. Allowed values include:   FILE: The artifacts are files.   LOG: The artifacts are logs.   SCREENSHOT: The artifacts are screenshots.  
         public let `type`: ArtifactCategory
-        
+
         public init(arn: String, nextToken: String? = nil, type: ArtifactCategory) {
             self.arn = arn
             self.nextToken = nextToken
@@ -2538,7 +2547,7 @@ extension DeviceFarm {
         public let artifacts: [Artifact]?
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(artifacts: [Artifact]? = nil, nextToken: String? = nil) {
             self.artifacts = artifacts
             self.nextToken = nextToken
@@ -2568,7 +2577,7 @@ extension DeviceFarm {
         public let maxResults: Int32?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2595,7 +2604,7 @@ extension DeviceFarm {
         public let deviceInstances: [DeviceInstance]?
         /// An identifier that can be used in the next call to this operation to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(deviceInstances: [DeviceInstance]? = nil, nextToken: String? = nil) {
             self.deviceInstances = deviceInstances
             self.nextToken = nextToken
@@ -2628,7 +2637,7 @@ extension DeviceFarm {
         public let nextToken: String?
         /// The device pools' type. Allowed values include:   CURATED: A device pool that is created and managed by AWS Device Farm.   PRIVATE: A device pool that is created and managed by the device pool developer.  
         public let `type`: DevicePoolType?
-        
+
         public init(arn: String, nextToken: String? = nil, type: DevicePoolType? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -2659,7 +2668,7 @@ extension DeviceFarm {
         public let devicePools: [DevicePool]?
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(devicePools: [DevicePool]? = nil, nextToken: String? = nil) {
             self.devicePools = devicePools
             self.nextToken = nextToken
@@ -2692,7 +2701,7 @@ extension DeviceFarm {
         public let filters: [DeviceFilter]?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(arn: String? = nil, filters: [DeviceFilter]? = nil, nextToken: String? = nil) {
             self.arn = arn
             self.filters = filters
@@ -2723,7 +2732,7 @@ extension DeviceFarm {
         public let devices: [Device]?
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(devices: [Device]? = nil, nextToken: String? = nil) {
             self.devices = devices
             self.nextToken = nextToken
@@ -2753,7 +2762,7 @@ extension DeviceFarm {
         public let maxResults: Int32?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2780,7 +2789,7 @@ extension DeviceFarm {
         public let instanceProfiles: [InstanceProfile]?
         /// An identifier that can be used in the next call to this operation to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(instanceProfiles: [InstanceProfile]? = nil, nextToken: String? = nil) {
             self.instanceProfiles = instanceProfiles
             self.nextToken = nextToken
@@ -2810,7 +2819,7 @@ extension DeviceFarm {
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(arn: String, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -2839,7 +2848,7 @@ extension DeviceFarm {
         public let jobs: [Job]?
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(jobs: [Job]? = nil, nextToken: String? = nil) {
             self.jobs = jobs
             self.nextToken = nextToken
@@ -2872,7 +2881,7 @@ extension DeviceFarm {
         public let nextToken: String?
         /// The type of network profile you wish to return information about. Valid values are listed below.
         public let `type`: NetworkProfileType?
-        
+
         public init(arn: String, nextToken: String? = nil, type: NetworkProfileType? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -2903,7 +2912,7 @@ extension DeviceFarm {
         public let networkProfiles: [NetworkProfile]?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(networkProfiles: [NetworkProfile]? = nil, nextToken: String? = nil) {
             self.networkProfiles = networkProfiles
             self.nextToken = nextToken
@@ -2930,7 +2939,7 @@ extension DeviceFarm {
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -2955,7 +2964,7 @@ extension DeviceFarm {
         public let nextToken: String?
         /// Information about the offering promotions.
         public let offeringPromotions: [OfferingPromotion]?
-        
+
         public init(nextToken: String? = nil, offeringPromotions: [OfferingPromotion]? = nil) {
             self.nextToken = nextToken
             self.offeringPromotions = offeringPromotions
@@ -2982,7 +2991,7 @@ extension DeviceFarm {
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -3007,7 +3016,7 @@ extension DeviceFarm {
         public let nextToken: String?
         /// The audit log of subscriptions you have purchased and modified through AWS Device Farm.
         public let offeringTransactions: [OfferingTransaction]?
-        
+
         public init(nextToken: String? = nil, offeringTransactions: [OfferingTransaction]? = nil) {
             self.nextToken = nextToken
             self.offeringTransactions = offeringTransactions
@@ -3034,7 +3043,7 @@ extension DeviceFarm {
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -3059,7 +3068,7 @@ extension DeviceFarm {
         public let nextToken: String?
         /// A value representing the list offering results.
         public let offerings: [Offering]?
-        
+
         public init(nextToken: String? = nil, offerings: [Offering]? = nil) {
             self.nextToken = nextToken
             self.offerings = offerings
@@ -3089,7 +3098,7 @@ extension DeviceFarm {
         public let arn: String?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(arn: String? = nil, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -3118,7 +3127,7 @@ extension DeviceFarm {
         public let nextToken: String?
         /// Information about the projects.
         public let projects: [Project]?
-        
+
         public init(nextToken: String? = nil, projects: [Project]? = nil) {
             self.nextToken = nextToken
             self.projects = projects
@@ -3148,7 +3157,7 @@ extension DeviceFarm {
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(arn: String, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -3177,7 +3186,7 @@ extension DeviceFarm {
         public let nextToken: String?
         /// A container representing the metadata from the service about each remote access session you are requesting.
         public let remoteAccessSessions: [RemoteAccessSession]?
-        
+
         public init(nextToken: String? = nil, remoteAccessSessions: [RemoteAccessSession]? = nil) {
             self.nextToken = nextToken
             self.remoteAccessSessions = remoteAccessSessions
@@ -3207,7 +3216,7 @@ extension DeviceFarm {
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(arn: String, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -3236,7 +3245,7 @@ extension DeviceFarm {
         public let nextToken: String?
         /// Information about the runs.
         public let runs: [Run]?
-        
+
         public init(nextToken: String? = nil, runs: [Run]? = nil) {
             self.nextToken = nextToken
             self.runs = runs
@@ -3266,7 +3275,7 @@ extension DeviceFarm {
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(arn: String, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -3295,7 +3304,7 @@ extension DeviceFarm {
         public let nextToken: String?
         /// Information about the samples.
         public let samples: [Sample]?
-        
+
         public init(nextToken: String? = nil, samples: [Sample]? = nil) {
             self.nextToken = nextToken
             self.samples = samples
@@ -3325,7 +3334,7 @@ extension DeviceFarm {
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(arn: String, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -3354,7 +3363,7 @@ extension DeviceFarm {
         public let nextToken: String?
         /// Information about the suites.
         public let suites: [Suite]?
-        
+
         public init(nextToken: String? = nil, suites: [Suite]? = nil) {
             self.nextToken = nextToken
             self.suites = suites
@@ -3381,7 +3390,7 @@ extension DeviceFarm {
 
         /// The Amazon Resource Name (ARN) of the resource(s) for which to list tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
         public let resourceARN: String
-        
+
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -3403,7 +3412,7 @@ extension DeviceFarm {
 
         /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [Tag]?
-        
+
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -3430,7 +3439,7 @@ extension DeviceFarm {
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(arn: String, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -3459,7 +3468,7 @@ extension DeviceFarm {
         public let nextToken: String?
         /// Information about the tests.
         public let tests: [Test]?
-        
+
         public init(nextToken: String? = nil, tests: [Test]? = nil) {
             self.nextToken = nextToken
             self.tests = tests
@@ -3489,7 +3498,7 @@ extension DeviceFarm {
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(arn: String, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -3518,7 +3527,7 @@ extension DeviceFarm {
         public let nextToken: String?
         /// Information about the unique problems. Allowed values include:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
         public let uniqueProblems: [ExecutionResult: [UniqueProblem]]?
-        
+
         public init(nextToken: String? = nil, uniqueProblems: [ExecutionResult: [UniqueProblem]]? = nil) {
             self.nextToken = nextToken
             self.uniqueProblems = uniqueProblems
@@ -3548,7 +3557,7 @@ extension DeviceFarm {
         public let nextToken: String?
         /// The type of upload. Must be one of the following values:   ANDROID_APP: An Android upload.   IOS_APP: An iOS upload.   WEB_APP: A web application upload.   EXTERNAL_DATA: An external data upload.   APPIUM_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload.   APPIUM_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload.   APPIUM_PYTHON_TEST_PACKAGE: An Appium Python test package upload.   APPIUM_NODE_TEST_PACKAGE: An Appium Node.js test package upload.   APPIUM_RUBY_TEST_PACKAGE: An Appium Ruby test package upload.   APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload for a web app.   APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload for a web app.   APPIUM_WEB_PYTHON_TEST_PACKAGE: An Appium Python test package upload for a web app.   APPIUM_WEB_NODE_TEST_PACKAGE: An Appium Node.js test package upload for a web app.   APPIUM_WEB_RUBY_TEST_PACKAGE: An Appium Ruby test package upload for a web app.   CALABASH_TEST_PACKAGE: A Calabash test package upload.   INSTRUMENTATION_TEST_PACKAGE: An instrumentation upload.   UIAUTOMATION_TEST_PACKAGE: A uiautomation test package upload.   UIAUTOMATOR_TEST_PACKAGE: A uiautomator test package upload.   XCTEST_TEST_PACKAGE: An Xcode test package upload.   XCTEST_UI_TEST_PACKAGE: An Xcode UI test package upload.   APPIUM_JAVA_JUNIT_TEST_SPEC: An Appium Java JUnit test spec upload.   APPIUM_JAVA_TESTNG_TEST_SPEC: An Appium Java TestNG test spec upload.   APPIUM_PYTHON_TEST_SPEC: An Appium Python test spec upload.   APPIUM_NODE_TEST_SPEC: An Appium Node.js test spec upload.    APPIUM_RUBY_TEST_SPEC: An Appium Ruby test spec upload.   APPIUM_WEB_JAVA_JUNIT_TEST_SPEC: An Appium Java JUnit test spec upload for a web app.   APPIUM_WEB_JAVA_TESTNG_TEST_SPEC: An Appium Java TestNG test spec upload for a web app.   APPIUM_WEB_PYTHON_TEST_SPEC: An Appium Python test spec upload for a web app.   APPIUM_WEB_NODE_TEST_SPEC: An Appium Node.js test spec upload for a web app.   APPIUM_WEB_RUBY_TEST_SPEC: An Appium Ruby test spec upload for a web app.   INSTRUMENTATION_TEST_SPEC: An instrumentation test spec upload.   XCTEST_UI_TEST_SPEC: An Xcode UI test spec upload.  
         public let `type`: UploadType?
-        
+
         public init(arn: String, nextToken: String? = nil, type: UploadType? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -3579,7 +3588,7 @@ extension DeviceFarm {
         public let nextToken: String?
         /// Information about the uploads.
         public let uploads: [Upload]?
-        
+
         public init(nextToken: String? = nil, uploads: [Upload]? = nil) {
             self.nextToken = nextToken
             self.uploads = uploads
@@ -3609,7 +3618,7 @@ extension DeviceFarm {
         public let maxResults: Int32?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3636,7 +3645,7 @@ extension DeviceFarm {
         public let nextToken: String?
         /// An array of VPCEConfiguration objects containing information about your VPC endpoint configuration.
         public let vpceConfigurations: [VPCEConfiguration]?
-        
+
         public init(nextToken: String? = nil, vpceConfigurations: [VPCEConfiguration]? = nil) {
             self.nextToken = nextToken
             self.vpceConfigurations = vpceConfigurations
@@ -3666,7 +3675,7 @@ extension DeviceFarm {
         public let latitude: Double
         /// The longitude.
         public let longitude: Double
-        
+
         public init(latitude: Double, longitude: Double) {
             self.latitude = latitude
             self.longitude = longitude
@@ -3688,7 +3697,7 @@ extension DeviceFarm {
         public let amount: Double?
         /// The currency code of a monetary amount. For example, USD means "U.S. dollars."
         public let currencyCode: CurrencyCode?
-        
+
         public init(amount: Double? = nil, currencyCode: CurrencyCode? = nil) {
             self.amount = amount
             self.currencyCode = currencyCode
@@ -3740,7 +3749,7 @@ extension DeviceFarm {
         public let uplinkJitterMs: Int64?
         /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
         public let uplinkLossPercent: Int32?
-        
+
         public init(arn: String? = nil, description: String? = nil, downlinkBandwidthBits: Int64? = nil, downlinkDelayMs: Int64? = nil, downlinkJitterMs: Int64? = nil, downlinkLossPercent: Int32? = nil, name: String? = nil, type: NetworkProfileType? = nil, uplinkBandwidthBits: Int64? = nil, uplinkDelayMs: Int64? = nil, uplinkJitterMs: Int64? = nil, uplinkLossPercent: Int32? = nil) {
             self.arn = arn
             self.description = description
@@ -3810,7 +3819,7 @@ extension DeviceFarm {
         public let recurringCharges: [RecurringCharge]?
         /// The type of offering (e.g., "RECURRING") for a device.
         public let `type`: OfferingType?
-        
+
         public init(description: String? = nil, id: String? = nil, platform: DevicePlatform? = nil, recurringCharges: [RecurringCharge]? = nil, type: OfferingType? = nil) {
             self.description = description
             self.id = id
@@ -3844,7 +3853,7 @@ extension DeviceFarm {
         public let description: String?
         /// The ID of the offering promotion.
         public let id: String?
-        
+
         public init(description: String? = nil, id: String? = nil) {
             self.description = description
             self.id = id
@@ -3878,7 +3887,7 @@ extension DeviceFarm {
         public let quantity: Int32?
         /// The type specified for the offering status.
         public let `type`: OfferingTransactionType?
-        
+
         public init(effectiveOn: TimeStamp? = nil, offering: Offering? = nil, quantity: Int32? = nil, type: OfferingTransactionType? = nil) {
             self.effectiveOn = effectiveOn
             self.offering = offering
@@ -3917,7 +3926,7 @@ extension DeviceFarm {
         public let offeringStatus: OfferingStatus?
         /// The transaction ID of the offering transaction.
         public let transactionId: String?
-        
+
         public init(cost: MonetaryAmount? = nil, createdOn: TimeStamp? = nil, offeringPromotionId: String? = nil, offeringStatus: OfferingStatus? = nil, transactionId: String? = nil) {
             self.cost = cost
             self.createdOn = createdOn
@@ -3978,7 +3987,7 @@ extension DeviceFarm {
         public let suite: ProblemDetail?
         /// Information about the associated test.
         public let test: ProblemDetail?
-        
+
         public init(device: Device? = nil, job: ProblemDetail? = nil, message: String? = nil, result: ExecutionResult? = nil, run: ProblemDetail? = nil, suite: ProblemDetail? = nil, test: ProblemDetail? = nil) {
             self.device = device
             self.job = job
@@ -4020,7 +4029,7 @@ extension DeviceFarm {
         public let arn: String?
         /// The problem detail's name.
         public let name: String?
-        
+
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -4055,7 +4064,7 @@ extension DeviceFarm {
         public let defaultJobTimeoutMinutes: Int32?
         /// The project's name.
         public let name: String?
-        
+
         public init(arn: String? = nil, created: TimeStamp? = nil, defaultJobTimeoutMinutes: Int32? = nil, name: String? = nil) {
             self.arn = arn
             self.created = created
@@ -4091,7 +4100,7 @@ extension DeviceFarm {
         public let offeringPromotionId: String?
         /// The number of device slots you wish to purchase in an offering request.
         public let quantity: Int32?
-        
+
         public init(offeringId: String? = nil, offeringPromotionId: String? = nil, quantity: Int32? = nil) {
             self.offeringId = offeringId
             self.offeringPromotionId = offeringPromotionId
@@ -4117,7 +4126,7 @@ extension DeviceFarm {
 
         /// Represents the offering transaction for the purchase result.
         public let offeringTransaction: OfferingTransaction?
-        
+
         public init(offeringTransaction: OfferingTransaction? = nil) {
             self.offeringTransaction = offeringTransaction
         }
@@ -4147,7 +4156,7 @@ extension DeviceFarm {
         public let nfc: Bool?
         /// True if Wi-Fi is enabled at the beginning of the test; otherwise, false.
         public let wifi: Bool?
-        
+
         public init(bluetooth: Bool? = nil, gps: Bool? = nil, nfc: Bool? = nil, wifi: Bool? = nil) {
             self.bluetooth = bluetooth
             self.gps = gps
@@ -4173,7 +4182,7 @@ extension DeviceFarm {
         public let cost: MonetaryAmount?
         /// The frequency in which charges will recur.
         public let frequency: RecurringChargeFrequency?
-        
+
         public init(cost: MonetaryAmount? = nil, frequency: RecurringChargeFrequency? = nil) {
             self.cost = cost
             self.frequency = frequency
@@ -4257,7 +4266,7 @@ extension DeviceFarm {
         public let status: ExecutionStatus?
         /// The date and time the remote access session was stopped.
         public let stopped: TimeStamp?
-        
+
         public init(arn: String? = nil, billingMethod: BillingMethod? = nil, clientId: String? = nil, created: TimeStamp? = nil, device: Device? = nil, deviceMinutes: DeviceMinutes? = nil, deviceUdid: String? = nil, endpoint: String? = nil, hostAddress: String? = nil, instanceArn: String? = nil, interactionMode: InteractionMode? = nil, message: String? = nil, name: String? = nil, remoteDebugEnabled: Bool? = nil, remoteRecordAppArn: String? = nil, remoteRecordEnabled: Bool? = nil, result: ExecutionResult? = nil, skipAppResign: Bool? = nil, started: TimeStamp? = nil, status: ExecutionStatus? = nil, stopped: TimeStamp? = nil) {
             self.arn = arn
             self.billingMethod = billingMethod
@@ -4334,7 +4343,7 @@ extension DeviceFarm {
         public let offeringId: String?
         /// The quantity requested in an offering renewal.
         public let quantity: Int32?
-        
+
         public init(offeringId: String? = nil, quantity: Int32? = nil) {
             self.offeringId = offeringId
             self.quantity = quantity
@@ -4357,7 +4366,7 @@ extension DeviceFarm {
 
         /// Represents the status of the offering transaction for the renewal.
         public let offeringTransaction: OfferingTransaction?
-        
+
         public init(offeringTransaction: OfferingTransaction? = nil) {
             self.offeringTransaction = offeringTransaction
         }
@@ -4381,7 +4390,7 @@ extension DeviceFarm {
         public let height: Int32?
         /// The screen resolution's width, expressed in pixels.
         public let width: Int32?
-        
+
         public init(height: Int32? = nil, width: Int32? = nil) {
             self.height = height
             self.width = width
@@ -4406,7 +4415,7 @@ extension DeviceFarm {
         public let `operator`: RuleOperator?
         /// The rule's value.
         public let value: String?
-        
+
         public init(attribute: DeviceAttribute? = nil, operator: RuleOperator? = nil, value: String? = nil) {
             self.attribute = attribute
             self.`operator` = `operator`
@@ -4529,7 +4538,7 @@ extension DeviceFarm {
         public let `type`: TestType?
         /// The Device Farm console URL for the recording of the run.
         public let webUrl: String?
-        
+
         public init(appUpload: String? = nil, arn: String? = nil, billingMethod: BillingMethod? = nil, completedJobs: Int32? = nil, counters: Counters? = nil, created: TimeStamp? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, deviceMinutes: DeviceMinutes? = nil, devicePoolArn: String? = nil, deviceSelectionResult: DeviceSelectionResult? = nil, eventCount: Int32? = nil, jobTimeoutMinutes: Int32? = nil, locale: String? = nil, location: Location? = nil, message: String? = nil, name: String? = nil, networkProfile: NetworkProfile? = nil, parsingResultUrl: String? = nil, platform: DevicePlatform? = nil, radios: Radios? = nil, result: ExecutionResult? = nil, resultCode: ExecutionResultCode? = nil, seed: Int32? = nil, skipAppResign: Bool? = nil, started: TimeStamp? = nil, status: ExecutionStatus? = nil, stopped: TimeStamp? = nil, testSpecArn: String? = nil, totalJobs: Int32? = nil, type: TestType? = nil, webUrl: String? = nil) {
             self.appUpload = appUpload
             self.arn = arn
@@ -4628,7 +4637,7 @@ extension DeviceFarm {
         public let `type`: SampleType?
         /// The pre-signed Amazon S3 URL that can be used with a corresponding GET request to download the sample's file.
         public let url: String?
-        
+
         public init(arn: String? = nil, type: SampleType? = nil, url: String? = nil) {
             self.arn = arn
             self.`type` = `type`
@@ -4701,7 +4710,7 @@ extension DeviceFarm {
         public let radios: Radios?
         /// An array of Amazon Resource Names (ARNs) for your VPC endpoint configurations.
         public let vpceConfigurationArns: [String]?
-        
+
         public init(auxiliaryApps: [String]? = nil, billingMethod: BillingMethod? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, extraDataPackageArn: String? = nil, locale: String? = nil, location: Location? = nil, networkProfileArn: String? = nil, radios: Radios? = nil, vpceConfigurationArns: [String]? = nil) {
             self.auxiliaryApps = auxiliaryApps
             self.billingMethod = billingMethod
@@ -4770,7 +4779,7 @@ extension DeviceFarm {
         public let projectArn: String
         /// Information about the test for the run to be scheduled.
         public let test: ScheduleRunTest
-        
+
         public init(appArn: String? = nil, configuration: ScheduleRunConfiguration? = nil, devicePoolArn: String? = nil, deviceSelectionConfiguration: DeviceSelectionConfiguration? = nil, executionConfiguration: ExecutionConfiguration? = nil, name: String? = nil, projectArn: String, test: ScheduleRunTest) {
             self.appArn = appArn
             self.configuration = configuration
@@ -4814,7 +4823,7 @@ extension DeviceFarm {
 
         /// Information about the scheduled run.
         public let run: Run?
-        
+
         public init(run: Run? = nil) {
             self.run = run
         }
@@ -4847,7 +4856,7 @@ extension DeviceFarm {
         public let testSpecArn: String?
         /// The test's type. Must be one of the following values:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_NODE: The Appium Node.js type.   APPIUM_RUBY: The Appium Ruby type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for web apps.   APPIUM_WEB_PYTHON: The Appium Python type for web apps.   APPIUM_WEB_NODE: The Appium Node.js type for web apps.   APPIUM_WEB_RUBY: The Appium Ruby type for web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The Xcode test type.   XCTEST_UI: The Xcode UI test type.  
         public let `type`: TestType
-        
+
         public init(filter: String? = nil, parameters: [String: String]? = nil, testPackageArn: String? = nil, testSpecArn: String? = nil, type: TestType) {
             self.filter = filter
             self.parameters = parameters
@@ -4881,7 +4890,7 @@ extension DeviceFarm {
 
         /// Represents the Amazon Resource Name (ARN) of the Device Farm job you wish to stop.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -4903,7 +4912,7 @@ extension DeviceFarm {
 
         /// The job that was stopped.
         public let job: Job?
-        
+
         public init(job: Job? = nil) {
             self.job = job
         }
@@ -4924,7 +4933,7 @@ extension DeviceFarm {
 
         /// The Amazon Resource Name (ARN) of the remote access session you wish to stop.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -4946,7 +4955,7 @@ extension DeviceFarm {
 
         /// A container representing the metadata from the service about the remote access session you are stopping.
         public let remoteAccessSession: RemoteAccessSession?
-        
+
         public init(remoteAccessSession: RemoteAccessSession? = nil) {
             self.remoteAccessSession = remoteAccessSession
         }
@@ -4967,7 +4976,7 @@ extension DeviceFarm {
 
         /// Represents the Amazon Resource Name (ARN) of the Device Farm run you wish to stop.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -4989,7 +4998,7 @@ extension DeviceFarm {
 
         /// The run that was stopped.
         public let run: Run?
-        
+
         public init(run: Run? = nil) {
             self.run = run
         }
@@ -5040,7 +5049,7 @@ extension DeviceFarm {
         public let stopped: TimeStamp?
         /// The suite's type. Must be one of the following values:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_NODE: The Appium Node.js type.   APPIUM_RUBY: The Appium Ruby type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for web apps.   APPIUM_WEB_PYTHON: The Appium Python type for web apps.   APPIUM_WEB_NODE: The Appium Node.js type for web apps.   APPIUM_WEB_RUBY: The Appium Ruby type for web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The Xcode test type.   XCTEST_UI: The Xcode UI test type.  
         public let `type`: TestType?
-        
+
         public init(arn: String? = nil, counters: Counters? = nil, created: TimeStamp? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, name: String? = nil, result: ExecutionResult? = nil, started: TimeStamp? = nil, status: ExecutionStatus? = nil, stopped: TimeStamp? = nil, type: TestType? = nil) {
             self.arn = arn
             self.counters = counters
@@ -5089,7 +5098,7 @@ extension DeviceFarm {
         public let key: String
         /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
         public let value: String
-        
+
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -5118,7 +5127,7 @@ extension DeviceFarm {
         public let resourceARN: String
         /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [Tag]
-        
+
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -5140,11 +5149,12 @@ extension DeviceFarm {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Test: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -5183,7 +5193,7 @@ extension DeviceFarm {
         public let stopped: TimeStamp?
         /// The test's type. Must be one of the following values:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_NODE: The Appium Node.js type.   APPIUM_RUBY: The Appium Ruby type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for web apps.   APPIUM_WEB_PYTHON: The Appium Python type for web apps.   APPIUM_WEB_NODE: The Appium Node.js type for web apps.   APPIUM_WEB_RUBY: The Appium Ruby type for web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The Xcode test type.   XCTEST_UI: The Xcode UI test type.  
         public let `type`: TestType?
-        
+
         public init(arn: String? = nil, counters: Counters? = nil, created: TimeStamp? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, name: String? = nil, result: ExecutionResult? = nil, started: TimeStamp? = nil, status: ExecutionStatus? = nil, stopped: TimeStamp? = nil, type: TestType? = nil) {
             self.arn = arn
             self.counters = counters
@@ -5257,7 +5267,7 @@ extension DeviceFarm {
         public let remaining: Double?
         /// The total number of free trial minutes that the account started with.
         public let total: Double?
-        
+
         public init(remaining: Double? = nil, total: Double? = nil) {
             self.remaining = remaining
             self.total = total
@@ -5279,7 +5289,7 @@ extension DeviceFarm {
         public let message: String?
         /// Information about the problems.
         public let problems: [Problem]?
-        
+
         public init(message: String? = nil, problems: [Problem]? = nil) {
             self.message = message
             self.problems = problems
@@ -5309,7 +5319,7 @@ extension DeviceFarm {
         public let resourceARN: String
         /// The keys of the tags to be removed.
         public let tagKeys: [String]
-        
+
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -5332,11 +5342,12 @@ extension DeviceFarm {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateDeviceInstanceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -5351,7 +5362,7 @@ extension DeviceFarm {
         public let labels: [String]?
         /// The Amazon Resource Name (ARN) of the profile that you want to associate with the device instance.
         public let profileArn: String?
-        
+
         public init(arn: String, labels: [String]? = nil, profileArn: String? = nil) {
             self.arn = arn
             self.labels = labels
@@ -5379,7 +5390,7 @@ extension DeviceFarm {
 
         /// An object containing information about your device instance.
         public let deviceInstance: DeviceInstance?
-        
+
         public init(deviceInstance: DeviceInstance? = nil) {
             self.deviceInstance = deviceInstance
         }
@@ -5415,7 +5426,7 @@ extension DeviceFarm {
         public let name: String?
         /// Represents the rules you wish to modify for the device pool. Updating rules is optional; however, if you choose to update rules for your request, the update will replace the existing rules.
         public let rules: [Rule]?
-        
+
         public init(arn: String, clearMaxDevices: Bool? = nil, description: String? = nil, maxDevices: Int32? = nil, name: String? = nil, rules: [Rule]? = nil) {
             self.arn = arn
             self.clearMaxDevices = clearMaxDevices
@@ -5451,7 +5462,7 @@ extension DeviceFarm {
 
         /// The device pool you just updated.
         public let devicePool: DevicePool?
-        
+
         public init(devicePool: DevicePool? = nil) {
             self.devicePool = devicePool
         }
@@ -5487,7 +5498,7 @@ extension DeviceFarm {
         public let packageCleanup: Bool?
         /// The updated choice for whether you want to reboot the device after use. The default value is true.
         public let rebootAfterUse: Bool?
-        
+
         public init(arn: String, description: String? = nil, excludeAppPackagesFromCleanup: [String]? = nil, name: String? = nil, packageCleanup: Bool? = nil, rebootAfterUse: Bool? = nil) {
             self.arn = arn
             self.description = description
@@ -5523,7 +5534,7 @@ extension DeviceFarm {
 
         /// An object containing information about your instance profile.
         public let instanceProfile: InstanceProfile?
-        
+
         public init(instanceProfile: InstanceProfile? = nil) {
             self.instanceProfile = instanceProfile
         }
@@ -5577,7 +5588,7 @@ extension DeviceFarm {
         public let uplinkJitterMs: Int64?
         /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
         public let uplinkLossPercent: Int32?
-        
+
         public init(arn: String, description: String? = nil, downlinkBandwidthBits: Int64? = nil, downlinkDelayMs: Int64? = nil, downlinkJitterMs: Int64? = nil, downlinkLossPercent: Int32? = nil, name: String? = nil, type: NetworkProfileType? = nil, uplinkBandwidthBits: Int64? = nil, uplinkDelayMs: Int64? = nil, uplinkJitterMs: Int64? = nil, uplinkLossPercent: Int32? = nil) {
             self.arn = arn
             self.description = description
@@ -5629,7 +5640,7 @@ extension DeviceFarm {
 
         /// A list of the available network profiles.
         public let networkProfile: NetworkProfile?
-        
+
         public init(networkProfile: NetworkProfile? = nil) {
             self.networkProfile = networkProfile
         }
@@ -5656,7 +5667,7 @@ extension DeviceFarm {
         public let defaultJobTimeoutMinutes: Int32?
         /// A string representing the new name of the project that you are updating.
         public let name: String?
-        
+
         public init(arn: String, defaultJobTimeoutMinutes: Int32? = nil, name: String? = nil) {
             self.arn = arn
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
@@ -5684,7 +5695,7 @@ extension DeviceFarm {
 
         /// The project you wish to update.
         public let project: Project?
-        
+
         public init(project: Project? = nil) {
             self.project = project
         }
@@ -5714,7 +5725,7 @@ extension DeviceFarm {
         public let editContent: Bool?
         /// The upload's test spec file name. The name should not contain the '/' character. The test spec file name must end with the .yaml or .yml file extension.
         public let name: String?
-        
+
         public init(arn: String, contentType: String? = nil, editContent: Bool? = nil, name: String? = nil) {
             self.arn = arn
             self.contentType = contentType
@@ -5746,7 +5757,7 @@ extension DeviceFarm {
 
         /// A test spec uploaded to Device Farm.
         public let upload: Upload?
-        
+
         public init(upload: Upload? = nil) {
             self.upload = upload
         }
@@ -5779,7 +5790,7 @@ extension DeviceFarm {
         public let vpceConfigurationName: String?
         /// The name of the VPC endpoint service running inside your AWS account that you want Device Farm to test.
         public let vpceServiceName: String?
-        
+
         public init(arn: String, serviceDnsName: String? = nil, vpceConfigurationDescription: String? = nil, vpceConfigurationName: String? = nil, vpceServiceName: String? = nil) {
             self.arn = arn
             self.serviceDnsName = serviceDnsName
@@ -5817,7 +5828,7 @@ extension DeviceFarm {
 
         /// An object containing information about your VPC endpoint configuration.
         public let vpceConfiguration: VPCEConfiguration?
-        
+
         public init(vpceConfiguration: VPCEConfiguration? = nil) {
             self.vpceConfiguration = vpceConfiguration
         }
@@ -5865,7 +5876,7 @@ extension DeviceFarm {
         public let `type`: UploadType?
         /// The pre-signed Amazon S3 URL that was used to store a file through a corresponding PUT request.
         public let url: String?
-        
+
         public init(arn: String? = nil, category: UploadCategory? = nil, contentType: String? = nil, created: TimeStamp? = nil, message: String? = nil, metadata: String? = nil, name: String? = nil, status: UploadStatus? = nil, type: UploadType? = nil, url: String? = nil) {
             self.arn = arn
             self.category = category
@@ -5977,7 +5988,7 @@ extension DeviceFarm {
         public let vpceConfigurationName: String?
         /// The name of the VPC endpoint service running inside your AWS account that you want Device Farm to test.
         public let vpceServiceName: String?
-        
+
         public init(arn: String? = nil, serviceDnsName: String? = nil, vpceConfigurationDescription: String? = nil, vpceConfigurationName: String? = nil, vpceServiceName: String? = nil) {
             self.arn = arn
             self.serviceDnsName = serviceDnsName
@@ -6007,5 +6018,4 @@ extension DeviceFarm {
             case vpceServiceName = "vpceServiceName"
         }
     }
-
 }

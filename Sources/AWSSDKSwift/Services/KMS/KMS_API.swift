@@ -230,5 +230,4 @@ public struct KMS {
     @discardableResult public func updateKeyDescription(_ input: UpdateKeyDescriptionRequest) throws -> Future<Void> {
         return try client.send(operation: "UpdateKeyDescription", path: "/", httpMethod: "POST", input: input)
     }
-
 }

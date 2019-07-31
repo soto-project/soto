@@ -39,7 +39,7 @@ extension CostandUsageReportService {
         ]
 
         public let reportName: String?
-        
+
         public init(reportName: String? = nil) {
             self.reportName = reportName
         }
@@ -60,7 +60,7 @@ extension CostandUsageReportService {
         ]
 
         public let responseMessage: String?
-        
+
         public init(responseMessage: String? = nil) {
             self.responseMessage = responseMessage
         }
@@ -78,7 +78,7 @@ extension CostandUsageReportService {
 
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -104,7 +104,7 @@ extension CostandUsageReportService {
         public let nextToken: String?
         /// A list of AWS Cost and Usage reports owned by the account.
         public let reportDefinitions: [ReportDefinition]?
-        
+
         public init(nextToken: String? = nil, reportDefinitions: [ReportDefinition]? = nil) {
             self.nextToken = nextToken
             self.reportDefinitions = reportDefinitions
@@ -129,7 +129,7 @@ extension CostandUsageReportService {
 
         /// Represents the output of the PutReportDefinition operation. The content consists of the detailed metadata and data file information. 
         public let reportDefinition: ReportDefinition
-        
+
         public init(reportDefinition: ReportDefinition) {
             self.reportDefinition = reportDefinition
         }
@@ -144,11 +144,12 @@ extension CostandUsageReportService {
     }
 
     public struct PutReportDefinitionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct ReportDefinition: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -180,7 +181,7 @@ extension CostandUsageReportService {
         public let s3Prefix: String
         public let s3Region: AWSRegion
         public let timeUnit: TimeUnit
-        
+
         public init(additionalArtifacts: [AdditionalArtifact]? = nil, additionalSchemaElements: [SchemaElement], compression: CompressionFormat, format: ReportFormat, refreshClosedReports: Bool? = nil, reportName: String, reportVersioning: ReportVersioning? = nil, s3Bucket: String, s3Prefix: String, s3Region: AWSRegion, timeUnit: TimeUnit) {
             self.additionalArtifacts = additionalArtifacts
             self.additionalSchemaElements = additionalSchemaElements
@@ -240,5 +241,4 @@ extension CostandUsageReportService {
         case daily = "DAILY"
         public var description: String { return self.rawValue }
     }
-
 }

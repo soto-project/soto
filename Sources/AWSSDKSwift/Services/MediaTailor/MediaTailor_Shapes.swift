@@ -15,7 +15,7 @@ extension MediaTailor {
         public let adSegmentUrlPrefix: String?
         /// A content delivery network (CDN) to cache content segments, so that content requests don’t always have to go to the origin server. First, create a rule in your CDN for the content segment origin server. Then specify the rule's name in this ContentSegmentUrlPrefix. When AWS Elemental MediaTailor serves a manifest, it reports your CDN as the source for content segments.
         public let contentSegmentUrlPrefix: String?
-        
+
         public init(adSegmentUrlPrefix: String? = nil, contentSegmentUrlPrefix: String? = nil) {
             self.adSegmentUrlPrefix = adSegmentUrlPrefix
             self.contentSegmentUrlPrefix = contentSegmentUrlPrefix
@@ -40,7 +40,7 @@ extension MediaTailor {
         public let mpdLocation: String?
         /// The setting that controls whether MediaTailor handles manifests from the origin server as multi-period manifests or single-period manifests. If your origin server produces single-period manifests, set this to SINGLE_PERIOD. The default setting is MULTI_PERIOD. For multi-period manifests, omit this setting or set it to MULTI_PERIOD. 
         public let originManifestType: OriginManifestType?
-        
+
         public init(manifestEndpointPrefix: String? = nil, mpdLocation: String? = nil, originManifestType: OriginManifestType? = nil) {
             self.manifestEndpointPrefix = manifestEndpointPrefix
             self.mpdLocation = mpdLocation
@@ -64,7 +64,7 @@ extension MediaTailor {
         public let mpdLocation: String?
         /// The setting that controls whether MediaTailor handles manifests from the origin server as multi-period manifests or single-period manifests. If your origin server produces single-period manifests, set this to SINGLE_PERIOD. The default setting is MULTI_PERIOD. For multi-period manifests, omit this setting or set it to MULTI_PERIOD. 
         public let originManifestType: OriginManifestType?
-        
+
         public init(mpdLocation: String? = nil, originManifestType: OriginManifestType? = nil) {
             self.mpdLocation = mpdLocation
             self.originManifestType = originManifestType
@@ -82,7 +82,7 @@ extension MediaTailor {
         ]
 
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -93,11 +93,12 @@ extension MediaTailor {
     }
 
     public struct DeletePlaybackConfigurationResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetPlaybackConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -105,7 +106,7 @@ extension MediaTailor {
         ]
 
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -155,7 +156,7 @@ extension MediaTailor {
         public let transcodeProfileName: String?
         /// The URL prefix for the master playlist for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
-        
+
         public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, name: String? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.cdnConfiguration = cdnConfiguration
@@ -194,7 +195,7 @@ extension MediaTailor {
 
         /// The URL that is used to initiate a playback session for devices that support Apple HLS. The session uses server-side reporting.
         public let manifestEndpointPrefix: String?
-        
+
         public init(manifestEndpointPrefix: String? = nil) {
             self.manifestEndpointPrefix = manifestEndpointPrefix
         }
@@ -212,7 +213,7 @@ extension MediaTailor {
 
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -239,7 +240,7 @@ extension MediaTailor {
         public let items: [PlaybackConfiguration]?
         /// Pagination token returned by the GET list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
-        
+
         public init(items: [PlaybackConfiguration]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -257,7 +258,7 @@ extension MediaTailor {
         ]
 
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -273,7 +274,7 @@ extension MediaTailor {
         ]
 
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -317,7 +318,7 @@ extension MediaTailor {
         public let tags: [String: String]?
         public let transcodeProfileName: String?
         public let videoContentSourceUrl: String?
-        
+
         public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, name: String? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.cdnConfiguration = cdnConfiguration
@@ -377,7 +378,7 @@ extension MediaTailor {
         public let transcodeProfileName: String?
         /// The URL prefix for the master playlist for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
-        
+
         public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfigurationForPut? = nil, name: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.cdnConfiguration = cdnConfiguration
@@ -429,7 +430,7 @@ extension MediaTailor {
         public let tags: [String: String]?
         public let transcodeProfileName: String?
         public let videoContentSourceUrl: String?
-        
+
         public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, name: String? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.cdnConfiguration = cdnConfiguration
@@ -469,7 +470,7 @@ extension MediaTailor {
 
         public let resourceArn: String
         public let tags: [String: String]
-        
+
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -493,7 +494,7 @@ extension MediaTailor {
         ///  }
         ///  
         public let tags: [String: String]
-        
+
         public init(tags: [String: String]) {
             self.tags = tags
         }
@@ -511,7 +512,7 @@ extension MediaTailor {
 
         public let resourceArn: String
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -522,5 +523,4 @@ extension MediaTailor {
             case tagKeys = "tagKeys"
         }
     }
-
 }

@@ -109,5 +109,4 @@ public struct MediaConnect {
     public func updateFlowSource(_ input: UpdateFlowSourceRequest) throws -> Future<UpdateFlowSourceResponse> {
         return try client.send(operation: "UpdateFlowSource", path: "/v1/flows/{flowArn}/source/{sourceArn}", httpMethod: "PUT", input: input)
     }
-
 }

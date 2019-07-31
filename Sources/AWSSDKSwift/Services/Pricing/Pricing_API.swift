@@ -40,5 +40,4 @@ public struct Pricing {
     public func getProducts(_ input: GetProductsRequest) throws -> Future<GetProductsResponse> {
         return try client.send(operation: "GetProducts", path: "/", httpMethod: "POST", input: input)
     }
-
 }

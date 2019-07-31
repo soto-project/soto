@@ -97,5 +97,4 @@ public struct Support {
     public func resolveCase(_ input: ResolveCaseRequest) throws -> Future<ResolveCaseResponse> {
         return try client.send(operation: "ResolveCase", path: "/", httpMethod: "POST", input: input)
     }
-
 }

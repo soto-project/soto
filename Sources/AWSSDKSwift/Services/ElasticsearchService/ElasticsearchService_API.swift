@@ -140,5 +140,4 @@ public struct ElasticsearchService {
     public func upgradeElasticsearchDomain(_ input: UpgradeElasticsearchDomainRequest) throws -> Future<UpgradeElasticsearchDomainResponse> {
         return try client.send(operation: "UpgradeElasticsearchDomain", path: "/2015-01-01/es/upgradeDomain", httpMethod: "POST", input: input)
     }
-
 }

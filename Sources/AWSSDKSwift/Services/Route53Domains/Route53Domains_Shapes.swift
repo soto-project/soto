@@ -24,7 +24,7 @@ extension Route53Domains {
         public let operation: OperationType?
         /// The price that you were charged for the operation, in US dollars. Example value: 12.0
         public let price: Double?
-        
+
         public init(billDate: TimeStamp? = nil, domainName: String? = nil, invoiceId: String? = nil, operation: OperationType? = nil, price: Double? = nil) {
             self.billDate = billDate
             self.domainName = domainName
@@ -56,7 +56,7 @@ extension Route53Domains {
         public let domainName: String
         /// Reserved for future use.
         public let idnLangCode: String?
-        
+
         public init(domainName: String, idnLangCode: String? = nil) {
             self.domainName = domainName
             self.idnLangCode = idnLangCode
@@ -80,7 +80,7 @@ extension Route53Domains {
 
         /// Whether the domain name is available for registering.  You can register only domains designated as AVAILABLE.  Valid values:  AVAILABLE  The domain name is available.  AVAILABLE_RESERVED  The domain name is reserved under specific conditions.  AVAILABLE_PREORDER  The domain name is available and can be preordered.  DONT_KNOW  The TLD registry didn't reply with a definitive answer about whether the domain name is available. Amazon Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later.  PENDING  The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately.  RESERVED  The domain name has been reserved for another person or organization.  UNAVAILABLE  The domain name is not available.  UNAVAILABLE_PREMIUM  The domain name is not available.  UNAVAILABLE_RESTRICTED  The domain name is forbidden.  
         public let availability: DomainAvailability
-        
+
         public init(availability: DomainAvailability) {
             self.availability = availability
         }
@@ -100,7 +100,7 @@ extension Route53Domains {
         public let authCode: String?
         /// The name of the domain that you want to transfer to Amazon Route 53. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
         public let domainName: String
-        
+
         public init(authCode: String? = nil, domainName: String) {
             self.authCode = authCode
             self.domainName = domainName
@@ -124,7 +124,7 @@ extension Route53Domains {
 
         /// A complex type that contains information about whether the specified domain can be transferred to Amazon Route 53.
         public let transferability: DomainTransferability
-        
+
         public init(transferability: DomainTransferability) {
             self.transferability = transferability
         }
@@ -180,7 +180,7 @@ extension Route53Domains {
         public let state: String?
         /// The zip or postal code of the contact's address.
         public let zipCode: String?
-        
+
         public init(addressLine1: String? = nil, addressLine2: String? = nil, city: String? = nil, contactType: ContactType? = nil, countryCode: CountryCode? = nil, email: String? = nil, extraParams: [ExtraParam]? = nil, fax: String? = nil, firstName: String? = nil, lastName: String? = nil, organizationName: String? = nil, phoneNumber: String? = nil, state: String? = nil, zipCode: String? = nil) {
             self.addressLine1 = addressLine1
             self.addressLine2 = addressLine2
@@ -485,7 +485,7 @@ extension Route53Domains {
         public let domainName: String
         /// A list of tag keys to delete.
         public let tagsToDelete: [String]
-        
+
         public init(domainName: String, tagsToDelete: [String]) {
             self.domainName = domainName
             self.tagsToDelete = tagsToDelete
@@ -502,11 +502,12 @@ extension Route53Domains {
     }
 
     public struct DeleteTagsForDomainResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisableDomainAutoRenewRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -515,7 +516,7 @@ extension Route53Domains {
 
         /// The name of the domain that you want to disable automatic renewal for.
         public let domainName: String
-        
+
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -530,11 +531,12 @@ extension Route53Domains {
     }
 
     public struct DisableDomainAutoRenewResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisableDomainTransferLockRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -543,7 +545,7 @@ extension Route53Domains {
 
         /// The name of the domain that you want to remove the transfer lock for.
         public let domainName: String
-        
+
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -564,7 +566,7 @@ extension Route53Domains {
 
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
-        
+
         public init(operationId: String) {
             self.operationId = operationId
         }
@@ -600,7 +602,7 @@ extension Route53Domains {
         public let availability: String?
         /// A suggested domain name.
         public let domainName: String?
-        
+
         public init(availability: String? = nil, domainName: String? = nil) {
             self.availability = availability
             self.domainName = domainName
@@ -632,7 +634,7 @@ extension Route53Domains {
         public let expiry: TimeStamp?
         /// Indicates whether a domain is locked from unauthorized transfer to another party.
         public let transferLock: Bool?
-        
+
         public init(autoRenew: Bool? = nil, domainName: String, expiry: TimeStamp? = nil, transferLock: Bool? = nil) {
             self.autoRenew = autoRenew
             self.domainName = domainName
@@ -658,7 +660,7 @@ extension Route53Domains {
         ]
 
         public let transferable: Transferable?
-        
+
         public init(transferable: Transferable? = nil) {
             self.transferable = transferable
         }
@@ -675,7 +677,7 @@ extension Route53Domains {
 
         /// The name of the domain that you want to enable automatic renewal for.
         public let domainName: String
-        
+
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -690,11 +692,12 @@ extension Route53Domains {
     }
 
     public struct EnableDomainAutoRenewResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct EnableDomainTransferLockRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -703,7 +706,7 @@ extension Route53Domains {
 
         /// The name of the domain that you want to set the transfer lock for.
         public let domainName: String
-        
+
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -724,7 +727,7 @@ extension Route53Domains {
 
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
-        
+
         public init(operationId: String) {
             self.operationId = operationId
         }
@@ -748,7 +751,7 @@ extension Route53Domains {
         public let name: ExtraParamName
         /// Values corresponding to the additional parameter names required by some top-level domains.
         public let value: String
-        
+
         public init(name: ExtraParamName, value: String) {
             self.name = name
             self.value = value
@@ -801,7 +804,7 @@ extension Route53Domains {
 
         /// The name of the domain for which you want to know whether the registrant contact has confirmed that the email address is valid.
         public let domainName: String?
-        
+
         public init(domainName: String? = nil) {
             self.domainName = domainName
         }
@@ -825,7 +828,7 @@ extension Route53Domains {
         public let domainName: String?
         /// Whether the registrant contact has responded. Values include the following:  PENDING  We sent the confirmation email and haven't received a response yet.  DONE  We sent the email and got confirmation from the registrant contact.  EXPIRED  The time limit expired before the registrant contact responded.  
         public let status: ReachabilityStatus?
-        
+
         public init(domainName: String? = nil, status: ReachabilityStatus? = nil) {
             self.domainName = domainName
             self.status = status
@@ -848,7 +851,7 @@ extension Route53Domains {
 
         /// The name of the domain that you want to get detailed information about.
         public let domainName: String
-        
+
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -929,7 +932,7 @@ extension Route53Domains {
         public let updatedDate: TimeStamp?
         /// The fully qualified name of the WHOIS server that can answer the WHOIS query for the domain.
         public let whoIsServer: String?
-        
+
         public init(abuseContactEmail: String? = nil, abuseContactPhone: String? = nil, adminContact: ContactDetail, adminPrivacy: Bool? = nil, autoRenew: Bool? = nil, creationDate: TimeStamp? = nil, dnsSec: String? = nil, domainName: String, expirationDate: TimeStamp? = nil, nameservers: [Nameserver], registrantContact: ContactDetail, registrantPrivacy: Bool? = nil, registrarName: String? = nil, registrarUrl: String? = nil, registryDomainId: String? = nil, reseller: String? = nil, statusList: [String]? = nil, techContact: ContactDetail, techPrivacy: Bool? = nil, updatedDate: TimeStamp? = nil, whoIsServer: String? = nil) {
             self.abuseContactEmail = abuseContactEmail
             self.abuseContactPhone = abuseContactPhone
@@ -1004,7 +1007,7 @@ extension Route53Domains {
         public let onlyAvailable: Bool
         /// The number of suggested domain names that you want Amazon Route 53 to return.
         public let suggestionCount: Int32
-        
+
         public init(domainName: String, onlyAvailable: Bool, suggestionCount: Int32) {
             self.domainName = domainName
             self.onlyAvailable = onlyAvailable
@@ -1029,7 +1032,7 @@ extension Route53Domains {
 
         /// A list of possible domain names. If you specified true for OnlyAvailable in the request, the list contains only domains that are available for registration.
         public let suggestionsList: [DomainSuggestion]?
-        
+
         public init(suggestionsList: [DomainSuggestion]? = nil) {
             self.suggestionsList = suggestionsList
         }
@@ -1052,7 +1055,7 @@ extension Route53Domains {
 
         /// The identifier for the operation for which you want to get the status. Amazon Route 53 returned the identifier in the response to the original request.
         public let operationId: String
-        
+
         public init(operationId: String) {
             self.operationId = operationId
         }
@@ -1088,7 +1091,7 @@ extension Route53Domains {
         public let submittedDate: TimeStamp?
         /// The type of operation that was requested.
         public let `type`: OperationType?
-        
+
         public init(domainName: String? = nil, message: String? = nil, operationId: String? = nil, status: OperationStatus? = nil, submittedDate: TimeStamp? = nil, type: OperationType? = nil) {
             self.domainName = domainName
             self.message = message
@@ -1123,7 +1126,7 @@ extension Route53Domains {
         public let marker: String?
         /// Number of domains to be returned. Default: 20
         public let maxItems: Int32?
-        
+
         public init(marker: String? = nil, maxItems: Int32? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -1150,7 +1153,7 @@ extension Route53Domains {
         public let domains: [DomainSummary]
         /// If there are more domains than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker.
         public let nextPageMarker: String?
-        
+
         public init(domains: [DomainSummary], nextPageMarker: String? = nil) {
             self.domains = domains
             self.nextPageMarker = nextPageMarker
@@ -1182,7 +1185,7 @@ extension Route53Domains {
         public let maxItems: Int32?
         /// An optional parameter that lets you get information about all the operations that you submitted after a specified date and time. Specify the date and time in Coordinated Universal time (UTC).
         public let submittedSince: TimeStamp?
-        
+
         public init(marker: String? = nil, maxItems: Int32? = nil, submittedSince: TimeStamp? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -1211,7 +1214,7 @@ extension Route53Domains {
         public let nextPageMarker: String?
         /// Lists summaries of the operations.
         public let operations: [OperationSummary]
-        
+
         public init(nextPageMarker: String? = nil, operations: [OperationSummary]) {
             self.nextPageMarker = nextPageMarker
             self.operations = operations
@@ -1237,7 +1240,7 @@ extension Route53Domains {
 
         /// The domain for which you want to get a list of tags.
         public let domainName: String
-        
+
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -1258,7 +1261,7 @@ extension Route53Domains {
 
         /// A list of the tags that are associated with the specified domain.
         public let tagList: [Tag]
-        
+
         public init(tagList: [Tag]) {
             self.tagList = tagList
         }
@@ -1278,7 +1281,7 @@ extension Route53Domains {
         public let glueIps: [String]?
         /// The fully qualified host name of the name server. Constraint: Maximum 255 characters
         public let name: String
-        
+
         public init(glueIps: [String]? = nil, name: String) {
             self.glueIps = glueIps
             self.name = name
@@ -1323,7 +1326,7 @@ extension Route53Domains {
         public let submittedDate: TimeStamp
         /// Type of the action requested.
         public let `type`: OperationType
-        
+
         public init(operationId: String, status: OperationStatus, submittedDate: TimeStamp, type: OperationType) {
             self.operationId = operationId
             self.status = status
@@ -1404,7 +1407,7 @@ extension Route53Domains {
         public let registrantContact: ContactDetail
         /// Provides detailed contact information.
         public let techContact: ContactDetail
-        
+
         public init(adminContact: ContactDetail, autoRenew: Bool? = nil, domainName: String, durationInYears: Int32, idnLangCode: String? = nil, privacyProtectAdminContact: Bool? = nil, privacyProtectRegistrantContact: Bool? = nil, privacyProtectTechContact: Bool? = nil, registrantContact: ContactDetail, techContact: ContactDetail) {
             self.adminContact = adminContact
             self.autoRenew = autoRenew
@@ -1449,7 +1452,7 @@ extension Route53Domains {
 
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
-        
+
         public init(operationId: String) {
             self.operationId = operationId
         }
@@ -1476,7 +1479,7 @@ extension Route53Domains {
         public let domainName: String
         /// The number of years that you want to renew the domain for. The maximum number of years depends on the top-level domain. For the range of valid values for your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide. Default: 1
         public let durationInYears: Int32?
-        
+
         public init(currentExpiryYear: Int32, domainName: String, durationInYears: Int32? = nil) {
             self.currentExpiryYear = currentExpiryYear
             self.domainName = domainName
@@ -1503,7 +1506,7 @@ extension Route53Domains {
 
         /// The identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
-        
+
         public init(operationId: String) {
             self.operationId = operationId
         }
@@ -1524,7 +1527,7 @@ extension Route53Domains {
 
         /// The name of the domain for which you want Amazon Route 53 to resend a confirmation email to the registrant contact.
         public let domainName: String?
-        
+
         public init(domainName: String? = nil) {
             self.domainName = domainName
         }
@@ -1551,7 +1554,7 @@ extension Route53Domains {
         public let emailAddress: String?
         ///  True if the email address for the registrant contact has already been verified, and false otherwise. If the email address has already been verified, we don't send another confirmation email.
         public let isAlreadyVerified: Bool?
-        
+
         public init(domainName: String? = nil, emailAddress: String? = nil, isAlreadyVerified: Bool? = nil) {
             self.domainName = domainName
             self.emailAddress = emailAddress
@@ -1577,7 +1580,7 @@ extension Route53Domains {
 
         /// The name of the domain that you want to get an authorization code for.
         public let domainName: String
-        
+
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -1598,7 +1601,7 @@ extension Route53Domains {
 
         /// The authorization code for the domain.
         public let authCode: String
-        
+
         public init(authCode: String) {
             self.authCode = authCode
         }
@@ -1622,7 +1625,7 @@ extension Route53Domains {
         public let key: String?
         /// The value of a tag. Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@" Constraints: Each value can be 0-256 characters long.
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1674,7 +1677,7 @@ extension Route53Domains {
         public let registrantContact: ContactDetail
         /// Provides detailed contact information.
         public let techContact: ContactDetail
-        
+
         public init(adminContact: ContactDetail, authCode: String? = nil, autoRenew: Bool? = nil, domainName: String, durationInYears: Int32, idnLangCode: String? = nil, nameservers: [Nameserver]? = nil, privacyProtectAdminContact: Bool? = nil, privacyProtectRegistrantContact: Bool? = nil, privacyProtectTechContact: Bool? = nil, registrantContact: ContactDetail, techContact: ContactDetail) {
             self.adminContact = adminContact
             self.authCode = authCode
@@ -1727,7 +1730,7 @@ extension Route53Domains {
 
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
-        
+
         public init(operationId: String) {
             self.operationId = operationId
         }
@@ -1764,7 +1767,7 @@ extension Route53Domains {
         public let registrantPrivacy: Bool?
         /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact.
         public let techPrivacy: Bool?
-        
+
         public init(adminPrivacy: Bool? = nil, domainName: String, registrantPrivacy: Bool? = nil, techPrivacy: Bool? = nil) {
             self.adminPrivacy = adminPrivacy
             self.domainName = domainName
@@ -1791,7 +1794,7 @@ extension Route53Domains {
 
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
-        
+
         public init(operationId: String) {
             self.operationId = operationId
         }
@@ -1821,7 +1824,7 @@ extension Route53Domains {
         public let registrantContact: ContactDetail?
         /// Provides detailed contact information.
         public let techContact: ContactDetail?
-        
+
         public init(adminContact: ContactDetail? = nil, domainName: String, registrantContact: ContactDetail? = nil, techContact: ContactDetail? = nil) {
             self.adminContact = adminContact
             self.domainName = domainName
@@ -1851,7 +1854,7 @@ extension Route53Domains {
 
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
-        
+
         public init(operationId: String) {
             self.operationId = operationId
         }
@@ -1875,7 +1878,7 @@ extension Route53Domains {
         public let domainName: String
         /// A list of new name servers for the domain.
         public let nameservers: [Nameserver]
-        
+
         public init(domainName: String, nameservers: [Nameserver]) {
             self.domainName = domainName
             self.nameservers = nameservers
@@ -1901,7 +1904,7 @@ extension Route53Domains {
 
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
-        
+
         public init(operationId: String) {
             self.operationId = operationId
         }
@@ -1925,7 +1928,7 @@ extension Route53Domains {
         public let domainName: String
         /// A list of the tag keys and values that you want to add or update. If you specify a key that already exists, the corresponding value will be replaced.
         public let tagsToUpdate: [Tag]?
-        
+
         public init(domainName: String, tagsToUpdate: [Tag]? = nil) {
             self.domainName = domainName
             self.tagsToUpdate = tagsToUpdate
@@ -1942,11 +1945,12 @@ extension Route53Domains {
     }
 
     public struct UpdateTagsForDomainResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct ViewBillingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1964,7 +1968,7 @@ extension Route53Domains {
         public let maxItems: Int32?
         /// The beginning date and time for the time period for which you want a list of billing records. Specify the date and time in Coordinated Universal time (UTC).
         public let start: TimeStamp?
-        
+
         public init(end: TimeStamp? = nil, marker: String? = nil, maxItems: Int32? = nil, start: TimeStamp? = nil) {
             self.end = end
             self.marker = marker
@@ -1995,7 +1999,7 @@ extension Route53Domains {
         public let billingRecords: [BillingRecord]?
         /// If there are more billing records than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker.
         public let nextPageMarker: String?
-        
+
         public init(billingRecords: [BillingRecord]? = nil, nextPageMarker: String? = nil) {
             self.billingRecords = billingRecords
             self.nextPageMarker = nextPageMarker
@@ -2013,5 +2017,4 @@ extension Route53Domains {
             case nextPageMarker = "NextPageMarker"
         }
     }
-
 }

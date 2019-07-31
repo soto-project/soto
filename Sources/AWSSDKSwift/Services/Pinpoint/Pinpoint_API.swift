@@ -409,5 +409,4 @@ public struct Pinpoint {
     public func updateVoiceChannel(_ input: UpdateVoiceChannelRequest) throws -> Future<UpdateVoiceChannelResponse> {
         return try client.send(operation: "UpdateVoiceChannel", path: "/v1/apps/{application-id}/channels/voice", httpMethod: "PUT", input: input)
     }
-
 }

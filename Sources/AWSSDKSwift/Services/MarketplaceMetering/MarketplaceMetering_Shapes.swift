@@ -15,7 +15,7 @@ extension MarketplaceMetering {
         public let productCode: String
         /// The set of UsageRecords to submit. BatchMeterUsage accepts up to 25 UsageRecords at a time.
         public let usageRecords: [UsageRecord]
-        
+
         public init(productCode: String, usageRecords: [UsageRecord]) {
             self.productCode = productCode
             self.usageRecords = usageRecords
@@ -47,7 +47,7 @@ extension MarketplaceMetering {
         public let results: [UsageRecordResult]?
         /// Contains all UsageRecords that were not processed by BatchMeterUsage. This is a list of UsageRecords. You can retry the failed request by making another BatchMeterUsage call with this list as input in the BatchMeterUsageRequest.
         public let unprocessedRecords: [UsageRecord]?
-        
+
         public init(results: [UsageRecordResult]? = nil, unprocessedRecords: [UsageRecord]? = nil) {
             self.results = results
             self.unprocessedRecords = unprocessedRecords
@@ -89,7 +89,7 @@ extension MarketplaceMetering {
         public let usageDimension: String
         /// Consumption value for the hour. Defaults to 0 if not specified.
         public let usageQuantity: Int32?
-        
+
         public init(dryRun: Bool? = nil, productCode: String, timestamp: TimeStamp, usageDimension: String, usageQuantity: Int32? = nil) {
             self.dryRun = dryRun
             self.productCode = productCode
@@ -123,7 +123,7 @@ extension MarketplaceMetering {
 
         /// Metering record id.
         public let meteringRecordId: String?
-        
+
         public init(meteringRecordId: String? = nil) {
             self.meteringRecordId = meteringRecordId
         }
@@ -146,7 +146,7 @@ extension MarketplaceMetering {
         public let productCode: String
         /// Public Key Version provided by AWS Marketplace
         public let publicKeyVersion: Int32
-        
+
         public init(nonce: String? = nil, productCode: String, publicKeyVersion: Int32) {
             self.nonce = nonce
             self.productCode = productCode
@@ -177,7 +177,7 @@ extension MarketplaceMetering {
         public let publicKeyRotationTimestamp: TimeStamp?
         /// JWT Token
         public let signature: String?
-        
+
         public init(publicKeyRotationTimestamp: TimeStamp? = nil, signature: String? = nil) {
             self.publicKeyRotationTimestamp = publicKeyRotationTimestamp
             self.signature = signature
@@ -200,7 +200,7 @@ extension MarketplaceMetering {
 
         /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier and product code.
         public let registrationToken: String
-        
+
         public init(registrationToken: String) {
             self.registrationToken = registrationToken
         }
@@ -224,7 +224,7 @@ extension MarketplaceMetering {
         public let customerIdentifier: String?
         /// The product code is returned to confirm that the buyer is registering for your product. Subsequent BatchMeterUsage calls should be made using this product code.
         public let productCode: String?
-        
+
         public init(customerIdentifier: String? = nil, productCode: String? = nil) {
             self.customerIdentifier = customerIdentifier
             self.productCode = productCode
@@ -259,7 +259,7 @@ extension MarketplaceMetering {
         public let quantity: Int32?
         /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to one hour in the past. Make sure the timestamp value is not before the start of the software usage.
         public let timestamp: TimeStamp
-        
+
         public init(customerIdentifier: String, dimension: String, quantity: Int32? = nil, timestamp: TimeStamp) {
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
@@ -297,7 +297,7 @@ extension MarketplaceMetering {
         public let status: UsageRecordResultStatus?
         /// The UsageRecord that was part of the BatchMeterUsage request.
         public let usageRecord: UsageRecord?
-        
+
         public init(meteringRecordId: String? = nil, status: UsageRecordResultStatus? = nil, usageRecord: UsageRecord? = nil) {
             self.meteringRecordId = meteringRecordId
             self.status = status
@@ -321,5 +321,4 @@ extension MarketplaceMetering {
         case duplicaterecord = "DuplicateRecord"
         public var description: String { return self.rawValue }
     }
-
 }

@@ -214,5 +214,4 @@ public struct SecurityHub {
     public func updateInsight(_ input: UpdateInsightRequest) throws -> Future<UpdateInsightResponse> {
         return try client.send(operation: "UpdateInsight", path: "/insights/{InsightArn+}", httpMethod: "PATCH", input: input)
     }
-
 }

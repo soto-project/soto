@@ -14,7 +14,7 @@ extension Greengrass {
         public let groupId: String
         /// The ARN of the role you wish to associate with this group.
         public let roleArn: String?
-        
+
         public init(groupId: String, roleArn: String? = nil) {
             self.groupId = groupId
             self.roleArn = roleArn
@@ -33,7 +33,7 @@ extension Greengrass {
 
         /// The time, in milliseconds since the epoch, when the role ARN was associated with the group.
         public let associatedAt: String?
-        
+
         public init(associatedAt: String? = nil) {
             self.associatedAt = associatedAt
         }
@@ -50,7 +50,7 @@ extension Greengrass {
 
         /// The ARN of the service role you wish to associate with your account.
         public let roleArn: String?
-        
+
         public init(roleArn: String? = nil) {
             self.roleArn = roleArn
         }
@@ -67,7 +67,7 @@ extension Greengrass {
 
         /// The time when the service role was associated with the account.
         public let associatedAt: String?
-        
+
         public init(associatedAt: String? = nil) {
             self.associatedAt = associatedAt
         }
@@ -90,7 +90,7 @@ extension Greengrass {
         public let bulkDeploymentId: String?
         /// The time, in ISO format, when the deployment was created.
         public let createdAt: String?
-        
+
         public init(bulkDeploymentArn: String? = nil, bulkDeploymentId: String? = nil, createdAt: String? = nil) {
             self.bulkDeploymentArn = bulkDeploymentArn
             self.bulkDeploymentId = bulkDeploymentId
@@ -117,7 +117,7 @@ extension Greengrass {
         public let recordsProcessed: Int32?
         /// The total number of deployment attempts that returned a retryable error. For example, a retry is triggered if the attempt to deploy a group returns a throttling error. ''StartBulkDeployment'' retries a group deployment up to five times.
         public let retryAttempts: Int32?
-        
+
         public init(invalidInputRecords: Int32? = nil, recordsProcessed: Int32? = nil, retryAttempts: Int32? = nil) {
             self.invalidInputRecords = invalidInputRecords
             self.recordsProcessed = recordsProcessed
@@ -159,7 +159,7 @@ extension Greengrass {
         public let errorMessage: String?
         /// The ARN of the Greengrass group.
         public let groupArn: String?
-        
+
         public init(createdAt: String? = nil, deploymentArn: String? = nil, deploymentId: String? = nil, deploymentStatus: String? = nil, deploymentType: DeploymentType? = nil, errorDetails: [ErrorDetail]? = nil, errorMessage: String? = nil, groupArn: String? = nil) {
             self.createdAt = createdAt
             self.deploymentArn = deploymentArn
@@ -209,7 +209,7 @@ extension Greengrass {
         public let metadata: String?
         /// The port of the Greengrass core. Usually 8883.
         public let portNumber: Int32?
-        
+
         public init(hostAddress: String? = nil, id: String? = nil, metadata: String? = nil, portNumber: Int32? = nil) {
             self.hostAddress = hostAddress
             self.id = id
@@ -238,7 +238,7 @@ extension Greengrass {
         public let id: String?
         /// The parameters or configuration that the connector uses.
         public let parameters: [String: String]?
-        
+
         public init(connectorArn: String? = nil, id: String? = nil, parameters: [String: String]? = nil) {
             self.connectorArn = connectorArn
             self.id = id
@@ -259,7 +259,7 @@ extension Greengrass {
 
         /// A list of references to connectors in this version, with their corresponding configuration settings.
         public let connectors: [Connector]?
-        
+
         public init(connectors: [Connector]? = nil) {
             self.connectors = connectors
         }
@@ -285,7 +285,7 @@ extension Greengrass {
         public let syncShadow: Bool?
         /// The ARN of the thing which is the core.
         public let thingArn: String?
-        
+
         public init(certificateArn: String? = nil, id: String? = nil, syncShadow: Bool? = nil, thingArn: String? = nil) {
             self.certificateArn = certificateArn
             self.id = id
@@ -308,7 +308,7 @@ extension Greengrass {
 
         /// A list of cores in the core definition version.
         public let cores: [Core]?
-        
+
         public init(cores: [Core]? = nil) {
             self.cores = cores
         }
@@ -330,7 +330,7 @@ extension Greengrass {
         public let initialVersion: ConnectorDefinitionVersion?
         public let name: String?
         public let tags: [String: String]?
-        
+
         public init(amznClientToken: String? = nil, initialVersion: ConnectorDefinitionVersion? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.amznClientToken = amznClientToken
             self.initialVersion = initialVersion
@@ -364,7 +364,7 @@ extension Greengrass {
         public let latestVersion: String?
         public let latestVersionArn: String?
         public let name: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -396,7 +396,7 @@ extension Greengrass {
         public let amznClientToken: String?
         public let connectorDefinitionId: String
         public let connectors: [Connector]?
-        
+
         public init(amznClientToken: String? = nil, connectorDefinitionId: String, connectors: [Connector]? = nil) {
             self.amznClientToken = amznClientToken
             self.connectorDefinitionId = connectorDefinitionId
@@ -422,7 +422,7 @@ extension Greengrass {
         public let creationTimestamp: String?
         public let id: String?
         public let version: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -450,7 +450,7 @@ extension Greengrass {
         public let initialVersion: CoreDefinitionVersion?
         public let name: String?
         public let tags: [String: String]?
-        
+
         public init(amznClientToken: String? = nil, initialVersion: CoreDefinitionVersion? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.amznClientToken = amznClientToken
             self.initialVersion = initialVersion
@@ -484,7 +484,7 @@ extension Greengrass {
         public let latestVersion: String?
         public let latestVersionArn: String?
         public let name: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -516,7 +516,7 @@ extension Greengrass {
         public let amznClientToken: String?
         public let coreDefinitionId: String
         public let cores: [Core]?
-        
+
         public init(amznClientToken: String? = nil, coreDefinitionId: String, cores: [Core]? = nil) {
             self.amznClientToken = amznClientToken
             self.coreDefinitionId = coreDefinitionId
@@ -542,7 +542,7 @@ extension Greengrass {
         public let creationTimestamp: String?
         public let id: String?
         public let version: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -575,7 +575,7 @@ extension Greengrass {
         public let groupId: String
         /// The ID of the group version to be deployed.
         public let groupVersionId: String?
-        
+
         public init(amznClientToken: String? = nil, deploymentId: String? = nil, deploymentType: DeploymentType? = nil, groupId: String, groupVersionId: String? = nil) {
             self.amznClientToken = amznClientToken
             self.deploymentId = deploymentId
@@ -603,7 +603,7 @@ extension Greengrass {
         public let deploymentArn: String?
         /// The ID of the deployment.
         public let deploymentId: String?
-        
+
         public init(deploymentArn: String? = nil, deploymentId: String? = nil) {
             self.deploymentArn = deploymentArn
             self.deploymentId = deploymentId
@@ -627,7 +627,7 @@ extension Greengrass {
         public let initialVersion: DeviceDefinitionVersion?
         public let name: String?
         public let tags: [String: String]?
-        
+
         public init(amznClientToken: String? = nil, initialVersion: DeviceDefinitionVersion? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.amznClientToken = amznClientToken
             self.initialVersion = initialVersion
@@ -661,7 +661,7 @@ extension Greengrass {
         public let latestVersion: String?
         public let latestVersionArn: String?
         public let name: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -693,7 +693,7 @@ extension Greengrass {
         public let amznClientToken: String?
         public let deviceDefinitionId: String
         public let devices: [Device]?
-        
+
         public init(amznClientToken: String? = nil, deviceDefinitionId: String, devices: [Device]? = nil) {
             self.amznClientToken = amznClientToken
             self.deviceDefinitionId = deviceDefinitionId
@@ -719,7 +719,7 @@ extension Greengrass {
         public let creationTimestamp: String?
         public let id: String?
         public let version: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -747,7 +747,7 @@ extension Greengrass {
         public let initialVersion: FunctionDefinitionVersion?
         public let name: String?
         public let tags: [String: String]?
-        
+
         public init(amznClientToken: String? = nil, initialVersion: FunctionDefinitionVersion? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.amznClientToken = amznClientToken
             self.initialVersion = initialVersion
@@ -781,7 +781,7 @@ extension Greengrass {
         public let latestVersion: String?
         public let latestVersionArn: String?
         public let name: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -815,7 +815,7 @@ extension Greengrass {
         public let defaultConfig: FunctionDefaultConfig?
         public let functionDefinitionId: String
         public let functions: [Function]?
-        
+
         public init(amznClientToken: String? = nil, defaultConfig: FunctionDefaultConfig? = nil, functionDefinitionId: String, functions: [Function]? = nil) {
             self.amznClientToken = amznClientToken
             self.defaultConfig = defaultConfig
@@ -843,7 +843,7 @@ extension Greengrass {
         public let creationTimestamp: String?
         public let id: String?
         public let version: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -867,7 +867,7 @@ extension Greengrass {
 
         public let amznClientToken: String?
         public let groupId: String
-        
+
         public init(amznClientToken: String? = nil, groupId: String) {
             self.amznClientToken = amznClientToken
             self.groupId = groupId
@@ -886,7 +886,7 @@ extension Greengrass {
 
         /// The ARN of the group certificate authority.
         public let groupCertificateAuthorityArn: String?
-        
+
         public init(groupCertificateAuthorityArn: String? = nil) {
             self.groupCertificateAuthorityArn = groupCertificateAuthorityArn
         }
@@ -908,7 +908,7 @@ extension Greengrass {
         public let initialVersion: GroupVersion?
         public let name: String?
         public let tags: [String: String]?
-        
+
         public init(amznClientToken: String? = nil, initialVersion: GroupVersion? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.amznClientToken = amznClientToken
             self.initialVersion = initialVersion
@@ -942,7 +942,7 @@ extension Greengrass {
         public let latestVersion: String?
         public let latestVersionArn: String?
         public let name: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -986,7 +986,7 @@ extension Greengrass {
         public let loggerDefinitionVersionArn: String?
         public let resourceDefinitionVersionArn: String?
         public let subscriptionDefinitionVersionArn: String?
-        
+
         public init(amznClientToken: String? = nil, connectorDefinitionVersionArn: String? = nil, coreDefinitionVersionArn: String? = nil, deviceDefinitionVersionArn: String? = nil, functionDefinitionVersionArn: String? = nil, groupId: String, loggerDefinitionVersionArn: String? = nil, resourceDefinitionVersionArn: String? = nil, subscriptionDefinitionVersionArn: String? = nil) {
             self.amznClientToken = amznClientToken
             self.connectorDefinitionVersionArn = connectorDefinitionVersionArn
@@ -1024,7 +1024,7 @@ extension Greengrass {
         public let creationTimestamp: String?
         public let id: String?
         public let version: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -1052,7 +1052,7 @@ extension Greengrass {
         public let initialVersion: LoggerDefinitionVersion?
         public let name: String?
         public let tags: [String: String]?
-        
+
         public init(amznClientToken: String? = nil, initialVersion: LoggerDefinitionVersion? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.amznClientToken = amznClientToken
             self.initialVersion = initialVersion
@@ -1086,7 +1086,7 @@ extension Greengrass {
         public let latestVersion: String?
         public let latestVersionArn: String?
         public let name: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -1118,7 +1118,7 @@ extension Greengrass {
         public let amznClientToken: String?
         public let loggerDefinitionId: String
         public let loggers: [Logger]?
-        
+
         public init(amznClientToken: String? = nil, loggerDefinitionId: String, loggers: [Logger]? = nil) {
             self.amznClientToken = amznClientToken
             self.loggerDefinitionId = loggerDefinitionId
@@ -1144,7 +1144,7 @@ extension Greengrass {
         public let creationTimestamp: String?
         public let id: String?
         public let version: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -1172,7 +1172,7 @@ extension Greengrass {
         public let initialVersion: ResourceDefinitionVersion?
         public let name: String?
         public let tags: [String: String]?
-        
+
         public init(amznClientToken: String? = nil, initialVersion: ResourceDefinitionVersion? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.amznClientToken = amznClientToken
             self.initialVersion = initialVersion
@@ -1206,7 +1206,7 @@ extension Greengrass {
         public let latestVersion: String?
         public let latestVersionArn: String?
         public let name: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -1238,7 +1238,7 @@ extension Greengrass {
         public let amznClientToken: String?
         public let resourceDefinitionId: String
         public let resources: [Resource]?
-        
+
         public init(amznClientToken: String? = nil, resourceDefinitionId: String, resources: [Resource]? = nil) {
             self.amznClientToken = amznClientToken
             self.resourceDefinitionId = resourceDefinitionId
@@ -1264,7 +1264,7 @@ extension Greengrass {
         public let creationTimestamp: String?
         public let id: String?
         public let version: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -1298,7 +1298,7 @@ extension Greengrass {
         public let updateTargets: [String]?
         public let updateTargetsArchitecture: UpdateTargetsArchitecture?
         public let updateTargetsOperatingSystem: UpdateTargetsOperatingSystem?
-        
+
         public init(amznClientToken: String? = nil, s3UrlSignerRole: String? = nil, softwareToUpdate: SoftwareToUpdate? = nil, updateAgentLogLevel: UpdateAgentLogLevel? = nil, updateTargets: [String]? = nil, updateTargetsArchitecture: UpdateTargetsArchitecture? = nil, updateTargetsOperatingSystem: UpdateTargetsOperatingSystem? = nil) {
             self.amznClientToken = amznClientToken
             self.s3UrlSignerRole = s3UrlSignerRole
@@ -1330,7 +1330,7 @@ extension Greengrass {
         public let iotJobArn: String?
         /// The IoT Job Id corresponding to this update.
         public let iotJobId: String?
-        
+
         public init(iotJobArn: String? = nil, iotJobId: String? = nil) {
             self.iotJobArn = iotJobArn
             self.iotJobId = iotJobId
@@ -1354,7 +1354,7 @@ extension Greengrass {
         public let initialVersion: SubscriptionDefinitionVersion?
         public let name: String?
         public let tags: [String: String]?
-        
+
         public init(amznClientToken: String? = nil, initialVersion: SubscriptionDefinitionVersion? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.amznClientToken = amznClientToken
             self.initialVersion = initialVersion
@@ -1388,7 +1388,7 @@ extension Greengrass {
         public let latestVersion: String?
         public let latestVersionArn: String?
         public let name: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -1420,7 +1420,7 @@ extension Greengrass {
         public let amznClientToken: String?
         public let subscriptionDefinitionId: String
         public let subscriptions: [Subscription]?
-        
+
         public init(amznClientToken: String? = nil, subscriptionDefinitionId: String, subscriptions: [Subscription]? = nil) {
             self.amznClientToken = amznClientToken
             self.subscriptionDefinitionId = subscriptionDefinitionId
@@ -1446,7 +1446,7 @@ extension Greengrass {
         public let creationTimestamp: String?
         public let id: String?
         public let version: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -1489,7 +1489,7 @@ extension Greengrass {
         /// The name of the definition.
         public let name: String?
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -1519,7 +1519,7 @@ extension Greengrass {
         ]
 
         public let connectorDefinitionId: String
-        
+
         public init(connectorDefinitionId: String) {
             self.connectorDefinitionId = connectorDefinitionId
         }
@@ -1530,11 +1530,12 @@ extension Greengrass {
     }
 
     public struct DeleteConnectorDefinitionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteCoreDefinitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1542,7 +1543,7 @@ extension Greengrass {
         ]
 
         public let coreDefinitionId: String
-        
+
         public init(coreDefinitionId: String) {
             self.coreDefinitionId = coreDefinitionId
         }
@@ -1553,11 +1554,12 @@ extension Greengrass {
     }
 
     public struct DeleteCoreDefinitionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteDeviceDefinitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1565,7 +1567,7 @@ extension Greengrass {
         ]
 
         public let deviceDefinitionId: String
-        
+
         public init(deviceDefinitionId: String) {
             self.deviceDefinitionId = deviceDefinitionId
         }
@@ -1576,11 +1578,12 @@ extension Greengrass {
     }
 
     public struct DeleteDeviceDefinitionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteFunctionDefinitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1588,7 +1591,7 @@ extension Greengrass {
         ]
 
         public let functionDefinitionId: String
-        
+
         public init(functionDefinitionId: String) {
             self.functionDefinitionId = functionDefinitionId
         }
@@ -1599,11 +1602,12 @@ extension Greengrass {
     }
 
     public struct DeleteFunctionDefinitionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1611,7 +1615,7 @@ extension Greengrass {
         ]
 
         public let groupId: String
-        
+
         public init(groupId: String) {
             self.groupId = groupId
         }
@@ -1622,11 +1626,12 @@ extension Greengrass {
     }
 
     public struct DeleteGroupResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteLoggerDefinitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1634,7 +1639,7 @@ extension Greengrass {
         ]
 
         public let loggerDefinitionId: String
-        
+
         public init(loggerDefinitionId: String) {
             self.loggerDefinitionId = loggerDefinitionId
         }
@@ -1645,11 +1650,12 @@ extension Greengrass {
     }
 
     public struct DeleteLoggerDefinitionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteResourceDefinitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1657,7 +1663,7 @@ extension Greengrass {
         ]
 
         public let resourceDefinitionId: String
-        
+
         public init(resourceDefinitionId: String) {
             self.resourceDefinitionId = resourceDefinitionId
         }
@@ -1668,11 +1674,12 @@ extension Greengrass {
     }
 
     public struct DeleteResourceDefinitionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteSubscriptionDefinitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1680,7 +1687,7 @@ extension Greengrass {
         ]
 
         public let subscriptionDefinitionId: String
-        
+
         public init(subscriptionDefinitionId: String) {
             self.subscriptionDefinitionId = subscriptionDefinitionId
         }
@@ -1691,11 +1698,12 @@ extension Greengrass {
     }
 
     public struct DeleteSubscriptionDefinitionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Deployment: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1716,7 +1724,7 @@ extension Greengrass {
         public let deploymentType: DeploymentType?
         /// The ARN of the group for this deployment.
         public let groupArn: String?
-        
+
         public init(createdAt: String? = nil, deploymentArn: String? = nil, deploymentId: String? = nil, deploymentType: DeploymentType? = nil, groupArn: String? = nil) {
             self.createdAt = createdAt
             self.deploymentArn = deploymentArn
@@ -1758,7 +1766,7 @@ extension Greengrass {
         public let syncShadow: Bool?
         /// The thing ARN of the device.
         public let thingArn: String?
-        
+
         public init(certificateArn: String? = nil, id: String? = nil, syncShadow: Bool? = nil, thingArn: String? = nil) {
             self.certificateArn = certificateArn
             self.id = id
@@ -1781,7 +1789,7 @@ extension Greengrass {
 
         /// A list of devices in the definition version.
         public let devices: [Device]?
-        
+
         public init(devices: [Device]? = nil) {
             self.devices = devices
         }
@@ -1797,7 +1805,7 @@ extension Greengrass {
         ]
 
         public let groupId: String
-        
+
         public init(groupId: String) {
             self.groupId = groupId
         }
@@ -1814,7 +1822,7 @@ extension Greengrass {
 
         /// The time, in milliseconds since the epoch, when the role was disassociated from the group.
         public let disassociatedAt: String?
-        
+
         public init(disassociatedAt: String? = nil) {
             self.disassociatedAt = disassociatedAt
         }
@@ -1825,11 +1833,12 @@ extension Greengrass {
     }
 
     public struct DisassociateServiceRoleFromAccountRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociateServiceRoleFromAccountResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1838,7 +1847,7 @@ extension Greengrass {
 
         /// The time when the service role was disassociated from the account.
         public let disassociatedAt: String?
-        
+
         public init(disassociatedAt: String? = nil) {
             self.disassociatedAt = disassociatedAt
         }
@@ -1849,11 +1858,12 @@ extension Greengrass {
     }
 
     public struct Empty: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum EncodingType: String, CustomStringConvertible, Codable {
         case binary = "binary"
@@ -1871,7 +1881,7 @@ extension Greengrass {
         public let detailedErrorCode: String?
         /// A detailed error message.
         public let detailedErrorMessage: String?
-        
+
         public init(detailedErrorCode: String? = nil, detailedErrorMessage: String? = nil) {
             self.detailedErrorCode = detailedErrorCode
             self.detailedErrorMessage = detailedErrorMessage
@@ -1896,7 +1906,7 @@ extension Greengrass {
         public let functionConfiguration: FunctionConfiguration?
         /// A descriptive or arbitrary ID for the function. This value must be unique within the function definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
         public let id: String?
-        
+
         public init(functionArn: String? = nil, functionConfiguration: FunctionConfiguration? = nil, id: String? = nil) {
             self.functionArn = functionArn
             self.functionConfiguration = functionConfiguration
@@ -1935,7 +1945,7 @@ extension Greengrass {
         public let pinned: Bool?
         /// The allowed function execution time, after which Lambda should terminate the function. This timeout still applies to pinned Lambda functions for each request.
         public let timeout: Int32?
-        
+
         public init(encodingType: EncodingType? = nil, environment: FunctionConfigurationEnvironment? = nil, execArgs: String? = nil, executable: String? = nil, memorySize: Int32? = nil, pinned: Bool? = nil, timeout: Int32? = nil) {
             self.encodingType = encodingType
             self.environment = environment
@@ -1973,7 +1983,7 @@ extension Greengrass {
         public let resourceAccessPolicies: [ResourceAccessPolicy]?
         /// Environment variables for the Lambda function's configuration.
         public let variables: [String: String]?
-        
+
         public init(accessSysfs: Bool? = nil, execution: FunctionExecutionConfig? = nil, resourceAccessPolicies: [ResourceAccessPolicy]? = nil, variables: [String: String]? = nil) {
             self.accessSysfs = accessSysfs
             self.execution = execution
@@ -1995,7 +2005,7 @@ extension Greengrass {
         ]
 
         public let execution: FunctionDefaultExecutionConfig?
-        
+
         public init(execution: FunctionDefaultExecutionConfig? = nil) {
             self.execution = execution
         }
@@ -2013,7 +2023,7 @@ extension Greengrass {
 
         public let isolationMode: FunctionIsolationMode?
         public let runAs: FunctionRunAsConfig?
-        
+
         public init(isolationMode: FunctionIsolationMode? = nil, runAs: FunctionRunAsConfig? = nil) {
             self.isolationMode = isolationMode
             self.runAs = runAs
@@ -2035,7 +2045,7 @@ extension Greengrass {
         public let defaultConfig: FunctionDefaultConfig?
         /// A list of Lambda functions in this function definition version.
         public let functions: [Function]?
-        
+
         public init(defaultConfig: FunctionDefaultConfig? = nil, functions: [Function]? = nil) {
             self.defaultConfig = defaultConfig
             self.functions = functions
@@ -2055,7 +2065,7 @@ extension Greengrass {
 
         public let isolationMode: FunctionIsolationMode?
         public let runAs: FunctionRunAsConfig?
-        
+
         public init(isolationMode: FunctionIsolationMode? = nil, runAs: FunctionRunAsConfig? = nil) {
             self.isolationMode = isolationMode
             self.runAs = runAs
@@ -2083,7 +2093,7 @@ extension Greengrass {
         public let gid: Int32?
         /// The user ID whose permissions are used to run a Lambda function.
         public let uid: Int32?
-        
+
         public init(gid: Int32? = nil, uid: Int32? = nil) {
             self.gid = gid
             self.uid = uid
@@ -2105,7 +2115,7 @@ extension Greengrass {
         public let errorDetails: [ErrorDetail]?
         /// A message containing information about the error.
         public let message: String?
-        
+
         public init(errorDetails: [ErrorDetail]? = nil, message: String? = nil) {
             self.errorDetails = errorDetails
             self.message = message
@@ -2123,7 +2133,7 @@ extension Greengrass {
         ]
 
         public let groupId: String
-        
+
         public init(groupId: String) {
             self.groupId = groupId
         }
@@ -2143,7 +2153,7 @@ extension Greengrass {
         public let associatedAt: String?
         /// The ARN of the role that is associated with the group.
         public let roleArn: String?
-        
+
         public init(associatedAt: String? = nil, roleArn: String? = nil) {
             self.associatedAt = associatedAt
             self.roleArn = roleArn
@@ -2161,7 +2171,7 @@ extension Greengrass {
         ]
 
         public let bulkDeploymentId: String
-        
+
         public init(bulkDeploymentId: String) {
             self.bulkDeploymentId = bulkDeploymentId
         }
@@ -2192,7 +2202,7 @@ extension Greengrass {
         /// Error message
         public let errorMessage: String?
         public let tags: [String: String]?
-        
+
         public init(bulkDeploymentMetrics: BulkDeploymentMetrics? = nil, bulkDeploymentStatus: BulkDeploymentStatus? = nil, createdAt: String? = nil, errorDetails: [ErrorDetail]? = nil, errorMessage: String? = nil, tags: [String: String]? = nil) {
             self.bulkDeploymentMetrics = bulkDeploymentMetrics
             self.bulkDeploymentStatus = bulkDeploymentStatus
@@ -2218,7 +2228,7 @@ extension Greengrass {
         ]
 
         public let thingName: String
-        
+
         public init(thingName: String) {
             self.thingName = thingName
         }
@@ -2238,7 +2248,7 @@ extension Greengrass {
         public let connectivityInfo: [ConnectivityInfo]?
         /// A message about the connectivity info request.
         public let message: String?
-        
+
         public init(connectivityInfo: [ConnectivityInfo]? = nil, message: String? = nil) {
             self.connectivityInfo = connectivityInfo
             self.message = message
@@ -2256,7 +2266,7 @@ extension Greengrass {
         ]
 
         public let connectorDefinitionId: String
-        
+
         public init(connectorDefinitionId: String) {
             self.connectorDefinitionId = connectorDefinitionId
         }
@@ -2286,7 +2296,7 @@ extension Greengrass {
         public let latestVersionArn: String?
         public let name: String?
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -2320,7 +2330,7 @@ extension Greengrass {
         public let connectorDefinitionId: String
         public let connectorDefinitionVersionId: String
         public let nextToken: String?
-        
+
         public init(connectorDefinitionId: String, connectorDefinitionVersionId: String, nextToken: String? = nil) {
             self.connectorDefinitionId = connectorDefinitionId
             self.connectorDefinitionVersionId = connectorDefinitionVersionId
@@ -2356,7 +2366,7 @@ extension Greengrass {
         public let nextToken: String?
         /// The version of the connector definition version.
         public let version: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, definition: ConnectorDefinitionVersion? = nil, id: String? = nil, nextToken: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -2382,7 +2392,7 @@ extension Greengrass {
         ]
 
         public let coreDefinitionId: String
-        
+
         public init(coreDefinitionId: String) {
             self.coreDefinitionId = coreDefinitionId
         }
@@ -2412,7 +2422,7 @@ extension Greengrass {
         public let latestVersionArn: String?
         public let name: String?
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -2444,7 +2454,7 @@ extension Greengrass {
 
         public let coreDefinitionId: String
         public let coreDefinitionVersionId: String
-        
+
         public init(coreDefinitionId: String, coreDefinitionVersionId: String) {
             self.coreDefinitionId = coreDefinitionId
             self.coreDefinitionVersionId = coreDefinitionVersionId
@@ -2478,7 +2488,7 @@ extension Greengrass {
         public let nextToken: String?
         /// The version of the core definition version.
         public let version: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, definition: CoreDefinitionVersion? = nil, id: String? = nil, nextToken: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -2506,7 +2516,7 @@ extension Greengrass {
 
         public let deploymentId: String
         public let groupId: String
-        
+
         public init(deploymentId: String, groupId: String) {
             self.deploymentId = deploymentId
             self.groupId = groupId
@@ -2537,7 +2547,7 @@ extension Greengrass {
         public let errorMessage: String?
         /// The time, in milliseconds since the epoch, when the deployment status was updated.
         public let updatedAt: String?
-        
+
         public init(deploymentStatus: String? = nil, deploymentType: DeploymentType? = nil, errorDetails: [ErrorDetail]? = nil, errorMessage: String? = nil, updatedAt: String? = nil) {
             self.deploymentStatus = deploymentStatus
             self.deploymentType = deploymentType
@@ -2561,7 +2571,7 @@ extension Greengrass {
         ]
 
         public let deviceDefinitionId: String
-        
+
         public init(deviceDefinitionId: String) {
             self.deviceDefinitionId = deviceDefinitionId
         }
@@ -2591,7 +2601,7 @@ extension Greengrass {
         public let latestVersionArn: String?
         public let name: String?
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -2625,7 +2635,7 @@ extension Greengrass {
         public let deviceDefinitionId: String
         public let deviceDefinitionVersionId: String
         public let nextToken: String?
-        
+
         public init(deviceDefinitionId: String, deviceDefinitionVersionId: String, nextToken: String? = nil) {
             self.deviceDefinitionId = deviceDefinitionId
             self.deviceDefinitionVersionId = deviceDefinitionVersionId
@@ -2661,7 +2671,7 @@ extension Greengrass {
         public let nextToken: String?
         /// The version of the device definition version.
         public let version: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, definition: DeviceDefinitionVersion? = nil, id: String? = nil, nextToken: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -2687,7 +2697,7 @@ extension Greengrass {
         ]
 
         public let functionDefinitionId: String
-        
+
         public init(functionDefinitionId: String) {
             self.functionDefinitionId = functionDefinitionId
         }
@@ -2717,7 +2727,7 @@ extension Greengrass {
         public let latestVersionArn: String?
         public let name: String?
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -2751,7 +2761,7 @@ extension Greengrass {
         public let functionDefinitionId: String
         public let functionDefinitionVersionId: String
         public let nextToken: String?
-        
+
         public init(functionDefinitionId: String, functionDefinitionVersionId: String, nextToken: String? = nil) {
             self.functionDefinitionId = functionDefinitionId
             self.functionDefinitionVersionId = functionDefinitionVersionId
@@ -2787,7 +2797,7 @@ extension Greengrass {
         public let nextToken: String?
         /// The version of the function definition version.
         public let version: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, definition: FunctionDefinitionVersion? = nil, id: String? = nil, nextToken: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -2815,7 +2825,7 @@ extension Greengrass {
 
         public let certificateAuthorityId: String
         public let groupId: String
-        
+
         public init(certificateAuthorityId: String, groupId: String) {
             self.certificateAuthorityId = certificateAuthorityId
             self.groupId = groupId
@@ -2840,7 +2850,7 @@ extension Greengrass {
         public let groupCertificateAuthorityId: String?
         /// The PEM encoded certificate for the group.
         public let pemEncodedCertificate: String?
-        
+
         public init(groupCertificateAuthorityArn: String? = nil, groupCertificateAuthorityId: String? = nil, pemEncodedCertificate: String? = nil) {
             self.groupCertificateAuthorityArn = groupCertificateAuthorityArn
             self.groupCertificateAuthorityId = groupCertificateAuthorityId
@@ -2860,7 +2870,7 @@ extension Greengrass {
         ]
 
         public let groupId: String
-        
+
         public init(groupId: String) {
             self.groupId = groupId
         }
@@ -2880,7 +2890,7 @@ extension Greengrass {
         public let certificateAuthorityExpiryInMilliseconds: String?
         public let certificateExpiryInMilliseconds: String?
         public let groupId: String?
-        
+
         public init(certificateAuthorityExpiryInMilliseconds: String? = nil, certificateExpiryInMilliseconds: String? = nil, groupId: String? = nil) {
             self.certificateAuthorityExpiryInMilliseconds = certificateAuthorityExpiryInMilliseconds
             self.certificateExpiryInMilliseconds = certificateExpiryInMilliseconds
@@ -2900,7 +2910,7 @@ extension Greengrass {
         ]
 
         public let groupId: String
-        
+
         public init(groupId: String) {
             self.groupId = groupId
         }
@@ -2930,7 +2940,7 @@ extension Greengrass {
         public let latestVersionArn: String?
         public let name: String?
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -2962,7 +2972,7 @@ extension Greengrass {
 
         public let groupId: String
         public let groupVersionId: String
-        
+
         public init(groupId: String, groupVersionId: String) {
             self.groupId = groupId
             self.groupVersionId = groupVersionId
@@ -2993,7 +3003,7 @@ extension Greengrass {
         public let id: String?
         /// The unique ID for the version of the group.
         public let version: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, definition: GroupVersion? = nil, id: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -3017,7 +3027,7 @@ extension Greengrass {
         ]
 
         public let loggerDefinitionId: String
-        
+
         public init(loggerDefinitionId: String) {
             self.loggerDefinitionId = loggerDefinitionId
         }
@@ -3047,7 +3057,7 @@ extension Greengrass {
         public let latestVersionArn: String?
         public let name: String?
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -3081,7 +3091,7 @@ extension Greengrass {
         public let loggerDefinitionId: String
         public let loggerDefinitionVersionId: String
         public let nextToken: String?
-        
+
         public init(loggerDefinitionId: String, loggerDefinitionVersionId: String, nextToken: String? = nil) {
             self.loggerDefinitionId = loggerDefinitionId
             self.loggerDefinitionVersionId = loggerDefinitionVersionId
@@ -3114,7 +3124,7 @@ extension Greengrass {
         public let id: String?
         /// The version of the logger definition version.
         public let version: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, definition: LoggerDefinitionVersion? = nil, id: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -3138,7 +3148,7 @@ extension Greengrass {
         ]
 
         public let resourceDefinitionId: String
-        
+
         public init(resourceDefinitionId: String) {
             self.resourceDefinitionId = resourceDefinitionId
         }
@@ -3168,7 +3178,7 @@ extension Greengrass {
         public let latestVersionArn: String?
         public let name: String?
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -3200,7 +3210,7 @@ extension Greengrass {
 
         public let resourceDefinitionId: String
         public let resourceDefinitionVersionId: String
-        
+
         public init(resourceDefinitionId: String, resourceDefinitionVersionId: String) {
             self.resourceDefinitionId = resourceDefinitionId
             self.resourceDefinitionVersionId = resourceDefinitionVersionId
@@ -3231,7 +3241,7 @@ extension Greengrass {
         public let id: String?
         /// The version of the resource definition version.
         public let version: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, definition: ResourceDefinitionVersion? = nil, id: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -3250,11 +3260,12 @@ extension Greengrass {
     }
 
     public struct GetServiceRoleForAccountRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetServiceRoleForAccountResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3266,7 +3277,7 @@ extension Greengrass {
         public let associatedAt: String?
         /// The ARN of the role which is associated with the account.
         public let roleArn: String?
-        
+
         public init(associatedAt: String? = nil, roleArn: String? = nil) {
             self.associatedAt = associatedAt
             self.roleArn = roleArn
@@ -3284,7 +3295,7 @@ extension Greengrass {
         ]
 
         public let subscriptionDefinitionId: String
-        
+
         public init(subscriptionDefinitionId: String) {
             self.subscriptionDefinitionId = subscriptionDefinitionId
         }
@@ -3314,7 +3325,7 @@ extension Greengrass {
         public let latestVersionArn: String?
         public let name: String?
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -3348,7 +3359,7 @@ extension Greengrass {
         public let nextToken: String?
         public let subscriptionDefinitionId: String
         public let subscriptionDefinitionVersionId: String
-        
+
         public init(nextToken: String? = nil, subscriptionDefinitionId: String, subscriptionDefinitionVersionId: String) {
             self.nextToken = nextToken
             self.subscriptionDefinitionId = subscriptionDefinitionId
@@ -3384,7 +3395,7 @@ extension Greengrass {
         public let nextToken: String?
         /// The version of the subscription definition version.
         public let version: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, definition: SubscriptionDefinitionVersion? = nil, id: String? = nil, nextToken: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -3414,7 +3425,7 @@ extension Greengrass {
         public let groupCertificateAuthorityArn: String?
         /// The ID of the certificate authority for the group.
         public let groupCertificateAuthorityId: String?
-        
+
         public init(groupCertificateAuthorityArn: String? = nil, groupCertificateAuthorityId: String? = nil) {
             self.groupCertificateAuthorityArn = groupCertificateAuthorityArn
             self.groupCertificateAuthorityId = groupCertificateAuthorityId
@@ -3439,7 +3450,7 @@ extension Greengrass {
         public let certificateExpiryInMilliseconds: String?
         /// The ID of the group certificate configuration.
         public let groupId: String?
-        
+
         public init(certificateAuthorityExpiryInMilliseconds: String? = nil, certificateExpiryInMilliseconds: String? = nil, groupId: String? = nil) {
             self.certificateAuthorityExpiryInMilliseconds = certificateAuthorityExpiryInMilliseconds
             self.certificateExpiryInMilliseconds = certificateExpiryInMilliseconds
@@ -3478,7 +3489,7 @@ extension Greengrass {
         public let latestVersionArn: String?
         /// The name of the group.
         public let name: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -3510,7 +3521,7 @@ extension Greengrass {
         public let autoAddGroupOwner: Bool?
         /// The name of the Linux OS group whose privileges will be added to the Lambda process. This field is optional.
         public let groupOwner: String?
-        
+
         public init(autoAddGroupOwner: Bool? = nil, groupOwner: String? = nil) {
             self.autoAddGroupOwner = autoAddGroupOwner
             self.groupOwner = groupOwner
@@ -3547,7 +3558,7 @@ extension Greengrass {
         public let resourceDefinitionVersionArn: String?
         /// The ARN of the subscription definition version for this group.
         public let subscriptionDefinitionVersionArn: String?
-        
+
         public init(connectorDefinitionVersionArn: String? = nil, coreDefinitionVersionArn: String? = nil, deviceDefinitionVersionArn: String? = nil, functionDefinitionVersionArn: String? = nil, loggerDefinitionVersionArn: String? = nil, resourceDefinitionVersionArn: String? = nil, subscriptionDefinitionVersionArn: String? = nil) {
             self.connectorDefinitionVersionArn = connectorDefinitionVersionArn
             self.coreDefinitionVersionArn = coreDefinitionVersionArn
@@ -3579,7 +3590,7 @@ extension Greengrass {
         public let bulkDeploymentId: String
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(bulkDeploymentId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.bulkDeploymentId = bulkDeploymentId
             self.maxResults = maxResults
@@ -3603,7 +3614,7 @@ extension Greengrass {
         public let deployments: [BulkDeploymentResult]?
         /// The token for the next set of results, or ''null'' if there are no additional results.
         public let nextToken: String?
-        
+
         public init(deployments: [BulkDeploymentResult]? = nil, nextToken: String? = nil) {
             self.deployments = deployments
             self.nextToken = nextToken
@@ -3623,7 +3634,7 @@ extension Greengrass {
 
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3645,7 +3656,7 @@ extension Greengrass {
         public let bulkDeployments: [BulkDeployment]?
         /// The token for the next set of results, or ''null'' if there are no additional results.
         public let nextToken: String?
-        
+
         public init(bulkDeployments: [BulkDeployment]? = nil, nextToken: String? = nil) {
             self.bulkDeployments = bulkDeployments
             self.nextToken = nextToken
@@ -3667,7 +3678,7 @@ extension Greengrass {
         public let connectorDefinitionId: String
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(connectorDefinitionId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.connectorDefinitionId = connectorDefinitionId
             self.maxResults = maxResults
@@ -3689,7 +3700,7 @@ extension Greengrass {
 
         public let nextToken: String?
         public let versions: [VersionInformation]?
-        
+
         public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
             self.nextToken = nextToken
             self.versions = versions
@@ -3709,7 +3720,7 @@ extension Greengrass {
 
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3729,7 +3740,7 @@ extension Greengrass {
 
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
-        
+
         public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
             self.definitions = definitions
             self.nextToken = nextToken
@@ -3751,7 +3762,7 @@ extension Greengrass {
         public let coreDefinitionId: String
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(coreDefinitionId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.coreDefinitionId = coreDefinitionId
             self.maxResults = maxResults
@@ -3773,7 +3784,7 @@ extension Greengrass {
 
         public let nextToken: String?
         public let versions: [VersionInformation]?
-        
+
         public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
             self.nextToken = nextToken
             self.versions = versions
@@ -3793,7 +3804,7 @@ extension Greengrass {
 
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3813,7 +3824,7 @@ extension Greengrass {
 
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
-        
+
         public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
             self.definitions = definitions
             self.nextToken = nextToken
@@ -3835,7 +3846,7 @@ extension Greengrass {
         public let definitions: [DefinitionInformation]?
         /// The token for the next set of results, or ''null'' if there are no additional results.
         public let nextToken: String?
-        
+
         public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
             self.definitions = definitions
             self.nextToken = nextToken
@@ -3857,7 +3868,7 @@ extension Greengrass {
         public let groupId: String
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(groupId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.groupId = groupId
             self.maxResults = maxResults
@@ -3881,7 +3892,7 @@ extension Greengrass {
         public let deployments: [Deployment]?
         /// The token for the next set of results, or ''null'' if there are no additional results.
         public let nextToken: String?
-        
+
         public init(deployments: [Deployment]? = nil, nextToken: String? = nil) {
             self.deployments = deployments
             self.nextToken = nextToken
@@ -3903,7 +3914,7 @@ extension Greengrass {
         public let deviceDefinitionId: String
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(deviceDefinitionId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.deviceDefinitionId = deviceDefinitionId
             self.maxResults = maxResults
@@ -3925,7 +3936,7 @@ extension Greengrass {
 
         public let nextToken: String?
         public let versions: [VersionInformation]?
-        
+
         public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
             self.nextToken = nextToken
             self.versions = versions
@@ -3945,7 +3956,7 @@ extension Greengrass {
 
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3965,7 +3976,7 @@ extension Greengrass {
 
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
-        
+
         public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
             self.definitions = definitions
             self.nextToken = nextToken
@@ -3987,7 +3998,7 @@ extension Greengrass {
         public let functionDefinitionId: String
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(functionDefinitionId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.functionDefinitionId = functionDefinitionId
             self.maxResults = maxResults
@@ -4009,7 +4020,7 @@ extension Greengrass {
 
         public let nextToken: String?
         public let versions: [VersionInformation]?
-        
+
         public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
             self.nextToken = nextToken
             self.versions = versions
@@ -4029,7 +4040,7 @@ extension Greengrass {
 
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4049,7 +4060,7 @@ extension Greengrass {
 
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
-        
+
         public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
             self.definitions = definitions
             self.nextToken = nextToken
@@ -4067,7 +4078,7 @@ extension Greengrass {
         ]
 
         public let groupId: String
-        
+
         public init(groupId: String) {
             self.groupId = groupId
         }
@@ -4084,7 +4095,7 @@ extension Greengrass {
 
         /// A list of certificate authorities associated with the group.
         public let groupCertificateAuthorities: [GroupCertificateAuthorityProperties]?
-        
+
         public init(groupCertificateAuthorities: [GroupCertificateAuthorityProperties]? = nil) {
             self.groupCertificateAuthorities = groupCertificateAuthorities
         }
@@ -4104,7 +4115,7 @@ extension Greengrass {
         public let groupId: String
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(groupId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.groupId = groupId
             self.maxResults = maxResults
@@ -4126,7 +4137,7 @@ extension Greengrass {
 
         public let nextToken: String?
         public let versions: [VersionInformation]?
-        
+
         public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
             self.nextToken = nextToken
             self.versions = versions
@@ -4146,7 +4157,7 @@ extension Greengrass {
 
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4168,7 +4179,7 @@ extension Greengrass {
         public let groups: [GroupInformation]?
         /// The token for the next set of results, or ''null'' if there are no additional results.
         public let nextToken: String?
-        
+
         public init(groups: [GroupInformation]? = nil, nextToken: String? = nil) {
             self.groups = groups
             self.nextToken = nextToken
@@ -4190,7 +4201,7 @@ extension Greengrass {
         public let loggerDefinitionId: String
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(loggerDefinitionId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.loggerDefinitionId = loggerDefinitionId
             self.maxResults = maxResults
@@ -4212,7 +4223,7 @@ extension Greengrass {
 
         public let nextToken: String?
         public let versions: [VersionInformation]?
-        
+
         public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
             self.nextToken = nextToken
             self.versions = versions
@@ -4232,7 +4243,7 @@ extension Greengrass {
 
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4252,7 +4263,7 @@ extension Greengrass {
 
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
-        
+
         public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
             self.definitions = definitions
             self.nextToken = nextToken
@@ -4274,7 +4285,7 @@ extension Greengrass {
         public let maxResults: String?
         public let nextToken: String?
         public let resourceDefinitionId: String
-        
+
         public init(maxResults: String? = nil, nextToken: String? = nil, resourceDefinitionId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4296,7 +4307,7 @@ extension Greengrass {
 
         public let nextToken: String?
         public let versions: [VersionInformation]?
-        
+
         public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
             self.nextToken = nextToken
             self.versions = versions
@@ -4316,7 +4327,7 @@ extension Greengrass {
 
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4336,7 +4347,7 @@ extension Greengrass {
 
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
-        
+
         public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
             self.definitions = definitions
             self.nextToken = nextToken
@@ -4358,7 +4369,7 @@ extension Greengrass {
         public let maxResults: String?
         public let nextToken: String?
         public let subscriptionDefinitionId: String
-        
+
         public init(maxResults: String? = nil, nextToken: String? = nil, subscriptionDefinitionId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4380,7 +4391,7 @@ extension Greengrass {
 
         public let nextToken: String?
         public let versions: [VersionInformation]?
-        
+
         public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
             self.nextToken = nextToken
             self.versions = versions
@@ -4400,7 +4411,7 @@ extension Greengrass {
 
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4420,7 +4431,7 @@ extension Greengrass {
 
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
-        
+
         public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
             self.definitions = definitions
             self.nextToken = nextToken
@@ -4438,7 +4449,7 @@ extension Greengrass {
         ]
 
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -4454,7 +4465,7 @@ extension Greengrass {
         ]
 
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -4474,7 +4485,7 @@ extension Greengrass {
         public let nextToken: String?
         /// Information about a version.
         public let versions: [VersionInformation]?
-        
+
         public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
             self.nextToken = nextToken
             self.versions = versions
@@ -4496,7 +4507,7 @@ extension Greengrass {
         public let groupOwnerSetting: GroupOwnerSetting?
         /// The local absolute path of the device resource. The source path for a device resource can refer only to a character device or block device under ''/dev''.
         public let sourcePath: String?
-        
+
         public init(groupOwnerSetting: GroupOwnerSetting? = nil, sourcePath: String? = nil) {
             self.groupOwnerSetting = groupOwnerSetting
             self.sourcePath = sourcePath
@@ -4521,7 +4532,7 @@ extension Greengrass {
         public let groupOwnerSetting: GroupOwnerSetting?
         /// The local absolute path of the volume resource on the host. The source path for a volume resource type cannot start with ''/sys''.
         public let sourcePath: String?
-        
+
         public init(destinationPath: String? = nil, groupOwnerSetting: GroupOwnerSetting? = nil, sourcePath: String? = nil) {
             self.destinationPath = destinationPath
             self.groupOwnerSetting = groupOwnerSetting
@@ -4554,7 +4565,7 @@ extension Greengrass {
         public let space: Int32?
         /// The type of log output which will be used.
         public let `type`: LoggerType?
-        
+
         public init(component: LoggerComponent? = nil, id: String? = nil, level: LoggerLevel? = nil, space: Int32? = nil, type: LoggerType? = nil) {
             self.component = component
             self.id = id
@@ -4585,7 +4596,7 @@ extension Greengrass {
 
         /// A list of loggers.
         public let loggers: [Logger]?
-        
+
         public init(loggers: [Logger]? = nil) {
             self.loggers = loggers
         }
@@ -4627,7 +4638,7 @@ extension Greengrass {
         /// If true, performs a best-effort only core reset.
         public let force: Bool?
         public let groupId: String
-        
+
         public init(amznClientToken: String? = nil, force: Bool? = nil, groupId: String) {
             self.amznClientToken = amznClientToken
             self.force = force
@@ -4651,7 +4662,7 @@ extension Greengrass {
         public let deploymentArn: String?
         /// The ID of the deployment.
         public let deploymentId: String?
-        
+
         public init(deploymentArn: String? = nil, deploymentId: String? = nil) {
             self.deploymentArn = deploymentArn
             self.deploymentId = deploymentId
@@ -4676,7 +4687,7 @@ extension Greengrass {
         public let name: String?
         /// A container of data for all resource types.
         public let resourceDataContainer: ResourceDataContainer?
-        
+
         public init(id: String? = nil, name: String? = nil, resourceDataContainer: ResourceDataContainer? = nil) {
             self.id = id
             self.name = name
@@ -4700,7 +4711,7 @@ extension Greengrass {
         public let permission: Permission?
         /// The ID of the resource. (This ID is assigned to the resource when you create the resource definiton.)
         public let resourceId: String?
-        
+
         public init(permission: Permission? = nil, resourceId: String? = nil) {
             self.permission = permission
             self.resourceId = resourceId
@@ -4731,7 +4742,7 @@ extension Greengrass {
         public let sageMakerMachineLearningModelResourceData: SageMakerMachineLearningModelResourceData?
         /// Attributes that define a secret resource, which references a secret from AWS Secrets Manager.
         public let secretsManagerSecretResourceData: SecretsManagerSecretResourceData?
-        
+
         public init(localDeviceResourceData: LocalDeviceResourceData? = nil, localVolumeResourceData: LocalVolumeResourceData? = nil, s3MachineLearningModelResourceData: S3MachineLearningModelResourceData? = nil, sageMakerMachineLearningModelResourceData: SageMakerMachineLearningModelResourceData? = nil, secretsManagerSecretResourceData: SecretsManagerSecretResourceData? = nil) {
             self.localDeviceResourceData = localDeviceResourceData
             self.localVolumeResourceData = localVolumeResourceData
@@ -4756,7 +4767,7 @@ extension Greengrass {
 
         /// A list of resources.
         public let resources: [Resource]?
-        
+
         public init(resources: [Resource]? = nil) {
             self.resources = resources
         }
@@ -4776,7 +4787,7 @@ extension Greengrass {
         public let destinationPath: String?
         /// The URI of the source model in an S3 bucket. The model package must be in tar.gz or .zip format.
         public let s3Uri: String?
-        
+
         public init(destinationPath: String? = nil, s3Uri: String? = nil) {
             self.destinationPath = destinationPath
             self.s3Uri = s3Uri
@@ -4798,7 +4809,7 @@ extension Greengrass {
         public let destinationPath: String?
         /// The ARN of the Amazon SageMaker training job that represents the source model.
         public let sageMakerJobArn: String?
-        
+
         public init(destinationPath: String? = nil, sageMakerJobArn: String? = nil) {
             self.destinationPath = destinationPath
             self.sageMakerJobArn = sageMakerJobArn
@@ -4820,7 +4831,7 @@ extension Greengrass {
         public let additionalStagingLabelsToDownload: [String]?
         /// The ARN of the Secrets Manager secret to make available on the core. The value of the secret's latest version (represented by the ''AWSCURRENT'' staging label) is included by default.
         public let arn: String?
-        
+
         public init(additionalStagingLabelsToDownload: [String]? = nil, arn: String? = nil) {
             self.additionalStagingLabelsToDownload = additionalStagingLabelsToDownload
             self.arn = arn
@@ -4852,7 +4863,7 @@ extension Greengrass {
         /// The URI of the input file contained in the S3 bucket. The execution role must have ''getObject'' permissions on this bucket to access the input file. The input file is a JSON-serialized, line delimited file with UTF-8 encoding that provides a list of group and version IDs and the deployment type. This file must be less than 100 MB. Currently, AWS IoT Greengrass supports only ''NewDeployment'' deployment types.
         public let inputFileUri: String?
         public let tags: [String: String]?
-        
+
         public init(amznClientToken: String? = nil, executionRoleArn: String? = nil, inputFileUri: String? = nil, tags: [String: String]? = nil) {
             self.amznClientToken = amznClientToken
             self.executionRoleArn = executionRoleArn
@@ -4878,7 +4889,7 @@ extension Greengrass {
         public let bulkDeploymentArn: String?
         /// The ID of the bulk deployment.
         public let bulkDeploymentId: String?
-        
+
         public init(bulkDeploymentArn: String? = nil, bulkDeploymentId: String? = nil) {
             self.bulkDeploymentArn = bulkDeploymentArn
             self.bulkDeploymentId = bulkDeploymentId
@@ -4896,7 +4907,7 @@ extension Greengrass {
         ]
 
         public let bulkDeploymentId: String
-        
+
         public init(bulkDeploymentId: String) {
             self.bulkDeploymentId = bulkDeploymentId
         }
@@ -4907,11 +4918,12 @@ extension Greengrass {
     }
 
     public struct StopBulkDeploymentResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Subscription: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -4929,7 +4941,7 @@ extension Greengrass {
         public let subject: String?
         /// Where the message is sent to. Can be a thing ARN, a Lambda function ARN, a connector ARN, 'cloud' (which represents the AWS IoT cloud), or 'GGShadowService'.
         public let target: String?
-        
+
         public init(id: String? = nil, source: String? = nil, subject: String? = nil, target: String? = nil) {
             self.id = id
             self.source = source
@@ -4952,7 +4964,7 @@ extension Greengrass {
 
         /// A list of subscriptions.
         public let subscriptions: [Subscription]?
-        
+
         public init(subscriptions: [Subscription]? = nil) {
             self.subscriptions = subscriptions
         }
@@ -4970,7 +4982,7 @@ extension Greengrass {
 
         public let resourceArn: String
         public let tags: [String: String]
-        
+
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -4990,7 +5002,7 @@ extension Greengrass {
 
         public let resourceArn: String
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -5023,7 +5035,7 @@ extension Greengrass {
         /// A list of connectivity info.
         public let connectivityInfo: [ConnectivityInfo]?
         public let thingName: String
-        
+
         public init(connectivityInfo: [ConnectivityInfo]? = nil, thingName: String) {
             self.connectivityInfo = connectivityInfo
             self.thingName = thingName
@@ -5045,7 +5057,7 @@ extension Greengrass {
         public let message: String?
         /// The new version of the connectivity info.
         public let version: String?
-        
+
         public init(message: String? = nil, version: String? = nil) {
             self.message = message
             self.version = version
@@ -5065,7 +5077,7 @@ extension Greengrass {
 
         public let connectorDefinitionId: String
         public let name: String?
-        
+
         public init(connectorDefinitionId: String, name: String? = nil) {
             self.connectorDefinitionId = connectorDefinitionId
             self.name = name
@@ -5078,11 +5090,12 @@ extension Greengrass {
     }
 
     public struct UpdateConnectorDefinitionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateCoreDefinitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -5092,7 +5105,7 @@ extension Greengrass {
 
         public let coreDefinitionId: String
         public let name: String?
-        
+
         public init(coreDefinitionId: String, name: String? = nil) {
             self.coreDefinitionId = coreDefinitionId
             self.name = name
@@ -5105,11 +5118,12 @@ extension Greengrass {
     }
 
     public struct UpdateCoreDefinitionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateDeviceDefinitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -5119,7 +5133,7 @@ extension Greengrass {
 
         public let deviceDefinitionId: String
         public let name: String?
-        
+
         public init(deviceDefinitionId: String, name: String? = nil) {
             self.deviceDefinitionId = deviceDefinitionId
             self.name = name
@@ -5132,11 +5146,12 @@ extension Greengrass {
     }
 
     public struct UpdateDeviceDefinitionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateFunctionDefinitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -5146,7 +5161,7 @@ extension Greengrass {
 
         public let functionDefinitionId: String
         public let name: String?
-        
+
         public init(functionDefinitionId: String, name: String? = nil) {
             self.functionDefinitionId = functionDefinitionId
             self.name = name
@@ -5159,11 +5174,12 @@ extension Greengrass {
     }
 
     public struct UpdateFunctionDefinitionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateGroupCertificateConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -5174,7 +5190,7 @@ extension Greengrass {
         /// The amount of time remaining before the certificate expires, in milliseconds.
         public let certificateExpiryInMilliseconds: String?
         public let groupId: String
-        
+
         public init(certificateExpiryInMilliseconds: String? = nil, groupId: String) {
             self.certificateExpiryInMilliseconds = certificateExpiryInMilliseconds
             self.groupId = groupId
@@ -5196,7 +5212,7 @@ extension Greengrass {
         public let certificateAuthorityExpiryInMilliseconds: String?
         public let certificateExpiryInMilliseconds: String?
         public let groupId: String?
-        
+
         public init(certificateAuthorityExpiryInMilliseconds: String? = nil, certificateExpiryInMilliseconds: String? = nil, groupId: String? = nil) {
             self.certificateAuthorityExpiryInMilliseconds = certificateAuthorityExpiryInMilliseconds
             self.certificateExpiryInMilliseconds = certificateExpiryInMilliseconds
@@ -5218,7 +5234,7 @@ extension Greengrass {
 
         public let groupId: String
         public let name: String?
-        
+
         public init(groupId: String, name: String? = nil) {
             self.groupId = groupId
             self.name = name
@@ -5231,11 +5247,12 @@ extension Greengrass {
     }
 
     public struct UpdateGroupResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateLoggerDefinitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -5245,7 +5262,7 @@ extension Greengrass {
 
         public let loggerDefinitionId: String
         public let name: String?
-        
+
         public init(loggerDefinitionId: String, name: String? = nil) {
             self.loggerDefinitionId = loggerDefinitionId
             self.name = name
@@ -5258,11 +5275,12 @@ extension Greengrass {
     }
 
     public struct UpdateLoggerDefinitionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateResourceDefinitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -5272,7 +5290,7 @@ extension Greengrass {
 
         public let name: String?
         public let resourceDefinitionId: String
-        
+
         public init(name: String? = nil, resourceDefinitionId: String) {
             self.name = name
             self.resourceDefinitionId = resourceDefinitionId
@@ -5285,11 +5303,12 @@ extension Greengrass {
     }
 
     public struct UpdateResourceDefinitionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateSubscriptionDefinitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -5299,7 +5318,7 @@ extension Greengrass {
 
         public let name: String?
         public let subscriptionDefinitionId: String
-        
+
         public init(name: String? = nil, subscriptionDefinitionId: String) {
             self.name = name
             self.subscriptionDefinitionId = subscriptionDefinitionId
@@ -5312,11 +5331,12 @@ extension Greengrass {
     }
 
     public struct UpdateSubscriptionDefinitionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum UpdateTargetsArchitecture: String, CustomStringConvertible, Codable {
         case armv7l = "armv7l"
@@ -5348,7 +5368,7 @@ extension Greengrass {
         public let id: String?
         /// The unique ID of the version.
         public let version: String?
-        
+
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
@@ -5363,5 +5383,4 @@ extension Greengrass {
             case version = "Version"
         }
     }
-
 }

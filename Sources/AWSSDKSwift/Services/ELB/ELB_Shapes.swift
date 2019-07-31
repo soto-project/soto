@@ -21,7 +21,7 @@ extension ELB {
         public let s3BucketName: String?
         /// The logical hierarchy you created for your Amazon S3 bucket, for example my-bucket-prefix/prod. If the prefix is not provided, the log is placed at the root level of the bucket.
         public let s3BucketPrefix: String?
-        
+
         public init(emitInterval: Int32? = nil, enabled: Bool, s3BucketName: String? = nil, s3BucketPrefix: String? = nil) {
             self.emitInterval = emitInterval
             self.enabled = enabled
@@ -47,7 +47,7 @@ extension ELB {
         public let availabilityZones: [String]
         /// The name of the load balancer.
         public let loadBalancerName: String
-        
+
         public init(availabilityZones: [String], loadBalancerName: String) {
             self.availabilityZones = availabilityZones
             self.loadBalancerName = loadBalancerName
@@ -66,7 +66,7 @@ extension ELB {
 
         /// The updated list of Availability Zones for the load balancer.
         public let availabilityZones: [String]?
-        
+
         public init(availabilityZones: [String]? = nil) {
             self.availabilityZones = availabilityZones
         }
@@ -86,7 +86,7 @@ extension ELB {
         public let loadBalancerNames: [String]
         /// The tags.
         public let tags: [Tag]
-        
+
         public init(loadBalancerNames: [String], tags: [Tag]) {
             self.loadBalancerNames = loadBalancerNames
             self.tags = tags
@@ -106,11 +106,12 @@ extension ELB {
     }
 
     public struct AddTagsOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct AdditionalAttribute: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -122,7 +123,7 @@ extension ELB {
         public let key: String?
         /// This parameter is reserved.
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -151,7 +152,7 @@ extension ELB {
         public let cookieName: String?
         /// The mnemonic name for the policy being created. The name must be unique within a set of policies for this load balancer.
         public let policyName: String?
-        
+
         public init(cookieName: String? = nil, policyName: String? = nil) {
             self.cookieName = cookieName
             self.policyName = policyName
@@ -173,7 +174,7 @@ extension ELB {
         public let loadBalancerName: String
         /// The IDs of the security groups to associate with the load balancer. Note that you cannot specify the name of the security group.
         public let securityGroups: [String]
-        
+
         public init(loadBalancerName: String, securityGroups: [String]) {
             self.loadBalancerName = loadBalancerName
             self.securityGroups = securityGroups
@@ -192,7 +193,7 @@ extension ELB {
 
         /// The IDs of the security groups associated with the load balancer.
         public let securityGroups: [String]?
-        
+
         public init(securityGroups: [String]? = nil) {
             self.securityGroups = securityGroups
         }
@@ -212,7 +213,7 @@ extension ELB {
         public let loadBalancerName: String
         /// The IDs of the subnets to add. You can add only one subnet per Availability Zone.
         public let subnets: [String]
-        
+
         public init(loadBalancerName: String, subnets: [String]) {
             self.loadBalancerName = loadBalancerName
             self.subnets = subnets
@@ -231,7 +232,7 @@ extension ELB {
 
         /// The IDs of the subnets attached to the load balancer.
         public let subnets: [String]?
-        
+
         public init(subnets: [String]? = nil) {
             self.subnets = subnets
         }
@@ -251,7 +252,7 @@ extension ELB {
         public let instancePort: Int32?
         /// The names of the policies enabled for the EC2 instance.
         public let policyNames: [String]?
-        
+
         public init(instancePort: Int32? = nil, policyNames: [String]? = nil) {
             self.instancePort = instancePort
             self.policyNames = policyNames
@@ -278,7 +279,7 @@ extension ELB {
         public let healthCheck: HealthCheck
         /// The name of the load balancer.
         public let loadBalancerName: String
-        
+
         public init(healthCheck: HealthCheck, loadBalancerName: String) {
             self.healthCheck = healthCheck
             self.loadBalancerName = loadBalancerName
@@ -301,7 +302,7 @@ extension ELB {
 
         /// The updated health check.
         public let healthCheck: HealthCheck?
-        
+
         public init(healthCheck: HealthCheck? = nil) {
             self.healthCheck = healthCheck
         }
@@ -325,7 +326,7 @@ extension ELB {
         public let enabled: Bool
         /// The maximum time, in seconds, to keep the existing connections open before deregistering the instances.
         public let timeout: Int32?
-        
+
         public init(enabled: Bool, timeout: Int32? = nil) {
             self.enabled = enabled
             self.timeout = timeout
@@ -344,7 +345,7 @@ extension ELB {
 
         /// The time, in seconds, that the connection is allowed to be idle (no data has been sent over the connection) before it is closed by the load balancer.
         public let idleTimeout: Int32
-        
+
         public init(idleTimeout: Int32) {
             self.idleTimeout = idleTimeout
         }
@@ -384,7 +385,7 @@ extension ELB {
         public let subnets: [String]?
         /// A list of tags to assign to the load balancer. For more information about tagging your load balancer, see Tag Your Classic Load Balancer in the Classic Load Balancers Guide.
         public let tags: [Tag]?
-        
+
         public init(availabilityZones: [String]? = nil, listeners: [Listener], loadBalancerName: String, scheme: String? = nil, securityGroups: [String]? = nil, subnets: [String]? = nil, tags: [Tag]? = nil) {
             self.availabilityZones = availabilityZones
             self.listeners = listeners
@@ -423,7 +424,7 @@ extension ELB {
 
         /// The DNS name of the load balancer.
         public let dNSName: String?
-        
+
         public init(dNSName: String? = nil) {
             self.dNSName = dNSName
         }
@@ -446,7 +447,7 @@ extension ELB {
         public let loadBalancerName: String
         /// The name of the policy being created. Policy names must consist of alphanumeric characters and dashes (-). This name must be unique within the set of policies for this load balancer.
         public let policyName: String
-        
+
         public init(cookieName: String, loadBalancerName: String, policyName: String) {
             self.cookieName = cookieName
             self.loadBalancerName = loadBalancerName
@@ -461,11 +462,12 @@ extension ELB {
     }
 
     public struct CreateAppCookieStickinessPolicyOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateLBCookieStickinessPolicyInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -480,7 +482,7 @@ extension ELB {
         public let loadBalancerName: String
         /// The name of the policy being created. Policy names must consist of alphanumeric characters and dashes (-). This name must be unique within the set of policies for this load balancer.
         public let policyName: String
-        
+
         public init(cookieExpirationPeriod: Int64? = nil, loadBalancerName: String, policyName: String) {
             self.cookieExpirationPeriod = cookieExpirationPeriod
             self.loadBalancerName = loadBalancerName
@@ -495,11 +497,12 @@ extension ELB {
     }
 
     public struct CreateLBCookieStickinessPolicyOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateLoadBalancerListenerInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -511,7 +514,7 @@ extension ELB {
         public let listeners: [Listener]
         /// The name of the load balancer.
         public let loadBalancerName: String
-        
+
         public init(listeners: [Listener], loadBalancerName: String) {
             self.listeners = listeners
             self.loadBalancerName = loadBalancerName
@@ -530,11 +533,12 @@ extension ELB {
     }
 
     public struct CreateLoadBalancerListenerOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateLoadBalancerPolicyInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -552,7 +556,7 @@ extension ELB {
         public let policyName: String
         /// The name of the base policy type. To get the list of policy types, use DescribeLoadBalancerPolicyTypes.
         public let policyTypeName: String
-        
+
         public init(loadBalancerName: String, policyAttributes: [PolicyAttribute]? = nil, policyName: String, policyTypeName: String) {
             self.loadBalancerName = loadBalancerName
             self.policyAttributes = policyAttributes
@@ -569,11 +573,12 @@ extension ELB {
     }
 
     public struct CreateLoadBalancerPolicyOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CrossZoneLoadBalancing: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -582,7 +587,7 @@ extension ELB {
 
         /// Specifies whether cross-zone load balancing is enabled for the load balancer.
         public let enabled: Bool
-        
+
         public init(enabled: Bool) {
             self.enabled = enabled
         }
@@ -599,7 +604,7 @@ extension ELB {
 
         /// The name of the load balancer.
         public let loadBalancerName: String
-        
+
         public init(loadBalancerName: String) {
             self.loadBalancerName = loadBalancerName
         }
@@ -610,11 +615,12 @@ extension ELB {
     }
 
     public struct DeleteAccessPointOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteLoadBalancerListenerInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -626,7 +632,7 @@ extension ELB {
         public let loadBalancerName: String
         /// The client port numbers of the listeners.
         public let loadBalancerPorts: [Int32]
-        
+
         public init(loadBalancerName: String, loadBalancerPorts: [Int32]) {
             self.loadBalancerName = loadBalancerName
             self.loadBalancerPorts = loadBalancerPorts
@@ -639,11 +645,12 @@ extension ELB {
     }
 
     public struct DeleteLoadBalancerListenerOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteLoadBalancerPolicyInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -655,7 +662,7 @@ extension ELB {
         public let loadBalancerName: String
         /// The name of the policy.
         public let policyName: String
-        
+
         public init(loadBalancerName: String, policyName: String) {
             self.loadBalancerName = loadBalancerName
             self.policyName = policyName
@@ -668,11 +675,12 @@ extension ELB {
     }
 
     public struct DeleteLoadBalancerPolicyOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeregisterEndPointsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -684,7 +692,7 @@ extension ELB {
         public let instances: [Instance]
         /// The name of the load balancer.
         public let loadBalancerName: String
-        
+
         public init(instances: [Instance], loadBalancerName: String) {
             self.instances = instances
             self.loadBalancerName = loadBalancerName
@@ -703,7 +711,7 @@ extension ELB {
 
         /// The remaining instances registered with the load balancer.
         public let instances: [Instance]?
-        
+
         public init(instances: [Instance]? = nil) {
             self.instances = instances
         }
@@ -726,7 +734,7 @@ extension ELB {
         public let marker: String?
         /// The maximum number of results to return with this call (a number from 1 to 400). The default is 400.
         public let pageSize: Int32?
-        
+
         public init(loadBalancerNames: [String]? = nil, marker: String? = nil, pageSize: Int32? = nil) {
             self.loadBalancerNames = loadBalancerNames
             self.marker = marker
@@ -755,7 +763,7 @@ extension ELB {
         public let loadBalancerDescriptions: [LoadBalancerDescription]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let nextMarker: String?
-        
+
         public init(loadBalancerDescriptions: [LoadBalancerDescription]? = nil, nextMarker: String? = nil) {
             self.loadBalancerDescriptions = loadBalancerDescriptions
             self.nextMarker = nextMarker
@@ -783,7 +791,7 @@ extension ELB {
         public let marker: String?
         /// The maximum number of results to return with this call.
         public let pageSize: Int32?
-        
+
         public init(marker: String? = nil, pageSize: Int32? = nil) {
             self.marker = marker
             self.pageSize = pageSize
@@ -810,7 +818,7 @@ extension ELB {
         public let limits: [Limit]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let nextMarker: String?
-        
+
         public init(limits: [Limit]? = nil, nextMarker: String? = nil) {
             self.limits = limits
             self.nextMarker = nextMarker
@@ -832,7 +840,7 @@ extension ELB {
         public let instances: [Instance]?
         /// The name of the load balancer.
         public let loadBalancerName: String
-        
+
         public init(instances: [Instance]? = nil, loadBalancerName: String) {
             self.instances = instances
             self.loadBalancerName = loadBalancerName
@@ -851,7 +859,7 @@ extension ELB {
 
         /// Information about the health of the instances.
         public let instanceStates: [InstanceState]?
-        
+
         public init(instanceStates: [InstanceState]? = nil) {
             self.instanceStates = instanceStates
         }
@@ -868,7 +876,7 @@ extension ELB {
 
         /// The name of the load balancer.
         public let loadBalancerName: String
-        
+
         public init(loadBalancerName: String) {
             self.loadBalancerName = loadBalancerName
         }
@@ -885,7 +893,7 @@ extension ELB {
 
         /// Information about the load balancer attributes.
         public let loadBalancerAttributes: LoadBalancerAttributes?
-        
+
         public init(loadBalancerAttributes: LoadBalancerAttributes? = nil) {
             self.loadBalancerAttributes = loadBalancerAttributes
         }
@@ -909,7 +917,7 @@ extension ELB {
         public let loadBalancerName: String?
         /// The names of the policies.
         public let policyNames: [String]?
-        
+
         public init(loadBalancerName: String? = nil, policyNames: [String]? = nil) {
             self.loadBalancerName = loadBalancerName
             self.policyNames = policyNames
@@ -928,7 +936,7 @@ extension ELB {
 
         /// Information about the policies.
         public let policyDescriptions: [PolicyDescription]?
-        
+
         public init(policyDescriptions: [PolicyDescription]? = nil) {
             self.policyDescriptions = policyDescriptions
         }
@@ -945,7 +953,7 @@ extension ELB {
 
         /// The names of the policy types. If no names are specified, describes all policy types defined by Elastic Load Balancing.
         public let policyTypeNames: [String]?
-        
+
         public init(policyTypeNames: [String]? = nil) {
             self.policyTypeNames = policyTypeNames
         }
@@ -962,7 +970,7 @@ extension ELB {
 
         /// Information about the policy types.
         public let policyTypeDescriptions: [PolicyTypeDescription]?
-        
+
         public init(policyTypeDescriptions: [PolicyTypeDescription]? = nil) {
             self.policyTypeDescriptions = policyTypeDescriptions
         }
@@ -979,7 +987,7 @@ extension ELB {
 
         /// The names of the load balancers.
         public let loadBalancerNames: [String]
-        
+
         public init(loadBalancerNames: [String]) {
             self.loadBalancerNames = loadBalancerNames
         }
@@ -1001,7 +1009,7 @@ extension ELB {
 
         /// Information about the tags.
         public let tagDescriptions: [TagDescription]?
-        
+
         public init(tagDescriptions: [TagDescription]? = nil) {
             self.tagDescriptions = tagDescriptions
         }
@@ -1027,7 +1035,7 @@ extension ELB {
         public let loadBalancerName: String
         /// The IDs of the subnets.
         public let subnets: [String]
-        
+
         public init(loadBalancerName: String, subnets: [String]) {
             self.loadBalancerName = loadBalancerName
             self.subnets = subnets
@@ -1046,7 +1054,7 @@ extension ELB {
 
         /// The IDs of the remaining subnets for the load balancer.
         public let subnets: [String]?
-        
+
         public init(subnets: [String]? = nil) {
             self.subnets = subnets
         }
@@ -1075,7 +1083,7 @@ extension ELB {
         public let timeout: Int32
         /// The number of consecutive health check failures required before moving the instance to the Unhealthy state.
         public let unhealthyThreshold: Int32
-        
+
         public init(healthyThreshold: Int32, interval: Int32, target: String, timeout: Int32, unhealthyThreshold: Int32) {
             self.healthyThreshold = healthyThreshold
             self.interval = interval
@@ -1111,7 +1119,7 @@ extension ELB {
 
         /// The instance ID.
         public let instanceId: String?
-        
+
         public init(instanceId: String? = nil) {
             self.instanceId = instanceId
         }
@@ -1137,7 +1145,7 @@ extension ELB {
         public let reasonCode: String?
         /// The current state of the instance. Valid values: InService | OutOfService | Unknown 
         public let state: String?
-        
+
         public init(description: String? = nil, instanceId: String? = nil, reasonCode: String? = nil, state: String? = nil) {
             self.description = description
             self.instanceId = instanceId
@@ -1163,7 +1171,7 @@ extension ELB {
         public let cookieExpirationPeriod: Int64?
         /// The name of the policy. This name must be unique within the set of policies for this load balancer.
         public let policyName: String?
-        
+
         public init(cookieExpirationPeriod: Int64? = nil, policyName: String? = nil) {
             self.cookieExpirationPeriod = cookieExpirationPeriod
             self.policyName = policyName
@@ -1185,7 +1193,7 @@ extension ELB {
         public let max: String?
         /// The name of the limit. The possible values are:   classic-listeners   classic-load-balancers   classic-registered-instances  
         public let name: String?
-        
+
         public init(max: String? = nil, name: String? = nil) {
             self.max = max
             self.name = name
@@ -1216,7 +1224,7 @@ extension ELB {
         public let `protocol`: String
         /// The Amazon Resource Name (ARN) of the server certificate.
         public let sSLCertificateId: String?
-        
+
         public init(instancePort: Int32, instanceProtocol: String? = nil, loadBalancerPort: Int32, protocol: String, sSLCertificateId: String? = nil) {
             self.instancePort = instancePort
             self.instanceProtocol = instanceProtocol
@@ -1249,7 +1257,7 @@ extension ELB {
         public let listener: Listener?
         /// The policies. If there are no policies enabled, the list is empty.
         public let policyNames: [String]?
-        
+
         public init(listener: Listener? = nil, policyNames: [String]? = nil) {
             self.listener = listener
             self.policyNames = policyNames
@@ -1284,7 +1292,7 @@ extension ELB {
         public let connectionSettings: ConnectionSettings?
         /// If enabled, the load balancer routes the request traffic evenly across all instances regardless of the Availability Zones. For more information, see Configure Cross-Zone Load Balancing in the Classic Load Balancers Guide.
         public let crossZoneLoadBalancing: CrossZoneLoadBalancing?
-        
+
         public init(accessLog: AccessLog? = nil, additionalAttributes: [AdditionalAttribute]? = nil, connectionDraining: ConnectionDraining? = nil, connectionSettings: ConnectionSettings? = nil, crossZoneLoadBalancing: CrossZoneLoadBalancing? = nil) {
             self.accessLog = accessLog
             self.additionalAttributes = additionalAttributes
@@ -1362,7 +1370,7 @@ extension ELB {
         public let subnets: [String]?
         /// The ID of the VPC for the load balancer.
         public let vPCId: String?
-        
+
         public init(availabilityZones: [String]? = nil, backendServerDescriptions: [BackendServerDescription]? = nil, canonicalHostedZoneName: String? = nil, canonicalHostedZoneNameID: String? = nil, createdTime: TimeStamp? = nil, dNSName: String? = nil, healthCheck: HealthCheck? = nil, instances: [Instance]? = nil, listenerDescriptions: [ListenerDescription]? = nil, loadBalancerName: String? = nil, policies: Policies? = nil, scheme: String? = nil, securityGroups: [String]? = nil, sourceSecurityGroup: SourceSecurityGroup? = nil, subnets: [String]? = nil, vPCId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.backendServerDescriptions = backendServerDescriptions
@@ -1422,7 +1430,7 @@ extension ELB {
         public let loadBalancerAttributes: LoadBalancerAttributes
         /// The name of the load balancer.
         public let loadBalancerName: String
-        
+
         public init(loadBalancerAttributes: LoadBalancerAttributes, loadBalancerName: String) {
             self.loadBalancerAttributes = loadBalancerAttributes
             self.loadBalancerName = loadBalancerName
@@ -1448,7 +1456,7 @@ extension ELB {
         public let loadBalancerAttributes: LoadBalancerAttributes?
         /// The name of the load balancer.
         public let loadBalancerName: String?
-        
+
         public init(loadBalancerAttributes: LoadBalancerAttributes? = nil, loadBalancerName: String? = nil) {
             self.loadBalancerAttributes = loadBalancerAttributes
             self.loadBalancerName = loadBalancerName
@@ -1477,7 +1485,7 @@ extension ELB {
         public let lBCookieStickinessPolicies: [LBCookieStickinessPolicy]?
         /// The policies other than the stickiness policies.
         public let otherPolicies: [String]?
-        
+
         public init(appCookieStickinessPolicies: [AppCookieStickinessPolicy]? = nil, lBCookieStickinessPolicies: [LBCookieStickinessPolicy]? = nil, otherPolicies: [String]? = nil) {
             self.appCookieStickinessPolicies = appCookieStickinessPolicies
             self.lBCookieStickinessPolicies = lBCookieStickinessPolicies
@@ -1501,7 +1509,7 @@ extension ELB {
         public let attributeName: String?
         /// The value of the attribute.
         public let attributeValue: String?
-        
+
         public init(attributeName: String? = nil, attributeValue: String? = nil) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
@@ -1523,7 +1531,7 @@ extension ELB {
         public let attributeName: String?
         /// The value of the attribute.
         public let attributeValue: String?
-        
+
         public init(attributeName: String? = nil, attributeValue: String? = nil) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
@@ -1554,7 +1562,7 @@ extension ELB {
         public let defaultValue: String?
         /// A description of the attribute.
         public let description: String?
-        
+
         public init(attributeName: String? = nil, attributeType: String? = nil, cardinality: String? = nil, defaultValue: String? = nil, description: String? = nil) {
             self.attributeName = attributeName
             self.attributeType = attributeType
@@ -1585,7 +1593,7 @@ extension ELB {
         public let policyName: String?
         /// The name of the policy type.
         public let policyTypeName: String?
-        
+
         public init(policyAttributeDescriptions: [PolicyAttributeDescription]? = nil, policyName: String? = nil, policyTypeName: String? = nil) {
             self.policyAttributeDescriptions = policyAttributeDescriptions
             self.policyName = policyName
@@ -1612,7 +1620,7 @@ extension ELB {
         public let policyAttributeTypeDescriptions: [PolicyAttributeTypeDescription]?
         /// The name of the policy type.
         public let policyTypeName: String?
-        
+
         public init(description: String? = nil, policyAttributeTypeDescriptions: [PolicyAttributeTypeDescription]? = nil, policyTypeName: String? = nil) {
             self.description = description
             self.policyAttributeTypeDescriptions = policyAttributeTypeDescriptions
@@ -1636,7 +1644,7 @@ extension ELB {
         public let instances: [Instance]
         /// The name of the load balancer.
         public let loadBalancerName: String
-        
+
         public init(instances: [Instance], loadBalancerName: String) {
             self.instances = instances
             self.loadBalancerName = loadBalancerName
@@ -1655,7 +1663,7 @@ extension ELB {
 
         /// The updated list of instances for the load balancer.
         public let instances: [Instance]?
-        
+
         public init(instances: [Instance]? = nil) {
             self.instances = instances
         }
@@ -1675,7 +1683,7 @@ extension ELB {
         public let availabilityZones: [String]
         /// The name of the load balancer.
         public let loadBalancerName: String
-        
+
         public init(availabilityZones: [String], loadBalancerName: String) {
             self.availabilityZones = availabilityZones
             self.loadBalancerName = loadBalancerName
@@ -1694,7 +1702,7 @@ extension ELB {
 
         /// The remaining Availability Zones for the load balancer.
         public let availabilityZones: [String]?
-        
+
         public init(availabilityZones: [String]? = nil) {
             self.availabilityZones = availabilityZones
         }
@@ -1714,7 +1722,7 @@ extension ELB {
         public let loadBalancerNames: [String]
         /// The list of tag keys to remove.
         public let tags: [TagKeyOnly]
-        
+
         public init(loadBalancerNames: [String], tags: [TagKeyOnly]) {
             self.loadBalancerNames = loadBalancerNames
             self.tags = tags
@@ -1734,11 +1742,12 @@ extension ELB {
     }
 
     public struct RemoveTagsOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct SetLoadBalancerListenerSSLCertificateInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1753,7 +1762,7 @@ extension ELB {
         public let loadBalancerPort: Int32
         /// The Amazon Resource Name (ARN) of the SSL certificate.
         public let sSLCertificateId: String
-        
+
         public init(loadBalancerName: String, loadBalancerPort: Int32, sSLCertificateId: String) {
             self.loadBalancerName = loadBalancerName
             self.loadBalancerPort = loadBalancerPort
@@ -1768,11 +1777,12 @@ extension ELB {
     }
 
     public struct SetLoadBalancerListenerSSLCertificateOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct SetLoadBalancerPoliciesForBackendServerInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1787,7 +1797,7 @@ extension ELB {
         public let loadBalancerName: String
         /// The names of the policies. If the list is empty, then all current polices are removed from the EC2 instance.
         public let policyNames: [String]
-        
+
         public init(instancePort: Int32, loadBalancerName: String, policyNames: [String]) {
             self.instancePort = instancePort
             self.loadBalancerName = loadBalancerName
@@ -1802,11 +1812,12 @@ extension ELB {
     }
 
     public struct SetLoadBalancerPoliciesForBackendServerOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct SetLoadBalancerPoliciesOfListenerInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1821,7 +1832,7 @@ extension ELB {
         public let loadBalancerPort: Int32
         /// The names of the policies. This list must include all policies to be enabled. If you omit a policy that is currently enabled, it is disabled. If the list is empty, all current policies are disabled.
         public let policyNames: [String]
-        
+
         public init(loadBalancerName: String, loadBalancerPort: Int32, policyNames: [String]) {
             self.loadBalancerName = loadBalancerName
             self.loadBalancerPort = loadBalancerPort
@@ -1836,11 +1847,12 @@ extension ELB {
     }
 
     public struct SetLoadBalancerPoliciesOfListenerOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct SourceSecurityGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1852,7 +1864,7 @@ extension ELB {
         public let groupName: String?
         /// The owner of the security group.
         public let ownerAlias: Int32?
-        
+
         public init(groupName: String? = nil, ownerAlias: Int32? = nil) {
             self.groupName = groupName
             self.ownerAlias = ownerAlias
@@ -1874,7 +1886,7 @@ extension ELB {
         public let key: String
         /// The value of the tag.
         public let value: String?
-        
+
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1905,7 +1917,7 @@ extension ELB {
         public let loadBalancerName: String?
         /// The tags.
         public let tags: [Tag]?
-        
+
         public init(loadBalancerName: String? = nil, tags: [Tag]? = nil) {
             self.loadBalancerName = loadBalancerName
             self.tags = tags
@@ -1931,7 +1943,7 @@ extension ELB {
 
         /// The name of the key.
         public let key: String?
-        
+
         public init(key: String? = nil) {
             self.key = key
         }
@@ -1946,5 +1958,4 @@ extension ELB {
             case key = "Key"
         }
     }
-
 }

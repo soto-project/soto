@@ -12,7 +12,7 @@ extension MQ {
 
         /// Id for the availability zone.
         public let name: String?
-        
+
         public init(name: String? = nil) {
             self.name = name
         }
@@ -32,7 +32,7 @@ extension MQ {
         public let engineType: EngineType?
         /// The list of engine versions.
         public let engineVersions: [EngineVersion]?
-        
+
         public init(engineType: EngineType? = nil, engineVersions: [EngineVersion]? = nil) {
             self.engineType = engineType
             self.engineVersions = engineVersions
@@ -57,7 +57,7 @@ extension MQ {
         public let maxResults: Int32?
         /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
         public let nextToken: String?
-        
+
         public init(brokerEngineTypes: [BrokerEngineType]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.brokerEngineTypes = brokerEngineTypes
             self.maxResults = maxResults
@@ -89,7 +89,7 @@ extension MQ {
         public let endpoints: [String]?
         /// The IP address of the Elastic Network Interface (ENI) attached to the broker.
         public let ipAddress: String?
-        
+
         public init(consoleURL: String? = nil, endpoints: [String]? = nil, ipAddress: String? = nil) {
             self.consoleURL = consoleURL
             self.endpoints = endpoints
@@ -119,7 +119,7 @@ extension MQ {
         public let hostInstanceType: String?
         /// The list of supported engine versions.
         public let supportedEngineVersions: [String]?
-        
+
         public init(availabilityZones: [AvailabilityZone]? = nil, engineType: EngineType? = nil, hostInstanceType: String? = nil, supportedEngineVersions: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.engineType = engineType
@@ -148,7 +148,7 @@ extension MQ {
         public let maxResults: Int32?
         /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
         public let nextToken: String?
-        
+
         public init(brokerInstanceOptions: [BrokerInstanceOption]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.brokerInstanceOptions = brokerInstanceOptions
             self.maxResults = maxResults
@@ -201,7 +201,7 @@ extension MQ {
         public let deploymentMode: DeploymentMode?
         /// The broker's instance type.
         public let hostInstanceType: String?
-        
+
         public init(brokerArn: String? = nil, brokerId: String? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, hostInstanceType: String? = nil) {
             self.brokerArn = brokerArn
             self.brokerId = brokerId
@@ -261,7 +261,7 @@ extension MQ {
         public let name: String?
         /// The list of all tags associated with this configuration.
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, created: TimeStamp? = nil, description: String? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.created = created
@@ -297,7 +297,7 @@ extension MQ {
         public let id: String?
         /// The revision number of the configuration.
         public let revision: Int32?
-        
+
         public init(id: String? = nil, revision: Int32? = nil) {
             self.id = id
             self.revision = revision
@@ -322,7 +322,7 @@ extension MQ {
         public let description: String?
         /// Required. The revision number of the configuration.
         public let revision: Int32?
-        
+
         public init(created: TimeStamp? = nil, description: String? = nil, revision: Int32? = nil) {
             self.created = created
             self.description = description
@@ -349,7 +349,7 @@ extension MQ {
         public let history: [ConfigurationId]?
         /// The pending configuration of the broker.
         public let pending: ConfigurationId?
-        
+
         public init(current: ConfigurationId? = nil, history: [ConfigurationId]? = nil, pending: ConfigurationId? = nil) {
             self.current = current
             self.history = history
@@ -412,7 +412,7 @@ extension MQ {
         public let tags: [String: String]?
         /// Required. The list of ActiveMQ users (persons or applications) who can access queues and topics. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
         public let users: [User]?
-        
+
         public init(autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = CreateBrokerInput.idempotencyToken(), deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [User]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerName = brokerName
@@ -460,7 +460,7 @@ extension MQ {
         public let brokerArn: String?
         /// The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String?
-        
+
         public init(brokerArn: String? = nil, brokerId: String? = nil) {
             self.brokerArn = brokerArn
             self.brokerId = brokerId
@@ -506,7 +506,7 @@ extension MQ {
         public let subnetIds: [String]?
         public let tags: [String: String]?
         public let users: [User]?
-        
+
         public init(autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = CreateBrokerRequest.idempotencyToken(), deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [User]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerName = brokerName
@@ -552,7 +552,7 @@ extension MQ {
 
         public let brokerArn: String?
         public let brokerId: String?
-        
+
         public init(brokerArn: String? = nil, brokerId: String? = nil) {
             self.brokerArn = brokerArn
             self.brokerId = brokerId
@@ -580,7 +580,7 @@ extension MQ {
         public let name: String?
         /// Create tags when creating the configuration.
         public let tags: [String: String]?
-        
+
         public init(engineType: EngineType? = nil, engineVersion: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.engineType = engineType
             self.engineVersion = engineVersion
@@ -615,7 +615,7 @@ extension MQ {
         public let latestRevision: ConfigurationRevision?
         /// Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
         public let name: String?
-        
+
         public init(arn: String? = nil, created: TimeStamp? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
             self.arn = arn
             self.created = created
@@ -645,7 +645,7 @@ extension MQ {
         public let engineVersion: String?
         public let name: String?
         public let tags: [String: String]?
-        
+
         public init(engineType: EngineType? = nil, engineVersion: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.engineType = engineType
             self.engineVersion = engineVersion
@@ -675,7 +675,7 @@ extension MQ {
         public let id: String?
         public let latestRevision: ConfigurationRevision?
         public let name: String?
-        
+
         public init(arn: String? = nil, created: TimeStamp? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
             self.arn = arn
             self.created = created
@@ -701,7 +701,7 @@ extension MQ {
 
         public let resourceArn: String
         public let tags: [String: String]?
-        
+
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -726,7 +726,7 @@ extension MQ {
         public let groups: [String]?
         /// Required. The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas.
         public let password: String?
-        
+
         public init(consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil) {
             self.consoleAccess = consoleAccess
             self.groups = groups
@@ -754,7 +754,7 @@ extension MQ {
         public let groups: [String]?
         public let password: String?
         public let username: String
-        
+
         public init(brokerId: String, consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil, username: String) {
             self.brokerId = brokerId
             self.consoleAccess = consoleAccess
@@ -773,11 +773,12 @@ extension MQ {
     }
 
     public struct CreateUserResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum DayOfWeek: String, CustomStringConvertible, Codable {
         case monday = "MONDAY"
@@ -797,7 +798,7 @@ extension MQ {
 
         /// The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String?
-        
+
         public init(brokerId: String? = nil) {
             self.brokerId = brokerId
         }
@@ -813,7 +814,7 @@ extension MQ {
         ]
 
         public let brokerId: String
-        
+
         public init(brokerId: String) {
             self.brokerId = brokerId
         }
@@ -829,7 +830,7 @@ extension MQ {
         ]
 
         public let brokerId: String?
-        
+
         public init(brokerId: String? = nil) {
             self.brokerId = brokerId
         }
@@ -847,7 +848,7 @@ extension MQ {
 
         public let resourceArn: String
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -867,7 +868,7 @@ extension MQ {
 
         public let brokerId: String
         public let username: String
-        
+
         public init(brokerId: String, username: String) {
             self.brokerId = brokerId
             self.username = username
@@ -880,11 +881,12 @@ extension MQ {
     }
 
     public struct DeleteUserResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum DeploymentMode: String, CustomStringConvertible, Codable {
         case singleInstance = "SINGLE_INSTANCE"
@@ -902,7 +904,7 @@ extension MQ {
         public let engineType: String?
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(engineType: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.engineType = engineType
             self.maxResults = maxResults
@@ -931,7 +933,7 @@ extension MQ {
         public let brokerEngineTypes: [BrokerEngineType]?
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(brokerEngineTypes: [BrokerEngineType]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.brokerEngineTypes = brokerEngineTypes
             self.maxResults = maxResults
@@ -962,7 +964,7 @@ extension MQ {
         public let hostInstanceType: String?
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(engineType: String? = nil, hostInstanceType: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.engineType = engineType
             self.hostInstanceType = hostInstanceType
@@ -993,7 +995,7 @@ extension MQ {
         public let brokerInstanceOptions: [BrokerInstanceOption]?
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(brokerInstanceOptions: [BrokerInstanceOption]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.brokerInstanceOptions = brokerInstanceOptions
             self.maxResults = maxResults
@@ -1076,7 +1078,7 @@ extension MQ {
         public let tags: [String: String]?
         /// The list of all ActiveMQ usernames for the specified broker.
         public let users: [UserSummary]?
-        
+
         public init(autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingEngineVersion: String? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [UserSummary]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerArn = brokerArn
@@ -1130,7 +1132,7 @@ extension MQ {
         ]
 
         public let brokerId: String
-        
+
         public init(brokerId: String) {
             self.brokerId = brokerId
         }
@@ -1184,7 +1186,7 @@ extension MQ {
         public let subnetIds: [String]?
         public let tags: [String: String]?
         public let users: [UserSummary]?
-        
+
         public init(autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingEngineVersion: String? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [UserSummary]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerArn = brokerArn
@@ -1238,7 +1240,7 @@ extension MQ {
         ]
 
         public let configurationId: String
-        
+
         public init(configurationId: String) {
             self.configurationId = configurationId
         }
@@ -1270,7 +1272,7 @@ extension MQ {
         public let latestRevision: ConfigurationRevision?
         public let name: String?
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, created: TimeStamp? = nil, description: String? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.created = created
@@ -1312,7 +1314,7 @@ extension MQ {
         public let data: String?
         /// The description of the configuration.
         public let description: String?
-        
+
         public init(configurationId: String? = nil, created: TimeStamp? = nil, data: String? = nil, description: String? = nil) {
             self.configurationId = configurationId
             self.created = created
@@ -1336,7 +1338,7 @@ extension MQ {
 
         public let configurationId: String
         public let configurationRevision: String
-        
+
         public init(configurationId: String, configurationRevision: String) {
             self.configurationId = configurationId
             self.configurationRevision = configurationRevision
@@ -1360,7 +1362,7 @@ extension MQ {
         public let created: TimeStamp?
         public let data: String?
         public let description: String?
-        
+
         public init(configurationId: String? = nil, created: TimeStamp? = nil, data: String? = nil, description: String? = nil) {
             self.configurationId = configurationId
             self.created = created
@@ -1395,7 +1397,7 @@ extension MQ {
         public let pending: UserPendingChanges?
         /// Required. The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
         public let username: String?
-        
+
         public init(brokerId: String? = nil, consoleAccess: Bool? = nil, groups: [String]? = nil, pending: UserPendingChanges? = nil, username: String? = nil) {
             self.brokerId = brokerId
             self.consoleAccess = consoleAccess
@@ -1421,7 +1423,7 @@ extension MQ {
 
         public let brokerId: String
         public let username: String
-        
+
         public init(brokerId: String, username: String) {
             self.brokerId = brokerId
             self.username = username
@@ -1447,7 +1449,7 @@ extension MQ {
         public let groups: [String]?
         public let pending: UserPendingChanges?
         public let username: String?
-        
+
         public init(brokerId: String? = nil, consoleAccess: Bool? = nil, groups: [String]? = nil, pending: UserPendingChanges? = nil, username: String? = nil) {
             self.brokerId = brokerId
             self.consoleAccess = consoleAccess
@@ -1477,7 +1479,7 @@ extension MQ {
 
         /// Id for the version.
         public let name: String?
-        
+
         public init(name: String? = nil) {
             self.name = name
         }
@@ -1497,7 +1499,7 @@ extension MQ {
         public let errorAttribute: String?
         /// The explanation of the error.
         public let message: String?
-        
+
         public init(errorAttribute: String? = nil, message: String? = nil) {
             self.errorAttribute = errorAttribute
             self.message = message
@@ -1519,7 +1521,7 @@ extension MQ {
         public let brokerSummaries: [BrokerSummary]?
         /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
         public let nextToken: String?
-        
+
         public init(brokerSummaries: [BrokerSummary]? = nil, nextToken: String? = nil) {
             self.brokerSummaries = brokerSummaries
             self.nextToken = nextToken
@@ -1539,7 +1541,7 @@ extension MQ {
 
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1564,7 +1566,7 @@ extension MQ {
 
         public let brokerSummaries: [BrokerSummary]?
         public let nextToken: String?
-        
+
         public init(brokerSummaries: [BrokerSummary]? = nil, nextToken: String? = nil) {
             self.brokerSummaries = brokerSummaries
             self.nextToken = nextToken
@@ -1592,7 +1594,7 @@ extension MQ {
         public let nextToken: String?
         /// The list of all revisions for the specified configuration.
         public let revisions: [ConfigurationRevision]?
-        
+
         public init(configurationId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, revisions: [ConfigurationRevision]? = nil) {
             self.configurationId = configurationId
             self.maxResults = maxResults
@@ -1618,7 +1620,7 @@ extension MQ {
         public let configurationId: String
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(configurationId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.configurationId = configurationId
             self.maxResults = maxResults
@@ -1649,7 +1651,7 @@ extension MQ {
         public let maxResults: Int32?
         public let nextToken: String?
         public let revisions: [ConfigurationRevision]?
-        
+
         public init(configurationId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, revisions: [ConfigurationRevision]? = nil) {
             self.configurationId = configurationId
             self.maxResults = maxResults
@@ -1678,7 +1680,7 @@ extension MQ {
         public let maxResults: Int32?
         /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
         public let nextToken: String?
-        
+
         public init(configurations: [Configuration]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.configurations = configurations
             self.maxResults = maxResults
@@ -1700,7 +1702,7 @@ extension MQ {
 
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1727,7 +1729,7 @@ extension MQ {
         public let configurations: [Configuration]?
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(configurations: [Configuration]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.configurations = configurations
             self.maxResults = maxResults
@@ -1747,7 +1749,7 @@ extension MQ {
         ]
 
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1763,7 +1765,7 @@ extension MQ {
         ]
 
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1789,7 +1791,7 @@ extension MQ {
         public let nextToken: String?
         /// Required. The list of all ActiveMQ usernames for the specified broker.
         public let users: [UserSummary]?
-        
+
         public init(brokerId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, users: [UserSummary]? = nil) {
             self.brokerId = brokerId
             self.maxResults = maxResults
@@ -1820,7 +1822,7 @@ extension MQ {
         public let brokerId: String
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(brokerId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.brokerId = brokerId
             self.maxResults = maxResults
@@ -1851,7 +1853,7 @@ extension MQ {
         public let maxResults: Int32?
         public let nextToken: String?
         public let users: [UserSummary]?
-        
+
         public init(brokerId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, users: [UserSummary]? = nil) {
             self.brokerId = brokerId
             self.maxResults = maxResults
@@ -1882,7 +1884,7 @@ extension MQ {
         public let audit: Bool?
         /// Enables general logging.
         public let general: Bool?
-        
+
         public init(audit: Bool? = nil, general: Bool? = nil) {
             self.audit = audit
             self.general = general
@@ -1913,7 +1915,7 @@ extension MQ {
         public let generalLogGroup: String?
         /// The list of information about logs pending to be deployed for the specified broker.
         public let pending: PendingLogs?
-        
+
         public init(audit: Bool? = nil, auditLogGroup: String? = nil, general: Bool? = nil, generalLogGroup: String? = nil, pending: PendingLogs? = nil) {
             self.audit = audit
             self.auditLogGroup = auditLogGroup
@@ -1941,7 +1943,7 @@ extension MQ {
         public let audit: Bool?
         /// Enables general logging.
         public let general: Bool?
-        
+
         public init(audit: Bool? = nil, general: Bool? = nil) {
             self.audit = audit
             self.general = general
@@ -1959,7 +1961,7 @@ extension MQ {
         ]
 
         public let brokerId: String
-        
+
         public init(brokerId: String) {
             self.brokerId = brokerId
         }
@@ -1970,11 +1972,12 @@ extension MQ {
     }
 
     public struct RebootBrokerResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct SanitizationWarning: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1989,7 +1992,7 @@ extension MQ {
         public let elementName: String?
         /// Required. The reason for which the XML elements or attributes were sanitized.
         public let reason: SanitizationWarningReason?
-        
+
         public init(attributeName: String? = nil, elementName: String? = nil, reason: SanitizationWarningReason? = nil) {
             self.attributeName = attributeName
             self.elementName = elementName
@@ -2017,7 +2020,7 @@ extension MQ {
 
         /// The key-value pair for the resource tag.
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2043,7 +2046,7 @@ extension MQ {
         public let engineVersion: String?
         /// Enables Amazon CloudWatch logging for brokers.
         public let logs: Logs?
-        
+
         public init(autoMinorVersionUpgrade: Bool? = nil, configuration: ConfigurationId? = nil, engineVersion: String? = nil, logs: Logs? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.configuration = configuration
@@ -2078,7 +2081,7 @@ extension MQ {
         public let engineVersion: String?
         /// The list of information about logs to be enabled for the specified broker.
         public let logs: Logs?
-        
+
         public init(autoMinorVersionUpgrade: Bool? = nil, brokerId: String? = nil, configuration: ConfigurationId? = nil, engineVersion: String? = nil, logs: Logs? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerId = brokerId
@@ -2110,7 +2113,7 @@ extension MQ {
         public let configuration: ConfigurationId?
         public let engineVersion: String?
         public let logs: Logs?
-        
+
         public init(autoMinorVersionUpgrade: Bool? = nil, brokerId: String, configuration: ConfigurationId? = nil, engineVersion: String? = nil, logs: Logs? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerId = brokerId
@@ -2142,7 +2145,7 @@ extension MQ {
         public let configuration: ConfigurationId?
         public let engineVersion: String?
         public let logs: Logs?
-        
+
         public init(autoMinorVersionUpgrade: Bool? = nil, brokerId: String? = nil, configuration: ConfigurationId? = nil, engineVersion: String? = nil, logs: Logs? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerId = brokerId
@@ -2170,7 +2173,7 @@ extension MQ {
         public let data: String?
         /// The description of the configuration.
         public let description: String?
-        
+
         public init(data: String? = nil, description: String? = nil) {
             self.data = data
             self.description = description
@@ -2204,7 +2207,7 @@ extension MQ {
         public let name: String?
         /// The list of the first 20 warnings about the configuration XML elements or attributes that were sanitized.
         public let warnings: [SanitizationWarning]?
-        
+
         public init(arn: String? = nil, created: TimeStamp? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, warnings: [SanitizationWarning]? = nil) {
             self.arn = arn
             self.created = created
@@ -2234,7 +2237,7 @@ extension MQ {
         public let configurationId: String
         public let data: String?
         public let description: String?
-        
+
         public init(configurationId: String, data: String? = nil, description: String? = nil) {
             self.configurationId = configurationId
             self.data = data
@@ -2264,7 +2267,7 @@ extension MQ {
         public let latestRevision: ConfigurationRevision?
         public let name: String?
         public let warnings: [SanitizationWarning]?
-        
+
         public init(arn: String? = nil, created: TimeStamp? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, warnings: [SanitizationWarning]? = nil) {
             self.arn = arn
             self.created = created
@@ -2297,7 +2300,7 @@ extension MQ {
         public let groups: [String]?
         /// The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas.
         public let password: String?
-        
+
         public init(consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil) {
             self.consoleAccess = consoleAccess
             self.groups = groups
@@ -2325,7 +2328,7 @@ extension MQ {
         public let groups: [String]?
         public let password: String?
         public let username: String
-        
+
         public init(brokerId: String, consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil, username: String) {
             self.brokerId = brokerId
             self.consoleAccess = consoleAccess
@@ -2344,11 +2347,12 @@ extension MQ {
     }
 
     public struct UpdateUserResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct User: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2366,7 +2370,7 @@ extension MQ {
         public let password: String?
         /// Required. The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
         public let username: String?
-        
+
         public init(consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil, username: String? = nil) {
             self.consoleAccess = consoleAccess
             self.groups = groups
@@ -2395,7 +2399,7 @@ extension MQ {
         public let groups: [String]?
         /// Required. The type of change pending for the ActiveMQ user.
         public let pendingChange: ChangeType?
-        
+
         public init(consoleAccess: Bool? = nil, groups: [String]? = nil, pendingChange: ChangeType? = nil) {
             self.consoleAccess = consoleAccess
             self.groups = groups
@@ -2419,7 +2423,7 @@ extension MQ {
         public let pendingChange: ChangeType?
         /// Required. The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
         public let username: String?
-        
+
         public init(pendingChange: ChangeType? = nil, username: String? = nil) {
             self.pendingChange = pendingChange
             self.username = username
@@ -2444,7 +2448,7 @@ extension MQ {
         public let timeOfDay: String?
         /// The time zone, UTC by default, in either the Country/City format, or the UTC offset format.
         public let timeZone: String?
-        
+
         public init(dayOfWeek: DayOfWeek? = nil, timeOfDay: String? = nil, timeZone: String? = nil) {
             self.dayOfWeek = dayOfWeek
             self.timeOfDay = timeOfDay
@@ -2457,5 +2461,4 @@ extension MQ {
             case timeZone = "timeZone"
         }
     }
-
 }

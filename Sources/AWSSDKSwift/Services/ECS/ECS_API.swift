@@ -245,5 +245,4 @@ public struct ECS {
     public func updateTaskSet(_ input: UpdateTaskSetRequest) throws -> Future<UpdateTaskSetResponse> {
         return try client.send(operation: "UpdateTaskSet", path: "/", httpMethod: "POST", input: input)
     }
-
 }

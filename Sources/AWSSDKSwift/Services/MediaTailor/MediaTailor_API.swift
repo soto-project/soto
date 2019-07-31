@@ -59,5 +59,4 @@ public struct MediaTailor {
     @discardableResult public func untagResource(_ input: UntagResourceRequest) throws -> Future<Void> {
         return try client.send(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: "DELETE", input: input)
     }
-
 }

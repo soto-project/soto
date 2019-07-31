@@ -12,7 +12,7 @@ extension AppMesh {
 
         /// The file object to send virtual node access logs to.
         public let file: FileAccessLog?
-        
+
         public init(file: FileAccessLog? = nil) {
             self.file = file
         }
@@ -38,7 +38,7 @@ extension AppMesh {
         /// The value of an AWS Cloud Map service instance attribute key. Any AWS Cloud Map service
         ///          instance that contains the specified key and value is returned.
         public let value: String
-        
+
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -74,7 +74,7 @@ extension AppMesh {
         public let namespaceName: String
         /// The name of the AWS Cloud Map service to use.
         public let serviceName: String
-        
+
         public init(attributes: [AwsCloudMapInstanceAttribute]? = nil, namespaceName: String, serviceName: String) {
             self.attributes = attributes
             self.namespaceName = namespaceName
@@ -107,7 +107,7 @@ extension AppMesh {
 
         /// Specifies a virtual service to use as a backend for a virtual node. 
         public let virtualService: VirtualServiceBackend?
-        
+
         public init(virtualService: VirtualServiceBackend? = nil) {
             self.virtualService = virtualService
         }
@@ -137,7 +137,7 @@ extension AppMesh {
         ///          define. Tag keys can have a maximum character length of 128 characters, and tag values can have
         ///             a maximum length of 256 characters.
         public let tags: [TagRef]?
-        
+
         public init(clientToken: String? = CreateMeshInput.idempotencyToken(), meshName: String, spec: MeshSpec? = nil, tags: [TagRef]? = nil) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -172,7 +172,7 @@ extension AppMesh {
 
         /// The full description of your service mesh following the create call.
         public let mesh: MeshData
-        
+
         public init(mesh: MeshData) {
             self.mesh = mesh
         }
@@ -212,7 +212,7 @@ extension AppMesh {
         public let tags: [TagRef]?
         /// The name of the virtual router in which to create the route.
         public let virtualRouterName: String
-        
+
         public init(clientToken: String? = CreateRouteInput.idempotencyToken(), meshName: String, routeName: String, spec: RouteSpec, tags: [TagRef]? = nil, virtualRouterName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -256,7 +256,7 @@ extension AppMesh {
 
         /// The full description of your mesh following the create call.
         public let route: RouteData
-        
+
         public init(route: RouteData) {
             self.route = route
         }
@@ -293,7 +293,7 @@ extension AppMesh {
         public let tags: [TagRef]?
         /// The name to use for the virtual node.
         public let virtualNodeName: String
-        
+
         public init(clientToken: String? = CreateVirtualNodeInput.idempotencyToken(), meshName: String, spec: VirtualNodeSpec, tags: [TagRef]? = nil, virtualNodeName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -333,7 +333,7 @@ extension AppMesh {
 
         /// The full description of your virtual node following the create call.
         public let virtualNode: VirtualNodeData
-        
+
         public init(virtualNode: VirtualNodeData) {
             self.virtualNode = virtualNode
         }
@@ -370,7 +370,7 @@ extension AppMesh {
         public let tags: [TagRef]?
         /// The name to use for the virtual router.
         public let virtualRouterName: String
-        
+
         public init(clientToken: String? = CreateVirtualRouterInput.idempotencyToken(), meshName: String, spec: VirtualRouterSpec, tags: [TagRef]? = nil, virtualRouterName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -410,7 +410,7 @@ extension AppMesh {
 
         /// The full description of your virtual router following the create call.
         public let virtualRouter: VirtualRouterData
-        
+
         public init(virtualRouter: VirtualRouterData) {
             self.virtualRouter = virtualRouter
         }
@@ -447,7 +447,7 @@ extension AppMesh {
         public let tags: [TagRef]?
         /// The name to use for the virtual service.
         public let virtualServiceName: String
-        
+
         public init(clientToken: String? = CreateVirtualServiceInput.idempotencyToken(), meshName: String, spec: VirtualServiceSpec, tags: [TagRef]? = nil, virtualServiceName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -485,7 +485,7 @@ extension AppMesh {
 
         /// The full description of your virtual service following the create call.
         public let virtualService: VirtualServiceData
-        
+
         public init(virtualService: VirtualServiceData) {
             self.virtualService = virtualService
         }
@@ -506,7 +506,7 @@ extension AppMesh {
 
         /// The name of the service mesh to delete.
         public let meshName: String
-        
+
         public init(meshName: String) {
             self.meshName = meshName
         }
@@ -530,7 +530,7 @@ extension AppMesh {
 
         /// The service mesh that was deleted.
         public let mesh: MeshData
-        
+
         public init(mesh: MeshData) {
             self.mesh = mesh
         }
@@ -557,7 +557,7 @@ extension AppMesh {
         public let routeName: String
         /// The name of the virtual router to delete the route in.
         public let virtualRouterName: String
-        
+
         public init(meshName: String, routeName: String, virtualRouterName: String) {
             self.meshName = meshName
             self.routeName = routeName
@@ -589,7 +589,7 @@ extension AppMesh {
 
         /// The route that was deleted.
         public let route: RouteData
-        
+
         public init(route: RouteData) {
             self.route = route
         }
@@ -613,7 +613,7 @@ extension AppMesh {
         public let meshName: String
         /// The name of the virtual node to delete.
         public let virtualNodeName: String
-        
+
         public init(meshName: String, virtualNodeName: String) {
             self.meshName = meshName
             self.virtualNodeName = virtualNodeName
@@ -641,7 +641,7 @@ extension AppMesh {
 
         /// The virtual node that was deleted.
         public let virtualNode: VirtualNodeData
-        
+
         public init(virtualNode: VirtualNodeData) {
             self.virtualNode = virtualNode
         }
@@ -665,7 +665,7 @@ extension AppMesh {
         public let meshName: String
         /// The name of the virtual router to delete.
         public let virtualRouterName: String
-        
+
         public init(meshName: String, virtualRouterName: String) {
             self.meshName = meshName
             self.virtualRouterName = virtualRouterName
@@ -693,7 +693,7 @@ extension AppMesh {
 
         /// The virtual router that was deleted.
         public let virtualRouter: VirtualRouterData
-        
+
         public init(virtualRouter: VirtualRouterData) {
             self.virtualRouter = virtualRouter
         }
@@ -717,7 +717,7 @@ extension AppMesh {
         public let meshName: String
         /// The name of the virtual service to delete.
         public let virtualServiceName: String
-        
+
         public init(meshName: String, virtualServiceName: String) {
             self.meshName = meshName
             self.virtualServiceName = virtualServiceName
@@ -743,7 +743,7 @@ extension AppMesh {
 
         /// The virtual service that was deleted.
         public let virtualService: VirtualServiceData
-        
+
         public init(virtualService: VirtualServiceData) {
             self.virtualService = virtualService
         }
@@ -764,7 +764,7 @@ extension AppMesh {
 
         /// The name of the service mesh to describe.
         public let meshName: String
-        
+
         public init(meshName: String) {
             self.meshName = meshName
         }
@@ -788,7 +788,7 @@ extension AppMesh {
 
         /// The full description of your service mesh.
         public let mesh: MeshData
-        
+
         public init(mesh: MeshData) {
             self.mesh = mesh
         }
@@ -815,7 +815,7 @@ extension AppMesh {
         public let routeName: String
         /// The name of the virtual router that the route is associated with.
         public let virtualRouterName: String
-        
+
         public init(meshName: String, routeName: String, virtualRouterName: String) {
             self.meshName = meshName
             self.routeName = routeName
@@ -847,7 +847,7 @@ extension AppMesh {
 
         /// The full description of your route.
         public let route: RouteData
-        
+
         public init(route: RouteData) {
             self.route = route
         }
@@ -871,7 +871,7 @@ extension AppMesh {
         public let meshName: String
         /// The name of the virtual node to describe.
         public let virtualNodeName: String
-        
+
         public init(meshName: String, virtualNodeName: String) {
             self.meshName = meshName
             self.virtualNodeName = virtualNodeName
@@ -899,7 +899,7 @@ extension AppMesh {
 
         /// The full description of your virtual node.
         public let virtualNode: VirtualNodeData
-        
+
         public init(virtualNode: VirtualNodeData) {
             self.virtualNode = virtualNode
         }
@@ -923,7 +923,7 @@ extension AppMesh {
         public let meshName: String
         /// The name of the virtual router to describe.
         public let virtualRouterName: String
-        
+
         public init(meshName: String, virtualRouterName: String) {
             self.meshName = meshName
             self.virtualRouterName = virtualRouterName
@@ -951,7 +951,7 @@ extension AppMesh {
 
         /// The full description of your virtual router.
         public let virtualRouter: VirtualRouterData
-        
+
         public init(virtualRouter: VirtualRouterData) {
             self.virtualRouter = virtualRouter
         }
@@ -975,7 +975,7 @@ extension AppMesh {
         public let meshName: String
         /// The name of the virtual service to describe.
         public let virtualServiceName: String
-        
+
         public init(meshName: String, virtualServiceName: String) {
             self.meshName = meshName
             self.virtualServiceName = virtualServiceName
@@ -1001,7 +1001,7 @@ extension AppMesh {
 
         /// The full description of your virtual service.
         public let virtualService: VirtualServiceData
-        
+
         public init(virtualService: VirtualServiceData) {
             self.virtualService = virtualService
         }
@@ -1022,7 +1022,7 @@ extension AppMesh {
 
         /// Specifies the DNS service discovery hostname for the virtual node. 
         public let hostname: String
-        
+
         public init(hostname: String) {
             self.hostname = hostname
         }
@@ -1043,7 +1043,7 @@ extension AppMesh {
         ///          type to ALLOW_ALL to allow egress to any endpoint inside or outside of the
         ///          service mesh.
         public let `type`: EgressFilterType
-        
+
         public init(type: EgressFilterType) {
             self.`type` = `type`
         }
@@ -1074,7 +1074,7 @@ extension AppMesh {
         ///             Otherwise, Envoy fails to bootstrap properly.
         ///          
         public let path: String
-        
+
         public init(path: String) {
             self.path = path
         }
@@ -1119,7 +1119,7 @@ extension AppMesh {
         /// The number of consecutive failed health checks that must occur before declaring a
         ///          virtual node unhealthy. 
         public let unhealthyThreshold: Int32
-        
+
         public init(healthyThreshold: Int32, intervalMillis: Int64, path: String? = nil, port: Int32? = nil, protocol: PortProtocol, timeoutMillis: Int64, unhealthyThreshold: Int32) {
             self.healthyThreshold = healthyThreshold
             self.intervalMillis = intervalMillis
@@ -1164,7 +1164,7 @@ extension AppMesh {
         public let action: HttpRouteAction
         /// The criteria for determining an HTTP request match.
         public let match: HttpRouteMatch
-        
+
         public init(action: HttpRouteAction, match: HttpRouteMatch) {
             self.action = action
             self.match = match
@@ -1188,7 +1188,7 @@ extension AppMesh {
         /// The targets that traffic is routed to when a request matches the route. You can specify
         ///          one or more targets and their relative weights to distribute traffic with.
         public let weightedTargets: [WeightedTarget]
-        
+
         public init(weightedTargets: [WeightedTarget]) {
             self.weightedTargets = weightedTargets
         }
@@ -1218,7 +1218,7 @@ extension AppMesh {
         ///             my-service.local/metrics, your prefix should be
         ///          /metrics.
         public let prefix: String
-        
+
         public init(prefix: String) {
             self.prefix = prefix
         }
@@ -1252,7 +1252,7 @@ extension AppMesh {
         ///                 retrieve the next items in a list and not for other programmatic purposes.
         ///         
         public let nextToken: String?
-        
+
         public init(limit: Int32? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -1282,7 +1282,7 @@ extension AppMesh {
         ///          use this value to retrieve the next page of results. This value is null when
         ///          there are no more results to return.
         public let nextToken: String?
-        
+
         public init(meshes: [MeshRef], nextToken: String? = nil) {
             self.meshes = meshes
             self.nextToken = nextToken
@@ -1326,7 +1326,7 @@ extension AppMesh {
         public let nextToken: String?
         /// The name of the virtual router to list routes in.
         public let virtualRouterName: String
-        
+
         public init(limit: Int32? = nil, meshName: String, nextToken: String? = nil, virtualRouterName: String) {
             self.limit = limit
             self.meshName = meshName
@@ -1364,7 +1364,7 @@ extension AppMesh {
         public let nextToken: String?
         /// The list of existing routes for the specified service mesh and virtual router.
         public let routes: [RouteRef]
-        
+
         public init(nextToken: String? = nil, routes: [RouteRef]) {
             self.nextToken = nextToken
             self.routes = routes
@@ -1405,7 +1405,7 @@ extension AppMesh {
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for.
         public let resourceArn: String
-        
+
         public init(limit: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
             self.limit = limit
             self.nextToken = nextToken
@@ -1437,7 +1437,7 @@ extension AppMesh {
         public let nextToken: String?
         /// The tags for the resource.
         public let tags: [TagRef]
-        
+
         public init(nextToken: String? = nil, tags: [TagRef]) {
             self.nextToken = nextToken
             self.tags = tags
@@ -1480,7 +1480,7 @@ extension AppMesh {
         ///          exceeded the value of that parameter. Pagination continues from the end of the previous
         ///          results that returned the nextToken value.
         public let nextToken: String?
-        
+
         public init(limit: Int32? = nil, meshName: String, nextToken: String? = nil) {
             self.limit = limit
             self.meshName = meshName
@@ -1514,7 +1514,7 @@ extension AppMesh {
         public let nextToken: String?
         /// The list of existing virtual nodes for the specified service mesh.
         public let virtualNodes: [VirtualNodeRef]
-        
+
         public init(nextToken: String? = nil, virtualNodes: [VirtualNodeRef]) {
             self.nextToken = nextToken
             self.virtualNodes = virtualNodes
@@ -1555,7 +1555,7 @@ extension AppMesh {
         ///          results exceeded the value of that parameter. Pagination continues from the end of the
         ///          previous results that returned the nextToken value.
         public let nextToken: String?
-        
+
         public init(limit: Int32? = nil, meshName: String, nextToken: String? = nil) {
             self.limit = limit
             self.meshName = meshName
@@ -1589,7 +1589,7 @@ extension AppMesh {
         public let nextToken: String?
         /// The list of existing virtual routers for the specified service mesh.
         public let virtualRouters: [VirtualRouterRef]
-        
+
         public init(nextToken: String? = nil, virtualRouters: [VirtualRouterRef]) {
             self.nextToken = nextToken
             self.virtualRouters = virtualRouters
@@ -1630,7 +1630,7 @@ extension AppMesh {
         ///          results exceeded the value of that parameter. Pagination continues from the end of the
         ///          previous results that returned the nextToken value.
         public let nextToken: String?
-        
+
         public init(limit: Int32? = nil, meshName: String, nextToken: String? = nil) {
             self.limit = limit
             self.meshName = meshName
@@ -1664,7 +1664,7 @@ extension AppMesh {
         public let nextToken: String?
         /// The list of existing virtual services for the specified service mesh.
         public let virtualServices: [VirtualServiceRef]
-        
+
         public init(nextToken: String? = nil, virtualServices: [VirtualServiceRef]) {
             self.nextToken = nextToken
             self.virtualServices = virtualServices
@@ -1692,7 +1692,7 @@ extension AppMesh {
         public let healthCheck: HealthCheckPolicy?
         /// The port mapping information for the listener.
         public let portMapping: PortMapping
-        
+
         public init(healthCheck: HealthCheckPolicy? = nil, portMapping: PortMapping) {
             self.healthCheck = healthCheck
             self.portMapping = portMapping
@@ -1716,7 +1716,7 @@ extension AppMesh {
 
         /// The access log configuration for a virtual node.
         public let accessLog: AccessLog?
-        
+
         public init(accessLog: AccessLog? = nil) {
             self.accessLog = accessLog
         }
@@ -1746,7 +1746,7 @@ extension AppMesh {
         public let spec: MeshSpec
         /// The status of the service mesh.
         public let status: MeshStatus
-        
+
         public init(meshName: String, metadata: ResourceMetadata, spec: MeshSpec, status: MeshStatus) {
             self.meshName = meshName
             self.metadata = metadata
@@ -1777,7 +1777,7 @@ extension AppMesh {
         public let arn: String
         /// The name of the service mesh.
         public let meshName: String
-        
+
         public init(arn: String, meshName: String) {
             self.arn = arn
             self.meshName = meshName
@@ -1801,7 +1801,7 @@ extension AppMesh {
 
         /// The egress filter rules for the service mesh.
         public let egressFilter: EgressFilter?
-        
+
         public init(egressFilter: EgressFilter? = nil) {
             self.egressFilter = egressFilter
         }
@@ -1818,7 +1818,7 @@ extension AppMesh {
 
         /// The current mesh status.
         public let status: MeshStatusCode?
-        
+
         public init(status: MeshStatusCode? = nil) {
             self.status = status
         }
@@ -1845,7 +1845,7 @@ extension AppMesh {
         public let port: Int32
         /// The protocol used for the port mapping.
         public let `protocol`: PortProtocol
-        
+
         public init(port: Int32, protocol: PortProtocol) {
             self.port = port
             self.`protocol` = `protocol`
@@ -1888,7 +1888,7 @@ extension AppMesh {
         /// The version of the resource. Resources are created at version 1, and this version is
         ///          incremented each time that they're updated.
         public let version: Int64
-        
+
         public init(arn: String, createdAt: TimeStamp, lastUpdatedAt: TimeStamp, uid: String, version: Int64) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1928,7 +1928,7 @@ extension AppMesh {
         public let status: RouteStatus
         /// The virtual router that the route is associated with.
         public let virtualRouterName: String
-        
+
         public init(meshName: String, metadata: ResourceMetadata, routeName: String, spec: RouteSpec, status: RouteStatus, virtualRouterName: String) {
             self.meshName = meshName
             self.metadata = metadata
@@ -1974,7 +1974,7 @@ extension AppMesh {
         public let routeName: String
         /// The virtual router that the route is associated with.
         public let virtualRouterName: String
-        
+
         public init(arn: String, meshName: String, routeName: String, virtualRouterName: String) {
             self.arn = arn
             self.meshName = meshName
@@ -2009,7 +2009,7 @@ extension AppMesh {
         public let httpRoute: HttpRoute?
         /// The TCP routing information for the route.
         public let tcpRoute: TcpRoute?
-        
+
         public init(httpRoute: HttpRoute? = nil, tcpRoute: TcpRoute? = nil) {
             self.httpRoute = httpRoute
             self.tcpRoute = tcpRoute
@@ -2033,7 +2033,7 @@ extension AppMesh {
 
         /// The current status for the route.
         public let status: RouteStatusCode
-        
+
         public init(status: RouteStatusCode) {
             self.status = status
         }
@@ -2060,7 +2060,7 @@ extension AppMesh {
         public let awsCloudMap: AwsCloudMapServiceDiscovery?
         /// Specifies the DNS information for the virtual node.
         public let dns: DnsServiceDiscovery?
-        
+
         public init(awsCloudMap: AwsCloudMapServiceDiscovery? = nil, dns: DnsServiceDiscovery? = nil) {
             self.awsCloudMap = awsCloudMap
             self.dns = dns
@@ -2088,7 +2088,7 @@ extension AppMesh {
         /// The optional part of a key-value pair that make up a tag. A value acts as a
         ///          descriptor within a tag category (key).
         public let value: String?
-        
+
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -2119,7 +2119,7 @@ extension AppMesh {
         ///          Tag keys can have a maximum character length of 128 characters, and tag values can have
         ///             a maximum length of 256 characters.
         public let tags: [TagRef]
-        
+
         public init(resourceArn: String, tags: [TagRef]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2140,11 +2140,12 @@ extension AppMesh {
     }
 
     public struct TagResourceOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct TcpRoute: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2153,7 +2154,7 @@ extension AppMesh {
 
         /// The action to take if a match is determined.
         public let action: TcpRouteAction
-        
+
         public init(action: TcpRouteAction) {
             self.action = action
         }
@@ -2175,7 +2176,7 @@ extension AppMesh {
         /// The targets that traffic is routed to when a request matches the route. You can specify
         ///          one or more targets and their relative weights to distribute traffic with.
         public let weightedTargets: [WeightedTarget]
-        
+
         public init(weightedTargets: [WeightedTarget]) {
             self.weightedTargets = weightedTargets
         }
@@ -2203,7 +2204,7 @@ extension AppMesh {
         public let resourceArn: String
         /// The keys of the tags to be removed.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2225,11 +2226,12 @@ extension AppMesh {
     }
 
     public struct UntagResourceOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateMeshInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2245,7 +2247,7 @@ extension AppMesh {
         public let meshName: String
         /// The service mesh specification to apply.
         public let spec: MeshSpec?
-        
+
         public init(clientToken: String? = UpdateMeshInput.idempotencyToken(), meshName: String, spec: MeshSpec? = nil) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -2272,7 +2274,7 @@ extension AppMesh {
         ]
 
         public let mesh: MeshData
-        
+
         public init(mesh: MeshData) {
             self.mesh = mesh
         }
@@ -2306,7 +2308,7 @@ extension AppMesh {
         public let spec: RouteSpec
         /// The name of the virtual router that the route is associated with.
         public let virtualRouterName: String
-        
+
         public init(clientToken: String? = UpdateRouteInput.idempotencyToken(), meshName: String, routeName: String, spec: RouteSpec, virtualRouterName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -2343,7 +2345,7 @@ extension AppMesh {
 
         /// A full description of the route that was updated.
         public let route: RouteData
-        
+
         public init(route: RouteData) {
             self.route = route
         }
@@ -2374,7 +2376,7 @@ extension AppMesh {
         public let spec: VirtualNodeSpec
         /// The name of the virtual node to update.
         public let virtualNodeName: String
-        
+
         public init(clientToken: String? = UpdateVirtualNodeInput.idempotencyToken(), meshName: String, spec: VirtualNodeSpec, virtualNodeName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -2407,7 +2409,7 @@ extension AppMesh {
 
         /// A full description of the virtual node that was updated.
         public let virtualNode: VirtualNodeData
-        
+
         public init(virtualNode: VirtualNodeData) {
             self.virtualNode = virtualNode
         }
@@ -2438,7 +2440,7 @@ extension AppMesh {
         public let spec: VirtualRouterSpec
         /// The name of the virtual router to update.
         public let virtualRouterName: String
-        
+
         public init(clientToken: String? = UpdateVirtualRouterInput.idempotencyToken(), meshName: String, spec: VirtualRouterSpec, virtualRouterName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -2471,7 +2473,7 @@ extension AppMesh {
 
         /// A full description of the virtual router that was updated.
         public let virtualRouter: VirtualRouterData
-        
+
         public init(virtualRouter: VirtualRouterData) {
             self.virtualRouter = virtualRouter
         }
@@ -2503,7 +2505,7 @@ extension AppMesh {
         public let spec: VirtualServiceSpec
         /// The name of the virtual service to update.
         public let virtualServiceName: String
-        
+
         public init(clientToken: String? = UpdateVirtualServiceInput.idempotencyToken(), meshName: String, spec: VirtualServiceSpec, virtualServiceName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -2534,7 +2536,7 @@ extension AppMesh {
 
         /// A full description of the virtual service that was updated.
         public let virtualService: VirtualServiceData
-        
+
         public init(virtualService: VirtualServiceData) {
             self.virtualService = virtualService
         }
@@ -2567,7 +2569,7 @@ extension AppMesh {
         public let status: VirtualNodeStatus
         /// The name of the virtual node.
         public let virtualNodeName: String
-        
+
         public init(meshName: String, metadata: ResourceMetadata, spec: VirtualNodeSpec, status: VirtualNodeStatus, virtualNodeName: String) {
             self.meshName = meshName
             self.metadata = metadata
@@ -2606,7 +2608,7 @@ extension AppMesh {
         public let meshName: String
         /// The name of the virtual node.
         public let virtualNodeName: String
-        
+
         public init(arn: String, meshName: String, virtualNodeName: String) {
             self.arn = arn
             self.meshName = meshName
@@ -2634,7 +2636,7 @@ extension AppMesh {
 
         /// The name of the virtual node that is acting as a service provider.
         public let virtualNodeName: String
-        
+
         public init(virtualNodeName: String) {
             self.virtualNodeName = virtualNodeName
         }
@@ -2667,7 +2669,7 @@ extension AppMesh {
         /// The service discovery information for the virtual node. If your virtual node does not
         ///          expect ingress traffic, you can omit this parameter.
         public let serviceDiscovery: ServiceDiscovery?
-        
+
         public init(backends: [Backend]? = nil, listeners: [Listener]? = nil, logging: Logging? = nil, serviceDiscovery: ServiceDiscovery? = nil) {
             self.backends = backends
             self.listeners = listeners
@@ -2702,7 +2704,7 @@ extension AppMesh {
 
         /// The current status of the virtual node.
         public let status: VirtualNodeStatusCode
-        
+
         public init(status: VirtualNodeStatusCode) {
             self.status = status
         }
@@ -2738,7 +2740,7 @@ extension AppMesh {
         public let status: VirtualRouterStatus
         /// The name of the virtual router.
         public let virtualRouterName: String
-        
+
         public init(meshName: String, metadata: ResourceMetadata, spec: VirtualRouterSpec, status: VirtualRouterStatus, virtualRouterName: String) {
             self.meshName = meshName
             self.metadata = metadata
@@ -2770,7 +2772,7 @@ extension AppMesh {
         ]
 
         public let portMapping: PortMapping
-        
+
         public init(portMapping: PortMapping) {
             self.portMapping = portMapping
         }
@@ -2797,7 +2799,7 @@ extension AppMesh {
         public let meshName: String
         /// The name of the virtual router.
         public let virtualRouterName: String
-        
+
         public init(arn: String, meshName: String, virtualRouterName: String) {
             self.arn = arn
             self.meshName = meshName
@@ -2825,7 +2827,7 @@ extension AppMesh {
 
         /// The name of the virtual router that is acting as a service provider.
         public let virtualRouterName: String
-        
+
         public init(virtualRouterName: String) {
             self.virtualRouterName = virtualRouterName
         }
@@ -2848,7 +2850,7 @@ extension AppMesh {
         /// The listeners that the virtual router is expected to receive inbound traffic from.
         ///          Currently only one listener is supported per virtual router.
         public let listeners: [VirtualRouterListener]?
-        
+
         public init(listeners: [VirtualRouterListener]? = nil) {
             self.listeners = listeners
         }
@@ -2873,7 +2875,7 @@ extension AppMesh {
 
         /// The current status of the virtual router.
         public let status: VirtualRouterStatusCode
-        
+
         public init(status: VirtualRouterStatusCode) {
             self.status = status
         }
@@ -2897,7 +2899,7 @@ extension AppMesh {
 
         /// The name of the virtual service that is acting as a virtual node backend.
         public let virtualServiceName: String
-        
+
         public init(virtualServiceName: String) {
             self.virtualServiceName = virtualServiceName
         }
@@ -2925,7 +2927,7 @@ extension AppMesh {
         public let status: VirtualServiceStatus
         /// The name of the virtual service.
         public let virtualServiceName: String
-        
+
         public init(meshName: String, metadata: ResourceMetadata, spec: VirtualServiceSpec, status: VirtualServiceStatus, virtualServiceName: String) {
             self.meshName = meshName
             self.metadata = metadata
@@ -2959,7 +2961,7 @@ extension AppMesh {
         public let virtualNode: VirtualNodeServiceProvider?
         /// The virtual router associated with a virtual service.
         public let virtualRouter: VirtualRouterServiceProvider?
-        
+
         public init(virtualNode: VirtualNodeServiceProvider? = nil, virtualRouter: VirtualRouterServiceProvider? = nil) {
             self.virtualNode = virtualNode
             self.virtualRouter = virtualRouter
@@ -2989,7 +2991,7 @@ extension AppMesh {
         public let meshName: String
         /// The name of the virtual service.
         public let virtualServiceName: String
-        
+
         public init(arn: String, meshName: String, virtualServiceName: String) {
             self.arn = arn
             self.meshName = meshName
@@ -3016,7 +3018,7 @@ extension AppMesh {
         /// The App Mesh object that is acting as the provider for a virtual service. You can specify
         ///          a single virtual node or virtual router.
         public let provider: VirtualServiceProvider?
-        
+
         public init(provider: VirtualServiceProvider? = nil) {
             self.provider = provider
         }
@@ -3037,7 +3039,7 @@ extension AppMesh {
 
         /// The current status of the virtual service.
         public let status: VirtualServiceStatusCode
-        
+
         public init(status: VirtualServiceStatusCode) {
             self.status = status
         }
@@ -3064,7 +3066,7 @@ extension AppMesh {
         public let virtualNode: String
         /// The relative weight of the weighted target.
         public let weight: Int32
-        
+
         public init(virtualNode: String, weight: Int32) {
             self.virtualNode = virtualNode
             self.weight = weight
@@ -3082,5 +3084,4 @@ extension AppMesh {
             case weight = "weight"
         }
     }
-
 }

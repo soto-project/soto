@@ -18,7 +18,7 @@ extension WorkMail {
         public let organizationId: String
         /// The resource for which members (users or groups) are associated.
         public let resourceId: String
-        
+
         public init(entityId: String, organizationId: String, resourceId: String) {
             self.entityId = entityId
             self.organizationId = organizationId
@@ -40,11 +40,12 @@ extension WorkMail {
     }
 
     public struct AssociateDelegateToResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct AssociateMemberToGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -59,7 +60,7 @@ extension WorkMail {
         public let memberId: String
         /// The organization under which the group exists.
         public let organizationId: String
-        
+
         public init(groupId: String, memberId: String, organizationId: String) {
             self.groupId = groupId
             self.memberId = memberId
@@ -82,11 +83,12 @@ extension WorkMail {
     }
 
     public struct AssociateMemberToGroupResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct BookingOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -101,7 +103,7 @@ extension WorkMail {
         public let autoDeclineConflictingRequests: Bool?
         /// The resource's ability to automatically decline any recurring requests.
         public let autoDeclineRecurringRequests: Bool?
-        
+
         public init(autoAcceptRequests: Bool? = nil, autoDeclineConflictingRequests: Bool? = nil, autoDeclineRecurringRequests: Bool? = nil) {
             self.autoAcceptRequests = autoAcceptRequests
             self.autoDeclineConflictingRequests = autoDeclineConflictingRequests
@@ -128,7 +130,7 @@ extension WorkMail {
         public let entityId: String
         /// The organization under which the member (user or group) exists.
         public let organizationId: String
-        
+
         public init(alias: String, entityId: String, organizationId: String) {
             self.alias = alias
             self.entityId = entityId
@@ -152,11 +154,12 @@ extension WorkMail {
     }
 
     public struct CreateAliasResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -168,7 +171,7 @@ extension WorkMail {
         public let name: String
         /// The organization under which the group is to be created.
         public let organizationId: String
-        
+
         public init(name: String, organizationId: String) {
             self.name = name
             self.organizationId = organizationId
@@ -194,7 +197,7 @@ extension WorkMail {
 
         /// The identifier of the group.
         public let groupId: String?
-        
+
         public init(groupId: String? = nil) {
             self.groupId = groupId
         }
@@ -222,7 +225,7 @@ extension WorkMail {
         public let organizationId: String
         /// The type of the new resource. The available types are equipment and room.
         public let `type`: ResourceType
-        
+
         public init(name: String, organizationId: String, type: ResourceType) {
             self.name = name
             self.organizationId = organizationId
@@ -250,7 +253,7 @@ extension WorkMail {
 
         /// The identifier of the new resource.
         public let resourceId: String?
-        
+
         public init(resourceId: String? = nil) {
             self.resourceId = resourceId
         }
@@ -280,7 +283,7 @@ extension WorkMail {
         public let organizationId: String
         /// The password for the new user.
         public let password: String
-        
+
         public init(displayName: String, name: String, organizationId: String, password: String) {
             self.displayName = displayName
             self.name = name
@@ -313,7 +316,7 @@ extension WorkMail {
 
         /// The identifier for the new user.
         public let userId: String?
-        
+
         public init(userId: String? = nil) {
             self.userId = userId
         }
@@ -338,7 +341,7 @@ extension WorkMail {
         public let id: String
         /// The type of the delegate: user or group.
         public let `type`: MemberType
-        
+
         public init(id: String, type: MemberType) {
             self.id = id
             self.`type` = `type`
@@ -367,7 +370,7 @@ extension WorkMail {
         public let entityId: String
         /// The identifier for the organization under which the user exists.
         public let organizationId: String
-        
+
         public init(alias: String, entityId: String, organizationId: String) {
             self.alias = alias
             self.entityId = entityId
@@ -391,11 +394,12 @@ extension WorkMail {
     }
 
     public struct DeleteAliasResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -407,7 +411,7 @@ extension WorkMail {
         public let groupId: String
         /// The organization that contains the group.
         public let organizationId: String
-        
+
         public init(groupId: String, organizationId: String) {
             self.groupId = groupId
             self.organizationId = organizationId
@@ -426,11 +430,12 @@ extension WorkMail {
     }
 
     public struct DeleteGroupResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteMailboxPermissionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -445,7 +450,7 @@ extension WorkMail {
         public let granteeId: String
         /// The identifier of the organization under which the member (user or group) exists.
         public let organizationId: String
-        
+
         public init(entityId: String, granteeId: String, organizationId: String) {
             self.entityId = entityId
             self.granteeId = granteeId
@@ -468,11 +473,12 @@ extension WorkMail {
     }
 
     public struct DeleteMailboxPermissionsResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -484,7 +490,7 @@ extension WorkMail {
         public let organizationId: String
         /// The identifier of the resource to be deleted.
         public let resourceId: String
-        
+
         public init(organizationId: String, resourceId: String) {
             self.organizationId = organizationId
             self.resourceId = resourceId
@@ -502,11 +508,12 @@ extension WorkMail {
     }
 
     public struct DeleteResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -518,7 +525,7 @@ extension WorkMail {
         public let organizationId: String
         /// The identifier of the user to be deleted.
         public let userId: String
-        
+
         public init(organizationId: String, userId: String) {
             self.organizationId = organizationId
             self.userId = userId
@@ -537,11 +544,12 @@ extension WorkMail {
     }
 
     public struct DeleteUserResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeregisterFromWorkMailRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -553,7 +561,7 @@ extension WorkMail {
         public let entityId: String
         /// The identifier for the organization under which the Amazon WorkMail entity exists.
         public let organizationId: String
-        
+
         public init(entityId: String, organizationId: String) {
             self.entityId = entityId
             self.organizationId = organizationId
@@ -572,11 +580,12 @@ extension WorkMail {
     }
 
     public struct DeregisterFromWorkMailResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -588,7 +597,7 @@ extension WorkMail {
         public let groupId: String
         /// The identifier for the organization under which the group exists.
         public let organizationId: String
-        
+
         public init(groupId: String, organizationId: String) {
             self.groupId = groupId
             self.organizationId = organizationId
@@ -628,7 +637,7 @@ extension WorkMail {
         public let name: String?
         /// The state of the user: enabled (registered to Amazon WorkMail) or disabled (deregistered or never registered to WorkMail).
         public let state: EntityState?
-        
+
         public init(disabledDate: TimeStamp? = nil, email: String? = nil, enabledDate: TimeStamp? = nil, groupId: String? = nil, name: String? = nil, state: EntityState? = nil) {
             self.disabledDate = disabledDate
             self.email = email
@@ -666,7 +675,7 @@ extension WorkMail {
 
         /// The identifier for the organization to be described.
         public let organizationId: String
-        
+
         public init(organizationId: String) {
             self.organizationId = organizationId
         }
@@ -708,7 +717,7 @@ extension WorkMail {
         public let organizationId: String?
         /// The state of an organization.
         public let state: String?
-        
+
         public init(alias: String? = nil, completedDate: TimeStamp? = nil, defaultMailDomain: String? = nil, directoryId: String? = nil, directoryType: String? = nil, errorMessage: String? = nil, organizationId: String? = nil, state: String? = nil) {
             self.alias = alias
             self.completedDate = completedDate
@@ -754,7 +763,7 @@ extension WorkMail {
         public let organizationId: String
         /// The identifier of the resource to be described.
         public let resourceId: String
-        
+
         public init(organizationId: String, resourceId: String) {
             self.organizationId = organizationId
             self.resourceId = resourceId
@@ -799,7 +808,7 @@ extension WorkMail {
         public let state: EntityState?
         /// The type of the described resource.
         public let `type`: ResourceType?
-        
+
         public init(bookingOptions: BookingOptions? = nil, disabledDate: TimeStamp? = nil, email: String? = nil, enabledDate: TimeStamp? = nil, name: String? = nil, resourceId: String? = nil, state: EntityState? = nil, type: ResourceType? = nil) {
             self.bookingOptions = bookingOptions
             self.disabledDate = disabledDate
@@ -843,7 +852,7 @@ extension WorkMail {
         public let organizationId: String
         /// The identifier for the user to be described.
         public let userId: String
-        
+
         public init(organizationId: String, userId: String) {
             self.organizationId = organizationId
             self.userId = userId
@@ -889,7 +898,7 @@ extension WorkMail {
         public let userId: String?
         /// In certain cases, other entities are modeled as users. If interoperability is enabled, resources are imported into Amazon WorkMail as users. Because different WorkMail organizations rely on different directory types, administrators can distinguish between an unregistered user (account is disabled and has a user role) and the directory administrators. The values are USER, RESOURCE, and SYSTEM_USER.
         public let userRole: UserRole?
-        
+
         public init(disabledDate: TimeStamp? = nil, displayName: String? = nil, email: String? = nil, enabledDate: TimeStamp? = nil, name: String? = nil, state: EntityState? = nil, userId: String? = nil, userRole: UserRole? = nil) {
             self.disabledDate = disabledDate
             self.displayName = displayName
@@ -938,7 +947,7 @@ extension WorkMail {
         public let organizationId: String
         /// The identifier of the resource from which delegates' set members are removed. 
         public let resourceId: String
-        
+
         public init(entityId: String, organizationId: String, resourceId: String) {
             self.entityId = entityId
             self.organizationId = organizationId
@@ -960,11 +969,12 @@ extension WorkMail {
     }
 
     public struct DisassociateDelegateFromResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociateMemberFromGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -979,7 +989,7 @@ extension WorkMail {
         public let memberId: String
         /// The identifier for the organization under which the group exists.
         public let organizationId: String
-        
+
         public init(groupId: String, memberId: String, organizationId: String) {
             self.groupId = groupId
             self.memberId = memberId
@@ -1002,11 +1012,12 @@ extension WorkMail {
     }
 
     public struct DisassociateMemberFromGroupResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum EntityState: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
@@ -1025,7 +1036,7 @@ extension WorkMail {
         public let organizationId: String
         /// The identifier for the user whose mailbox details are being requested.
         public let userId: String
-        
+
         public init(organizationId: String, userId: String) {
             self.organizationId = organizationId
             self.userId = userId
@@ -1053,7 +1064,7 @@ extension WorkMail {
         public let mailboxQuota: Int32?
         /// The current mailbox size, in MB, for the specified user.
         public let mailboxSize: Double?
-        
+
         public init(mailboxQuota: Int32? = nil, mailboxSize: Double? = nil) {
             self.mailboxQuota = mailboxQuota
             self.mailboxSize = mailboxSize
@@ -1092,7 +1103,7 @@ extension WorkMail {
         public let name: String?
         /// The state of the group, which can be ENABLED, DISABLED, or DELETED.
         public let state: EntityState?
-        
+
         public init(disabledDate: TimeStamp? = nil, email: String? = nil, enabledDate: TimeStamp? = nil, id: String? = nil, name: String? = nil, state: EntityState? = nil) {
             self.disabledDate = disabledDate
             self.email = email
@@ -1139,7 +1150,7 @@ extension WorkMail {
         public let nextToken: String?
         /// The identifier for the organization under which the entity exists.
         public let organizationId: String
-        
+
         public init(entityId: String, maxResults: Int32? = nil, nextToken: String? = nil, organizationId: String) {
             self.entityId = entityId
             self.maxResults = maxResults
@@ -1175,7 +1186,7 @@ extension WorkMail {
         public let aliases: [String]?
         /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
         public let nextToken: String?
-        
+
         public init(aliases: [String]? = nil, nextToken: String? = nil) {
             self.aliases = aliases
             self.nextToken = nextToken
@@ -1213,7 +1224,7 @@ extension WorkMail {
         public let nextToken: String?
         /// The identifier for the organization under which the group exists.
         public let organizationId: String
-        
+
         public init(groupId: String, maxResults: Int32? = nil, nextToken: String? = nil, organizationId: String) {
             self.groupId = groupId
             self.maxResults = maxResults
@@ -1249,7 +1260,7 @@ extension WorkMail {
         public let members: [Member]?
         /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
         public let nextToken: String?
-        
+
         public init(members: [Member]? = nil, nextToken: String? = nil) {
             self.members = members
             self.nextToken = nextToken
@@ -1282,7 +1293,7 @@ extension WorkMail {
         public let nextToken: String?
         /// The identifier for the organization under which the groups exist.
         public let organizationId: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, organizationId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1314,7 +1325,7 @@ extension WorkMail {
         public let groups: [Group]?
         /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
         public let nextToken: String?
-        
+
         public init(groups: [Group]? = nil, nextToken: String? = nil) {
             self.groups = groups
             self.nextToken = nextToken
@@ -1350,7 +1361,7 @@ extension WorkMail {
         public let nextToken: String?
         /// The identifier of the organization under which the user, group, or resource exists.
         public let organizationId: String
-        
+
         public init(entityId: String, maxResults: Int32? = nil, nextToken: String? = nil, organizationId: String) {
             self.entityId = entityId
             self.maxResults = maxResults
@@ -1386,7 +1397,7 @@ extension WorkMail {
         public let nextToken: String?
         /// One page of the user, group, or resource mailbox permissions.
         public let permissions: [Permission]?
-        
+
         public init(nextToken: String? = nil, permissions: [Permission]? = nil) {
             self.nextToken = nextToken
             self.permissions = permissions
@@ -1416,7 +1427,7 @@ extension WorkMail {
         public let maxResults: Int32?
         /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1445,7 +1456,7 @@ extension WorkMail {
         public let nextToken: String?
         /// The overview of owned organizations presented as a list of organization summaries.
         public let organizationSummaries: [OrganizationSummary]?
-        
+
         public init(nextToken: String? = nil, organizationSummaries: [OrganizationSummary]? = nil) {
             self.nextToken = nextToken
             self.organizationSummaries = organizationSummaries
@@ -1481,7 +1492,7 @@ extension WorkMail {
         public let organizationId: String
         /// The identifier for the resource whose delegates are listed.
         public let resourceId: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, organizationId: String, resourceId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1517,7 +1528,7 @@ extension WorkMail {
         public let delegates: [Delegate]?
         /// The token used to paginate through the delegates associated with a resource. While results are still available, it has an associated value. When the last page is reached, the token is empty. 
         public let nextToken: String?
-        
+
         public init(delegates: [Delegate]? = nil, nextToken: String? = nil) {
             self.delegates = delegates
             self.nextToken = nextToken
@@ -1550,7 +1561,7 @@ extension WorkMail {
         public let nextToken: String?
         /// The identifier for the organization under which the resources exist.
         public let organizationId: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, organizationId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1582,7 +1593,7 @@ extension WorkMail {
         public let nextToken: String?
         /// One page of the organization's resource representation.
         public let resources: [Resource]?
-        
+
         public init(nextToken: String? = nil, resources: [Resource]? = nil) {
             self.nextToken = nextToken
             self.resources = resources
@@ -1615,7 +1626,7 @@ extension WorkMail {
         public let nextToken: String?
         /// The identifier for the organization under which the users exist.
         public let organizationId: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, organizationId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1647,7 +1658,7 @@ extension WorkMail {
         public let nextToken: String?
         /// The overview of users for an organization.
         public let users: [User]?
-        
+
         public init(nextToken: String? = nil, users: [User]? = nil) {
             self.nextToken = nextToken
             self.users = users
@@ -1689,7 +1700,7 @@ extension WorkMail {
         public let state: EntityState?
         /// A member can be a user or group.
         public let `type`: MemberType?
-        
+
         public init(disabledDate: TimeStamp? = nil, enabledDate: TimeStamp? = nil, id: String? = nil, name: String? = nil, state: EntityState? = nil, type: MemberType? = nil) {
             self.disabledDate = disabledDate
             self.enabledDate = enabledDate
@@ -1736,7 +1747,7 @@ extension WorkMail {
         public let organizationId: String?
         /// The state associated with the organization.
         public let state: String?
-        
+
         public init(alias: String? = nil, errorMessage: String? = nil, organizationId: String? = nil, state: String? = nil) {
             self.alias = alias
             self.errorMessage = errorMessage
@@ -1774,7 +1785,7 @@ extension WorkMail {
         public let granteeType: MemberType
         /// The permissions granted to the grantee. SEND_AS allows the grantee to send email as the owner of the mailbox (the grantee is not mentioned on these emails). SEND_ON_BEHALF allows the grantee to send email on behalf of the owner of the mailbox (the grantee is not mentioned as the physical sender of these emails). FULL_ACCESS allows the grantee full access to the mailbox, irrespective of other folder-level permissions set on the mailbox.
         public let permissionValues: [PermissionType]
-        
+
         public init(granteeId: String, granteeType: MemberType, permissionValues: [PermissionType]) {
             self.granteeId = granteeId
             self.granteeType = granteeType
@@ -1816,7 +1827,7 @@ extension WorkMail {
         public let organizationId: String
         /// The permissions granted to the grantee. SEND_AS allows the grantee to send email as the owner of the mailbox (the grantee is not mentioned on these emails). SEND_ON_BEHALF allows the grantee to send email on behalf of the owner of the mailbox (the grantee is not mentioned as the physical sender of these emails). FULL_ACCESS allows the grantee full access to the mailbox, irrespective of other folder-level permissions set on the mailbox.
         public let permissionValues: [PermissionType]
-        
+
         public init(entityId: String, granteeId: String, organizationId: String, permissionValues: [PermissionType]) {
             self.entityId = entityId
             self.granteeId = granteeId
@@ -1841,11 +1852,12 @@ extension WorkMail {
     }
 
     public struct PutMailboxPermissionsResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct RegisterToWorkMailRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1860,7 +1872,7 @@ extension WorkMail {
         public let entityId: String
         /// The identifier for the organization under which the user, group, or resource exists.
         public let organizationId: String
-        
+
         public init(email: String, entityId: String, organizationId: String) {
             self.email = email
             self.entityId = entityId
@@ -1884,11 +1896,12 @@ extension WorkMail {
     }
 
     public struct RegisterToWorkMailResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct ResetPasswordRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1903,7 +1916,7 @@ extension WorkMail {
         public let password: String
         /// The identifier of the user for whom the password is reset.
         public let userId: String
-        
+
         public init(organizationId: String, password: String, userId: String) {
             self.organizationId = organizationId
             self.password = password
@@ -1926,11 +1939,12 @@ extension WorkMail {
     }
 
     public struct ResetPasswordResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Resource: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1957,7 +1971,7 @@ extension WorkMail {
         public let state: EntityState?
         /// The type of the resource: equipment or room.
         public let `type`: ResourceType?
-        
+
         public init(disabledDate: TimeStamp? = nil, email: String? = nil, enabledDate: TimeStamp? = nil, id: String? = nil, name: String? = nil, state: EntityState? = nil, type: ResourceType? = nil) {
             self.disabledDate = disabledDate
             self.email = email
@@ -2009,7 +2023,7 @@ extension WorkMail {
         public let organizationId: String
         /// The identifer for the user for whom to update the mailbox quota.
         public let userId: String
-        
+
         public init(mailboxQuota: Int32, organizationId: String, userId: String) {
             self.mailboxQuota = mailboxQuota
             self.organizationId = organizationId
@@ -2031,11 +2045,12 @@ extension WorkMail {
     }
 
     public struct UpdateMailboxQuotaResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdatePrimaryEmailAddressRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2050,7 +2065,7 @@ extension WorkMail {
         public let entityId: String
         /// The organization that contains the user, group, or resource to update.
         public let organizationId: String
-        
+
         public init(email: String, entityId: String, organizationId: String) {
             self.email = email
             self.entityId = entityId
@@ -2074,11 +2089,12 @@ extension WorkMail {
     }
 
     public struct UpdatePrimaryEmailAddressResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2096,7 +2112,7 @@ extension WorkMail {
         public let organizationId: String
         /// The identifier of the resource to be updated.
         public let resourceId: String
-        
+
         public init(bookingOptions: BookingOptions? = nil, name: String? = nil, organizationId: String, resourceId: String) {
             self.bookingOptions = bookingOptions
             self.name = name
@@ -2121,11 +2137,12 @@ extension WorkMail {
     }
 
     public struct UpdateResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct User: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2155,7 +2172,7 @@ extension WorkMail {
         public let state: EntityState?
         /// The role of the user.
         public let userRole: UserRole?
-        
+
         public init(disabledDate: TimeStamp? = nil, displayName: String? = nil, email: String? = nil, enabledDate: TimeStamp? = nil, id: String? = nil, name: String? = nil, state: EntityState? = nil, userRole: UserRole? = nil) {
             self.disabledDate = disabledDate
             self.displayName = displayName
@@ -2197,5 +2214,4 @@ extension WorkMail {
         case systemUser = "SYSTEM_USER"
         public var description: String { return self.rawValue }
     }
-
 }

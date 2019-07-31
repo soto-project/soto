@@ -6,18 +6,20 @@ import AWSSDKSwiftCore
 extension ServiceQuotas {
 
     public struct AssociateServiceQuotaTemplateRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct AssociateServiceQuotaTemplateResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteServiceQuotaIncreaseRequestFromTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -32,7 +34,7 @@ extension ServiceQuotas {
         public let quotaCode: String
         /// Specifies the code for the service that you want to delete.
         public let serviceCode: String
-        
+
         public init(awsRegion: String, quotaCode: String, serviceCode: String) {
             self.awsRegion = awsRegion
             self.quotaCode = quotaCode
@@ -59,25 +61,28 @@ extension ServiceQuotas {
     }
 
     public struct DeleteServiceQuotaIncreaseRequestFromTemplateResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociateServiceQuotaTemplateRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociateServiceQuotaTemplateResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum ErrorCode: String, CustomStringConvertible, Codable {
         case dependencyAccessDeniedError = "DEPENDENCY_ACCESS_DENIED_ERROR"
@@ -97,7 +102,7 @@ extension ServiceQuotas {
         public let errorCode: ErrorCode?
         /// The error message that provides more detail.
         public let errorMessage: String?
-        
+
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -119,7 +124,7 @@ extension ServiceQuotas {
         public let quotaCode: String
         /// Specifies the service that you want to use.
         public let serviceCode: String
-        
+
         public init(quotaCode: String, serviceCode: String) {
             self.quotaCode = quotaCode
             self.serviceCode = serviceCode
@@ -147,7 +152,7 @@ extension ServiceQuotas {
 
         /// Returns the ServiceQuota object which contains all values for a quota.
         public let quota: ServiceQuota?
-        
+
         public init(quota: ServiceQuota? = nil) {
             self.quota = quota
         }
@@ -162,11 +167,12 @@ extension ServiceQuotas {
     }
 
     public struct GetAssociationForServiceQuotaTemplateRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetAssociationForServiceQuotaTemplateResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -175,7 +181,7 @@ extension ServiceQuotas {
 
         /// Specifies whether the template is ASSOCIATED or DISASSOCIATED. If the template is ASSOCIATED, then it requests service quota increases for all new accounts created in your organization. 
         public let serviceQuotaTemplateAssociationStatus: ServiceQuotaTemplateAssociationStatus?
-        
+
         public init(serviceQuotaTemplateAssociationStatus: ServiceQuotaTemplateAssociationStatus? = nil) {
             self.serviceQuotaTemplateAssociationStatus = serviceQuotaTemplateAssociationStatus
         }
@@ -192,7 +198,7 @@ extension ServiceQuotas {
 
         /// Identifies the quota increase request.
         public let requestId: String
-        
+
         public init(requestId: String) {
             self.requestId = requestId
         }
@@ -215,7 +221,7 @@ extension ServiceQuotas {
 
         /// Returns the RequestedServiceQuotaChange object for the specific increase request.
         public let requestedQuota: RequestedServiceQuotaChange?
-        
+
         public init(requestedQuota: RequestedServiceQuotaChange? = nil) {
             self.requestedQuota = requestedQuota
         }
@@ -242,7 +248,7 @@ extension ServiceQuotas {
         public let quotaCode: String
         /// Specifies the service that you want to use.
         public let serviceCode: String
-        
+
         public init(awsRegion: String, quotaCode: String, serviceCode: String) {
             self.awsRegion = awsRegion
             self.quotaCode = quotaCode
@@ -275,7 +281,7 @@ extension ServiceQuotas {
 
         /// This object contains the details about the quota increase request.
         public let serviceQuotaIncreaseRequestInTemplate: ServiceQuotaIncreaseRequestInTemplate?
-        
+
         public init(serviceQuotaIncreaseRequestInTemplate: ServiceQuotaIncreaseRequestInTemplate? = nil) {
             self.serviceQuotaIncreaseRequestInTemplate = serviceQuotaIncreaseRequestInTemplate
         }
@@ -299,7 +305,7 @@ extension ServiceQuotas {
         public let quotaCode: String
         /// Specifies the service that you want to use.
         public let serviceCode: String
-        
+
         public init(quotaCode: String, serviceCode: String) {
             self.quotaCode = quotaCode
             self.serviceCode = serviceCode
@@ -327,7 +333,7 @@ extension ServiceQuotas {
 
         /// Returns the ServiceQuota object which contains all values for a quota.
         public let quota: ServiceQuota?
-        
+
         public init(quota: ServiceQuota? = nil) {
             self.quota = quota
         }
@@ -354,7 +360,7 @@ extension ServiceQuotas {
         public let nextToken: String?
         /// Specifies the service that you want to use.
         public let serviceCode: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, serviceCode: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -388,7 +394,7 @@ extension ServiceQuotas {
         public let nextToken: String?
         /// A list of the quotas in the account with the AWS default values. 
         public let quotas: [ServiceQuota]?
-        
+
         public init(nextToken: String? = nil, quotas: [ServiceQuota]? = nil) {
             self.nextToken = nextToken
             self.quotas = quotas
@@ -427,7 +433,7 @@ extension ServiceQuotas {
         public let serviceCode: String
         /// Specifies the status value of the quota increase request.
         public let status: RequestStatus?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, quotaCode: String, serviceCode: String, status: RequestStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -468,7 +474,7 @@ extension ServiceQuotas {
         public let nextToken: String?
         /// Returns a list of service quota requests.
         public let requestedQuotas: [RequestedServiceQuotaChange]?
-        
+
         public init(nextToken: String? = nil, requestedQuotas: [RequestedServiceQuotaChange]? = nil) {
             self.nextToken = nextToken
             self.requestedQuotas = requestedQuotas
@@ -504,7 +510,7 @@ extension ServiceQuotas {
         public let serviceCode: String?
         /// Specifies the status value of the quota increase request.
         public let status: RequestStatus?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, serviceCode: String? = nil, status: RequestStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -540,7 +546,7 @@ extension ServiceQuotas {
         public let nextToken: String?
         /// Returns a list of service quota requests.
         public let requestedQuotas: [RequestedServiceQuotaChange]?
-        
+
         public init(nextToken: String? = nil, requestedQuotas: [RequestedServiceQuotaChange]? = nil) {
             self.nextToken = nextToken
             self.requestedQuotas = requestedQuotas
@@ -576,7 +582,7 @@ extension ServiceQuotas {
         public let nextToken: String?
         /// The identifier for a service. When performing an operation, use the ServiceCode to specify a particular service. 
         public let serviceCode: String?
-        
+
         public init(awsRegion: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, serviceCode: String? = nil) {
             self.awsRegion = awsRegion
             self.maxResults = maxResults
@@ -615,7 +621,7 @@ extension ServiceQuotas {
         public let nextToken: String?
         /// Returns the list of values of the quota increase request in the template.
         public let serviceQuotaIncreaseRequestInTemplateList: [ServiceQuotaIncreaseRequestInTemplate]?
-        
+
         public init(nextToken: String? = nil, serviceQuotaIncreaseRequestInTemplateList: [ServiceQuotaIncreaseRequestInTemplate]? = nil) {
             self.nextToken = nextToken
             self.serviceQuotaIncreaseRequestInTemplateList = serviceQuotaIncreaseRequestInTemplateList
@@ -648,7 +654,7 @@ extension ServiceQuotas {
         public let nextToken: String?
         /// The identifier for a service. When performing an operation, use the ServiceCode to specify a particular service. 
         public let serviceCode: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, serviceCode: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -682,7 +688,7 @@ extension ServiceQuotas {
         public let nextToken: String?
         /// The response information for a quota lists all attribute information for the quota. 
         public let quotas: [ServiceQuota]?
-        
+
         public init(nextToken: String? = nil, quotas: [ServiceQuota]? = nil) {
             self.nextToken = nextToken
             self.quotas = quotas
@@ -712,7 +718,7 @@ extension ServiceQuotas {
         public let maxResults: Int32?
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -741,7 +747,7 @@ extension ServiceQuotas {
         public let nextToken: String?
         /// Returns a list of services. 
         public let services: [ServiceInfo]?
-        
+
         public init(nextToken: String? = nil, services: [ServiceInfo]? = nil) {
             self.nextToken = nextToken
             self.services = services
@@ -777,7 +783,7 @@ extension ServiceQuotas {
         public let metricNamespace: String?
         /// Statistics are metric data aggregations over specified periods of time. This is the recommended statistic to use when comparing usage in the CloudWatch Metric against your Service Quota.
         public let metricStatisticRecommendation: String?
-        
+
         public init(metricDimensions: [String: String]? = nil, metricName: String? = nil, metricNamespace: String? = nil, metricStatisticRecommendation: String? = nil) {
             self.metricDimensions = metricDimensions
             self.metricName = metricName
@@ -826,7 +832,7 @@ extension ServiceQuotas {
         public let quotaCode: String
         /// Specifies the service that you want to use.
         public let serviceCode: String
-        
+
         public init(awsRegion: String, desiredValue: Double, quotaCode: String, serviceCode: String) {
             self.awsRegion = awsRegion
             self.desiredValue = desiredValue
@@ -863,7 +869,7 @@ extension ServiceQuotas {
 
         /// A structure that contains information about one service quota increase request.
         public let serviceQuotaIncreaseRequestInTemplate: ServiceQuotaIncreaseRequestInTemplate?
-        
+
         public init(serviceQuotaIncreaseRequestInTemplate: ServiceQuotaIncreaseRequestInTemplate? = nil) {
             self.serviceQuotaIncreaseRequestInTemplate = serviceQuotaIncreaseRequestInTemplate
         }
@@ -887,7 +893,7 @@ extension ServiceQuotas {
         public let periodUnit: PeriodUnit?
         /// The value of a period.
         public let periodValue: Int32?
-        
+
         public init(periodUnit: PeriodUnit? = nil, periodValue: Int32? = nil) {
             self.periodUnit = periodUnit
             self.periodValue = periodValue
@@ -912,7 +918,7 @@ extension ServiceQuotas {
         public let quotaCode: String
         /// Specifies the service that you want to use.
         public let serviceCode: String
-        
+
         public init(desiredValue: Double, quotaCode: String, serviceCode: String) {
             self.desiredValue = desiredValue
             self.quotaCode = quotaCode
@@ -944,7 +950,7 @@ extension ServiceQuotas {
 
         /// Returns a list of service quota requests.
         public let requestedQuota: RequestedServiceQuotaChange?
-        
+
         public init(requestedQuota: RequestedServiceQuotaChange? = nil) {
             self.requestedQuota = requestedQuota
         }
@@ -1013,7 +1019,7 @@ extension ServiceQuotas {
         public let status: RequestStatus?
         /// Specifies the unit used for the quota.
         public let unit: String?
-        
+
         public init(caseId: String? = nil, created: TimeStamp? = nil, desiredValue: Double? = nil, globalQuota: Bool? = nil, id: String? = nil, lastUpdated: TimeStamp? = nil, quotaArn: String? = nil, quotaCode: String? = nil, quotaName: String? = nil, requester: String? = nil, serviceCode: String? = nil, serviceName: String? = nil, status: RequestStatus? = nil, unit: String? = nil) {
             self.caseId = caseId
             self.created = created
@@ -1073,7 +1079,7 @@ extension ServiceQuotas {
         public let serviceCode: String?
         /// The name of the AWS service specified in the increase request. 
         public let serviceName: String?
-        
+
         public init(serviceCode: String? = nil, serviceName: String? = nil) {
             self.serviceCode = serviceCode
             self.serviceName = serviceName
@@ -1131,7 +1137,7 @@ extension ServiceQuotas {
         public let usageMetric: MetricInfo?
         /// The value of service quota.
         public let value: Double?
-        
+
         public init(adjustable: Bool? = nil, errorReason: ErrorReason? = nil, globalQuota: Bool? = nil, period: QuotaPeriod? = nil, quotaArn: String? = nil, quotaCode: String? = nil, quotaName: String? = nil, serviceCode: String? = nil, serviceName: String? = nil, unit: String? = nil, usageMetric: MetricInfo? = nil, value: Double? = nil) {
             self.adjustable = adjustable
             self.errorReason = errorReason
@@ -1203,7 +1209,7 @@ extension ServiceQuotas {
         public let serviceName: String?
         /// The unit of measure for the increase request.
         public let unit: String?
-        
+
         public init(awsRegion: String? = nil, desiredValue: Double? = nil, globalQuota: Bool? = nil, quotaCode: String? = nil, quotaName: String? = nil, serviceCode: String? = nil, serviceName: String? = nil, unit: String? = nil) {
             self.awsRegion = awsRegion
             self.desiredValue = desiredValue
@@ -1246,5 +1252,4 @@ extension ServiceQuotas {
         case disassociated = "DISASSOCIATED"
         public var description: String { return self.rawValue }
     }
-
 }

@@ -165,5 +165,4 @@ public struct MachineLearning {
     public func updateMLModel(_ input: UpdateMLModelInput) throws -> Future<UpdateMLModelOutput> {
         return try client.send(operation: "UpdateMLModel", path: "/", httpMethod: "POST", input: input)
     }
-
 }

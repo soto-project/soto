@@ -15,7 +15,7 @@ extension Neptune {
         public let dBClusterIdentifier: String
         /// The Amazon Resource Name (ARN) of the IAM role to associate with the Neptune DB cluster, for example arn:aws:iam::123456789012:role/NeptuneAccessRole.
         public let roleArn: String
-        
+
         public init(dBClusterIdentifier: String, roleArn: String) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.roleArn = roleArn
@@ -37,7 +37,7 @@ extension Neptune {
         public let sourceIdentifier: String
         /// The name of the event notification subscription you want to add a source identifier to.
         public let subscriptionName: String
-        
+
         public init(sourceIdentifier: String, subscriptionName: String) {
             self.sourceIdentifier = sourceIdentifier
             self.subscriptionName = subscriptionName
@@ -55,7 +55,7 @@ extension Neptune {
         ]
 
         public let eventSubscription: EventSubscription?
-        
+
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -75,7 +75,7 @@ extension Neptune {
         public let resourceName: String
         /// The tags to be assigned to the Amazon Neptune resource.
         public let tags: [Tag]
-        
+
         public init(resourceName: String, tags: [Tag]) {
             self.resourceName = resourceName
             self.tags = tags
@@ -106,7 +106,7 @@ extension Neptune {
         public let optInType: String
         /// The Amazon Resource Name (ARN) of the resource that the pending maintenance action applies to. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN).
         public let resourceIdentifier: String
-        
+
         public init(applyAction: String, optInType: String, resourceIdentifier: String) {
             self.applyAction = applyAction
             self.optInType = optInType
@@ -126,7 +126,7 @@ extension Neptune {
         ]
 
         public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
-        
+
         public init(resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions? = nil) {
             self.resourcePendingMaintenanceActions = resourcePendingMaintenanceActions
         }
@@ -143,7 +143,7 @@ extension Neptune {
 
         /// The name of the availability zone.
         public let name: String?
-        
+
         public init(name: String? = nil) {
             self.name = name
         }
@@ -163,7 +163,7 @@ extension Neptune {
         public let characterSetDescription: String?
         /// The name of the character set.
         public let characterSetName: String?
-        
+
         public init(characterSetDescription: String? = nil, characterSetName: String? = nil) {
             self.characterSetDescription = characterSetDescription
             self.characterSetName = characterSetName
@@ -185,7 +185,7 @@ extension Neptune {
         public let disableLogTypes: [String]?
         /// The list of log types to enable.
         public let enableLogTypes: [String]?
-        
+
         public init(disableLogTypes: [String]? = nil, enableLogTypes: [String]? = nil) {
             self.disableLogTypes = disableLogTypes
             self.enableLogTypes = enableLogTypes
@@ -213,7 +213,7 @@ extension Neptune {
         public let targetDBClusterParameterGroupDescription: String
         /// The identifier for the copied DB cluster parameter group. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-cluster-param-group1 
         public let targetDBClusterParameterGroupIdentifier: String
-        
+
         public init(sourceDBClusterParameterGroupIdentifier: String, tags: [Tag]? = nil, targetDBClusterParameterGroupDescription: String, targetDBClusterParameterGroupIdentifier: String) {
             self.sourceDBClusterParameterGroupIdentifier = sourceDBClusterParameterGroupIdentifier
             self.tags = tags
@@ -235,7 +235,7 @@ extension Neptune {
         ]
 
         public let dBClusterParameterGroup: DBClusterParameterGroup?
-        
+
         public init(dBClusterParameterGroup: DBClusterParameterGroup? = nil) {
             self.dBClusterParameterGroup = dBClusterParameterGroup
         }
@@ -267,7 +267,7 @@ extension Neptune {
         public let tags: [Tag]?
         /// The identifier of the new DB cluster snapshot to create from the source DB cluster snapshot. This parameter is not case-sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-snapshot2 
         public let targetDBClusterSnapshotIdentifier: String
-        
+
         public init(copyTags: Bool? = nil, kmsKeyId: String? = nil, preSignedUrl: String? = nil, sourceDBClusterSnapshotIdentifier: String, tags: [Tag]? = nil, targetDBClusterSnapshotIdentifier: String) {
             self.copyTags = copyTags
             self.kmsKeyId = kmsKeyId
@@ -293,7 +293,7 @@ extension Neptune {
         ]
 
         public let dBClusterSnapshot: DBClusterSnapshot?
-        
+
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
             self.dBClusterSnapshot = dBClusterSnapshot
         }
@@ -319,7 +319,7 @@ extension Neptune {
         public let targetDBParameterGroupDescription: String
         /// The identifier for the copied DB parameter group. Constraints:   Cannot be null, empty, or blank.   Must contain from 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-db-parameter-group 
         public let targetDBParameterGroupIdentifier: String
-        
+
         public init(sourceDBParameterGroupIdentifier: String, tags: [Tag]? = nil, targetDBParameterGroupDescription: String, targetDBParameterGroupIdentifier: String) {
             self.sourceDBParameterGroupIdentifier = sourceDBParameterGroupIdentifier
             self.tags = tags
@@ -341,7 +341,7 @@ extension Neptune {
         ]
 
         public let dBParameterGroup: DBParameterGroup?
-        
+
         public init(dBParameterGroup: DBParameterGroup? = nil) {
             self.dBParameterGroup = dBParameterGroup
         }
@@ -424,7 +424,7 @@ extension Neptune {
         public let tags: [Tag]?
         /// A list of EC2 VPC security groups to associate with this DB cluster.
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int32? = nil, characterSetName: String? = nil, databaseName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, replicationSourceIdentifier: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -494,7 +494,7 @@ extension Neptune {
         public let description: String
         /// The tags to be assigned to the new DB cluster parameter group.
         public let tags: [Tag]?
-        
+
         public init(dBClusterParameterGroupName: String, dBParameterGroupFamily: String, description: String, tags: [Tag]? = nil) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.dBParameterGroupFamily = dBParameterGroupFamily
@@ -516,7 +516,7 @@ extension Neptune {
         ]
 
         public let dBClusterParameterGroup: DBClusterParameterGroup?
-        
+
         public init(dBClusterParameterGroup: DBClusterParameterGroup? = nil) {
             self.dBClusterParameterGroup = dBClusterParameterGroup
         }
@@ -532,7 +532,7 @@ extension Neptune {
         ]
 
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -555,7 +555,7 @@ extension Neptune {
         public let dBClusterSnapshotIdentifier: String
         /// The tags to be assigned to the DB cluster snapshot.
         public let tags: [Tag]?
-        
+
         public init(dBClusterIdentifier: String, dBClusterSnapshotIdentifier: String, tags: [Tag]? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
@@ -575,7 +575,7 @@ extension Neptune {
         ]
 
         public let dBClusterSnapshot: DBClusterSnapshot?
-        
+
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
             self.dBClusterSnapshot = dBClusterSnapshot
         }
@@ -712,7 +712,7 @@ extension Neptune {
         public let timezone: String?
         /// A list of EC2 VPC security groups to associate with this DB instance. Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see CreateDBCluster. Default: The default EC2 VPC security group for the DB subnet group's VPC.
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(allocatedStorage: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int32? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceClass: String, dBInstanceIdentifier: String, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int32? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int32? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int32? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -808,7 +808,7 @@ extension Neptune {
         ]
 
         public let dBInstance: DBInstance?
-        
+
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
@@ -834,7 +834,7 @@ extension Neptune {
         public let description: String
         /// The tags to be assigned to the new DB parameter group.
         public let tags: [Tag]?
-        
+
         public init(dBParameterGroupFamily: String, dBParameterGroupName: String, description: String, tags: [Tag]? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
             self.dBParameterGroupName = dBParameterGroupName
@@ -856,7 +856,7 @@ extension Neptune {
         ]
 
         public let dBParameterGroup: DBParameterGroup?
-        
+
         public init(dBParameterGroup: DBParameterGroup? = nil) {
             self.dBParameterGroup = dBParameterGroup
         }
@@ -882,7 +882,7 @@ extension Neptune {
         public let subnetIds: [String]
         /// The tags to be assigned to the new DB subnet group.
         public let tags: [Tag]?
-        
+
         public init(dBSubnetGroupDescription: String, dBSubnetGroupName: String, subnetIds: [String], tags: [Tag]? = nil) {
             self.dBSubnetGroupDescription = dBSubnetGroupDescription
             self.dBSubnetGroupName = dBSubnetGroupName
@@ -904,7 +904,7 @@ extension Neptune {
         ]
 
         public let dBSubnetGroup: DBSubnetGroup?
-        
+
         public init(dBSubnetGroup: DBSubnetGroup? = nil) {
             self.dBSubnetGroup = dBSubnetGroup
         }
@@ -939,7 +939,7 @@ extension Neptune {
         public let subscriptionName: String
         /// The tags to be applied to the new event subscription.
         public let tags: [Tag]?
-        
+
         public init(enabled: Bool? = nil, eventCategories: [String]? = nil, snsTopicArn: String, sourceIds: [String]? = nil, sourceType: String? = nil, subscriptionName: String, tags: [Tag]? = nil) {
             self.enabled = enabled
             self.eventCategories = eventCategories
@@ -967,7 +967,7 @@ extension Neptune {
         ]
 
         public let eventSubscription: EventSubscription?
-        
+
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -1089,7 +1089,7 @@ extension Neptune {
         public let storageEncrypted: Bool?
         /// Provides a list of VPC security groups that the DB cluster belongs to.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
-        
+
         public init(allocatedStorage: Int32? = nil, associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int32? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: TimeStamp? = nil, databaseName: String? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, earliestRestorableTime: TimeStamp? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.associatedRoles = associatedRoles
@@ -1185,7 +1185,7 @@ extension Neptune {
         public let isClusterWriter: Bool?
         /// A value that specifies the order in which a Read Replica is promoted to the primary instance after a failure of the existing primary instance.
         public let promotionTier: Int32?
-        
+
         public init(dBClusterParameterGroupStatus: String? = nil, dBInstanceIdentifier: String? = nil, isClusterWriter: Bool? = nil, promotionTier: Int32? = nil) {
             self.dBClusterParameterGroupStatus = dBClusterParameterGroupStatus
             self.dBInstanceIdentifier = dBInstanceIdentifier
@@ -1211,7 +1211,7 @@ extension Neptune {
         public let dBClusters: [DBCluster]?
         /// A pagination token that can be used in a subsequent DescribeDBClusters request.
         public let marker: String?
-        
+
         public init(dBClusters: [DBCluster]? = nil, marker: String? = nil) {
             self.dBClusters = dBClusters
             self.marker = marker
@@ -1233,7 +1233,7 @@ extension Neptune {
         public let dBClusterOptionGroupName: String?
         /// Specifies the status of the DB cluster option group.
         public let status: String?
-        
+
         public init(dBClusterOptionGroupName: String? = nil, status: String? = nil) {
             self.dBClusterOptionGroupName = dBClusterOptionGroupName
             self.status = status
@@ -1261,7 +1261,7 @@ extension Neptune {
         public let dBParameterGroupFamily: String?
         /// Provides the customer-specified description for this DB cluster parameter group.
         public let description: String?
-        
+
         public init(dBClusterParameterGroupArn: String? = nil, dBClusterParameterGroupName: String? = nil, dBParameterGroupFamily: String? = nil, description: String? = nil) {
             self.dBClusterParameterGroupArn = dBClusterParameterGroupArn
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
@@ -1287,7 +1287,7 @@ extension Neptune {
         public let marker: String?
         /// Provides a list of parameters for the DB cluster parameter group.
         public let parameters: [Parameter]?
-        
+
         public init(marker: String? = nil, parameters: [Parameter]? = nil) {
             self.marker = marker
             self.parameters = parameters
@@ -1306,7 +1306,7 @@ extension Neptune {
 
         /// The name of the DB cluster parameter group. Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
         public let dBClusterParameterGroupName: String?
-        
+
         public init(dBClusterParameterGroupName: String? = nil) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
         }
@@ -1326,7 +1326,7 @@ extension Neptune {
         public let dBClusterParameterGroups: [DBClusterParameterGroup]?
         ///  An optional pagination token provided by a previous DescribeDBClusterParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        
+
         public init(dBClusterParameterGroups: [DBClusterParameterGroup]? = nil, marker: String? = nil) {
             self.dBClusterParameterGroups = dBClusterParameterGroups
             self.marker = marker
@@ -1348,7 +1348,7 @@ extension Neptune {
         public let roleArn: String?
         /// Describes the state of association between the IAM role and the DB cluster. The Status property returns one of the following values:    ACTIVE - the IAM role ARN is associated with the DB cluster and can be used to access other AWS services on your behalf.    PENDING - the IAM role ARN is being associated with the DB cluster.    INVALID - the IAM role ARN is associated with the DB cluster, but the DB cluster is unable to assume the IAM role in order to access other AWS services on your behalf.  
         public let status: String?
-        
+
         public init(roleArn: String? = nil, status: String? = nil) {
             self.roleArn = roleArn
             self.status = status
@@ -1424,7 +1424,7 @@ extension Neptune {
         public let storageEncrypted: Bool?
         /// Provides the VPC ID associated with the DB cluster snapshot.
         public let vpcId: String?
-        
+
         public init(allocatedStorage: Int32? = nil, availabilityZones: [String]? = nil, clusterCreateTime: TimeStamp? = nil, dBClusterIdentifier: String? = nil, dBClusterSnapshotArn: String? = nil, dBClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, percentProgress: Int32? = nil, port: Int32? = nil, snapshotCreateTime: TimeStamp? = nil, snapshotType: String? = nil, sourceDBClusterSnapshotArn: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcId: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZones = availabilityZones
@@ -1482,7 +1482,7 @@ extension Neptune {
         public let attributeName: String?
         /// The value(s) for the manual DB cluster snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the AWS accounts that are authorized to copy or restore the manual DB cluster snapshot. If a value of all is in the list, then the manual DB cluster snapshot is public and available for any AWS account to copy or restore.
         public let attributeValues: [String]?
-        
+
         public init(attributeName: String? = nil, attributeValues: [String]? = nil) {
             self.attributeName = attributeName
             self.attributeValues = attributeValues
@@ -1504,7 +1504,7 @@ extension Neptune {
         public let dBClusterSnapshotAttributes: [DBClusterSnapshotAttribute]?
         /// The identifier of the manual DB cluster snapshot that the attributes apply to.
         public let dBClusterSnapshotIdentifier: String?
-        
+
         public init(dBClusterSnapshotAttributes: [DBClusterSnapshotAttribute]? = nil, dBClusterSnapshotIdentifier: String? = nil) {
             self.dBClusterSnapshotAttributes = dBClusterSnapshotAttributes
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
@@ -1526,7 +1526,7 @@ extension Neptune {
         public let dBClusterSnapshots: [DBClusterSnapshot]?
         ///  An optional pagination token provided by a previous DescribeDBClusterSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        
+
         public init(dBClusterSnapshots: [DBClusterSnapshot]? = nil, marker: String? = nil) {
             self.dBClusterSnapshots = dBClusterSnapshots
             self.marker = marker
@@ -1578,7 +1578,7 @@ extension Neptune {
         public let supportsReadReplica: Bool?
         /// A list of engine versions that this database engine version can be upgraded to.
         public let validUpgradeTarget: [UpgradeTarget]?
-        
+
         public init(dBEngineDescription: String? = nil, dBEngineVersionDescription: String? = nil, dBParameterGroupFamily: String? = nil, defaultCharacterSet: CharacterSet? = nil, engine: String? = nil, engineVersion: String? = nil, exportableLogTypes: [String]? = nil, supportedCharacterSets: [CharacterSet]? = nil, supportedTimezones: [Timezone]? = nil, supportsLogExportsToCloudwatchLogs: Bool? = nil, supportsReadReplica: Bool? = nil, validUpgradeTarget: [UpgradeTarget]? = nil) {
             self.dBEngineDescription = dBEngineDescription
             self.dBEngineVersionDescription = dBEngineVersionDescription
@@ -1620,7 +1620,7 @@ extension Neptune {
         public let dBEngineVersions: [DBEngineVersion]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        
+
         public init(dBEngineVersions: [DBEngineVersion]? = nil, marker: String? = nil) {
             self.dBEngineVersions = dBEngineVersions
             self.marker = marker
@@ -1789,7 +1789,7 @@ extension Neptune {
         public let timezone: String?
         /// Provides a list of VPC security group elements that the DB instance belongs to.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
-        
+
         public init(allocatedStorage: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int32? = nil, cACertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dbInstancePort: Int32? = nil, dBInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBName: String? = nil, dBParameterGroups: [DBParameterGroupStatus]? = nil, dBSecurityGroups: [DBSecurityGroupMembership]? = nil, dBSubnetGroup: DBSubnetGroup? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: TimeStamp? = nil, iops: Int32? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, licenseModel: String? = nil, masterUsername: String? = nil, monitoringInterval: Int32? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int32? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -1909,7 +1909,7 @@ extension Neptune {
         public let dBInstances: [DBInstance]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
-        
+
         public init(dBInstances: [DBInstance]? = nil, marker: String? = nil) {
             self.dBInstances = dBInstances
             self.marker = marker
@@ -1937,7 +1937,7 @@ extension Neptune {
         public let status: String?
         /// This value is currently "read replication."
         public let statusType: String?
-        
+
         public init(message: String? = nil, normal: Bool? = nil, status: String? = nil, statusType: String? = nil) {
             self.message = message
             self.normal = normal
@@ -1969,7 +1969,7 @@ extension Neptune {
         public let dBParameterGroupName: String?
         /// Provides the customer-specified description for this DB parameter group.
         public let description: String?
-        
+
         public init(dBParameterGroupArn: String? = nil, dBParameterGroupFamily: String? = nil, dBParameterGroupName: String? = nil, description: String? = nil) {
             self.dBParameterGroupArn = dBParameterGroupArn
             self.dBParameterGroupFamily = dBParameterGroupFamily
@@ -1995,7 +1995,7 @@ extension Neptune {
         public let marker: String?
         /// A list of Parameter values.
         public let parameters: [Parameter]?
-        
+
         public init(marker: String? = nil, parameters: [Parameter]? = nil) {
             self.marker = marker
             self.parameters = parameters
@@ -2014,7 +2014,7 @@ extension Neptune {
 
         /// Provides the name of the DB parameter group.
         public let dBParameterGroupName: String?
-        
+
         public init(dBParameterGroupName: String? = nil) {
             self.dBParameterGroupName = dBParameterGroupName
         }
@@ -2034,7 +2034,7 @@ extension Neptune {
         public let dBParameterGroupName: String?
         /// The status of parameter updates.
         public let parameterApplyStatus: String?
-        
+
         public init(dBParameterGroupName: String? = nil, parameterApplyStatus: String? = nil) {
             self.dBParameterGroupName = dBParameterGroupName
             self.parameterApplyStatus = parameterApplyStatus
@@ -2056,7 +2056,7 @@ extension Neptune {
         public let dBParameterGroups: [DBParameterGroup]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        
+
         public init(dBParameterGroups: [DBParameterGroup]? = nil, marker: String? = nil) {
             self.dBParameterGroups = dBParameterGroups
             self.marker = marker
@@ -2078,7 +2078,7 @@ extension Neptune {
         public let dBSecurityGroupName: String?
         /// The status of the DB security group.
         public let status: String?
-        
+
         public init(dBSecurityGroupName: String? = nil, status: String? = nil) {
             self.dBSecurityGroupName = dBSecurityGroupName
             self.status = status
@@ -2112,7 +2112,7 @@ extension Neptune {
         public let subnets: [Subnet]?
         /// Provides the VpcId of the DB subnet group.
         public let vpcId: String?
-        
+
         public init(dBSubnetGroupArn: String? = nil, dBSubnetGroupDescription: String? = nil, dBSubnetGroupName: String? = nil, subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, vpcId: String? = nil) {
             self.dBSubnetGroupArn = dBSubnetGroupArn
             self.dBSubnetGroupDescription = dBSubnetGroupDescription
@@ -2142,7 +2142,7 @@ extension Neptune {
         public let dBSubnetGroups: [DBSubnetGroup]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        
+
         public init(dBSubnetGroups: [DBSubnetGroup]? = nil, marker: String? = nil) {
             self.dBSubnetGroups = dBSubnetGroups
             self.marker = marker
@@ -2167,7 +2167,7 @@ extension Neptune {
         public let finalDBSnapshotIdentifier: String?
         ///  Determines whether a final DB cluster snapshot is created before the DB cluster is deleted. If true is specified, no DB cluster snapshot is created. If false is specified, a DB cluster snapshot is created before the DB cluster is deleted.  You must specify a FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is false.  Default: false 
         public let skipFinalSnapshot: Bool?
-        
+
         public init(dBClusterIdentifier: String, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
@@ -2188,7 +2188,7 @@ extension Neptune {
 
         /// The name of the DB cluster parameter group. Constraints:   Must be the name of an existing DB cluster parameter group.   You can't delete a default DB cluster parameter group.   Cannot be associated with any DB clusters.  
         public let dBClusterParameterGroupName: String
-        
+
         public init(dBClusterParameterGroupName: String) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
         }
@@ -2204,7 +2204,7 @@ extension Neptune {
         ]
 
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -2221,7 +2221,7 @@ extension Neptune {
 
         /// The identifier of the DB cluster snapshot to delete. Constraints: Must be the name of an existing DB cluster snapshot in the available state.
         public let dBClusterSnapshotIdentifier: String
-        
+
         public init(dBClusterSnapshotIdentifier: String) {
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
         }
@@ -2237,7 +2237,7 @@ extension Neptune {
         ]
 
         public let dBClusterSnapshot: DBClusterSnapshot?
-        
+
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
             self.dBClusterSnapshot = dBClusterSnapshot
         }
@@ -2260,7 +2260,7 @@ extension Neptune {
         public let finalDBSnapshotIdentifier: String?
         ///  Determines whether a final DB snapshot is created before the DB instance is deleted. If true is specified, no DBSnapshot is created. If false is specified, a DB snapshot is created before the DB instance is deleted. Note that when a DB instance is in a failure state and has a status of 'failed', 'incompatible-restore', or 'incompatible-network', it can only be deleted when the SkipFinalSnapshot parameter is set to "true". Specify true when deleting a Read Replica.  The FinalDBSnapshotIdentifier parameter must be specified if SkipFinalSnapshot is false.  Default: false 
         public let skipFinalSnapshot: Bool?
-        
+
         public init(dBInstanceIdentifier: String, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
@@ -2280,7 +2280,7 @@ extension Neptune {
         ]
 
         public let dBInstance: DBInstance?
-        
+
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
@@ -2297,7 +2297,7 @@ extension Neptune {
 
         /// The name of the DB parameter group. Constraints:   Must be the name of an existing DB parameter group   You can't delete a default DB parameter group   Cannot be associated with any DB instances  
         public let dBParameterGroupName: String
-        
+
         public init(dBParameterGroupName: String) {
             self.dBParameterGroupName = dBParameterGroupName
         }
@@ -2314,7 +2314,7 @@ extension Neptune {
 
         /// The name of the database subnet group to delete.  You can't delete the default subnet group.  Constraints: Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
         public let dBSubnetGroupName: String
-        
+
         public init(dBSubnetGroupName: String) {
             self.dBSubnetGroupName = dBSubnetGroupName
         }
@@ -2331,7 +2331,7 @@ extension Neptune {
 
         /// The name of the event notification subscription you want to delete.
         public let subscriptionName: String
-        
+
         public init(subscriptionName: String) {
             self.subscriptionName = subscriptionName
         }
@@ -2347,7 +2347,7 @@ extension Neptune {
         ]
 
         public let eventSubscription: EventSubscription?
-        
+
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -2373,7 +2373,7 @@ extension Neptune {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBClusterParameterGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.filters = filters
@@ -2408,7 +2408,7 @@ extension Neptune {
         public let maxRecords: Int32?
         ///  A value that indicates to return only parameters for a specific source. Parameter sources can be engine, service, or customer.
         public let source: String?
-        
+
         public init(dBClusterParameterGroupName: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, source: String? = nil) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.filters = filters
@@ -2433,7 +2433,7 @@ extension Neptune {
 
         /// The identifier for the DB cluster snapshot to describe the attributes for.
         public let dBClusterSnapshotIdentifier: String
-        
+
         public init(dBClusterSnapshotIdentifier: String) {
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
         }
@@ -2449,7 +2449,7 @@ extension Neptune {
         ]
 
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
-        
+
         public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
             self.dBClusterSnapshotAttributesResult = dBClusterSnapshotAttributesResult
         }
@@ -2487,7 +2487,7 @@ extension Neptune {
         public let maxRecords: Int32?
         /// The type of DB cluster snapshots to be returned. You can specify one of the following values:    automated - Return all DB cluster snapshots that have been automatically taken by Amazon Neptune for my AWS account.    manual - Return all DB cluster snapshots that have been taken by my AWS account.    shared - Return all manual DB cluster snapshots that have been shared to my AWS account.    public - Return all DB cluster snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual DB cluster snapshots are returned. You can include shared DB cluster snapshots with these results by setting the IncludeShared parameter to true. You can include public DB cluster snapshots with these results by setting the IncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
         public let snapshotType: String?
-        
+
         public init(dBClusterIdentifier: String? = nil, dBClusterSnapshotIdentifier: String? = nil, filters: [Filter]? = nil, includePublic: Bool? = nil, includeShared: Bool? = nil, marker: String? = nil, maxRecords: Int32? = nil, snapshotType: String? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
@@ -2527,7 +2527,7 @@ extension Neptune {
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBClusterIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.filters = filters
@@ -2574,7 +2574,7 @@ extension Neptune {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so that the following results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBParameterGroupFamily: String? = nil, defaultOnly: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, filters: [Filter]? = nil, listSupportedCharacterSets: Bool? = nil, listSupportedTimezones: Bool? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
             self.defaultOnly = defaultOnly
@@ -2616,7 +2616,7 @@ extension Neptune {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBInstanceIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.filters = filters
@@ -2648,7 +2648,7 @@ extension Neptune {
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBParameterGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBParameterGroupName = dBParameterGroupName
             self.filters = filters
@@ -2683,7 +2683,7 @@ extension Neptune {
         public let maxRecords: Int32?
         /// The parameter types to return. Default: All parameter types returned Valid Values: user | system | engine-default 
         public let source: String?
-        
+
         public init(dBParameterGroupName: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, source: String? = nil) {
             self.dBParameterGroupName = dBParameterGroupName
             self.filters = filters
@@ -2717,7 +2717,7 @@ extension Neptune {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBSubnetGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBSubnetGroupName = dBSubnetGroupName
             self.filters = filters
@@ -2749,7 +2749,7 @@ extension Neptune {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBParameterGroupFamily: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
             self.filters = filters
@@ -2771,7 +2771,7 @@ extension Neptune {
         ]
 
         public let engineDefaults: EngineDefaults?
-        
+
         public init(engineDefaults: EngineDefaults? = nil) {
             self.engineDefaults = engineDefaults
         }
@@ -2797,7 +2797,7 @@ extension Neptune {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBParameterGroupFamily: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
             self.filters = filters
@@ -2819,7 +2819,7 @@ extension Neptune {
         ]
 
         public let engineDefaults: EngineDefaults?
-        
+
         public init(engineDefaults: EngineDefaults? = nil) {
             self.engineDefaults = engineDefaults
         }
@@ -2839,7 +2839,7 @@ extension Neptune {
         public let filters: [Filter]?
         /// The type of source that is generating the events. Valid values: db-instance | db-parameter-group | db-security-group | db-snapshot
         public let sourceType: String?
-        
+
         public init(filters: [Filter]? = nil, sourceType: String? = nil) {
             self.filters = filters
             self.sourceType = sourceType
@@ -2867,7 +2867,7 @@ extension Neptune {
         public let maxRecords: Int32?
         /// The name of the event notification subscription you want to describe.
         public let subscriptionName: String?
-        
+
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, subscriptionName: String? = nil) {
             self.filters = filters
             self.marker = marker
@@ -2914,7 +2914,7 @@ extension Neptune {
         public let sourceType: SourceType?
         ///  The beginning of the time interval to retrieve events for, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z
         public let startTime: TimeStamp?
-        
+
         public init(duration: Int32? = nil, endTime: TimeStamp? = nil, eventCategories: [String]? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
             self.duration = duration
             self.endTime = endTime
@@ -2968,7 +2968,7 @@ extension Neptune {
         public let maxRecords: Int32?
         /// The VPC filter value. Specify this parameter to show only the available VPC or non-VPC offerings.
         public let vpc: Bool?
-        
+
         public init(dBInstanceClass: String? = nil, engine: String, engineVersion: String? = nil, filters: [Filter]? = nil, licenseModel: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, vpc: Bool? = nil) {
             self.dBInstanceClass = dBInstanceClass
             self.engine = engine
@@ -3008,7 +3008,7 @@ extension Neptune {
         public let maxRecords: Int32?
         /// The ARN of a resource to return pending maintenance actions for.
         public let resourceIdentifier: String?
-        
+
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, resourceIdentifier: String? = nil) {
             self.filters = filters
             self.marker = marker
@@ -3031,7 +3031,7 @@ extension Neptune {
 
         /// The customer identifier or the ARN of your DB instance.
         public let dBInstanceIdentifier: String
-        
+
         public init(dBInstanceIdentifier: String) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
         }
@@ -3047,7 +3047,7 @@ extension Neptune {
         ]
 
         public let validDBInstanceModificationsMessage: ValidDBInstanceModificationsMessage?
-        
+
         public init(validDBInstanceModificationsMessage: ValidDBInstanceModificationsMessage? = nil) {
             self.validDBInstanceModificationsMessage = validDBInstanceModificationsMessage
         }
@@ -3073,7 +3073,7 @@ extension Neptune {
         public let iAMRoleName: String?
         /// The status of the DB instance's Active Directory Domain membership, such as joined, pending-join, failed etc).
         public let status: String?
-        
+
         public init(domain: String? = nil, fqdn: String? = nil, iAMRoleName: String? = nil, status: String? = nil) {
             self.domain = domain
             self.fqdn = fqdn
@@ -3099,7 +3099,7 @@ extension Neptune {
         public let from: Double?
         /// The maximum value in the range.
         public let to: Double?
-        
+
         public init(from: Double? = nil, to: Double? = nil) {
             self.from = from
             self.to = to
@@ -3124,7 +3124,7 @@ extension Neptune {
         public let hostedZoneId: String?
         /// Specifies the port that the database engine is listening on.
         public let port: Int32?
-        
+
         public init(address: String? = nil, hostedZoneId: String? = nil, port: Int32? = nil) {
             self.address = address
             self.hostedZoneId = hostedZoneId
@@ -3151,7 +3151,7 @@ extension Neptune {
         public let marker: String?
         /// Contains a list of engine default parameters.
         public let parameters: [Parameter]?
-        
+
         public init(dBParameterGroupFamily: String? = nil, marker: String? = nil, parameters: [Parameter]? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
             self.marker = marker
@@ -3187,7 +3187,7 @@ extension Neptune {
         public let sourceIdentifier: String?
         /// Specifies the source type for this event.
         public let sourceType: SourceType?
-        
+
         public init(date: TimeStamp? = nil, eventCategories: [String]? = nil, message: String? = nil, sourceArn: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil) {
             self.date = date
             self.eventCategories = eventCategories
@@ -3217,7 +3217,7 @@ extension Neptune {
         public let eventCategories: [String]?
         /// The source type that the returned categories belong to
         public let sourceType: String?
-        
+
         public init(eventCategories: [String]? = nil, sourceType: String? = nil) {
             self.eventCategories = eventCategories
             self.sourceType = sourceType
@@ -3236,7 +3236,7 @@ extension Neptune {
 
         /// A list of EventCategoriesMap data types.
         public let eventCategoriesMapList: [EventCategoriesMap]?
-        
+
         public init(eventCategoriesMapList: [EventCategoriesMap]? = nil) {
             self.eventCategoriesMapList = eventCategoriesMapList
         }
@@ -3280,7 +3280,7 @@ extension Neptune {
         public let status: String?
         /// The time the event notification subscription was created.
         public let subscriptionCreationTime: String?
-        
+
         public init(customerAwsId: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, eventCategoriesList: [String]? = nil, eventSubscriptionArn: String? = nil, snsTopicArn: String? = nil, sourceIdsList: [String]? = nil, sourceType: String? = nil, status: String? = nil, subscriptionCreationTime: String? = nil) {
             self.customerAwsId = customerAwsId
             self.custSubscriptionId = custSubscriptionId
@@ -3318,7 +3318,7 @@ extension Neptune {
         public let eventSubscriptionsList: [EventSubscription]?
         ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        
+
         public init(eventSubscriptionsList: [EventSubscription]? = nil, marker: String? = nil) {
             self.eventSubscriptionsList = eventSubscriptionsList
             self.marker = marker
@@ -3340,7 +3340,7 @@ extension Neptune {
         public let events: [Event]?
         ///  An optional pagination token provided by a previous Events request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
-        
+
         public init(events: [Event]? = nil, marker: String? = nil) {
             self.events = events
             self.marker = marker
@@ -3362,7 +3362,7 @@ extension Neptune {
         public let dBClusterIdentifier: String?
         /// The name of the instance to promote to the primary instance. You must specify the instance identifier for an Read Replica in the DB cluster. For example, mydbcluster-replica1.
         public let targetDBInstanceIdentifier: String?
-        
+
         public init(dBClusterIdentifier: String? = nil, targetDBInstanceIdentifier: String? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.targetDBInstanceIdentifier = targetDBInstanceIdentifier
@@ -3380,7 +3380,7 @@ extension Neptune {
         ]
 
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -3400,7 +3400,7 @@ extension Neptune {
         public let name: String
         /// This parameter is not currently supported.
         public let values: [String]
-        
+
         public init(name: String, values: [String]) {
             self.name = name
             self.values = values
@@ -3422,7 +3422,7 @@ extension Neptune {
         public let filters: [Filter]?
         /// The Amazon Neptune resource with tags to be listed. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN).
         public let resourceName: String
-        
+
         public init(filters: [Filter]? = nil, resourceName: String) {
             self.filters = filters
             self.resourceName = resourceName
@@ -3480,7 +3480,7 @@ extension Neptune {
         public let preferredMaintenanceWindow: String?
         /// A list of VPC security groups that the DB cluster will belong to.
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(applyImmediately: Bool? = nil, backupRetentionPeriod: Int32? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.applyImmediately = applyImmediately
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -3526,7 +3526,7 @@ extension Neptune {
         public let dBClusterParameterGroupName: String
         /// A list of parameters in the DB cluster parameter group to modify.
         public let parameters: [Parameter]
-        
+
         public init(dBClusterParameterGroupName: String, parameters: [Parameter]) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.parameters = parameters
@@ -3544,7 +3544,7 @@ extension Neptune {
         ]
 
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -3570,7 +3570,7 @@ extension Neptune {
         public let valuesToAdd: [String]?
         /// A list of DB cluster snapshot attributes to remove from the attribute specified by AttributeName. To remove authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more AWS account identifiers, or all to remove authorization for any AWS account to copy or restore the DB cluster snapshot. If you specify all, an AWS account whose account ID is explicitly added to the restore attribute can still copy or restore a manual DB cluster snapshot.
         public let valuesToRemove: [String]?
-        
+
         public init(attributeName: String, dBClusterSnapshotIdentifier: String, valuesToAdd: [String]? = nil, valuesToRemove: [String]? = nil) {
             self.attributeName = attributeName
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
@@ -3592,7 +3592,7 @@ extension Neptune {
         ]
 
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
-        
+
         public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
             self.dBClusterSnapshotAttributesResult = dBClusterSnapshotAttributesResult
         }
@@ -3711,7 +3711,7 @@ extension Neptune {
         public let tdeCredentialPassword: String?
         /// A list of EC2 VPC security groups to authorize on this DB instance. This change is asynchronously applied as soon as possible. Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see ModifyDBCluster. Constraints:   If supplied, must match existing VpcSecurityGroupIds.  
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(allocatedStorage: Int32? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int32? = nil, cACertificateIdentifier: String? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, dBParameterGroupName: String? = nil, dBPortNumber: Int32? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineVersion: String? = nil, iops: Int32? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int32? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int32? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
@@ -3795,7 +3795,7 @@ extension Neptune {
         ]
 
         public let dBInstance: DBInstance?
-        
+
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
@@ -3815,7 +3815,7 @@ extension Neptune {
         public let dBParameterGroupName: String
         /// An array of parameter names, values, and the apply method for the parameter update. At least one parameter name, value, and apply method must be supplied; subsequent arguments are optional. A maximum of 20 parameters can be modified in a single request. Valid Values (for the application method): immediate | pending-reboot   You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when you reboot the DB instance without failover. 
         public let parameters: [Parameter]
-        
+
         public init(dBParameterGroupName: String, parameters: [Parameter]) {
             self.dBParameterGroupName = dBParameterGroupName
             self.parameters = parameters
@@ -3840,7 +3840,7 @@ extension Neptune {
         public let dBSubnetGroupName: String
         /// The EC2 subnet IDs for the DB subnet group.
         public let subnetIds: [String]
-        
+
         public init(dBSubnetGroupDescription: String? = nil, dBSubnetGroupName: String, subnetIds: [String]) {
             self.dBSubnetGroupDescription = dBSubnetGroupDescription
             self.dBSubnetGroupName = dBSubnetGroupName
@@ -3860,7 +3860,7 @@ extension Neptune {
         ]
 
         public let dBSubnetGroup: DBSubnetGroup?
-        
+
         public init(dBSubnetGroup: DBSubnetGroup? = nil) {
             self.dBSubnetGroup = dBSubnetGroup
         }
@@ -3889,7 +3889,7 @@ extension Neptune {
         public let sourceType: String?
         /// The name of the event notification subscription.
         public let subscriptionName: String
-        
+
         public init(enabled: Bool? = nil, eventCategories: [String]? = nil, snsTopicArn: String? = nil, sourceType: String? = nil, subscriptionName: String) {
             self.enabled = enabled
             self.eventCategories = eventCategories
@@ -3913,7 +3913,7 @@ extension Neptune {
         ]
 
         public let eventSubscription: EventSubscription?
-        
+
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -3933,7 +3933,7 @@ extension Neptune {
         public let optionGroupName: String?
         /// The status of the DB instance's option group membership. Valid values are: in-sync, pending-apply, pending-removal, pending-maintenance-apply, pending-maintenance-removal, applying, removing, and failed.
         public let status: String?
-        
+
         public init(optionGroupName: String? = nil, status: String? = nil) {
             self.optionGroupName = optionGroupName
             self.status = status
@@ -4009,7 +4009,7 @@ extension Neptune {
         public let supportsStorageEncryption: Bool?
         /// Indicates whether a DB instance is in a VPC.
         public let vpc: Bool?
-        
+
         public init(availabilityZones: [AvailabilityZone]? = nil, dBInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, maxIopsPerDbInstance: Int32? = nil, maxIopsPerGib: Double? = nil, maxStorageSize: Int32? = nil, minIopsPerDbInstance: Int32? = nil, minIopsPerGib: Double? = nil, minStorageSize: Int32? = nil, multiAZCapable: Bool? = nil, readReplicaCapable: Bool? = nil, storageType: String? = nil, supportsEnhancedMonitoring: Bool? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsIops: Bool? = nil, supportsPerformanceInsights: Bool? = nil, supportsStorageEncryption: Bool? = nil, vpc: Bool? = nil) {
             self.availabilityZones = availabilityZones
             self.dBInstanceClass = dBInstanceClass
@@ -4067,7 +4067,7 @@ extension Neptune {
         public let marker: String?
         /// An OrderableDBInstanceOption structure containing information about orderable options for the DB instance.
         public let orderableDBInstanceOptions: [OrderableDBInstanceOption]?
-        
+
         public init(marker: String? = nil, orderableDBInstanceOptions: [OrderableDBInstanceOption]? = nil) {
             self.marker = marker
             self.orderableDBInstanceOptions = orderableDBInstanceOptions
@@ -4113,7 +4113,7 @@ extension Neptune {
         public let parameterValue: String?
         /// Indicates the source of the parameter value.
         public let source: String?
-        
+
         public init(allowedValues: String? = nil, applyMethod: ApplyMethod? = nil, applyType: String? = nil, dataType: String? = nil, description: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, parameterName: String? = nil, parameterValue: String? = nil, source: String? = nil) {
             self.allowedValues = allowedValues
             self.applyMethod = applyMethod
@@ -4151,7 +4151,7 @@ extension Neptune {
         public let logTypesToDisable: [String]?
         /// Log types that are in the process of being deactivated. After they are deactivated, these log types aren't exported to CloudWatch Logs.
         public let logTypesToEnable: [String]?
-        
+
         public init(logTypesToDisable: [String]? = nil, logTypesToEnable: [String]? = nil) {
             self.logTypesToDisable = logTypesToDisable
             self.logTypesToEnable = logTypesToEnable
@@ -4185,7 +4185,7 @@ extension Neptune {
         public let forcedApplyDate: TimeStamp?
         /// Indicates the type of opt-in request that has been received for the resource.
         public let optInStatus: String?
-        
+
         public init(action: String? = nil, autoAppliedAfterDate: TimeStamp? = nil, currentApplyDate: TimeStamp? = nil, description: String? = nil, forcedApplyDate: TimeStamp? = nil, optInStatus: String? = nil) {
             self.action = action
             self.autoAppliedAfterDate = autoAppliedAfterDate
@@ -4215,7 +4215,7 @@ extension Neptune {
         public let marker: String?
         /// A list of the pending maintenance actions for the resource.
         public let pendingMaintenanceActions: [ResourcePendingMaintenanceActions]?
-        
+
         public init(marker: String? = nil, pendingMaintenanceActions: [ResourcePendingMaintenanceActions]? = nil) {
             self.marker = marker
             self.pendingMaintenanceActions = pendingMaintenanceActions
@@ -4273,7 +4273,7 @@ extension Neptune {
         public let port: Int32?
         /// Specifies the storage type to be associated with the DB instance.
         public let storageType: String?
-        
+
         public init(allocatedStorage: Int32? = nil, backupRetentionPeriod: Int32? = nil, cACertificateIdentifier: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dBSubnetGroupName: String? = nil, engineVersion: String? = nil, iops: Int32? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, pendingCloudwatchLogsExports: PendingCloudwatchLogsExports? = nil, port: Int32? = nil, storageType: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -4316,7 +4316,7 @@ extension Neptune {
 
         /// Not supported.
         public let dBClusterIdentifier: String
-        
+
         public init(dBClusterIdentifier: String) {
             self.dBClusterIdentifier = dBClusterIdentifier
         }
@@ -4332,7 +4332,7 @@ extension Neptune {
         ]
 
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -4355,7 +4355,7 @@ extension Neptune {
         public let step: Int32?
         /// The maximum value in the range.
         public let to: Int32?
-        
+
         public init(from: Int32? = nil, step: Int32? = nil, to: Int32? = nil) {
             self.from = from
             self.step = step
@@ -4379,7 +4379,7 @@ extension Neptune {
         public let dBInstanceIdentifier: String
         ///  When true, the reboot is conducted through a MultiAZ failover. Constraint: You can't specify true if the instance is not configured for MultiAZ.
         public let forceFailover: Bool?
-        
+
         public init(dBInstanceIdentifier: String, forceFailover: Bool? = nil) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.forceFailover = forceFailover
@@ -4397,7 +4397,7 @@ extension Neptune {
         ]
 
         public let dBInstance: DBInstance?
-        
+
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
@@ -4417,7 +4417,7 @@ extension Neptune {
         public let dBClusterIdentifier: String
         /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB cluster, for example arn:aws:iam::123456789012:role/NeptuneAccessRole.
         public let roleArn: String
-        
+
         public init(dBClusterIdentifier: String, roleArn: String) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.roleArn = roleArn
@@ -4439,7 +4439,7 @@ extension Neptune {
         public let sourceIdentifier: String
         /// The name of the event notification subscription you want to remove a source identifier from.
         public let subscriptionName: String
-        
+
         public init(sourceIdentifier: String, subscriptionName: String) {
             self.sourceIdentifier = sourceIdentifier
             self.subscriptionName = subscriptionName
@@ -4457,7 +4457,7 @@ extension Neptune {
         ]
 
         public let eventSubscription: EventSubscription?
-        
+
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -4477,7 +4477,7 @@ extension Neptune {
         public let resourceName: String
         /// The tag key (name) of the tag to be removed.
         public let tagKeys: [String]
-        
+
         public init(resourceName: String, tagKeys: [String]) {
             self.resourceName = resourceName
             self.tagKeys = tagKeys
@@ -4502,7 +4502,7 @@ extension Neptune {
         public let parameters: [Parameter]?
         /// A value that is set to true to reset all parameters in the DB cluster parameter group to their default values, and false otherwise. You can't use this parameter if there is a list of parameter names specified for the Parameters parameter.
         public let resetAllParameters: Bool?
-        
+
         public init(dBClusterParameterGroupName: String, parameters: [Parameter]? = nil, resetAllParameters: Bool? = nil) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.parameters = parameters
@@ -4529,7 +4529,7 @@ extension Neptune {
         public let parameters: [Parameter]?
         /// Specifies whether (true) or not (false) to reset all parameters in the DB parameter group to default values. Default: true 
         public let resetAllParameters: Bool?
-        
+
         public init(dBParameterGroupName: String, parameters: [Parameter]? = nil, resetAllParameters: Bool? = nil) {
             self.dBParameterGroupName = dBParameterGroupName
             self.parameters = parameters
@@ -4553,7 +4553,7 @@ extension Neptune {
         public let pendingMaintenanceActionDetails: [PendingMaintenanceAction]?
         /// The ARN of the resource that has pending maintenance actions.
         public let resourceIdentifier: String?
-        
+
         public init(pendingMaintenanceActionDetails: [PendingMaintenanceAction]? = nil, resourceIdentifier: String? = nil) {
             self.pendingMaintenanceActionDetails = pendingMaintenanceActionDetails
             self.resourceIdentifier = resourceIdentifier
@@ -4614,7 +4614,7 @@ extension Neptune {
         public let tags: [Tag]?
         /// A list of VPC security groups that the new DB cluster will belong to.
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(availabilityZones: [String]? = nil, databaseName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.databaseName = databaseName
@@ -4658,7 +4658,7 @@ extension Neptune {
         ]
 
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -4714,7 +4714,7 @@ extension Neptune {
         public let useLatestRestorableTime: Bool?
         /// A list of VPC security groups that the new DB cluster belongs to.
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, restoreToTime: TimeStamp? = nil, restoreType: String? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
@@ -4756,7 +4756,7 @@ extension Neptune {
         ]
 
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -4789,7 +4789,7 @@ extension Neptune {
         public let subnetIdentifier: String?
         /// Specifies the status of the subnet.
         public let subnetStatus: String?
-        
+
         public init(subnetAvailabilityZone: AvailabilityZone? = nil, subnetIdentifier: String? = nil, subnetStatus: String? = nil) {
             self.subnetAvailabilityZone = subnetAvailabilityZone
             self.subnetIdentifier = subnetIdentifier
@@ -4813,7 +4813,7 @@ extension Neptune {
         public let key: String?
         /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -4832,7 +4832,7 @@ extension Neptune {
 
         /// List of tags returned by the ListTagsForResource operation.
         public let tagList: [Tag]?
-        
+
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
         }
@@ -4849,7 +4849,7 @@ extension Neptune {
 
         /// The name of the time zone.
         public let timezoneName: String?
-        
+
         public init(timezoneName: String? = nil) {
             self.timezoneName = timezoneName
         }
@@ -4878,7 +4878,7 @@ extension Neptune {
         public let engineVersion: String?
         /// A value that indicates whether a database engine is upgraded to a major version.
         public let isMajorVersionUpgrade: Bool?
-        
+
         public init(autoUpgrade: Bool? = nil, description: String? = nil, engine: String? = nil, engineVersion: String? = nil, isMajorVersionUpgrade: Bool? = nil) {
             self.autoUpgrade = autoUpgrade
             self.description = description
@@ -4903,7 +4903,7 @@ extension Neptune {
 
         /// Valid storage options for your DB instance.
         public let storage: [ValidStorageOptions]?
-        
+
         public init(storage: [ValidStorageOptions]? = nil) {
             self.storage = storage
         }
@@ -4929,7 +4929,7 @@ extension Neptune {
         public let storageSize: [Range]?
         /// The valid storage types for your DB instance. For example, gp2, io1.
         public let storageType: String?
-        
+
         public init(iopsToStorageRatio: [DoubleRange]? = nil, provisionedIops: [Range]? = nil, storageSize: [Range]? = nil, storageType: String? = nil) {
             self.iopsToStorageRatio = iopsToStorageRatio
             self.provisionedIops = provisionedIops
@@ -4955,7 +4955,7 @@ extension Neptune {
         public let status: String?
         /// The name of the VPC security group.
         public let vpcSecurityGroupId: String?
-        
+
         public init(status: String? = nil, vpcSecurityGroupId: String? = nil) {
             self.status = status
             self.vpcSecurityGroupId = vpcSecurityGroupId
@@ -4966,5 +4966,4 @@ extension Neptune {
             case vpcSecurityGroupId = "VpcSecurityGroupId"
         }
     }
-
 }

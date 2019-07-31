@@ -27,7 +27,7 @@ extension Glue {
         public let securityConfiguration: String?
         /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). This overrides the timeout value set in the parent job.
         public let timeout: Int32?
-        
+
         public init(arguments: [String: String]? = nil, crawlerName: String? = nil, jobName: String? = nil, notificationProperty: NotificationProperty? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil) {
             self.arguments = arguments
             self.crawlerName = crawlerName
@@ -77,7 +77,7 @@ extension Glue {
         public let partitionInputList: [PartitionInput]
         /// The name of the metadata table in which the partition is to be created.
         public let tableName: String
-        
+
         public init(catalogId: String? = nil, databaseName: String, partitionInputList: [PartitionInput], tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -117,7 +117,7 @@ extension Glue {
 
         /// Errors encountered when trying to create the requested partitions.
         public let errors: [PartitionError]?
-        
+
         public init(errors: [PartitionError]? = nil) {
             self.errors = errors
         }
@@ -143,7 +143,7 @@ extension Glue {
         public let catalogId: String?
         /// A list of names of the connections to delete.
         public let connectionNameList: [String]
-        
+
         public init(catalogId: String? = nil, connectionNameList: [String]) {
             self.catalogId = catalogId
             self.connectionNameList = connectionNameList
@@ -178,7 +178,7 @@ extension Glue {
         public let errors: [String: ErrorDetail]?
         /// A list of names of the connection definitions that were successfully deleted.
         public let succeeded: [String]?
-        
+
         public init(errors: [String: ErrorDetail]? = nil, succeeded: [String]? = nil) {
             self.errors = errors
             self.succeeded = succeeded
@@ -214,7 +214,7 @@ extension Glue {
         public let partitionsToDelete: [PartitionValueList]
         /// The name of the table where the partitions to be deleted is located.
         public let tableName: String
-        
+
         public init(catalogId: String? = nil, databaseName: String, partitionsToDelete: [PartitionValueList], tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -254,7 +254,7 @@ extension Glue {
 
         /// Errors encountered when trying to delete the requested partitions.
         public let errors: [PartitionError]?
-        
+
         public init(errors: [PartitionError]? = nil) {
             self.errors = errors
         }
@@ -283,7 +283,7 @@ extension Glue {
         public let databaseName: String
         /// A list of the table to delete.
         public let tablesToDelete: [String]
-        
+
         public init(catalogId: String? = nil, databaseName: String, tablesToDelete: [String]) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -320,7 +320,7 @@ extension Glue {
 
         /// A list of errors encountered in attempting to delete the specified tables.
         public let errors: [TableError]?
-        
+
         public init(errors: [TableError]? = nil) {
             self.errors = errors
         }
@@ -352,7 +352,7 @@ extension Glue {
         public let tableName: String
         /// A list of the IDs of versions to be deleted. A VersionId is a string representation of an integer. Each version is incremented by 1.
         public let versionIds: [String]
-        
+
         public init(catalogId: String? = nil, databaseName: String, tableName: String, versionIds: [String]) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -394,7 +394,7 @@ extension Glue {
 
         /// A list of errors encountered while trying to delete the specified table versions.
         public let errors: [TableVersionError]?
-        
+
         public init(errors: [TableVersionError]? = nil) {
             self.errors = errors
         }
@@ -417,7 +417,7 @@ extension Glue {
 
         /// A list of crawler names, which might be the names returned from the ListCrawlers operation.
         public let crawlerNames: [String]
-        
+
         public init(crawlerNames: [String]) {
             self.crawlerNames = crawlerNames
         }
@@ -447,7 +447,7 @@ extension Glue {
         public let crawlers: [Crawler]?
         /// A list of names of crawlers that were not found.
         public let crawlersNotFound: [String]?
-        
+
         public init(crawlers: [Crawler]? = nil, crawlersNotFound: [String]? = nil) {
             self.crawlers = crawlers
             self.crawlersNotFound = crawlersNotFound
@@ -479,7 +479,7 @@ extension Glue {
 
         /// The list of DevEndpoint names, which may be the names returned from the ListDevEndpoint operation.
         public let devEndpointNames: [String]
-        
+
         public init(devEndpointNames: [String]) {
             self.devEndpointNames = devEndpointNames
         }
@@ -504,7 +504,7 @@ extension Glue {
         public let devEndpoints: [DevEndpoint]?
         /// A list of DevEndpoints not found.
         public let devEndpointsNotFound: [String]?
-        
+
         public init(devEndpoints: [DevEndpoint]? = nil, devEndpointsNotFound: [String]? = nil) {
             self.devEndpoints = devEndpoints
             self.devEndpointsNotFound = devEndpointsNotFound
@@ -531,7 +531,7 @@ extension Glue {
 
         /// A list of job names, which might be the names returned from the ListJobs operation.
         public let jobNames: [String]
-        
+
         public init(jobNames: [String]) {
             self.jobNames = jobNames
         }
@@ -559,7 +559,7 @@ extension Glue {
         public let jobs: [Job]?
         /// A list of names of jobs not found.
         public let jobsNotFound: [String]?
-        
+
         public init(jobs: [Job]? = nil, jobsNotFound: [String]? = nil) {
             self.jobs = jobs
             self.jobsNotFound = jobsNotFound
@@ -598,7 +598,7 @@ extension Glue {
         public let partitionsToGet: [PartitionValueList]
         /// The name of the partitions' table.
         public let tableName: String
-        
+
         public init(catalogId: String? = nil, databaseName: String, partitionsToGet: [PartitionValueList], tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -641,7 +641,7 @@ extension Glue {
         public let partitions: [Partition]?
         /// A list of the partition values in the request for which partions were not returned.
         public let unprocessedKeys: [PartitionValueList]?
-        
+
         public init(partitions: [Partition]? = nil, unprocessedKeys: [PartitionValueList]? = nil) {
             self.partitions = partitions
             self.unprocessedKeys = unprocessedKeys
@@ -671,7 +671,7 @@ extension Glue {
 
         /// A list of trigger names, which may be the names returned from the ListTriggers operation.
         public let triggerNames: [String]
-        
+
         public init(triggerNames: [String]) {
             self.triggerNames = triggerNames
         }
@@ -699,7 +699,7 @@ extension Glue {
         public let triggers: [Trigger]?
         /// A list of names of triggers not found.
         public let triggersNotFound: [String]?
-        
+
         public init(triggers: [Trigger]? = nil, triggersNotFound: [String]? = nil) {
             self.triggers = triggers
             self.triggersNotFound = triggersNotFound
@@ -732,7 +732,7 @@ extension Glue {
         public let includeGraph: Bool?
         /// A list of workflow names, which may be the names returned from the ListWorkflows operation.
         public let names: [String]
-        
+
         public init(includeGraph: Bool? = nil, names: [String]) {
             self.includeGraph = includeGraph
             self.names = names
@@ -764,7 +764,7 @@ extension Glue {
         public let missingWorkflows: [String]?
         /// A list of workflow resource metadata.
         public let workflows: [Workflow]?
-        
+
         public init(missingWorkflows: [String]? = nil, workflows: [Workflow]? = nil) {
             self.missingWorkflows = missingWorkflows
             self.workflows = workflows
@@ -804,7 +804,7 @@ extension Glue {
         public let jobName: String?
         /// The JobRunId of the job run in question.
         public let jobRunId: String?
-        
+
         public init(errorDetail: ErrorDetail? = nil, jobName: String? = nil, jobRunId: String? = nil) {
             self.errorDetail = errorDetail
             self.jobName = jobName
@@ -838,7 +838,7 @@ extension Glue {
         public let jobName: String
         /// A list of the JobRunIds that should be stopped for that job definition.
         public let jobRunIds: [String]
-        
+
         public init(jobName: String, jobRunIds: [String]) {
             self.jobName = jobName
             self.jobRunIds = jobRunIds
@@ -873,7 +873,7 @@ extension Glue {
         public let errors: [BatchStopJobRunError]?
         /// A list of the JobRuns that were successfully submitted for stopping.
         public let successfulSubmissions: [BatchStopJobRunSuccessfulSubmission]?
-        
+
         public init(errors: [BatchStopJobRunError]? = nil, successfulSubmissions: [BatchStopJobRunSuccessfulSubmission]? = nil) {
             self.errors = errors
             self.successfulSubmissions = successfulSubmissions
@@ -904,7 +904,7 @@ extension Glue {
         public let jobName: String?
         /// The JobRunId of the job run that was stopped.
         public let jobRunId: String?
-        
+
         public init(jobName: String? = nil, jobRunId: String? = nil) {
             self.jobName = jobName
             self.jobRunId = jobRunId
@@ -941,7 +941,7 @@ extension Glue {
         public let databaseName: String
         /// The name of the table in question.
         public let tableName: String
-        
+
         public init(databaseName: String, tableName: String) {
             self.databaseName = databaseName
             self.tableName = tableName
@@ -975,7 +975,7 @@ extension Glue {
         public let importedBy: String?
         /// The time that the migration was started.
         public let importTime: TimeStamp?
-        
+
         public init(importCompleted: Bool? = nil, importedBy: String? = nil, importTime: TimeStamp? = nil) {
             self.importCompleted = importCompleted
             self.importedBy = importedBy
@@ -1005,7 +1005,7 @@ extension Glue {
         public let databaseName: String
         /// A list of the tables to be synchronized.
         public let tables: [String]
-        
+
         public init(databaseName: String, tables: [String]) {
             self.databaseName = databaseName
             self.tables = tables
@@ -1045,7 +1045,7 @@ extension Glue {
         public let jsonClassifier: JsonClassifier?
         /// A classifier for XML content.
         public let xMLClassifier: XMLClassifier?
-        
+
         public init(csvClassifier: CsvClassifier? = nil, grokClassifier: GrokClassifier? = nil, jsonClassifier: JsonClassifier? = nil, xMLClassifier: XMLClassifier? = nil) {
             self.csvClassifier = csvClassifier
             self.grokClassifier = grokClassifier
@@ -1078,7 +1078,7 @@ extension Glue {
         public let cloudWatchEncryptionMode: CloudWatchEncryptionMode?
         /// The AWS ARN of the KMS key to be used to encrypt the data.
         public let kmsKeyArn: String?
-        
+
         public init(cloudWatchEncryptionMode: CloudWatchEncryptionMode? = nil, kmsKeyArn: String? = nil) {
             self.cloudWatchEncryptionMode = cloudWatchEncryptionMode
             self.kmsKeyArn = kmsKeyArn
@@ -1113,7 +1113,7 @@ extension Glue {
         public let target: String
         /// The target of the edge.
         public let targetParameter: String?
-        
+
         public init(source: String, target: String, targetParameter: String? = nil) {
             self.source = source
             self.target = target
@@ -1152,7 +1152,7 @@ extension Glue {
         public let lineNumber: Int32?
         /// The type of node that this is.
         public let nodeType: String
-        
+
         public init(args: [CodeGenNodeArg], id: String, lineNumber: Int32? = nil, nodeType: String) {
             self.args = args
             self.id = id
@@ -1189,7 +1189,7 @@ extension Glue {
         public let param: Bool?
         /// The value of the argument or property.
         public let value: String
-        
+
         public init(name: String, param: Bool? = nil, value: String) {
             self.name = name
             self.param = param
@@ -1216,7 +1216,7 @@ extension Glue {
         public let name: String
         /// The datatype of data in the Column.
         public let `type`: String?
-        
+
         public init(comment: String? = nil, name: String, type: String? = nil) {
             self.comment = comment
             self.name = name
@@ -1261,7 +1261,7 @@ extension Glue {
         public let logicalOperator: LogicalOperator?
         /// The condition state. Currently, the values supported are SUCCEEDED, STOPPED, TIMEOUT, and FAILED.
         public let state: JobRunState?
-        
+
         public init(crawlerName: String? = nil, crawlState: CrawlState? = nil, jobName: String? = nil, logicalOperator: LogicalOperator? = nil, state: JobRunState? = nil) {
             self.crawlerName = crawlerName
             self.crawlState = crawlState
@@ -1319,7 +1319,7 @@ extension Glue {
         public let name: String?
         /// A map of physical connection requirements, such as virtual private cloud (VPC) and SecurityGroup, that are needed to make this connection successfully.
         public let physicalConnectionRequirements: PhysicalConnectionRequirements?
-        
+
         public init(connectionProperties: [ConnectionPropertyKey: String]? = nil, connectionType: ConnectionType? = nil, creationTime: TimeStamp? = nil, description: String? = nil, lastUpdatedBy: String? = nil, lastUpdatedTime: TimeStamp? = nil, matchCriteria: [String]? = nil, name: String? = nil, physicalConnectionRequirements: PhysicalConnectionRequirements? = nil) {
             self.connectionProperties = connectionProperties
             self.connectionType = connectionType
@@ -1387,7 +1387,7 @@ extension Glue {
         public let name: String
         /// A map of physical connection requirements, such as virtual private cloud (VPC) and SecurityGroup, that are needed to successfully make this connection.
         public let physicalConnectionRequirements: PhysicalConnectionRequirements?
-        
+
         public init(connectionProperties: [ConnectionPropertyKey: String], connectionType: ConnectionType, description: String? = nil, matchCriteria: [String]? = nil, name: String, physicalConnectionRequirements: PhysicalConnectionRequirements? = nil) {
             self.connectionProperties = connectionProperties
             self.connectionType = connectionType
@@ -1434,7 +1434,7 @@ extension Glue {
         public let awsKmsKeyId: String?
         /// When the ReturnConnectionPasswordEncrypted flag is set to "true", passwords remain encrypted in the responses of GetConnection and GetConnections. This encryption takes effect independently from catalog encryption. 
         public let returnConnectionPasswordEncrypted: Bool
-        
+
         public init(awsKmsKeyId: String? = nil, returnConnectionPasswordEncrypted: Bool) {
             self.awsKmsKeyId = awsKmsKeyId
             self.returnConnectionPasswordEncrypted = returnConnectionPasswordEncrypted
@@ -1482,7 +1482,7 @@ extension Glue {
 
         /// A list of connections used by the job.
         public let connections: [String]?
-        
+
         public init(connections: [String]? = nil) {
             self.connections = connections
         }
@@ -1514,7 +1514,7 @@ extension Glue {
         public let startedOn: TimeStamp?
         /// The state of the crawler.
         public let state: CrawlState?
-        
+
         public init(completedOn: TimeStamp? = nil, errorMessage: String? = nil, logGroup: String? = nil, logStream: String? = nil, startedOn: TimeStamp? = nil, state: CrawlState? = nil) {
             self.completedOn = completedOn
             self.errorMessage = errorMessage
@@ -1609,7 +1609,7 @@ extension Glue {
         public let targets: CrawlerTargets?
         /// The version of the crawler.
         public let version: Int64?
-        
+
         public init(classifiers: [String]? = nil, configuration: String? = nil, crawlElapsedTime: Int64? = nil, crawlerSecurityConfiguration: String? = nil, creationTime: TimeStamp? = nil, databaseName: String? = nil, description: String? = nil, lastCrawl: LastCrawlInfo? = nil, lastUpdated: TimeStamp? = nil, name: String? = nil, role: String? = nil, schedule: Schedule? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, state: CrawlerState? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil, version: Int64? = nil) {
             self.classifiers = classifiers
             self.configuration = configuration
@@ -1699,7 +1699,7 @@ extension Glue {
         public let tablesUpdated: Int32?
         /// The estimated time left to complete a running crawl.
         public let timeLeftSeconds: Double?
-        
+
         public init(crawlerName: String? = nil, lastRuntimeSeconds: Double? = nil, medianRuntimeSeconds: Double? = nil, stillEstimating: Bool? = nil, tablesCreated: Int32? = nil, tablesDeleted: Int32? = nil, tablesUpdated: Int32? = nil, timeLeftSeconds: Double? = nil) {
             self.crawlerName = crawlerName
             self.lastRuntimeSeconds = lastRuntimeSeconds
@@ -1742,7 +1742,7 @@ extension Glue {
 
         /// A list of crawls represented by the crawl node.
         public let crawls: [Crawl]?
-        
+
         public init(crawls: [Crawl]? = nil) {
             self.crawls = crawls
         }
@@ -1781,7 +1781,7 @@ extension Glue {
         public let jdbcTargets: [JdbcTarget]?
         /// Specifies Amazon Simple Storage Service (Amazon S3) targets.
         public let s3Targets: [S3Target]?
-        
+
         public init(catalogTargets: [CatalogTarget]? = nil, dynamoDBTargets: [DynamoDBTarget]? = nil, jdbcTargets: [JdbcTarget]? = nil, s3Targets: [S3Target]? = nil) {
             self.catalogTargets = catalogTargets
             self.dynamoDBTargets = dynamoDBTargets
@@ -1819,7 +1819,7 @@ extension Glue {
         public let jsonClassifier: CreateJsonClassifierRequest?
         /// An XMLClassifier object specifying the classifier to create.
         public let xMLClassifier: CreateXMLClassifierRequest?
-        
+
         public init(csvClassifier: CreateCsvClassifierRequest? = nil, grokClassifier: CreateGrokClassifierRequest? = nil, jsonClassifier: CreateJsonClassifierRequest? = nil, xMLClassifier: CreateXMLClassifierRequest? = nil) {
             self.csvClassifier = csvClassifier
             self.grokClassifier = grokClassifier
@@ -1843,11 +1843,12 @@ extension Glue {
     }
 
     public struct CreateClassifierResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateConnectionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1859,7 +1860,7 @@ extension Glue {
         public let catalogId: String?
         /// A ConnectionInput object defining the connection to create.
         public let connectionInput: ConnectionInput
-        
+
         public init(catalogId: String? = nil, connectionInput: ConnectionInput) {
             self.catalogId = catalogId
             self.connectionInput = connectionInput
@@ -1879,11 +1880,12 @@ extension Glue {
     }
 
     public struct CreateConnectionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateCrawlerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1925,7 +1927,7 @@ extension Glue {
         public let tags: [String: String]?
         /// A list of collection of targets to crawl.
         public let targets: CrawlerTargets
-        
+
         public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, name: String, role: String, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, tags: [String: String]? = nil, targets: CrawlerTargets) {
             self.classifiers = classifiers
             self.configuration = configuration
@@ -1977,11 +1979,12 @@ extension Glue {
     }
 
     public struct CreateCrawlerResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateCsvClassifierRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2008,7 +2011,7 @@ extension Glue {
         public let name: String
         /// A custom symbol to denote what combines content into a single column value. Must be different from the column delimiter.
         public let quoteSymbol: String?
-        
+
         public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, name: String, quoteSymbol: String? = nil) {
             self.allowSingleColumn = allowSingleColumn
             self.containsHeader = containsHeader
@@ -2057,7 +2060,7 @@ extension Glue {
         public let catalogId: String?
         /// A DatabaseInput object defining the metadata database to create in the catalog.
         public let databaseInput: DatabaseInput
-        
+
         public init(catalogId: String? = nil, databaseInput: DatabaseInput) {
             self.catalogId = catalogId
             self.databaseInput = databaseInput
@@ -2077,11 +2080,12 @@ extension Glue {
     }
 
     public struct CreateDatabaseResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateDevEndpointRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2123,7 +2127,7 @@ extension Glue {
         public let subnetId: String?
         /// The tags to use with this DevEndpoint. You may use tags to limit access to the DevEndpoint. For more information about tags in AWS Glue, see AWS Tags in AWS Glue in the developer guide.
         public let tags: [String: String]?
-        
+
         public init(arguments: [String: String]? = nil, endpointName: String, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, numberOfNodes: Int32? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tags: [String: String]? = nil) {
             self.arguments = arguments
             self.endpointName = endpointName
@@ -2215,7 +2219,7 @@ extension Glue {
         public let yarnEndpointAddress: String?
         /// The Apache Zeppelin port for the remote Apache Spark interpreter.
         public let zeppelinRemoteSparkInterpreterPort: Int32?
-        
+
         public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, numberOfNodes: Int32? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int32? = nil) {
             self.arguments = arguments
             self.availabilityZone = availabilityZone
@@ -2278,7 +2282,7 @@ extension Glue {
         public let grokPattern: String
         /// The name of the new classifier.
         public let name: String
-        
+
         public init(classification: String, customPatterns: String? = nil, grokPattern: String, name: String) {
             self.classification = classification
             self.customPatterns = customPatterns
@@ -2358,7 +2362,7 @@ extension Glue {
         public let timeout: Int32?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
         public let workerType: String?
-        
+
         public init(command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int32? = nil, name: String, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int32? = nil, workerType: String? = nil) {
             self.command = command
             self.connections = connections
@@ -2423,7 +2427,7 @@ extension Glue {
 
         /// The unique name that was provided for this job definition.
         public let name: String?
-        
+
         public init(name: String? = nil) {
             self.name = name
         }
@@ -2449,7 +2453,7 @@ extension Glue {
         public let jsonPath: String
         /// The name of the classifier.
         public let name: String
-        
+
         public init(jsonPath: String, name: String) {
             self.jsonPath = jsonPath
             self.name = name
@@ -2483,7 +2487,7 @@ extension Glue {
         public let partitionInput: PartitionInput
         /// The name of the metadata table in which the partition is to be created.
         public let tableName: String
-        
+
         public init(catalogId: String? = nil, databaseName: String, partitionInput: PartitionInput, tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -2513,11 +2517,12 @@ extension Glue {
     }
 
     public struct CreatePartitionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateScriptRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2532,7 +2537,7 @@ extension Glue {
         public let dagNodes: [CodeGenNode]?
         /// The programming language of the resulting code from the DAG.
         public let language: Language?
-        
+
         public init(dagEdges: [CodeGenEdge]? = nil, dagNodes: [CodeGenNode]? = nil, language: Language? = nil) {
             self.dagEdges = dagEdges
             self.dagNodes = dagNodes
@@ -2565,7 +2570,7 @@ extension Glue {
         public let pythonScript: String?
         /// The Scala code generated from the DAG.
         public let scalaCode: String?
-        
+
         public init(pythonScript: String? = nil, scalaCode: String? = nil) {
             self.pythonScript = pythonScript
             self.scalaCode = scalaCode
@@ -2587,7 +2592,7 @@ extension Glue {
         public let encryptionConfiguration: EncryptionConfiguration
         /// The name for the new security configuration.
         public let name: String
-        
+
         public init(encryptionConfiguration: EncryptionConfiguration, name: String) {
             self.encryptionConfiguration = encryptionConfiguration
             self.name = name
@@ -2616,7 +2621,7 @@ extension Glue {
         public let createdTimestamp: TimeStamp?
         /// The name assigned to the new security configuration.
         public let name: String?
-        
+
         public init(createdTimestamp: TimeStamp? = nil, name: String? = nil) {
             self.createdTimestamp = createdTimestamp
             self.name = name
@@ -2647,7 +2652,7 @@ extension Glue {
         public let databaseName: String
         /// The TableInput object that defines the metadata table to create in the catalog.
         public let tableInput: TableInput
-        
+
         public init(catalogId: String? = nil, databaseName: String, tableInput: TableInput) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -2672,11 +2677,12 @@ extension Glue {
     }
 
     public struct CreateTableResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateTriggerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2709,7 +2715,7 @@ extension Glue {
         public let `type`: TriggerType
         /// The name of the workflow associated with the trigger.
         public let workflowName: String?
-        
+
         public init(actions: [Action], description: String? = nil, name: String, predicate: Predicate? = nil, schedule: String? = nil, startOnCreation: Bool? = nil, tags: [String: String]? = nil, type: TriggerType, workflowName: String? = nil) {
             self.actions = actions
             self.description = description
@@ -2758,7 +2764,7 @@ extension Glue {
 
         /// The name of the trigger.
         public let name: String?
-        
+
         public init(name: String? = nil) {
             self.name = name
         }
@@ -2787,7 +2793,7 @@ extension Glue {
         public let databaseName: String
         /// A FunctionInput object that defines the function to create in the Data Catalog.
         public let functionInput: UserDefinedFunctionInput
-        
+
         public init(catalogId: String? = nil, databaseName: String, functionInput: UserDefinedFunctionInput) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -2812,11 +2818,12 @@ extension Glue {
     }
 
     public struct CreateUserDefinedFunctionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateWorkflowRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2834,7 +2841,7 @@ extension Glue {
         public let name: String
         /// The tags to be used with this workflow.
         public let tags: [String: String]?
-        
+
         public init(defaultRunProperties: [String: String]? = nil, description: String? = nil, name: String, tags: [String: String]? = nil) {
             self.defaultRunProperties = defaultRunProperties
             self.description = description
@@ -2863,7 +2870,7 @@ extension Glue {
 
         /// The name of the workflow which was provided as part of the request.
         public let name: String?
-        
+
         public init(name: String? = nil) {
             self.name = name
         }
@@ -2892,7 +2899,7 @@ extension Glue {
         public let name: String
         /// The XML tag designating the element that contains each record in an XML document being parsed. This can't identify a self-closing element (closed by /&gt;). An empty row element that contains only attributes can be parsed as long as it ends with a closing tag (for example, &lt;row item_a="A" item_b="B"&gt;&lt;/row&gt; is okay, but &lt;row item_a="A" item_b="B" /&gt; is not).
         public let rowTag: String?
-        
+
         public init(classification: String, name: String, rowTag: String? = nil) {
             self.classification = classification
             self.name = name
@@ -2946,7 +2953,7 @@ extension Glue {
         public let quoteSymbol: String?
         /// The version of this classifier.
         public let version: Int64?
-        
+
         public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, creationTime: TimeStamp? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, lastUpdated: TimeStamp? = nil, name: String, quoteSymbol: String? = nil, version: Int64? = nil) {
             self.allowSingleColumn = allowSingleColumn
             self.containsHeader = containsHeader
@@ -3008,7 +3015,7 @@ extension Glue {
         public let connectionPasswordEncryption: ConnectionPasswordEncryption?
         /// Specifies the encryption-at-rest configuration for the Data Catalog.
         public let encryptionAtRest: EncryptionAtRest?
-        
+
         public init(connectionPasswordEncryption: ConnectionPasswordEncryption? = nil, encryptionAtRest: EncryptionAtRest? = nil) {
             self.connectionPasswordEncryption = connectionPasswordEncryption
             self.encryptionAtRest = encryptionAtRest
@@ -3044,7 +3051,7 @@ extension Glue {
         public let name: String
         /// These key-value pairs define parameters and properties of the database.
         public let parameters: [String: String]?
-        
+
         public init(createTime: TimeStamp? = nil, description: String? = nil, locationUri: String? = nil, name: String, parameters: [String: String]? = nil) {
             self.createTime = createTime
             self.description = description
@@ -3090,7 +3097,7 @@ extension Glue {
         public let name: String
         /// Thes key-value pairs define parameters and properties of the database.
         public let parameters: [String: String]?
-        
+
         public init(description: String? = nil, locationUri: String? = nil, name: String, parameters: [String: String]? = nil) {
             self.description = description
             self.locationUri = locationUri
@@ -3132,7 +3139,7 @@ extension Glue {
 
         /// Name of the classifier to remove.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -3149,11 +3156,12 @@ extension Glue {
     }
 
     public struct DeleteClassifierResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteConnectionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3165,7 +3173,7 @@ extension Glue {
         public let catalogId: String?
         /// The name of the connection to delete.
         public let connectionName: String
-        
+
         public init(catalogId: String? = nil, connectionName: String) {
             self.catalogId = catalogId
             self.connectionName = connectionName
@@ -3187,11 +3195,12 @@ extension Glue {
     }
 
     public struct DeleteConnectionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteCrawlerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3200,7 +3209,7 @@ extension Glue {
 
         /// The name of the crawler to remove.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -3217,11 +3226,12 @@ extension Glue {
     }
 
     public struct DeleteCrawlerResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteDatabaseRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3233,7 +3243,7 @@ extension Glue {
         public let catalogId: String?
         /// The name of the Database to delete. For Hive compatibility, this must be all lowercase.
         public let name: String
-        
+
         public init(catalogId: String? = nil, name: String) {
             self.catalogId = catalogId
             self.name = name
@@ -3255,11 +3265,12 @@ extension Glue {
     }
 
     public struct DeleteDatabaseResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteDevEndpointRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3268,7 +3279,7 @@ extension Glue {
 
         /// The name of the DevEndpoint.
         public let endpointName: String
-        
+
         public init(endpointName: String) {
             self.endpointName = endpointName
         }
@@ -3279,11 +3290,12 @@ extension Glue {
     }
 
     public struct DeleteDevEndpointResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3292,7 +3304,7 @@ extension Glue {
 
         /// The name of the job definition to delete.
         public let jobName: String
-        
+
         public init(jobName: String) {
             self.jobName = jobName
         }
@@ -3315,7 +3327,7 @@ extension Glue {
 
         /// The name of the job definition that was deleted.
         public let jobName: String?
-        
+
         public init(jobName: String? = nil) {
             self.jobName = jobName
         }
@@ -3347,7 +3359,7 @@ extension Glue {
         public let partitionValues: [String]
         /// The name of the table where the partition to be deleted is located.
         public let tableName: String
-        
+
         public init(catalogId: String? = nil, databaseName: String, partitionValues: [String], tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -3379,11 +3391,12 @@ extension Glue {
     }
 
     public struct DeletePartitionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteResourcePolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3392,7 +3405,7 @@ extension Glue {
 
         /// The hash value returned when this policy was set.
         public let policyHashCondition: String?
-        
+
         public init(policyHashCondition: String? = nil) {
             self.policyHashCondition = policyHashCondition
         }
@@ -3409,11 +3422,12 @@ extension Glue {
     }
 
     public struct DeleteResourcePolicyResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteSecurityConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3422,7 +3436,7 @@ extension Glue {
 
         /// The name of the security configuration to delete.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -3439,11 +3453,12 @@ extension Glue {
     }
 
     public struct DeleteSecurityConfigurationResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteTableRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3458,7 +3473,7 @@ extension Glue {
         public let databaseName: String
         /// The name of the table to be deleted. For Hive compatibility, this name is entirely lowercase.
         public let name: String
-        
+
         public init(catalogId: String? = nil, databaseName: String, name: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -3485,11 +3500,12 @@ extension Glue {
     }
 
     public struct DeleteTableResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteTableVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3507,7 +3523,7 @@ extension Glue {
         public let tableName: String
         /// The ID of the table version to be deleted. A VersionID is a string representation of an integer. Each version is incremented by 1.
         public let versionId: String
-        
+
         public init(catalogId: String? = nil, databaseName: String, tableName: String, versionId: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -3539,11 +3555,12 @@ extension Glue {
     }
 
     public struct DeleteTableVersionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteTriggerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3552,7 +3569,7 @@ extension Glue {
 
         /// The name of the trigger to delete.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -3575,7 +3592,7 @@ extension Glue {
 
         /// The name of the trigger that was deleted.
         public let name: String?
-        
+
         public init(name: String? = nil) {
             self.name = name
         }
@@ -3604,7 +3621,7 @@ extension Glue {
         public let databaseName: String
         /// The name of the function definition to be deleted.
         public let functionName: String
-        
+
         public init(catalogId: String? = nil, databaseName: String, functionName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -3631,11 +3648,12 @@ extension Glue {
     }
 
     public struct DeleteUserDefinedFunctionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteWorkflowRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3644,7 +3662,7 @@ extension Glue {
 
         /// Name of the workflow to be deleted.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -3667,7 +3685,7 @@ extension Glue {
 
         /// Name of the workflow specified in input.
         public let name: String?
-        
+
         public init(name: String? = nil) {
             self.name = name
         }
@@ -3753,7 +3771,7 @@ extension Glue {
         public let yarnEndpointAddress: String?
         /// The Apache Zeppelin port for the remote Apache Spark interpreter.
         public let zeppelinRemoteSparkInterpreterPort: Int32?
-        
+
         public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, lastModifiedTimestamp: TimeStamp? = nil, lastUpdateStatus: String? = nil, numberOfNodes: Int32? = nil, privateAddress: String? = nil, publicAddress: String? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int32? = nil) {
             self.arguments = arguments
             self.availabilityZone = availabilityZone
@@ -3823,7 +3841,7 @@ extension Glue {
         public let extraJarsS3Path: String?
         /// Path(s) to one or more Python libraries in an S3 bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma. Please note that only pure Python libraries can currently be used on a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not yet supported.
         public let extraPythonLibsS3Path: String?
-        
+
         public init(extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil) {
             self.extraJarsS3Path = extraJarsS3Path
             self.extraPythonLibsS3Path = extraPythonLibsS3Path
@@ -3842,7 +3860,7 @@ extension Glue {
 
         /// The name of the DynamoDB table to crawl.
         public let path: String?
-        
+
         public init(path: String? = nil) {
             self.path = path
         }
@@ -3862,7 +3880,7 @@ extension Glue {
         public let destinationId: String?
         /// The unique of the node within the workflow where the edge starts.
         public let sourceId: String?
-        
+
         public init(destinationId: String? = nil, sourceId: String? = nil) {
             self.destinationId = destinationId
             self.sourceId = sourceId
@@ -3893,7 +3911,7 @@ extension Glue {
         public let catalogEncryptionMode: CatalogEncryptionMode
         /// The ID of the AWS KMS key to use for encryption at rest.
         public let sseAwsKmsKeyId: String?
-        
+
         public init(catalogEncryptionMode: CatalogEncryptionMode, sseAwsKmsKeyId: String? = nil) {
             self.catalogEncryptionMode = catalogEncryptionMode
             self.sseAwsKmsKeyId = sseAwsKmsKeyId
@@ -3924,7 +3942,7 @@ extension Glue {
         public let jobBookmarksEncryption: JobBookmarksEncryption?
         /// The encryption configuration for S3 data.
         public let s3Encryption: [S3Encryption]?
-        
+
         public init(cloudWatchEncryption: CloudWatchEncryption? = nil, jobBookmarksEncryption: JobBookmarksEncryption? = nil, s3Encryption: [S3Encryption]? = nil) {
             self.cloudWatchEncryption = cloudWatchEncryption
             self.jobBookmarksEncryption = jobBookmarksEncryption
@@ -3956,7 +3974,7 @@ extension Glue {
         public let errorCode: String?
         /// A message describing the error.
         public let errorMessage: String?
-        
+
         public init(errorCode: String? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3984,7 +4002,7 @@ extension Glue {
 
         /// The maximum number of concurrent runs allowed for the job. The default is 1. An error is returned when this threshold is reached. The maximum value you can specify is controlled by a service limit.
         public let maxConcurrentRuns: Int32?
-        
+
         public init(maxConcurrentRuns: Int32? = nil) {
             self.maxConcurrentRuns = maxConcurrentRuns
         }
@@ -4008,7 +4026,7 @@ extension Glue {
 
         /// The ID of the catalog to migrate. Currently, this should be the AWS account ID.
         public let catalogId: String?
-        
+
         public init(catalogId: String? = nil) {
             self.catalogId = catalogId
         }
@@ -4031,7 +4049,7 @@ extension Glue {
 
         /// The status of the specified catalog migration.
         public let importStatus: CatalogImportStatus?
-        
+
         public init(importStatus: CatalogImportStatus? = nil) {
             self.importStatus = importStatus
         }
@@ -4052,7 +4070,7 @@ extension Glue {
 
         /// Name of the classifier to retrieve.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -4075,7 +4093,7 @@ extension Glue {
 
         /// The requested classifier.
         public let classifier: Classifier?
-        
+
         public init(classifier: Classifier? = nil) {
             self.classifier = classifier
         }
@@ -4099,7 +4117,7 @@ extension Glue {
         public let maxResults: Int32?
         /// An optional continuation token.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4126,7 +4144,7 @@ extension Glue {
         public let classifiers: [Classifier]?
         /// A continuation token.
         public let nextToken: String?
-        
+
         public init(classifiers: [Classifier]? = nil, nextToken: String? = nil) {
             self.classifiers = classifiers
             self.nextToken = nextToken
@@ -4157,7 +4175,7 @@ extension Glue {
         public let hidePassword: Bool?
         /// The name of the connection definition to retrieve.
         public let name: String
-        
+
         public init(catalogId: String? = nil, hidePassword: Bool? = nil, name: String) {
             self.catalogId = catalogId
             self.hidePassword = hidePassword
@@ -4187,7 +4205,7 @@ extension Glue {
 
         /// The requested connection definition.
         public let connection: Connection?
-        
+
         public init(connection: Connection? = nil) {
             self.connection = connection
         }
@@ -4211,7 +4229,7 @@ extension Glue {
         public let connectionType: ConnectionType?
         /// A criteria string that must match the criteria recorded in the connection definition for that connection definition to be returned.
         public let matchCriteria: [String]?
-        
+
         public init(connectionType: ConnectionType? = nil, matchCriteria: [String]? = nil) {
             self.connectionType = connectionType
             self.matchCriteria = matchCriteria
@@ -4252,7 +4270,7 @@ extension Glue {
         public let maxResults: Int32?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
-        
+
         public init(catalogId: String? = nil, filter: GetConnectionsFilter? = nil, hidePassword: Bool? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.catalogId = catalogId
             self.filter = filter
@@ -4289,7 +4307,7 @@ extension Glue {
         public let connectionList: [Connection]?
         /// A continuation token, if the list of connections returned does not include the last of the filtered connections.
         public let nextToken: String?
-        
+
         public init(connectionList: [Connection]? = nil, nextToken: String? = nil) {
             self.connectionList = connectionList
             self.nextToken = nextToken
@@ -4320,7 +4338,7 @@ extension Glue {
         public let maxResults: Int32?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
-        
+
         public init(crawlerNameList: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.crawlerNameList = crawlerNameList
             self.maxResults = maxResults
@@ -4356,7 +4374,7 @@ extension Glue {
         public let crawlerMetricsList: [CrawlerMetrics]?
         /// A continuation token, if the returned list does not contain the last metric available.
         public let nextToken: String?
-        
+
         public init(crawlerMetricsList: [CrawlerMetrics]? = nil, nextToken: String? = nil) {
             self.crawlerMetricsList = crawlerMetricsList
             self.nextToken = nextToken
@@ -4381,7 +4399,7 @@ extension Glue {
 
         /// The name of the crawler to retrieve metadata for.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -4404,7 +4422,7 @@ extension Glue {
 
         /// The metadata for the specified crawler.
         public let crawler: Crawler?
-        
+
         public init(crawler: Crawler? = nil) {
             self.crawler = crawler
         }
@@ -4428,7 +4446,7 @@ extension Glue {
         public let maxResults: Int32?
         /// A continuation token, if this is a continuation request.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4455,7 +4473,7 @@ extension Glue {
         public let crawlers: [Crawler]?
         /// A continuation token, if the returned list has not reached the end of those defined in this customer account.
         public let nextToken: String?
-        
+
         public init(crawlers: [Crawler]? = nil, nextToken: String? = nil) {
             self.crawlers = crawlers
             self.nextToken = nextToken
@@ -4480,7 +4498,7 @@ extension Glue {
 
         /// The ID of the Data Catalog for which to retrieve the security configuration. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
-        
+
         public init(catalogId: String? = nil) {
             self.catalogId = catalogId
         }
@@ -4503,7 +4521,7 @@ extension Glue {
 
         /// The requested security configuration.
         public let dataCatalogEncryptionSettings: DataCatalogEncryptionSettings?
-        
+
         public init(dataCatalogEncryptionSettings: DataCatalogEncryptionSettings? = nil) {
             self.dataCatalogEncryptionSettings = dataCatalogEncryptionSettings
         }
@@ -4527,7 +4545,7 @@ extension Glue {
         public let catalogId: String?
         /// The name of the database to retrieve. For Hive compatibility, this should be all lowercase.
         public let name: String
-        
+
         public init(catalogId: String? = nil, name: String) {
             self.catalogId = catalogId
             self.name = name
@@ -4555,7 +4573,7 @@ extension Glue {
 
         /// The definition of the specified database in the catalog.
         public let database: Database?
-        
+
         public init(database: Database? = nil) {
             self.database = database
         }
@@ -4582,7 +4600,7 @@ extension Glue {
         public let maxResults: Int32?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
-        
+
         public init(catalogId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.catalogId = catalogId
             self.maxResults = maxResults
@@ -4614,7 +4632,7 @@ extension Glue {
         public let databaseList: [Database]
         /// A continuation token for paginating the returned list of tokens, returned if the current segment of the list is not the last.
         public let nextToken: String?
-        
+
         public init(databaseList: [Database], nextToken: String? = nil) {
             self.databaseList = databaseList
             self.nextToken = nextToken
@@ -4639,7 +4657,7 @@ extension Glue {
 
         /// The Python script to transform.
         public let pythonScript: String?
-        
+
         public init(pythonScript: String? = nil) {
             self.pythonScript = pythonScript
         }
@@ -4659,7 +4677,7 @@ extension Glue {
         public let dagEdges: [CodeGenEdge]?
         /// A list of the nodes in the resulting DAG.
         public let dagNodes: [CodeGenNode]?
-        
+
         public init(dagEdges: [CodeGenEdge]? = nil, dagNodes: [CodeGenNode]? = nil) {
             self.dagEdges = dagEdges
             self.dagNodes = dagNodes
@@ -4687,7 +4705,7 @@ extension Glue {
 
         /// Name of the DevEndpoint for which to retrieve information.
         public let endpointName: String
-        
+
         public init(endpointName: String) {
             self.endpointName = endpointName
         }
@@ -4704,7 +4722,7 @@ extension Glue {
 
         /// A DevEndpoint definition.
         public let devEndpoint: DevEndpoint?
-        
+
         public init(devEndpoint: DevEndpoint? = nil) {
             self.devEndpoint = devEndpoint
         }
@@ -4728,7 +4746,7 @@ extension Glue {
         public let maxResults: Int32?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4755,7 +4773,7 @@ extension Glue {
         public let devEndpoints: [DevEndpoint]?
         /// A continuation token, if not all DevEndpoint definitions have yet been returned.
         public let nextToken: String?
-        
+
         public init(devEndpoints: [DevEndpoint]? = nil, nextToken: String? = nil) {
             self.devEndpoints = devEndpoints
             self.nextToken = nextToken
@@ -4780,7 +4798,7 @@ extension Glue {
 
         /// The name of the job definition to retrieve.
         public let jobName: String
-        
+
         public init(jobName: String) {
             self.jobName = jobName
         }
@@ -4803,7 +4821,7 @@ extension Glue {
 
         /// The requested job definition.
         public let job: Job?
-        
+
         public init(job: Job? = nil) {
             self.job = job
         }
@@ -4830,7 +4848,7 @@ extension Glue {
         public let predecessorsIncluded: Bool?
         /// The ID of the job run.
         public let runId: String
-        
+
         public init(jobName: String, predecessorsIncluded: Bool? = nil, runId: String) {
             self.jobName = jobName
             self.predecessorsIncluded = predecessorsIncluded
@@ -4860,7 +4878,7 @@ extension Glue {
 
         /// The requested job-run metadata.
         public let jobRun: JobRun?
-        
+
         public init(jobRun: JobRun? = nil) {
             self.jobRun = jobRun
         }
@@ -4887,7 +4905,7 @@ extension Glue {
         public let maxResults: Int32?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
-        
+
         public init(jobName: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.jobName = jobName
             self.maxResults = maxResults
@@ -4919,7 +4937,7 @@ extension Glue {
         public let jobRuns: [JobRun]?
         /// A continuation token, if not all requested job runs have been returned.
         public let nextToken: String?
-        
+
         public init(jobRuns: [JobRun]? = nil, nextToken: String? = nil) {
             self.jobRuns = jobRuns
             self.nextToken = nextToken
@@ -4947,7 +4965,7 @@ extension Glue {
         public let maxResults: Int32?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4974,7 +4992,7 @@ extension Glue {
         public let jobs: [Job]?
         /// A continuation token, if not all job definitions have yet been returned.
         public let nextToken: String?
-        
+
         public init(jobs: [Job]? = nil, nextToken: String? = nil) {
             self.jobs = jobs
             self.nextToken = nextToken
@@ -5005,7 +5023,7 @@ extension Glue {
         public let sinks: [CatalogEntry]?
         /// Specifies the source table.
         public let source: CatalogEntry
-        
+
         public init(location: Location? = nil, sinks: [CatalogEntry]? = nil, source: CatalogEntry) {
             self.location = location
             self.sinks = sinks
@@ -5034,7 +5052,7 @@ extension Glue {
 
         /// A list of mappings to the specified targets.
         public let mapping: [MappingEntry]
-        
+
         public init(mapping: [MappingEntry]) {
             self.mapping = mapping
         }
@@ -5060,7 +5078,7 @@ extension Glue {
         public let partitionValues: [String]
         /// The name of the partition's table.
         public let tableName: String
-        
+
         public init(catalogId: String? = nil, databaseName: String, partitionValues: [String], tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -5098,7 +5116,7 @@ extension Glue {
 
         /// The requested information, in the form of a Partition object.
         public let partition: Partition?
-        
+
         public init(partition: Partition? = nil) {
             self.partition = partition
         }
@@ -5137,7 +5155,7 @@ extension Glue {
         public let segment: Segment?
         /// The name of the partitions' table.
         public let tableName: String
-        
+
         public init(catalogId: String? = nil, databaseName: String, expression: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, segment: Segment? = nil, tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -5187,7 +5205,7 @@ extension Glue {
         public let nextToken: String?
         /// A list of requested partitions.
         public let partitions: [Partition]?
-        
+
         public init(nextToken: String? = nil, partitions: [Partition]? = nil) {
             self.nextToken = nextToken
             self.partitions = partitions
@@ -5224,7 +5242,7 @@ extension Glue {
         public let sinks: [CatalogEntry]?
         /// The source table.
         public let source: CatalogEntry
-        
+
         public init(language: Language? = nil, location: Location? = nil, mapping: [MappingEntry], sinks: [CatalogEntry]? = nil, source: CatalogEntry) {
             self.language = language
             self.location = location
@@ -5260,7 +5278,7 @@ extension Glue {
         public let pythonScript: String?
         /// The Scala code to perform the mapping.
         public let scalaCode: String?
-        
+
         public init(pythonScript: String? = nil, scalaCode: String? = nil) {
             self.pythonScript = pythonScript
             self.scalaCode = scalaCode
@@ -5273,11 +5291,12 @@ extension Glue {
     }
 
     public struct GetResourcePolicyRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetResourcePolicyResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -5295,7 +5314,7 @@ extension Glue {
         public let policyInJson: String?
         /// The date and time at which the policy was last updated.
         public let updateTime: TimeStamp?
-        
+
         public init(createTime: TimeStamp? = nil, policyHash: String? = nil, policyInJson: String? = nil, updateTime: TimeStamp? = nil) {
             self.createTime = createTime
             self.policyHash = policyHash
@@ -5326,7 +5345,7 @@ extension Glue {
 
         /// The name of the security configuration to retrieve.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -5349,7 +5368,7 @@ extension Glue {
 
         /// The requested security configuration
         public let securityConfiguration: SecurityConfiguration?
-        
+
         public init(securityConfiguration: SecurityConfiguration? = nil) {
             self.securityConfiguration = securityConfiguration
         }
@@ -5373,7 +5392,7 @@ extension Glue {
         public let maxResults: Int32?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5400,7 +5419,7 @@ extension Glue {
         public let nextToken: String?
         /// A list of security configurations.
         public let securityConfigurations: [SecurityConfiguration]?
-        
+
         public init(nextToken: String? = nil, securityConfigurations: [SecurityConfiguration]? = nil) {
             self.nextToken = nextToken
             self.securityConfigurations = securityConfigurations
@@ -5431,7 +5450,7 @@ extension Glue {
         public let databaseName: String
         /// The name of the table for which to retrieve the definition. For Hive compatibility, this name is entirely lowercase.
         public let name: String
-        
+
         public init(catalogId: String? = nil, databaseName: String, name: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -5464,7 +5483,7 @@ extension Glue {
 
         /// The Table object that defines the specified table.
         public let table: Table?
-        
+
         public init(table: Table? = nil) {
             self.table = table
         }
@@ -5494,7 +5513,7 @@ extension Glue {
         public let tableName: String
         /// The ID value of the table version to be retrieved. A VersionID is a string representation of an integer. Each version is incremented by 1. 
         public let versionId: String?
-        
+
         public init(catalogId: String? = nil, databaseName: String, tableName: String, versionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -5532,7 +5551,7 @@ extension Glue {
 
         /// The requested table version.
         public let tableVersion: TableVersion?
-        
+
         public init(tableVersion: TableVersion? = nil) {
             self.tableVersion = tableVersion
         }
@@ -5565,7 +5584,7 @@ extension Glue {
         public let nextToken: String?
         /// The name of the table. For Hive compatibility, this name is entirely lowercase.
         public let tableName: String
-        
+
         public init(catalogId: String? = nil, databaseName: String, maxResults: Int32? = nil, nextToken: String? = nil, tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -5607,7 +5626,7 @@ extension Glue {
         public let nextToken: String?
         /// A list of strings identifying available versions of the specified table.
         public let tableVersions: [TableVersion]?
-        
+
         public init(nextToken: String? = nil, tableVersions: [TableVersion]? = nil) {
             self.nextToken = nextToken
             self.tableVersions = tableVersions
@@ -5644,7 +5663,7 @@ extension Glue {
         public let maxResults: Int32?
         /// A continuation token, included if this is a continuation call.
         public let nextToken: String?
-        
+
         public init(catalogId: String? = nil, databaseName: String, expression: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -5686,7 +5705,7 @@ extension Glue {
         public let nextToken: String?
         /// A list of the requested Table objects.
         public let tableList: [Table]?
-        
+
         public init(nextToken: String? = nil, tableList: [Table]? = nil) {
             self.nextToken = nextToken
             self.tableList = tableList
@@ -5711,7 +5730,7 @@ extension Glue {
 
         /// The Amazon Resource Name (ARN) of the resource for which to retrieve tags.
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -5734,7 +5753,7 @@ extension Glue {
 
         /// The requested tags.
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -5751,7 +5770,7 @@ extension Glue {
 
         /// The name of the trigger to retrieve.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -5774,7 +5793,7 @@ extension Glue {
 
         /// The requested trigger definition.
         public let trigger: Trigger?
-        
+
         public init(trigger: Trigger? = nil) {
             self.trigger = trigger
         }
@@ -5801,7 +5820,7 @@ extension Glue {
         public let maxResults: Int32?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
-        
+
         public init(dependentJobName: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.dependentJobName = dependentJobName
             self.maxResults = maxResults
@@ -5833,7 +5852,7 @@ extension Glue {
         public let nextToken: String?
         /// A list of triggers for the specified job.
         public let triggers: [Trigger]?
-        
+
         public init(nextToken: String? = nil, triggers: [Trigger]? = nil) {
             self.nextToken = nextToken
             self.triggers = triggers
@@ -5864,7 +5883,7 @@ extension Glue {
         public let databaseName: String
         /// The name of the function.
         public let functionName: String
-        
+
         public init(catalogId: String? = nil, databaseName: String, functionName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -5897,7 +5916,7 @@ extension Glue {
 
         /// The requested function definition.
         public let userDefinedFunction: UserDefinedFunction?
-        
+
         public init(userDefinedFunction: UserDefinedFunction? = nil) {
             self.userDefinedFunction = userDefinedFunction
         }
@@ -5930,7 +5949,7 @@ extension Glue {
         public let nextToken: String?
         /// An optional function-name pattern string that filters the function definitions returned.
         public let pattern: String
-        
+
         public init(catalogId: String? = nil, databaseName: String, maxResults: Int32? = nil, nextToken: String? = nil, pattern: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -5972,7 +5991,7 @@ extension Glue {
         public let nextToken: String?
         /// A list of requested function definitions.
         public let userDefinedFunctions: [UserDefinedFunction]?
-        
+
         public init(nextToken: String? = nil, userDefinedFunctions: [UserDefinedFunction]? = nil) {
             self.nextToken = nextToken
             self.userDefinedFunctions = userDefinedFunctions
@@ -6000,7 +6019,7 @@ extension Glue {
         public let includeGraph: Bool?
         /// The name of the workflow to retrieve.
         public let name: String
-        
+
         public init(includeGraph: Bool? = nil, name: String) {
             self.includeGraph = includeGraph
             self.name = name
@@ -6025,7 +6044,7 @@ extension Glue {
 
         /// The resource metadata for the workflow.
         public let workflow: Workflow?
-        
+
         public init(workflow: Workflow? = nil) {
             self.workflow = workflow
         }
@@ -6049,7 +6068,7 @@ extension Glue {
         public let name: String
         /// The ID of the workflow run whose run properties should be returned.
         public let runId: String
-        
+
         public init(name: String, runId: String) {
             self.name = name
             self.runId = runId
@@ -6077,7 +6096,7 @@ extension Glue {
 
         /// The workflow run properties which were set during the specified run.
         public let runProperties: [String: String]?
-        
+
         public init(runProperties: [String: String]? = nil) {
             self.runProperties = runProperties
         }
@@ -6100,7 +6119,7 @@ extension Glue {
         public let name: String
         /// The ID of the workflow run.
         public let runId: String
-        
+
         public init(includeGraph: Bool? = nil, name: String, runId: String) {
             self.includeGraph = includeGraph
             self.name = name
@@ -6130,7 +6149,7 @@ extension Glue {
 
         /// The requested workflow run metadata.
         public let run: WorkflowRun?
-        
+
         public init(run: WorkflowRun? = nil) {
             self.run = run
         }
@@ -6160,7 +6179,7 @@ extension Glue {
         public let name: String
         /// The maximum size of the response.
         public let nextToken: String?
-        
+
         public init(includeGraph: Bool? = nil, maxResults: Int32? = nil, name: String, nextToken: String? = nil) {
             self.includeGraph = includeGraph
             self.maxResults = maxResults
@@ -6194,7 +6213,7 @@ extension Glue {
         public let nextToken: String?
         /// A list of workflow run metadata objects.
         public let runs: [WorkflowRun]?
-        
+
         public init(nextToken: String? = nil, runs: [WorkflowRun]? = nil) {
             self.nextToken = nextToken
             self.runs = runs
@@ -6239,7 +6258,7 @@ extension Glue {
         public let name: String
         /// The version of this classifier.
         public let version: Int64?
-        
+
         public init(classification: String, creationTime: TimeStamp? = nil, customPatterns: String? = nil, grokPattern: String, lastUpdated: TimeStamp? = nil, name: String, version: Int64? = nil) {
             self.classification = classification
             self.creationTime = creationTime
@@ -6280,7 +6299,7 @@ extension Glue {
 
         /// The ID of the catalog to import. Currently, this should be the AWS account ID.
         public let catalogId: String?
-        
+
         public init(catalogId: String? = nil) {
             self.catalogId = catalogId
         }
@@ -6297,11 +6316,12 @@ extension Glue {
     }
 
     public struct ImportCatalogToGlueResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct JdbcTarget: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -6316,7 +6336,7 @@ extension Glue {
         public let exclusions: [String]?
         /// The path of the JDBC target.
         public let path: String?
-        
+
         public init(connectionName: String? = nil, exclusions: [String]? = nil, path: String? = nil) {
             self.connectionName = connectionName
             self.exclusions = exclusions
@@ -6385,7 +6405,7 @@ extension Glue {
         public let timeout: Int32?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
         public let workerType: WorkerType?
-        
+
         public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: TimeStamp? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, lastModifiedOn: TimeStamp? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int32? = nil, name: String? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil, workerType: WorkerType? = nil) {
             self.command = command
             self.connections = connections
@@ -6461,7 +6481,7 @@ extension Glue {
         public let run: Int32?
         /// Version of the job.
         public let version: Int32?
-        
+
         public init(attempt: Int32? = nil, jobBookmark: String? = nil, jobName: String? = nil, run: Int32? = nil, version: Int32? = nil) {
             self.attempt = attempt
             self.jobBookmark = jobBookmark
@@ -6489,7 +6509,7 @@ extension Glue {
         public let jobBookmarksEncryptionMode: JobBookmarksEncryptionMode?
         /// The AWS ARN of the KMS key to be used to encrypt the data.
         public let kmsKeyArn: String?
-        
+
         public init(jobBookmarksEncryptionMode: JobBookmarksEncryptionMode? = nil, kmsKeyArn: String? = nil) {
             self.jobBookmarksEncryptionMode = jobBookmarksEncryptionMode
             self.kmsKeyArn = kmsKeyArn
@@ -6524,7 +6544,7 @@ extension Glue {
         public let pythonVersion: String?
         /// Specifies the Amazon Simple Storage Service (Amazon S3) path to a script that executes a job.
         public let scriptLocation: String?
-        
+
         public init(name: String? = nil, pythonVersion: String? = nil, scriptLocation: String? = nil) {
             self.name = name
             self.pythonVersion = pythonVersion
@@ -6549,7 +6569,7 @@ extension Glue {
 
         /// The information for the job runs represented by the job node.
         public let jobRuns: [JobRun]?
-        
+
         public init(jobRuns: [JobRun]? = nil) {
             self.jobRuns = jobRuns
         }
@@ -6629,7 +6649,7 @@ extension Glue {
         public let triggerName: String?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
         public let workerType: WorkerType?
-        
+
         public init(arguments: [String: String]? = nil, attempt: Int32? = nil, completedOn: TimeStamp? = nil, errorMessage: String? = nil, executionTime: Int32? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: TimeStamp? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: TimeStamp? = nil, timeout: Int32? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
             self.arguments = arguments
             self.attempt = attempt
@@ -6757,7 +6777,7 @@ extension Glue {
         public let timeout: Int32?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
         public let workerType: WorkerType?
-        
+
         public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int32? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil, workerType: WorkerType? = nil) {
             self.command = command
             self.connections = connections
@@ -6824,7 +6844,7 @@ extension Glue {
         public let name: String
         /// The version of this classifier.
         public let version: Int64?
-        
+
         public init(creationTime: TimeStamp? = nil, jsonPath: String, lastUpdated: TimeStamp? = nil, name: String, version: Int64? = nil) {
             self.creationTime = creationTime
             self.jsonPath = jsonPath
@@ -6876,7 +6896,7 @@ extension Glue {
         public let startTime: TimeStamp?
         /// Status of the last crawl.
         public let status: LastCrawlStatus?
-        
+
         public init(errorMessage: String? = nil, logGroup: String? = nil, logStream: String? = nil, messagePrefix: String? = nil, startTime: TimeStamp? = nil, status: LastCrawlStatus? = nil) {
             self.errorMessage = errorMessage
             self.logGroup = logGroup
@@ -6931,7 +6951,7 @@ extension Glue {
         public let nextToken: String?
         /// Specifies to return only these tagged resources.
         public let tags: [String: String]?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6960,7 +6980,7 @@ extension Glue {
         public let crawlerNames: [String]?
         /// A continuation token, if the returned list does not contain the last metric available.
         public let nextToken: String?
-        
+
         public init(crawlerNames: [String]? = nil, nextToken: String? = nil) {
             self.crawlerNames = crawlerNames
             self.nextToken = nextToken
@@ -6995,7 +7015,7 @@ extension Glue {
         public let nextToken: String?
         /// Specifies to return only these tagged resources.
         public let tags: [String: String]?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -7024,7 +7044,7 @@ extension Glue {
         public let devEndpointNames: [String]?
         /// A continuation token, if the returned list does not contain the last metric available.
         public let nextToken: String?
-        
+
         public init(devEndpointNames: [String]? = nil, nextToken: String? = nil) {
             self.devEndpointNames = devEndpointNames
             self.nextToken = nextToken
@@ -7057,7 +7077,7 @@ extension Glue {
         public let nextToken: String?
         /// Specifies to return only these tagged resources.
         public let tags: [String: String]?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -7086,7 +7106,7 @@ extension Glue {
         public let jobNames: [String]?
         /// A continuation token, if the returned list does not contain the last metric available.
         public let nextToken: String?
-        
+
         public init(jobNames: [String]? = nil, nextToken: String? = nil) {
             self.jobNames = jobNames
             self.nextToken = nextToken
@@ -7122,7 +7142,7 @@ extension Glue {
         public let nextToken: String?
         /// Specifies to return only these tagged resources.
         public let tags: [String: String]?
-        
+
         public init(dependentJobName: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
             self.dependentJobName = dependentJobName
             self.maxResults = maxResults
@@ -7156,7 +7176,7 @@ extension Glue {
         public let nextToken: String?
         /// The names of all triggers in the account, or the triggers with the specified tags.
         public let triggerNames: [String]?
-        
+
         public init(nextToken: String? = nil, triggerNames: [String]? = nil) {
             self.nextToken = nextToken
             self.triggerNames = triggerNames
@@ -7186,7 +7206,7 @@ extension Glue {
         public let maxResults: Int32?
         /// A continuation token, if this is a continuation request.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -7213,7 +7233,7 @@ extension Glue {
         public let nextToken: String?
         /// List of names of workflows in the account.
         public let workflows: [String]?
-        
+
         public init(nextToken: String? = nil, workflows: [String]? = nil) {
             self.nextToken = nextToken
             self.workflows = workflows
@@ -7248,7 +7268,7 @@ extension Glue {
         public let jdbc: [CodeGenNodeArg]?
         /// An Amazon Simple Storage Service (Amazon S3) location.
         public let s3: [CodeGenNodeArg]?
-        
+
         public init(dynamoDB: [CodeGenNodeArg]? = nil, jdbc: [CodeGenNodeArg]? = nil, s3: [CodeGenNodeArg]? = nil) {
             self.dynamoDB = dynamoDB
             self.jdbc = jdbc
@@ -7304,7 +7324,7 @@ extension Glue {
         public let targetTable: String?
         /// The target type.
         public let targetType: String?
-        
+
         public init(sourcePath: String? = nil, sourceTable: String? = nil, sourceType: String? = nil, targetPath: String? = nil, targetTable: String? = nil, targetType: String? = nil) {
             self.sourcePath = sourcePath
             self.sourceTable = sourceTable
@@ -7346,7 +7366,7 @@ extension Glue {
         public let `type`: NodeType?
         /// The unique Id assigned to the node within the workflow.
         public let uniqueId: String?
-        
+
         public init(crawlerDetails: CrawlerNodeDetails? = nil, jobDetails: JobNodeDetails? = nil, name: String? = nil, triggerDetails: TriggerNodeDetails? = nil, type: NodeType? = nil, uniqueId: String? = nil) {
             self.crawlerDetails = crawlerDetails
             self.jobDetails = jobDetails
@@ -7392,7 +7412,7 @@ extension Glue {
 
         /// After a job run starts, the number of minutes to wait before sending a job run delay notification.
         public let notifyDelayAfter: Int32?
-        
+
         public init(notifyDelayAfter: Int32? = nil) {
             self.notifyDelayAfter = notifyDelayAfter
         }
@@ -7416,7 +7436,7 @@ extension Glue {
         public let column: String
         /// Indicates that the column is sorted in ascending order (== 1), or in descending order (==0).
         public let sortOrder: Int32
-        
+
         public init(column: String, sortOrder: Int32) {
             self.column = column
             self.sortOrder = sortOrder
@@ -7464,7 +7484,7 @@ extension Glue {
         public let tableName: String?
         /// The values of the partition.
         public let values: [String]?
-        
+
         public init(creationTime: TimeStamp? = nil, databaseName: String? = nil, lastAccessTime: TimeStamp? = nil, lastAnalyzedTime: TimeStamp? = nil, parameters: [String: String]? = nil, storageDescriptor: StorageDescriptor? = nil, tableName: String? = nil, values: [String]? = nil) {
             self.creationTime = creationTime
             self.databaseName = databaseName
@@ -7511,7 +7531,7 @@ extension Glue {
         public let errorDetail: ErrorDetail?
         /// The values that define the partition.
         public let partitionValues: [String]?
-        
+
         public init(errorDetail: ErrorDetail? = nil, partitionValues: [String]? = nil) {
             self.errorDetail = errorDetail
             self.partitionValues = partitionValues
@@ -7549,7 +7569,7 @@ extension Glue {
         public let storageDescriptor: StorageDescriptor?
         /// The values of the partition. Although this parameter is not required by the SDK, you must specify this parameter for a valid input.
         public let values: [String]?
-        
+
         public init(lastAccessTime: TimeStamp? = nil, lastAnalyzedTime: TimeStamp? = nil, parameters: [String: String]? = nil, storageDescriptor: StorageDescriptor? = nil, values: [String]? = nil) {
             self.lastAccessTime = lastAccessTime
             self.lastAnalyzedTime = lastAnalyzedTime
@@ -7581,7 +7601,7 @@ extension Glue {
 
         /// The list of values.
         public let values: [String]
-        
+
         public init(values: [String]) {
             self.values = values
         }
@@ -7610,7 +7630,7 @@ extension Glue {
         public let securityGroupIdList: [String]?
         /// The subnet ID used by the connection.
         public let subnetId: String?
-        
+
         public init(availabilityZone: String? = nil, securityGroupIdList: [String]? = nil, subnetId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.securityGroupIdList = securityGroupIdList
@@ -7650,7 +7670,7 @@ extension Glue {
         public let jobName: String?
         /// The job-run ID of the predecessor job run.
         public let runId: String?
-        
+
         public init(jobName: String? = nil, runId: String? = nil) {
             self.jobName = jobName
             self.runId = runId
@@ -7681,7 +7701,7 @@ extension Glue {
         public let conditions: [Condition]?
         /// An optional field if only one condition is listed. If multiple conditions are listed, then this field is required.
         public let logical: Logical?
-        
+
         public init(conditions: [Condition]? = nil, logical: Logical? = nil) {
             self.conditions = conditions
             self.logical = logical
@@ -7716,7 +7736,7 @@ extension Glue {
         public let catalogId: String?
         /// The security configuration to set.
         public let dataCatalogEncryptionSettings: DataCatalogEncryptionSettings
-        
+
         public init(catalogId: String? = nil, dataCatalogEncryptionSettings: DataCatalogEncryptionSettings) {
             self.catalogId = catalogId
             self.dataCatalogEncryptionSettings = dataCatalogEncryptionSettings
@@ -7736,11 +7756,12 @@ extension Glue {
     }
 
     public struct PutDataCatalogEncryptionSettingsResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct PutResourcePolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -7755,7 +7776,7 @@ extension Glue {
         public let policyHashCondition: String?
         /// Contains the policy document to set, in JSON format.
         public let policyInJson: String
-        
+
         public init(policyExistsCondition: ExistCondition? = nil, policyHashCondition: String? = nil, policyInJson: String) {
             self.policyExistsCondition = policyExistsCondition
             self.policyHashCondition = policyHashCondition
@@ -7784,7 +7805,7 @@ extension Glue {
 
         /// A hash of the policy that has just been set. This must be included in a subsequent call that overwrites or updates this policy.
         public let policyHash: String?
-        
+
         public init(policyHash: String? = nil) {
             self.policyHash = policyHash
         }
@@ -7813,7 +7834,7 @@ extension Glue {
         public let runId: String
         /// The properties to put for the specified run.
         public let runProperties: [String: String]
-        
+
         public init(name: String, runId: String, runProperties: [String: String]) {
             self.name = name
             self.runId = runId
@@ -7837,11 +7858,12 @@ extension Glue {
     }
 
     public struct PutWorkflowRunPropertiesResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct ResetJobBookmarkRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -7850,7 +7872,7 @@ extension Glue {
 
         /// The name of the job in question.
         public let jobName: String
-        
+
         public init(jobName: String) {
             self.jobName = jobName
         }
@@ -7867,7 +7889,7 @@ extension Glue {
 
         /// The reset bookmark entry.
         public let jobBookmarkEntry: JobBookmarkEntry?
-        
+
         public init(jobBookmarkEntry: JobBookmarkEntry? = nil) {
             self.jobBookmarkEntry = jobBookmarkEntry
         }
@@ -7894,7 +7916,7 @@ extension Glue {
         public let resourceType: ResourceType?
         /// The URI for accessing the resource.
         public let uri: String?
-        
+
         public init(resourceType: ResourceType? = nil, uri: String? = nil) {
             self.resourceType = resourceType
             self.uri = uri
@@ -7922,7 +7944,7 @@ extension Glue {
         public let kmsKeyArn: String?
         /// The encryption mode to use for S3 data.
         public let s3EncryptionMode: S3EncryptionMode?
-        
+
         public init(kmsKeyArn: String? = nil, s3EncryptionMode: S3EncryptionMode? = nil) {
             self.kmsKeyArn = kmsKeyArn
             self.s3EncryptionMode = s3EncryptionMode
@@ -7955,7 +7977,7 @@ extension Glue {
         public let exclusions: [String]?
         /// The path to the Amazon S3 target.
         public let path: String?
-        
+
         public init(exclusions: [String]? = nil, path: String? = nil) {
             self.exclusions = exclusions
             self.path = path
@@ -7977,7 +7999,7 @@ extension Glue {
         public let scheduleExpression: String?
         /// The state of the schedule.
         public let state: ScheduleState?
-        
+
         public init(scheduleExpression: String? = nil, state: ScheduleState? = nil) {
             self.scheduleExpression = scheduleExpression
             self.state = state
@@ -8006,7 +8028,7 @@ extension Glue {
         public let deleteBehavior: DeleteBehavior?
         /// The update behavior when the crawler finds a changed schema.
         public let updateBehavior: UpdateBehavior?
-        
+
         public init(deleteBehavior: DeleteBehavior? = nil, updateBehavior: UpdateBehavior? = nil) {
             self.deleteBehavior = deleteBehavior
             self.updateBehavior = updateBehavior
@@ -8031,7 +8053,7 @@ extension Glue {
         public let encryptionConfiguration: EncryptionConfiguration?
         /// The name of the security configuration.
         public let name: String?
-        
+
         public init(createdTimeStamp: TimeStamp? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, name: String? = nil) {
             self.createdTimeStamp = createdTimeStamp
             self.encryptionConfiguration = encryptionConfiguration
@@ -8062,7 +8084,7 @@ extension Glue {
         public let segmentNumber: Int32
         /// The total numer of segments.
         public let totalSegments: Int32
-        
+
         public init(segmentNumber: Int32, totalSegments: Int32) {
             self.segmentNumber = segmentNumber
             self.totalSegments = totalSegments
@@ -8093,7 +8115,7 @@ extension Glue {
         public let parameters: [String: String]?
         /// Usually the class that implements the SerDe. An example is: org.apache.hadoop.hive.serde2.columnar.ColumnarSerDe.
         public let serializationLibrary: String?
-        
+
         public init(name: String? = nil, parameters: [String: String]? = nil, serializationLibrary: String? = nil) {
             self.name = name
             self.parameters = parameters
@@ -8129,7 +8151,7 @@ extension Glue {
         public let skewedColumnValueLocationMaps: [String: String]?
         /// A list of values that appear so frequently as to be considered skewed.
         public let skewedColumnValues: [String]?
-        
+
         public init(skewedColumnNames: [String]? = nil, skewedColumnValueLocationMaps: [String: String]? = nil, skewedColumnValues: [String]? = nil) {
             self.skewedColumnNames = skewedColumnNames
             self.skewedColumnValueLocationMaps = skewedColumnValueLocationMaps
@@ -8158,7 +8180,7 @@ extension Glue {
 
         /// Name of the crawler to start.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -8175,11 +8197,12 @@ extension Glue {
     }
 
     public struct StartCrawlerResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct StartCrawlerScheduleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -8188,7 +8211,7 @@ extension Glue {
 
         /// Name of the crawler to schedule.
         public let crawlerName: String
-        
+
         public init(crawlerName: String) {
             self.crawlerName = crawlerName
         }
@@ -8205,11 +8228,12 @@ extension Glue {
     }
 
     public struct StartCrawlerScheduleResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct StartJobRunRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -8242,7 +8266,7 @@ extension Glue {
         public let timeout: Int32?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
         public let workerType: String?
-        
+
         public init(arguments: [String: String]? = nil, jobName: String, jobRunId: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil, workerType: String? = nil) {
             self.arguments = arguments
             self.jobName = jobName
@@ -8292,7 +8316,7 @@ extension Glue {
 
         /// The ID assigned to this job run.
         public let jobRunId: String?
-        
+
         public init(jobRunId: String? = nil) {
             self.jobRunId = jobRunId
         }
@@ -8315,7 +8339,7 @@ extension Glue {
 
         /// The name of the trigger to start.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -8338,7 +8362,7 @@ extension Glue {
 
         /// The name of the trigger that was started.
         public let name: String?
-        
+
         public init(name: String? = nil) {
             self.name = name
         }
@@ -8361,7 +8385,7 @@ extension Glue {
 
         /// The name of the workflow to start.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -8384,7 +8408,7 @@ extension Glue {
 
         /// An Id for the new run.
         public let runId: String?
-        
+
         public init(runId: String? = nil) {
             self.runId = runId
         }
@@ -8407,7 +8431,7 @@ extension Glue {
 
         /// Name of the crawler to stop.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -8424,11 +8448,12 @@ extension Glue {
     }
 
     public struct StopCrawlerResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct StopCrawlerScheduleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -8437,7 +8462,7 @@ extension Glue {
 
         /// Name of the crawler whose schedule state to set.
         public let crawlerName: String
-        
+
         public init(crawlerName: String) {
             self.crawlerName = crawlerName
         }
@@ -8454,11 +8479,12 @@ extension Glue {
     }
 
     public struct StopCrawlerScheduleResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct StopTriggerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -8467,7 +8493,7 @@ extension Glue {
 
         /// The name of the trigger to stop.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -8490,7 +8516,7 @@ extension Glue {
 
         /// The name of the trigger that was stopped.
         public let name: String?
-        
+
         public init(name: String? = nil) {
             self.name = name
         }
@@ -8546,7 +8572,7 @@ extension Glue {
         public let sortColumns: [Order]?
         /// True if the table data is stored in subdirectories, or False if not.
         public let storedAsSubDirectories: Bool?
-        
+
         public init(bucketColumns: [String]? = nil, columns: [Column]? = nil, compressed: Bool? = nil, inputFormat: String? = nil, location: String? = nil, numberOfBuckets: Int32? = nil, outputFormat: String? = nil, parameters: [String: String]? = nil, serdeInfo: SerDeInfo? = nil, skewedInfo: SkewedInfo? = nil, sortColumns: [Order]? = nil, storedAsSubDirectories: Bool? = nil) {
             self.bucketColumns = bucketColumns
             self.columns = columns
@@ -8652,7 +8678,7 @@ extension Glue {
         public let viewExpandedText: String?
         /// If the table is a view, the original text of the view; otherwise null.
         public let viewOriginalText: String?
-        
+
         public init(createdBy: String? = nil, createTime: TimeStamp? = nil, databaseName: String? = nil, description: String? = nil, lastAccessTime: TimeStamp? = nil, lastAnalyzedTime: TimeStamp? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int32? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, updateTime: TimeStamp? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
             self.createdBy = createdBy
             self.createTime = createTime
@@ -8728,7 +8754,7 @@ extension Glue {
         public let errorDetail: ErrorDetail?
         /// Name of the table. For Hive compatibility, this must be entirely lowercase.
         public let tableName: String?
-        
+
         public init(errorDetail: ErrorDetail? = nil, tableName: String? = nil) {
             self.errorDetail = errorDetail
             self.tableName = tableName
@@ -8787,7 +8813,7 @@ extension Glue {
         public let viewExpandedText: String?
         /// If the table is a view, the original text of the view; otherwise null.
         public let viewOriginalText: String?
-        
+
         public init(description: String? = nil, lastAccessTime: TimeStamp? = nil, lastAnalyzedTime: TimeStamp? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int32? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
             self.description = description
             self.lastAccessTime = lastAccessTime
@@ -8849,7 +8875,7 @@ extension Glue {
         public let table: Table?
         /// The ID value that identifies this table version. A VersionId is a string representation of an integer. Each version is incremented by 1.
         public let versionId: String?
-        
+
         public init(table: Table? = nil, versionId: String? = nil) {
             self.table = table
             self.versionId = versionId
@@ -8881,7 +8907,7 @@ extension Glue {
         public let tableName: String?
         /// The ID value of the version in question. A VersionID is a string representation of an integer. Each version is incremented by 1.
         public let versionId: String?
-        
+
         public init(errorDetail: ErrorDetail? = nil, tableName: String? = nil, versionId: String? = nil) {
             self.errorDetail = errorDetail
             self.tableName = tableName
@@ -8915,7 +8941,7 @@ extension Glue {
         public let resourceArn: String
         /// Tags to add to this resource.
         public let tagsToAdd: [String: String]
-        
+
         public init(resourceArn: String, tagsToAdd: [String: String]) {
             self.resourceArn = resourceArn
             self.tagsToAdd = tagsToAdd
@@ -8934,11 +8960,12 @@ extension Glue {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Trigger: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -8971,7 +8998,7 @@ extension Glue {
         public let `type`: TriggerType?
         /// The name of the workflow associated with the trigger.
         public let workflowName: String?
-        
+
         public init(actions: [Action]? = nil, description: String? = nil, id: String? = nil, name: String? = nil, predicate: Predicate? = nil, schedule: String? = nil, state: TriggerState? = nil, type: TriggerType? = nil, workflowName: String? = nil) {
             self.actions = actions
             self.description = description
@@ -9023,7 +9050,7 @@ extension Glue {
 
         /// The information of the trigger represented by the trigger node.
         public let trigger: Trigger?
-        
+
         public init(trigger: Trigger? = nil) {
             self.trigger = trigger
         }
@@ -9075,7 +9102,7 @@ extension Glue {
         public let predicate: Predicate?
         /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
         public let schedule: String?
-        
+
         public init(actions: [Action]? = nil, description: String? = nil, name: String? = nil, predicate: Predicate? = nil, schedule: String? = nil) {
             self.actions = actions
             self.description = description
@@ -9116,7 +9143,7 @@ extension Glue {
         public let resourceArn: String
         /// Tags to remove from this resource.
         public let tagsToRemove: [String]
-        
+
         public init(resourceArn: String, tagsToRemove: [String]) {
             self.resourceArn = resourceArn
             self.tagsToRemove = tagsToRemove
@@ -9141,11 +9168,12 @@ extension Glue {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum UpdateBehavior: String, CustomStringConvertible, Codable {
         case log = "LOG"
@@ -9169,7 +9197,7 @@ extension Glue {
         public let jsonClassifier: UpdateJsonClassifierRequest?
         /// An XMLClassifier object with updated fields.
         public let xMLClassifier: UpdateXMLClassifierRequest?
-        
+
         public init(csvClassifier: UpdateCsvClassifierRequest? = nil, grokClassifier: UpdateGrokClassifierRequest? = nil, jsonClassifier: UpdateJsonClassifierRequest? = nil, xMLClassifier: UpdateXMLClassifierRequest? = nil) {
             self.csvClassifier = csvClassifier
             self.grokClassifier = grokClassifier
@@ -9193,11 +9221,12 @@ extension Glue {
     }
 
     public struct UpdateClassifierResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateConnectionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -9212,7 +9241,7 @@ extension Glue {
         public let connectionInput: ConnectionInput
         /// The name of the connection definition to update.
         public let name: String
-        
+
         public init(catalogId: String? = nil, connectionInput: ConnectionInput, name: String) {
             self.catalogId = catalogId
             self.connectionInput = connectionInput
@@ -9237,11 +9266,12 @@ extension Glue {
     }
 
     public struct UpdateConnectionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateCrawlerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -9280,7 +9310,7 @@ extension Glue {
         public let tablePrefix: String?
         /// A list of targets to crawl.
         public let targets: CrawlerTargets?
-        
+
         public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, name: String, role: String? = nil, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil) {
             self.classifiers = classifiers
             self.configuration = configuration
@@ -9330,11 +9360,12 @@ extension Glue {
     }
 
     public struct UpdateCrawlerResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateCrawlerScheduleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -9346,7 +9377,7 @@ extension Glue {
         public let crawlerName: String
         /// The updated cron expression used to specify the schedule. For more information, see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, specify cron(15 12 * * ? *).
         public let schedule: String?
-        
+
         public init(crawlerName: String, schedule: String? = nil) {
             self.crawlerName = crawlerName
             self.schedule = schedule
@@ -9365,11 +9396,12 @@ extension Glue {
     }
 
     public struct UpdateCrawlerScheduleResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateCsvClassifierRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -9396,7 +9428,7 @@ extension Glue {
         public let name: String
         /// A custom symbol to denote what combines content into a single column value. It must be different from the column delimiter.
         public let quoteSymbol: String?
-        
+
         public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, name: String, quoteSymbol: String? = nil) {
             self.allowSingleColumn = allowSingleColumn
             self.containsHeader = containsHeader
@@ -9448,7 +9480,7 @@ extension Glue {
         public let databaseInput: DatabaseInput
         /// The name of the database to update in the catalog. For Hive compatibility, this is folded to lowercase.
         public let name: String
-        
+
         public init(catalogId: String? = nil, databaseInput: DatabaseInput, name: String) {
             self.catalogId = catalogId
             self.databaseInput = databaseInput
@@ -9473,11 +9505,12 @@ extension Glue {
     }
 
     public struct UpdateDatabaseResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateDevEndpointRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -9507,7 +9540,7 @@ extension Glue {
         public let publicKey: String?
         /// True if the list of custom libraries to be loaded in the development endpoint needs to be updated, or False otherwise.
         public let updateEtlLibraries: Bool?
-        
+
         public init(addArguments: [String: String]? = nil, addPublicKeys: [String]? = nil, customLibraries: DevEndpointCustomLibraries? = nil, deleteArguments: [String]? = nil, deletePublicKeys: [String]? = nil, endpointName: String, publicKey: String? = nil, updateEtlLibraries: Bool? = nil) {
             self.addArguments = addArguments
             self.addPublicKeys = addPublicKeys
@@ -9537,11 +9570,12 @@ extension Glue {
     }
 
     public struct UpdateDevEndpointResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateGrokClassifierRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -9559,7 +9593,7 @@ extension Glue {
         public let grokPattern: String?
         /// The name of the GrokClassifier.
         public let name: String
-        
+
         public init(classification: String? = nil, customPatterns: String? = nil, grokPattern: String? = nil, name: String) {
             self.classification = classification
             self.customPatterns = customPatterns
@@ -9597,7 +9631,7 @@ extension Glue {
         public let jobName: String
         /// Specifies the values with which to update the job definition.
         public let jobUpdate: JobUpdate
-        
+
         public init(jobName: String, jobUpdate: JobUpdate) {
             self.jobName = jobName
             self.jobUpdate = jobUpdate
@@ -9623,7 +9657,7 @@ extension Glue {
 
         /// Returns the name of the updated job definition.
         public let jobName: String?
-        
+
         public init(jobName: String? = nil) {
             self.jobName = jobName
         }
@@ -9649,7 +9683,7 @@ extension Glue {
         public let jsonPath: String?
         /// The name of the classifier.
         public let name: String
-        
+
         public init(jsonPath: String? = nil, name: String) {
             self.jsonPath = jsonPath
             self.name = name
@@ -9686,7 +9720,7 @@ extension Glue {
         public let partitionValueList: [String]
         /// The name of the table where the partition to be updated is located.
         public let tableName: String
-        
+
         public init(catalogId: String? = nil, databaseName: String, partitionInput: PartitionInput, partitionValueList: [String], tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -9723,11 +9757,12 @@ extension Glue {
     }
 
     public struct UpdatePartitionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateTableRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -9745,7 +9780,7 @@ extension Glue {
         public let skipArchive: Bool?
         /// An updated TableInput object to define the metadata table in the catalog.
         public let tableInput: TableInput
-        
+
         public init(catalogId: String? = nil, databaseName: String, skipArchive: Bool? = nil, tableInput: TableInput) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -9772,11 +9807,12 @@ extension Glue {
     }
 
     public struct UpdateTableResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateTriggerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -9788,7 +9824,7 @@ extension Glue {
         public let name: String
         /// The new values with which to update the trigger.
         public let triggerUpdate: TriggerUpdate
-        
+
         public init(name: String, triggerUpdate: TriggerUpdate) {
             self.name = name
             self.triggerUpdate = triggerUpdate
@@ -9814,7 +9850,7 @@ extension Glue {
 
         /// The resulting trigger definition.
         public let trigger: Trigger?
-        
+
         public init(trigger: Trigger? = nil) {
             self.trigger = trigger
         }
@@ -9844,7 +9880,7 @@ extension Glue {
         public let functionInput: UserDefinedFunctionInput
         /// The name of the function.
         public let functionName: String
-        
+
         public init(catalogId: String? = nil, databaseName: String, functionInput: UserDefinedFunctionInput, functionName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -9874,11 +9910,12 @@ extension Glue {
     }
 
     public struct UpdateUserDefinedFunctionResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateWorkflowRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -9893,7 +9930,7 @@ extension Glue {
         public let description: String?
         /// Name of the workflow to be updated.
         public let name: String
-        
+
         public init(defaultRunProperties: [String: String]? = nil, description: String? = nil, name: String) {
             self.defaultRunProperties = defaultRunProperties
             self.description = description
@@ -9920,7 +9957,7 @@ extension Glue {
 
         /// The name of the workflow which was specified in input.
         public let name: String?
-        
+
         public init(name: String? = nil) {
             self.name = name
         }
@@ -9949,7 +9986,7 @@ extension Glue {
         public let name: String
         /// The XML tag designating the element that contains each record in an XML document being parsed. This cannot identify a self-closing element (closed by /&gt;). An empty row element that contains only attributes can be parsed as long as it ends with a closing tag (for example, &lt;row item_a="A" item_b="B"&gt;&lt;/row&gt; is okay, but &lt;row item_a="A" item_b="B" /&gt; is not).
         public let rowTag: String?
-        
+
         public init(classification: String? = nil, name: String, rowTag: String? = nil) {
             self.classification = classification
             self.name = name
@@ -9991,7 +10028,7 @@ extension Glue {
         public let ownerType: PrincipalType?
         /// The resource URIs for the function.
         public let resourceUris: [ResourceUri]?
-        
+
         public init(className: String? = nil, createTime: TimeStamp? = nil, functionName: String? = nil, ownerName: String? = nil, ownerType: PrincipalType? = nil, resourceUris: [ResourceUri]? = nil) {
             self.className = className
             self.createTime = createTime
@@ -10047,7 +10084,7 @@ extension Glue {
         public let ownerType: PrincipalType?
         /// The resource URIs for the function.
         public let resourceUris: [ResourceUri]?
-        
+
         public init(className: String? = nil, functionName: String? = nil, ownerName: String? = nil, ownerType: PrincipalType? = nil, resourceUris: [ResourceUri]? = nil) {
             self.className = className
             self.functionName = functionName
@@ -10114,7 +10151,7 @@ extension Glue {
         public let lastRun: WorkflowRun?
         /// The name of the workflow representing the flow.
         public let name: String?
-        
+
         public init(createdOn: TimeStamp? = nil, defaultRunProperties: [String: String]? = nil, description: String? = nil, graph: WorkflowGraph? = nil, lastModifiedOn: TimeStamp? = nil, lastRun: WorkflowRun? = nil, name: String? = nil) {
             self.createdOn = createdOn
             self.defaultRunProperties = defaultRunProperties
@@ -10154,7 +10191,7 @@ extension Glue {
         public let edges: [Edge]?
         /// A list of the the AWS Glue components belong to the workflow represented as nodes.
         public let nodes: [Node]?
-        
+
         public init(edges: [Edge]? = nil, nodes: [Node]? = nil) {
             self.edges = edges
             self.nodes = nodes
@@ -10203,7 +10240,7 @@ extension Glue {
         public let workflowRunId: String?
         /// The workflow run properties which were set during the run.
         public let workflowRunProperties: [String: String]?
-        
+
         public init(completedOn: TimeStamp? = nil, graph: WorkflowGraph? = nil, name: String? = nil, startedOn: TimeStamp? = nil, statistics: WorkflowRunStatistics? = nil, status: WorkflowRunStatus? = nil, workflowRunId: String? = nil, workflowRunProperties: [String: String]? = nil) {
             self.completedOn = completedOn
             self.graph = graph
@@ -10259,7 +10296,7 @@ extension Glue {
         public let timeoutActions: Int32?
         /// Total number of Actions in the workflow run.
         public let totalActions: Int32?
-        
+
         public init(failedActions: Int32? = nil, runningActions: Int32? = nil, stoppedActions: Int32? = nil, succeededActions: Int32? = nil, timeoutActions: Int32? = nil, totalActions: Int32? = nil) {
             self.failedActions = failedActions
             self.runningActions = runningActions
@@ -10307,7 +10344,7 @@ extension Glue {
         public let rowTag: String?
         /// The version of this classifier.
         public let version: Int64?
-        
+
         public init(classification: String, creationTime: TimeStamp? = nil, lastUpdated: TimeStamp? = nil, name: String, rowTag: String? = nil, version: Int64? = nil) {
             self.classification = classification
             self.creationTime = creationTime
@@ -10332,5 +10369,4 @@ extension Glue {
             case version = "Version"
         }
     }
-
 }

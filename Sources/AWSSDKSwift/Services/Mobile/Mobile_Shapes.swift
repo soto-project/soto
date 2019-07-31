@@ -21,7 +21,7 @@ extension Mobile {
         public let iconUrl: String?
         public let title: String?
         public let version: String?
-        
+
         public init(availablePlatforms: [Platform]? = nil, bundleId: String? = nil, description: String? = nil, iconUrl: String? = nil, title: String? = nil, version: String? = nil) {
             self.availablePlatforms = availablePlatforms
             self.bundleId = bundleId
@@ -59,7 +59,7 @@ extension Mobile {
         public let region: String?
         ///  Unique identifier for an exported snapshot of project configuration. This snapshot identifier is included in the share URL when a project is exported. 
         public let snapshotId: String?
-        
+
         public init(contents: Data? = nil, name: String? = nil, region: String? = nil, snapshotId: String? = nil) {
             self.contents = contents
             self.name = name
@@ -82,7 +82,7 @@ extension Mobile {
 
         ///  Detailed information about the created AWS Mobile Hub project. 
         public let details: ProjectDetails?
-        
+
         public init(details: ProjectDetails? = nil) {
             self.details = details
         }
@@ -99,7 +99,7 @@ extension Mobile {
 
         ///  Unique project identifier. 
         public let projectId: String
-        
+
         public init(projectId: String) {
             self.projectId = projectId
         }
@@ -119,7 +119,7 @@ extension Mobile {
         public let deletedResources: [Resource]?
         ///  Resources which were not deleted, due to a risk of losing potentially important data or files. 
         public let orphanedResources: [Resource]?
-        
+
         public init(deletedResources: [Resource]? = nil, orphanedResources: [Resource]? = nil) {
             self.deletedResources = deletedResources
             self.orphanedResources = orphanedResources
@@ -138,7 +138,7 @@ extension Mobile {
 
         ///  Unique bundle identifier. 
         public let bundleId: String
-        
+
         public init(bundleId: String) {
             self.bundleId = bundleId
         }
@@ -155,7 +155,7 @@ extension Mobile {
 
         ///  The details of the bundle. 
         public let details: BundleDetails?
-        
+
         public init(details: BundleDetails? = nil) {
             self.details = details
         }
@@ -175,7 +175,7 @@ extension Mobile {
         public let projectId: String
         ///  If set to true, causes AWS Mobile Hub to synchronize information from other services, e.g., update state of AWS CloudFormation stacks in the AWS Mobile Hub project. 
         public let syncFromResources: Bool?
-        
+
         public init(projectId: String, syncFromResources: Bool? = nil) {
             self.projectId = projectId
             self.syncFromResources = syncFromResources
@@ -193,7 +193,7 @@ extension Mobile {
         ]
 
         public let details: ProjectDetails?
-        
+
         public init(details: ProjectDetails? = nil) {
             self.details = details
         }
@@ -216,7 +216,7 @@ extension Mobile {
         public let platform: Platform?
         ///  Unique project identifier. 
         public let projectId: String?
-        
+
         public init(bundleId: String, platform: Platform? = nil, projectId: String? = nil) {
             self.bundleId = bundleId
             self.platform = platform
@@ -237,7 +237,7 @@ extension Mobile {
 
         ///  URL which contains the custom-generated SDK and tool packages used to integrate the client mobile app or web app with the AWS resources created by the AWS Mobile Hub project. 
         public let downloadUrl: String?
-        
+
         public init(downloadUrl: String? = nil) {
             self.downloadUrl = downloadUrl
         }
@@ -254,7 +254,7 @@ extension Mobile {
 
         ///  Unique project identifier. 
         public let projectId: String
-        
+
         public init(projectId: String) {
             self.projectId = projectId
         }
@@ -277,7 +277,7 @@ extension Mobile {
         public let shareUrl: String?
         ///  Unique identifier for the exported snapshot of the project configuration. This snapshot identifier is included in the share URL. 
         public let snapshotId: String?
-        
+
         public init(downloadUrl: String? = nil, shareUrl: String? = nil, snapshotId: String? = nil) {
             self.downloadUrl = downloadUrl
             self.shareUrl = shareUrl
@@ -301,7 +301,7 @@ extension Mobile {
         public let maxResults: Int32?
         ///  Pagination token. Set to null to start listing bundles from start. If non-null pagination token is returned in a result, then pass its value in here in another request to list more bundles. 
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -323,7 +323,7 @@ extension Mobile {
         public let bundleList: [BundleDetails]?
         ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
         public let nextToken: String?
-        
+
         public init(bundleList: [BundleDetails]? = nil, nextToken: String? = nil) {
             self.bundleList = bundleList
             self.nextToken = nextToken
@@ -345,7 +345,7 @@ extension Mobile {
         public let maxResults: Int32?
         ///  Pagination token. Set to null to start listing projects from start. If non-null pagination token is returned in a result, then pass its value in here in another request to list more projects. 
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -365,7 +365,7 @@ extension Mobile {
 
         public let nextToken: String?
         public let projects: [ProjectSummary]?
-        
+
         public init(nextToken: String? = nil, projects: [ProjectSummary]? = nil) {
             self.nextToken = nextToken
             self.projects = projects
@@ -411,7 +411,7 @@ extension Mobile {
         public let region: String?
         public let resources: [Resource]?
         public let state: ProjectState?
-        
+
         public init(consoleUrl: String? = nil, createdDate: TimeStamp? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, projectId: String? = nil, region: String? = nil, resources: [Resource]? = nil, state: ProjectState? = nil) {
             self.consoleUrl = consoleUrl
             self.createdDate = createdDate
@@ -452,7 +452,7 @@ extension Mobile {
         public let name: String?
         ///  Unique project identifier. 
         public let projectId: String?
-        
+
         public init(name: String? = nil, projectId: String? = nil) {
             self.name = name
             self.projectId = projectId
@@ -478,7 +478,7 @@ extension Mobile {
         public let feature: String?
         public let name: String?
         public let `type`: String?
-        
+
         public init(arn: String? = nil, attributes: [String: String]? = nil, feature: String? = nil, name: String? = nil, type: String? = nil) {
             self.arn = arn
             self.attributes = attributes
@@ -508,7 +508,7 @@ extension Mobile {
         public let contents: Data?
         ///  Unique project identifier. 
         public let projectId: String
-        
+
         public init(contents: Data? = nil, projectId: String) {
             self.contents = contents
             self.projectId = projectId
@@ -527,7 +527,7 @@ extension Mobile {
 
         ///  Detailed information about the updated AWS Mobile Hub project. 
         public let details: ProjectDetails?
-        
+
         public init(details: ProjectDetails? = nil) {
             self.details = details
         }
@@ -536,5 +536,4 @@ extension Mobile {
             case details = "details"
         }
     }
-
 }

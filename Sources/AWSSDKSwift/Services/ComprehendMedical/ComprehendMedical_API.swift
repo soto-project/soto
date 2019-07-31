@@ -35,5 +35,4 @@ public struct ComprehendMedical {
     public func detectPHI(_ input: DetectPHIRequest) throws -> Future<DetectPHIResponse> {
         return try client.send(operation: "DetectPHI", path: "/", httpMethod: "POST", input: input)
     }
-
 }

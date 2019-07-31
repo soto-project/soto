@@ -55,5 +55,4 @@ public struct Textract {
     public func startDocumentTextDetection(_ input: StartDocumentTextDetectionRequest) throws -> Future<StartDocumentTextDetectionResponse> {
         return try client.send(operation: "StartDocumentTextDetection", path: "/", httpMethod: "POST", input: input)
     }
-
 }

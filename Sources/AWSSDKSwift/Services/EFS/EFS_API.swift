@@ -94,5 +94,4 @@ public struct EFS {
     public func updateFileSystem(_ input: UpdateFileSystemRequest) throws -> Future<FileSystemDescription> {
         return try client.send(operation: "UpdateFileSystem", path: "/2015-02-01/file-systems/{FileSystemId}", httpMethod: "PUT", input: input)
     }
-
 }

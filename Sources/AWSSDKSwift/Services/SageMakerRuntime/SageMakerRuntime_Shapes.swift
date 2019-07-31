@@ -25,7 +25,7 @@ extension SageMakerRuntime {
         public let customAttributes: String?
         /// The name of the endpoint that you specified when you created the endpoint using the CreateEndpoint API. 
         public let endpointName: String
-        
+
         public init(accept: String? = nil, body: Data, contentType: String? = nil, customAttributes: String? = nil, endpointName: String) {
             self.accept = accept
             self.body = body
@@ -69,7 +69,7 @@ extension SageMakerRuntime {
         public let customAttributes: String?
         /// Identifies the production variant that was invoked.
         public let invokedProductionVariant: String?
-        
+
         public init(body: Data, contentType: String? = nil, customAttributes: String? = nil, invokedProductionVariant: String? = nil) {
             self.body = body
             self.contentType = contentType
@@ -91,5 +91,4 @@ extension SageMakerRuntime {
             case invokedProductionVariant = "x-Amzn-Invoked-Production-Variant"
         }
     }
-
 }

@@ -150,5 +150,4 @@ public struct DataSync {
     public func updateTask(_ input: UpdateTaskRequest) throws -> Future<UpdateTaskResponse> {
         return try client.send(operation: "UpdateTask", path: "/", httpMethod: "POST", input: input)
     }
-
 }

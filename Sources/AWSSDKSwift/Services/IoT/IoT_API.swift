@@ -863,5 +863,4 @@ public struct IoT {
     public func validateSecurityProfileBehaviors(_ input: ValidateSecurityProfileBehaviorsRequest) throws -> Future<ValidateSecurityProfileBehaviorsResponse> {
         return try client.send(operation: "ValidateSecurityProfileBehaviors", path: "/security-profile-behaviors/validate", httpMethod: "POST", input: input)
     }
-
 }

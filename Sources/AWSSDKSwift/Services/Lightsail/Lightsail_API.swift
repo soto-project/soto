@@ -530,5 +530,4 @@ public struct Lightsail {
     public func updateRelationalDatabaseParameters(_ input: UpdateRelationalDatabaseParametersRequest) throws -> Future<UpdateRelationalDatabaseParametersResult> {
         return try client.send(operation: "UpdateRelationalDatabaseParameters", path: "/", httpMethod: "POST", input: input)
     }
-
 }

@@ -125,5 +125,4 @@ public struct KinesisAnalytics {
     public func updateApplication(_ input: UpdateApplicationRequest) throws -> Future<UpdateApplicationResponse> {
         return try client.send(operation: "UpdateApplication", path: "/", httpMethod: "POST", input: input)
     }
-
 }

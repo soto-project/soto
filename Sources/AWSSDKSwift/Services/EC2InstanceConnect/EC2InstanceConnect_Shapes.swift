@@ -21,7 +21,7 @@ extension EC2InstanceConnect {
         public let instanceOSUser: String
         /// The public key to be published to the instance. To use it after publication you must have the matching private key.
         public let sSHPublicKey: String
-        
+
         public init(availabilityZone: String, instanceId: String, instanceOSUser: String, sSHPublicKey: String) {
             self.availabilityZone = availabilityZone
             self.instanceId = instanceId
@@ -61,7 +61,7 @@ extension EC2InstanceConnect {
         public let requestId: String?
         /// Indicates request success.
         public let success: Bool?
-        
+
         public init(requestId: String? = nil, success: Bool? = nil) {
             self.requestId = requestId
             self.success = success
@@ -72,5 +72,4 @@ extension EC2InstanceConnect {
             case success = "Success"
         }
     }
-
 }

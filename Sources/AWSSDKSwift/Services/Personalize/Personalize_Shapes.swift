@@ -39,7 +39,7 @@ extension Personalize {
         public let roleArn: String?
         /// The training input mode.
         public let trainingInputMode: String?
-        
+
         public init(algorithmArn: String? = nil, algorithmImage: AlgorithmImage? = nil, creationDateTime: TimeStamp? = nil, defaultHyperParameterRanges: DefaultHyperParameterRanges? = nil, defaultHyperParameters: [String: String]? = nil, defaultResourceConfig: [String: String]? = nil, lastUpdatedDateTime: TimeStamp? = nil, name: String? = nil, roleArn: String? = nil, trainingInputMode: String? = nil) {
             self.algorithmArn = algorithmArn
             self.algorithmImage = algorithmImage
@@ -90,7 +90,7 @@ extension Personalize {
         public let dockerURI: String
         /// The name of the algorithm image.
         public let name: String?
-        
+
         public init(dockerURI: String, name: String? = nil) {
             self.dockerURI = dockerURI
             self.name = name
@@ -119,7 +119,7 @@ extension Personalize {
         public let metricName: String?
         /// The list of candidate recipes.
         public let recipeList: [String]?
-        
+
         public init(metricName: String? = nil, recipeList: [String]? = nil) {
             self.metricName = metricName
             self.recipeList = recipeList
@@ -147,7 +147,7 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the best recipe.
         public let bestRecipeArn: String?
-        
+
         public init(bestRecipeArn: String? = nil) {
             self.bestRecipeArn = bestRecipeArn
         }
@@ -192,7 +192,7 @@ extension Personalize {
         public let solutionVersionArn: String?
         /// The status of the campaign. A campaign can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
-        
+
         public init(campaignArn: String? = nil, creationDateTime: TimeStamp? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, latestCampaignUpdate: CampaignUpdateSummary? = nil, minProvisionedTPS: Int32? = nil, name: String? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
             self.campaignArn = campaignArn
             self.creationDateTime = creationDateTime
@@ -253,7 +253,7 @@ extension Personalize {
         public let name: String?
         /// The status of the campaign. A campaign can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
-        
+
         public init(campaignArn: String? = nil, creationDateTime: TimeStamp? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, name: String? = nil, status: String? = nil) {
             self.campaignArn = campaignArn
             self.creationDateTime = creationDateTime
@@ -304,7 +304,7 @@ extension Personalize {
         public let solutionVersionArn: String?
         /// The status of the campaign update. A campaign update can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
-        
+
         public init(creationDateTime: TimeStamp? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, minProvisionedTPS: Int32? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
@@ -341,7 +341,7 @@ extension Personalize {
         public let name: String?
         /// A list of the categories for the hyperparameter.
         public let values: [String]?
-        
+
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -374,7 +374,7 @@ extension Personalize {
         public let minValue: Double?
         /// The name of the hyperparameter.
         public let name: String?
-        
+
         public init(maxValue: Double? = nil, minValue: Double? = nil, name: String? = nil) {
             self.maxValue = maxValue
             self.minValue = minValue
@@ -407,7 +407,7 @@ extension Personalize {
         public let name: String
         /// The Amazon Resource Name (ARN) of the solution version to deploy.
         public let solutionVersionArn: String
-        
+
         public init(minProvisionedTPS: Int32, name: String, solutionVersionArn: String) {
             self.minProvisionedTPS = minProvisionedTPS
             self.name = name
@@ -437,7 +437,7 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the campaign.
         public let campaignArn: String?
-        
+
         public init(campaignArn: String? = nil) {
             self.campaignArn = campaignArn
         }
@@ -465,7 +465,7 @@ extension Personalize {
         public let name: String
         /// The ARN of the IAM role that has permissions to access the KMS key. Supplying an IAM role is only valid when also specifying a KMS key.
         public let roleArn: String?
-        
+
         public init(kmsKeyArn: String? = nil, name: String, roleArn: String? = nil) {
             self.kmsKeyArn = kmsKeyArn
             self.name = name
@@ -494,7 +494,7 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the new dataset group.
         public let datasetGroupArn: String?
-        
+
         public init(datasetGroupArn: String? = nil) {
             self.datasetGroupArn = datasetGroupArn
         }
@@ -525,7 +525,7 @@ extension Personalize {
         public let jobName: String
         /// The ARN of the IAM role that has permissions to read from the Amazon S3 data source.
         public let roleArn: String
-        
+
         public init(datasetArn: String, dataSource: DataSource, jobName: String, roleArn: String) {
             self.datasetArn = datasetArn
             self.dataSource = dataSource
@@ -559,7 +559,7 @@ extension Personalize {
 
         /// The ARN of the dataset import job.
         public let datasetImportJobArn: String?
-        
+
         public init(datasetImportJobArn: String? = nil) {
             self.datasetImportJobArn = datasetImportJobArn
         }
@@ -590,7 +590,7 @@ extension Personalize {
         public let name: String
         /// The ARN of the schema to associate with the dataset. The schema defines the dataset fields.
         public let schemaArn: String
-        
+
         public init(datasetGroupArn: String, datasetType: String, name: String, schemaArn: String) {
             self.datasetGroupArn = datasetGroupArn
             self.datasetType = datasetType
@@ -624,7 +624,7 @@ extension Personalize {
 
         /// The ARN of the dataset.
         public let datasetArn: String?
-        
+
         public init(datasetArn: String? = nil) {
             self.datasetArn = datasetArn
         }
@@ -649,7 +649,7 @@ extension Personalize {
         public let datasetGroupArn: String
         /// The name for the event tracker.
         public let name: String
-        
+
         public init(datasetGroupArn: String, name: String) {
             self.datasetGroupArn = datasetGroupArn
             self.name = name
@@ -679,7 +679,7 @@ extension Personalize {
         public let eventTrackerArn: String?
         /// The ID of the event tracker. Include this ID in requests to the PutEvents API.
         public let trackingId: String?
-        
+
         public init(eventTrackerArn: String? = nil, trackingId: String? = nil) {
             self.eventTrackerArn = eventTrackerArn
             self.trackingId = trackingId
@@ -707,7 +707,7 @@ extension Personalize {
         public let name: String
         /// A schema in Avro JSON format.
         public let schema: String
-        
+
         public init(name: String, schema: String) {
             self.name = name
             self.schema = schema
@@ -733,7 +733,7 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the created schema.
         public let schemaArn: String?
-        
+
         public init(schemaArn: String? = nil) {
             self.schemaArn = schemaArn
         }
@@ -773,7 +773,7 @@ extension Personalize {
         public let recipeArn: String?
         /// The configuration to use with the solution. When performAutoML is set to true, Amazon Personalize only evaluates the autoMLConfig section of the solution configuration.
         public let solutionConfig: SolutionConfig?
-        
+
         public init(datasetGroupArn: String, eventType: String? = nil, name: String, performAutoML: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionConfig: SolutionConfig? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.eventType = eventType
@@ -814,7 +814,7 @@ extension Personalize {
 
         /// The ARN of the solution.
         public let solutionArn: String?
-        
+
         public init(solutionArn: String? = nil) {
             self.solutionArn = solutionArn
         }
@@ -836,7 +836,7 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the solution containing the training configuration information.
         public let solutionArn: String
-        
+
         public init(solutionArn: String) {
             self.solutionArn = solutionArn
         }
@@ -858,7 +858,7 @@ extension Personalize {
 
         /// The ARN of the new solution version.
         public let solutionVersionArn: String?
-        
+
         public init(solutionVersionArn: String? = nil) {
             self.solutionVersionArn = solutionVersionArn
         }
@@ -880,7 +880,7 @@ extension Personalize {
 
         /// The path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For example:   s3://bucket-name/training-data.csv 
         public let dataLocation: String?
-        
+
         public init(dataLocation: String? = nil) {
             self.dataLocation = dataLocation
         }
@@ -922,7 +922,7 @@ extension Personalize {
         public let schemaArn: String?
         /// The status of the dataset. A dataset can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
-        
+
         public init(creationDateTime: TimeStamp? = nil, datasetArn: String? = nil, datasetGroupArn: String? = nil, datasetType: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, name: String? = nil, schemaArn: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetArn = datasetArn
@@ -988,7 +988,7 @@ extension Personalize {
         public let roleArn: String?
         /// The current status of the dataset group. A dataset group can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING  
         public let status: String?
-        
+
         public init(creationDateTime: TimeStamp? = nil, datasetGroupArn: String? = nil, failureReason: String? = nil, kmsKeyArn: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, name: String? = nil, roleArn: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
@@ -1045,7 +1045,7 @@ extension Personalize {
         public let name: String?
         /// The status of the dataset group. A dataset group can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING  
         public let status: String?
-        
+
         public init(creationDateTime: TimeStamp? = nil, datasetGroupArn: String? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, name: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
@@ -1105,7 +1105,7 @@ extension Personalize {
         public let roleArn: String?
         /// The status of the dataset import job. A dataset import job can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED  
         public let status: String?
-        
+
         public init(creationDateTime: TimeStamp? = nil, datasetArn: String? = nil, datasetImportJobArn: String? = nil, dataSource: DataSource? = nil, failureReason: String? = nil, jobName: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, roleArn: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetArn = datasetArn
@@ -1167,7 +1167,7 @@ extension Personalize {
         public let lastUpdatedDateTime: TimeStamp?
         /// The status of the dataset import job. A dataset import job can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED  
         public let status: String?
-        
+
         public init(creationDateTime: TimeStamp? = nil, datasetImportJobArn: String? = nil, failureReason: String? = nil, jobName: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetImportJobArn = datasetImportJobArn
@@ -1215,7 +1215,7 @@ extension Personalize {
         public let schema: String?
         /// The Amazon Resource Name (ARN) of the schema.
         public let schemaArn: String?
-        
+
         public init(creationDateTime: TimeStamp? = nil, lastUpdatedDateTime: TimeStamp? = nil, name: String? = nil, schema: String? = nil, schemaArn: String? = nil) {
             self.creationDateTime = creationDateTime
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -1258,7 +1258,7 @@ extension Personalize {
         public let name: String?
         /// The Amazon Resource Name (ARN) of the schema.
         public let schemaArn: String?
-        
+
         public init(creationDateTime: TimeStamp? = nil, lastUpdatedDateTime: TimeStamp? = nil, name: String? = nil, schemaArn: String? = nil) {
             self.creationDateTime = creationDateTime
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -1304,7 +1304,7 @@ extension Personalize {
         public let name: String?
         /// The status of the dataset. A dataset can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
-        
+
         public init(creationDateTime: TimeStamp? = nil, datasetArn: String? = nil, datasetType: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, name: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetArn = datasetArn
@@ -1347,7 +1347,7 @@ extension Personalize {
         public let name: String?
         /// A list of the categories for the hyperparameter.
         public let values: [String]?
-        
+
         public init(isTunable: Bool? = nil, name: String? = nil, values: [String]? = nil) {
             self.isTunable = isTunable
             self.name = name
@@ -1385,7 +1385,7 @@ extension Personalize {
         public let minValue: Double?
         /// The name of the hyperparameter.
         public let name: String?
-        
+
         public init(isTunable: Bool? = nil, maxValue: Double? = nil, minValue: Double? = nil, name: String? = nil) {
             self.isTunable = isTunable
             self.maxValue = maxValue
@@ -1420,7 +1420,7 @@ extension Personalize {
         public let continuousHyperParameterRanges: [DefaultContinuousHyperParameterRange]?
         /// The integer-valued hyperparameters and their default ranges.
         public let integerHyperParameterRanges: [DefaultIntegerHyperParameterRange]?
-        
+
         public init(categoricalHyperParameterRanges: [DefaultCategoricalHyperParameterRange]? = nil, continuousHyperParameterRanges: [DefaultContinuousHyperParameterRange]? = nil, integerHyperParameterRanges: [DefaultIntegerHyperParameterRange]? = nil) {
             self.categoricalHyperParameterRanges = categoricalHyperParameterRanges
             self.continuousHyperParameterRanges = continuousHyperParameterRanges
@@ -1465,7 +1465,7 @@ extension Personalize {
         public let minValue: Int32?
         /// The name of the hyperparameter.
         public let name: String?
-        
+
         public init(isTunable: Bool? = nil, maxValue: Int32? = nil, minValue: Int32? = nil, name: String? = nil) {
             self.isTunable = isTunable
             self.maxValue = maxValue
@@ -1494,7 +1494,7 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the campaign to delete.
         public let campaignArn: String
-        
+
         public init(campaignArn: String) {
             self.campaignArn = campaignArn
         }
@@ -1516,7 +1516,7 @@ extension Personalize {
 
         /// The ARN of the dataset group to delete.
         public let datasetGroupArn: String
-        
+
         public init(datasetGroupArn: String) {
             self.datasetGroupArn = datasetGroupArn
         }
@@ -1538,7 +1538,7 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the dataset to delete.
         public let datasetArn: String
-        
+
         public init(datasetArn: String) {
             self.datasetArn = datasetArn
         }
@@ -1560,7 +1560,7 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the event tracker to delete.
         public let eventTrackerArn: String
-        
+
         public init(eventTrackerArn: String) {
             self.eventTrackerArn = eventTrackerArn
         }
@@ -1582,7 +1582,7 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the schema to delete.
         public let schemaArn: String
-        
+
         public init(schemaArn: String) {
             self.schemaArn = schemaArn
         }
@@ -1604,7 +1604,7 @@ extension Personalize {
 
         /// The ARN of the solution to delete.
         public let solutionArn: String
-        
+
         public init(solutionArn: String) {
             self.solutionArn = solutionArn
         }
@@ -1626,7 +1626,7 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the algorithm to describe.
         public let algorithmArn: String
-        
+
         public init(algorithmArn: String) {
             self.algorithmArn = algorithmArn
         }
@@ -1648,7 +1648,7 @@ extension Personalize {
 
         /// A listing of the properties of the algorithm.
         public let algorithm: Algorithm?
-        
+
         public init(algorithm: Algorithm? = nil) {
             self.algorithm = algorithm
         }
@@ -1669,7 +1669,7 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the campaign.
         public let campaignArn: String
-        
+
         public init(campaignArn: String) {
             self.campaignArn = campaignArn
         }
@@ -1691,7 +1691,7 @@ extension Personalize {
 
         /// The properties of the campaign.
         public let campaign: Campaign?
-        
+
         public init(campaign: Campaign? = nil) {
             self.campaign = campaign
         }
@@ -1712,7 +1712,7 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the dataset group to describe.
         public let datasetGroupArn: String
-        
+
         public init(datasetGroupArn: String) {
             self.datasetGroupArn = datasetGroupArn
         }
@@ -1734,7 +1734,7 @@ extension Personalize {
 
         /// A listing of the dataset group's properties.
         public let datasetGroup: DatasetGroup?
-        
+
         public init(datasetGroup: DatasetGroup? = nil) {
             self.datasetGroup = datasetGroup
         }
@@ -1755,7 +1755,7 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the dataset import job to describe.
         public let datasetImportJobArn: String
-        
+
         public init(datasetImportJobArn: String) {
             self.datasetImportJobArn = datasetImportJobArn
         }
@@ -1777,7 +1777,7 @@ extension Personalize {
 
         /// Information about the dataset import job, including the status. The status is one of the following values:   CREATE PENDING   CREATE IN_PROGRESS   ACTIVE   CREATE FAILED  
         public let datasetImportJob: DatasetImportJob?
-        
+
         public init(datasetImportJob: DatasetImportJob? = nil) {
             self.datasetImportJob = datasetImportJob
         }
@@ -1798,7 +1798,7 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the dataset to describe.
         public let datasetArn: String
-        
+
         public init(datasetArn: String) {
             self.datasetArn = datasetArn
         }
@@ -1820,7 +1820,7 @@ extension Personalize {
 
         /// A listing of the dataset's properties.
         public let dataset: Dataset?
-        
+
         public init(dataset: Dataset? = nil) {
             self.dataset = dataset
         }
@@ -1841,7 +1841,7 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the event tracker to describe.
         public let eventTrackerArn: String
-        
+
         public init(eventTrackerArn: String) {
             self.eventTrackerArn = eventTrackerArn
         }
@@ -1863,7 +1863,7 @@ extension Personalize {
 
         /// An object that describes the event tracker.
         public let eventTracker: EventTracker?
-        
+
         public init(eventTracker: EventTracker? = nil) {
             self.eventTracker = eventTracker
         }
@@ -1884,7 +1884,7 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the feature transformation to describe.
         public let featureTransformationArn: String
-        
+
         public init(featureTransformationArn: String) {
             self.featureTransformationArn = featureTransformationArn
         }
@@ -1906,7 +1906,7 @@ extension Personalize {
 
         /// A listing of the FeatureTransformation properties.
         public let featureTransformation: FeatureTransformation?
-        
+
         public init(featureTransformation: FeatureTransformation? = nil) {
             self.featureTransformation = featureTransformation
         }
@@ -1927,7 +1927,7 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the recipe to describe.
         public let recipeArn: String
-        
+
         public init(recipeArn: String) {
             self.recipeArn = recipeArn
         }
@@ -1949,7 +1949,7 @@ extension Personalize {
 
         /// An object that describes the recipe.
         public let recipe: Recipe?
-        
+
         public init(recipe: Recipe? = nil) {
             self.recipe = recipe
         }
@@ -1970,7 +1970,7 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the schema to retrieve.
         public let schemaArn: String
-        
+
         public init(schemaArn: String) {
             self.schemaArn = schemaArn
         }
@@ -1992,7 +1992,7 @@ extension Personalize {
 
         /// The requested schema.
         public let schema: DatasetSchema?
-        
+
         public init(schema: DatasetSchema? = nil) {
             self.schema = schema
         }
@@ -2013,7 +2013,7 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the solution to describe.
         public let solutionArn: String
-        
+
         public init(solutionArn: String) {
             self.solutionArn = solutionArn
         }
@@ -2035,7 +2035,7 @@ extension Personalize {
 
         /// An object that describes the solution.
         public let solution: Solution?
-        
+
         public init(solution: Solution? = nil) {
             self.solution = solution
         }
@@ -2056,7 +2056,7 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the solution version.
         public let solutionVersionArn: String
-        
+
         public init(solutionVersionArn: String) {
             self.solutionVersionArn = solutionVersionArn
         }
@@ -2078,7 +2078,7 @@ extension Personalize {
 
         /// The solution version.
         public let solutionVersion: SolutionVersion?
-        
+
         public init(solutionVersion: SolutionVersion? = nil) {
             self.solutionVersion = solutionVersion
         }
@@ -2120,7 +2120,7 @@ extension Personalize {
         public let status: String?
         /// The ID of the event tracker. Include this ID in requests to the PutEvents API.
         public let trackingId: String?
-        
+
         public init(accountId: String? = nil, creationDateTime: TimeStamp? = nil, datasetGroupArn: String? = nil, eventTrackerArn: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, name: String? = nil, status: String? = nil, trackingId: String? = nil) {
             self.accountId = accountId
             self.creationDateTime = creationDateTime
@@ -2176,7 +2176,7 @@ extension Personalize {
         public let name: String?
         /// The status of the event tracker. An event tracker can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
-        
+
         public init(creationDateTime: TimeStamp? = nil, eventTrackerArn: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, name: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.eventTrackerArn = eventTrackerArn
@@ -2225,7 +2225,7 @@ extension Personalize {
         public let name: String?
         /// The status of the feature transformation. A feature transformation can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED  
         public let status: String?
-        
+
         public init(creationDateTime: TimeStamp? = nil, defaultParameters: [String: String]? = nil, featureTransformationArn: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, name: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.defaultParameters = defaultParameters
@@ -2261,7 +2261,7 @@ extension Personalize {
 
         /// The Amazon Resource Name (ARN) of the solution version for which to get metrics.
         public let solutionVersionArn: String
-        
+
         public init(solutionVersionArn: String) {
             self.solutionVersionArn = solutionVersionArn
         }
@@ -2286,7 +2286,7 @@ extension Personalize {
         public let metrics: [String: Double]?
         /// The same solution version ARN as specified in the request.
         public let solutionVersionArn: String?
-        
+
         public init(metrics: [String: Double]? = nil, solutionVersionArn: String? = nil) {
             self.metrics = metrics
             self.solutionVersionArn = solutionVersionArn
@@ -2316,7 +2316,7 @@ extension Personalize {
         public let hpoObjective: HPOObjective?
         /// Describes the resource configuration for HPO.
         public let hpoResourceConfig: HPOResourceConfig?
-        
+
         public init(algorithmHyperParameterRanges: HyperParameterRanges? = nil, hpoObjective: HPOObjective? = nil, hpoResourceConfig: HPOResourceConfig? = nil) {
             self.algorithmHyperParameterRanges = algorithmHyperParameterRanges
             self.hpoObjective = hpoObjective
@@ -2349,7 +2349,7 @@ extension Personalize {
         public let metricRegex: String?
         /// The data type of the metric.
         public let `type`: String?
-        
+
         public init(metricName: String? = nil, metricRegex: String? = nil, type: String? = nil) {
             self.metricName = metricName
             self.metricRegex = metricRegex
@@ -2379,7 +2379,7 @@ extension Personalize {
         public let maxNumberOfTrainingJobs: String?
         /// The maximum number of parallel training jobs.
         public let maxParallelTrainingJobs: String?
-        
+
         public init(maxNumberOfTrainingJobs: String? = nil, maxParallelTrainingJobs: String? = nil) {
             self.maxNumberOfTrainingJobs = maxNumberOfTrainingJobs
             self.maxParallelTrainingJobs = maxParallelTrainingJobs
@@ -2409,7 +2409,7 @@ extension Personalize {
         public let continuousHyperParameterRanges: [ContinuousHyperParameterRange]?
         /// The integer-valued hyperparameters and their ranges.
         public let integerHyperParameterRanges: [IntegerHyperParameterRange]?
-        
+
         public init(categoricalHyperParameterRanges: [CategoricalHyperParameterRange]? = nil, continuousHyperParameterRanges: [ContinuousHyperParameterRange]? = nil, integerHyperParameterRanges: [IntegerHyperParameterRange]? = nil) {
             self.categoricalHyperParameterRanges = categoricalHyperParameterRanges
             self.continuousHyperParameterRanges = continuousHyperParameterRanges
@@ -2451,7 +2451,7 @@ extension Personalize {
         public let minValue: Int32?
         /// The name of the hyperparameter.
         public let name: String?
-        
+
         public init(maxValue: Int32? = nil, minValue: Int32? = nil, name: String? = nil) {
             self.maxValue = maxValue
             self.minValue = minValue
@@ -2484,7 +2484,7 @@ extension Personalize {
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the solution to list the campaigns for. When a solution is not specified, all the campaigns associated with the account are listed.
         public let solutionArn: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, solutionArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2516,7 +2516,7 @@ extension Personalize {
         public let campaigns: [CampaignSummary]?
         /// A token for getting the next set of campaigns (if they exist).
         public let nextToken: String?
-        
+
         public init(campaigns: [CampaignSummary]? = nil, nextToken: String? = nil) {
             self.campaigns = campaigns
             self.nextToken = nextToken
@@ -2546,7 +2546,7 @@ extension Personalize {
         public let maxResults: Int32?
         /// A token returned from the previous call to ListDatasetGroups for getting the next set of dataset groups (if they exist).
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2574,7 +2574,7 @@ extension Personalize {
         public let datasetGroups: [DatasetGroupSummary]?
         /// A token for getting the next set of dataset groups (if they exist).
         public let nextToken: String?
-        
+
         public init(datasetGroups: [DatasetGroupSummary]? = nil, nextToken: String? = nil) {
             self.datasetGroups = datasetGroups
             self.nextToken = nextToken
@@ -2607,7 +2607,7 @@ extension Personalize {
         public let maxResults: Int32?
         /// A token returned from the previous call to ListDatasetImportJobs for getting the next set of dataset import jobs (if they exist).
         public let nextToken: String?
-        
+
         public init(datasetArn: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.datasetArn = datasetArn
             self.maxResults = maxResults
@@ -2639,7 +2639,7 @@ extension Personalize {
         public let datasetImportJobs: [DatasetImportJobSummary]?
         /// A token for getting the next set of dataset import jobs (if they exist).
         public let nextToken: String?
-        
+
         public init(datasetImportJobs: [DatasetImportJobSummary]? = nil, nextToken: String? = nil) {
             self.datasetImportJobs = datasetImportJobs
             self.nextToken = nextToken
@@ -2672,7 +2672,7 @@ extension Personalize {
         public let maxResults: Int32?
         /// A token returned from the previous call to ListDatasetImportJobs for getting the next set of dataset import jobs (if they exist).
         public let nextToken: String?
-        
+
         public init(datasetGroupArn: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.maxResults = maxResults
@@ -2704,7 +2704,7 @@ extension Personalize {
         public let datasets: [DatasetSummary]?
         /// A token for getting the next set of datasets (if they exist).
         public let nextToken: String?
-        
+
         public init(datasets: [DatasetSummary]? = nil, nextToken: String? = nil) {
             self.datasets = datasets
             self.nextToken = nextToken
@@ -2737,7 +2737,7 @@ extension Personalize {
         public let maxResults: Int32?
         /// A token returned from the previous call to ListEventTrackers for getting the next set of event trackers (if they exist).
         public let nextToken: String?
-        
+
         public init(datasetGroupArn: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.maxResults = maxResults
@@ -2769,7 +2769,7 @@ extension Personalize {
         public let eventTrackers: [EventTrackerSummary]?
         /// A token for getting the next set of event trackers (if they exist).
         public let nextToken: String?
-        
+
         public init(eventTrackers: [EventTrackerSummary]? = nil, nextToken: String? = nil) {
             self.eventTrackers = eventTrackers
             self.nextToken = nextToken
@@ -2802,7 +2802,7 @@ extension Personalize {
         public let nextToken: String?
         /// The default is SERVICE.
         public let recipeProvider: RecipeProvider?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, recipeProvider: RecipeProvider? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2832,7 +2832,7 @@ extension Personalize {
         public let nextToken: String?
         /// The list of available recipes.
         public let recipes: [RecipeSummary]?
-        
+
         public init(nextToken: String? = nil, recipes: [RecipeSummary]? = nil) {
             self.nextToken = nextToken
             self.recipes = recipes
@@ -2862,7 +2862,7 @@ extension Personalize {
         public let maxResults: Int32?
         /// A token returned from the previous call to ListSchemas for getting the next set of schemas (if they exist).
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2890,7 +2890,7 @@ extension Personalize {
         public let nextToken: String?
         /// A list of schemas.
         public let schemas: [DatasetSchemaSummary]?
-        
+
         public init(nextToken: String? = nil, schemas: [DatasetSchemaSummary]? = nil) {
             self.nextToken = nextToken
             self.schemas = schemas
@@ -2923,7 +2923,7 @@ extension Personalize {
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the solution.
         public let solutionArn: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, solutionArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2955,7 +2955,7 @@ extension Personalize {
         public let nextToken: String?
         /// A list of solution versions describing the version properties.
         public let solutionVersions: [SolutionVersionSummary]?
-        
+
         public init(nextToken: String? = nil, solutionVersions: [SolutionVersionSummary]? = nil) {
             self.nextToken = nextToken
             self.solutionVersions = solutionVersions
@@ -2988,7 +2988,7 @@ extension Personalize {
         public let maxResults: Int32?
         /// A token returned from the previous call to ListSolutions for getting the next set of solutions (if they exist).
         public let nextToken: String?
-        
+
         public init(datasetGroupArn: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.maxResults = maxResults
@@ -3020,7 +3020,7 @@ extension Personalize {
         public let nextToken: String?
         /// A list of the current solutions.
         public let solutions: [SolutionSummary]?
-        
+
         public init(nextToken: String? = nil, solutions: [SolutionSummary]? = nil) {
             self.nextToken = nextToken
             self.solutions = solutions
@@ -3071,7 +3071,7 @@ extension Personalize {
         public let recipeType: String?
         /// The status of the recipe.
         public let status: String?
-        
+
         public init(algorithmArn: String? = nil, creationDateTime: TimeStamp? = nil, description: String? = nil, featureTransformationArn: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, name: String? = nil, recipeArn: String? = nil, recipeType: String? = nil, status: String? = nil) {
             self.algorithmArn = algorithmArn
             self.creationDateTime = creationDateTime
@@ -3135,7 +3135,7 @@ extension Personalize {
         public let recipeArn: String?
         /// The status of the recipe.
         public let status: String?
-        
+
         public init(creationDateTime: TimeStamp? = nil, lastUpdatedDateTime: TimeStamp? = nil, name: String? = nil, recipeArn: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -3205,7 +3205,7 @@ extension Personalize {
         public let solutionConfig: SolutionConfig?
         /// The status of the solution. A solution can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
-        
+
         public init(autoMLResult: AutoMLResult? = nil, creationDateTime: TimeStamp? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, latestSolutionVersion: SolutionVersionSummary? = nil, name: String? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, status: String? = nil) {
             self.autoMLResult = autoMLResult
             self.creationDateTime = creationDateTime
@@ -3275,7 +3275,7 @@ extension Personalize {
         public let featureTransformationParameters: [String: String]?
         /// Describes the properties for hyperparameter optimization (HPO). For use with the bring-your-own-recipe feature. Not used with Amazon Personalize predefined recipes.
         public let hpoConfig: HPOConfig?
-        
+
         public init(algorithmHyperParameters: [String: String]? = nil, autoMLConfig: AutoMLConfig? = nil, eventValueThreshold: String? = nil, featureTransformationParameters: [String: String]? = nil, hpoConfig: HPOConfig? = nil) {
             self.algorithmHyperParameters = algorithmHyperParameters
             self.autoMLConfig = autoMLConfig
@@ -3318,7 +3318,7 @@ extension Personalize {
         public let solutionArn: String?
         /// The status of the solution. A solution can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
-        
+
         public init(creationDateTime: TimeStamp? = nil, lastUpdatedDateTime: TimeStamp? = nil, name: String? = nil, solutionArn: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -3385,7 +3385,7 @@ extension Personalize {
         public let solutionVersionArn: String?
         /// The status of the solution version. A solution version can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED  
         public let status: String?
-        
+
         public init(creationDateTime: TimeStamp? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
@@ -3450,7 +3450,7 @@ extension Personalize {
         public let solutionVersionArn: String?
         /// The status of the solution version. A solution version can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED  
         public let status: String?
-        
+
         public init(creationDateTime: TimeStamp? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
@@ -3487,7 +3487,7 @@ extension Personalize {
         public let minProvisionedTPS: Int32?
         /// The ARN of a new solution version to deploy.
         public let solutionVersionArn: String?
-        
+
         public init(campaignArn: String, minProvisionedTPS: Int32? = nil, solutionVersionArn: String? = nil) {
             self.campaignArn = campaignArn
             self.minProvisionedTPS = minProvisionedTPS
@@ -3516,7 +3516,7 @@ extension Personalize {
 
         /// The same campaign ARN as given in the request.
         public let campaignArn: String?
-        
+
         public init(campaignArn: String? = nil) {
             self.campaignArn = campaignArn
         }
@@ -3530,5 +3530,4 @@ extension Personalize {
             case campaignArn = "campaignArn"
         }
     }
-
 }

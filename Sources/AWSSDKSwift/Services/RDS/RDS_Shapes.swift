@@ -12,7 +12,7 @@ extension RDS {
 
         /// A list of AccountQuota objects. Within this list, each quota has a name, a count of usage toward the quota maximum, and a maximum value for the quota.
         public let accountQuotas: [AccountQuota]?
-        
+
         public init(accountQuotas: [AccountQuota]? = nil) {
             self.accountQuotas = accountQuotas
         }
@@ -35,7 +35,7 @@ extension RDS {
         public let max: Int64?
         /// The amount currently used toward the quota maximum.
         public let used: Int64?
-        
+
         public init(accountQuotaName: String? = nil, max: Int64? = nil, used: Int64? = nil) {
             self.accountQuotaName = accountQuotaName
             self.max = max
@@ -76,7 +76,7 @@ extension RDS {
         public let featureName: String?
         /// The Amazon Resource Name (ARN) of the IAM role to associate with the Aurora DB cluster, for example arn:aws:iam::123456789012:role/AuroraAccessRole.
         public let roleArn: String
-        
+
         public init(dBClusterIdentifier: String, featureName: String? = nil, roleArn: String) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.featureName = featureName
@@ -103,7 +103,7 @@ extension RDS {
         public let featureName: String
         /// The Amazon Resource Name (ARN) of the IAM role to associate with the DB instance, for example arn:aws:iam::123456789012:role/AccessRole. 
         public let roleArn: String
-        
+
         public init(dBInstanceIdentifier: String, featureName: String, roleArn: String) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.featureName = featureName
@@ -127,7 +127,7 @@ extension RDS {
         public let sourceIdentifier: String
         /// The name of the RDS event notification subscription you want to add a source identifier to.
         public let subscriptionName: String
-        
+
         public init(sourceIdentifier: String, subscriptionName: String) {
             self.sourceIdentifier = sourceIdentifier
             self.subscriptionName = subscriptionName
@@ -145,7 +145,7 @@ extension RDS {
         ]
 
         public let eventSubscription: EventSubscription?
-        
+
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -165,7 +165,7 @@ extension RDS {
         public let resourceName: String
         /// The tags to be assigned to the Amazon RDS resource.
         public let tags: [Tag]
-        
+
         public init(resourceName: String, tags: [Tag]) {
             self.resourceName = resourceName
             self.tags = tags
@@ -196,7 +196,7 @@ extension RDS {
         public let optInType: String
         /// The RDS Amazon Resource Name (ARN) of the resource that the pending maintenance action applies to. For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).
         public let resourceIdentifier: String
-        
+
         public init(applyAction: String, optInType: String, resourceIdentifier: String) {
             self.applyAction = applyAction
             self.optInType = optInType
@@ -216,7 +216,7 @@ extension RDS {
         ]
 
         public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
-        
+
         public init(resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions? = nil) {
             self.resourcePendingMaintenanceActions = resourcePendingMaintenanceActions
         }
@@ -245,7 +245,7 @@ extension RDS {
         public let eC2SecurityGroupName: String?
         ///  AWS account number of the owner of the EC2 security group specified in the EC2SecurityGroupName parameter. The AWS Access Key ID is not an acceptable value. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
         public let eC2SecurityGroupOwnerId: String?
-        
+
         public init(cidrip: String? = nil, dBSecurityGroupName: String, eC2SecurityGroupId: String? = nil, eC2SecurityGroupName: String? = nil, eC2SecurityGroupOwnerId: String? = nil) {
             self.cidrip = cidrip
             self.dBSecurityGroupName = dBSecurityGroupName
@@ -269,7 +269,7 @@ extension RDS {
         ]
 
         public let dBSecurityGroup: DBSecurityGroup?
-        
+
         public init(dBSecurityGroup: DBSecurityGroup? = nil) {
             self.dBSecurityGroup = dBSecurityGroup
         }
@@ -286,7 +286,7 @@ extension RDS {
 
         /// The name of the Availability Zone.
         public let name: String?
-        
+
         public init(name: String? = nil) {
             self.name = name
         }
@@ -309,7 +309,7 @@ extension RDS {
         public let defaultValue: String?
         /// The name of the processor feature. Valid names are coreCount and threadsPerCore.
         public let name: String?
-        
+
         public init(allowedValues: String? = nil, defaultValue: String? = nil, name: String? = nil) {
             self.allowedValues = allowedValues
             self.defaultValue = defaultValue
@@ -339,7 +339,7 @@ extension RDS {
         public let force: Bool?
         /// A value that indicates whether to backtrack the DB cluster to the earliest possible backtrack time when BacktrackTo is set to a timestamp earlier than the earliest backtrack time. When this parameter is disabled and BacktrackTo is set to a timestamp earlier than the earliest backtrack time, an error occurs.
         public let useEarliestTimeOnPointInTimeUnavailable: Bool?
-        
+
         public init(backtrackTo: TimeStamp, dBClusterIdentifier: String, force: Bool? = nil, useEarliestTimeOnPointInTimeUnavailable: Bool? = nil) {
             self.backtrackTo = backtrackTo
             self.dBClusterIdentifier = dBClusterIdentifier
@@ -377,7 +377,7 @@ extension RDS {
         public let validFrom: TimeStamp?
         /// The final date that the certificate continues to be valid.
         public let validTill: TimeStamp?
-        
+
         public init(certificateArn: String? = nil, certificateIdentifier: String? = nil, certificateType: String? = nil, thumbprint: String? = nil, validFrom: TimeStamp? = nil, validTill: TimeStamp? = nil) {
             self.certificateArn = certificateArn
             self.certificateIdentifier = certificateIdentifier
@@ -407,7 +407,7 @@ extension RDS {
         public let certificates: [Certificate]?
         ///  An optional pagination token provided by a previous DescribeCertificates request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
         public let marker: String?
-        
+
         public init(certificates: [Certificate]? = nil, marker: String? = nil) {
             self.certificates = certificates
             self.marker = marker
@@ -429,7 +429,7 @@ extension RDS {
         public let characterSetDescription: String?
         /// The name of the character set.
         public let characterSetName: String?
-        
+
         public init(characterSetDescription: String? = nil, characterSetName: String? = nil) {
             self.characterSetDescription = characterSetDescription
             self.characterSetName = characterSetName
@@ -451,7 +451,7 @@ extension RDS {
         public let disableLogTypes: [String]?
         /// The list of log types to enable.
         public let enableLogTypes: [String]?
-        
+
         public init(disableLogTypes: [String]? = nil, enableLogTypes: [String]? = nil) {
             self.disableLogTypes = disableLogTypes
             self.enableLogTypes = enableLogTypes
@@ -478,7 +478,7 @@ extension RDS {
         public let targetDBClusterParameterGroupDescription: String
         /// The identifier for the copied DB cluster parameter group. Constraints:   Can't be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-cluster-param-group1 
         public let targetDBClusterParameterGroupIdentifier: String
-        
+
         public init(sourceDBClusterParameterGroupIdentifier: String, tags: [Tag]? = nil, targetDBClusterParameterGroupDescription: String, targetDBClusterParameterGroupIdentifier: String) {
             self.sourceDBClusterParameterGroupIdentifier = sourceDBClusterParameterGroupIdentifier
             self.tags = tags
@@ -500,7 +500,7 @@ extension RDS {
         ]
 
         public let dBClusterParameterGroup: DBClusterParameterGroup?
-        
+
         public init(dBClusterParameterGroup: DBClusterParameterGroup? = nil) {
             self.dBClusterParameterGroup = dBClusterParameterGroup
         }
@@ -531,7 +531,7 @@ extension RDS {
         public let tags: [Tag]?
         /// The identifier of the new DB cluster snapshot to create from the source DB cluster snapshot. This parameter is not case-sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-snapshot2 
         public let targetDBClusterSnapshotIdentifier: String
-        
+
         public init(copyTags: Bool? = nil, kmsKeyId: String? = nil, preSignedUrl: String? = nil, sourceDBClusterSnapshotIdentifier: String, tags: [Tag]? = nil, targetDBClusterSnapshotIdentifier: String) {
             self.copyTags = copyTags
             self.kmsKeyId = kmsKeyId
@@ -557,7 +557,7 @@ extension RDS {
         ]
 
         public let dBClusterSnapshot: DBClusterSnapshot?
-        
+
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
             self.dBClusterSnapshot = dBClusterSnapshot
         }
@@ -582,7 +582,7 @@ extension RDS {
         public let targetDBParameterGroupDescription: String
         /// The identifier for the copied DB parameter group. Constraints:   Can't be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-db-parameter-group 
         public let targetDBParameterGroupIdentifier: String
-        
+
         public init(sourceDBParameterGroupIdentifier: String, tags: [Tag]? = nil, targetDBParameterGroupDescription: String, targetDBParameterGroupIdentifier: String) {
             self.sourceDBParameterGroupIdentifier = sourceDBParameterGroupIdentifier
             self.tags = tags
@@ -604,7 +604,7 @@ extension RDS {
         ]
 
         public let dBParameterGroup: DBParameterGroup?
-        
+
         public init(dBParameterGroup: DBParameterGroup? = nil) {
             self.dBParameterGroup = dBParameterGroup
         }
@@ -638,7 +638,7 @@ extension RDS {
         public let tags: [Tag]?
         /// The identifier for the copy of the snapshot.  Constraints:   Can't be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-db-snapshot 
         public let targetDBSnapshotIdentifier: String
-        
+
         public init(copyTags: Bool? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, preSignedUrl: String? = nil, sourceDBSnapshotIdentifier: String, tags: [Tag]? = nil, targetDBSnapshotIdentifier: String) {
             self.copyTags = copyTags
             self.kmsKeyId = kmsKeyId
@@ -666,7 +666,7 @@ extension RDS {
         ]
 
         public let dBSnapshot: DBSnapshot?
-        
+
         public init(dBSnapshot: DBSnapshot? = nil) {
             self.dBSnapshot = dBSnapshot
         }
@@ -691,7 +691,7 @@ extension RDS {
         public let targetOptionGroupDescription: String
         /// The identifier for the copied option group. Constraints:   Can't be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-option-group 
         public let targetOptionGroupIdentifier: String
-        
+
         public init(sourceOptionGroupIdentifier: String, tags: [Tag]? = nil, targetOptionGroupDescription: String, targetOptionGroupIdentifier: String) {
             self.sourceOptionGroupIdentifier = sourceOptionGroupIdentifier
             self.tags = tags
@@ -713,7 +713,7 @@ extension RDS {
         ]
 
         public let optionGroup: OptionGroup?
-        
+
         public init(optionGroup: OptionGroup? = nil) {
             self.optionGroup = optionGroup
         }
@@ -742,7 +742,7 @@ extension RDS {
         public let excludedMembers: [String]?
         /// List of DB instance identifiers that are part of the custom endpoint group.
         public let staticMembers: [String]?
-        
+
         public init(dBClusterEndpointIdentifier: String, dBClusterIdentifier: String, endpointType: String, excludedMembers: [String]? = nil, staticMembers: [String]? = nil) {
             self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
             self.dBClusterIdentifier = dBClusterIdentifier
@@ -851,7 +851,7 @@ extension RDS {
         public let tags: [Tag]?
         /// A list of EC2 VPC security groups to associate with this DB cluster.
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(availabilityZones: [String]? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int32? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineMode: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, replicationSourceIdentifier: String? = nil, scalingConfiguration: ScalingConfiguration? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backtrackWindow = backtrackWindow
@@ -933,7 +933,7 @@ extension RDS {
         public let description: String
         /// Tags to assign to the DB cluster parameter group.
         public let tags: [Tag]?
-        
+
         public init(dBClusterParameterGroupName: String, dBParameterGroupFamily: String, description: String, tags: [Tag]? = nil) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.dBParameterGroupFamily = dBParameterGroupFamily
@@ -955,7 +955,7 @@ extension RDS {
         ]
 
         public let dBClusterParameterGroup: DBClusterParameterGroup?
-        
+
         public init(dBClusterParameterGroup: DBClusterParameterGroup? = nil) {
             self.dBClusterParameterGroup = dBClusterParameterGroup
         }
@@ -971,7 +971,7 @@ extension RDS {
         ]
 
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -994,7 +994,7 @@ extension RDS {
         public let dBClusterSnapshotIdentifier: String
         /// The tags to be assigned to the DB cluster snapshot.
         public let tags: [Tag]?
-        
+
         public init(dBClusterIdentifier: String, dBClusterSnapshotIdentifier: String, tags: [Tag]? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
@@ -1014,7 +1014,7 @@ extension RDS {
         ]
 
         public let dBClusterSnapshot: DBClusterSnapshot?
-        
+
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
             self.dBClusterSnapshot = dBClusterSnapshot
         }
@@ -1166,7 +1166,7 @@ extension RDS {
         public let timezone: String?
         /// A list of Amazon EC2 VPC security groups to associate with this DB instance.  Amazon Aurora  Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. Default: The default EC2 VPC security group for the DB subnet group's VPC.
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(allocatedStorage: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int32? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceClass: String, dBInstanceIdentifier: String, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int32? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, maxAllocatedStorage: Int32? = nil, monitoringInterval: Int32? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int32? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int32? = nil, publiclyAccessible: Bool? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -1350,7 +1350,7 @@ extension RDS {
         public let useDefaultProcessorFeatures: Bool?
         ///  A list of EC2 VPC security groups to associate with the Read Replica.   Default: The default EC2 VPC security group for the DB subnet group's VPC. 
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, iops: Int32? = nil, kmsKeyId: String? = nil, monitoringInterval: Int32? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int32? = nil, port: Int32? = nil, preSignedUrl: String? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, sourceDBInstanceIdentifier: String, storageType: String? = nil, tags: [Tag]? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -1418,7 +1418,7 @@ extension RDS {
         ]
 
         public let dBInstance: DBInstance?
-        
+
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
@@ -1434,7 +1434,7 @@ extension RDS {
         ]
 
         public let dBInstance: DBInstance?
-        
+
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
@@ -1460,7 +1460,7 @@ extension RDS {
         public let description: String
         /// Tags to assign to the DB parameter group.
         public let tags: [Tag]?
-        
+
         public init(dBParameterGroupFamily: String, dBParameterGroupName: String, description: String, tags: [Tag]? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
             self.dBParameterGroupName = dBParameterGroupName
@@ -1482,7 +1482,7 @@ extension RDS {
         ]
 
         public let dBParameterGroup: DBParameterGroup?
-        
+
         public init(dBParameterGroup: DBParameterGroup? = nil) {
             self.dBParameterGroup = dBParameterGroup
         }
@@ -1505,7 +1505,7 @@ extension RDS {
         public let dBSecurityGroupName: String
         /// Tags to assign to the DB security group.
         public let tags: [Tag]?
-        
+
         public init(dBSecurityGroupDescription: String, dBSecurityGroupName: String, tags: [Tag]? = nil) {
             self.dBSecurityGroupDescription = dBSecurityGroupDescription
             self.dBSecurityGroupName = dBSecurityGroupName
@@ -1525,7 +1525,7 @@ extension RDS {
         ]
 
         public let dBSecurityGroup: DBSecurityGroup?
-        
+
         public init(dBSecurityGroup: DBSecurityGroup? = nil) {
             self.dBSecurityGroup = dBSecurityGroup
         }
@@ -1547,7 +1547,7 @@ extension RDS {
         /// The identifier for the DB snapshot. Constraints:   Can't be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id 
         public let dBSnapshotIdentifier: String
         public let tags: [Tag]?
-        
+
         public init(dBInstanceIdentifier: String, dBSnapshotIdentifier: String, tags: [Tag]? = nil) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.dBSnapshotIdentifier = dBSnapshotIdentifier
@@ -1567,7 +1567,7 @@ extension RDS {
         ]
 
         public let dBSnapshot: DBSnapshot?
-        
+
         public init(dBSnapshot: DBSnapshot? = nil) {
             self.dBSnapshot = dBSnapshot
         }
@@ -1593,7 +1593,7 @@ extension RDS {
         public let subnetIds: [String]
         /// Tags to assign to the DB subnet group.
         public let tags: [Tag]?
-        
+
         public init(dBSubnetGroupDescription: String, dBSubnetGroupName: String, subnetIds: [String], tags: [Tag]? = nil) {
             self.dBSubnetGroupDescription = dBSubnetGroupDescription
             self.dBSubnetGroupName = dBSubnetGroupName
@@ -1615,7 +1615,7 @@ extension RDS {
         ]
 
         public let dBSubnetGroup: DBSubnetGroup?
-        
+
         public init(dBSubnetGroup: DBSubnetGroup? = nil) {
             self.dBSubnetGroup = dBSubnetGroup
         }
@@ -1649,7 +1649,7 @@ extension RDS {
         /// The name of the subscription. Constraints: The name must be less than 255 characters.
         public let subscriptionName: String
         public let tags: [Tag]?
-        
+
         public init(enabled: Bool? = nil, eventCategories: [String]? = nil, snsTopicArn: String, sourceIds: [String]? = nil, sourceType: String? = nil, subscriptionName: String, tags: [Tag]? = nil) {
             self.enabled = enabled
             self.eventCategories = eventCategories
@@ -1677,7 +1677,7 @@ extension RDS {
         ]
 
         public let eventSubscription: EventSubscription?
-        
+
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -1712,7 +1712,7 @@ extension RDS {
         public let sourceDBClusterIdentifier: String?
         ///  The storage encryption setting for the new global database cluster. 
         public let storageEncrypted: Bool?
-        
+
         public init(databaseName: String? = nil, deletionProtection: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, sourceDBClusterIdentifier: String? = nil, storageEncrypted: Bool? = nil) {
             self.databaseName = databaseName
             self.deletionProtection = deletionProtection
@@ -1740,7 +1740,7 @@ extension RDS {
         ]
 
         public let globalCluster: GlobalCluster?
-        
+
         public init(globalCluster: GlobalCluster? = nil) {
             self.globalCluster = globalCluster
         }
@@ -1769,7 +1769,7 @@ extension RDS {
         public let optionGroupName: String
         /// Tags to assign to the option group.
         public let tags: [Tag]?
-        
+
         public init(engineName: String, majorEngineVersion: String, optionGroupDescription: String, optionGroupName: String, tags: [Tag]? = nil) {
             self.engineName = engineName
             self.majorEngineVersion = majorEngineVersion
@@ -1793,7 +1793,7 @@ extension RDS {
         ]
 
         public let optionGroup: OptionGroup?
-        
+
         public init(optionGroup: OptionGroup? = nil) {
             self.optionGroup = optionGroup
         }
@@ -1959,7 +1959,7 @@ extension RDS {
         public let storageEncrypted: Bool?
         /// Provides a list of VPC security groups that the DB cluster belongs to.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
-        
+
         public init(activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamStatus: ActivityStreamStatus? = nil, allocatedStorage: Int32? = nil, associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backtrackConsumedChangeRecords: Int64? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int32? = nil, capacity: Int32? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: TimeStamp? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, customEndpoints: [String]? = nil, databaseName: String? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestBacktrackTime: TimeStamp? = nil, earliestRestorableTime: TimeStamp? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, httpEndpointEnabled: Bool? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, scalingConfigurationInfo: ScalingConfigurationInfo? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.activityStreamKinesisStreamName = activityStreamKinesisStreamName
             self.activityStreamKmsKeyId = activityStreamKmsKeyId
@@ -2091,7 +2091,7 @@ extension RDS {
         public let dBClusterIdentifier: String?
         /// The status of the backtrack. This property returns one of the following values:    applying - The backtrack is currently being applied to or rolled back from the DB cluster.    completed - The backtrack has successfully been applied to or rolled back from the DB cluster.    failed - An error occurred while the backtrack was applied to or rolled back from the DB cluster.    pending - The backtrack is currently pending application to or rollback from the DB cluster.  
         public let status: String?
-        
+
         public init(backtrackedFrom: TimeStamp? = nil, backtrackIdentifier: String? = nil, backtrackRequestCreationTime: TimeStamp? = nil, backtrackTo: TimeStamp? = nil, dBClusterIdentifier: String? = nil, status: String? = nil) {
             self.backtrackedFrom = backtrackedFrom
             self.backtrackIdentifier = backtrackIdentifier
@@ -2121,7 +2121,7 @@ extension RDS {
         public let dBClusterBacktracks: [DBClusterBacktrack]?
         /// A pagination token that can be used in a subsequent DescribeDBClusterBacktracks request.
         public let marker: String?
-        
+
         public init(dBClusterBacktracks: [DBClusterBacktrack]? = nil, marker: String? = nil) {
             self.dBClusterBacktracks = dBClusterBacktracks
             self.marker = marker
@@ -2152,7 +2152,7 @@ extension RDS {
         public let secondsBeforeTimeout: Int32?
         /// The timeout action of a call to ModifyCurrentDBClusterCapacity, either ForceApplyCapacityChange or RollbackCapacityChange.
         public let timeoutAction: String?
-        
+
         public init(currentCapacity: Int32? = nil, dBClusterIdentifier: String? = nil, pendingCapacity: Int32? = nil, secondsBeforeTimeout: Int32? = nil, timeoutAction: String? = nil) {
             self.currentCapacity = currentCapacity
             self.dBClusterIdentifier = dBClusterIdentifier
@@ -2204,7 +2204,7 @@ extension RDS {
         public let staticMembers: [String]?
         /// The current status of the endpoint. One of: creating, available, deleting, modifying.
         public let status: String?
-        
+
         public init(customEndpointType: String? = nil, dBClusterEndpointArn: String? = nil, dBClusterEndpointIdentifier: String? = nil, dBClusterEndpointResourceIdentifier: String? = nil, dBClusterIdentifier: String? = nil, endpoint: String? = nil, endpointType: String? = nil, excludedMembers: [String]? = nil, staticMembers: [String]? = nil, status: String? = nil) {
             self.customEndpointType = customEndpointType
             self.dBClusterEndpointArn = dBClusterEndpointArn
@@ -2242,7 +2242,7 @@ extension RDS {
         public let dBClusterEndpoints: [DBClusterEndpoint]?
         ///  An optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        
+
         public init(dBClusterEndpoints: [DBClusterEndpoint]? = nil, marker: String? = nil) {
             self.dBClusterEndpoints = dBClusterEndpoints
             self.marker = marker
@@ -2270,7 +2270,7 @@ extension RDS {
         public let isClusterWriter: Bool?
         /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see  Fault Tolerance for an Aurora DB Cluster in the Amazon Aurora User Guide. 
         public let promotionTier: Int32?
-        
+
         public init(dBClusterParameterGroupStatus: String? = nil, dBInstanceIdentifier: String? = nil, isClusterWriter: Bool? = nil, promotionTier: Int32? = nil) {
             self.dBClusterParameterGroupStatus = dBClusterParameterGroupStatus
             self.dBInstanceIdentifier = dBInstanceIdentifier
@@ -2296,7 +2296,7 @@ extension RDS {
         public let dBClusters: [DBCluster]?
         /// A pagination token that can be used in a subsequent DescribeDBClusters request.
         public let marker: String?
-        
+
         public init(dBClusters: [DBCluster]? = nil, marker: String? = nil) {
             self.dBClusters = dBClusters
             self.marker = marker
@@ -2318,7 +2318,7 @@ extension RDS {
         public let dBClusterOptionGroupName: String?
         /// Specifies the status of the DB cluster option group.
         public let status: String?
-        
+
         public init(dBClusterOptionGroupName: String? = nil, status: String? = nil) {
             self.dBClusterOptionGroupName = dBClusterOptionGroupName
             self.status = status
@@ -2346,7 +2346,7 @@ extension RDS {
         public let dBParameterGroupFamily: String?
         /// Provides the customer-specified description for this DB cluster parameter group.
         public let description: String?
-        
+
         public init(dBClusterParameterGroupArn: String? = nil, dBClusterParameterGroupName: String? = nil, dBParameterGroupFamily: String? = nil, description: String? = nil) {
             self.dBClusterParameterGroupArn = dBClusterParameterGroupArn
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
@@ -2372,7 +2372,7 @@ extension RDS {
         public let marker: String?
         /// Provides a list of parameters for the DB cluster parameter group.
         public let parameters: [Parameter]?
-        
+
         public init(marker: String? = nil, parameters: [Parameter]? = nil) {
             self.marker = marker
             self.parameters = parameters
@@ -2391,7 +2391,7 @@ extension RDS {
 
         /// The name of the DB cluster parameter group. Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
         public let dBClusterParameterGroupName: String?
-        
+
         public init(dBClusterParameterGroupName: String? = nil) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
         }
@@ -2411,7 +2411,7 @@ extension RDS {
         public let dBClusterParameterGroups: [DBClusterParameterGroup]?
         ///  An optional pagination token provided by a previous DescribeDBClusterParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        
+
         public init(dBClusterParameterGroups: [DBClusterParameterGroup]? = nil, marker: String? = nil) {
             self.dBClusterParameterGroups = dBClusterParameterGroups
             self.marker = marker
@@ -2436,7 +2436,7 @@ extension RDS {
         public let roleArn: String?
         /// Describes the state of association between the IAM role and the DB cluster. The Status property returns one of the following values:    ACTIVE - the IAM role ARN is associated with the DB cluster and can be used to access other AWS services on your behalf.    PENDING - the IAM role ARN is being associated with the DB cluster.    INVALID - the IAM role ARN is associated with the DB cluster, but the DB cluster is unable to assume the IAM role in order to access other AWS services on your behalf.  
         public let status: String?
-        
+
         public init(featureName: String? = nil, roleArn: String? = nil, status: String? = nil) {
             self.featureName = featureName
             self.roleArn = roleArn
@@ -2514,7 +2514,7 @@ extension RDS {
         public let storageEncrypted: Bool?
         /// Provides the VPC ID associated with the DB cluster snapshot.
         public let vpcId: String?
-        
+
         public init(allocatedStorage: Int32? = nil, availabilityZones: [String]? = nil, clusterCreateTime: TimeStamp? = nil, dBClusterIdentifier: String? = nil, dBClusterSnapshotArn: String? = nil, dBClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, percentProgress: Int32? = nil, port: Int32? = nil, snapshotCreateTime: TimeStamp? = nil, snapshotType: String? = nil, sourceDBClusterSnapshotArn: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcId: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZones = availabilityZones
@@ -2572,7 +2572,7 @@ extension RDS {
         public let attributeName: String?
         /// The value(s) for the manual DB cluster snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the AWS accounts that are authorized to copy or restore the manual DB cluster snapshot. If a value of all is in the list, then the manual DB cluster snapshot is public and available for any AWS account to copy or restore.
         public let attributeValues: [String]?
-        
+
         public init(attributeName: String? = nil, attributeValues: [String]? = nil) {
             self.attributeName = attributeName
             self.attributeValues = attributeValues
@@ -2594,7 +2594,7 @@ extension RDS {
         public let dBClusterSnapshotAttributes: [DBClusterSnapshotAttribute]?
         /// The identifier of the manual DB cluster snapshot that the attributes apply to.
         public let dBClusterSnapshotIdentifier: String?
-        
+
         public init(dBClusterSnapshotAttributes: [DBClusterSnapshotAttribute]? = nil, dBClusterSnapshotIdentifier: String? = nil) {
             self.dBClusterSnapshotAttributes = dBClusterSnapshotAttributes
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
@@ -2616,7 +2616,7 @@ extension RDS {
         public let dBClusterSnapshots: [DBClusterSnapshot]?
         ///  An optional pagination token provided by a previous DescribeDBClusterSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        
+
         public init(dBClusterSnapshots: [DBClusterSnapshot]? = nil, marker: String? = nil) {
             self.dBClusterSnapshots = dBClusterSnapshots
             self.marker = marker
@@ -2677,7 +2677,7 @@ extension RDS {
         public let supportsReadReplica: Bool?
         /// A list of engine versions that this database engine version can be upgraded to.
         public let validUpgradeTarget: [UpgradeTarget]?
-        
+
         public init(dBEngineDescription: String? = nil, dBEngineVersionDescription: String? = nil, dBParameterGroupFamily: String? = nil, defaultCharacterSet: CharacterSet? = nil, engine: String? = nil, engineVersion: String? = nil, exportableLogTypes: [String]? = nil, status: String? = nil, supportedCharacterSets: [CharacterSet]? = nil, supportedEngineModes: [String]? = nil, supportedFeatureNames: [String]? = nil, supportedTimezones: [Timezone]? = nil, supportsLogExportsToCloudwatchLogs: Bool? = nil, supportsReadReplica: Bool? = nil, validUpgradeTarget: [UpgradeTarget]? = nil) {
             self.dBEngineDescription = dBEngineDescription
             self.dBEngineVersionDescription = dBEngineVersionDescription
@@ -2725,7 +2725,7 @@ extension RDS {
         public let dBEngineVersions: [DBEngineVersion]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        
+
         public init(dBEngineVersions: [DBEngineVersion]? = nil, marker: String? = nil) {
             self.dBEngineVersions = dBEngineVersions
             self.marker = marker
@@ -2915,7 +2915,7 @@ extension RDS {
         public let timezone: String?
         /// Provides a list of VPC security group elements that the DB instance belongs to.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
-        
+
         public init(allocatedStorage: Int32? = nil, associatedRoles: [DBInstanceRole]? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int32? = nil, cACertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dbInstancePort: Int32? = nil, dBInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBName: String? = nil, dBParameterGroups: [DBParameterGroupStatus]? = nil, dBSecurityGroups: [DBSecurityGroupMembership]? = nil, dBSubnetGroup: DBSubnetGroup? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: TimeStamp? = nil, iops: Int32? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, licenseModel: String? = nil, listenerEndpoint: Endpoint? = nil, masterUsername: String? = nil, maxAllocatedStorage: Int32? = nil, monitoringInterval: Int32? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int32? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.associatedRoles = associatedRoles
@@ -3112,7 +3112,7 @@ extension RDS {
         public let timezone: String?
         /// Provides the VPC ID associated with the DB instance
         public let vpcId: String?
-        
+
         public init(allocatedStorage: Int32? = nil, availabilityZone: String? = nil, dBInstanceArn: String? = nil, dBInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, encrypted: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: TimeStamp? = nil, iops: Int32? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, region: String? = nil, restoreWindow: RestoreWindow? = nil, status: String? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcId: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZone = availabilityZone
@@ -3176,7 +3176,7 @@ extension RDS {
         public let dBInstanceAutomatedBackups: [DBInstanceAutomatedBackup]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
         public let marker: String?
-        
+
         public init(dBInstanceAutomatedBackups: [DBInstanceAutomatedBackup]? = nil, marker: String? = nil) {
             self.dBInstanceAutomatedBackups = dBInstanceAutomatedBackups
             self.marker = marker
@@ -3198,7 +3198,7 @@ extension RDS {
         public let dBInstances: [DBInstance]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
         public let marker: String?
-        
+
         public init(dBInstances: [DBInstance]? = nil, marker: String? = nil) {
             self.dBInstances = dBInstances
             self.marker = marker
@@ -3223,7 +3223,7 @@ extension RDS {
         public let roleArn: String?
         /// Describes the state of association between the IAM role and the DB instance. The Status property returns one of the following values:    ACTIVE - the IAM role ARN is associated with the DB instance and can be used to access other AWS services on your behalf.    PENDING - the IAM role ARN is being associated with the DB instance.    INVALID - the IAM role ARN is associated with the DB instance, but the DB instance is unable to assume the IAM role in order to access other AWS services on your behalf.  
         public let status: String?
-        
+
         public init(featureName: String? = nil, roleArn: String? = nil, status: String? = nil) {
             self.featureName = featureName
             self.roleArn = roleArn
@@ -3253,7 +3253,7 @@ extension RDS {
         public let status: String?
         /// This value is currently "read replication."
         public let statusType: String?
-        
+
         public init(message: String? = nil, normal: Bool? = nil, status: String? = nil, statusType: String? = nil) {
             self.message = message
             self.normal = normal
@@ -3285,7 +3285,7 @@ extension RDS {
         public let dBParameterGroupName: String?
         /// Provides the customer-specified description for this DB parameter group.
         public let description: String?
-        
+
         public init(dBParameterGroupArn: String? = nil, dBParameterGroupFamily: String? = nil, dBParameterGroupName: String? = nil, description: String? = nil) {
             self.dBParameterGroupArn = dBParameterGroupArn
             self.dBParameterGroupFamily = dBParameterGroupFamily
@@ -3311,7 +3311,7 @@ extension RDS {
         public let marker: String?
         ///  A list of Parameter values. 
         public let parameters: [Parameter]?
-        
+
         public init(marker: String? = nil, parameters: [Parameter]? = nil) {
             self.marker = marker
             self.parameters = parameters
@@ -3330,7 +3330,7 @@ extension RDS {
 
         /// Provides the name of the DB parameter group.
         public let dBParameterGroupName: String?
-        
+
         public init(dBParameterGroupName: String? = nil) {
             self.dBParameterGroupName = dBParameterGroupName
         }
@@ -3350,7 +3350,7 @@ extension RDS {
         public let dBParameterGroupName: String?
         /// The status of parameter updates.
         public let parameterApplyStatus: String?
-        
+
         public init(dBParameterGroupName: String? = nil, parameterApplyStatus: String? = nil) {
             self.dBParameterGroupName = dBParameterGroupName
             self.parameterApplyStatus = parameterApplyStatus
@@ -3372,7 +3372,7 @@ extension RDS {
         public let dBParameterGroups: [DBParameterGroup]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        
+
         public init(dBParameterGroups: [DBParameterGroup]? = nil, marker: String? = nil) {
             self.dBParameterGroups = dBParameterGroups
             self.marker = marker
@@ -3409,7 +3409,7 @@ extension RDS {
         public let ownerId: String?
         /// Provides the VpcId of the DB security group.
         public let vpcId: String?
-        
+
         public init(dBSecurityGroupArn: String? = nil, dBSecurityGroupDescription: String? = nil, dBSecurityGroupName: String? = nil, eC2SecurityGroups: [EC2SecurityGroup]? = nil, iPRanges: [IPRange]? = nil, ownerId: String? = nil, vpcId: String? = nil) {
             self.dBSecurityGroupArn = dBSecurityGroupArn
             self.dBSecurityGroupDescription = dBSecurityGroupDescription
@@ -3441,7 +3441,7 @@ extension RDS {
         public let dBSecurityGroupName: String?
         /// The status of the DB security group.
         public let status: String?
-        
+
         public init(dBSecurityGroupName: String? = nil, status: String? = nil) {
             self.dBSecurityGroupName = dBSecurityGroupName
             self.status = status
@@ -3463,7 +3463,7 @@ extension RDS {
         public let dBSecurityGroups: [DBSecurityGroup]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        
+
         public init(dBSecurityGroups: [DBSecurityGroup]? = nil, marker: String? = nil) {
             self.dBSecurityGroups = dBSecurityGroups
             self.marker = marker
@@ -3563,7 +3563,7 @@ extension RDS {
         public let timezone: String?
         /// Provides the VPC ID associated with the DB snapshot.
         public let vpcId: String?
-        
+
         public init(allocatedStorage: Int32? = nil, availabilityZone: String? = nil, dBInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, dBSnapshotArn: String? = nil, dBSnapshotIdentifier: String? = nil, encrypted: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: TimeStamp? = nil, iops: Int32? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, optionGroupName: String? = nil, percentProgress: Int32? = nil, port: Int32? = nil, processorFeatures: [ProcessorFeature]? = nil, snapshotCreateTime: TimeStamp? = nil, snapshotType: String? = nil, sourceDBSnapshotIdentifier: String? = nil, sourceRegion: String? = nil, status: String? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcId: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZone = availabilityZone
@@ -3637,7 +3637,7 @@ extension RDS {
         public let attributeName: String?
         /// The value or values for the manual DB snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the AWS accounts that are authorized to copy or restore the manual DB snapshot. If a value of all is in the list, then the manual DB snapshot is public and available for any AWS account to copy or restore.
         public let attributeValues: [String]?
-        
+
         public init(attributeName: String? = nil, attributeValues: [String]? = nil) {
             self.attributeName = attributeName
             self.attributeValues = attributeValues
@@ -3659,7 +3659,7 @@ extension RDS {
         public let dBSnapshotAttributes: [DBSnapshotAttribute]?
         /// The identifier of the manual DB snapshot that the attributes apply to.
         public let dBSnapshotIdentifier: String?
-        
+
         public init(dBSnapshotAttributes: [DBSnapshotAttribute]? = nil, dBSnapshotIdentifier: String? = nil) {
             self.dBSnapshotAttributes = dBSnapshotAttributes
             self.dBSnapshotIdentifier = dBSnapshotIdentifier
@@ -3681,7 +3681,7 @@ extension RDS {
         public let dBSnapshots: [DBSnapshot]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        
+
         public init(dBSnapshots: [DBSnapshot]? = nil, marker: String? = nil) {
             self.dBSnapshots = dBSnapshots
             self.marker = marker
@@ -3715,7 +3715,7 @@ extension RDS {
         public let subnets: [Subnet]?
         /// Provides the VpcId of the DB subnet group.
         public let vpcId: String?
-        
+
         public init(dBSubnetGroupArn: String? = nil, dBSubnetGroupDescription: String? = nil, dBSubnetGroupName: String? = nil, subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, vpcId: String? = nil) {
             self.dBSubnetGroupArn = dBSubnetGroupArn
             self.dBSubnetGroupDescription = dBSubnetGroupDescription
@@ -3745,7 +3745,7 @@ extension RDS {
         public let dBSubnetGroups: [DBSubnetGroup]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        
+
         public init(dBSubnetGroups: [DBSubnetGroup]? = nil, marker: String? = nil) {
             self.dBSubnetGroups = dBSubnetGroups
             self.marker = marker
@@ -3764,7 +3764,7 @@ extension RDS {
 
         /// The identifier associated with the custom endpoint. This parameter is stored as a lowercase string.
         public let dBClusterEndpointIdentifier: String
-        
+
         public init(dBClusterEndpointIdentifier: String) {
             self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
         }
@@ -3787,7 +3787,7 @@ extension RDS {
         public let finalDBSnapshotIdentifier: String?
         /// A value that indicates whether to skip the creation of a final DB cluster snapshot before the DB cluster is deleted. If skip is specified, no DB cluster snapshot is created. If skip is not specified, a DB cluster snapshot is created before the DB cluster is deleted. By default, skip is not specified, and the DB cluster snapshot is created. By default, this parameter is disabled.  You must specify a FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is disabled. 
         public let skipFinalSnapshot: Bool?
-        
+
         public init(dBClusterIdentifier: String, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
@@ -3808,7 +3808,7 @@ extension RDS {
 
         /// The name of the DB cluster parameter group. Constraints:   Must be the name of an existing DB cluster parameter group.   You can't delete a default DB cluster parameter group.   Can't be associated with any DB clusters.  
         public let dBClusterParameterGroupName: String
-        
+
         public init(dBClusterParameterGroupName: String) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
         }
@@ -3824,7 +3824,7 @@ extension RDS {
         ]
 
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -3841,7 +3841,7 @@ extension RDS {
 
         /// The identifier of the DB cluster snapshot to delete. Constraints: Must be the name of an existing DB cluster snapshot in the available state.
         public let dBClusterSnapshotIdentifier: String
-        
+
         public init(dBClusterSnapshotIdentifier: String) {
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
         }
@@ -3857,7 +3857,7 @@ extension RDS {
         ]
 
         public let dBClusterSnapshot: DBClusterSnapshot?
-        
+
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
             self.dBClusterSnapshot = dBClusterSnapshot
         }
@@ -3874,7 +3874,7 @@ extension RDS {
 
         /// The identifier for the source DB instance, which can't be changed and which is unique to an AWS Region.
         public let dbiResourceId: String
-        
+
         public init(dbiResourceId: String) {
             self.dbiResourceId = dbiResourceId
         }
@@ -3890,7 +3890,7 @@ extension RDS {
         ]
 
         public let dBInstanceAutomatedBackup: DBInstanceAutomatedBackup?
-        
+
         public init(dBInstanceAutomatedBackup: DBInstanceAutomatedBackup? = nil) {
             self.dBInstanceAutomatedBackup = dBInstanceAutomatedBackup
         }
@@ -3916,7 +3916,7 @@ extension RDS {
         public let finalDBSnapshotIdentifier: String?
         /// A value that indicates whether to skip the creation of a final DB snapshot before the DB instance is deleted. If skip is specified, no DB snapshot is created. If skip is not specified, a DB snapshot is created before the DB instance is deleted. By default, skip is not specified, and the DB snapshot is created. Note that when a DB instance is in a failure state and has a status of 'failed', 'incompatible-restore', or 'incompatible-network', it can only be deleted when skip is specified. Specify skip when deleting a Read Replica.  The FinalDBSnapshotIdentifier parameter must be specified if skip is not specified. 
         public let skipFinalSnapshot: Bool?
-        
+
         public init(dBInstanceIdentifier: String, deleteAutomatedBackups: Bool? = nil, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.deleteAutomatedBackups = deleteAutomatedBackups
@@ -3938,7 +3938,7 @@ extension RDS {
         ]
 
         public let dBInstance: DBInstance?
-        
+
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
@@ -3955,7 +3955,7 @@ extension RDS {
 
         /// The name of the DB parameter group. Constraints:   Must be the name of an existing DB parameter group   You can't delete a default DB parameter group   Can't be associated with any DB instances  
         public let dBParameterGroupName: String
-        
+
         public init(dBParameterGroupName: String) {
             self.dBParameterGroupName = dBParameterGroupName
         }
@@ -3972,7 +3972,7 @@ extension RDS {
 
         /// The name of the DB security group to delete.  You can't delete the default DB security group.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Must not be "Default"  
         public let dBSecurityGroupName: String
-        
+
         public init(dBSecurityGroupName: String) {
             self.dBSecurityGroupName = dBSecurityGroupName
         }
@@ -3989,7 +3989,7 @@ extension RDS {
 
         /// The DB snapshot identifier. Constraints: Must be the name of an existing DB snapshot in the available state.
         public let dBSnapshotIdentifier: String
-        
+
         public init(dBSnapshotIdentifier: String) {
             self.dBSnapshotIdentifier = dBSnapshotIdentifier
         }
@@ -4005,7 +4005,7 @@ extension RDS {
         ]
 
         public let dBSnapshot: DBSnapshot?
-        
+
         public init(dBSnapshot: DBSnapshot? = nil) {
             self.dBSnapshot = dBSnapshot
         }
@@ -4022,7 +4022,7 @@ extension RDS {
 
         /// The name of the database subnet group to delete.  You can't delete the default subnet group.  Constraints: Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
         public let dBSubnetGroupName: String
-        
+
         public init(dBSubnetGroupName: String) {
             self.dBSubnetGroupName = dBSubnetGroupName
         }
@@ -4039,7 +4039,7 @@ extension RDS {
 
         /// The name of the RDS event notification subscription you want to delete.
         public let subscriptionName: String
-        
+
         public init(subscriptionName: String) {
             self.subscriptionName = subscriptionName
         }
@@ -4055,7 +4055,7 @@ extension RDS {
         ]
 
         public let eventSubscription: EventSubscription?
-        
+
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -4072,7 +4072,7 @@ extension RDS {
 
         ///  The cluster identifier of the global database cluster being deleted. 
         public let globalClusterIdentifier: String
-        
+
         public init(globalClusterIdentifier: String) {
             self.globalClusterIdentifier = globalClusterIdentifier
         }
@@ -4088,7 +4088,7 @@ extension RDS {
         ]
 
         public let globalCluster: GlobalCluster?
-        
+
         public init(globalCluster: GlobalCluster? = nil) {
             self.globalCluster = globalCluster
         }
@@ -4105,7 +4105,7 @@ extension RDS {
 
         /// The name of the option group to be deleted.  You can't delete default option groups. 
         public let optionGroupName: String
-        
+
         public init(optionGroupName: String) {
             self.optionGroupName = optionGroupName
         }
@@ -4116,11 +4116,12 @@ extension RDS {
     }
 
     public struct DescribeAccountAttributesMessage: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeCertificatesMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -4138,7 +4139,7 @@ extension RDS {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(certificateIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.certificateIdentifier = certificateIdentifier
             self.filters = filters
@@ -4173,7 +4174,7 @@ extension RDS {
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(backtrackIdentifier: String? = nil, dBClusterIdentifier: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.backtrackIdentifier = backtrackIdentifier
             self.dBClusterIdentifier = dBClusterIdentifier
@@ -4210,7 +4211,7 @@ extension RDS {
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBClusterEndpointIdentifier: String? = nil, dBClusterIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
             self.dBClusterIdentifier = dBClusterIdentifier
@@ -4244,7 +4245,7 @@ extension RDS {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBClusterParameterGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.filters = filters
@@ -4279,7 +4280,7 @@ extension RDS {
         public let maxRecords: Int32?
         ///  A value that indicates to return only parameters for a specific source. Parameter sources can be engine, service, or customer. 
         public let source: String?
-        
+
         public init(dBClusterParameterGroupName: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, source: String? = nil) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.filters = filters
@@ -4304,7 +4305,7 @@ extension RDS {
 
         /// The identifier for the DB cluster snapshot to describe the attributes for.
         public let dBClusterSnapshotIdentifier: String
-        
+
         public init(dBClusterSnapshotIdentifier: String) {
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
         }
@@ -4320,7 +4321,7 @@ extension RDS {
         ]
 
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
-        
+
         public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
             self.dBClusterSnapshotAttributesResult = dBClusterSnapshotAttributesResult
         }
@@ -4358,7 +4359,7 @@ extension RDS {
         public let maxRecords: Int32?
         /// The type of DB cluster snapshots to be returned. You can specify one of the following values:    automated - Return all DB cluster snapshots that have been automatically taken by Amazon RDS for my AWS account.    manual - Return all DB cluster snapshots that have been taken by my AWS account.    shared - Return all manual DB cluster snapshots that have been shared to my AWS account.    public - Return all DB cluster snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual DB cluster snapshots are returned. You can include shared DB cluster snapshots with these results by enabling the IncludeShared parameter. You can include public DB cluster snapshots with these results by enabling the IncludePublic parameter. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
         public let snapshotType: String?
-        
+
         public init(dBClusterIdentifier: String? = nil, dBClusterSnapshotIdentifier: String? = nil, filters: [Filter]? = nil, includePublic: Bool? = nil, includeShared: Bool? = nil, marker: String? = nil, maxRecords: Int32? = nil, snapshotType: String? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
@@ -4401,7 +4402,7 @@ extension RDS {
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBClusterIdentifier: String? = nil, filters: [Filter]? = nil, includeShared: Bool? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.filters = filters
@@ -4453,7 +4454,7 @@ extension RDS {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so that the following results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBParameterGroupFamily: String? = nil, defaultOnly: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, filters: [Filter]? = nil, includeAll: Bool? = nil, listSupportedCharacterSets: Bool? = nil, listSupportedTimezones: Bool? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
             self.defaultOnly = defaultOnly
@@ -4500,7 +4501,7 @@ extension RDS {
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
         public let maxRecords: Int32?
-        
+
         public init(dBInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.dbiResourceId = dbiResourceId
@@ -4534,7 +4535,7 @@ extension RDS {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBInstanceIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.filters = filters
@@ -4563,7 +4564,7 @@ extension RDS {
         public let logFileName: String?
         /// The size, in bytes, of the log file for the specified DB instance.
         public let size: Int64?
-        
+
         public init(lastWritten: Int64? = nil, logFileName: String? = nil, size: Int64? = nil) {
             self.lastWritten = lastWritten
             self.logFileName = logFileName
@@ -4602,7 +4603,7 @@ extension RDS {
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
         public let maxRecords: Int32?
-        
+
         public init(dBInstanceIdentifier: String, fileLastWritten: Int64? = nil, filenameContains: String? = nil, fileSize: Int64? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.fileLastWritten = fileLastWritten
@@ -4634,7 +4635,7 @@ extension RDS {
         public let describeDBLogFiles: [DescribeDBLogFilesDetails]?
         /// A pagination token that can be used in a subsequent DescribeDBLogFiles request.
         public let marker: String?
-        
+
         public init(describeDBLogFiles: [DescribeDBLogFilesDetails]? = nil, marker: String? = nil) {
             self.describeDBLogFiles = describeDBLogFiles
             self.marker = marker
@@ -4662,7 +4663,7 @@ extension RDS {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBParameterGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBParameterGroupName = dBParameterGroupName
             self.filters = filters
@@ -4697,7 +4698,7 @@ extension RDS {
         public let maxRecords: Int32?
         /// The parameter types to return. Default: All parameter types returned Valid Values: user | system | engine-default 
         public let source: String?
-        
+
         public init(dBParameterGroupName: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, source: String? = nil) {
             self.dBParameterGroupName = dBParameterGroupName
             self.filters = filters
@@ -4731,7 +4732,7 @@ extension RDS {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBSecurityGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBSecurityGroupName = dBSecurityGroupName
             self.filters = filters
@@ -4754,7 +4755,7 @@ extension RDS {
 
         /// The identifier for the DB snapshot to describe the attributes for.
         public let dBSnapshotIdentifier: String
-        
+
         public init(dBSnapshotIdentifier: String) {
             self.dBSnapshotIdentifier = dBSnapshotIdentifier
         }
@@ -4770,7 +4771,7 @@ extension RDS {
         ]
 
         public let dBSnapshotAttributesResult: DBSnapshotAttributesResult?
-        
+
         public init(dBSnapshotAttributesResult: DBSnapshotAttributesResult? = nil) {
             self.dBSnapshotAttributesResult = dBSnapshotAttributesResult
         }
@@ -4811,7 +4812,7 @@ extension RDS {
         public let maxRecords: Int32?
         /// The type of snapshots to be returned. You can specify one of the following values:    automated - Return all DB snapshots that have been automatically taken by Amazon RDS for my AWS account.    manual - Return all DB snapshots that have been taken by my AWS account.    shared - Return all manual DB snapshots that have been shared to my AWS account.    public - Return all DB snapshots that have been marked as public.    awsbackup - Return the DB snapshots managed by the AWS Backup service. For information about AWS Backup, see the  AWS Backup Developer Guide.   The awsbackup type does not apply to Aurora.   If you don't specify a SnapshotType value, then both automated and manual snapshots are returned. Shared and public DB snapshots are not included in the returned results by default. You can include shared snapshots with these results by enabling the IncludeShared parameter. You can include public snapshots with these results by enabling the IncludePublic parameter. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
         public let snapshotType: String?
-        
+
         public init(dBInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, dBSnapshotIdentifier: String? = nil, filters: [Filter]? = nil, includePublic: Bool? = nil, includeShared: Bool? = nil, marker: String? = nil, maxRecords: Int32? = nil, snapshotType: String? = nil) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.dbiResourceId = dbiResourceId
@@ -4853,7 +4854,7 @@ extension RDS {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBSubnetGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBSubnetGroupName = dBSubnetGroupName
             self.filters = filters
@@ -4885,7 +4886,7 @@ extension RDS {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBParameterGroupFamily: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
             self.filters = filters
@@ -4907,7 +4908,7 @@ extension RDS {
         ]
 
         public let engineDefaults: EngineDefaults?
-        
+
         public init(engineDefaults: EngineDefaults? = nil) {
             self.engineDefaults = engineDefaults
         }
@@ -4933,7 +4934,7 @@ extension RDS {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBParameterGroupFamily: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
             self.filters = filters
@@ -4955,7 +4956,7 @@ extension RDS {
         ]
 
         public let engineDefaults: EngineDefaults?
-        
+
         public init(engineDefaults: EngineDefaults? = nil) {
             self.engineDefaults = engineDefaults
         }
@@ -4975,7 +4976,7 @@ extension RDS {
         public let filters: [Filter]?
         /// The type of source that is generating the events. Valid values: db-instance | db-parameter-group | db-security-group | db-snapshot
         public let sourceType: String?
-        
+
         public init(filters: [Filter]? = nil, sourceType: String? = nil) {
             self.filters = filters
             self.sourceType = sourceType
@@ -5003,7 +5004,7 @@ extension RDS {
         public let maxRecords: Int32?
         /// The name of the RDS event notification subscription you want to describe.
         public let subscriptionName: String?
-        
+
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, subscriptionName: String? = nil) {
             self.filters = filters
             self.marker = marker
@@ -5050,7 +5051,7 @@ extension RDS {
         public let sourceType: SourceType?
         ///  The beginning of the time interval to retrieve events for, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z
         public let startTime: TimeStamp?
-        
+
         public init(duration: Int32? = nil, endTime: TimeStamp? = nil, eventCategories: [String]? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
             self.duration = duration
             self.endTime = endTime
@@ -5092,7 +5093,7 @@ extension RDS {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(filters: [Filter]? = nil, globalClusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.filters = filters
             self.globalClusterIdentifier = globalClusterIdentifier
@@ -5127,7 +5128,7 @@ extension RDS {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(engineName: String, filters: [Filter]? = nil, majorEngineVersion: String? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.engineName = engineName
             self.filters = filters
@@ -5167,7 +5168,7 @@ extension RDS {
         public let maxRecords: Int32?
         /// The name of the option group to describe. Can't be supplied together with EngineName or MajorEngineVersion.
         public let optionGroupName: String?
-        
+
         public init(engineName: String? = nil, filters: [Filter]? = nil, majorEngineVersion: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, optionGroupName: String? = nil) {
             self.engineName = engineName
             self.filters = filters
@@ -5215,7 +5216,7 @@ extension RDS {
         public let maxRecords: Int32?
         /// A value that indicates whether to show only VPC or non-VPC offerings.
         public let vpc: Bool?
-        
+
         public init(dBInstanceClass: String? = nil, engine: String, engineVersion: String? = nil, filters: [Filter]? = nil, licenseModel: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, vpc: Bool? = nil) {
             self.dBInstanceClass = dBInstanceClass
             self.engine = engine
@@ -5255,7 +5256,7 @@ extension RDS {
         public let maxRecords: Int32?
         /// The ARN of a resource to return pending maintenance actions for.
         public let resourceIdentifier: String?
-        
+
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, resourceIdentifier: String? = nil) {
             self.filters = filters
             self.marker = marker
@@ -5305,7 +5306,7 @@ extension RDS {
         public let reservedDBInstanceId: String?
         /// The offering identifier filter value. Specify this parameter to show only purchased reservations matching the specified offering identifier.
         public let reservedDBInstancesOfferingId: String?
-        
+
         public init(dBInstanceClass: String? = nil, duration: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, multiAZ: Bool? = nil, offeringType: String? = nil, productDescription: String? = nil, reservedDBInstanceId: String? = nil, reservedDBInstancesOfferingId: String? = nil) {
             self.dBInstanceClass = dBInstanceClass
             self.duration = duration
@@ -5364,7 +5365,7 @@ extension RDS {
         public let productDescription: String?
         /// The offering identifier filter value. Specify this parameter to show only the available offering that matches the specified reservation identifier. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706 
         public let reservedDBInstancesOfferingId: String?
-        
+
         public init(dBInstanceClass: String? = nil, duration: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, multiAZ: Bool? = nil, offeringType: String? = nil, productDescription: String? = nil, reservedDBInstancesOfferingId: String? = nil) {
             self.dBInstanceClass = dBInstanceClass
             self.duration = duration
@@ -5406,7 +5407,7 @@ extension RDS {
         public let maxRecords: Int32?
         /// The source AWS Region name. For example, us-east-1. Constraints:   Must specify a valid AWS Region name.  
         public let regionName: String?
-        
+
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, regionName: String? = nil) {
             self.filters = filters
             self.marker = marker
@@ -5429,7 +5430,7 @@ extension RDS {
 
         /// The customer identifier or the ARN of your DB instance. 
         public let dBInstanceIdentifier: String
-        
+
         public init(dBInstanceIdentifier: String) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
         }
@@ -5445,7 +5446,7 @@ extension RDS {
         ]
 
         public let validDBInstanceModificationsMessage: ValidDBInstanceModificationsMessage?
-        
+
         public init(validDBInstanceModificationsMessage: ValidDBInstanceModificationsMessage? = nil) {
             self.validDBInstanceModificationsMessage = validDBInstanceModificationsMessage
         }
@@ -5471,7 +5472,7 @@ extension RDS {
         public let iAMRoleName: String?
         /// The status of the DB instance's Active Directory Domain membership, such as joined, pending-join, failed etc).
         public let status: String?
-        
+
         public init(domain: String? = nil, fqdn: String? = nil, iAMRoleName: String? = nil, status: String? = nil) {
             self.domain = domain
             self.fqdn = fqdn
@@ -5497,7 +5498,7 @@ extension RDS {
         public let from: Double?
         /// The maximum value in the range.
         public let to: Double?
-        
+
         public init(from: Double? = nil, to: Double? = nil) {
             self.from = from
             self.to = to
@@ -5522,7 +5523,7 @@ extension RDS {
         public let logFileData: String?
         /// A pagination token that can be used in a subsequent DownloadDBLogFilePortion request.
         public let marker: String?
-        
+
         public init(additionalDataPending: Bool? = nil, logFileData: String? = nil, marker: String? = nil) {
             self.additionalDataPending = additionalDataPending
             self.logFileData = logFileData
@@ -5552,7 +5553,7 @@ extension RDS {
         public let marker: String?
         /// The number of lines to download. If the number of lines specified results in a file over 1 MB in size, the file is truncated at 1 MB in size. If the NumberOfLines parameter is specified, then the block of lines returned can be from the beginning or the end of the log file, depending on the value of the Marker parameter.   If neither Marker or NumberOfLines are specified, the entire log file is returned up to a maximum of 10000 lines, starting with the most recent log entries first.   If NumberOfLines is specified and Marker is not specified, then the most recent lines from the end of the log file are returned.   If Marker is specified as "0", then the specified number of lines from the beginning of the log file are returned.   You can download the log file in blocks of lines by specifying the size of the block using the NumberOfLines parameter, and by specifying a value of "0" for the Marker parameter in your first request. Include the Marker value returned in the response as the Marker value for the next request, continuing until the AdditionalDataPending response element returns false.  
         public let numberOfLines: Int32?
-        
+
         public init(dBInstanceIdentifier: String, logFileName: String, marker: String? = nil, numberOfLines: Int32? = nil) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.logFileName = logFileName
@@ -5584,7 +5585,7 @@ extension RDS {
         public let eC2SecurityGroupOwnerId: String?
         /// Provides the status of the EC2 security group. Status can be "authorizing", "authorized", "revoking", and "revoked".
         public let status: String?
-        
+
         public init(eC2SecurityGroupId: String? = nil, eC2SecurityGroupName: String? = nil, eC2SecurityGroupOwnerId: String? = nil, status: String? = nil) {
             self.eC2SecurityGroupId = eC2SecurityGroupId
             self.eC2SecurityGroupName = eC2SecurityGroupName
@@ -5613,7 +5614,7 @@ extension RDS {
         public let hostedZoneId: String?
         /// Specifies the port that the database engine is listening on.
         public let port: Int32?
-        
+
         public init(address: String? = nil, hostedZoneId: String? = nil, port: Int32? = nil) {
             self.address = address
             self.hostedZoneId = hostedZoneId
@@ -5640,7 +5641,7 @@ extension RDS {
         public let marker: String?
         /// Contains a list of engine default parameters.
         public let parameters: [Parameter]?
-        
+
         public init(dBParameterGroupFamily: String? = nil, marker: String? = nil, parameters: [Parameter]? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
             self.marker = marker
@@ -5676,7 +5677,7 @@ extension RDS {
         public let sourceIdentifier: String?
         /// Specifies the source type for this event.
         public let sourceType: SourceType?
-        
+
         public init(date: TimeStamp? = nil, eventCategories: [String]? = nil, message: String? = nil, sourceArn: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil) {
             self.date = date
             self.eventCategories = eventCategories
@@ -5706,7 +5707,7 @@ extension RDS {
         public let eventCategories: [String]?
         /// The source type that the returned categories belong to
         public let sourceType: String?
-        
+
         public init(eventCategories: [String]? = nil, sourceType: String? = nil) {
             self.eventCategories = eventCategories
             self.sourceType = sourceType
@@ -5725,7 +5726,7 @@ extension RDS {
 
         /// A list of EventCategoriesMap data types.
         public let eventCategoriesMapList: [EventCategoriesMap]?
-        
+
         public init(eventCategoriesMapList: [EventCategoriesMap]? = nil) {
             self.eventCategoriesMapList = eventCategoriesMapList
         }
@@ -5769,7 +5770,7 @@ extension RDS {
         public let status: String?
         /// The time the RDS event notification subscription was created.
         public let subscriptionCreationTime: String?
-        
+
         public init(customerAwsId: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, eventCategoriesList: [String]? = nil, eventSubscriptionArn: String? = nil, snsTopicArn: String? = nil, sourceIdsList: [String]? = nil, sourceType: String? = nil, status: String? = nil, subscriptionCreationTime: String? = nil) {
             self.customerAwsId = customerAwsId
             self.custSubscriptionId = custSubscriptionId
@@ -5807,7 +5808,7 @@ extension RDS {
         public let eventSubscriptionsList: [EventSubscription]?
         ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        
+
         public init(eventSubscriptionsList: [EventSubscription]? = nil, marker: String? = nil) {
             self.eventSubscriptionsList = eventSubscriptionsList
             self.marker = marker
@@ -5829,7 +5830,7 @@ extension RDS {
         public let events: [Event]?
         ///  An optional pagination token provided by a previous Events request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
         public let marker: String?
-        
+
         public init(events: [Event]? = nil, marker: String? = nil) {
             self.events = events
             self.marker = marker
@@ -5851,7 +5852,7 @@ extension RDS {
         public let dBClusterIdentifier: String
         /// The name of the instance to promote to the primary instance. You must specify the instance identifier for an Aurora Replica in the DB cluster. For example, mydbcluster-replica1.
         public let targetDBInstanceIdentifier: String?
-        
+
         public init(dBClusterIdentifier: String, targetDBInstanceIdentifier: String? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.targetDBInstanceIdentifier = targetDBInstanceIdentifier
@@ -5869,7 +5870,7 @@ extension RDS {
         ]
 
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -5889,7 +5890,7 @@ extension RDS {
         public let name: String
         /// One or more filter values. Filter values are case-sensitive.
         public let values: [String]
-        
+
         public init(name: String, values: [String]) {
             self.name = name
             self.values = values
@@ -5935,7 +5936,7 @@ extension RDS {
         public let status: String?
         ///  The storage encryption setting for the global database cluster. 
         public let storageEncrypted: Bool?
-        
+
         public init(databaseName: String? = nil, deletionProtection: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterArn: String? = nil, globalClusterIdentifier: String? = nil, globalClusterMembers: [GlobalClusterMember]? = nil, globalClusterResourceId: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil) {
             self.databaseName = databaseName
             self.deletionProtection = deletionProtection
@@ -5976,7 +5977,7 @@ extension RDS {
         public let isWriter: Bool?
         ///  The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Aurora global database. 
         public let readers: [String]?
-        
+
         public init(dBClusterArn: String? = nil, isWriter: Bool? = nil, readers: [String]? = nil) {
             self.dBClusterArn = dBClusterArn
             self.isWriter = isWriter
@@ -6000,7 +6001,7 @@ extension RDS {
         public let globalClusters: [GlobalCluster]?
         ///  An optional pagination token provided by a previous DescribeGlobalClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        
+
         public init(globalClusters: [GlobalCluster]? = nil, marker: String? = nil) {
             self.globalClusters = globalClusters
             self.marker = marker
@@ -6022,7 +6023,7 @@ extension RDS {
         public let cidrip: String?
         /// Specifies the status of the IP range. Status can be "authorizing", "authorized", "revoking", and "revoked".
         public let status: String?
-        
+
         public init(cidrip: String? = nil, status: String? = nil) {
             self.cidrip = cidrip
             self.status = status
@@ -6044,7 +6045,7 @@ extension RDS {
         public let filters: [Filter]?
         /// The Amazon RDS resource with tags to be listed. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon RDS User Guide.
         public let resourceName: String
-        
+
         public init(filters: [Filter]? = nil, resourceName: String) {
             self.filters = filters
             self.resourceName = resourceName
@@ -6066,7 +6067,7 @@ extension RDS {
         public let allowedValue: String?
         /// The minimum DB engine version required for the allowed value.
         public let minimumEngineVersion: String?
-        
+
         public init(allowedValue: String? = nil, minimumEngineVersion: String? = nil) {
             self.allowedValue = allowedValue
             self.minimumEngineVersion = minimumEngineVersion
@@ -6094,7 +6095,7 @@ extension RDS {
         public let secondsBeforeTimeout: Int32?
         /// The action to take when the timeout is reached, either ForceApplyCapacityChange or RollbackCapacityChange.  ForceApplyCapacityChange, the default, sets the capacity to the specified value as soon as possible.  RollbackCapacityChange ignores the capacity change if a scaling point is not found in the timeout period.
         public let timeoutAction: String?
-        
+
         public init(capacity: Int32? = nil, dBClusterIdentifier: String, secondsBeforeTimeout: Int32? = nil, timeoutAction: String? = nil) {
             self.capacity = capacity
             self.dBClusterIdentifier = dBClusterIdentifier
@@ -6126,7 +6127,7 @@ extension RDS {
         public let excludedMembers: [String]?
         /// List of DB instance identifiers that are part of the custom endpoint group.
         public let staticMembers: [String]?
-        
+
         public init(dBClusterEndpointIdentifier: String, endpointType: String? = nil, excludedMembers: [String]? = nil, staticMembers: [String]? = nil) {
             self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
             self.endpointType = endpointType
@@ -6209,7 +6210,7 @@ extension RDS {
         public let scalingConfiguration: ScalingConfiguration?
         /// A list of VPC security groups that the DB cluster will belong to.
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int32? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBInstanceParameterGroupName: String? = nil, deletionProtection: Bool? = nil, enableHttpEndpoint: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, scalingConfiguration: ScalingConfiguration? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
@@ -6269,7 +6270,7 @@ extension RDS {
         public let dBClusterParameterGroupName: String
         /// A list of parameters in the DB cluster parameter group to modify.
         public let parameters: [Parameter]
-        
+
         public init(dBClusterParameterGroupName: String, parameters: [Parameter]) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.parameters = parameters
@@ -6287,7 +6288,7 @@ extension RDS {
         ]
 
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -6313,7 +6314,7 @@ extension RDS {
         public let valuesToAdd: [String]?
         /// A list of DB cluster snapshot attributes to remove from the attribute specified by AttributeName. To remove authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more AWS account identifiers, or all to remove authorization for any AWS account to copy or restore the DB cluster snapshot. If you specify all, an AWS account whose account ID is explicitly added to the restore attribute can still copy or restore a manual DB cluster snapshot.
         public let valuesToRemove: [String]?
-        
+
         public init(attributeName: String, dBClusterSnapshotIdentifier: String, valuesToAdd: [String]? = nil, valuesToRemove: [String]? = nil) {
             self.attributeName = attributeName
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
@@ -6335,7 +6336,7 @@ extension RDS {
         ]
 
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
-        
+
         public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
             self.dBClusterSnapshotAttributesResult = dBClusterSnapshotAttributesResult
         }
@@ -6472,7 +6473,7 @@ extension RDS {
         public let useDefaultProcessorFeatures: Bool?
         /// A list of EC2 VPC security groups to authorize on this DB instance. This change is asynchronously applied as soon as possible.  Amazon Aurora  Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see ModifyDBCluster. Constraints:   If supplied, must match existing VpcSecurityGroupIds.  
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(allocatedStorage: Int32? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int32? = nil, cACertificateIdentifier: String? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, dBParameterGroupName: String? = nil, dBPortNumber: Int32? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineVersion: String? = nil, iops: Int32? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, maxAllocatedStorage: Int32? = nil, monitoringInterval: Int32? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int32? = nil, publiclyAccessible: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
@@ -6568,7 +6569,7 @@ extension RDS {
         ]
 
         public let dBInstance: DBInstance?
-        
+
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
@@ -6588,7 +6589,7 @@ extension RDS {
         public let dBParameterGroupName: String
         /// An array of parameter names, values, and the apply method for the parameter update. At least one parameter name, value, and apply method must be supplied; subsequent arguments are optional. A maximum of 20 parameters can be modified in a single request. Valid Values (for the application method): immediate | pending-reboot   You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when you reboot the DB instance without failover. 
         public let parameters: [Parameter]
-        
+
         public init(dBParameterGroupName: String, parameters: [Parameter]) {
             self.dBParameterGroupName = dBParameterGroupName
             self.parameters = parameters
@@ -6616,7 +6617,7 @@ extension RDS {
         public let valuesToAdd: [String]?
         /// A list of DB snapshot attributes to remove from the attribute specified by AttributeName. To remove authorization for other AWS accounts to copy or restore a manual snapshot, set this list to include one or more AWS account identifiers, or all to remove authorization for any AWS account to copy or restore the DB snapshot. If you specify all, an AWS account whose account ID is explicitly added to the restore attribute can still copy or restore the manual DB snapshot.
         public let valuesToRemove: [String]?
-        
+
         public init(attributeName: String, dBSnapshotIdentifier: String, valuesToAdd: [String]? = nil, valuesToRemove: [String]? = nil) {
             self.attributeName = attributeName
             self.dBSnapshotIdentifier = dBSnapshotIdentifier
@@ -6638,7 +6639,7 @@ extension RDS {
         ]
 
         public let dBSnapshotAttributesResult: DBSnapshotAttributesResult?
-        
+
         public init(dBSnapshotAttributesResult: DBSnapshotAttributesResult? = nil) {
             self.dBSnapshotAttributesResult = dBSnapshotAttributesResult
         }
@@ -6661,7 +6662,7 @@ extension RDS {
         public let engineVersion: String?
         /// The option group to identify with the upgraded DB snapshot.  You can specify this parameter when you upgrade an Oracle DB snapshot. The same option group considerations apply when upgrading a DB snapshot as when upgrading a DB instance. For more information, see Option Group Considerations in the Amazon RDS User Guide. 
         public let optionGroupName: String?
-        
+
         public init(dBSnapshotIdentifier: String, engineVersion: String? = nil, optionGroupName: String? = nil) {
             self.dBSnapshotIdentifier = dBSnapshotIdentifier
             self.engineVersion = engineVersion
@@ -6681,7 +6682,7 @@ extension RDS {
         ]
 
         public let dBSnapshot: DBSnapshot?
-        
+
         public init(dBSnapshot: DBSnapshot? = nil) {
             self.dBSnapshot = dBSnapshot
         }
@@ -6704,7 +6705,7 @@ extension RDS {
         public let dBSubnetGroupName: String
         /// The EC2 subnet IDs for the DB subnet group.
         public let subnetIds: [String]
-        
+
         public init(dBSubnetGroupDescription: String? = nil, dBSubnetGroupName: String, subnetIds: [String]) {
             self.dBSubnetGroupDescription = dBSubnetGroupDescription
             self.dBSubnetGroupName = dBSubnetGroupName
@@ -6724,7 +6725,7 @@ extension RDS {
         ]
 
         public let dBSubnetGroup: DBSubnetGroup?
-        
+
         public init(dBSubnetGroup: DBSubnetGroup? = nil) {
             self.dBSubnetGroup = dBSubnetGroup
         }
@@ -6753,7 +6754,7 @@ extension RDS {
         public let sourceType: String?
         /// The name of the RDS event notification subscription.
         public let subscriptionName: String
-        
+
         public init(enabled: Bool? = nil, eventCategories: [String]? = nil, snsTopicArn: String? = nil, sourceType: String? = nil, subscriptionName: String) {
             self.enabled = enabled
             self.eventCategories = eventCategories
@@ -6777,7 +6778,7 @@ extension RDS {
         ]
 
         public let eventSubscription: EventSubscription?
-        
+
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -6800,7 +6801,7 @@ extension RDS {
         public let globalClusterIdentifier: String?
         ///  The new cluster identifier for the global database cluster when modifying a global database cluster. This value is stored as a lowercase string.  Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   The first character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-cluster2 
         public let newGlobalClusterIdentifier: String?
-        
+
         public init(deletionProtection: Bool? = nil, globalClusterIdentifier: String? = nil, newGlobalClusterIdentifier: String? = nil) {
             self.deletionProtection = deletionProtection
             self.globalClusterIdentifier = globalClusterIdentifier
@@ -6820,7 +6821,7 @@ extension RDS {
         ]
 
         public let globalCluster: GlobalCluster?
-        
+
         public init(globalCluster: GlobalCluster? = nil) {
             self.globalCluster = globalCluster
         }
@@ -6846,7 +6847,7 @@ extension RDS {
         public let optionsToInclude: [OptionConfiguration]?
         /// Options in this list are removed from the option group.
         public let optionsToRemove: [String]?
-        
+
         public init(applyImmediately: Bool? = nil, optionGroupName: String, optionsToInclude: [OptionConfiguration]? = nil, optionsToRemove: [String]? = nil) {
             self.applyImmediately = applyImmediately
             self.optionGroupName = optionGroupName
@@ -6868,7 +6869,7 @@ extension RDS {
         ]
 
         public let optionGroup: OptionGroup?
-        
+
         public init(optionGroup: OptionGroup? = nil) {
             self.optionGroup = optionGroup
         }
@@ -6909,7 +6910,7 @@ extension RDS {
         public let port: Int32?
         /// If the option requires access to a port, then this VPC security group allows access to the port.
         public let vpcSecurityGroupMemberships: [VpcSecurityGroupMembership]?
-        
+
         public init(dBSecurityGroupMemberships: [DBSecurityGroupMembership]? = nil, optionDescription: String? = nil, optionName: String? = nil, optionSettings: [OptionSetting]? = nil, optionVersion: String? = nil, permanent: Bool? = nil, persistent: Bool? = nil, port: Int32? = nil, vpcSecurityGroupMemberships: [VpcSecurityGroupMembership]? = nil) {
             self.dBSecurityGroupMemberships = dBSecurityGroupMemberships
             self.optionDescription = optionDescription
@@ -6957,7 +6958,7 @@ extension RDS {
         public let port: Int32?
         /// A list of VpcSecurityGroupMembership name strings used for this option.
         public let vpcSecurityGroupMemberships: [String]?
-        
+
         public init(dBSecurityGroupMemberships: [String]? = nil, optionName: String, optionSettings: [OptionSetting]? = nil, optionVersion: String? = nil, port: Int32? = nil, vpcSecurityGroupMemberships: [String]? = nil) {
             self.dBSecurityGroupMemberships = dBSecurityGroupMemberships
             self.optionName = optionName
@@ -7005,7 +7006,7 @@ extension RDS {
         public let options: [Option]?
         /// If AllowsVpcAndNonVpcInstanceMemberships is false, this field is blank. If AllowsVpcAndNonVpcInstanceMemberships is true and this field is blank, then this option group can be applied to both VPC and non-VPC instances. If this field contains a value, then this option group can only be applied to instances that are in the VPC indicated by this field. 
         public let vpcId: String?
-        
+
         public init(allowsVpcAndNonVpcInstanceMemberships: Bool? = nil, engineName: String? = nil, majorEngineVersion: String? = nil, optionGroupArn: String? = nil, optionGroupDescription: String? = nil, optionGroupName: String? = nil, options: [Option]? = nil, vpcId: String? = nil) {
             self.allowsVpcAndNonVpcInstanceMemberships = allowsVpcAndNonVpcInstanceMemberships
             self.engineName = engineName
@@ -7039,7 +7040,7 @@ extension RDS {
         public let optionGroupName: String?
         /// The status of the DB instance's option group membership. Valid values are: in-sync, pending-apply, pending-removal, pending-maintenance-apply, pending-maintenance-removal, applying, removing, and failed. 
         public let status: String?
-        
+
         public init(optionGroupName: String? = nil, status: String? = nil) {
             self.optionGroupName = optionGroupName
             self.status = status
@@ -7103,7 +7104,7 @@ extension RDS {
         public let supportsOptionVersionDowngrade: Bool?
         /// If true, you can only use this option with a DB instance that is in a VPC. 
         public let vpcOnly: Bool?
-        
+
         public init(defaultPort: Int32? = nil, description: String? = nil, engineName: String? = nil, majorEngineVersion: String? = nil, minimumRequiredMinorEngineVersion: String? = nil, name: String? = nil, optionGroupOptionSettings: [OptionGroupOptionSetting]? = nil, optionGroupOptionVersions: [OptionVersion]? = nil, optionsConflictsWith: [String]? = nil, optionsDependedOn: [String]? = nil, permanent: Bool? = nil, persistent: Bool? = nil, portRequired: Bool? = nil, requiresAutoMinorEngineVersionUpgrade: Bool? = nil, supportsOptionVersionDowngrade: Bool? = nil, vpcOnly: Bool? = nil) {
             self.defaultPort = defaultPort
             self.description = description
@@ -7171,7 +7172,7 @@ extension RDS {
         public let settingDescription: String?
         /// The name of the option group option.
         public let settingName: String?
-        
+
         public init(allowedValues: String? = nil, applyType: String? = nil, defaultValue: String? = nil, isModifiable: Bool? = nil, isRequired: Bool? = nil, minimumEngineVersionPerAllowedValue: [MinimumEngineVersionPerAllowedValue]? = nil, settingDescription: String? = nil, settingName: String? = nil) {
             self.allowedValues = allowedValues
             self.applyType = applyType
@@ -7204,7 +7205,7 @@ extension RDS {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         public let optionGroupOptions: [OptionGroupOption]?
-        
+
         public init(marker: String? = nil, optionGroupOptions: [OptionGroupOption]? = nil) {
             self.marker = marker
             self.optionGroupOptions = optionGroupOptions
@@ -7226,7 +7227,7 @@ extension RDS {
         public let marker: String?
         /// List of option groups.
         public let optionGroupsList: [OptionGroup]?
-        
+
         public init(marker: String? = nil, optionGroupsList: [OptionGroup]? = nil) {
             self.marker = marker
             self.optionGroupsList = optionGroupsList
@@ -7269,7 +7270,7 @@ extension RDS {
         public let name: String?
         /// The current value of the option setting.
         public let value: String?
-        
+
         public init(allowedValues: String? = nil, applyType: String? = nil, dataType: String? = nil, defaultValue: String? = nil, description: String? = nil, isCollection: Bool? = nil, isModifiable: Bool? = nil, name: String? = nil, value: String? = nil) {
             self.allowedValues = allowedValues
             self.applyType = applyType
@@ -7305,7 +7306,7 @@ extension RDS {
         public let isDefault: Bool?
         /// The version of the option.
         public let version: String?
-        
+
         public init(isDefault: Bool? = nil, version: String? = nil) {
             self.isDefault = isDefault
             self.version = version
@@ -7390,7 +7391,7 @@ extension RDS {
         public let supportsStorageEncryption: Bool?
         /// Indicates whether a DB instance is in a VPC.
         public let vpc: Bool?
-        
+
         public init(availabilityZones: [AvailabilityZone]? = nil, availableProcessorFeatures: [AvailableProcessorFeature]? = nil, dBInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, maxIopsPerDbInstance: Int32? = nil, maxIopsPerGib: Double? = nil, maxStorageSize: Int32? = nil, minIopsPerDbInstance: Int32? = nil, minIopsPerGib: Double? = nil, minStorageSize: Int32? = nil, multiAZCapable: Bool? = nil, readReplicaCapable: Bool? = nil, storageType: String? = nil, supportedEngineModes: [String]? = nil, supportsEnhancedMonitoring: Bool? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsIops: Bool? = nil, supportsPerformanceInsights: Bool? = nil, supportsStorageAutoscaling: Bool? = nil, supportsStorageEncryption: Bool? = nil, vpc: Bool? = nil) {
             self.availabilityZones = availabilityZones
             self.availableProcessorFeatures = availableProcessorFeatures
@@ -7454,7 +7455,7 @@ extension RDS {
         public let marker: String?
         /// An OrderableDBInstanceOption structure containing information about orderable options for the DB instance.
         public let orderableDBInstanceOptions: [OrderableDBInstanceOption]?
-        
+
         public init(marker: String? = nil, orderableDBInstanceOptions: [OrderableDBInstanceOption]? = nil) {
             self.marker = marker
             self.orderableDBInstanceOptions = orderableDBInstanceOptions
@@ -7503,7 +7504,7 @@ extension RDS {
         public let source: String?
         /// The valid DB engine modes.
         public let supportedEngineModes: [String]?
-        
+
         public init(allowedValues: String? = nil, applyMethod: ApplyMethod? = nil, applyType: String? = nil, dataType: String? = nil, description: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, parameterName: String? = nil, parameterValue: String? = nil, source: String? = nil, supportedEngineModes: [String]? = nil) {
             self.allowedValues = allowedValues
             self.applyMethod = applyMethod
@@ -7543,7 +7544,7 @@ extension RDS {
         public let logTypesToDisable: [String]?
         /// Log types that are in the process of being deactivated. After they are deactivated, these log types aren't exported to CloudWatch Logs.
         public let logTypesToEnable: [String]?
-        
+
         public init(logTypesToDisable: [String]? = nil, logTypesToEnable: [String]? = nil) {
             self.logTypesToDisable = logTypesToDisable
             self.logTypesToEnable = logTypesToEnable
@@ -7577,7 +7578,7 @@ extension RDS {
         public let forcedApplyDate: TimeStamp?
         /// Indicates the type of opt-in request that has been received for the resource.
         public let optInStatus: String?
-        
+
         public init(action: String? = nil, autoAppliedAfterDate: TimeStamp? = nil, currentApplyDate: TimeStamp? = nil, description: String? = nil, forcedApplyDate: TimeStamp? = nil, optInStatus: String? = nil) {
             self.action = action
             self.autoAppliedAfterDate = autoAppliedAfterDate
@@ -7607,7 +7608,7 @@ extension RDS {
         public let marker: String?
         /// A list of the pending maintenance actions for the resource.
         public let pendingMaintenanceActions: [ResourcePendingMaintenanceActions]?
-        
+
         public init(marker: String? = nil, pendingMaintenanceActions: [ResourcePendingMaintenanceActions]? = nil) {
             self.marker = marker
             self.pendingMaintenanceActions = pendingMaintenanceActions
@@ -7667,7 +7668,7 @@ extension RDS {
         public let processorFeatures: [ProcessorFeature]?
         /// Specifies the storage type to be associated with the DB instance.
         public let storageType: String?
-        
+
         public init(allocatedStorage: Int32? = nil, backupRetentionPeriod: Int32? = nil, cACertificateIdentifier: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dBSubnetGroupName: String? = nil, engineVersion: String? = nil, iops: Int32? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, pendingCloudwatchLogsExports: PendingCloudwatchLogsExports? = nil, port: Int32? = nil, processorFeatures: [ProcessorFeature]? = nil, storageType: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -7715,7 +7716,7 @@ extension RDS {
         public let name: String?
         /// The value of a processor feature name.
         public let value: String?
-        
+
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -7734,7 +7735,7 @@ extension RDS {
 
         /// The identifier of the DB cluster Read Replica to promote. This parameter is not case-sensitive.  Constraints:   Must match the identifier of an existing DBCluster Read Replica.   Example: my-cluster-replica1 
         public let dBClusterIdentifier: String
-        
+
         public init(dBClusterIdentifier: String) {
             self.dBClusterIdentifier = dBClusterIdentifier
         }
@@ -7750,7 +7751,7 @@ extension RDS {
         ]
 
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -7773,7 +7774,7 @@ extension RDS {
         public let dBInstanceIdentifier: String
         ///  The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter.   The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
         public let preferredBackupWindow: String?
-        
+
         public init(backupRetentionPeriod: Int32? = nil, dBInstanceIdentifier: String, preferredBackupWindow: String? = nil) {
             self.backupRetentionPeriod = backupRetentionPeriod
             self.dBInstanceIdentifier = dBInstanceIdentifier
@@ -7793,7 +7794,7 @@ extension RDS {
         ]
 
         public let dBInstance: DBInstance?
-        
+
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
@@ -7818,7 +7819,7 @@ extension RDS {
         /// The ID of the Reserved DB instance offering to purchase. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706
         public let reservedDBInstancesOfferingId: String
         public let tags: [Tag]?
-        
+
         public init(dBInstanceCount: Int32? = nil, reservedDBInstanceId: String? = nil, reservedDBInstancesOfferingId: String, tags: [Tag]? = nil) {
             self.dBInstanceCount = dBInstanceCount
             self.reservedDBInstanceId = reservedDBInstanceId
@@ -7840,7 +7841,7 @@ extension RDS {
         ]
 
         public let reservedDBInstance: ReservedDBInstance?
-        
+
         public init(reservedDBInstance: ReservedDBInstance? = nil) {
             self.reservedDBInstance = reservedDBInstance
         }
@@ -7863,7 +7864,7 @@ extension RDS {
         public let step: Int32?
         /// The maximum value in the range.
         public let to: Int32?
-        
+
         public init(from: Int32? = nil, step: Int32? = nil, to: Int32? = nil) {
             self.from = from
             self.step = step
@@ -7887,7 +7888,7 @@ extension RDS {
         public let dBInstanceIdentifier: String
         ///  A value that indicates whether the reboot is conducted through a Multi-AZ failover.  Constraint: You can't enable force failover if the instance is not configured for Multi-AZ.
         public let forceFailover: Bool?
-        
+
         public init(dBInstanceIdentifier: String, forceFailover: Bool? = nil) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.forceFailover = forceFailover
@@ -7905,7 +7906,7 @@ extension RDS {
         ]
 
         public let dBInstance: DBInstance?
-        
+
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
@@ -7925,7 +7926,7 @@ extension RDS {
         public let recurringChargeAmount: Double?
         /// The frequency of the recurring charge.
         public let recurringChargeFrequency: String?
-        
+
         public init(recurringChargeAmount: Double? = nil, recurringChargeFrequency: String? = nil) {
             self.recurringChargeAmount = recurringChargeAmount
             self.recurringChargeFrequency = recurringChargeFrequency
@@ -7947,7 +7948,7 @@ extension RDS {
         public let dbClusterIdentifier: String?
         ///  The cluster identifier to detach from the Aurora global database cluster. 
         public let globalClusterIdentifier: String?
-        
+
         public init(dbClusterIdentifier: String? = nil, globalClusterIdentifier: String? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.globalClusterIdentifier = globalClusterIdentifier
@@ -7965,7 +7966,7 @@ extension RDS {
         ]
 
         public let globalCluster: GlobalCluster?
-        
+
         public init(globalCluster: GlobalCluster? = nil) {
             self.globalCluster = globalCluster
         }
@@ -7988,7 +7989,7 @@ extension RDS {
         public let featureName: String?
         /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the Aurora DB cluster, for example arn:aws:iam::123456789012:role/AuroraAccessRole.
         public let roleArn: String
-        
+
         public init(dBClusterIdentifier: String, featureName: String? = nil, roleArn: String) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.featureName = featureName
@@ -8015,7 +8016,7 @@ extension RDS {
         public let featureName: String
         /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB instance, for example arn:aws:iam::123456789012:role/AccessRole.
         public let roleArn: String
-        
+
         public init(dBInstanceIdentifier: String, featureName: String, roleArn: String) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.featureName = featureName
@@ -8039,7 +8040,7 @@ extension RDS {
         public let sourceIdentifier: String
         /// The name of the RDS event notification subscription you want to remove a source identifier from.
         public let subscriptionName: String
-        
+
         public init(sourceIdentifier: String, subscriptionName: String) {
             self.sourceIdentifier = sourceIdentifier
             self.subscriptionName = subscriptionName
@@ -8057,7 +8058,7 @@ extension RDS {
         ]
 
         public let eventSubscription: EventSubscription?
-        
+
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -8077,7 +8078,7 @@ extension RDS {
         public let resourceName: String
         /// The tag key (name) of the tag to be removed.
         public let tagKeys: [String]
-        
+
         public init(resourceName: String, tagKeys: [String]) {
             self.resourceName = resourceName
             self.tagKeys = tagKeys
@@ -8138,7 +8139,7 @@ extension RDS {
         public let state: String?
         /// The hourly price charged for this reserved DB instance.
         public let usagePrice: Double?
-        
+
         public init(currencyCode: String? = nil, dBInstanceClass: String? = nil, dBInstanceCount: Int32? = nil, duration: Int32? = nil, fixedPrice: Double? = nil, multiAZ: Bool? = nil, offeringType: String? = nil, productDescription: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservedDBInstanceArn: String? = nil, reservedDBInstanceId: String? = nil, reservedDBInstancesOfferingId: String? = nil, startTime: TimeStamp? = nil, state: String? = nil, usagePrice: Double? = nil) {
             self.currencyCode = currencyCode
             self.dBInstanceClass = dBInstanceClass
@@ -8186,7 +8187,7 @@ extension RDS {
         public let marker: String?
         /// A list of reserved DB instances.
         public let reservedDBInstances: [ReservedDBInstance]?
-        
+
         public init(marker: String? = nil, reservedDBInstances: [ReservedDBInstance]? = nil) {
             self.marker = marker
             self.reservedDBInstances = reservedDBInstances
@@ -8232,7 +8233,7 @@ extension RDS {
         public let reservedDBInstancesOfferingId: String?
         /// The hourly price charged for this offering.
         public let usagePrice: Double?
-        
+
         public init(currencyCode: String? = nil, dBInstanceClass: String? = nil, duration: Int32? = nil, fixedPrice: Double? = nil, multiAZ: Bool? = nil, offeringType: String? = nil, productDescription: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservedDBInstancesOfferingId: String? = nil, usagePrice: Double? = nil) {
             self.currencyCode = currencyCode
             self.dBInstanceClass = dBInstanceClass
@@ -8270,7 +8271,7 @@ extension RDS {
         public let marker: String?
         /// A list of reserved DB instance offerings.
         public let reservedDBInstancesOfferings: [ReservedDBInstancesOffering]?
-        
+
         public init(marker: String? = nil, reservedDBInstancesOfferings: [ReservedDBInstancesOffering]? = nil) {
             self.marker = marker
             self.reservedDBInstancesOfferings = reservedDBInstancesOfferings
@@ -8295,7 +8296,7 @@ extension RDS {
         public let parameters: [Parameter]?
         /// A value that indicates whether to reset all parameters in the DB cluster parameter group to their default values. You can't use this parameter if there is a list of parameter names specified for the Parameters parameter.
         public let resetAllParameters: Bool?
-        
+
         public init(dBClusterParameterGroupName: String, parameters: [Parameter]? = nil, resetAllParameters: Bool? = nil) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.parameters = parameters
@@ -8322,7 +8323,7 @@ extension RDS {
         public let parameters: [Parameter]?
         ///  A value that indicates whether to reset all parameters in the DB parameter group to default values. By default, all parameters in the DB parameter group are reset to default values. 
         public let resetAllParameters: Bool?
-        
+
         public init(dBParameterGroupName: String, parameters: [Parameter]? = nil, resetAllParameters: Bool? = nil) {
             self.dBParameterGroupName = dBParameterGroupName
             self.parameters = parameters
@@ -8346,7 +8347,7 @@ extension RDS {
         public let pendingMaintenanceActionDetails: [PendingMaintenanceAction]?
         /// The ARN of the resource that has pending maintenance actions.
         public let resourceIdentifier: String?
-        
+
         public init(pendingMaintenanceActionDetails: [PendingMaintenanceAction]? = nil, resourceIdentifier: String? = nil) {
             self.pendingMaintenanceActionDetails = pendingMaintenanceActionDetails
             self.resourceIdentifier = resourceIdentifier
@@ -8448,7 +8449,7 @@ extension RDS {
         public let tags: [Tag]?
         /// A list of EC2 VPC security groups to associate with the restored DB cluster.
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(availabilityZones: [String]? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int32? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String, masterUserPassword: String, optionGroupName: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, s3BucketName: String, s3IngestionRoleArn: String, s3Prefix: String? = nil, sourceEngine: String, sourceEngineVersion: String, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backtrackWindow = backtrackWindow
@@ -8520,7 +8521,7 @@ extension RDS {
         ]
 
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -8594,7 +8595,7 @@ extension RDS {
         public let tags: [Tag]?
         /// A list of VPC security groups that the new DB cluster will belong to.
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(availabilityZones: [String]? = nil, backtrackWindow: Int64? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineMode: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, scalingConfiguration: ScalingConfiguration? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backtrackWindow = backtrackWindow
@@ -8648,7 +8649,7 @@ extension RDS {
         ]
 
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -8712,7 +8713,7 @@ extension RDS {
         public let useLatestRestorableTime: Bool?
         /// A list of VPC security groups that the new DB cluster belongs to.
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(backtrackWindow: Int64? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, restoreToTime: TimeStamp? = nil, restoreType: String? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.backtrackWindow = backtrackWindow
             self.copyTagsToSnapshot = copyTagsToSnapshot
@@ -8760,7 +8761,7 @@ extension RDS {
         ]
 
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -8857,7 +8858,7 @@ extension RDS {
         public let useDefaultProcessorFeatures: Bool?
         ///  A list of EC2 VPC security groups to associate with this DB instance.   Default: The default EC2 VPC security group for the DB subnet group's VPC. 
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSnapshotIdentifier: String, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, iops: Int32? = nil, licenseModel: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, port: Int32? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -8927,7 +8928,7 @@ extension RDS {
         ]
 
         public let dBInstance: DBInstance?
-        
+
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
@@ -9070,7 +9071,7 @@ extension RDS {
         public let useDefaultProcessorFeatures: Bool?
         /// A list of VPC security groups to associate with this DB instance. 
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(allocatedStorage: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int32? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String, dBInstanceIdentifier: String, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int32? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int32? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int32? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, s3BucketName: String, s3IngestionRoleArn: String, s3Prefix: String? = nil, sourceEngine: String, sourceEngineVersion: String, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -9170,7 +9171,7 @@ extension RDS {
         ]
 
         public let dBInstance: DBInstance?
-        
+
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
@@ -9276,7 +9277,7 @@ extension RDS {
         public let useLatestRestorableTime: Bool?
         ///  A list of EC2 VPC security groups to associate with this DB instance.   Default: The default EC2 VPC security group for the DB subnet group's VPC. 
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, iops: Int32? = nil, licenseModel: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, port: Int32? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, restoreTime: TimeStamp? = nil, sourceDBInstanceIdentifier: String? = nil, sourceDbiResourceId: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, targetDBInstanceIdentifier: String, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -9352,7 +9353,7 @@ extension RDS {
         ]
 
         public let dBInstance: DBInstance?
-        
+
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
@@ -9372,7 +9373,7 @@ extension RDS {
         public let earliestTime: TimeStamp?
         /// The latest time you can restore an instance to.
         public let latestTime: TimeStamp?
-        
+
         public init(earliestTime: TimeStamp? = nil, latestTime: TimeStamp? = nil) {
             self.earliestTime = earliestTime
             self.latestTime = latestTime
@@ -9403,7 +9404,7 @@ extension RDS {
         public let eC2SecurityGroupName: String?
         ///  The AWS Account Number of the owner of the EC2 security group specified in the EC2SecurityGroupName parameter. The AWS Access Key ID is not an acceptable value. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
         public let eC2SecurityGroupOwnerId: String?
-        
+
         public init(cidrip: String? = nil, dBSecurityGroupName: String, eC2SecurityGroupId: String? = nil, eC2SecurityGroupName: String? = nil, eC2SecurityGroupOwnerId: String? = nil) {
             self.cidrip = cidrip
             self.dBSecurityGroupName = dBSecurityGroupName
@@ -9427,7 +9428,7 @@ extension RDS {
         ]
 
         public let dBSecurityGroup: DBSecurityGroup?
-        
+
         public init(dBSecurityGroup: DBSecurityGroup? = nil) {
             self.dBSecurityGroup = dBSecurityGroup
         }
@@ -9456,7 +9457,7 @@ extension RDS {
         public let secondsUntilAutoPause: Int32?
         /// The action to take when the timeout is reached, either ForceApplyCapacityChange or RollbackCapacityChange.  ForceApplyCapacityChange sets the capacity to the specified value as soon as possible.  RollbackCapacityChange, the default, ignores the capacity change if a scaling point is not found in the timeout period.  If you specify ForceApplyCapacityChange, connections that prevent Aurora Serverless from finding a scaling point might be dropped.  For more information, see  Autoscaling for Aurora Serverless in the Amazon Aurora User Guide.
         public let timeoutAction: String?
-        
+
         public init(autoPause: Bool? = nil, maxCapacity: Int32? = nil, minCapacity: Int32? = nil, secondsUntilAutoPause: Int32? = nil, timeoutAction: String? = nil) {
             self.autoPause = autoPause
             self.maxCapacity = maxCapacity
@@ -9493,7 +9494,7 @@ extension RDS {
         public let secondsUntilAutoPause: Int32?
         /// The timeout action of a call to ModifyCurrentDBClusterCapacity, either ForceApplyCapacityChange or RollbackCapacityChange.
         public let timeoutAction: String?
-        
+
         public init(autoPause: Bool? = nil, maxCapacity: Int32? = nil, minCapacity: Int32? = nil, secondsUntilAutoPause: Int32? = nil, timeoutAction: String? = nil) {
             self.autoPause = autoPause
             self.maxCapacity = maxCapacity
@@ -9524,7 +9525,7 @@ extension RDS {
         public let regionName: String?
         /// The status of the source AWS Region.
         public let status: String?
-        
+
         public init(endpoint: String? = nil, regionName: String? = nil, status: String? = nil) {
             self.endpoint = endpoint
             self.regionName = regionName
@@ -9548,7 +9549,7 @@ extension RDS {
         public let marker: String?
         /// A list of SourceRegion instances that contains each source AWS Region that the current AWS Region can get a Read Replica or a DB snapshot from.
         public let sourceRegions: [SourceRegion]?
-        
+
         public init(marker: String? = nil, sourceRegions: [SourceRegion]? = nil) {
             self.marker = marker
             self.sourceRegions = sourceRegions
@@ -9586,7 +9587,7 @@ extension RDS {
         public let mode: ActivityStreamMode
         /// The Amazon Resource Name (ARN) of the DB cluster, for example arn:aws:rds:us-east-1:12345667890:cluster:das-cluster.
         public let resourceArn: String
-        
+
         public init(applyImmediately: Bool? = nil, kmsKeyId: String, mode: ActivityStreamMode, resourceArn: String) {
             self.applyImmediately = applyImmediately
             self.kmsKeyId = kmsKeyId
@@ -9621,7 +9622,7 @@ extension RDS {
         public let mode: ActivityStreamMode?
         /// The status of the database activity stream.
         public let status: ActivityStreamStatus?
-        
+
         public init(applyImmediately: Bool? = nil, kinesisStreamName: String? = nil, kmsKeyId: String? = nil, mode: ActivityStreamMode? = nil, status: ActivityStreamStatus? = nil) {
             self.applyImmediately = applyImmediately
             self.kinesisStreamName = kinesisStreamName
@@ -9646,7 +9647,7 @@ extension RDS {
 
         /// The DB cluster identifier of the Amazon Aurora DB cluster to be started. This parameter is stored as a lowercase string.
         public let dBClusterIdentifier: String
-        
+
         public init(dBClusterIdentifier: String) {
             self.dBClusterIdentifier = dBClusterIdentifier
         }
@@ -9662,7 +9663,7 @@ extension RDS {
         ]
 
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -9679,7 +9680,7 @@ extension RDS {
 
         ///  The user-supplied instance identifier. 
         public let dBInstanceIdentifier: String
-        
+
         public init(dBInstanceIdentifier: String) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
         }
@@ -9695,7 +9696,7 @@ extension RDS {
         ]
 
         public let dBInstance: DBInstance?
-        
+
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
@@ -9715,7 +9716,7 @@ extension RDS {
         public let applyImmediately: Bool?
         /// The Amazon Resource Name (ARN) of the DB cluster for the database activity stream. For example, arn:aws:rds:us-east-1:12345667890:cluster:das-cluster. 
         public let resourceArn: String
-        
+
         public init(applyImmediately: Bool? = nil, resourceArn: String) {
             self.applyImmediately = applyImmediately
             self.resourceArn = resourceArn
@@ -9740,7 +9741,7 @@ extension RDS {
         public let kmsKeyId: String?
         /// The status of the database activity stream.
         public let status: ActivityStreamStatus?
-        
+
         public init(kinesisStreamName: String? = nil, kmsKeyId: String? = nil, status: ActivityStreamStatus? = nil) {
             self.kinesisStreamName = kinesisStreamName
             self.kmsKeyId = kmsKeyId
@@ -9761,7 +9762,7 @@ extension RDS {
 
         /// The DB cluster identifier of the Amazon Aurora DB cluster to be stopped. This parameter is stored as a lowercase string.
         public let dBClusterIdentifier: String
-        
+
         public init(dBClusterIdentifier: String) {
             self.dBClusterIdentifier = dBClusterIdentifier
         }
@@ -9777,7 +9778,7 @@ extension RDS {
         ]
 
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -9797,7 +9798,7 @@ extension RDS {
         public let dBInstanceIdentifier: String
         ///  The user-supplied instance identifier of the DB Snapshot created immediately before the DB instance is stopped. 
         public let dBSnapshotIdentifier: String?
-        
+
         public init(dBInstanceIdentifier: String, dBSnapshotIdentifier: String? = nil) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.dBSnapshotIdentifier = dBSnapshotIdentifier
@@ -9815,7 +9816,7 @@ extension RDS {
         ]
 
         public let dBInstance: DBInstance?
-        
+
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
@@ -9837,7 +9838,7 @@ extension RDS {
         public let subnetIdentifier: String?
         /// Specifies the status of the subnet.
         public let subnetStatus: String?
-        
+
         public init(subnetAvailabilityZone: AvailabilityZone? = nil, subnetIdentifier: String? = nil, subnetStatus: String? = nil) {
             self.subnetAvailabilityZone = subnetAvailabilityZone
             self.subnetIdentifier = subnetIdentifier
@@ -9861,7 +9862,7 @@ extension RDS {
         public let key: String?
         /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -9880,7 +9881,7 @@ extension RDS {
 
         /// List of tags returned by the ListTagsForResource operation.
         public let tagList: [Tag]?
-        
+
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
         }
@@ -9897,7 +9898,7 @@ extension RDS {
 
         /// The name of the time zone.
         public let timezoneName: String?
-        
+
         public init(timezoneName: String? = nil) {
             self.timezoneName = timezoneName
         }
@@ -9926,7 +9927,7 @@ extension RDS {
         public let engineVersion: String?
         /// A value that indicates whether a database engine is upgraded to a major version.
         public let isMajorVersionUpgrade: Bool?
-        
+
         public init(autoUpgrade: Bool? = nil, description: String? = nil, engine: String? = nil, engineVersion: String? = nil, isMajorVersionUpgrade: Bool? = nil) {
             self.autoUpgrade = autoUpgrade
             self.description = description
@@ -9954,7 +9955,7 @@ extension RDS {
         public let storage: [ValidStorageOptions]?
         /// Valid processor features for your DB instance. 
         public let validProcessorFeatures: [AvailableProcessorFeature]?
-        
+
         public init(storage: [ValidStorageOptions]? = nil, validProcessorFeatures: [AvailableProcessorFeature]? = nil) {
             self.storage = storage
             self.validProcessorFeatures = validProcessorFeatures
@@ -9985,7 +9986,7 @@ extension RDS {
         public let storageType: String?
         /// Whether or not Amazon RDS can automatically scale storage for DB instances that use the new instance class.
         public let supportsStorageAutoscaling: Bool?
-        
+
         public init(iopsToStorageRatio: [DoubleRange]? = nil, provisionedIops: [Range]? = nil, storageSize: [Range]? = nil, storageType: String? = nil, supportsStorageAutoscaling: Bool? = nil) {
             self.iopsToStorageRatio = iopsToStorageRatio
             self.provisionedIops = provisionedIops
@@ -10013,7 +10014,7 @@ extension RDS {
         public let status: String?
         /// The name of the VPC security group.
         public let vpcSecurityGroupId: String?
-        
+
         public init(status: String? = nil, vpcSecurityGroupId: String? = nil) {
             self.status = status
             self.vpcSecurityGroupId = vpcSecurityGroupId
@@ -10024,5 +10025,4 @@ extension RDS {
             case vpcSecurityGroupId = "VpcSecurityGroupId"
         }
     }
-
 }

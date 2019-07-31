@@ -21,7 +21,7 @@ extension IoT1ClickProjects {
         public let placementName: String
         /// The name of the project containing the placement in which to associate the device.
         public let projectName: String
-        
+
         public init(deviceId: String, deviceTemplateName: String, placementName: String, projectName: String) {
             self.deviceId = deviceId
             self.deviceTemplateName = deviceTemplateName
@@ -52,11 +52,12 @@ extension IoT1ClickProjects {
     }
 
     public struct AssociateDeviceWithPlacementResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreatePlacementRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -71,7 +72,7 @@ extension IoT1ClickProjects {
         public let placementName: String
         /// The name of the project in which to create the placement.
         public let projectName: String
-        
+
         public init(attributes: [String: String]? = nil, placementName: String, projectName: String) {
             self.attributes = attributes
             self.placementName = placementName
@@ -95,11 +96,12 @@ extension IoT1ClickProjects {
     }
 
     public struct CreatePlacementResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateProjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -117,7 +119,7 @@ extension IoT1ClickProjects {
         public let projectName: String
         /// Optional tags (metadata key/value pairs) to be associated with the project. For example, { {"key1": "value1", "key2": "value2"} }. For more information, see AWS Tagging Strategies.
         public let tags: [String: String]?
-        
+
         public init(description: String? = nil, placementTemplate: PlacementTemplate? = nil, projectName: String, tags: [String: String]? = nil) {
             self.description = description
             self.placementTemplate = placementTemplate
@@ -142,11 +144,12 @@ extension IoT1ClickProjects {
     }
 
     public struct CreateProjectResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeletePlacementRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -158,7 +161,7 @@ extension IoT1ClickProjects {
         public let placementName: String
         /// The project containing the empty placement to delete.
         public let projectName: String
-        
+
         public init(placementName: String, projectName: String) {
             self.placementName = placementName
             self.projectName = projectName
@@ -180,11 +183,12 @@ extension IoT1ClickProjects {
     }
 
     public struct DeletePlacementResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteProjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -193,7 +197,7 @@ extension IoT1ClickProjects {
 
         /// The name of the empty project to delete.
         public let projectName: String
-        
+
         public init(projectName: String) {
             self.projectName = projectName
         }
@@ -210,11 +214,12 @@ extension IoT1ClickProjects {
     }
 
     public struct DeleteProjectResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribePlacementRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -226,7 +231,7 @@ extension IoT1ClickProjects {
         public let placementName: String
         /// The project containing the placement to be described.
         public let projectName: String
-        
+
         public init(placementName: String, projectName: String) {
             self.placementName = placementName
             self.projectName = projectName
@@ -254,7 +259,7 @@ extension IoT1ClickProjects {
 
         /// An object describing the placement.
         public let placement: PlacementDescription
-        
+
         public init(placement: PlacementDescription) {
             self.placement = placement
         }
@@ -275,7 +280,7 @@ extension IoT1ClickProjects {
 
         /// The name of the project to be described.
         public let projectName: String
-        
+
         public init(projectName: String) {
             self.projectName = projectName
         }
@@ -298,7 +303,7 @@ extension IoT1ClickProjects {
 
         /// An object describing the project.
         public let project: ProjectDescription
-        
+
         public init(project: ProjectDescription) {
             self.project = project
         }
@@ -322,7 +327,7 @@ extension IoT1ClickProjects {
         public let callbackOverrides: [String: String]?
         /// The device type, which currently must be "button".
         public let deviceType: String?
-        
+
         public init(callbackOverrides: [String: String]? = nil, deviceType: String? = nil) {
             self.callbackOverrides = callbackOverrides
             self.deviceType = deviceType
@@ -351,7 +356,7 @@ extension IoT1ClickProjects {
         public let placementName: String
         /// The name of the project that contains the placement.
         public let projectName: String
-        
+
         public init(deviceTemplateName: String, placementName: String, projectName: String) {
             self.deviceTemplateName = deviceTemplateName
             self.placementName = placementName
@@ -378,11 +383,12 @@ extension IoT1ClickProjects {
     }
 
     public struct DisassociateDeviceFromPlacementResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetDevicesInPlacementRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -394,7 +400,7 @@ extension IoT1ClickProjects {
         public let placementName: String
         /// The name of the project containing the placement.
         public let projectName: String
-        
+
         public init(placementName: String, projectName: String) {
             self.placementName = placementName
             self.projectName = projectName
@@ -422,7 +428,7 @@ extension IoT1ClickProjects {
 
         /// An object containing the devices (zero or more) within the placement.
         public let devices: [String: String]
-        
+
         public init(devices: [String: String]) {
             self.devices = devices
         }
@@ -445,7 +451,7 @@ extension IoT1ClickProjects {
         public let nextToken: String?
         /// The project containing the placements to be listed.
         public let projectName: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, projectName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -479,7 +485,7 @@ extension IoT1ClickProjects {
         public let nextToken: String?
         /// An object listing the requested placements.
         public let placements: [PlacementSummary]
-        
+
         public init(nextToken: String? = nil, placements: [PlacementSummary]) {
             self.nextToken = nextToken
             self.placements = placements
@@ -509,7 +515,7 @@ extension IoT1ClickProjects {
         public let maxResults: Int32?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -538,7 +544,7 @@ extension IoT1ClickProjects {
         public let nextToken: String?
         /// An object containing the list of projects.
         public let projects: [ProjectSummary]
-        
+
         public init(nextToken: String? = nil, projects: [ProjectSummary]) {
             self.nextToken = nextToken
             self.projects = projects
@@ -565,7 +571,7 @@ extension IoT1ClickProjects {
 
         /// The ARN of the resource whose tags you want to list.
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -586,7 +592,7 @@ extension IoT1ClickProjects {
 
         /// The tags (metadata key/value pairs) which you have assigned to the resource.
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -615,7 +621,7 @@ extension IoT1ClickProjects {
         public let projectName: String
         /// The date when the placement was last updated, in UNIX epoch time format. If the placement was not updated, then createdDate and updatedDate are the same.
         public let updatedDate: TimeStamp
-        
+
         public init(attributes: [String: String], createdDate: TimeStamp, placementName: String, projectName: String, updatedDate: TimeStamp) {
             self.attributes = attributes
             self.createdDate = createdDate
@@ -658,7 +664,7 @@ extension IoT1ClickProjects {
         public let projectName: String
         /// The date when the placement was last updated, in UNIX epoch time format. If the placement was not updated, then createdDate and updatedDate are the same.
         public let updatedDate: TimeStamp
-        
+
         public init(createdDate: TimeStamp, placementName: String, projectName: String, updatedDate: TimeStamp) {
             self.createdDate = createdDate
             self.placementName = placementName
@@ -693,7 +699,7 @@ extension IoT1ClickProjects {
         public let defaultAttributes: [String: String]?
         /// An object specifying the DeviceTemplate for all placements using this (PlacementTemplate) template.
         public let deviceTemplates: [String: DeviceTemplate]?
-        
+
         public init(defaultAttributes: [String: String]? = nil, deviceTemplates: [String: DeviceTemplate]? = nil) {
             self.defaultAttributes = defaultAttributes
             self.deviceTemplates = deviceTemplates
@@ -730,7 +736,7 @@ extension IoT1ClickProjects {
         public let tags: [String: String]?
         /// The date when the project was last updated, in UNIX epoch time format. If the project was not updated, then createdDate and updatedDate are the same.
         public let updatedDate: TimeStamp
-        
+
         public init(arn: String? = nil, createdDate: TimeStamp, description: String? = nil, placementTemplate: PlacementTemplate? = nil, projectName: String, tags: [String: String]? = nil, updatedDate: TimeStamp) {
             self.arn = arn
             self.createdDate = createdDate
@@ -780,7 +786,7 @@ extension IoT1ClickProjects {
         public let tags: [String: String]?
         /// The date when the project was last updated, in UNIX epoch time format. If the project was not updated, then createdDate and updatedDate are the same.
         public let updatedDate: TimeStamp
-        
+
         public init(arn: String? = nil, createdDate: TimeStamp, projectName: String, tags: [String: String]? = nil, updatedDate: TimeStamp) {
             self.arn = arn
             self.createdDate = createdDate
@@ -815,7 +821,7 @@ extension IoT1ClickProjects {
         public let resourceArn: String
         /// The new or modifying tag(s) for the resource. See AWS IoT 1-Click Service Limits for the maximum number of tags allowed per resource.
         public let tags: [String: String]
-        
+
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -832,11 +838,12 @@ extension IoT1ClickProjects {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -848,7 +855,7 @@ extension IoT1ClickProjects {
         public let resourceArn: String
         /// The keys of those tags which you want to remove.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -872,11 +879,12 @@ extension IoT1ClickProjects {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdatePlacementRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -891,7 +899,7 @@ extension IoT1ClickProjects {
         public let placementName: String
         /// The name of the project containing the placement to be updated.
         public let projectName: String
-        
+
         public init(attributes: [String: String]? = nil, placementName: String, projectName: String) {
             self.attributes = attributes
             self.placementName = placementName
@@ -915,11 +923,12 @@ extension IoT1ClickProjects {
     }
 
     public struct UpdatePlacementResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateProjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -934,7 +943,7 @@ extension IoT1ClickProjects {
         public let placementTemplate: PlacementTemplate?
         /// The name of the project to be updated.
         public let projectName: String
-        
+
         public init(description: String? = nil, placementTemplate: PlacementTemplate? = nil, projectName: String) {
             self.description = description
             self.placementTemplate = placementTemplate
@@ -957,10 +966,10 @@ extension IoT1ClickProjects {
     }
 
     public struct UpdateProjectResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
-
+    }
 }

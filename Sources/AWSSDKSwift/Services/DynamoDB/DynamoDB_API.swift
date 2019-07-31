@@ -206,5 +206,4 @@ public struct DynamoDB {
     public func updateTimeToLive(_ input: UpdateTimeToLiveInput) throws -> Future<UpdateTimeToLiveOutput> {
         return try client.send(operation: "UpdateTimeToLive", path: "/", httpMethod: "POST", input: input)
     }
-
 }

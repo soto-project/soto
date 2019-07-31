@@ -97,5 +97,4 @@ public struct MediaPackage {
     public func updateOriginEndpoint(_ input: UpdateOriginEndpointRequest) throws -> Future<UpdateOriginEndpointResponse> {
         return try client.send(operation: "UpdateOriginEndpoint", path: "/origin_endpoints/{id}", httpMethod: "PUT", input: input)
     }
-
 }

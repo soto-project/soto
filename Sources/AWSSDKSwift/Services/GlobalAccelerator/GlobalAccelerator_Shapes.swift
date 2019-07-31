@@ -33,7 +33,7 @@ extension GlobalAccelerator {
         public let name: String?
         /// Describes the deployment status of the accelerator.
         public let status: AcceleratorStatus?
-        
+
         public init(acceleratorArn: String? = nil, createdTime: TimeStamp? = nil, enabled: Bool? = nil, ipAddressType: IpAddressType? = nil, ipSets: [IpSet]? = nil, lastModifiedTime: TimeStamp? = nil, name: String? = nil, status: AcceleratorStatus? = nil) {
             self.acceleratorArn = acceleratorArn
             self.createdTime = createdTime
@@ -78,7 +78,7 @@ extension GlobalAccelerator {
         public let flowLogsS3Bucket: String?
         /// The prefix for the location in the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true. If you don’t specify a prefix, the flow logs are stored in the root of the bucket.
         public let flowLogsS3Prefix: String?
-        
+
         public init(flowLogsEnabled: Bool? = nil, flowLogsS3Bucket: String? = nil, flowLogsS3Prefix: String? = nil) {
             self.flowLogsEnabled = flowLogsEnabled
             self.flowLogsS3Bucket = flowLogsS3Bucket
@@ -125,7 +125,7 @@ extension GlobalAccelerator {
         public let ipAddressType: IpAddressType?
         /// The name of an accelerator. The name can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen.
         public let name: String
-        
+
         public init(enabled: Bool? = nil, idempotencyToken: String, ipAddressType: IpAddressType? = nil, name: String) {
             self.enabled = enabled
             self.idempotencyToken = idempotencyToken
@@ -153,7 +153,7 @@ extension GlobalAccelerator {
 
         /// The accelerator that is created by specifying a listener and the supported IP address types.
         public let accelerator: Accelerator?
-        
+
         public init(accelerator: Accelerator? = nil) {
             self.accelerator = accelerator
         }
@@ -201,7 +201,7 @@ extension GlobalAccelerator {
         public let thresholdCount: Int32?
         /// The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for this listener.  Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
         public let trafficDialPercentage: Float?
-        
+
         public init(endpointConfigurations: [EndpointConfiguration]? = nil, endpointGroupRegion: String, healthCheckIntervalSeconds: Int32? = nil, healthCheckPath: String? = nil, healthCheckPort: Int32? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, idempotencyToken: String, listenerArn: String, thresholdCount: Int32? = nil, trafficDialPercentage: Float? = nil) {
             self.endpointConfigurations = endpointConfigurations
             self.endpointGroupRegion = endpointGroupRegion
@@ -256,7 +256,7 @@ extension GlobalAccelerator {
 
         /// The information about the endpoint group that was created.
         public let endpointGroup: EndpointGroup?
-        
+
         public init(endpointGroup: EndpointGroup? = nil) {
             self.endpointGroup = endpointGroup
         }
@@ -289,7 +289,7 @@ extension GlobalAccelerator {
         public let portRanges: [PortRange]
         /// The protocol for connections from clients to your accelerator.
         public let `protocol`: Protocol
-        
+
         public init(acceleratorArn: String, clientAffinity: ClientAffinity? = nil, idempotencyToken: String, portRanges: [PortRange], protocol: Protocol) {
             self.acceleratorArn = acceleratorArn
             self.clientAffinity = clientAffinity
@@ -324,7 +324,7 @@ extension GlobalAccelerator {
 
         /// The listener that you've created.
         public let listener: Listener?
-        
+
         public init(listener: Listener? = nil) {
             self.listener = listener
         }
@@ -345,7 +345,7 @@ extension GlobalAccelerator {
 
         /// The Amazon Resource Name (ARN) of an accelerator.
         public let acceleratorArn: String
-        
+
         public init(acceleratorArn: String) {
             self.acceleratorArn = acceleratorArn
         }
@@ -366,7 +366,7 @@ extension GlobalAccelerator {
 
         /// The Amazon Resource Name (ARN) of the endpoint group to delete.
         public let endpointGroupArn: String
-        
+
         public init(endpointGroupArn: String) {
             self.endpointGroupArn = endpointGroupArn
         }
@@ -387,7 +387,7 @@ extension GlobalAccelerator {
 
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
-        
+
         public init(listenerArn: String) {
             self.listenerArn = listenerArn
         }
@@ -408,7 +408,7 @@ extension GlobalAccelerator {
 
         /// The Amazon Resource Name (ARN) of the accelerator with the attributes that you want to describe. Value is required.
         public let acceleratorArn: String?
-        
+
         public init(acceleratorArn: String? = nil) {
             self.acceleratorArn = acceleratorArn
         }
@@ -429,7 +429,7 @@ extension GlobalAccelerator {
 
         /// The attributes of the accelerator.
         public let acceleratorAttributes: AcceleratorAttributes?
-        
+
         public init(acceleratorAttributes: AcceleratorAttributes? = nil) {
             self.acceleratorAttributes = acceleratorAttributes
         }
@@ -450,7 +450,7 @@ extension GlobalAccelerator {
 
         /// The Amazon Resource Name (ARN) of the accelerator to describe.
         public let acceleratorArn: String
-        
+
         public init(acceleratorArn: String) {
             self.acceleratorArn = acceleratorArn
         }
@@ -471,7 +471,7 @@ extension GlobalAccelerator {
 
         /// The description of the accelerator.
         public let accelerator: Accelerator?
-        
+
         public init(accelerator: Accelerator? = nil) {
             self.accelerator = accelerator
         }
@@ -492,7 +492,7 @@ extension GlobalAccelerator {
 
         /// The Amazon Resource Name (ARN) of the endpoint group to describe.
         public let endpointGroupArn: String
-        
+
         public init(endpointGroupArn: String) {
             self.endpointGroupArn = endpointGroupArn
         }
@@ -513,7 +513,7 @@ extension GlobalAccelerator {
 
         /// The description of an endpoint group.
         public let endpointGroup: EndpointGroup?
-        
+
         public init(endpointGroup: EndpointGroup? = nil) {
             self.endpointGroup = endpointGroup
         }
@@ -534,7 +534,7 @@ extension GlobalAccelerator {
 
         /// The Amazon Resource Name (ARN) of the listener to describe.
         public let listenerArn: String
-        
+
         public init(listenerArn: String) {
             self.listenerArn = listenerArn
         }
@@ -555,7 +555,7 @@ extension GlobalAccelerator {
 
         /// The description of a listener.
         public let listener: Listener?
-        
+
         public init(listener: Listener? = nil) {
             self.listener = listener
         }
@@ -579,7 +579,7 @@ extension GlobalAccelerator {
         public let endpointId: String?
         /// The weight associated with the endpoint. When you add weights to endpoints, you configure AWS Global Accelerator to route traffic based on proportions that you specify. For example, you might specify endpoint weights of 4, 5, 5, and 6 (sum=20). The result is that 4/20 of your traffic, on average, is routed to the first endpoint, 5/20 is routed both to the second and third endpoints, and 6/20 is routed to the last endpoint. For more information, see Endpoint Weights in the AWS Global Accelerator Developer Guide.
         public let weight: Int32?
-        
+
         public init(endpointId: String? = nil, weight: Int32? = nil) {
             self.endpointId = endpointId
             self.weight = weight
@@ -613,7 +613,7 @@ extension GlobalAccelerator {
         public let healthState: HealthState?
         /// The weight associated with the endpoint. When you add weights to endpoints, you configure AWS Global Accelerator to route traffic based on proportions that you specify. For example, you might specify endpoint weights of 4, 5, 5, and 6 (sum=20). The result is that 4/20 of your traffic, on average, is routed to the first endpoint, 5/20 is routed both to the second and third endpoints, and 6/20 is routed to the last endpoint. For more information, see Endpoint Weights in the AWS Global Accelerator Developer Guide. 
         public let weight: Int32?
-        
+
         public init(endpointId: String? = nil, healthReason: String? = nil, healthState: HealthState? = nil, weight: Int32? = nil) {
             self.endpointId = endpointId
             self.healthReason = healthReason
@@ -667,7 +667,7 @@ extension GlobalAccelerator {
         public let thresholdCount: Int32?
         /// The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for this listener.  Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
         public let trafficDialPercentage: Float?
-        
+
         public init(endpointDescriptions: [EndpointDescription]? = nil, endpointGroupArn: String? = nil, endpointGroupRegion: String? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckPath: String? = nil, healthCheckPort: Int32? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, thresholdCount: Int32? = nil, trafficDialPercentage: Float? = nil) {
             self.endpointDescriptions = endpointDescriptions
             self.endpointGroupArn = endpointGroupArn
@@ -739,7 +739,7 @@ extension GlobalAccelerator {
         public let ipAddresses: [String]?
         /// The types of IP addresses included in this IP set.
         public let ipFamily: String?
-        
+
         public init(ipAddresses: [String]? = nil, ipFamily: String? = nil) {
             self.ipAddresses = ipAddresses
             self.ipFamily = ipFamily
@@ -767,7 +767,7 @@ extension GlobalAccelerator {
         public let maxResults: Int32?
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -795,7 +795,7 @@ extension GlobalAccelerator {
         public let accelerators: [Accelerator]?
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
-        
+
         public init(accelerators: [Accelerator]? = nil, nextToken: String? = nil) {
             self.accelerators = accelerators
             self.nextToken = nextToken
@@ -827,7 +827,7 @@ extension GlobalAccelerator {
         public let maxResults: Int32?
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
-        
+
         public init(listenerArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.listenerArn = listenerArn
             self.maxResults = maxResults
@@ -858,7 +858,7 @@ extension GlobalAccelerator {
         public let endpointGroups: [EndpointGroup]?
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
-        
+
         public init(endpointGroups: [EndpointGroup]? = nil, nextToken: String? = nil) {
             self.endpointGroups = endpointGroups
             self.nextToken = nextToken
@@ -890,7 +890,7 @@ extension GlobalAccelerator {
         public let maxResults: Int32?
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
-        
+
         public init(acceleratorArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.acceleratorArn = acceleratorArn
             self.maxResults = maxResults
@@ -921,7 +921,7 @@ extension GlobalAccelerator {
         public let listeners: [Listener]?
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
-        
+
         public init(listeners: [Listener]? = nil, nextToken: String? = nil) {
             self.listeners = listeners
             self.nextToken = nextToken
@@ -956,7 +956,7 @@ extension GlobalAccelerator {
         public let portRanges: [PortRange]?
         /// The protocol for the connections from clients to the accelerator.
         public let `protocol`: Protocol?
-        
+
         public init(clientAffinity: ClientAffinity? = nil, listenerArn: String? = nil, portRanges: [PortRange]? = nil, protocol: Protocol? = nil) {
             self.clientAffinity = clientAffinity
             self.listenerArn = listenerArn
@@ -991,7 +991,7 @@ extension GlobalAccelerator {
         public let fromPort: Int32?
         /// The last port in the range of ports, inclusive.
         public let toPort: Int32?
-        
+
         public init(fromPort: Int32? = nil, toPort: Int32? = nil) {
             self.fromPort = fromPort
             self.toPort = toPort
@@ -1032,7 +1032,7 @@ extension GlobalAccelerator {
         public let flowLogsS3Bucket: String?
         /// Update the prefix for the location in the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true. If you don’t specify a prefix, the flow logs are stored in the root of the bucket.
         public let flowLogsS3Prefix: String?
-        
+
         public init(acceleratorArn: String? = nil, flowLogsEnabled: Bool? = nil, flowLogsS3Bucket: String? = nil, flowLogsS3Prefix: String? = nil) {
             self.acceleratorArn = acceleratorArn
             self.flowLogsEnabled = flowLogsEnabled
@@ -1061,7 +1061,7 @@ extension GlobalAccelerator {
 
         /// Updated attributes for the accelerator.
         public let acceleratorAttributes: AcceleratorAttributes?
-        
+
         public init(acceleratorAttributes: AcceleratorAttributes? = nil) {
             self.acceleratorAttributes = acceleratorAttributes
         }
@@ -1091,7 +1091,7 @@ extension GlobalAccelerator {
         public let ipAddressType: IpAddressType?
         /// The name of the accelerator. The name can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen.
         public let name: String?
-        
+
         public init(acceleratorArn: String, enabled: Bool? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil) {
             self.acceleratorArn = acceleratorArn
             self.enabled = enabled
@@ -1119,7 +1119,7 @@ extension GlobalAccelerator {
 
         /// Information about the updated accelerator.
         public let accelerator: Accelerator?
-        
+
         public init(accelerator: Accelerator? = nil) {
             self.accelerator = accelerator
         }
@@ -1161,7 +1161,7 @@ extension GlobalAccelerator {
         public let thresholdCount: Int32?
         /// The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for this listener.  Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
         public let trafficDialPercentage: Float?
-        
+
         public init(endpointConfigurations: [EndpointConfiguration]? = nil, endpointGroupArn: String, healthCheckIntervalSeconds: Int32? = nil, healthCheckPath: String? = nil, healthCheckPort: Int32? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, thresholdCount: Int32? = nil, trafficDialPercentage: Float? = nil) {
             self.endpointConfigurations = endpointConfigurations
             self.endpointGroupArn = endpointGroupArn
@@ -1210,7 +1210,7 @@ extension GlobalAccelerator {
 
         /// The information about the endpoint group that was updated.
         public let endpointGroup: EndpointGroup?
-        
+
         public init(endpointGroup: EndpointGroup? = nil) {
             self.endpointGroup = endpointGroup
         }
@@ -1240,7 +1240,7 @@ extension GlobalAccelerator {
         public let portRanges: [PortRange]?
         /// The updated protocol for the connections from clients to the accelerator.
         public let `protocol`: Protocol?
-        
+
         public init(clientAffinity: ClientAffinity? = nil, listenerArn: String, portRanges: [PortRange]? = nil, protocol: Protocol? = nil) {
             self.clientAffinity = clientAffinity
             self.listenerArn = listenerArn
@@ -1272,7 +1272,7 @@ extension GlobalAccelerator {
 
         /// Information for the updated listener.
         public let listener: Listener?
-        
+
         public init(listener: Listener? = nil) {
             self.listener = listener
         }
@@ -1285,5 +1285,4 @@ extension GlobalAccelerator {
             case listener = "Listener"
         }
     }
-
 }

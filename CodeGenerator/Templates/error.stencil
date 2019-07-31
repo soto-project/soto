@@ -4,7 +4,8 @@ import AWSSDKSwiftCore
 
 /// Error enum for {{name}}
 public enum {{errorName}}: AWSErrorType {
-{%for error in errors %}    case {{error.enum}}(message: String?)
+{%for error in errors %}
+    case {{error.enum}}(message: String?)
 {% endfor %}}
 
 extension {{errorName}} {
@@ -14,9 +15,11 @@ extension {{errorName}} {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        {%for error in errors %}case "{{error.string}}":
+{%for error in errors %}
+        case "{{error.string}}":
             self = .{{error.enum}}(message: message)
-        {% endfor %}default:
+{% endfor %}
+        default:
             return nil
         }
     }

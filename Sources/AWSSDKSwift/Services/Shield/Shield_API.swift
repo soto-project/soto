@@ -116,5 +116,4 @@ public struct Shield {
     public func updateSubscription(_ input: UpdateSubscriptionRequest) throws -> Future<UpdateSubscriptionResponse> {
         return try client.send(operation: "UpdateSubscription", path: "/", httpMethod: "POST", input: input)
     }
-
 }

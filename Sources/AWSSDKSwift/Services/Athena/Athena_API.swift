@@ -120,5 +120,4 @@ public struct Athena {
     public func updateWorkGroup(_ input: UpdateWorkGroupInput) throws -> Future<UpdateWorkGroupOutput> {
         return try client.send(operation: "UpdateWorkGroup", path: "/", httpMethod: "POST", input: input)
     }
-
 }

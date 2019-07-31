@@ -27,7 +27,7 @@ extension IoTEvents {
         public let setVariable: SetVariableAction?
         /// Sends an Amazon SNS message.
         public let sns: SNSTopicPublishAction?
-        
+
         public init(clearTimer: ClearTimerAction? = nil, iotTopicPublish: IotTopicPublishAction? = nil, resetTimer: ResetTimerAction? = nil, setTimer: SetTimerAction? = nil, setVariable: SetVariableAction? = nil, sns: SNSTopicPublishAction? = nil) {
             self.clearTimer = clearTimer
             self.iotTopicPublish = iotTopicPublish
@@ -63,7 +63,7 @@ extension IoTEvents {
 
         /// An expression that specifies an attribute-value pair in a JSON structure. Use this to specify an attribute from the JSON payload that is made available by the input. Inputs are derived from messages sent to the AWS IoT Events system (BatchPutMessage). Each such message contains a JSON payload, and the attribute (and its paired value) specified here are available for use in the condition expressions used by detectors.  Syntax: &lt;field-name&gt;.&lt;field-name&gt;... 
         public let jsonPath: String
-        
+
         public init(jsonPath: String) {
             self.jsonPath = jsonPath
         }
@@ -86,7 +86,7 @@ extension IoTEvents {
 
         /// The name of the timer to clear.
         public let timerName: String
-        
+
         public init(timerName: String) {
             self.timerName = timerName
         }
@@ -123,7 +123,7 @@ extension IoTEvents {
         public let roleArn: String
         /// Metadata which can be used to manage the detector model.
         public let tags: [Tag]?
-        
+
         public init(detectorModelDefinition: DetectorModelDefinition, detectorModelDescription: String? = nil, detectorModelName: String, key: String? = nil, roleArn: String, tags: [Tag]? = nil) {
             self.detectorModelDefinition = detectorModelDefinition
             self.detectorModelDescription = detectorModelDescription
@@ -166,7 +166,7 @@ extension IoTEvents {
 
         /// Information about how the detector model is configured.
         public let detectorModelConfiguration: DetectorModelConfiguration?
-        
+
         public init(detectorModelConfiguration: DetectorModelConfiguration? = nil) {
             self.detectorModelConfiguration = detectorModelConfiguration
         }
@@ -196,7 +196,7 @@ extension IoTEvents {
         public let inputName: String
         /// Metadata which can be used to manage the input.
         public let tags: [Tag]?
-        
+
         public init(inputDefinition: InputDefinition, inputDescription: String? = nil, inputName: String, tags: [Tag]? = nil) {
             self.inputDefinition = inputDefinition
             self.inputDescription = inputDescription
@@ -230,7 +230,7 @@ extension IoTEvents {
 
         /// Information about the configuration of the input.
         public let inputConfiguration: InputConfiguration?
-        
+
         public init(inputConfiguration: InputConfiguration? = nil) {
             self.inputConfiguration = inputConfiguration
         }
@@ -251,7 +251,7 @@ extension IoTEvents {
 
         /// The name of the detector model to be deleted.
         public let detectorModelName: String
-        
+
         public init(detectorModelName: String) {
             self.detectorModelName = detectorModelName
         }
@@ -268,11 +268,12 @@ extension IoTEvents {
     }
 
     public struct DeleteDetectorModelResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteInputRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -281,7 +282,7 @@ extension IoTEvents {
 
         /// The name of the input to be deleted.
         public let inputName: String
-        
+
         public init(inputName: String) {
             self.inputName = inputName
         }
@@ -298,11 +299,12 @@ extension IoTEvents {
     }
 
     public struct DeleteInputResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeDetectorModelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -314,7 +316,7 @@ extension IoTEvents {
         public let detectorModelName: String
         /// The version of the detector model.
         public let detectorModelVersion: String?
-        
+
         public init(detectorModelName: String, detectorModelVersion: String? = nil) {
             self.detectorModelName = detectorModelName
             self.detectorModelVersion = detectorModelVersion
@@ -341,7 +343,7 @@ extension IoTEvents {
 
         /// Information about the detector model.
         public let detectorModel: DetectorModel?
-        
+
         public init(detectorModel: DetectorModel? = nil) {
             self.detectorModel = detectorModel
         }
@@ -362,7 +364,7 @@ extension IoTEvents {
 
         /// The name of the input.
         public let inputName: String
-        
+
         public init(inputName: String) {
             self.inputName = inputName
         }
@@ -385,7 +387,7 @@ extension IoTEvents {
 
         /// Information about the input.
         public let input: Input?
-        
+
         public init(input: Input? = nil) {
             self.input = input
         }
@@ -400,11 +402,12 @@ extension IoTEvents {
     }
 
     public struct DescribeLoggingOptionsRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeLoggingOptionsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -413,7 +416,7 @@ extension IoTEvents {
 
         /// The current settings of the AWS IoT Events logging options.
         public let loggingOptions: LoggingOptions?
-        
+
         public init(loggingOptions: LoggingOptions? = nil) {
             self.loggingOptions = loggingOptions
         }
@@ -437,7 +440,7 @@ extension IoTEvents {
         public let detectorModelName: String
         /// The value of the input attribute key used to create the detector (the instance of the detector model).
         public let keyValue: String?
-        
+
         public init(detectorModelName: String, keyValue: String? = nil) {
             self.detectorModelName = detectorModelName
             self.keyValue = keyValue
@@ -468,7 +471,7 @@ extension IoTEvents {
         public let detectorModelConfiguration: DetectorModelConfiguration?
         /// Information that defines how a detector operates.
         public let detectorModelDefinition: DetectorModelDefinition?
-        
+
         public init(detectorModelConfiguration: DetectorModelConfiguration? = nil, detectorModelDefinition: DetectorModelDefinition? = nil) {
             self.detectorModelConfiguration = detectorModelConfiguration
             self.detectorModelDefinition = detectorModelDefinition
@@ -516,7 +519,7 @@ extension IoTEvents {
         public let roleArn: String?
         /// The status of the detector model.
         public let status: DetectorModelVersionStatus?
-        
+
         public init(creationTime: TimeStamp? = nil, detectorModelArn: String? = nil, detectorModelDescription: String? = nil, detectorModelName: String? = nil, detectorModelVersion: String? = nil, key: String? = nil, lastUpdateTime: TimeStamp? = nil, roleArn: String? = nil, status: DetectorModelVersionStatus? = nil) {
             self.creationTime = creationTime
             self.detectorModelArn = detectorModelArn
@@ -566,7 +569,7 @@ extension IoTEvents {
         public let initialStateName: String
         /// Information about the states of the detector.
         public let states: [State]
-        
+
         public init(initialStateName: String, states: [State]) {
             self.initialStateName = initialStateName
             self.states = states
@@ -600,7 +603,7 @@ extension IoTEvents {
         public let detectorModelDescription: String?
         /// The name of the detector model.
         public let detectorModelName: String?
-        
+
         public init(creationTime: TimeStamp? = nil, detectorModelDescription: String? = nil, detectorModelName: String? = nil) {
             self.creationTime = creationTime
             self.detectorModelDescription = detectorModelDescription
@@ -657,7 +660,7 @@ extension IoTEvents {
         public let roleArn: String?
         /// The status of the detector model version.
         public let status: DetectorModelVersionStatus?
-        
+
         public init(creationTime: TimeStamp? = nil, detectorModelArn: String? = nil, detectorModelName: String? = nil, detectorModelVersion: String? = nil, lastUpdateTime: TimeStamp? = nil, roleArn: String? = nil, status: DetectorModelVersionStatus? = nil) {
             self.creationTime = creationTime
             self.detectorModelArn = detectorModelArn
@@ -702,7 +705,7 @@ extension IoTEvents {
         public let condition: String?
         /// The name of the event.
         public let eventName: String
-        
+
         public init(actions: [Action]? = nil, condition: String? = nil, eventName: String) {
             self.actions = actions
             self.condition = condition
@@ -734,7 +737,7 @@ extension IoTEvents {
         public let inputConfiguration: InputConfiguration?
         /// The definition of the input.
         public let inputDefinition: InputDefinition?
-        
+
         public init(inputConfiguration: InputConfiguration? = nil, inputDefinition: InputDefinition? = nil) {
             self.inputConfiguration = inputConfiguration
             self.inputDefinition = inputDefinition
@@ -773,7 +776,7 @@ extension IoTEvents {
         public let lastUpdateTime: TimeStamp
         /// The status of the input.
         public let status: InputStatus
-        
+
         public init(creationTime: TimeStamp, inputArn: String, inputDescription: String? = nil, inputName: String, lastUpdateTime: TimeStamp, status: InputStatus) {
             self.creationTime = creationTime
             self.inputArn = inputArn
@@ -807,7 +810,7 @@ extension IoTEvents {
 
         /// The attributes from the JSON payload that are made available by the input. Inputs are derived from messages sent to the AWS IoT Events system using BatchPutMessage. Each such message contains a JSON payload, and those attributes (and their paired values) specified here is available for use in the condition expressions used by detectors that monitor this input. 
         public let attributes: [Attribute]
-        
+
         public init(attributes: [Attribute]) {
             self.attributes = attributes
         }
@@ -855,7 +858,7 @@ extension IoTEvents {
         public let lastUpdateTime: TimeStamp?
         /// The status of the input.
         public let status: InputStatus?
-        
+
         public init(creationTime: TimeStamp? = nil, inputArn: String? = nil, inputDescription: String? = nil, inputName: String? = nil, lastUpdateTime: TimeStamp? = nil, status: InputStatus? = nil) {
             self.creationTime = creationTime
             self.inputArn = inputArn
@@ -889,7 +892,7 @@ extension IoTEvents {
 
         /// The MQTT topic of the message.
         public let mqttTopic: String
-        
+
         public init(mqttTopic: String) {
             self.mqttTopic = mqttTopic
         }
@@ -917,7 +920,7 @@ extension IoTEvents {
         public let maxResults: Int32?
         /// The token for the next set of results.
         public let nextToken: String?
-        
+
         public init(detectorModelName: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.detectorModelName = detectorModelName
             self.maxResults = maxResults
@@ -949,7 +952,7 @@ extension IoTEvents {
         public let detectorModelVersionSummaries: [DetectorModelVersionSummary]?
         /// A token to retrieve the next set of results, or null if there are no additional results.
         public let nextToken: String?
-        
+
         public init(detectorModelVersionSummaries: [DetectorModelVersionSummary]? = nil, nextToken: String? = nil) {
             self.detectorModelVersionSummaries = detectorModelVersionSummaries
             self.nextToken = nextToken
@@ -977,7 +980,7 @@ extension IoTEvents {
         public let maxResults: Int32?
         /// The token for the next set of results.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1004,7 +1007,7 @@ extension IoTEvents {
         public let detectorModelSummaries: [DetectorModelSummary]?
         /// A token to retrieve the next set of results, or null if there are no additional results.
         public let nextToken: String?
-        
+
         public init(detectorModelSummaries: [DetectorModelSummary]? = nil, nextToken: String? = nil) {
             self.detectorModelSummaries = detectorModelSummaries
             self.nextToken = nextToken
@@ -1032,7 +1035,7 @@ extension IoTEvents {
         public let maxResults: Int32?
         /// The token for the next set of results.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1059,7 +1062,7 @@ extension IoTEvents {
         public let inputSummaries: [InputSummary]?
         /// A token to retrieve the next set of results, or null if there are no additional results.
         public let nextToken: String?
-        
+
         public init(inputSummaries: [InputSummary]? = nil, nextToken: String? = nil) {
             self.inputSummaries = inputSummaries
             self.nextToken = nextToken
@@ -1084,7 +1087,7 @@ extension IoTEvents {
 
         /// The ARN of the resource.
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1106,7 +1109,7 @@ extension IoTEvents {
 
         /// The list of tags assigned to the resource.
         public let tags: [Tag]?
-        
+
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -1145,7 +1148,7 @@ extension IoTEvents {
         public let level: LoggingLevel
         /// The ARN of the role that grants permission to AWS IoT Events to perform logging.
         public let roleArn: String
-        
+
         public init(detectorDebugOptions: [DetectorDebugOption]? = nil, enabled: Bool, level: LoggingLevel, roleArn: String) {
             self.detectorDebugOptions = detectorDebugOptions
             self.enabled = enabled
@@ -1177,7 +1180,7 @@ extension IoTEvents {
 
         /// Specifies the actions that are performed when the state is entered and the condition is TRUE.
         public let events: [Event]?
-        
+
         public init(events: [Event]? = nil) {
             self.events = events
         }
@@ -1200,7 +1203,7 @@ extension IoTEvents {
 
         /// Specifies the actions that are performed when the state is exited and the condition is TRUE.
         public let events: [Event]?
-        
+
         public init(events: [Event]? = nil) {
             self.events = events
         }
@@ -1226,7 +1229,7 @@ extension IoTEvents {
         public let events: [Event]?
         /// Specifies the actions performed and the next state entered when a condition evaluates to TRUE.
         public let transitionEvents: [TransitionEvent]?
-        
+
         public init(events: [Event]? = nil, transitionEvents: [TransitionEvent]? = nil) {
             self.events = events
             self.transitionEvents = transitionEvents
@@ -1254,7 +1257,7 @@ extension IoTEvents {
 
         /// The new values of the AWS IoT Events logging options.
         public let loggingOptions: LoggingOptions
-        
+
         public init(loggingOptions: LoggingOptions) {
             self.loggingOptions = loggingOptions
         }
@@ -1275,7 +1278,7 @@ extension IoTEvents {
 
         /// The name of the timer to reset.
         public let timerName: String
-        
+
         public init(timerName: String) {
             self.timerName = timerName
         }
@@ -1297,7 +1300,7 @@ extension IoTEvents {
 
         /// The ARN of the Amazon SNS target to which the message is sent.
         public let targetArn: String
-        
+
         public init(targetArn: String) {
             self.targetArn = targetArn
         }
@@ -1322,7 +1325,7 @@ extension IoTEvents {
         public let seconds: Int32
         /// The name of the timer.
         public let timerName: String
-        
+
         public init(seconds: Int32, timerName: String) {
             self.seconds = seconds
             self.timerName = timerName
@@ -1349,7 +1352,7 @@ extension IoTEvents {
         public let value: String
         /// The name of the variable.
         public let variableName: String
-        
+
         public init(value: String, variableName: String) {
             self.value = value
             self.variableName = variableName
@@ -1385,7 +1388,7 @@ extension IoTEvents {
         public let onInput: OnInputLifecycle?
         /// The name of the state.
         public let stateName: String
-        
+
         public init(onEnter: OnEnterLifecycle? = nil, onExit: OnExitLifecycle? = nil, onInput: OnInputLifecycle? = nil, stateName: String) {
             self.onEnter = onEnter
             self.onExit = onExit
@@ -1419,7 +1422,7 @@ extension IoTEvents {
         public let key: String
         /// The tag's value.
         public let value: String
-        
+
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1448,7 +1451,7 @@ extension IoTEvents {
         public let resourceArn: String
         /// The new or modified tags for the resource.
         public let tags: [Tag]
-        
+
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1469,11 +1472,12 @@ extension IoTEvents {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct TransitionEvent: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1491,7 +1495,7 @@ extension IoTEvents {
         public let eventName: String
         /// The next state to enter.
         public let nextState: String
-        
+
         public init(actions: [Action]? = nil, condition: String, eventName: String, nextState: String) {
             self.actions = actions
             self.condition = condition
@@ -1527,7 +1531,7 @@ extension IoTEvents {
         public let resourceArn: String
         /// A list of the keys of the tags to be removed from the resource.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1549,11 +1553,12 @@ extension IoTEvents {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateDetectorModelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1571,7 +1576,7 @@ extension IoTEvents {
         public let detectorModelName: String
         /// The ARN of the role that grants permission to AWS IoT Events to perform its operations.
         public let roleArn: String
-        
+
         public init(detectorModelDefinition: DetectorModelDefinition, detectorModelDescription: String? = nil, detectorModelName: String, roleArn: String) {
             self.detectorModelDefinition = detectorModelDefinition
             self.detectorModelDescription = detectorModelDescription
@@ -1604,7 +1609,7 @@ extension IoTEvents {
 
         /// Information about how the detector model is configured.
         public let detectorModelConfiguration: DetectorModelConfiguration?
-        
+
         public init(detectorModelConfiguration: DetectorModelConfiguration? = nil) {
             self.detectorModelConfiguration = detectorModelConfiguration
         }
@@ -1631,7 +1636,7 @@ extension IoTEvents {
         public let inputDescription: String?
         /// The name of the input you want to update.
         public let inputName: String
-        
+
         public init(inputDefinition: InputDefinition, inputDescription: String? = nil, inputName: String) {
             self.inputDefinition = inputDefinition
             self.inputDescription = inputDescription
@@ -1660,7 +1665,7 @@ extension IoTEvents {
 
         /// Information about the configuration of the input.
         public let inputConfiguration: InputConfiguration?
-        
+
         public init(inputConfiguration: InputConfiguration? = nil) {
             self.inputConfiguration = inputConfiguration
         }
@@ -1673,5 +1678,4 @@ extension IoTEvents {
             case inputConfiguration = "inputConfiguration"
         }
     }
-
 }

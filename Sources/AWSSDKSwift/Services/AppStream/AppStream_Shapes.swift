@@ -39,7 +39,7 @@ extension AppStream {
         public let metadata: [String: String]?
         /// The name of the application.
         public let name: String?
-        
+
         public init(displayName: String? = nil, enabled: Bool? = nil, iconURL: String? = nil, launchParameters: String? = nil, launchPath: String? = nil, metadata: [String: String]? = nil, name: String? = nil) {
             self.displayName = displayName
             self.enabled = enabled
@@ -79,7 +79,7 @@ extension AppStream {
         public let enabled: Bool
         /// The path prefix for the S3 bucket where users’ persistent application settings are stored. You can allow the same persistent application settings to be used across multiple stacks by specifying the same settings group for each stack. 
         public let settingsGroup: String?
-        
+
         public init(enabled: Bool, settingsGroup: String? = nil) {
             self.enabled = enabled
             self.settingsGroup = settingsGroup
@@ -108,7 +108,7 @@ extension AppStream {
         public let s3BucketName: String?
         /// The path prefix for the S3 bucket where users’ persistent application settings are stored.
         public let settingsGroup: String?
-        
+
         public init(enabled: Bool? = nil, s3BucketName: String? = nil, settingsGroup: String? = nil) {
             self.enabled = enabled
             self.s3BucketName = s3BucketName
@@ -137,7 +137,7 @@ extension AppStream {
         public let fleetName: String
         /// The name of the stack.
         public let stackName: String
-        
+
         public init(fleetName: String, stackName: String) {
             self.fleetName = fleetName
             self.stackName = stackName
@@ -155,11 +155,12 @@ extension AppStream {
     }
 
     public struct AssociateFleetResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum AuthenticationType: String, CustomStringConvertible, Codable {
         case api = "API"
@@ -175,7 +176,7 @@ extension AppStream {
 
         /// The list of UserStackAssociation objects.
         public let userStackAssociations: [UserStackAssociation]
-        
+
         public init(userStackAssociations: [UserStackAssociation]) {
             self.userStackAssociations = userStackAssociations
         }
@@ -200,7 +201,7 @@ extension AppStream {
 
         /// The list of UserStackAssociationError objects.
         public let errors: [UserStackAssociationError]?
-        
+
         public init(errors: [UserStackAssociationError]? = nil) {
             self.errors = errors
         }
@@ -223,7 +224,7 @@ extension AppStream {
 
         /// The list of UserStackAssociation objects.
         public let userStackAssociations: [UserStackAssociation]
-        
+
         public init(userStackAssociations: [UserStackAssociation]) {
             self.userStackAssociations = userStackAssociations
         }
@@ -248,7 +249,7 @@ extension AppStream {
 
         /// The list of UserStackAssociationError objects.
         public let errors: [UserStackAssociationError]?
-        
+
         public init(errors: [UserStackAssociationError]? = nil) {
             self.errors = errors
         }
@@ -271,7 +272,7 @@ extension AppStream {
 
         /// The desired number of streaming instances.
         public let desiredInstances: Int32
-        
+
         public init(desiredInstances: Int32) {
             self.desiredInstances = desiredInstances
         }
@@ -297,7 +298,7 @@ extension AppStream {
         public let inUse: Int32?
         /// The total number of simultaneous streaming instances that are running.
         public let running: Int32?
-        
+
         public init(available: Int32? = nil, desired: Int32, inUse: Int32? = nil, running: Int32? = nil) {
             self.available = available
             self.desired = desired
@@ -329,7 +330,7 @@ extension AppStream {
         public let destinationRegion: String
         /// The name of the image to copy.
         public let sourceImageName: String
-        
+
         public init(destinationImageDescription: String? = nil, destinationImageName: String, destinationRegion: String, sourceImageName: String) {
             self.destinationImageDescription = destinationImageDescription
             self.destinationImageName = destinationImageName
@@ -360,7 +361,7 @@ extension AppStream {
 
         /// The name of the destination image.
         public let destinationImageName: String?
-        
+
         public init(destinationImageName: String? = nil) {
             self.destinationImageName = destinationImageName
         }
@@ -387,7 +388,7 @@ extension AppStream {
         public let organizationalUnitDistinguishedNames: [String]
         /// The credentials for the service account used by the fleet or image builder to connect to the directory.
         public let serviceAccountCredentials: ServiceAccountCredentials
-        
+
         public init(directoryName: String, organizationalUnitDistinguishedNames: [String], serviceAccountCredentials: ServiceAccountCredentials) {
             self.directoryName = directoryName
             self.organizationalUnitDistinguishedNames = organizationalUnitDistinguishedNames
@@ -415,7 +416,7 @@ extension AppStream {
 
         /// Information about the directory configuration.
         public let directoryConfig: DirectoryConfig?
-        
+
         public init(directoryConfig: DirectoryConfig? = nil) {
             self.directoryConfig = directoryConfig
         }
@@ -478,7 +479,7 @@ extension AppStream {
         public let tags: [String: String]?
         /// The VPC configuration for the fleet.
         public let vpcConfig: VpcConfig?
-        
+
         public init(computeCapacity: ComputeCapacity, description: String? = nil, disconnectTimeoutInSeconds: Int32? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetType: FleetType? = nil, idleDisconnectTimeoutInSeconds: Int32? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxUserDurationInSeconds: Int32? = nil, name: String, tags: [String: String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.computeCapacity = computeCapacity
             self.description = description
@@ -534,7 +535,7 @@ extension AppStream {
 
         /// Information about the fleet.
         public let fleet: Fleet?
-        
+
         public init(fleet: Fleet? = nil) {
             self.fleet = fleet
         }
@@ -585,7 +586,7 @@ extension AppStream {
         public let tags: [String: String]?
         /// The VPC configuration for the image builder. You can specify only one subnet.
         public let vpcConfig: VpcConfig?
-        
+
         public init(appstreamAgentVersion: String? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, name: String, tags: [String: String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.appstreamAgentVersion = appstreamAgentVersion
             self.description = description
@@ -635,7 +636,7 @@ extension AppStream {
 
         /// Information about the image builder.
         public let imageBuilder: ImageBuilder?
-        
+
         public init(imageBuilder: ImageBuilder? = nil) {
             self.imageBuilder = imageBuilder
         }
@@ -659,7 +660,7 @@ extension AppStream {
         public let name: String
         /// The time that the streaming URL will be valid, in seconds. Specify a value between 1 and 604800 seconds. The default is 3600 seconds.
         public let validity: Int64?
-        
+
         public init(name: String, validity: Int64? = nil) {
             self.name = name
             self.validity = validity
@@ -685,7 +686,7 @@ extension AppStream {
         public let expires: TimeStamp?
         /// The URL to start the AppStream 2.0 streaming session.
         public let streamingURL: String?
-        
+
         public init(expires: TimeStamp? = nil, streamingURL: String? = nil) {
             self.expires = expires
             self.streamingURL = streamingURL
@@ -732,7 +733,7 @@ extension AppStream {
         public let tags: [String: String]?
         /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled. 
         public let userSettings: [UserSetting]?
-        
+
         public init(applicationSettings: ApplicationSettings? = nil, description: String? = nil, displayName: String? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, tags: [String: String]? = nil, userSettings: [UserSetting]? = nil) {
             self.applicationSettings = applicationSettings
             self.description = description
@@ -778,7 +779,7 @@ extension AppStream {
 
         /// Information about the stack.
         public let stack: Stack?
-        
+
         public init(stack: Stack? = nil) {
             self.stack = stack
         }
@@ -814,7 +815,7 @@ extension AppStream {
         public let userId: String
         /// The time that the streaming URL will be valid, in seconds. Specify a value between 1 and 604800 seconds. The default is 60 seconds.
         public let validity: Int64?
-        
+
         public init(applicationId: String? = nil, fleetName: String, sessionContext: String? = nil, stackName: String, userId: String, validity: Int64? = nil) {
             self.applicationId = applicationId
             self.fleetName = fleetName
@@ -854,7 +855,7 @@ extension AppStream {
         public let expires: TimeStamp?
         /// The URL to start the AppStream 2.0 streaming session.
         public let streamingURL: String?
-        
+
         public init(expires: TimeStamp? = nil, streamingURL: String? = nil) {
             self.expires = expires
             self.streamingURL = streamingURL
@@ -871,11 +872,12 @@ extension AppStream {
     }
 
     public struct CreateUsageReportSubscriptionRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateUsageReportSubscriptionResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -887,7 +889,7 @@ extension AppStream {
         public let s3BucketName: String?
         /// The schedule for generating usage reports.
         public let schedule: UsageReportSchedule?
-        
+
         public init(s3BucketName: String? = nil, schedule: UsageReportSchedule? = nil) {
             self.s3BucketName = s3BucketName
             self.schedule = schedule
@@ -922,7 +924,7 @@ extension AppStream {
         public let messageAction: MessageAction?
         /// The email address of the user.  Users' email addresses are case-sensitive. During login, if they specify an email address that doesn't use the same capitalization as the email address specified when their user pool account was created, a "user does not exist" error message displays. 
         public let userName: String
-        
+
         public init(authenticationType: AuthenticationType, firstName: String? = nil, lastName: String? = nil, messageAction: MessageAction? = nil, userName: String) {
             self.authenticationType = authenticationType
             self.firstName = firstName
@@ -951,11 +953,12 @@ extension AppStream {
     }
 
     public struct CreateUserResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteDirectoryConfigRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -964,7 +967,7 @@ extension AppStream {
 
         /// The name of the directory configuration.
         public let directoryName: String
-        
+
         public init(directoryName: String) {
             self.directoryName = directoryName
         }
@@ -975,11 +978,12 @@ extension AppStream {
     }
 
     public struct DeleteDirectoryConfigResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteFleetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -988,7 +992,7 @@ extension AppStream {
 
         /// The name of the fleet.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -1003,11 +1007,12 @@ extension AppStream {
     }
 
     public struct DeleteFleetResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteImageBuilderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1016,7 +1021,7 @@ extension AppStream {
 
         /// The name of the image builder.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -1037,7 +1042,7 @@ extension AppStream {
 
         /// Information about the image builder.
         public let imageBuilder: ImageBuilder?
-        
+
         public init(imageBuilder: ImageBuilder? = nil) {
             self.imageBuilder = imageBuilder
         }
@@ -1061,7 +1066,7 @@ extension AppStream {
         public let name: String
         /// The 12-digit identifier of the AWS account for which to delete image permissions.
         public let sharedAccountId: String
-        
+
         public init(name: String, sharedAccountId: String) {
             self.name = name
             self.sharedAccountId = sharedAccountId
@@ -1079,11 +1084,12 @@ extension AppStream {
     }
 
     public struct DeleteImagePermissionsResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteImageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1092,7 +1098,7 @@ extension AppStream {
 
         /// The name of the image.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -1113,7 +1119,7 @@ extension AppStream {
 
         /// Information about the image.
         public let image: Image?
-        
+
         public init(image: Image? = nil) {
             self.image = image
         }
@@ -1134,7 +1140,7 @@ extension AppStream {
 
         /// The name of the stack.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -1149,25 +1155,28 @@ extension AppStream {
     }
 
     public struct DeleteStackResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteUsageReportSubscriptionRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteUsageReportSubscriptionResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1179,7 +1188,7 @@ extension AppStream {
         public let authenticationType: AuthenticationType
         /// The email address of the user.  Users' email addresses are case-sensitive. 
         public let userName: String
-        
+
         public init(authenticationType: AuthenticationType, userName: String) {
             self.authenticationType = authenticationType
             self.userName = userName
@@ -1198,11 +1207,12 @@ extension AppStream {
     }
 
     public struct DeleteUserResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeDirectoryConfigsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1217,7 +1227,7 @@ extension AppStream {
         public let maxResults: Int32?
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
-        
+
         public init(directoryNames: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.directoryNames = directoryNames
             self.maxResults = maxResults
@@ -1245,7 +1255,7 @@ extension AppStream {
         public let directoryConfigs: [DirectoryConfig]?
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
-        
+
         public init(directoryConfigs: [DirectoryConfig]? = nil, nextToken: String? = nil) {
             self.directoryConfigs = directoryConfigs
             self.nextToken = nextToken
@@ -1274,7 +1284,7 @@ extension AppStream {
         public let names: [String]?
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
-        
+
         public init(names: [String]? = nil, nextToken: String? = nil) {
             self.names = names
             self.nextToken = nextToken
@@ -1303,7 +1313,7 @@ extension AppStream {
         public let fleets: [Fleet]?
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
-        
+
         public init(fleets: [Fleet]? = nil, nextToken: String? = nil) {
             self.fleets = fleets
             self.nextToken = nextToken
@@ -1335,7 +1345,7 @@ extension AppStream {
         public let names: [String]?
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, names: [String]? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.names = names
@@ -1366,7 +1376,7 @@ extension AppStream {
         public let imageBuilders: [ImageBuilder]?
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
-        
+
         public init(imageBuilders: [ImageBuilder]? = nil, nextToken: String? = nil) {
             self.imageBuilders = imageBuilders
             self.nextToken = nextToken
@@ -1401,7 +1411,7 @@ extension AppStream {
         public let nextToken: String?
         /// The 12-digit identifier of one or more AWS accounts with which the image is shared.
         public let sharedAwsAccountIds: [String]?
-        
+
         public init(maxResults: Int32? = nil, name: String, nextToken: String? = nil, sharedAwsAccountIds: [String]? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -1442,7 +1452,7 @@ extension AppStream {
         public let nextToken: String?
         /// The permissions for a private image that you own. 
         public let sharedImagePermissionsList: [SharedImagePermissions]?
-        
+
         public init(name: String? = nil, nextToken: String? = nil, sharedImagePermissionsList: [SharedImagePermissions]? = nil) {
             self.name = name
             self.nextToken = nextToken
@@ -1483,7 +1493,7 @@ extension AppStream {
         public let nextToken: String?
         /// The type of image (public, private, or shared) to describe. 
         public let `type`: VisibilityType?
-        
+
         public init(arns: [String]? = nil, maxResults: Int32? = nil, names: [String]? = nil, nextToken: String? = nil, type: VisibilityType? = nil) {
             self.arns = arns
             self.maxResults = maxResults
@@ -1523,7 +1533,7 @@ extension AppStream {
         public let images: [Image]?
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
-        
+
         public init(images: [Image]? = nil, nextToken: String? = nil) {
             self.images = images
             self.nextToken = nextToken
@@ -1564,7 +1574,7 @@ extension AppStream {
         public let stackName: String
         /// The user identifier.
         public let userId: String?
-        
+
         public init(authenticationType: AuthenticationType? = nil, fleetName: String, limit: Int32? = nil, nextToken: String? = nil, stackName: String, userId: String? = nil) {
             self.authenticationType = authenticationType
             self.fleetName = fleetName
@@ -1602,7 +1612,7 @@ extension AppStream {
         public let nextToken: String?
         /// Information about the streaming sessions.
         public let sessions: [Session]?
-        
+
         public init(nextToken: String? = nil, sessions: [Session]? = nil) {
             self.nextToken = nextToken
             self.sessions = sessions
@@ -1631,7 +1641,7 @@ extension AppStream {
         public let names: [String]?
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
-        
+
         public init(names: [String]? = nil, nextToken: String? = nil) {
             self.names = names
             self.nextToken = nextToken
@@ -1660,7 +1670,7 @@ extension AppStream {
         public let nextToken: String?
         /// Information about the stacks.
         public let stacks: [Stack]?
-        
+
         public init(nextToken: String? = nil, stacks: [Stack]? = nil) {
             self.nextToken = nextToken
             self.stacks = stacks
@@ -1689,7 +1699,7 @@ extension AppStream {
         public let maxResults: Int32?
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1715,7 +1725,7 @@ extension AppStream {
         public let nextToken: String?
         /// Information about the usage report subscription.
         public let usageReportSubscriptions: [UsageReportSubscription]?
-        
+
         public init(nextToken: String? = nil, usageReportSubscriptions: [UsageReportSubscription]? = nil) {
             self.nextToken = nextToken
             self.usageReportSubscriptions = usageReportSubscriptions
@@ -1753,7 +1763,7 @@ extension AppStream {
         public let stackName: String?
         /// The email address of the user who is associated with the stack.  Users' email addresses are case-sensitive. 
         public let userName: String?
-        
+
         public init(authenticationType: AuthenticationType? = nil, maxResults: Int32? = nil, nextToken: String? = nil, stackName: String? = nil, userName: String? = nil) {
             self.authenticationType = authenticationType
             self.maxResults = maxResults
@@ -1791,7 +1801,7 @@ extension AppStream {
         public let nextToken: String?
         /// The UserStackAssociation objects.
         public let userStackAssociations: [UserStackAssociation]?
-        
+
         public init(nextToken: String? = nil, userStackAssociations: [UserStackAssociation]? = nil) {
             self.nextToken = nextToken
             self.userStackAssociations = userStackAssociations
@@ -1825,7 +1835,7 @@ extension AppStream {
         public let maxResults: Int32?
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
-        
+
         public init(authenticationType: AuthenticationType, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.authenticationType = authenticationType
             self.maxResults = maxResults
@@ -1853,7 +1863,7 @@ extension AppStream {
         public let nextToken: String?
         /// Information about users in the user pool.
         public let users: [User]?
-        
+
         public init(nextToken: String? = nil, users: [User]? = nil) {
             self.nextToken = nextToken
             self.users = users
@@ -1888,7 +1898,7 @@ extension AppStream {
         public let organizationalUnitDistinguishedNames: [String]?
         /// The credentials for the service account used by the fleet or image builder to connect to the directory.
         public let serviceAccountCredentials: ServiceAccountCredentials?
-        
+
         public init(createdTime: TimeStamp? = nil, directoryName: String, organizationalUnitDistinguishedNames: [String]? = nil, serviceAccountCredentials: ServiceAccountCredentials? = nil) {
             self.createdTime = createdTime
             self.directoryName = directoryName
@@ -1921,7 +1931,7 @@ extension AppStream {
         public let authenticationType: AuthenticationType
         /// The email address of the user.  Users' email addresses are case-sensitive. 
         public let userName: String
-        
+
         public init(authenticationType: AuthenticationType, userName: String) {
             self.authenticationType = authenticationType
             self.userName = userName
@@ -1940,11 +1950,12 @@ extension AppStream {
     }
 
     public struct DisableUserResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociateFleetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1956,7 +1967,7 @@ extension AppStream {
         public let fleetName: String
         /// The name of the stack.
         public let stackName: String
-        
+
         public init(fleetName: String, stackName: String) {
             self.fleetName = fleetName
             self.stackName = stackName
@@ -1974,11 +1985,12 @@ extension AppStream {
     }
 
     public struct DisassociateFleetResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DomainJoinInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1990,7 +2002,7 @@ extension AppStream {
         public let directoryName: String?
         /// The distinguished name of the organizational unit for computer accounts.
         public let organizationalUnitDistinguishedName: String?
-        
+
         public init(directoryName: String? = nil, organizationalUnitDistinguishedName: String? = nil) {
             self.directoryName = directoryName
             self.organizationalUnitDistinguishedName = organizationalUnitDistinguishedName
@@ -2016,7 +2028,7 @@ extension AppStream {
         public let authenticationType: AuthenticationType
         /// The email address of the user.  Users' email addresses are case-sensitive. During login, if they specify an email address that doesn't use the same capitalization as the email address specified when their user pool account was created, a "user does not exist" error message displays.  
         public let userName: String
-        
+
         public init(authenticationType: AuthenticationType, userName: String) {
             self.authenticationType = authenticationType
             self.userName = userName
@@ -2035,11 +2047,12 @@ extension AppStream {
     }
 
     public struct EnableUserResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct ExpireSessionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2048,7 +2061,7 @@ extension AppStream {
 
         /// The identifier of the streaming session.
         public let sessionId: String
-        
+
         public init(sessionId: String) {
             self.sessionId = sessionId
         }
@@ -2063,11 +2076,12 @@ extension AppStream {
     }
 
     public struct ExpireSessionResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Fleet: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2127,7 +2141,7 @@ extension AppStream {
         public let state: FleetState
         /// The VPC configuration for the fleet.
         public let vpcConfig: VpcConfig?
-        
+
         public init(arn: String, computeCapacityStatus: ComputeCapacityStatus, createdTime: TimeStamp? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int32? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetErrors: [FleetError]? = nil, fleetType: FleetType? = nil, idleDisconnectTimeoutInSeconds: Int32? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxUserDurationInSeconds: Int32? = nil, name: String, state: FleetState, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.computeCapacityStatus = computeCapacityStatus
@@ -2203,7 +2217,7 @@ extension AppStream {
         public let errorCode: FleetErrorCode?
         /// The error message.
         public let errorMessage: String?
-        
+
         public init(errorCode: FleetErrorCode? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -2315,7 +2329,7 @@ extension AppStream {
         public let stateChangeReason: ImageStateChangeReason?
         /// Indicates whether the image is public or private.
         public let visibility: VisibilityType?
-        
+
         public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, displayName: String? = nil, imageBuilderName: String? = nil, imageBuilderSupported: Bool? = nil, imagePermissions: ImagePermissions? = nil, name: String, platform: PlatformType? = nil, publicBaseImageReleasedDate: TimeStamp? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, visibility: VisibilityType? = nil) {
             self.applications = applications
             self.appstreamAgentVersion = appstreamAgentVersion
@@ -2421,7 +2435,7 @@ extension AppStream {
         public let stateChangeReason: ImageBuilderStateChangeReason?
         /// The VPC configuration of the image builder.
         public let vpcConfig: VpcConfig?
-        
+
         public init(appstreamAgentVersion: String? = nil, arn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, imageArn: String? = nil, imageBuilderErrors: [ResourceError]? = nil, instanceType: String? = nil, name: String, networkAccessConfiguration: NetworkAccessConfiguration? = nil, platform: PlatformType? = nil, state: ImageBuilderState? = nil, stateChangeReason: ImageBuilderStateChangeReason? = nil, vpcConfig: VpcConfig? = nil) {
             self.appstreamAgentVersion = appstreamAgentVersion
             self.arn = arn
@@ -2502,7 +2516,7 @@ extension AppStream {
         public let code: ImageBuilderStateChangeReasonCode?
         /// The state change reason message.
         public let message: String?
-        
+
         public init(code: ImageBuilderStateChangeReasonCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -2534,7 +2548,7 @@ extension AppStream {
         public let allowFleet: Bool?
         /// Indicates whether the image can be used for an image builder.
         public let allowImageBuilder: Bool?
-        
+
         public init(allowFleet: Bool? = nil, allowImageBuilder: Bool? = nil) {
             self.allowFleet = allowFleet
             self.allowImageBuilder = allowImageBuilder
@@ -2565,7 +2579,7 @@ extension AppStream {
         public let code: ImageStateChangeReasonCode?
         /// The state change reason message.
         public let message: String?
-        
+
         public init(code: ImageStateChangeReasonCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -2598,7 +2612,7 @@ extension AppStream {
         public let errorCode: UsageReportExecutionErrorCode?
         /// The error message for the error that is returned when a usage report can't be generated.
         public let errorMessage: String?
-        
+
         public init(errorCode: UsageReportExecutionErrorCode? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -2624,7 +2638,7 @@ extension AppStream {
         public let nextToken: String?
         /// The name of the stack.
         public let stackName: String
-        
+
         public init(nextToken: String? = nil, stackName: String) {
             self.nextToken = nextToken
             self.stackName = stackName
@@ -2651,7 +2665,7 @@ extension AppStream {
         public let names: [String]?
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
-        
+
         public init(names: [String]? = nil, nextToken: String? = nil) {
             self.names = names
             self.nextToken = nextToken
@@ -2680,7 +2694,7 @@ extension AppStream {
         public let fleetName: String
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
-        
+
         public init(fleetName: String, nextToken: String? = nil) {
             self.fleetName = fleetName
             self.nextToken = nextToken
@@ -2707,7 +2721,7 @@ extension AppStream {
         public let names: [String]?
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
-        
+
         public init(names: [String]? = nil, nextToken: String? = nil) {
             self.names = names
             self.nextToken = nextToken
@@ -2733,7 +2747,7 @@ extension AppStream {
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2754,7 +2768,7 @@ extension AppStream {
 
         /// The information about the tags.
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2780,7 +2794,7 @@ extension AppStream {
         public let eniId: String?
         /// The private IP address of the elastic network interface that is attached to instances in your VPC.
         public let eniPrivateIpAddress: String?
-        
+
         public init(eniId: String? = nil, eniPrivateIpAddress: String? = nil) {
             self.eniId = eniId
             self.eniPrivateIpAddress = eniPrivateIpAddress
@@ -2823,7 +2837,7 @@ extension AppStream {
         public let errorMessage: String?
         /// The time the error occurred.
         public let errorTimestamp: TimeStamp?
-        
+
         public init(errorCode: FleetErrorCode? = nil, errorMessage: String? = nil, errorTimestamp: TimeStamp? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -2851,7 +2865,7 @@ extension AppStream {
         public let accountName: String
         /// The password for the account.
         public let accountPassword: String
-        
+
         public init(accountName: String, accountPassword: String) {
             self.accountName = accountName
             self.accountPassword = accountPassword
@@ -2903,7 +2917,7 @@ extension AppStream {
         public let state: SessionState
         /// The identifier of the user for whom the session was created.
         public let userId: String
-        
+
         public init(authenticationType: AuthenticationType? = nil, connectionState: SessionConnectionState? = nil, fleetName: String, id: String, maxExpirationTime: TimeStamp? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, stackName: String, startTime: TimeStamp? = nil, state: SessionState, userId: String) {
             self.authenticationType = authenticationType
             self.connectionState = connectionState
@@ -2963,7 +2977,7 @@ extension AppStream {
         public let imagePermissions: ImagePermissions
         /// The 12-digit identifier of the AWS account with which the image is shared.
         public let sharedAccountId: String
-        
+
         public init(imagePermissions: ImagePermissions, sharedAccountId: String) {
             self.imagePermissions = imagePermissions
             self.sharedAccountId = sharedAccountId
@@ -3016,7 +3030,7 @@ extension AppStream {
         public let storageConnectors: [StorageConnector]?
         /// The actions that are enabled or disabled for users during their streaming sessions. By default these actions are enabled.
         public let userSettings: [UserSetting]?
-        
+
         public init(applicationSettings: ApplicationSettingsResponse? = nil, arn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, displayName: String? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, stackErrors: [StackError]? = nil, storageConnectors: [StorageConnector]? = nil, userSettings: [UserSetting]? = nil) {
             self.applicationSettings = applicationSettings
             self.arn = arn
@@ -3085,7 +3099,7 @@ extension AppStream {
         public let errorCode: StackErrorCode?
         /// The error message.
         public let errorMessage: String?
-        
+
         public init(errorCode: StackErrorCode? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3114,7 +3128,7 @@ extension AppStream {
 
         /// The name of the fleet.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -3129,11 +3143,12 @@ extension AppStream {
     }
 
     public struct StartFleetResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct StartImageBuilderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3145,7 +3160,7 @@ extension AppStream {
         public let appstreamAgentVersion: String?
         /// The name of the image builder.
         public let name: String
-        
+
         public init(appstreamAgentVersion: String? = nil, name: String) {
             self.appstreamAgentVersion = appstreamAgentVersion
             self.name = name
@@ -3170,7 +3185,7 @@ extension AppStream {
 
         /// Information about the image builder.
         public let imageBuilder: ImageBuilder?
-        
+
         public init(imageBuilder: ImageBuilder? = nil) {
             self.imageBuilder = imageBuilder
         }
@@ -3191,7 +3206,7 @@ extension AppStream {
 
         /// The name of the fleet.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -3206,11 +3221,12 @@ extension AppStream {
     }
 
     public struct StopFleetResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct StopImageBuilderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3219,7 +3235,7 @@ extension AppStream {
 
         /// The name of the image builder.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -3240,7 +3256,7 @@ extension AppStream {
 
         /// Information about the image builder.
         public let imageBuilder: ImageBuilder?
-        
+
         public init(imageBuilder: ImageBuilder? = nil) {
             self.imageBuilder = imageBuilder
         }
@@ -3267,7 +3283,7 @@ extension AppStream {
         public let domains: [String]?
         /// The ARN of the storage connector.
         public let resourceIdentifier: String?
-        
+
         public init(connectorType: StorageConnectorType, domains: [String]? = nil, resourceIdentifier: String? = nil) {
             self.connectorType = connectorType
             self.domains = domains
@@ -3306,7 +3322,7 @@ extension AppStream {
         public let resourceArn: String
         /// The tags to associate. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @
         public let tags: [String: String]
-        
+
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3323,11 +3339,12 @@ extension AppStream {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3339,7 +3356,7 @@ extension AppStream {
         public let resourceArn: String
         /// The tag keys for the tags to disassociate.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3363,11 +3380,12 @@ extension AppStream {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateDirectoryConfigRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3382,7 +3400,7 @@ extension AppStream {
         public let organizationalUnitDistinguishedNames: [String]?
         /// The credentials for the service account used by the fleet or image builder to connect to the directory.
         public let serviceAccountCredentials: ServiceAccountCredentials?
-        
+
         public init(directoryName: String, organizationalUnitDistinguishedNames: [String]? = nil, serviceAccountCredentials: ServiceAccountCredentials? = nil) {
             self.directoryName = directoryName
             self.organizationalUnitDistinguishedNames = organizationalUnitDistinguishedNames
@@ -3410,7 +3428,7 @@ extension AppStream {
 
         /// Information about the Directory Config object.
         public let directoryConfig: DirectoryConfig?
-        
+
         public init(directoryConfig: DirectoryConfig? = nil) {
             self.directoryConfig = directoryConfig
         }
@@ -3470,7 +3488,7 @@ extension AppStream {
         public let name: String?
         /// The VPC configuration for the fleet.
         public let vpcConfig: VpcConfig?
-        
+
         public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int32? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, idleDisconnectTimeoutInSeconds: Int32? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxUserDurationInSeconds: Int32? = nil, name: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.attributesToDelete = attributesToDelete
             self.computeCapacity = computeCapacity
@@ -3524,7 +3542,7 @@ extension AppStream {
 
         /// Information about the fleet.
         public let fleet: Fleet?
-        
+
         public init(fleet: Fleet? = nil) {
             self.fleet = fleet
         }
@@ -3551,7 +3569,7 @@ extension AppStream {
         public let name: String
         /// The 12-digit identifier of the AWS account for which you want add or update image permissions.
         public let sharedAccountId: String
-        
+
         public init(imagePermissions: ImagePermissions, name: String, sharedAccountId: String) {
             self.imagePermissions = imagePermissions
             self.name = name
@@ -3571,11 +3589,12 @@ extension AppStream {
     }
 
     public struct UpdateImagePermissionsResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateStackRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3608,7 +3627,7 @@ extension AppStream {
         public let storageConnectors: [StorageConnector]?
         /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled.
         public let userSettings: [UserSetting]?
-        
+
         public init(applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, description: String? = nil, displayName: String? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, userSettings: [UserSetting]? = nil) {
             self.applicationSettings = applicationSettings
             self.attributesToDelete = attributesToDelete
@@ -3654,7 +3673,7 @@ extension AppStream {
 
         /// Information about the stack.
         public let stack: Stack?
-        
+
         public init(stack: Stack? = nil) {
             self.stack = stack
         }
@@ -3696,7 +3715,7 @@ extension AppStream {
         public let schedule: UsageReportSchedule?
         /// The errors that were returned if usage reports couldn't be generated.
         public let subscriptionErrors: [LastReportGenerationExecutionError]?
-        
+
         public init(lastGeneratedReportDate: TimeStamp? = nil, s3BucketName: String? = nil, schedule: UsageReportSchedule? = nil, subscriptionErrors: [LastReportGenerationExecutionError]? = nil) {
             self.lastGeneratedReportDate = lastGeneratedReportDate
             self.s3BucketName = s3BucketName
@@ -3747,7 +3766,7 @@ extension AppStream {
         public let status: String?
         /// The email address of the user.  Users' email addresses are case-sensitive. 
         public let userName: String?
-        
+
         public init(arn: String? = nil, authenticationType: AuthenticationType, createdTime: TimeStamp? = nil, enabled: Bool? = nil, firstName: String? = nil, lastName: String? = nil, status: String? = nil, userName: String? = nil) {
             self.arn = arn
             self.authenticationType = authenticationType
@@ -3793,7 +3812,7 @@ extension AppStream {
         public let action: Action
         /// Indicates whether the action is enabled or disabled.
         public let permission: Permission
-        
+
         public init(action: Action, permission: Permission) {
             self.action = action
             self.permission = permission
@@ -3821,7 +3840,7 @@ extension AppStream {
         public let stackName: String
         /// The email address of the user who is associated with the stack.  Users' email addresses are case-sensitive. 
         public let userName: String
-        
+
         public init(authenticationType: AuthenticationType, sendEmailNotification: Bool? = nil, stackName: String, userName: String) {
             self.authenticationType = authenticationType
             self.sendEmailNotification = sendEmailNotification
@@ -3857,7 +3876,7 @@ extension AppStream {
         public let errorMessage: String?
         /// Information about the user and associated stack.
         public let userStackAssociation: UserStackAssociation?
-        
+
         public init(errorCode: UserStackAssociationErrorCode? = nil, errorMessage: String? = nil, userStackAssociation: UserStackAssociation? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3900,7 +3919,7 @@ extension AppStream {
         public let securityGroupIds: [String]?
         /// The identifiers of the subnets to which a network interface is attached from the fleet instance or image builder instance. Fleet instances use one or more subnets. Image builder instances use one subnet.
         public let subnetIds: [String]?
-        
+
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -3921,5 +3940,4 @@ extension AppStream {
             case subnetIds = "SubnetIds"
         }
     }
-
 }

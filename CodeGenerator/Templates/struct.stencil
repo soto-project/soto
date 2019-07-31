@@ -1,29 +1,70 @@
+{# Template for a AWSShape #}
     public {{struct.object}} {{struct.name}}: AWSShape {
-        {%if struct.payload %}/// The key for the payload
+{%if struct.payload %}
+        /// The key for the payload
         public static let payloadPath: String? = "{{struct.payload}}"
-        {%endif %}{%if struct.namespace %}public static let _xmlNamespace: String? = "{{struct.namespace}}"
-        {%endif %}{%if struct.members.count > 0%}public static var _members: [AWSShapeMember] = [
-        {%for member in struct.members %}    AWSShapeMember(label: "{{member.name}}", {%if member.location %}location: {{member.location}}, {%endif %}required: {{member.required}}, type: .{{member.typeEnum}}{%if member.encoding %}, encoding: {{member.encoding}}{%endif %}){%if not forloop.last %}, {%endif %}
-        {%endfor %}]
+{%endif %}
+{%if struct.namespace %}
+        public static let _xmlNamespace: String? = "{{struct.namespace}}"
+{%endif %}
+{# AWSShapeMember array #}
+{%if struct.members.count > 0%}
+        public static var _members: [AWSShapeMember] = [
+{%for member in struct.members %}
+            AWSShapeMember(label: "{{member.name}}", {%if member.location %}location: {{member.location}}, {%endif %}required: {{member.required}}, type: .{{member.typeEnum}}{%if member.encoding %}, encoding: {{member.encoding}}{%endif %}){%if not forloop.last %}, {%endif +%}
+{%endfor %}
+        ]
+{%endif %}
 
-        {%endif %}{%for member in struct.members %}{%for comment in member.comment %}/// {{comment}}
-        {%endfor %}public let {{member.variable}}: {{member.type}}
-        {%endfor %}
+{# Member variables #}
+{%for member in struct.members %}
+{%for comment in member.comment %}
+        /// {{comment}}
+{%endfor %}
+        public let {{member.variable}}: {{member.type}}
+{%endfor %}
+
+{# init() function #}
         public init({%for member in struct.members %}{{member.parameter}}: {{member.type}}{%if member.default %} = {{member.default}}{%endif %}{%if not forloop.last %}, {%endif %}{%endfor %}) {
-        {%for member in struct.members %}    self.{{member.variable}} = {{member.variable}}
-        {%endfor %}}
+{%for member in struct.members %}
+            self.{{member.variable}} = {{member.variable}}
+{%endfor %}
+        }
 
-        {%if struct.validation.count > 0 %}public func validate() throws {
-        {%for v in struct.validation %}{%if v.shape %}    try {{v.name}}{%if not v.required %}?{%endif %}.validate()
-        {%endif %}{%if v.member %}    try {{v.name}}{%if not v.required %}?{%endif %}.forEach {
-            {%if v.member.shape %}    try $0.validate()
-            {%endif %}{%for key,value in v.member.reqs %}    try validate($0, name:"{{v.member.name}}", {{key}}: {{value}})
-            {%endfor %}}
-        {%endif %}{%for key,value in v.reqs %}    try validate({{v.name}}, name:"{{v.name}}", {{key}}: {{value}})
-        {%endfor %}{%endfor %}}
+{# validate() function #}
+{%if struct.validation.count > 0 %}
+        public func validate() throws {
+{%for v in struct.validation %}
+{%if v.shape %}
+            try {{v.name}}{%if not v.required %}?{%endif %}.validate()
+{%elif v.member %}
+{# validate array members #}
+            try {{v.name}}{%if not v.required %}?{%endif %}.forEach {
+{%if v.member.shape %}
+                try $0.validate()
+{%endif %}
+{%for key,value in v.member.reqs %}
+                try validate($0, name:"{{v.member.name}}", {{key}}: {{value}})
+{%endfor %}
+            }
+{%endif %}
+{%for key,value in v.reqs %}
+            try validate({{v.name}}, name:"{{v.name}}", {{key}}: {{value}})
+{%endfor %}
+{%endfor %}
+        }
 
-        {%endif %}{%if struct.members.count > 0%}private enum CodingKeys: String, CodingKey {
-        {%for member in struct.members %}{%if member.duplicate %}    case {{member.variable}} = "_{{member.locationPath}}" // TODO this is temporary measure for avoiding CodingKey duplication.
-        {%else %}    case {{member.variable}} = "{{member.locationPath}}"
-        {%endif %}{%endfor %}}
-    {%endif %}}
+{%endif %}
+{# CodingKeys enum #}
+{%if struct.members.count > 0%}
+        private enum CodingKeys: String, CodingKey {
+{%for member in struct.members %}
+{%if member.duplicate %}
+            case {{member.variable}} = "_{{member.locationPath}}" // TODO this is temporary measure for avoiding CodingKey duplication.
+{%else %}
+            case {{member.variable}} = "{{member.locationPath}}"
+{%endif %}
+{%endfor %}
+        }
+{%endif %}
+    }

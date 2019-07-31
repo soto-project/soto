@@ -15,7 +15,7 @@ extension AutoScalingPlans {
         public let cloudFormationStackARN: String?
         /// A set of tags (up to 50).
         public let tagFilters: [TagFilter]?
-        
+
         public init(cloudFormationStackARN: String? = nil, tagFilters: [TagFilter]? = nil) {
             self.cloudFormationStackARN = cloudFormationStackARN
             self.tagFilters = tagFilters
@@ -47,7 +47,7 @@ extension AutoScalingPlans {
         public let scalingInstructions: [ScalingInstruction]
         /// The name of the scaling plan. Names cannot contain vertical bars, colons, or forward slashes.
         public let scalingPlanName: String
-        
+
         public init(applicationSource: ApplicationSource, scalingInstructions: [ScalingInstruction], scalingPlanName: String) {
             self.applicationSource = applicationSource
             self.scalingInstructions = scalingInstructions
@@ -78,7 +78,7 @@ extension AutoScalingPlans {
 
         /// The version number of the scaling plan. This value is always 1. Currently, you cannot specify multiple scaling plan versions.
         public let scalingPlanVersion: Int64
-        
+
         public init(scalingPlanVersion: Int64) {
             self.scalingPlanVersion = scalingPlanVersion
         }
@@ -107,7 +107,7 @@ extension AutoScalingPlans {
         public let statistic: MetricStatistic
         /// The unit of the metric.
         public let unit: String?
-        
+
         public init(dimensions: [MetricDimension]? = nil, metricName: String, namespace: String, statistic: MetricStatistic, unit: String? = nil) {
             self.dimensions = dimensions
             self.metricName = metricName
@@ -144,7 +144,7 @@ extension AutoScalingPlans {
         public let statistic: MetricStatistic
         /// The unit of the metric. 
         public let unit: String?
-        
+
         public init(dimensions: [MetricDimension]? = nil, metricName: String, namespace: String, statistic: MetricStatistic, unit: String? = nil) {
             self.dimensions = dimensions
             self.metricName = metricName
@@ -172,7 +172,7 @@ extension AutoScalingPlans {
         public let timestamp: TimeStamp?
         /// The value of the data point.
         public let value: Double?
-        
+
         public init(timestamp: TimeStamp? = nil, value: Double? = nil) {
             self.timestamp = timestamp
             self.value = value
@@ -194,7 +194,7 @@ extension AutoScalingPlans {
         public let scalingPlanName: String
         /// The version number of the scaling plan.
         public let scalingPlanVersion: Int64
-        
+
         public init(scalingPlanName: String, scalingPlanVersion: Int64) {
             self.scalingPlanName = scalingPlanName
             self.scalingPlanVersion = scalingPlanVersion
@@ -213,11 +213,12 @@ extension AutoScalingPlans {
     }
 
     public struct DeleteScalingPlanResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeScalingPlanResourcesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -235,7 +236,7 @@ extension AutoScalingPlans {
         public let scalingPlanName: String
         /// The version number of the scaling plan.
         public let scalingPlanVersion: Int64
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, scalingPlanName: String, scalingPlanVersion: Int64) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -267,7 +268,7 @@ extension AutoScalingPlans {
         public let nextToken: String?
         /// Information about the scalable resources.
         public let scalingPlanResources: [ScalingPlanResource]?
-        
+
         public init(nextToken: String? = nil, scalingPlanResources: [ScalingPlanResource]? = nil) {
             self.nextToken = nextToken
             self.scalingPlanResources = scalingPlanResources
@@ -304,7 +305,7 @@ extension AutoScalingPlans {
         public let scalingPlanNames: [String]?
         /// The version number of the scaling plan. If you specify a scaling plan version, you must also specify a scaling plan name.
         public let scalingPlanVersion: Int64?
-        
+
         public init(applicationSources: [ApplicationSource]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, scalingPlanNames: [String]? = nil, scalingPlanVersion: Int64? = nil) {
             self.applicationSources = applicationSources
             self.maxResults = maxResults
@@ -343,7 +344,7 @@ extension AutoScalingPlans {
         public let nextToken: String?
         /// Information about the scaling plans.
         public let scalingPlans: [ScalingPlan]?
-        
+
         public init(nextToken: String? = nil, scalingPlans: [ScalingPlan]? = nil) {
             self.nextToken = nextToken
             self.scalingPlans = scalingPlans
@@ -397,7 +398,7 @@ extension AutoScalingPlans {
         public let serviceNamespace: ServiceNamespace
         /// The inclusive start time of the time range for the forecast data to get. The date and time can be at most 56 days before the current date and time. 
         public let startTime: TimeStamp
-        
+
         public init(endTime: TimeStamp, forecastDataType: ForecastDataType, resourceId: String, scalableDimension: ScalableDimension, scalingPlanName: String, scalingPlanVersion: Int64, serviceNamespace: ServiceNamespace, startTime: TimeStamp) {
             self.endTime = endTime
             self.forecastDataType = forecastDataType
@@ -435,7 +436,7 @@ extension AutoScalingPlans {
 
         /// The data points to return.
         public let datapoints: [Datapoint]
-        
+
         public init(datapoints: [Datapoint]) {
             self.datapoints = datapoints
         }
@@ -463,7 +464,7 @@ extension AutoScalingPlans {
         public let name: String
         /// The value of the dimension.
         public let value: String
-        
+
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -499,7 +500,7 @@ extension AutoScalingPlans {
         public let predefinedLoadMetricType: LoadMetricType
         /// Identifies the resource associated with the metric type. You can't specify a resource label unless the metric type is ALBRequestCountPerTarget and there is a target group for an Application Load Balancer attached to the Auto Scaling group. The format is app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt;/targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt;, where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN.   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.  
         public let resourceLabel: String?
-        
+
         public init(predefinedLoadMetricType: LoadMetricType, resourceLabel: String? = nil) {
             self.predefinedLoadMetricType = predefinedLoadMetricType
             self.resourceLabel = resourceLabel
@@ -526,7 +527,7 @@ extension AutoScalingPlans {
         public let predefinedScalingMetricType: ScalingMetricType
         /// Identifies the resource associated with the metric type. You can't specify a resource label unless the metric type is ALBRequestCountPerTarget and there is a target group for an Application Load Balancer attached to the Auto Scaling group, Spot Fleet request, or ECS service. The format is app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt;/targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt;, where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN.   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.  
         public let resourceLabel: String?
-        
+
         public init(predefinedScalingMetricType: ScalingMetricType, resourceLabel: String? = nil) {
             self.predefinedScalingMetricType = predefinedScalingMetricType
             self.resourceLabel = resourceLabel
@@ -614,7 +615,7 @@ extension AutoScalingPlans {
         public let serviceNamespace: ServiceNamespace
         /// The structure that defines new target tracking configurations (up to 10). Each of these structures includes a specific scaling metric and a target value for the metric, along with various parameters to use with dynamic scaling.  With predictive scaling and dynamic scaling, the resource scales based on the target tracking configuration that provides the largest capacity for both scale in and scale out.  Condition: The scaling metric must be unique across target tracking configurations.
         public let targetTrackingConfigurations: [TargetTrackingConfiguration]
-        
+
         public init(customizedLoadMetricSpecification: CustomizedLoadMetricSpecification? = nil, disableDynamicScaling: Bool? = nil, maxCapacity: Int32, minCapacity: Int32, predefinedLoadMetricSpecification: PredefinedLoadMetricSpecification? = nil, predictiveScalingMaxCapacityBehavior: PredictiveScalingMaxCapacityBehavior? = nil, predictiveScalingMaxCapacityBuffer: Int32? = nil, predictiveScalingMode: PredictiveScalingMode? = nil, resourceId: String, scalableDimension: ScalableDimension, scalingPolicyUpdateBehavior: ScalingPolicyUpdateBehavior? = nil, scheduledActionBufferTime: Int32? = nil, serviceNamespace: ServiceNamespace, targetTrackingConfigurations: [TargetTrackingConfiguration]) {
             self.customizedLoadMetricSpecification = customizedLoadMetricSpecification
             self.disableDynamicScaling = disableDynamicScaling
@@ -706,7 +707,7 @@ extension AutoScalingPlans {
         public let statusMessage: String?
         /// The Unix time stamp when the scaling plan entered the current status.
         public let statusStartTime: TimeStamp?
-        
+
         public init(applicationSource: ApplicationSource, creationTime: TimeStamp? = nil, scalingInstructions: [ScalingInstruction], scalingPlanName: String, scalingPlanVersion: Int64, statusCode: ScalingPlanStatusCode, statusMessage: String? = nil, statusStartTime: TimeStamp? = nil) {
             self.applicationSource = applicationSource
             self.creationTime = creationTime
@@ -769,7 +770,7 @@ extension AutoScalingPlans {
         public let scalingStatusMessage: String?
         /// The namespace of the AWS service.
         public let serviceNamespace: ServiceNamespace
-        
+
         public init(resourceId: String, scalableDimension: ScalableDimension, scalingPlanName: String, scalingPlanVersion: Int64, scalingPolicies: [ScalingPolicy]? = nil, scalingStatusCode: ScalingStatusCode, scalingStatusMessage: String? = nil, serviceNamespace: ServiceNamespace) {
             self.resourceId = resourceId
             self.scalableDimension = scalableDimension
@@ -831,7 +832,7 @@ extension AutoScalingPlans {
         public let policyType: PolicyType
         /// The target tracking scaling policy. Includes support for predefined or customized metrics.
         public let targetTrackingConfiguration: TargetTrackingConfiguration?
-        
+
         public init(policyName: String, policyType: PolicyType, targetTrackingConfiguration: TargetTrackingConfiguration? = nil) {
             self.policyName = policyName
             self.policyType = policyType
@@ -884,7 +885,7 @@ extension AutoScalingPlans {
         public let key: String?
         /// The tag values (0 to 20).
         public let values: [String]?
-        
+
         public init(key: String? = nil, values: [String]? = nil) {
             self.key = key
             self.values = values
@@ -932,7 +933,7 @@ extension AutoScalingPlans {
         public let scaleOutCooldown: Int32?
         /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2).
         public let targetValue: Double
-        
+
         public init(customizedScalingMetricSpecification: CustomizedScalingMetricSpecification? = nil, disableScaleIn: Bool? = nil, estimatedInstanceWarmup: Int32? = nil, predefinedScalingMetricSpecification: PredefinedScalingMetricSpecification? = nil, scaleInCooldown: Int32? = nil, scaleOutCooldown: Int32? = nil, targetValue: Double) {
             self.customizedScalingMetricSpecification = customizedScalingMetricSpecification
             self.disableScaleIn = disableScaleIn
@@ -974,7 +975,7 @@ extension AutoScalingPlans {
         public let scalingPlanName: String
         /// The version number of the scaling plan.
         public let scalingPlanVersion: Int64
-        
+
         public init(applicationSource: ApplicationSource? = nil, scalingInstructions: [ScalingInstruction]? = nil, scalingPlanName: String, scalingPlanVersion: Int64) {
             self.applicationSource = applicationSource
             self.scalingInstructions = scalingInstructions
@@ -1001,10 +1002,10 @@ extension AutoScalingPlans {
     }
 
     public struct UpdateScalingPlanResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
-
+    }
 }

@@ -233,5 +233,4 @@ public struct PinpointEmail {
     public func updateConfigurationSetEventDestination(_ input: UpdateConfigurationSetEventDestinationRequest) throws -> Future<UpdateConfigurationSetEventDestinationResponse> {
         return try client.send(operation: "UpdateConfigurationSetEventDestination", path: "/v1/email/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: "PUT", input: input)
     }
-
 }

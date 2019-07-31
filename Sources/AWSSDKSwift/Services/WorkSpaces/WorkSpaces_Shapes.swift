@@ -27,7 +27,7 @@ extension WorkSpaces {
         public let modificationState: DedicatedTenancyModificationStateEnum?
         /// The timestamp when the modification of the BYOL configuration was started.
         public let startTime: TimeStamp?
-        
+
         public init(dedicatedTenancyManagementCidrRange: String? = nil, dedicatedTenancySupport: DedicatedTenancySupportResultEnum? = nil, errorCode: String? = nil, errorMessage: String? = nil, modificationState: DedicatedTenancyModificationStateEnum? = nil, startTime: TimeStamp? = nil) {
             self.dedicatedTenancyManagementCidrRange = dedicatedTenancyManagementCidrRange
             self.dedicatedTenancySupport = dedicatedTenancySupport
@@ -61,7 +61,7 @@ extension WorkSpaces {
         public let directoryId: String
         /// The identifiers of one or more IP access control groups.
         public let groupIds: [String]
-        
+
         public init(directoryId: String, groupIds: [String]) {
             self.directoryId = directoryId
             self.groupIds = groupIds
@@ -81,11 +81,12 @@ extension WorkSpaces {
     }
 
     public struct AssociateIpGroupsResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct AuthorizeIpRulesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -97,7 +98,7 @@ extension WorkSpaces {
         public let groupId: String
         /// The rules to add to the group.
         public let userRules: [IpRuleItem]
-        
+
         public init(groupId: String, userRules: [IpRuleItem]) {
             self.groupId = groupId
             self.userRules = userRules
@@ -114,11 +115,12 @@ extension WorkSpaces {
     }
 
     public struct AuthorizeIpRulesResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct ClientProperties: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -127,7 +129,7 @@ extension WorkSpaces {
 
         /// Specifies whether users can cache their credentials on the Amazon WorkSpaces client. When enabled, users can choose to reconnect to their WorkSpaces without re-entering their credentials. 
         public let reconnectEnabled: ReconnectEnum?
-        
+
         public init(reconnectEnabled: ReconnectEnum? = nil) {
             self.reconnectEnabled = reconnectEnabled
         }
@@ -147,7 +149,7 @@ extension WorkSpaces {
         public let clientProperties: ClientProperties?
         /// The resource identifier, in the form of a directory ID.
         public let resourceId: String?
-        
+
         public init(clientProperties: ClientProperties? = nil, resourceId: String? = nil) {
             self.clientProperties = clientProperties
             self.resourceId = resourceId
@@ -181,7 +183,7 @@ extension WorkSpaces {
 
         /// The compute type.
         public let name: Compute?
-        
+
         public init(name: Compute? = nil) {
             self.name = name
         }
@@ -217,7 +219,7 @@ extension WorkSpaces {
         public let sourceRegion: String
         /// The tags for the image.
         public let tags: [Tag]?
-        
+
         public init(description: String? = nil, name: String, sourceImageId: String, sourceRegion: String, tags: [Tag]? = nil) {
             self.description = description
             self.name = name
@@ -258,7 +260,7 @@ extension WorkSpaces {
 
         /// The identifier of the image.
         public let imageId: String?
-        
+
         public init(imageId: String? = nil) {
             self.imageId = imageId
         }
@@ -288,7 +290,7 @@ extension WorkSpaces {
         public let tags: [Tag]?
         /// The rules to add to the group.
         public let userRules: [IpRuleItem]?
-        
+
         public init(groupDesc: String? = nil, groupName: String, tags: [Tag]? = nil, userRules: [IpRuleItem]? = nil) {
             self.groupDesc = groupDesc
             self.groupName = groupName
@@ -317,7 +319,7 @@ extension WorkSpaces {
 
         /// The identifier of the group.
         public let groupId: String?
-        
+
         public init(groupId: String? = nil) {
             self.groupId = groupId
         }
@@ -341,7 +343,7 @@ extension WorkSpaces {
         public let resourceId: String
         /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
         public let tags: [Tag]
-        
+
         public init(resourceId: String, tags: [Tag]) {
             self.resourceId = resourceId
             self.tags = tags
@@ -361,11 +363,12 @@ extension WorkSpaces {
     }
 
     public struct CreateTagsResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateWorkspacesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -374,7 +377,7 @@ extension WorkSpaces {
 
         /// The WorkSpaces to create. You can specify up to 25 WorkSpaces.
         public let workspaces: [WorkspaceRequest]
-        
+
         public init(workspaces: [WorkspaceRequest]) {
             self.workspaces = workspaces
         }
@@ -402,7 +405,7 @@ extension WorkSpaces {
         public let failedRequests: [FailedCreateWorkspaceRequest]?
         /// Information about the WorkSpaces that were created. Because this operation is asynchronous, the identifier returned is not immediately available for use with other operations. For example, if you call DescribeWorkspaces before the WorkSpace is created, the information returned can be incomplete.
         public let pendingRequests: [Workspace]?
-        
+
         public init(failedRequests: [FailedCreateWorkspaceRequest]? = nil, pendingRequests: [Workspace]? = nil) {
             self.failedRequests = failedRequests
             self.pendingRequests = pendingRequests
@@ -460,7 +463,7 @@ extension WorkSpaces {
         public let enableWorkDocs: Bool?
         /// Specifies whether the WorkSpace user is an administrator on the WorkSpace.
         public let userEnabledAsLocalAdministrator: Bool?
-        
+
         public init(customSecurityGroupId: String? = nil, defaultOu: String? = nil, enableInternetAccess: Bool? = nil, enableWorkDocs: Bool? = nil, userEnabledAsLocalAdministrator: Bool? = nil) {
             self.customSecurityGroupId = customSecurityGroupId
             self.defaultOu = defaultOu
@@ -489,7 +492,7 @@ extension WorkSpaces {
 
         /// The identifier of the IP access control group.
         public let groupId: String
-        
+
         public init(groupId: String) {
             self.groupId = groupId
         }
@@ -504,11 +507,12 @@ extension WorkSpaces {
     }
 
     public struct DeleteIpGroupResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteTagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -520,7 +524,7 @@ extension WorkSpaces {
         public let resourceId: String
         /// The tag keys.
         public let tagKeys: [String]
-        
+
         public init(resourceId: String, tagKeys: [String]) {
             self.resourceId = resourceId
             self.tagKeys = tagKeys
@@ -540,11 +544,12 @@ extension WorkSpaces {
     }
 
     public struct DeleteTagsResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteWorkspaceImageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -553,7 +558,7 @@ extension WorkSpaces {
 
         /// The identifier of the image.
         public let imageId: String
-        
+
         public init(imageId: String) {
             self.imageId = imageId
         }
@@ -568,11 +573,12 @@ extension WorkSpaces {
     }
 
     public struct DeleteWorkspaceImageResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeAccountModificationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -581,7 +587,7 @@ extension WorkSpaces {
 
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
-        
+
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -606,7 +612,7 @@ extension WorkSpaces {
         public let accountModifications: [AccountModification]?
         /// The token to use to retrieve the next set of results, or null if no more results are available.
         public let nextToken: String?
-        
+
         public init(accountModifications: [AccountModification]? = nil, nextToken: String? = nil) {
             self.accountModifications = accountModifications
             self.nextToken = nextToken
@@ -627,11 +633,12 @@ extension WorkSpaces {
     }
 
     public struct DescribeAccountRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeAccountResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -643,7 +650,7 @@ extension WorkSpaces {
         public let dedicatedTenancyManagementCidrRange: String?
         /// The status of BYOL (whether BYOL is enabled or disabled).
         public let dedicatedTenancySupport: DedicatedTenancySupportResultEnum?
-        
+
         public init(dedicatedTenancyManagementCidrRange: String? = nil, dedicatedTenancySupport: DedicatedTenancySupportResultEnum? = nil) {
             self.dedicatedTenancyManagementCidrRange = dedicatedTenancyManagementCidrRange
             self.dedicatedTenancySupport = dedicatedTenancySupport
@@ -666,7 +673,7 @@ extension WorkSpaces {
 
         /// The resource identifier, in the form of directory IDs.
         public let resourceIds: [String]
-        
+
         public init(resourceIds: [String]) {
             self.resourceIds = resourceIds
         }
@@ -691,7 +698,7 @@ extension WorkSpaces {
 
         /// Information about the specified Amazon WorkSpaces clients.
         public let clientPropertiesList: [ClientPropertiesResult]?
-        
+
         public init(clientPropertiesList: [ClientPropertiesResult]? = nil) {
             self.clientPropertiesList = clientPropertiesList
         }
@@ -720,7 +727,7 @@ extension WorkSpaces {
         public let maxResults: Int32?
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
-        
+
         public init(groupIds: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.groupIds = groupIds
             self.maxResults = maxResults
@@ -754,7 +761,7 @@ extension WorkSpaces {
         public let nextToken: String?
         /// Information about the IP access control groups.
         public let result: [WorkspacesIpGroup]?
-        
+
         public init(nextToken: String? = nil, result: [WorkspacesIpGroup]? = nil) {
             self.nextToken = nextToken
             self.result = result
@@ -781,7 +788,7 @@ extension WorkSpaces {
 
         /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, and IP access control groups.
         public let resourceId: String
-        
+
         public init(resourceId: String) {
             self.resourceId = resourceId
         }
@@ -802,7 +809,7 @@ extension WorkSpaces {
 
         /// The tags.
         public let tagList: [Tag]?
-        
+
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
         }
@@ -831,7 +838,7 @@ extension WorkSpaces {
         public let nextToken: String?
         /// The owner of the bundles. You cannot combine this parameter with any other filter. Specify AMAZON to describe the bundles provided by AWS or null to describe the bundles that belong to your account.
         public let owner: String?
-        
+
         public init(bundleIds: [String]? = nil, nextToken: String? = nil, owner: String? = nil) {
             self.bundleIds = bundleIds
             self.nextToken = nextToken
@@ -865,7 +872,7 @@ extension WorkSpaces {
         public let bundles: [WorkspaceBundle]?
         /// The token to use to retrieve the next set of results, or null if there are no more results available. This token is valid for one day and must be used within that time frame.
         public let nextToken: String?
-        
+
         public init(bundles: [WorkspaceBundle]? = nil, nextToken: String? = nil) {
             self.bundles = bundles
             self.nextToken = nextToken
@@ -895,7 +902,7 @@ extension WorkSpaces {
         public let directoryIds: [String]?
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
-        
+
         public init(directoryIds: [String]? = nil, nextToken: String? = nil) {
             self.directoryIds = directoryIds
             self.nextToken = nextToken
@@ -927,7 +934,7 @@ extension WorkSpaces {
         public let directories: [WorkspaceDirectory]?
         /// The token to use to retrieve the next set of results, or null if no more results are available.
         public let nextToken: String?
-        
+
         public init(directories: [WorkspaceDirectory]? = nil, nextToken: String? = nil) {
             self.directories = directories
             self.nextToken = nextToken
@@ -960,7 +967,7 @@ extension WorkSpaces {
         public let maxResults: Int32?
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
-        
+
         public init(imageIds: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.imageIds = imageIds
             self.maxResults = maxResults
@@ -996,7 +1003,7 @@ extension WorkSpaces {
         public let images: [WorkspaceImage]?
         /// The token to use to retrieve the next set of results, or null if no more results are available.
         public let nextToken: String?
-        
+
         public init(images: [WorkspaceImage]? = nil, nextToken: String? = nil) {
             self.images = images
             self.nextToken = nextToken
@@ -1026,7 +1033,7 @@ extension WorkSpaces {
         public let nextToken: String?
         /// The identifiers of the WorkSpaces. You can specify up to 25 WorkSpaces.
         public let workspaceIds: [String]?
-        
+
         public init(nextToken: String? = nil, workspaceIds: [String]? = nil) {
             self.nextToken = nextToken
             self.workspaceIds = workspaceIds
@@ -1058,7 +1065,7 @@ extension WorkSpaces {
         public let nextToken: String?
         /// Information about the connection status of the WorkSpace.
         public let workspacesConnectionStatus: [WorkspaceConnectionStatus]?
-        
+
         public init(nextToken: String? = nil, workspacesConnectionStatus: [WorkspaceConnectionStatus]? = nil) {
             self.nextToken = nextToken
             self.workspacesConnectionStatus = workspacesConnectionStatus
@@ -1100,7 +1107,7 @@ extension WorkSpaces {
         public let userName: String?
         /// The identifiers of the WorkSpaces. You cannot combine this parameter with any other filter. Because the CreateWorkspaces operation is asynchronous, the identifier it returns is not immediately available. If you immediately call DescribeWorkspaces with this identifier, no information is returned.
         public let workspaceIds: [String]?
-        
+
         public init(bundleId: String? = nil, directoryId: String? = nil, limit: Int32? = nil, nextToken: String? = nil, userName: String? = nil, workspaceIds: [String]? = nil) {
             self.bundleId = bundleId
             self.directoryId = directoryId
@@ -1146,7 +1153,7 @@ extension WorkSpaces {
         public let nextToken: String?
         /// Information about the WorkSpaces. Because CreateWorkspaces is an asynchronous operation, some of the returned information could be incomplete.
         public let workspaces: [Workspace]?
-        
+
         public init(nextToken: String? = nil, workspaces: [Workspace]? = nil) {
             self.nextToken = nextToken
             self.workspaces = workspaces
@@ -1176,7 +1183,7 @@ extension WorkSpaces {
         public let directoryId: String
         /// The identifiers of one or more IP access control groups.
         public let groupIds: [String]
-        
+
         public init(directoryId: String, groupIds: [String]) {
             self.directoryId = directoryId
             self.groupIds = groupIds
@@ -1196,11 +1203,12 @@ extension WorkSpaces {
     }
 
     public struct DisassociateIpGroupsResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct FailedCreateWorkspaceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1215,7 +1223,7 @@ extension WorkSpaces {
         public let errorMessage: String?
         /// Information about the WorkSpace.
         public let workspaceRequest: WorkspaceRequest?
-        
+
         public init(errorCode: String? = nil, errorMessage: String? = nil, workspaceRequest: WorkspaceRequest? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1246,7 +1254,7 @@ extension WorkSpaces {
         public let errorMessage: String?
         /// The identifier of the WorkSpace.
         public let workspaceId: String?
-        
+
         public init(errorCode: String? = nil, errorMessage: String? = nil, workspaceId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1283,7 +1291,7 @@ extension WorkSpaces {
         public let ingestionProcess: WorkspaceImageIngestionProcess
         /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
         public let tags: [Tag]?
-        
+
         public init(ec2ImageId: String, imageDescription: String, imageName: String, ingestionProcess: WorkspaceImageIngestionProcess, tags: [Tag]? = nil) {
             self.ec2ImageId = ec2ImageId
             self.imageDescription = imageDescription
@@ -1321,7 +1329,7 @@ extension WorkSpaces {
 
         /// The identifier of the WorkSpace image.
         public let imageId: String?
-        
+
         public init(imageId: String? = nil) {
             self.imageId = imageId
         }
@@ -1345,7 +1353,7 @@ extension WorkSpaces {
         public let ipRule: String?
         /// The description.
         public let ruleDesc: String?
-        
+
         public init(ipRule: String? = nil, ruleDesc: String? = nil) {
             self.ipRule = ipRule
             self.ruleDesc = ruleDesc
@@ -1370,7 +1378,7 @@ extension WorkSpaces {
         public let maxResults: Int32?
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
-        
+
         public init(managementCidrRangeConstraint: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.managementCidrRangeConstraint = managementCidrRangeConstraint
             self.maxResults = maxResults
@@ -1402,7 +1410,7 @@ extension WorkSpaces {
         public let managementCidrRanges: [String]?
         /// The token to use to retrieve the next set of results, or null if no more results are available.
         public let nextToken: String?
-        
+
         public init(managementCidrRanges: [String]? = nil, nextToken: String? = nil) {
             self.managementCidrRanges = managementCidrRanges
             self.nextToken = nextToken
@@ -1439,7 +1447,7 @@ extension WorkSpaces {
         public let resource: ModificationResourceEnum?
         /// The modification state.
         public let state: ModificationStateEnum?
-        
+
         public init(resource: ModificationResourceEnum? = nil, state: ModificationStateEnum? = nil) {
             self.resource = resource
             self.state = state
@@ -1467,7 +1475,7 @@ extension WorkSpaces {
         public let dedicatedTenancyManagementCidrRange: String?
         /// The status of BYOL.
         public let dedicatedTenancySupport: DedicatedTenancySupportEnum?
-        
+
         public init(dedicatedTenancyManagementCidrRange: String? = nil, dedicatedTenancySupport: DedicatedTenancySupportEnum? = nil) {
             self.dedicatedTenancyManagementCidrRange = dedicatedTenancyManagementCidrRange
             self.dedicatedTenancySupport = dedicatedTenancySupport
@@ -1484,11 +1492,12 @@ extension WorkSpaces {
     }
 
     public struct ModifyAccountResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct ModifyClientPropertiesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1500,7 +1509,7 @@ extension WorkSpaces {
         public let clientProperties: ClientProperties
         /// The resource identifiers, in the form of directory IDs.
         public let resourceId: String
-        
+
         public init(clientProperties: ClientProperties, resourceId: String) {
             self.clientProperties = clientProperties
             self.resourceId = resourceId
@@ -1517,11 +1526,12 @@ extension WorkSpaces {
     }
 
     public struct ModifyClientPropertiesResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct ModifyWorkspacePropertiesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1533,7 +1543,7 @@ extension WorkSpaces {
         public let workspaceId: String
         /// The properties of the WorkSpace.
         public let workspaceProperties: WorkspaceProperties
-        
+
         public init(workspaceId: String, workspaceProperties: WorkspaceProperties) {
             self.workspaceId = workspaceId
             self.workspaceProperties = workspaceProperties
@@ -1550,11 +1560,12 @@ extension WorkSpaces {
     }
 
     public struct ModifyWorkspacePropertiesResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct ModifyWorkspaceStateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1566,7 +1577,7 @@ extension WorkSpaces {
         public let workspaceId: String
         /// The WorkSpace state.
         public let workspaceState: TargetWorkspaceState
-        
+
         public init(workspaceId: String, workspaceState: TargetWorkspaceState) {
             self.workspaceId = workspaceId
             self.workspaceState = workspaceState
@@ -1583,11 +1594,12 @@ extension WorkSpaces {
     }
 
     public struct ModifyWorkspaceStateResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct OperatingSystem: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1596,7 +1608,7 @@ extension WorkSpaces {
 
         /// The operating system.
         public let `type`: OperatingSystemType?
-        
+
         public init(type: OperatingSystemType? = nil) {
             self.`type` = `type`
         }
@@ -1619,7 +1631,7 @@ extension WorkSpaces {
 
         /// The identifier of the WorkSpace.
         public let workspaceId: String
-        
+
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
         }
@@ -1640,7 +1652,7 @@ extension WorkSpaces {
 
         /// The WorkSpaces to reboot. You can specify up to 25 WorkSpaces.
         public let rebootWorkspaceRequests: [RebootRequest]
-        
+
         public init(rebootWorkspaceRequests: [RebootRequest]) {
             self.rebootWorkspaceRequests = rebootWorkspaceRequests
         }
@@ -1665,7 +1677,7 @@ extension WorkSpaces {
 
         /// Information about the WorkSpaces that could not be rebooted.
         public let failedRequests: [FailedWorkspaceChangeRequest]?
-        
+
         public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
             self.failedRequests = failedRequests
         }
@@ -1688,7 +1700,7 @@ extension WorkSpaces {
 
         /// The identifier of the WorkSpace.
         public let workspaceId: String
-        
+
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
         }
@@ -1709,7 +1721,7 @@ extension WorkSpaces {
 
         /// The WorkSpace to rebuild. You can specify a single WorkSpace.
         public let rebuildWorkspaceRequests: [RebuildRequest]
-        
+
         public init(rebuildWorkspaceRequests: [RebuildRequest]) {
             self.rebuildWorkspaceRequests = rebuildWorkspaceRequests
         }
@@ -1734,7 +1746,7 @@ extension WorkSpaces {
 
         /// Information about the WorkSpace that could not be rebuilt.
         public let failedRequests: [FailedWorkspaceChangeRequest]?
-        
+
         public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
             self.failedRequests = failedRequests
         }
@@ -1766,7 +1778,7 @@ extension WorkSpaces {
         public let groupId: String
         /// The rules to remove from the group.
         public let userRules: [String]
-        
+
         public init(groupId: String, userRules: [String]) {
             self.groupId = groupId
             self.userRules = userRules
@@ -1783,11 +1795,12 @@ extension WorkSpaces {
     }
 
     public struct RevokeIpRulesResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct RootStorage: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1796,7 +1809,7 @@ extension WorkSpaces {
 
         /// The size of the root volume.
         public let capacity: String?
-        
+
         public init(capacity: String? = nil) {
             self.capacity = capacity
         }
@@ -1823,7 +1836,7 @@ extension WorkSpaces {
 
         /// The identifier of the WorkSpace.
         public let workspaceId: String?
-        
+
         public init(workspaceId: String? = nil) {
             self.workspaceId = workspaceId
         }
@@ -1844,7 +1857,7 @@ extension WorkSpaces {
 
         /// The WorkSpaces to start. You can specify up to 25 WorkSpaces.
         public let startWorkspaceRequests: [StartRequest]
-        
+
         public init(startWorkspaceRequests: [StartRequest]) {
             self.startWorkspaceRequests = startWorkspaceRequests
         }
@@ -1869,7 +1882,7 @@ extension WorkSpaces {
 
         /// Information about the WorkSpaces that could not be started.
         public let failedRequests: [FailedWorkspaceChangeRequest]?
-        
+
         public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
             self.failedRequests = failedRequests
         }
@@ -1892,7 +1905,7 @@ extension WorkSpaces {
 
         /// The identifier of the WorkSpace.
         public let workspaceId: String?
-        
+
         public init(workspaceId: String? = nil) {
             self.workspaceId = workspaceId
         }
@@ -1913,7 +1926,7 @@ extension WorkSpaces {
 
         /// The WorkSpaces to stop. You can specify up to 25 WorkSpaces.
         public let stopWorkspaceRequests: [StopRequest]
-        
+
         public init(stopWorkspaceRequests: [StopRequest]) {
             self.stopWorkspaceRequests = stopWorkspaceRequests
         }
@@ -1938,7 +1951,7 @@ extension WorkSpaces {
 
         /// Information about the WorkSpaces that could not be stopped.
         public let failedRequests: [FailedWorkspaceChangeRequest]?
-        
+
         public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
             self.failedRequests = failedRequests
         }
@@ -1964,7 +1977,7 @@ extension WorkSpaces {
         public let key: String
         /// The value of the tag.
         public let value: String?
-        
+
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1995,7 +2008,7 @@ extension WorkSpaces {
 
         /// The identifier of the WorkSpace.
         public let workspaceId: String
-        
+
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
         }
@@ -2016,7 +2029,7 @@ extension WorkSpaces {
 
         /// The WorkSpaces to terminate. You can specify up to 25 WorkSpaces.
         public let terminateWorkspaceRequests: [TerminateRequest]
-        
+
         public init(terminateWorkspaceRequests: [TerminateRequest]) {
             self.terminateWorkspaceRequests = terminateWorkspaceRequests
         }
@@ -2041,7 +2054,7 @@ extension WorkSpaces {
 
         /// Information about the WorkSpaces that could not be terminated.
         public let failedRequests: [FailedWorkspaceChangeRequest]?
-        
+
         public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
             self.failedRequests = failedRequests
         }
@@ -2067,7 +2080,7 @@ extension WorkSpaces {
         public let groupId: String
         /// One or more rules.
         public let userRules: [IpRuleItem]
-        
+
         public init(groupId: String, userRules: [IpRuleItem]) {
             self.groupId = groupId
             self.userRules = userRules
@@ -2084,11 +2097,12 @@ extension WorkSpaces {
     }
 
     public struct UpdateRulesOfIpGroupResult: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UserStorage: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2097,7 +2111,7 @@ extension WorkSpaces {
 
         /// The size of the user storage.
         public let capacity: String?
-        
+
         public init(capacity: String? = nil) {
             self.capacity = capacity
         }
@@ -2160,7 +2174,7 @@ extension WorkSpaces {
         public let workspaceId: String?
         /// The properties of the WorkSpace.
         public let workspaceProperties: WorkspaceProperties?
-        
+
         public init(bundleId: String? = nil, computerName: String? = nil, directoryId: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, ipAddress: String? = nil, modificationStates: [ModificationState]? = nil, rootVolumeEncryptionEnabled: Bool? = nil, state: WorkspaceState? = nil, subnetId: String? = nil, userName: String? = nil, userVolumeEncryptionEnabled: Bool? = nil, volumeEncryptionKey: String? = nil, workspaceId: String? = nil, workspaceProperties: WorkspaceProperties? = nil) {
             self.bundleId = bundleId
             self.computerName = computerName
@@ -2232,7 +2246,7 @@ extension WorkSpaces {
         public let rootStorage: RootStorage?
         /// The size of the user storage.
         public let userStorage: UserStorage?
-        
+
         public init(bundleId: String? = nil, computeType: ComputeType? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, rootStorage: RootStorage? = nil, userStorage: UserStorage? = nil) {
             self.bundleId = bundleId
             self.computeType = computeType
@@ -2277,7 +2291,7 @@ extension WorkSpaces {
         public let lastKnownUserConnectionTimestamp: TimeStamp?
         /// The identifier of the WorkSpace.
         public let workspaceId: String?
-        
+
         public init(connectionState: ConnectionState? = nil, connectionStateCheckTimestamp: TimeStamp? = nil, lastKnownUserConnectionTimestamp: TimeStamp? = nil, workspaceId: String? = nil) {
             self.connectionState = connectionState
             self.connectionStateCheckTimestamp = connectionStateCheckTimestamp
@@ -2340,7 +2354,7 @@ extension WorkSpaces {
         public let workspaceCreationProperties: DefaultWorkspaceCreationProperties?
         /// The identifier of the security group that is assigned to new WorkSpaces.
         public let workspaceSecurityGroupId: String?
-        
+
         public init(alias: String? = nil, customerUserName: String? = nil, directoryId: String? = nil, directoryName: String? = nil, directoryType: WorkspaceDirectoryType? = nil, dnsIpAddresses: [String]? = nil, iamRoleId: String? = nil, ipGroupIds: [String]? = nil, registrationCode: String? = nil, state: WorkspaceDirectoryState? = nil, subnetIds: [String]? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, workspaceSecurityGroupId: String? = nil) {
             self.alias = alias
             self.customerUserName = customerUserName
@@ -2434,7 +2448,7 @@ extension WorkSpaces {
         public let requiredTenancy: WorkspaceImageRequiredTenancy?
         /// The status of the image.
         public let state: WorkspaceImageState?
-        
+
         public init(description: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, imageId: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, requiredTenancy: WorkspaceImageRequiredTenancy? = nil, state: WorkspaceImageState? = nil) {
             self.description = description
             self.errorCode = errorCode
@@ -2507,7 +2521,7 @@ extension WorkSpaces {
         public let runningModeAutoStopTimeoutInMinutes: Int32?
         /// The size of the user storage.
         public let userVolumeSizeGib: Int32?
-        
+
         public init(computeTypeName: Compute? = nil, rootVolumeSizeGib: Int32? = nil, runningMode: RunningMode? = nil, runningModeAutoStopTimeoutInMinutes: Int32? = nil, userVolumeSizeGib: Int32? = nil) {
             self.computeTypeName = computeTypeName
             self.rootVolumeSizeGib = rootVolumeSizeGib
@@ -2553,7 +2567,7 @@ extension WorkSpaces {
         public let volumeEncryptionKey: String?
         /// The WorkSpace properties.
         public let workspaceProperties: WorkspaceProperties?
-        
+
         public init(bundleId: String, directoryId: String, rootVolumeEncryptionEnabled: Bool? = nil, tags: [Tag]? = nil, userName: String, userVolumeEncryptionEnabled: Bool? = nil, volumeEncryptionKey: String? = nil, workspaceProperties: WorkspaceProperties? = nil) {
             self.bundleId = bundleId
             self.directoryId = directoryId
@@ -2623,7 +2637,7 @@ extension WorkSpaces {
         public let groupName: String?
         /// The rules.
         public let userRules: [IpRuleItem]?
-        
+
         public init(groupDesc: String? = nil, groupId: String? = nil, groupName: String? = nil, userRules: [IpRuleItem]? = nil) {
             self.groupDesc = groupDesc
             self.groupId = groupId
@@ -2642,5 +2656,4 @@ extension WorkSpaces {
             case userRules = "userRules"
         }
     }
-
 }

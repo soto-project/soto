@@ -15,7 +15,7 @@ extension CloudWatchLogs {
         public let kmsKeyId: String
         /// The name of the log group.
         public let logGroupName: String
-        
+
         public init(kmsKeyId: String, logGroupName: String) {
             self.kmsKeyId = kmsKeyId
             self.logGroupName = logGroupName
@@ -41,7 +41,7 @@ extension CloudWatchLogs {
 
         /// The ID of the export task.
         public let taskId: String
-        
+
         public init(taskId: String) {
             self.taskId = taskId
         }
@@ -81,7 +81,7 @@ extension CloudWatchLogs {
         public let taskName: String?
         /// The end time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not exported.
         public let to: Int64
-        
+
         public init(destination: String, destinationPrefix: String? = nil, from: Int64, logGroupName: String, logStreamNamePrefix: String? = nil, taskName: String? = nil, to: Int64) {
             self.destination = destination
             self.destinationPrefix = destinationPrefix
@@ -125,7 +125,7 @@ extension CloudWatchLogs {
 
         /// The ID of the export task.
         public let taskId: String?
-        
+
         public init(taskId: String? = nil) {
             self.taskId = taskId
         }
@@ -153,7 +153,7 @@ extension CloudWatchLogs {
         public let logGroupName: String
         /// The key-value pairs to use for the tags.
         public let tags: [String: String]?
-        
+
         public init(kmsKeyId: String? = nil, logGroupName: String, tags: [String: String]? = nil) {
             self.kmsKeyId = kmsKeyId
             self.logGroupName = logGroupName
@@ -184,7 +184,7 @@ extension CloudWatchLogs {
         public let logGroupName: String
         /// The name of the log stream.
         public let logStreamName: String
-        
+
         public init(logGroupName: String, logStreamName: String) {
             self.logGroupName = logGroupName
             self.logStreamName = logStreamName
@@ -212,7 +212,7 @@ extension CloudWatchLogs {
 
         /// The name of the destination.
         public let destinationName: String
-        
+
         public init(destinationName: String) {
             self.destinationName = destinationName
         }
@@ -235,7 +235,7 @@ extension CloudWatchLogs {
 
         /// The name of the log group.
         public let logGroupName: String
-        
+
         public init(logGroupName: String) {
             self.logGroupName = logGroupName
         }
@@ -261,7 +261,7 @@ extension CloudWatchLogs {
         public let logGroupName: String
         /// The name of the log stream.
         public let logStreamName: String
-        
+
         public init(logGroupName: String, logStreamName: String) {
             self.logGroupName = logGroupName
             self.logStreamName = logStreamName
@@ -292,7 +292,7 @@ extension CloudWatchLogs {
         public let filterName: String
         /// The name of the log group.
         public let logGroupName: String
-        
+
         public init(filterName: String, logGroupName: String) {
             self.filterName = filterName
             self.logGroupName = logGroupName
@@ -320,7 +320,7 @@ extension CloudWatchLogs {
 
         /// The name of the policy to be revoked. This parameter is required.
         public let policyName: String?
-        
+
         public init(policyName: String? = nil) {
             self.policyName = policyName
         }
@@ -337,7 +337,7 @@ extension CloudWatchLogs {
 
         /// The name of the log group.
         public let logGroupName: String
-        
+
         public init(logGroupName: String) {
             self.logGroupName = logGroupName
         }
@@ -363,7 +363,7 @@ extension CloudWatchLogs {
         public let filterName: String
         /// The name of the log group.
         public let logGroupName: String
-        
+
         public init(filterName: String, logGroupName: String) {
             self.filterName = filterName
             self.logGroupName = logGroupName
@@ -397,7 +397,7 @@ extension CloudWatchLogs {
         public let limit: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(destinationNamePrefix: String? = nil, limit: Int32? = nil, nextToken: String? = nil) {
             self.destinationNamePrefix = destinationNamePrefix
             self.limit = limit
@@ -429,7 +429,7 @@ extension CloudWatchLogs {
         /// The destinations.
         public let destinations: [Destination]?
         public let nextToken: String?
-        
+
         public init(destinations: [Destination]? = nil, nextToken: String? = nil) {
             self.destinations = destinations
             self.nextToken = nextToken
@@ -464,7 +464,7 @@ extension CloudWatchLogs {
         public let statusCode: ExportTaskStatusCode?
         /// The ID of the export task. Specifying a task ID filters the results to zero or one export tasks.
         public let taskId: String?
-        
+
         public init(limit: Int32? = nil, nextToken: String? = nil, statusCode: ExportTaskStatusCode? = nil, taskId: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -497,7 +497,7 @@ extension CloudWatchLogs {
         /// The export tasks.
         public let exportTasks: [ExportTask]?
         public let nextToken: String?
-        
+
         public init(exportTasks: [ExportTask]? = nil, nextToken: String? = nil) {
             self.exportTasks = exportTasks
             self.nextToken = nextToken
@@ -529,7 +529,7 @@ extension CloudWatchLogs {
         public let logGroupNamePrefix: String?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(limit: Int32? = nil, logGroupNamePrefix: String? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.logGroupNamePrefix = logGroupNamePrefix
@@ -561,7 +561,7 @@ extension CloudWatchLogs {
         /// The log groups.
         public let logGroups: [LogGroup]?
         public let nextToken: String?
-        
+
         public init(logGroups: [LogGroup]? = nil, nextToken: String? = nil) {
             self.logGroups = logGroups
             self.nextToken = nextToken
@@ -602,7 +602,7 @@ extension CloudWatchLogs {
         public let nextToken: String?
         /// If the value is LogStreamName, the results are ordered by log stream name. If the value is LastEventTime, the results are ordered by the event time. The default value is LogStreamName. If you order the results by event time, you cannot specify the logStreamNamePrefix parameter. lastEventTimestamp represents the time of the most recent log event in the log stream in CloudWatch Logs. This number is expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. lastEventTimeStamp updates on an eventual consistency basis. It typically updates in less than an hour from ingestion, but may take longer in some rare situations.
         public let orderBy: OrderBy?
-        
+
         public init(descending: Bool? = nil, limit: Int32? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, nextToken: String? = nil, orderBy: OrderBy? = nil) {
             self.descending = descending
             self.limit = limit
@@ -643,7 +643,7 @@ extension CloudWatchLogs {
         /// The log streams.
         public let logStreams: [LogStream]?
         public let nextToken: String?
-        
+
         public init(logStreams: [LogStream]? = nil, nextToken: String? = nil) {
             self.logStreams = logStreams
             self.nextToken = nextToken
@@ -684,7 +684,7 @@ extension CloudWatchLogs {
         public let metricNamespace: String?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(filterNamePrefix: String? = nil, limit: Int32? = nil, logGroupName: String? = nil, metricName: String? = nil, metricNamespace: String? = nil, nextToken: String? = nil) {
             self.filterNamePrefix = filterNamePrefix
             self.limit = limit
@@ -729,7 +729,7 @@ extension CloudWatchLogs {
         /// The metric filters.
         public let metricFilters: [MetricFilter]?
         public let nextToken: String?
-        
+
         public init(metricFilters: [MetricFilter]? = nil, nextToken: String? = nil) {
             self.metricFilters = metricFilters
             self.nextToken = nextToken
@@ -763,7 +763,7 @@ extension CloudWatchLogs {
         public let nextToken: String?
         /// Limits the returned queries to only those that have the specified status. Valid values are Cancelled, Complete, Failed, Running, and Scheduled.
         public let status: QueryStatus?
-        
+
         public init(logGroupName: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, status: QueryStatus? = nil) {
             self.logGroupName = logGroupName
             self.maxResults = maxResults
@@ -797,7 +797,7 @@ extension CloudWatchLogs {
         public let nextToken: String?
         /// The list of queries that match the request.
         public let queries: [QueryInfo]?
-        
+
         public init(nextToken: String? = nil, queries: [QueryInfo]? = nil) {
             self.nextToken = nextToken
             self.queries = queries
@@ -825,7 +825,7 @@ extension CloudWatchLogs {
         /// The maximum number of resource policies to be displayed with one call of this API.
         public let limit: Int32?
         public let nextToken: String?
-        
+
         public init(limit: Int32? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -852,7 +852,7 @@ extension CloudWatchLogs {
         public let nextToken: String?
         /// The resource policies that exist in this account.
         public let resourcePolicies: [ResourcePolicy]?
-        
+
         public init(nextToken: String? = nil, resourcePolicies: [ResourcePolicy]? = nil) {
             self.nextToken = nextToken
             self.resourcePolicies = resourcePolicies
@@ -887,7 +887,7 @@ extension CloudWatchLogs {
         public let logGroupName: String
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(filterNamePrefix: String? = nil, limit: Int32? = nil, logGroupName: String, nextToken: String? = nil) {
             self.filterNamePrefix = filterNamePrefix
             self.limit = limit
@@ -924,7 +924,7 @@ extension CloudWatchLogs {
         public let nextToken: String?
         /// The subscription filters.
         public let subscriptionFilters: [SubscriptionFilter]?
-        
+
         public init(nextToken: String? = nil, subscriptionFilters: [SubscriptionFilter]? = nil) {
             self.nextToken = nextToken
             self.subscriptionFilters = subscriptionFilters
@@ -965,7 +965,7 @@ extension CloudWatchLogs {
         public let roleArn: String?
         /// The Amazon Resource Name (ARN) of the physical target to where the log events are delivered (for example, a Kinesis stream).
         public let targetArn: String?
-        
+
         public init(accessPolicy: String? = nil, arn: String? = nil, creationTime: Int64? = nil, destinationName: String? = nil, roleArn: String? = nil, targetArn: String? = nil) {
             self.accessPolicy = accessPolicy
             self.arn = arn
@@ -1002,7 +1002,7 @@ extension CloudWatchLogs {
 
         /// The name of the log group.
         public let logGroupName: String
-        
+
         public init(logGroupName: String) {
             self.logGroupName = logGroupName
         }
@@ -1055,7 +1055,7 @@ extension CloudWatchLogs {
         public let taskName: String?
         /// The end time, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not exported.
         public let to: Int64?
-        
+
         public init(destination: String? = nil, destinationPrefix: String? = nil, executionInfo: ExportTaskExecutionInfo? = nil, from: Int64? = nil, logGroupName: String? = nil, status: ExportTaskStatus? = nil, taskId: String? = nil, taskName: String? = nil, to: Int64? = nil) {
             self.destination = destination
             self.destinationPrefix = destinationPrefix
@@ -1106,7 +1106,7 @@ extension CloudWatchLogs {
         public let completionTime: Int64?
         /// The creation time of the export task, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let creationTime: Int64?
-        
+
         public init(completionTime: Int64? = nil, creationTime: Int64? = nil) {
             self.completionTime = completionTime
             self.creationTime = creationTime
@@ -1133,7 +1133,7 @@ extension CloudWatchLogs {
         public let code: ExportTaskStatusCode?
         /// The status message related to the status code.
         public let message: String?
-        
+
         public init(code: ExportTaskStatusCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -1186,7 +1186,7 @@ extension CloudWatchLogs {
         public let nextToken: String?
         /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
         public let startTime: Int64?
-        
+
         public init(endTime: Int64? = nil, filterPattern: String? = nil, interleaved: Bool? = nil, limit: Int32? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, logStreamNames: [String]? = nil, nextToken: String? = nil, startTime: Int64? = nil) {
             self.endTime = endTime
             self.filterPattern = filterPattern
@@ -1248,7 +1248,7 @@ extension CloudWatchLogs {
         public let nextToken: String?
         /// Indicates which log streams have been searched and whether each has been searched completely.
         public let searchedLogStreams: [SearchedLogStream]?
-        
+
         public init(events: [FilteredLogEvent]? = nil, nextToken: String? = nil, searchedLogStreams: [SearchedLogStream]? = nil) {
             self.events = events
             self.nextToken = nextToken
@@ -1291,7 +1291,7 @@ extension CloudWatchLogs {
         public let message: String?
         /// The time the event occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let timestamp: Int64?
-        
+
         public init(eventId: String? = nil, ingestionTime: Int64? = nil, logStreamName: String? = nil, message: String? = nil, timestamp: Int64? = nil) {
             self.eventId = eventId
             self.ingestionTime = ingestionTime
@@ -1343,7 +1343,7 @@ extension CloudWatchLogs {
         public let startFromHead: Bool?
         /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to this time or later than this time are included. Events with a timestamp earlier than this time are not included.
         public let startTime: Int64?
-        
+
         public init(endTime: Int64? = nil, limit: Int32? = nil, logGroupName: String, logStreamName: String, nextToken: String? = nil, startFromHead: Bool? = nil, startTime: Int64? = nil) {
             self.endTime = endTime
             self.limit = limit
@@ -1392,7 +1392,7 @@ extension CloudWatchLogs {
         public let nextBackwardToken: String?
         /// The token for the next set of items in the forward direction. The token expires after 24 hours. If you have reached the end of the stream, it will return the same token you passed in.
         public let nextForwardToken: String?
-        
+
         public init(events: [OutputLogEvent]? = nil, nextBackwardToken: String? = nil, nextForwardToken: String? = nil) {
             self.events = events
             self.nextBackwardToken = nextBackwardToken
@@ -1424,7 +1424,7 @@ extension CloudWatchLogs {
         public let logGroupName: String
         /// The time to set as the center of the query. If you specify time, the 8 minutes before and 8 minutes after this time are searched. If you omit time, the past 15 minutes are queried. The time value is specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
         public let time: Int64?
-        
+
         public init(logGroupName: String, time: Int64? = nil) {
             self.logGroupName = logGroupName
             self.time = time
@@ -1450,7 +1450,7 @@ extension CloudWatchLogs {
 
         /// The array of fields found in the query. Each object in the array contains the name of the field, along with the percentage of time it appeared in the log events that were queried.
         public let logGroupFields: [LogGroupField]?
-        
+
         public init(logGroupFields: [LogGroupField]? = nil) {
             self.logGroupFields = logGroupFields
         }
@@ -1473,7 +1473,7 @@ extension CloudWatchLogs {
 
         /// The pointer corresponding to the log event record you want to retrieve. You get this from the response of a GetQueryResults operation. In that response, the value of the @ptr field for a log event is the value to use as logRecordPointer to retrieve that complete log event record.
         public let logRecordPointer: String
-        
+
         public init(logRecordPointer: String) {
             self.logRecordPointer = logRecordPointer
         }
@@ -1490,7 +1490,7 @@ extension CloudWatchLogs {
 
         /// The requested log event, as a JSON string.
         public let logRecord: [String: String]?
-        
+
         public init(logRecord: [String: String]? = nil) {
             self.logRecord = logRecord
         }
@@ -1507,7 +1507,7 @@ extension CloudWatchLogs {
 
         /// The ID number of the query.
         public let queryId: String
-        
+
         public init(queryId: String) {
             self.queryId = queryId
         }
@@ -1535,7 +1535,7 @@ extension CloudWatchLogs {
         public let statistics: QueryStatistics?
         /// The status of the most recent running of the query. Possible values are Cancelled, Complete, Failed, Running, Scheduled, Timeout, and Unknown. Queries time out after 15 minutes of execution. To avoid having your queries time out, reduce the time range being searched, or partition your query into a number of queries.
         public let status: QueryStatus?
-        
+
         public init(results: [[ResultField]]? = nil, statistics: QueryStatistics? = nil, status: QueryStatus? = nil) {
             self.results = results
             self.statistics = statistics
@@ -1559,7 +1559,7 @@ extension CloudWatchLogs {
         public let message: String
         /// The time the event occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let timestamp: Int64
-        
+
         public init(message: String, timestamp: Int64) {
             self.message = message
             self.timestamp = timestamp
@@ -1583,7 +1583,7 @@ extension CloudWatchLogs {
 
         /// The name of the log group.
         public let logGroupName: String
-        
+
         public init(logGroupName: String) {
             self.logGroupName = logGroupName
         }
@@ -1606,7 +1606,7 @@ extension CloudWatchLogs {
 
         /// The tags for the log group.
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1640,7 +1640,7 @@ extension CloudWatchLogs {
         public let retentionInDays: Int32?
         /// The number of bytes stored.
         public let storedBytes: Int64?
-        
+
         public init(arn: String? = nil, creationTime: Int64? = nil, kmsKeyId: String? = nil, logGroupName: String? = nil, metricFilterCount: Int32? = nil, retentionInDays: Int32? = nil, storedBytes: Int64? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1681,7 +1681,7 @@ extension CloudWatchLogs {
         public let name: String?
         /// The percentage of log events queried that contained the field.
         public let percent: Int32?
-        
+
         public init(name: String? = nil, percent: Int32? = nil) {
             self.name = name
             self.percent = percent
@@ -1726,7 +1726,7 @@ extension CloudWatchLogs {
         public let storedBytes: Int64?
         /// The sequence token.
         public let uploadSequenceToken: String?
-        
+
         public init(arn: String? = nil, creationTime: Int64? = nil, firstEventTimestamp: Int64? = nil, lastEventTimestamp: Int64? = nil, lastIngestionTime: Int64? = nil, logStreamName: String? = nil, storedBytes: Int64? = nil, uploadSequenceToken: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1780,7 +1780,7 @@ extension CloudWatchLogs {
         public let logGroupName: String?
         /// The metric transformations.
         public let metricTransformations: [MetricTransformation]?
-        
+
         public init(creationTime: Int64? = nil, filterName: String? = nil, filterPattern: String? = nil, logGroupName: String? = nil, metricTransformations: [MetricTransformation]? = nil) {
             self.creationTime = creationTime
             self.filterName = filterName
@@ -1828,7 +1828,7 @@ extension CloudWatchLogs {
         public let eventNumber: Int64?
         /// The values extracted from the event data by the filter.
         public let extractedValues: [String: String]?
-        
+
         public init(eventMessage: String? = nil, eventNumber: Int64? = nil, extractedValues: [String: String]? = nil) {
             self.eventMessage = eventMessage
             self.eventNumber = eventNumber
@@ -1862,7 +1862,7 @@ extension CloudWatchLogs {
         public let metricNamespace: String
         /// The value to publish to the CloudWatch metric when a filter pattern matches a log event.
         public let metricValue: String
-        
+
         public init(defaultValue: Double? = nil, metricName: String, metricNamespace: String, metricValue: String) {
             self.defaultValue = defaultValue
             self.metricName = metricName
@@ -1905,7 +1905,7 @@ extension CloudWatchLogs {
         public let message: String?
         /// The time the event occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let timestamp: Int64?
-        
+
         public init(ingestionTime: Int64? = nil, message: String? = nil, timestamp: Int64? = nil) {
             self.ingestionTime = ingestionTime
             self.message = message
@@ -1935,7 +1935,7 @@ extension CloudWatchLogs {
         public let accessPolicy: String
         /// A name for an existing destination.
         public let destinationName: String
-        
+
         public init(accessPolicy: String, destinationName: String) {
             self.accessPolicy = accessPolicy
             self.destinationName = destinationName
@@ -1967,7 +1967,7 @@ extension CloudWatchLogs {
         public let roleArn: String
         /// The ARN of an Amazon Kinesis stream to which to deliver matching log events.
         public let targetArn: String
-        
+
         public init(destinationName: String, roleArn: String, targetArn: String) {
             self.destinationName = destinationName
             self.roleArn = roleArn
@@ -1996,7 +1996,7 @@ extension CloudWatchLogs {
 
         /// The destination.
         public let destination: Destination?
-        
+
         public init(destination: Destination? = nil) {
             self.destination = destination
         }
@@ -2026,7 +2026,7 @@ extension CloudWatchLogs {
         public let logStreamName: String
         /// The sequence token obtained from the response of the previous PutLogEvents call. An upload in a newly created log stream does not require a sequence token. You can also get the sequence token using DescribeLogStreams. If you call PutLogEvents twice within a narrow time period using the same value for sequenceToken, both calls may be successful, or one may be rejected.
         public let sequenceToken: String?
-        
+
         public init(logEvents: [InputLogEvent], logGroupName: String, logStreamName: String, sequenceToken: String? = nil) {
             self.logEvents = logEvents
             self.logGroupName = logGroupName
@@ -2067,7 +2067,7 @@ extension CloudWatchLogs {
         public let nextSequenceToken: String?
         /// The rejected events.
         public let rejectedLogEventsInfo: RejectedLogEventsInfo?
-        
+
         public init(nextSequenceToken: String? = nil, rejectedLogEventsInfo: RejectedLogEventsInfo? = nil) {
             self.nextSequenceToken = nextSequenceToken
             self.rejectedLogEventsInfo = rejectedLogEventsInfo
@@ -2099,7 +2099,7 @@ extension CloudWatchLogs {
         public let logGroupName: String
         /// A collection of information that defines how metric data gets emitted.
         public let metricTransformations: [MetricTransformation]
-        
+
         public init(filterName: String, filterPattern: String, logGroupName: String, metricTransformations: [MetricTransformation]) {
             self.filterName = filterName
             self.filterPattern = filterPattern
@@ -2141,7 +2141,7 @@ extension CloudWatchLogs {
         public let policyDocument: String?
         /// Name of the new policy. This parameter is required.
         public let policyName: String?
-        
+
         public init(policyDocument: String? = nil, policyName: String? = nil) {
             self.policyDocument = policyDocument
             self.policyName = policyName
@@ -2165,7 +2165,7 @@ extension CloudWatchLogs {
 
         /// The new policy.
         public let resourcePolicy: ResourcePolicy?
-        
+
         public init(resourcePolicy: ResourcePolicy? = nil) {
             self.resourcePolicy = resourcePolicy
         }
@@ -2188,7 +2188,7 @@ extension CloudWatchLogs {
         /// The name of the log group.
         public let logGroupName: String
         public let retentionInDays: Int32
-        
+
         public init(logGroupName: String, retentionInDays: Int32) {
             self.logGroupName = logGroupName
             self.retentionInDays = retentionInDays
@@ -2228,7 +2228,7 @@ extension CloudWatchLogs {
         public let logGroupName: String
         /// The ARN of an IAM role that grants CloudWatch Logs permissions to deliver ingested log events to the destination stream. You don't need to provide the ARN when you are working with a logical destination for cross-account delivery.
         public let roleArn: String?
-        
+
         public init(destinationArn: String, distribution: Distribution? = nil, filterName: String, filterPattern: String, logGroupName: String, roleArn: String? = nil) {
             self.destinationArn = destinationArn
             self.distribution = distribution
@@ -2271,7 +2271,7 @@ extension CloudWatchLogs {
         public let location: QueryCompileErrorLocation?
         /// Reserved.
         public let message: String?
-        
+
         public init(location: QueryCompileErrorLocation? = nil, message: String? = nil) {
             self.location = location
             self.message = message
@@ -2293,7 +2293,7 @@ extension CloudWatchLogs {
         public let endCharOffset: Int32?
         /// Reserved.
         public let startCharOffset: Int32?
-        
+
         public init(endCharOffset: Int32? = nil, startCharOffset: Int32? = nil) {
             self.endCharOffset = endCharOffset
             self.startCharOffset = startCharOffset
@@ -2324,7 +2324,7 @@ extension CloudWatchLogs {
         public let queryString: String?
         /// The status of this query. Possible values are Cancelled, Complete, Failed, Running, Scheduled, and Unknown.
         public let status: QueryStatus?
-        
+
         public init(createTime: Int64? = nil, logGroupName: String? = nil, queryId: String? = nil, queryString: String? = nil, status: QueryStatus? = nil) {
             self.createTime = createTime
             self.logGroupName = logGroupName
@@ -2366,7 +2366,7 @@ extension CloudWatchLogs {
         public let recordsMatched: Double?
         /// The total number of log events scanned during the query.
         public let recordsScanned: Double?
-        
+
         public init(bytesScanned: Double? = nil, recordsMatched: Double? = nil, recordsScanned: Double? = nil) {
             self.bytesScanned = bytesScanned
             self.recordsMatched = recordsMatched
@@ -2402,7 +2402,7 @@ extension CloudWatchLogs {
         public let tooNewLogEventStartIndex: Int32?
         /// The log events that are too old.
         public let tooOldLogEventEndIndex: Int32?
-        
+
         public init(expiredLogEventEndIndex: Int32? = nil, tooNewLogEventStartIndex: Int32? = nil, tooOldLogEventEndIndex: Int32? = nil) {
             self.expiredLogEventEndIndex = expiredLogEventEndIndex
             self.tooNewLogEventStartIndex = tooNewLogEventStartIndex
@@ -2429,7 +2429,7 @@ extension CloudWatchLogs {
         public let policyDocument: String?
         /// The name of the resource policy.
         public let policyName: String?
-        
+
         public init(lastUpdatedTime: Int64? = nil, policyDocument: String? = nil, policyName: String? = nil) {
             self.lastUpdatedTime = lastUpdatedTime
             self.policyDocument = policyDocument
@@ -2459,7 +2459,7 @@ extension CloudWatchLogs {
         public let field: String?
         /// The value of this field.
         public let value: String?
-        
+
         public init(field: String? = nil, value: String? = nil) {
             self.field = field
             self.value = value
@@ -2481,7 +2481,7 @@ extension CloudWatchLogs {
         public let logStreamName: String?
         /// Indicates whether all the events in this log stream were searched.
         public let searchedCompletely: Bool?
-        
+
         public init(logStreamName: String? = nil, searchedCompletely: Bool? = nil) {
             self.logStreamName = logStreamName
             self.searchedCompletely = searchedCompletely
@@ -2518,7 +2518,7 @@ extension CloudWatchLogs {
         public let queryString: String
         /// The beginning of the time range to query. The range is inclusive, so the specified start time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
         public let startTime: Int64
-        
+
         public init(endTime: Int64, limit: Int32? = nil, logGroupName: String, queryString: String, startTime: Int64) {
             self.endTime = endTime
             self.limit = limit
@@ -2555,7 +2555,7 @@ extension CloudWatchLogs {
 
         /// The unique ID of the query. 
         public let queryId: String?
-        
+
         public init(queryId: String? = nil) {
             self.queryId = queryId
         }
@@ -2577,7 +2577,7 @@ extension CloudWatchLogs {
 
         /// The ID number of the query to stop. If necessary, you can use DescribeQueries to find this ID number.
         public let queryId: String
-        
+
         public init(queryId: String) {
             self.queryId = queryId
         }
@@ -2599,7 +2599,7 @@ extension CloudWatchLogs {
 
         /// This is true if the query was stopped by the StopQuery operation.
         public let success: Bool?
-        
+
         public init(success: Bool? = nil) {
             self.success = success
         }
@@ -2631,7 +2631,7 @@ extension CloudWatchLogs {
         /// The name of the log group.
         public let logGroupName: String?
         public let roleArn: String?
-        
+
         public init(creationTime: Int64? = nil, destinationArn: String? = nil, distribution: Distribution? = nil, filterName: String? = nil, filterPattern: String? = nil, logGroupName: String? = nil, roleArn: String? = nil) {
             self.creationTime = creationTime
             self.destinationArn = destinationArn
@@ -2677,7 +2677,7 @@ extension CloudWatchLogs {
         public let logGroupName: String
         /// The key-value pairs to use for the tags.
         public let tags: [String: String]
-        
+
         public init(logGroupName: String, tags: [String: String]) {
             self.logGroupName = logGroupName
             self.tags = tags
@@ -2704,7 +2704,7 @@ extension CloudWatchLogs {
         public let filterPattern: String
         /// The log event messages to test.
         public let logEventMessages: [String]
-        
+
         public init(filterPattern: String, logEventMessages: [String]) {
             self.filterPattern = filterPattern
             self.logEventMessages = logEventMessages
@@ -2733,7 +2733,7 @@ extension CloudWatchLogs {
 
         /// The matched events.
         public let matches: [MetricFilterMatchRecord]?
-        
+
         public init(matches: [MetricFilterMatchRecord]? = nil) {
             self.matches = matches
         }
@@ -2759,7 +2759,7 @@ extension CloudWatchLogs {
         public let logGroupName: String
         /// The tag keys. The corresponding tags are removed from the log group.
         public let tags: [String]
-        
+
         public init(logGroupName: String, tags: [String]) {
             self.logGroupName = logGroupName
             self.tags = tags
@@ -2782,5 +2782,4 @@ extension CloudWatchLogs {
             case tags = "tags"
         }
     }
-
 }

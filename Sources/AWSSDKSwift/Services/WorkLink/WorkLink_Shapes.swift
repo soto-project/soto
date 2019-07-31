@@ -21,7 +21,7 @@ extension WorkLink {
         public let domainName: String
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleetArn: String
-        
+
         public init(acmCertificateArn: String, displayName: String? = nil, domainName: String, fleetArn: String) {
             self.acmCertificateArn = acmCertificateArn
             self.displayName = displayName
@@ -48,11 +48,12 @@ extension WorkLink {
     }
 
     public struct AssociateDomainResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct AssociateWebsiteAuthorizationProviderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -67,7 +68,7 @@ extension WorkLink {
         public let domainName: String?
         /// The ARN of the fleet.
         public let fleetArn: String
-        
+
         public init(authorizationProviderType: AuthorizationProviderType, domainName: String? = nil, fleetArn: String) {
             self.authorizationProviderType = authorizationProviderType
             self.domainName = domainName
@@ -96,7 +97,7 @@ extension WorkLink {
 
         /// A unique identifier for the authorization provider.
         public let authorizationProviderId: String?
-        
+
         public init(authorizationProviderId: String? = nil) {
             self.authorizationProviderId = authorizationProviderId
         }
@@ -124,7 +125,7 @@ extension WorkLink {
         public let displayName: String?
         /// The ARN of the fleet.
         public let fleetArn: String
-        
+
         public init(certificate: String, displayName: String? = nil, fleetArn: String) {
             self.certificate = certificate
             self.displayName = displayName
@@ -154,7 +155,7 @@ extension WorkLink {
 
         /// A unique identifier for the CA.
         public let websiteCaId: String?
-        
+
         public init(websiteCaId: String? = nil) {
             self.websiteCaId = websiteCaId
         }
@@ -187,7 +188,7 @@ extension WorkLink {
         public let fleetName: String
         /// The option to optimize for better performance by routing traffic through the closest AWS Region to users, which may be outside of your home Region.
         public let optimizeForEndUserLocation: Bool?
-        
+
         public init(displayName: String? = nil, fleetName: String, optimizeForEndUserLocation: Bool? = nil) {
             self.displayName = displayName
             self.fleetName = fleetName
@@ -215,7 +216,7 @@ extension WorkLink {
 
         /// The ARN of the fleet.
         public let fleetArn: String?
-        
+
         public init(fleetArn: String? = nil) {
             self.fleetArn = fleetArn
         }
@@ -237,7 +238,7 @@ extension WorkLink {
 
         /// The ARN of the fleet.
         public let fleetArn: String
-        
+
         public init(fleetArn: String) {
             self.fleetArn = fleetArn
         }
@@ -253,11 +254,12 @@ extension WorkLink {
     }
 
     public struct DeleteFleetResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeAuditStreamConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -266,7 +268,7 @@ extension WorkLink {
 
         /// The ARN of the fleet.
         public let fleetArn: String
-        
+
         public init(fleetArn: String) {
             self.fleetArn = fleetArn
         }
@@ -288,7 +290,7 @@ extension WorkLink {
 
         /// The ARN of the Amazon Kinesis data stream that will receive the audit events.
         public let auditStreamArn: String?
-        
+
         public init(auditStreamArn: String? = nil) {
             self.auditStreamArn = auditStreamArn
         }
@@ -305,7 +307,7 @@ extension WorkLink {
 
         /// The ARN of the fleet.
         public let fleetArn: String
-        
+
         public init(fleetArn: String) {
             self.fleetArn = fleetArn
         }
@@ -333,7 +335,7 @@ extension WorkLink {
         public let subnetIds: [String]?
         /// The VPC with connectivity to associated websites.
         public let vpcId: String?
-        
+
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -365,7 +367,7 @@ extension WorkLink {
 
         /// The ARN of the fleet.
         public let fleetArn: String
-        
+
         public init(fleetArn: String) {
             self.fleetArn = fleetArn
         }
@@ -387,7 +389,7 @@ extension WorkLink {
 
         /// The certificate chain, including intermediate certificates and the root certificate authority certificate used to issue device certificates.
         public let deviceCaCertificate: String?
-        
+
         public init(deviceCaCertificate: String? = nil) {
             self.deviceCaCertificate = deviceCaCertificate
         }
@@ -413,7 +415,7 @@ extension WorkLink {
         public let deviceId: String
         /// The ARN of the fleet.
         public let fleetArn: String
-        
+
         public init(deviceId: String, fleetArn: String) {
             self.deviceId = deviceId
             self.fleetArn = fleetArn
@@ -463,7 +465,7 @@ extension WorkLink {
         public let status: DeviceStatus?
         /// The user name associated with the device.
         public let username: String?
-        
+
         public init(firstAccessedTime: TimeStamp? = nil, lastAccessedTime: TimeStamp? = nil, manufacturer: String? = nil, model: String? = nil, operatingSystem: String? = nil, operatingSystemVersion: String? = nil, patchLevel: String? = nil, status: DeviceStatus? = nil, username: String? = nil) {
             self.firstAccessedTime = firstAccessedTime
             self.lastAccessedTime = lastAccessedTime
@@ -514,7 +516,7 @@ extension WorkLink {
         public let domainName: String
         /// The ARN of the fleet.
         public let fleetArn: String
-        
+
         public init(domainName: String, fleetArn: String) {
             self.domainName = domainName
             self.fleetArn = fleetArn
@@ -553,7 +555,7 @@ extension WorkLink {
         public let domainName: String?
         /// The current state for the domain.
         public let domainStatus: DomainStatus?
-        
+
         public init(acmCertificateArn: String? = nil, createdTime: TimeStamp? = nil, displayName: String? = nil, domainName: String? = nil, domainStatus: DomainStatus? = nil) {
             self.acmCertificateArn = acmCertificateArn
             self.createdTime = createdTime
@@ -586,7 +588,7 @@ extension WorkLink {
 
         /// The ARN of the fleet.
         public let fleetArn: String
-        
+
         public init(fleetArn: String) {
             self.fleetArn = fleetArn
         }
@@ -626,7 +628,7 @@ extension WorkLink {
         public let lastUpdatedTime: TimeStamp?
         /// The option to optimize for better performance by routing traffic through the closest AWS Region to users, which may be outside of your home Region.
         public let optimizeForEndUserLocation: Bool?
-        
+
         public init(companyCode: String? = nil, createdTime: TimeStamp? = nil, displayName: String? = nil, fleetName: String? = nil, fleetStatus: FleetStatus? = nil, lastUpdatedTime: TimeStamp? = nil, optimizeForEndUserLocation: Bool? = nil) {
             self.companyCode = companyCode
             self.createdTime = createdTime
@@ -664,7 +666,7 @@ extension WorkLink {
 
         /// The ARN of the fleet.
         public let fleetArn: String
-        
+
         public init(fleetArn: String) {
             self.fleetArn = fleetArn
         }
@@ -692,7 +694,7 @@ extension WorkLink {
         public let identityProviderType: IdentityProviderType?
         /// The SAML metadata document uploaded to the user’s identity provider.
         public let serviceProviderSamlMetadata: String?
-        
+
         public init(identityProviderSamlMetadata: String? = nil, identityProviderType: IdentityProviderType? = nil, serviceProviderSamlMetadata: String? = nil) {
             self.identityProviderSamlMetadata = identityProviderSamlMetadata
             self.identityProviderType = identityProviderType
@@ -723,7 +725,7 @@ extension WorkLink {
         public let fleetArn: String
         /// A unique identifier for the certificate authority.
         public let websiteCaId: String
-        
+
         public init(fleetArn: String, websiteCaId: String) {
             self.fleetArn = fleetArn
             self.websiteCaId = websiteCaId
@@ -755,7 +757,7 @@ extension WorkLink {
         public let createdTime: TimeStamp?
         /// The certificate name to display.
         public let displayName: String?
-        
+
         public init(certificate: String? = nil, createdTime: TimeStamp? = nil, displayName: String? = nil) {
             self.certificate = certificate
             self.createdTime = createdTime
@@ -792,7 +794,7 @@ extension WorkLink {
         public let deviceId: String?
         /// The status of the device.
         public let deviceStatus: DeviceStatus?
-        
+
         public init(deviceId: String? = nil, deviceStatus: DeviceStatus? = nil) {
             self.deviceId = deviceId
             self.deviceStatus = deviceStatus
@@ -819,7 +821,7 @@ extension WorkLink {
         public let domainName: String
         /// The ARN of the fleet.
         public let fleetArn: String
-        
+
         public init(domainName: String, fleetArn: String) {
             self.domainName = domainName
             self.fleetArn = fleetArn
@@ -840,11 +842,12 @@ extension WorkLink {
     }
 
     public struct DisassociateDomainResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociateWebsiteAuthorizationProviderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -856,7 +859,7 @@ extension WorkLink {
         public let authorizationProviderId: String
         /// The ARN of the fleet.
         public let fleetArn: String
-        
+
         public init(authorizationProviderId: String, fleetArn: String) {
             self.authorizationProviderId = authorizationProviderId
             self.fleetArn = fleetArn
@@ -876,11 +879,12 @@ extension WorkLink {
     }
 
     public struct DisassociateWebsiteAuthorizationProviderResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociateWebsiteCertificateAuthorityRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -892,7 +896,7 @@ extension WorkLink {
         public let fleetArn: String
         /// A unique identifier for the CA.
         public let websiteCaId: String
-        
+
         public init(fleetArn: String, websiteCaId: String) {
             self.fleetArn = fleetArn
             self.websiteCaId = websiteCaId
@@ -912,11 +916,12 @@ extension WorkLink {
     }
 
     public struct DisassociateWebsiteCertificateAuthorityResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum DomainStatus: String, CustomStringConvertible, Codable {
         case pendingValidation = "PENDING_VALIDATION"
@@ -946,7 +951,7 @@ extension WorkLink {
         public let domainName: String
         /// The status of the domain.
         public let domainStatus: DomainStatus
-        
+
         public init(createdTime: TimeStamp, displayName: String? = nil, domainName: String, domainStatus: DomainStatus) {
             self.createdTime = createdTime
             self.displayName = displayName
@@ -1004,7 +1009,7 @@ extension WorkLink {
         public let fleetStatus: FleetStatus?
         /// The time when the fleet was last updated.
         public let lastUpdatedTime: TimeStamp?
-        
+
         public init(companyCode: String? = nil, createdTime: TimeStamp? = nil, displayName: String? = nil, fleetArn: String? = nil, fleetName: String? = nil, fleetStatus: FleetStatus? = nil, lastUpdatedTime: TimeStamp? = nil) {
             self.companyCode = companyCode
             self.createdTime = createdTime
@@ -1055,7 +1060,7 @@ extension WorkLink {
         public let maxResults: Int32?
         /// The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
-        
+
         public init(fleetArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.fleetArn = fleetArn
             self.maxResults = maxResults
@@ -1088,7 +1093,7 @@ extension WorkLink {
         public let devices: [DeviceSummary]?
         /// The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
-        
+
         public init(devices: [DeviceSummary]? = nil, nextToken: String? = nil) {
             self.devices = devices
             self.nextToken = nextToken
@@ -1122,7 +1127,7 @@ extension WorkLink {
         public let maxResults: Int32?
         /// The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
-        
+
         public init(fleetArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.fleetArn = fleetArn
             self.maxResults = maxResults
@@ -1155,7 +1160,7 @@ extension WorkLink {
         public let domains: [DomainSummary]?
         /// The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
-        
+
         public init(domains: [DomainSummary]? = nil, nextToken: String? = nil) {
             self.domains = domains
             self.nextToken = nextToken
@@ -1186,7 +1191,7 @@ extension WorkLink {
         public let maxResults: Int32?
         /// The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1215,7 +1220,7 @@ extension WorkLink {
         public let fleetSummaryList: [FleetSummary]?
         /// The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
-        
+
         public init(fleetSummaryList: [FleetSummary]? = nil, nextToken: String? = nil) {
             self.fleetSummaryList = fleetSummaryList
             self.nextToken = nextToken
@@ -1249,7 +1254,7 @@ extension WorkLink {
         public let maxResults: Int32?
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
-        
+
         public init(fleetArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.fleetArn = fleetArn
             self.maxResults = maxResults
@@ -1282,7 +1287,7 @@ extension WorkLink {
         public let nextToken: String?
         /// The website authorization providers.
         public let websiteAuthorizationProviders: [WebsiteAuthorizationProviderSummary]?
-        
+
         public init(nextToken: String? = nil, websiteAuthorizationProviders: [WebsiteAuthorizationProviderSummary]? = nil) {
             self.nextToken = nextToken
             self.websiteAuthorizationProviders = websiteAuthorizationProviders
@@ -1316,7 +1321,7 @@ extension WorkLink {
         public let maxResults: Int32?
         /// The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
-        
+
         public init(fleetArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.fleetArn = fleetArn
             self.maxResults = maxResults
@@ -1349,7 +1354,7 @@ extension WorkLink {
         public let nextToken: String?
         /// Information about the certificates.
         public let websiteCertificateAuthorities: [WebsiteCaSummary]?
-        
+
         public init(nextToken: String? = nil, websiteCertificateAuthorities: [WebsiteCaSummary]? = nil) {
             self.nextToken = nextToken
             self.websiteCertificateAuthorities = websiteCertificateAuthorities
@@ -1380,7 +1385,7 @@ extension WorkLink {
         public let domainName: String
         /// The ARN of the fleet.
         public let fleetArn: String
-        
+
         public init(domainName: String, fleetArn: String) {
             self.domainName = domainName
             self.fleetArn = fleetArn
@@ -1401,11 +1406,12 @@ extension WorkLink {
     }
 
     public struct RestoreDomainAccessResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct RevokeDomainAccessRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1417,7 +1423,7 @@ extension WorkLink {
         public let domainName: String
         /// The ARN of the fleet.
         public let fleetArn: String
-        
+
         public init(domainName: String, fleetArn: String) {
             self.domainName = domainName
             self.fleetArn = fleetArn
@@ -1438,11 +1444,12 @@ extension WorkLink {
     }
 
     public struct RevokeDomainAccessResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct SignOutUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1454,7 +1461,7 @@ extension WorkLink {
         public let fleetArn: String
         /// The name of the user.
         public let username: String
-        
+
         public init(fleetArn: String, username: String) {
             self.fleetArn = fleetArn
             self.username = username
@@ -1474,11 +1481,12 @@ extension WorkLink {
     }
 
     public struct SignOutUserResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateAuditStreamConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1490,7 +1498,7 @@ extension WorkLink {
         public let auditStreamArn: String?
         /// The ARN of the fleet.
         public let fleetArn: String
-        
+
         public init(auditStreamArn: String? = nil, fleetArn: String) {
             self.auditStreamArn = auditStreamArn
             self.fleetArn = fleetArn
@@ -1508,11 +1516,12 @@ extension WorkLink {
     }
 
     public struct UpdateAuditStreamConfigurationResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateCompanyNetworkConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1530,7 +1539,7 @@ extension WorkLink {
         public let subnetIds: [String]
         /// The VPC with connectivity to associated websites.
         public let vpcId: String
-        
+
         public init(fleetArn: String, securityGroupIds: [String], subnetIds: [String], vpcId: String) {
             self.fleetArn = fleetArn
             self.securityGroupIds = securityGroupIds
@@ -1560,11 +1569,12 @@ extension WorkLink {
     }
 
     public struct UpdateCompanyNetworkConfigurationResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateDevicePolicyConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1576,7 +1586,7 @@ extension WorkLink {
         public let deviceCaCertificate: String?
         /// The ARN of the fleet.
         public let fleetArn: String
-        
+
         public init(deviceCaCertificate: String? = nil, fleetArn: String) {
             self.deviceCaCertificate = deviceCaCertificate
             self.fleetArn = fleetArn
@@ -1597,11 +1607,12 @@ extension WorkLink {
     }
 
     public struct UpdateDevicePolicyConfigurationResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateDomainMetadataRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1616,7 +1627,7 @@ extension WorkLink {
         public let domainName: String
         /// The ARN of the fleet.
         public let fleetArn: String
-        
+
         public init(displayName: String? = nil, domainName: String, fleetArn: String) {
             self.displayName = displayName
             self.domainName = domainName
@@ -1640,11 +1651,12 @@ extension WorkLink {
     }
 
     public struct UpdateDomainMetadataResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateFleetMetadataRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1659,7 +1671,7 @@ extension WorkLink {
         public let fleetArn: String
         /// The option to optimize for better performance by routing traffic through the closest AWS Region to users, which may be outside of your home Region.
         public let optimizeForEndUserLocation: Bool?
-        
+
         public init(displayName: String? = nil, fleetArn: String, optimizeForEndUserLocation: Bool? = nil) {
             self.displayName = displayName
             self.fleetArn = fleetArn
@@ -1680,11 +1692,12 @@ extension WorkLink {
     }
 
     public struct UpdateFleetMetadataResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateIdentityProviderConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1699,7 +1712,7 @@ extension WorkLink {
         public let identityProviderSamlMetadata: String?
         /// The type of identity provider.
         public let identityProviderType: IdentityProviderType
-        
+
         public init(fleetArn: String, identityProviderSamlMetadata: String? = nil, identityProviderType: IdentityProviderType) {
             self.fleetArn = fleetArn
             self.identityProviderSamlMetadata = identityProviderSamlMetadata
@@ -1721,11 +1734,12 @@ extension WorkLink {
     }
 
     public struct UpdateIdentityProviderConfigurationResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct WebsiteAuthorizationProviderSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1743,7 +1757,7 @@ extension WorkLink {
         public let createdTime: TimeStamp?
         /// The domain name of the authorization provider. This applies only to SAML-based authorization providers.
         public let domainName: String?
-        
+
         public init(authorizationProviderId: String? = nil, authorizationProviderType: AuthorizationProviderType, createdTime: TimeStamp? = nil, domainName: String? = nil) {
             self.authorizationProviderId = authorizationProviderId
             self.authorizationProviderType = authorizationProviderType
@@ -1780,7 +1794,7 @@ extension WorkLink {
         public let displayName: String?
         /// A unique identifier for the CA.
         public let websiteCaId: String?
-        
+
         public init(createdTime: TimeStamp? = nil, displayName: String? = nil, websiteCaId: String? = nil) {
             self.createdTime = createdTime
             self.displayName = displayName
@@ -1799,5 +1813,4 @@ extension WorkLink {
             case websiteCaId = "WebsiteCaId"
         }
     }
-
 }

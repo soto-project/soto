@@ -145,5 +145,4 @@ public struct Route53Domains {
     public func viewBilling(_ input: ViewBillingRequest) throws -> Future<ViewBillingResponse> {
         return try client.send(operation: "ViewBilling", path: "/", httpMethod: "POST", input: input)
     }
-
 }

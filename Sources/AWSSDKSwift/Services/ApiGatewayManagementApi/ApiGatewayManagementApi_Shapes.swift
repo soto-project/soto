@@ -15,7 +15,7 @@ extension ApiGatewayManagementApi {
 
         public let connectionId: String
         public let data: Data
-        
+
         public init(connectionId: String, data: Data) {
             self.connectionId = connectionId
             self.data = data
@@ -30,5 +30,4 @@ extension ApiGatewayManagementApi {
             case data = "Data"
         }
     }
-
 }

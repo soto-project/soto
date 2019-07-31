@@ -30,7 +30,7 @@ extension CostExplorer {
         public let coverageHours: CoverageHours?
         /// The amount of instance usage that the reservation covered, in normalized units.
         public let coverageNormalizedUnits: CoverageNormalizedUnits?
-        
+
         public init(coverageCost: CoverageCost? = nil, coverageHours: CoverageHours? = nil, coverageNormalizedUnits: CoverageNormalizedUnits? = nil) {
             self.coverageCost = coverageCost
             self.coverageHours = coverageHours
@@ -57,7 +57,7 @@ extension CostExplorer {
         public let timePeriod: DateInterval?
         /// The total reservation coverage, in hours.
         public let total: Coverage?
-        
+
         public init(groups: [ReservationCoverageGroup]? = nil, timePeriod: DateInterval? = nil, total: Coverage? = nil) {
             self.groups = groups
             self.timePeriod = timePeriod
@@ -82,7 +82,7 @@ extension CostExplorer {
 
         /// How much an On-Demand instance cost.
         public let onDemandCost: String?
-        
+
         public init(onDemandCost: String? = nil) {
             self.onDemandCost = onDemandCost
         }
@@ -108,7 +108,7 @@ extension CostExplorer {
         public let reservedHours: String?
         /// The total instance usage, in hours.
         public let totalRunningHours: String?
-        
+
         public init(coverageHoursPercentage: String? = nil, onDemandHours: String? = nil, reservedHours: String? = nil, totalRunningHours: String? = nil) {
             self.coverageHoursPercentage = coverageHoursPercentage
             self.onDemandHours = onDemandHours
@@ -140,7 +140,7 @@ extension CostExplorer {
         public let reservedNormalizedUnits: String?
         /// The total number of normalized units that you used.
         public let totalRunningNormalizedUnits: String?
-        
+
         public init(coverageNormalizedUnitsPercentage: String? = nil, onDemandNormalizedUnits: String? = nil, reservedNormalizedUnits: String? = nil, totalRunningNormalizedUnits: String? = nil) {
             self.coverageNormalizedUnitsPercentage = coverageNormalizedUnitsPercentage
             self.onDemandNormalizedUnits = onDemandNormalizedUnits
@@ -166,7 +166,7 @@ extension CostExplorer {
         public let end: String
         /// The beginning of the time period that you want the usage and costs for. The start date is inclusive. For example, if start is 2017-01-01, AWS retrieves cost and usage data starting at 2017-01-01 up to the end date.
         public let start: String
-        
+
         public init(end: String, start: String) {
             self.end = end
             self.start = start
@@ -219,7 +219,7 @@ extension CostExplorer {
         public let key: Dimension?
         /// The metadata values that you can use to filter and group your results. You can use GetDimensionValues to find specific values. Valid values for the SERVICE dimension are Amazon Elastic Compute Cloud - Compute, Amazon Elasticsearch Service, Amazon ElastiCache, Amazon Redshift, and Amazon Relational Database Service.
         public let values: [String]?
-        
+
         public init(key: Dimension? = nil, values: [String]? = nil) {
             self.key = key
             self.values = values
@@ -241,7 +241,7 @@ extension CostExplorer {
         public let attributes: [String: String]?
         /// The value of a dimension with a specific attribute.
         public let value: String?
-        
+
         public init(attributes: [String: String]? = nil, value: String? = nil) {
             self.attributes = attributes
             self.value = value
@@ -281,7 +281,7 @@ extension CostExplorer {
         public let sizeFlexEligible: Bool?
         /// Whether the recommended reservation is dedicated or shared.
         public let tenancy: String?
-        
+
         public init(availabilityZone: String? = nil, currentGeneration: Bool? = nil, family: String? = nil, instanceType: String? = nil, platform: String? = nil, region: String? = nil, sizeFlexEligible: Bool? = nil, tenancy: String? = nil) {
             self.availabilityZone = availabilityZone
             self.currentGeneration = currentGeneration
@@ -312,7 +312,7 @@ extension CostExplorer {
 
         /// Whether you want a recommendation for standard or convertible reservations.
         public let offeringClass: OfferingClass?
-        
+
         public init(offeringClass: OfferingClass? = nil) {
             self.offeringClass = offeringClass
         }
@@ -341,7 +341,7 @@ extension CostExplorer {
         public let region: String?
         /// Whether the recommended reservation is size flexible.
         public let sizeFlexEligible: Bool?
-        
+
         public init(currentGeneration: Bool? = nil, instanceClass: String? = nil, instanceSize: String? = nil, region: String? = nil, sizeFlexEligible: Bool? = nil) {
             self.currentGeneration = currentGeneration
             self.instanceClass = instanceClass
@@ -381,7 +381,7 @@ extension CostExplorer {
         public let region: String?
         /// Whether the recommended reservation is size flexible.
         public let sizeFlexEligible: Bool?
-        
+
         public init(currentGeneration: Bool? = nil, family: String? = nil, nodeType: String? = nil, productDescription: String? = nil, region: String? = nil, sizeFlexEligible: Bool? = nil) {
             self.currentGeneration = currentGeneration
             self.family = family
@@ -420,7 +420,7 @@ extension CostExplorer {
         public let or: [Expression]?
         /// The specific Tag to use for Expression.
         public let tags: TagValues?
-        
+
         public init(and: [Expression]? = nil, dimensions: DimensionValues? = nil, not: Expression? = nil, or: [Expression]? = nil, tags: TagValues? = nil) {
             self.and = and
             self.dimensions = dimensions
@@ -454,7 +454,7 @@ extension CostExplorer {
         public let predictionIntervalUpperBound: String?
         /// The period of time that the forecast covers.
         public let timePeriod: DateInterval?
-        
+
         public init(meanValue: String? = nil, predictionIntervalLowerBound: String? = nil, predictionIntervalUpperBound: String? = nil, timePeriod: DateInterval? = nil) {
             self.meanValue = meanValue
             self.predictionIntervalLowerBound = predictionIntervalLowerBound
@@ -496,7 +496,7 @@ extension CostExplorer {
         public let nextPageToken: String?
         /// Sets the start and end dates for retrieving AWS costs. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
-        
+
         public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
@@ -533,7 +533,7 @@ extension CostExplorer {
         public let nextPageToken: String?
         /// The time period that is covered by the results in the response.
         public let resultsByTime: [ResultByTime]?
-        
+
         public init(groupDefinitions: [GroupDefinition]? = nil, nextPageToken: String? = nil, resultsByTime: [ResultByTime]? = nil) {
             self.groupDefinitions = groupDefinitions
             self.nextPageToken = nextPageToken
@@ -572,7 +572,7 @@ extension CostExplorer {
         public let predictionIntervalLevel: Int32?
         /// The period of time that you want the forecast to cover.
         public let timePeriod: DateInterval
-        
+
         public init(filter: Expression? = nil, granularity: Granularity, metric: Metric, predictionIntervalLevel: Int32? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
@@ -606,7 +606,7 @@ extension CostExplorer {
         public let forecastResultsByTime: [ForecastResult]?
         /// How much you are forecasted to spend over the forecast period, in USD.
         public let total: MetricValue?
-        
+
         public init(forecastResultsByTime: [ForecastResult]? = nil, total: MetricValue? = nil) {
             self.forecastResultsByTime = forecastResultsByTime
             self.total = total
@@ -643,7 +643,7 @@ extension CostExplorer {
         public let searchString: String?
         /// The start and end dates for retrieving the dimension values. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
-        
+
         public init(context: Context? = nil, dimension: Dimension, nextPageToken: String? = nil, searchString: String? = nil, timePeriod: DateInterval) {
             self.context = context
             self.dimension = dimension
@@ -681,7 +681,7 @@ extension CostExplorer {
         public let returnSize: Int32
         /// The total number of search results.
         public let totalSize: Int32
-        
+
         public init(dimensionValues: [DimensionValuesWithAttributes], nextPageToken: String? = nil, returnSize: Int32, totalSize: Int32) {
             self.dimensionValues = dimensionValues
             self.nextPageToken = nextPageToken
@@ -719,7 +719,7 @@ extension CostExplorer {
         public let nextPageToken: String?
         /// The start and end dates of the period that you want to retrieve data about reservation coverage for. You can retrieve data for a maximum of 13 months: the last 12 months and the current month. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01. 
         public let timePeriod: DateInterval
-        
+
         public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
@@ -756,7 +756,7 @@ extension CostExplorer {
         public let nextPageToken: String?
         /// The total amount of instance usage that a reservation covered.
         public let total: Coverage?
-        
+
         public init(coveragesByTime: [CoverageByTime], nextPageToken: String? = nil, total: Coverage? = nil) {
             self.coveragesByTime = coveragesByTime
             self.nextPageToken = nextPageToken
@@ -807,7 +807,7 @@ extension CostExplorer {
         public let serviceSpecification: ServiceSpecification?
         /// The reservation term that you want recommendations for.
         public let termInYears: TermInYears?
-        
+
         public init(accountId: String? = nil, accountScope: AccountScope? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, nextPageToken: String? = nil, pageSize: Int32? = nil, paymentOption: PaymentOption? = nil, service: String, serviceSpecification: ServiceSpecification? = nil, termInYears: TermInYears? = nil) {
             self.accountId = accountId
             self.accountScope = accountScope
@@ -850,7 +850,7 @@ extension CostExplorer {
         public let nextPageToken: String?
         /// Recommendations for reservations to purchase.
         public let recommendations: [ReservationPurchaseRecommendation]?
-        
+
         public init(metadata: ReservationPurchaseRecommendationMetadata? = nil, nextPageToken: String? = nil, recommendations: [ReservationPurchaseRecommendation]? = nil) {
             self.metadata = metadata
             self.nextPageToken = nextPageToken
@@ -883,7 +883,7 @@ extension CostExplorer {
         public let nextPageToken: String?
         /// Sets the start and end dates for retrieving RI utilization. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01. 
         public let timePeriod: DateInterval
-        
+
         public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
@@ -918,7 +918,7 @@ extension CostExplorer {
         public let total: ReservationAggregates?
         /// The amount of time that you used your RIs.
         public let utilizationsByTime: [UtilizationByTime]
-        
+
         public init(nextPageToken: String? = nil, total: ReservationAggregates? = nil, utilizationsByTime: [UtilizationByTime]) {
             self.nextPageToken = nextPageToken
             self.total = total
@@ -954,7 +954,7 @@ extension CostExplorer {
         public let tagKey: String?
         /// The start and end dates for retrieving the dimension values. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
-        
+
         public init(nextPageToken: String? = nil, searchString: String? = nil, tagKey: String? = nil, timePeriod: DateInterval) {
             self.nextPageToken = nextPageToken
             self.searchString = searchString
@@ -990,7 +990,7 @@ extension CostExplorer {
         public let tags: [String]
         /// The total number of query results.
         public let totalSize: Int32
-        
+
         public init(nextPageToken: String? = nil, returnSize: Int32, tags: [String], totalSize: Int32) {
             self.nextPageToken = nextPageToken
             self.returnSize = returnSize
@@ -1025,7 +1025,7 @@ extension CostExplorer {
         public let predictionIntervalLevel: Int32?
         /// The start and end dates of the period that you want to retrieve usage forecast for. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
-        
+
         public init(filter: Expression? = nil, granularity: Granularity, metric: Metric, predictionIntervalLevel: Int32? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
@@ -1059,7 +1059,7 @@ extension CostExplorer {
         public let forecastResultsByTime: [ForecastResult]?
         /// How much you're forecasted to use over the forecast period.
         public let total: MetricValue?
-        
+
         public init(forecastResultsByTime: [ForecastResult]? = nil, total: MetricValue? = nil) {
             self.forecastResultsByTime = forecastResultsByTime
             self.total = total
@@ -1094,7 +1094,7 @@ extension CostExplorer {
         public let keys: [String]?
         /// The metrics that are included in this group.
         public let metrics: [String: MetricValue]?
-        
+
         public init(keys: [String]? = nil, metrics: [String: MetricValue]? = nil) {
             self.keys = keys
             self.metrics = metrics
@@ -1116,7 +1116,7 @@ extension CostExplorer {
         public let key: String?
         /// The string that represents the type of group.
         public let `type`: GroupDefinitionType?
-        
+
         public init(key: String? = nil, type: GroupDefinitionType? = nil) {
             self.key = key
             self.`type` = `type`
@@ -1153,7 +1153,7 @@ extension CostExplorer {
         public let rDSInstanceDetails: RDSInstanceDetails?
         /// The Amazon Redshift instances that AWS recommends that you purchase.
         public let redshiftInstanceDetails: RedshiftInstanceDetails?
-        
+
         public init(eC2InstanceDetails: EC2InstanceDetails? = nil, elastiCacheInstanceDetails: ElastiCacheInstanceDetails? = nil, eSInstanceDetails: ESInstanceDetails? = nil, rDSInstanceDetails: RDSInstanceDetails? = nil, redshiftInstanceDetails: RedshiftInstanceDetails? = nil) {
             self.eC2InstanceDetails = eC2InstanceDetails
             self.elastiCacheInstanceDetails = elastiCacheInstanceDetails
@@ -1199,7 +1199,7 @@ extension CostExplorer {
         public let amount: String?
         /// The unit that the metric is given in.
         public let unit: String?
-        
+
         public init(amount: String? = nil, unit: String? = nil) {
             self.amount = amount
             self.unit = unit
@@ -1258,7 +1258,7 @@ extension CostExplorer {
         public let region: String?
         /// Whether the recommended reservation is size flexible.
         public let sizeFlexEligible: Bool?
-        
+
         public init(currentGeneration: Bool? = nil, databaseEdition: String? = nil, databaseEngine: String? = nil, deploymentOption: String? = nil, family: String? = nil, instanceType: String? = nil, licenseModel: String? = nil, region: String? = nil, sizeFlexEligible: Bool? = nil) {
             self.currentGeneration = currentGeneration
             self.databaseEdition = databaseEdition
@@ -1303,7 +1303,7 @@ extension CostExplorer {
         public let region: String?
         /// Whether the recommended reservation is size flexible.
         public let sizeFlexEligible: Bool?
-        
+
         public init(currentGeneration: Bool? = nil, family: String? = nil, nodeType: String? = nil, region: String? = nil, sizeFlexEligible: Bool? = nil) {
             self.currentGeneration = currentGeneration
             self.family = family
@@ -1367,7 +1367,7 @@ extension CostExplorer {
         public let utilizationPercentage: String?
         /// The percentage of Amazon EC2 reservation time that you used, converted to normalized units. Normalized units are available only for Amazon EC2 usage after November 11, 2017.
         public let utilizationPercentageInUnits: String?
-        
+
         public init(amortizedRecurringFee: String? = nil, amortizedUpfrontFee: String? = nil, netRISavings: String? = nil, onDemandCostOfRIHoursUsed: String? = nil, purchasedHours: String? = nil, purchasedUnits: String? = nil, totalActualHours: String? = nil, totalActualUnits: String? = nil, totalAmortizedFee: String? = nil, totalPotentialRISavings: String? = nil, unusedHours: String? = nil, unusedUnits: String? = nil, utilizationPercentage: String? = nil, utilizationPercentageInUnits: String? = nil) {
             self.amortizedRecurringFee = amortizedRecurringFee
             self.amortizedUpfrontFee = amortizedUpfrontFee
@@ -1413,7 +1413,7 @@ extension CostExplorer {
         public let attributes: [String: String]?
         /// How much instance usage this group of reservations covered.
         public let coverage: Coverage?
-        
+
         public init(attributes: [String: String]? = nil, coverage: Coverage? = nil) {
             self.attributes = attributes
             self.coverage = coverage
@@ -1450,7 +1450,7 @@ extension CostExplorer {
         public let serviceSpecification: ServiceSpecification?
         /// The term of the reservation that you want recommendations for, in years.
         public let termInYears: TermInYears?
-        
+
         public init(accountScope: AccountScope? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, paymentOption: PaymentOption? = nil, recommendationDetails: [ReservationPurchaseRecommendationDetail]? = nil, recommendationSummary: ReservationPurchaseRecommendationSummary? = nil, serviceSpecification: ServiceSpecification? = nil, termInYears: TermInYears? = nil) {
             self.accountScope = accountScope
             self.lookbackPeriodInDays = lookbackPeriodInDays
@@ -1533,7 +1533,7 @@ extension CostExplorer {
         public let recurringStandardMonthlyCost: String?
         /// How much purchasing this instance costs you upfront.
         public let upfrontCost: String?
-        
+
         public init(accountId: String? = nil, averageNormalizedUnitsUsedPerHour: String? = nil, averageNumberOfInstancesUsedPerHour: String? = nil, averageUtilization: String? = nil, currencyCode: String? = nil, estimatedBreakEvenInMonths: String? = nil, estimatedMonthlyOnDemandCost: String? = nil, estimatedMonthlySavingsAmount: String? = nil, estimatedMonthlySavingsPercentage: String? = nil, estimatedReservationCostForLookbackPeriod: String? = nil, instanceDetails: InstanceDetails? = nil, maximumNormalizedUnitsUsedPerHour: String? = nil, maximumNumberOfInstancesUsedPerHour: String? = nil, minimumNormalizedUnitsUsedPerHour: String? = nil, minimumNumberOfInstancesUsedPerHour: String? = nil, recommendedNormalizedUnitsToPurchase: String? = nil, recommendedNumberOfInstancesToPurchase: String? = nil, recurringStandardMonthlyCost: String? = nil, upfrontCost: String? = nil) {
             self.accountId = accountId
             self.averageNormalizedUnitsUsedPerHour = averageNormalizedUnitsUsedPerHour
@@ -1589,7 +1589,7 @@ extension CostExplorer {
         public let generationTimestamp: String?
         /// The ID for this specific recommendation.
         public let recommendationId: String?
-        
+
         public init(generationTimestamp: String? = nil, recommendationId: String? = nil) {
             self.generationTimestamp = generationTimestamp
             self.recommendationId = recommendationId
@@ -1614,7 +1614,7 @@ extension CostExplorer {
         public let totalEstimatedMonthlySavingsAmount: String?
         /// The total amount that AWS estimates that this recommendation could save you in a month, as a percentage of your costs.
         public let totalEstimatedMonthlySavingsPercentage: String?
-        
+
         public init(currencyCode: String? = nil, totalEstimatedMonthlySavingsAmount: String? = nil, totalEstimatedMonthlySavingsPercentage: String? = nil) {
             self.currencyCode = currencyCode
             self.totalEstimatedMonthlySavingsAmount = totalEstimatedMonthlySavingsAmount
@@ -1644,7 +1644,7 @@ extension CostExplorer {
         public let utilization: ReservationAggregates?
         /// The value of a specific reservation attribute.
         public let value: String?
-        
+
         public init(attributes: [String: String]? = nil, key: String? = nil, utilization: ReservationAggregates? = nil, value: String? = nil) {
             self.attributes = attributes
             self.key = key
@@ -1676,7 +1676,7 @@ extension CostExplorer {
         public let timePeriod: DateInterval?
         /// The total amount of cost or usage accrued during the time period.
         public let total: [String: MetricValue]?
-        
+
         public init(estimated: Bool? = nil, groups: [Group]? = nil, timePeriod: DateInterval? = nil, total: [String: MetricValue]? = nil) {
             self.estimated = estimated
             self.groups = groups
@@ -1703,7 +1703,7 @@ extension CostExplorer {
 
         /// The Amazon EC2 hardware specifications that you want AWS to provide recommendations for.
         public let eC2Specification: EC2Specification?
-        
+
         public init(eC2Specification: EC2Specification? = nil) {
             self.eC2Specification = eC2Specification
         }
@@ -1723,7 +1723,7 @@ extension CostExplorer {
         public let key: String?
         /// The specific value of the tag.
         public let values: [String]?
-        
+
         public init(key: String? = nil, values: [String]? = nil) {
             self.key = key
             self.values = values
@@ -1754,7 +1754,7 @@ extension CostExplorer {
         public let timePeriod: DateInterval?
         /// The total number of reservation hours that were used.
         public let total: ReservationAggregates?
-        
+
         public init(groups: [ReservationUtilizationGroup]? = nil, timePeriod: DateInterval? = nil, total: ReservationAggregates? = nil) {
             self.groups = groups
             self.timePeriod = timePeriod
@@ -1771,5 +1771,4 @@ extension CostExplorer {
             case total = "Total"
         }
     }
-
 }

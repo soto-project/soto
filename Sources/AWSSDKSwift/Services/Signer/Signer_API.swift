@@ -69,5 +69,4 @@ public struct Signer {
     public func startSigningJob(_ input: StartSigningJobRequest) throws -> Future<StartSigningJobResponse> {
         return try client.send(operation: "StartSigningJob", path: "/signing-jobs", httpMethod: "POST", input: input)
     }
-
 }

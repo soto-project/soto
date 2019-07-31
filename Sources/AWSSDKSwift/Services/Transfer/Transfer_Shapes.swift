@@ -30,7 +30,7 @@ extension Transfer {
         public let loggingRole: String?
         /// Key-value pairs that can be used to group and search for servers.
         public let tags: [Tag]?
-        
+
         public init(endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, tags: [Tag]? = nil) {
             self.endpointDetails = endpointDetails
             self.endpointType = endpointType
@@ -68,7 +68,7 @@ extension Transfer {
 
         /// The service-assigned ID of the SFTP server that is created.
         public let serverId: String
-        
+
         public init(serverId: String) {
             self.serverId = serverId
         }
@@ -107,7 +107,7 @@ extension Transfer {
         public let tags: [Tag]?
         /// A unique string that identifies a user and is associated with a server as specified by the ServerId. This user name must be a minimum of 3 and a maximum of 32 characters long. The following are valid characters: a-z, A-Z, 0-9, underscore, and hyphen. The user name can't start with a hyphen.
         public let userName: String
-        
+
         public init(homeDirectory: String? = nil, policy: String? = nil, role: String, serverId: String, sshPublicKeyBody: String? = nil, tags: [Tag]? = nil, userName: String) {
             self.homeDirectory = homeDirectory
             self.policy = policy
@@ -151,7 +151,7 @@ extension Transfer {
         public let serverId: String
         /// A unique string that identifies a user account associated with an SFTP server.
         public let userName: String
-        
+
         public init(serverId: String, userName: String) {
             self.serverId = serverId
             self.userName = userName
@@ -175,7 +175,7 @@ extension Transfer {
 
         /// A unique system-assigned identifier for an SFTP server instance.
         public let serverId: String
-        
+
         public init(serverId: String) {
             self.serverId = serverId
         }
@@ -202,7 +202,7 @@ extension Transfer {
         public let sshPublicKeyId: String
         /// A unique string that identifies a user whose public key is being deleted.
         public let userName: String
-        
+
         public init(serverId: String, sshPublicKeyId: String, userName: String) {
             self.serverId = serverId
             self.sshPublicKeyId = sshPublicKeyId
@@ -232,7 +232,7 @@ extension Transfer {
         public let serverId: String
         /// A unique string that identifies a user that is being deleted from the server.
         public let userName: String
-        
+
         public init(serverId: String, userName: String) {
             self.serverId = serverId
             self.userName = userName
@@ -256,7 +256,7 @@ extension Transfer {
 
         /// A system-assigned unique identifier for an SFTP server.
         public let serverId: String
-        
+
         public init(serverId: String) {
             self.serverId = serverId
         }
@@ -277,7 +277,7 @@ extension Transfer {
 
         /// An array containing the properties of the server with the ServerID you specified.
         public let server: DescribedServer
-        
+
         public init(server: DescribedServer) {
             self.server = server
         }
@@ -301,7 +301,7 @@ extension Transfer {
         public let serverId: String
         /// The name of the user assigned to one or more servers. User names are part of the sign-in credentials to use the AWS Transfer service and perform file transfer tasks.
         public let userName: String
-        
+
         public init(serverId: String, userName: String) {
             self.serverId = serverId
             self.userName = userName
@@ -328,7 +328,7 @@ extension Transfer {
         public let serverId: String
         /// An array containing the properties of the user account for the ServerID value that you specified.
         public let user: DescribedUser
-        
+
         public init(serverId: String, user: DescribedUser) {
             self.serverId = serverId
             self.user = user
@@ -382,7 +382,7 @@ extension Transfer {
         public let tags: [Tag]?
         /// The number of users that are assigned to the SFTP server you specified with the ServerId.
         public let userCount: Int32?
-        
+
         public init(arn: String, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKeyFingerprint: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, serverId: String? = nil, state: State? = nil, tags: [Tag]? = nil, userCount: Int32? = nil) {
             self.arn = arn
             self.endpointDetails = endpointDetails
@@ -448,7 +448,7 @@ extension Transfer {
         public let tags: [Tag]?
         /// This property is the name of the user that was requested to be described. User names are used for authentication purposes. This is the string that will be used by your user when they log in to your SFTP server.
         public let userName: String?
-        
+
         public init(arn: String, homeDirectory: String? = nil, policy: String? = nil, role: String? = nil, sshPublicKeys: [SshPublicKey]? = nil, tags: [Tag]? = nil, userName: String? = nil) {
             self.arn = arn
             self.homeDirectory = homeDirectory
@@ -492,7 +492,7 @@ extension Transfer {
 
         /// The ID of the VPC endpoint.
         public let vpcEndpointId: String?
-        
+
         public init(vpcEndpointId: String? = nil) {
             self.vpcEndpointId = vpcEndpointId
         }
@@ -522,7 +522,7 @@ extension Transfer {
         public let invocationRole: String?
         /// The IdentityProviderDetail parameter contains the location of the service endpoint used to authenticate users.
         public let url: String?
-        
+
         public init(invocationRole: String? = nil, url: String? = nil) {
             self.invocationRole = invocationRole
             self.url = url
@@ -557,7 +557,7 @@ extension Transfer {
         public let sshPublicKeyBody: String
         /// The name of the user account that is assigned to one or more servers.
         public let userName: String
-        
+
         public init(serverId: String, sshPublicKeyBody: String, userName: String) {
             self.serverId = serverId
             self.sshPublicKeyBody = sshPublicKeyBody
@@ -591,7 +591,7 @@ extension Transfer {
         public let sshPublicKeyId: String
         /// A user name assigned to the ServerID value that you specified.
         public let userName: String
-        
+
         public init(serverId: String, sshPublicKeyId: String, userName: String) {
             self.serverId = serverId
             self.sshPublicKeyId = sshPublicKeyId
@@ -621,7 +621,7 @@ extension Transfer {
         public let maxResults: Int32?
         /// When additional results are obtained from the ListServers command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional servers.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -650,7 +650,7 @@ extension Transfer {
         public let nextToken: String?
         /// An array of servers that were listed.
         public let servers: [ListedServer]
-        
+
         public init(nextToken: String? = nil, servers: [ListedServer]) {
             self.nextToken = nextToken
             self.servers = servers
@@ -683,7 +683,7 @@ extension Transfer {
         public let maxResults: Int32?
         /// When you request additional results from the ListTagsForResource call, a NextToken parameter is returned in the input. You can then pass in a subsequent command the NextToken parameter to continue listing additional tags.
         public let nextToken: String?
-        
+
         public init(arn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.arn = arn
             self.maxResults = maxResults
@@ -719,7 +719,7 @@ extension Transfer {
         public let nextToken: String?
         /// Key-value pairs that are assigned to a resource, usually for the purpose of grouping and searching for items. Tags are metadata that you define that you can use for any purpose.
         public let tags: [Tag]?
-        
+
         public init(arn: String? = nil, nextToken: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -755,7 +755,7 @@ extension Transfer {
         public let nextToken: String?
         /// A system-assigned unique identifier for a Secure File Transfer Protocol (SFTP) server that has users are assigned to it.
         public let serverId: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, serverId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -790,7 +790,7 @@ extension Transfer {
         public let serverId: String
         /// Returns the user accounts and their properties for the ServerId value that you specify.
         public let users: [ListedUser]
-        
+
         public init(nextToken: String? = nil, serverId: String, users: [ListedUser]) {
             self.nextToken = nextToken
             self.serverId = serverId
@@ -838,7 +838,7 @@ extension Transfer {
         public let state: State?
         /// This property is a numeric value that indicates the number of users that are assigned to the SFTP server you specified with the ServerId.
         public let userCount: Int32?
-        
+
         public init(arn: String, endpointType: EndpointType? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, serverId: String? = nil, state: State? = nil, userCount: Int32? = nil) {
             self.arn = arn
             self.endpointType = endpointType
@@ -886,7 +886,7 @@ extension Transfer {
         public let sshPublicKeyCount: Int32?
         /// The name of the user whose ARN was specified. User names are used for authentication purposes.
         public let userName: String?
-        
+
         public init(arn: String, homeDirectory: String? = nil, role: String? = nil, sshPublicKeyCount: Int32? = nil, userName: String? = nil) {
             self.arn = arn
             self.homeDirectory = homeDirectory
@@ -926,7 +926,7 @@ extension Transfer {
         public let sshPublicKeyBody: String
         /// The SshPublicKeyId parameter contains the identifier of the public key.
         public let sshPublicKeyId: String
-        
+
         public init(dateImported: TimeStamp, sshPublicKeyBody: String, sshPublicKeyId: String) {
             self.dateImported = dateImported
             self.sshPublicKeyBody = sshPublicKeyBody
@@ -953,7 +953,7 @@ extension Transfer {
 
         /// A system-assigned unique identifier for an SFTP server that you start.
         public let serverId: String
-        
+
         public init(serverId: String) {
             self.serverId = serverId
         }
@@ -984,7 +984,7 @@ extension Transfer {
 
         /// A system-assigned unique identifier for an SFTP server that you stopped.
         public let serverId: String
-        
+
         public init(serverId: String) {
             self.serverId = serverId
         }
@@ -1008,7 +1008,7 @@ extension Transfer {
         public let key: String
         /// This property contains one or more values that you assigned to the key name you create.
         public let value: String
-        
+
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1030,7 +1030,7 @@ extension Transfer {
         public let arn: String
         /// Key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to user accounts for any purpose.
         public let tags: [Tag]
-        
+
         public init(arn: String, tags: [Tag]) {
             self.arn = arn
             self.tags = tags
@@ -1062,7 +1062,7 @@ extension Transfer {
         public let userName: String
         /// The password of the user account to be tested.
         public let userPassword: String?
-        
+
         public init(serverId: String, userName: String, userPassword: String? = nil) {
             self.serverId = serverId
             self.userName = userName
@@ -1094,7 +1094,7 @@ extension Transfer {
         public let statusCode: Int32
         /// The endpoint of the service used to authenticate a user.
         public let url: String
-        
+
         public init(message: String? = nil, statusCode: Int32, url: String) {
             self.message = message
             self.statusCode = statusCode
@@ -1118,7 +1118,7 @@ extension Transfer {
         public let arn: String
         /// TagKeys are key-value pairs assigned to ARNs that can be used to group and search for resources by type. This metadata can be attached to resources for any purpose.
         public let tagKeys: [String]
-        
+
         public init(arn: String, tagKeys: [String]) {
             self.arn = arn
             self.tagKeys = tagKeys
@@ -1159,7 +1159,7 @@ extension Transfer {
         public let loggingRole: String?
         /// A system-assigned unique identifier for an SFTP server instance that the user account is assigned to.
         public let serverId: String
-        
+
         public init(endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, loggingRole: String? = nil, serverId: String) {
             self.endpointDetails = endpointDetails
             self.endpointType = endpointType
@@ -1194,7 +1194,7 @@ extension Transfer {
 
         /// A system-assigned unique identifier for an SFTP server that the user account is assigned to.
         public let serverId: String
-        
+
         public init(serverId: String) {
             self.serverId = serverId
         }
@@ -1227,7 +1227,7 @@ extension Transfer {
         public let serverId: String
         /// A unique string that identifies a user and is associated with a server as specified by the ServerId. This is the string that will be used by your user when they log in to your SFTP server. This user name is a minimum of 3 and a maximum of 32 characters long. The following are valid characters: a-z, A-Z, 0-9, underscore, and hyphen. The user name can't start with a hyphen.
         public let userName: String
-        
+
         public init(homeDirectory: String? = nil, policy: String? = nil, role: String? = nil, serverId: String, userName: String) {
             self.homeDirectory = homeDirectory
             self.policy = policy
@@ -1263,7 +1263,7 @@ extension Transfer {
         public let serverId: String
         /// The unique identifier for a user that is assigned to the SFTP server instance that was specified in the request.
         public let userName: String
-        
+
         public init(serverId: String, userName: String) {
             self.serverId = serverId
             self.userName = userName
@@ -1279,5 +1279,4 @@ extension Transfer {
             case userName = "UserName"
         }
     }
-
 }

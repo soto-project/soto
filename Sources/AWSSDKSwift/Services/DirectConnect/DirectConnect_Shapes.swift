@@ -21,7 +21,7 @@ extension DirectConnect {
         public let overrideAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
         /// The ID of the request proposal.
         public let proposalId: String
-        
+
         public init(associatedGatewayOwnerAccount: String, directConnectGatewayId: String, overrideAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil, proposalId: String) {
             self.associatedGatewayOwnerAccount = associatedGatewayOwnerAccount
             self.directConnectGatewayId = directConnectGatewayId
@@ -43,7 +43,7 @@ extension DirectConnect {
         ]
 
         public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
-        
+
         public init(directConnectGatewayAssociation: DirectConnectGatewayAssociation? = nil) {
             self.directConnectGatewayAssociation = directConnectGatewayAssociation
         }
@@ -78,7 +78,7 @@ extension DirectConnect {
         public let ownerAccount: String
         /// The dedicated VLAN provisioned to the connection.
         public let vlan: Int32
-        
+
         public init(bandwidth: String, connectionName: String, interconnectId: String, ownerAccount: String, vlan: Int32) {
             self.bandwidth = bandwidth
             self.connectionName = connectionName
@@ -118,7 +118,7 @@ extension DirectConnect {
         public let tags: [Tag]?
         /// The dedicated VLAN provisioned to the hosted connection.
         public let vlan: Int32
-        
+
         public init(bandwidth: String, connectionId: String, connectionName: String, ownerAccount: String, tags: [Tag]? = nil, vlan: Int32) {
             self.bandwidth = bandwidth
             self.connectionId = connectionId
@@ -158,7 +158,7 @@ extension DirectConnect {
         public let newPrivateVirtualInterfaceAllocation: NewPrivateVirtualInterfaceAllocation
         /// The ID of the AWS account that owns the virtual private interface.
         public let ownerAccount: String
-        
+
         public init(connectionId: String, newPrivateVirtualInterfaceAllocation: NewPrivateVirtualInterfaceAllocation, ownerAccount: String) {
             self.connectionId = connectionId
             self.newPrivateVirtualInterfaceAllocation = newPrivateVirtualInterfaceAllocation
@@ -189,7 +189,7 @@ extension DirectConnect {
         public let newPublicVirtualInterfaceAllocation: NewPublicVirtualInterfaceAllocation
         /// The ID of the AWS account that owns the public virtual interface.
         public let ownerAccount: String
-        
+
         public init(connectionId: String, newPublicVirtualInterfaceAllocation: NewPublicVirtualInterfaceAllocation, ownerAccount: String) {
             self.connectionId = connectionId
             self.newPublicVirtualInterfaceAllocation = newPublicVirtualInterfaceAllocation
@@ -220,7 +220,7 @@ extension DirectConnect {
         public let newTransitVirtualInterfaceAllocation: NewTransitVirtualInterfaceAllocation
         /// The ID of the AWS account that owns the transit virtual interface.
         public let ownerAccount: String
-        
+
         public init(connectionId: String, newTransitVirtualInterfaceAllocation: NewTransitVirtualInterfaceAllocation, ownerAccount: String) {
             self.connectionId = connectionId
             self.newTransitVirtualInterfaceAllocation = newTransitVirtualInterfaceAllocation
@@ -244,7 +244,7 @@ extension DirectConnect {
         ]
 
         public let virtualInterface: VirtualInterface?
-        
+
         public init(virtualInterface: VirtualInterface? = nil) {
             self.virtualInterface = virtualInterface
         }
@@ -268,7 +268,7 @@ extension DirectConnect {
         public let connectionId: String
         /// The ID of the LAG with which to associate the connection.
         public let lagId: String
-        
+
         public init(connectionId: String, lagId: String) {
             self.connectionId = connectionId
             self.lagId = lagId
@@ -290,7 +290,7 @@ extension DirectConnect {
         public let connectionId: String
         /// The ID of the interconnect or the LAG.
         public let parentConnectionId: String
-        
+
         public init(connectionId: String, parentConnectionId: String) {
             self.connectionId = connectionId
             self.parentConnectionId = parentConnectionId
@@ -312,7 +312,7 @@ extension DirectConnect {
         public let connectionId: String
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String
-        
+
         public init(connectionId: String, virtualInterfaceId: String) {
             self.connectionId = connectionId
             self.virtualInterfaceId = virtualInterfaceId
@@ -340,7 +340,7 @@ extension DirectConnect {
         public let region: String?
         /// The type of associated gateway.
         public let `type`: GatewayType?
-        
+
         public init(id: String? = nil, ownerAccount: String? = nil, region: String? = nil, type: GatewayType? = nil) {
             self.id = id
             self.ownerAccount = ownerAccount
@@ -387,7 +387,7 @@ extension DirectConnect {
         public let bgpStatus: BGPStatus?
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
-        
+
         public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, bgpPeerId: String? = nil, bgpPeerState: BGPPeerState? = nil, bgpStatus: BGPStatus? = nil, customerAddress: String? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
@@ -436,7 +436,7 @@ extension DirectConnect {
 
         /// The ID of the hosted connection.
         public let connectionId: String
-        
+
         public init(connectionId: String) {
             self.connectionId = connectionId
         }
@@ -453,7 +453,7 @@ extension DirectConnect {
 
         /// The state of the connection. The following are the possible values:    ordering: The initial state of a hosted connection provisioned on an interconnect. The connection stays in the ordering state until the owner of the hosted connection confirms or declines the connection order.    requested: The initial state of a standard connection. The connection stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The connection has been approved and is being initialized.    available: The network link is up and the connection is ready for use.    down: The network link is down.    deleting: The connection is being deleted.    deleted: The connection has been deleted.    rejected: A hosted connection in the ordering state enters the rejected state if it is deleted by the customer.    unknown: The state of the connection is not available.  
         public let connectionState: ConnectionState?
-        
+
         public init(connectionState: ConnectionState? = nil) {
             self.connectionState = connectionState
         }
@@ -476,7 +476,7 @@ extension DirectConnect {
         public let virtualGatewayId: String?
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String
-        
+
         public init(directConnectGatewayId: String? = nil, virtualGatewayId: String? = nil, virtualInterfaceId: String) {
             self.directConnectGatewayId = directConnectGatewayId
             self.virtualGatewayId = virtualGatewayId
@@ -497,7 +497,7 @@ extension DirectConnect {
 
         /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
         public let virtualInterfaceState: VirtualInterfaceState?
-        
+
         public init(virtualInterfaceState: VirtualInterfaceState? = nil) {
             self.virtualInterfaceState = virtualInterfaceState
         }
@@ -514,7 +514,7 @@ extension DirectConnect {
 
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String
-        
+
         public init(virtualInterfaceId: String) {
             self.virtualInterfaceId = virtualInterfaceId
         }
@@ -531,7 +531,7 @@ extension DirectConnect {
 
         /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
         public let virtualInterfaceState: VirtualInterfaceState?
-        
+
         public init(virtualInterfaceState: VirtualInterfaceState? = nil) {
             self.virtualInterfaceState = virtualInterfaceState
         }
@@ -551,7 +551,7 @@ extension DirectConnect {
         public let directConnectGatewayId: String
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String
-        
+
         public init(directConnectGatewayId: String, virtualInterfaceId: String) {
             self.directConnectGatewayId = directConnectGatewayId
             self.virtualInterfaceId = virtualInterfaceId
@@ -570,7 +570,7 @@ extension DirectConnect {
 
         /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
         public let virtualInterfaceState: VirtualInterfaceState?
-        
+
         public init(virtualInterfaceState: VirtualInterfaceState? = nil) {
             self.virtualInterfaceState = virtualInterfaceState
         }
@@ -632,7 +632,7 @@ extension DirectConnect {
         public let tags: [Tag]?
         /// The ID of the VLAN.
         public let vlan: Int32?
-        
+
         public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, bandwidth: String? = nil, connectionId: String? = nil, connectionName: String? = nil, connectionState: ConnectionState? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: TimeStamp? = nil, location: String? = nil, ownerAccount: String? = nil, partnerName: String? = nil, region: String? = nil, tags: [Tag]? = nil, vlan: Int32? = nil) {
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
@@ -699,7 +699,7 @@ extension DirectConnect {
 
         /// The connections.
         public let connections: [Connection]?
-        
+
         public init(connections: [Connection]? = nil) {
             self.connections = connections
         }
@@ -725,7 +725,7 @@ extension DirectConnect {
         public let newBGPPeer: NewBGPPeer?
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String?
-        
+
         public init(newBGPPeer: NewBGPPeer? = nil, virtualInterfaceId: String? = nil) {
             self.newBGPPeer = newBGPPeer
             self.virtualInterfaceId = virtualInterfaceId
@@ -744,7 +744,7 @@ extension DirectConnect {
 
         /// The virtual interface.
         public let virtualInterface: VirtualInterface?
-        
+
         public init(virtualInterface: VirtualInterface? = nil) {
             self.virtualInterface = virtualInterface
         }
@@ -777,7 +777,7 @@ extension DirectConnect {
         public let location: String
         /// The tags to assign to the connection.
         public let tags: [Tag]?
-        
+
         public init(bandwidth: String, connectionName: String, lagId: String? = nil, location: String, tags: [Tag]? = nil) {
             self.bandwidth = bandwidth
             self.connectionName = connectionName
@@ -821,7 +821,7 @@ extension DirectConnect {
         public let gatewayId: String
         /// The Amazon VPC prefixes to no longer advertise to the Direct Connect gateway.
         public let removeAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
-        
+
         public init(addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil, directConnectGatewayId: String, directConnectGatewayOwnerAccount: String, gatewayId: String, removeAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil) {
             self.addAllowedPrefixesToDirectConnectGateway = addAllowedPrefixesToDirectConnectGateway
             self.directConnectGatewayId = directConnectGatewayId
@@ -846,7 +846,7 @@ extension DirectConnect {
 
         /// Information about the Direct Connect gateway proposal.
         public let directConnectGatewayAssociationProposal: DirectConnectGatewayAssociationProposal?
-        
+
         public init(directConnectGatewayAssociationProposal: DirectConnectGatewayAssociationProposal? = nil) {
             self.directConnectGatewayAssociationProposal = directConnectGatewayAssociationProposal
         }
@@ -872,7 +872,7 @@ extension DirectConnect {
         public let gatewayId: String?
         /// The ID of the virtual private gateway.
         public let virtualGatewayId: String?
-        
+
         public init(addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil, directConnectGatewayId: String, gatewayId: String? = nil, virtualGatewayId: String? = nil) {
             self.addAllowedPrefixesToDirectConnectGateway = addAllowedPrefixesToDirectConnectGateway
             self.directConnectGatewayId = directConnectGatewayId
@@ -895,7 +895,7 @@ extension DirectConnect {
 
         /// The association to be created.
         public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
-        
+
         public init(directConnectGatewayAssociation: DirectConnectGatewayAssociation? = nil) {
             self.directConnectGatewayAssociation = directConnectGatewayAssociation
         }
@@ -915,7 +915,7 @@ extension DirectConnect {
         public let amazonSideAsn: Int64?
         /// The name of the Direct Connect gateway.
         public let directConnectGatewayName: String
-        
+
         public init(amazonSideAsn: Int64? = nil, directConnectGatewayName: String) {
             self.amazonSideAsn = amazonSideAsn
             self.directConnectGatewayName = directConnectGatewayName
@@ -934,7 +934,7 @@ extension DirectConnect {
 
         /// The Direct Connect gateway.
         public let directConnectGateway: DirectConnectGateway?
-        
+
         public init(directConnectGateway: DirectConnectGateway? = nil) {
             self.directConnectGateway = directConnectGateway
         }
@@ -963,7 +963,7 @@ extension DirectConnect {
         public let location: String
         /// The tags to assign to the interconnect,
         public let tags: [Tag]?
-        
+
         public init(bandwidth: String, interconnectName: String, lagId: String? = nil, location: String, tags: [Tag]? = nil) {
             self.bandwidth = bandwidth
             self.interconnectName = interconnectName
@@ -1013,7 +1013,7 @@ extension DirectConnect {
         public let numberOfConnections: Int32
         /// The tags to assign to the link aggregation group (LAG).
         public let tags: [Tag]?
-        
+
         public init(childConnectionTags: [Tag]? = nil, connectionId: String? = nil, connectionsBandwidth: String, lagName: String, location: String, numberOfConnections: Int32, tags: [Tag]? = nil) {
             self.childConnectionTags = childConnectionTags
             self.connectionId = connectionId
@@ -1056,7 +1056,7 @@ extension DirectConnect {
         public let connectionId: String
         /// Information about the private virtual interface.
         public let newPrivateVirtualInterface: NewPrivateVirtualInterface
-        
+
         public init(connectionId: String, newPrivateVirtualInterface: NewPrivateVirtualInterface) {
             self.connectionId = connectionId
             self.newPrivateVirtualInterface = newPrivateVirtualInterface
@@ -1082,7 +1082,7 @@ extension DirectConnect {
         public let connectionId: String
         /// Information about the public virtual interface.
         public let newPublicVirtualInterface: NewPublicVirtualInterface
-        
+
         public init(connectionId: String, newPublicVirtualInterface: NewPublicVirtualInterface) {
             self.connectionId = connectionId
             self.newPublicVirtualInterface = newPublicVirtualInterface
@@ -1108,7 +1108,7 @@ extension DirectConnect {
         public let connectionId: String
         /// Information about the transit virtual interface.
         public let newTransitVirtualInterface: NewTransitVirtualInterface
-        
+
         public init(connectionId: String, newTransitVirtualInterface: NewTransitVirtualInterface) {
             self.connectionId = connectionId
             self.newTransitVirtualInterface = newTransitVirtualInterface
@@ -1130,7 +1130,7 @@ extension DirectConnect {
         ]
 
         public let virtualInterface: VirtualInterface?
-        
+
         public init(virtualInterface: VirtualInterface? = nil) {
             self.virtualInterface = virtualInterface
         }
@@ -1160,7 +1160,7 @@ extension DirectConnect {
         public let customerAddress: String?
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String?
-        
+
         public init(asn: Int32? = nil, bgpPeerId: String? = nil, customerAddress: String? = nil, virtualInterfaceId: String? = nil) {
             self.asn = asn
             self.bgpPeerId = bgpPeerId
@@ -1183,7 +1183,7 @@ extension DirectConnect {
 
         /// The virtual interface.
         public let virtualInterface: VirtualInterface?
-        
+
         public init(virtualInterface: VirtualInterface? = nil) {
             self.virtualInterface = virtualInterface
         }
@@ -1204,7 +1204,7 @@ extension DirectConnect {
 
         /// The ID of the connection.
         public let connectionId: String
-        
+
         public init(connectionId: String) {
             self.connectionId = connectionId
         }
@@ -1221,7 +1221,7 @@ extension DirectConnect {
 
         /// The ID of the proposal.
         public let proposalId: String
-        
+
         public init(proposalId: String) {
             self.proposalId = proposalId
         }
@@ -1238,7 +1238,7 @@ extension DirectConnect {
 
         /// The ID of the associated gateway.
         public let directConnectGatewayAssociationProposal: DirectConnectGatewayAssociationProposal?
-        
+
         public init(directConnectGatewayAssociationProposal: DirectConnectGatewayAssociationProposal? = nil) {
             self.directConnectGatewayAssociationProposal = directConnectGatewayAssociationProposal
         }
@@ -1261,7 +1261,7 @@ extension DirectConnect {
         public let directConnectGatewayId: String?
         /// The ID of the virtual private gateway.
         public let virtualGatewayId: String?
-        
+
         public init(associationId: String? = nil, directConnectGatewayId: String? = nil, virtualGatewayId: String? = nil) {
             self.associationId = associationId
             self.directConnectGatewayId = directConnectGatewayId
@@ -1282,7 +1282,7 @@ extension DirectConnect {
 
         /// Information about the deleted association.
         public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
-        
+
         public init(directConnectGatewayAssociation: DirectConnectGatewayAssociation? = nil) {
             self.directConnectGatewayAssociation = directConnectGatewayAssociation
         }
@@ -1299,7 +1299,7 @@ extension DirectConnect {
 
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String
-        
+
         public init(directConnectGatewayId: String) {
             self.directConnectGatewayId = directConnectGatewayId
         }
@@ -1316,7 +1316,7 @@ extension DirectConnect {
 
         /// The Direct Connect gateway.
         public let directConnectGateway: DirectConnectGateway?
-        
+
         public init(directConnectGateway: DirectConnectGateway? = nil) {
             self.directConnectGateway = directConnectGateway
         }
@@ -1333,7 +1333,7 @@ extension DirectConnect {
 
         /// The ID of the interconnect.
         public let interconnectId: String
-        
+
         public init(interconnectId: String) {
             self.interconnectId = interconnectId
         }
@@ -1350,7 +1350,7 @@ extension DirectConnect {
 
         /// The state of the interconnect. The following are the possible values:    requested: The initial state of an interconnect. The interconnect stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The interconnect is approved, and is being initialized.    available: The network link is up, and the interconnect is ready for use.    down: The network link is down.    deleting: The interconnect is being deleted.    deleted: The interconnect is deleted.    unknown: The state of the interconnect is not available.  
         public let interconnectState: InterconnectState?
-        
+
         public init(interconnectState: InterconnectState? = nil) {
             self.interconnectState = interconnectState
         }
@@ -1367,7 +1367,7 @@ extension DirectConnect {
 
         /// The ID of the LAG.
         public let lagId: String
-        
+
         public init(lagId: String) {
             self.lagId = lagId
         }
@@ -1384,7 +1384,7 @@ extension DirectConnect {
 
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String
-        
+
         public init(virtualInterfaceId: String) {
             self.virtualInterfaceId = virtualInterfaceId
         }
@@ -1401,7 +1401,7 @@ extension DirectConnect {
 
         /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
         public let virtualInterfaceState: VirtualInterfaceState?
-        
+
         public init(virtualInterfaceState: VirtualInterfaceState? = nil) {
             self.virtualInterfaceState = virtualInterfaceState
         }
@@ -1424,7 +1424,7 @@ extension DirectConnect {
         public let loaContentType: LoaContentType?
         /// The name of the APN partner or service provider who establishes connectivity on your behalf. If you specify this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect.
         public let providerName: String?
-        
+
         public init(connectionId: String, loaContentType: LoaContentType? = nil, providerName: String? = nil) {
             self.connectionId = connectionId
             self.loaContentType = loaContentType
@@ -1445,7 +1445,7 @@ extension DirectConnect {
 
         /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA).
         public let loa: Loa?
-        
+
         public init(loa: Loa? = nil) {
             self.loa = loa
         }
@@ -1462,7 +1462,7 @@ extension DirectConnect {
 
         /// The ID of the interconnect.
         public let interconnectId: String
-        
+
         public init(interconnectId: String) {
             self.interconnectId = interconnectId
         }
@@ -1479,7 +1479,7 @@ extension DirectConnect {
 
         /// The ID of the connection.
         public let connectionId: String?
-        
+
         public init(connectionId: String? = nil) {
             self.connectionId = connectionId
         }
@@ -1508,7 +1508,7 @@ extension DirectConnect {
         public let nextToken: String?
         /// The ID of the proposal.
         public let proposalId: String?
-        
+
         public init(associatedGatewayId: String? = nil, directConnectGatewayId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, proposalId: String? = nil) {
             self.associatedGatewayId = associatedGatewayId
             self.directConnectGatewayId = directConnectGatewayId
@@ -1536,7 +1536,7 @@ extension DirectConnect {
         public let directConnectGatewayAssociationProposals: [DirectConnectGatewayAssociationProposal]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
-        
+
         public init(directConnectGatewayAssociationProposals: [DirectConnectGatewayAssociationProposal]? = nil, nextToken: String? = nil) {
             self.directConnectGatewayAssociationProposals = directConnectGatewayAssociationProposals
             self.nextToken = nextToken
@@ -1570,7 +1570,7 @@ extension DirectConnect {
         public let nextToken: String?
         /// The ID of the virtual private gateway.
         public let virtualGatewayId: String?
-        
+
         public init(associatedGatewayId: String? = nil, associationId: String? = nil, directConnectGatewayId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, virtualGatewayId: String? = nil) {
             self.associatedGatewayId = associatedGatewayId
             self.associationId = associationId
@@ -1600,7 +1600,7 @@ extension DirectConnect {
         public let directConnectGatewayAssociations: [DirectConnectGatewayAssociation]?
         /// The token to retrieve the next page.
         public let nextToken: String?
-        
+
         public init(directConnectGatewayAssociations: [DirectConnectGatewayAssociation]? = nil, nextToken: String? = nil) {
             self.directConnectGatewayAssociations = directConnectGatewayAssociations
             self.nextToken = nextToken
@@ -1628,7 +1628,7 @@ extension DirectConnect {
         public let nextToken: String?
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String?
-        
+
         public init(directConnectGatewayId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, virtualInterfaceId: String? = nil) {
             self.directConnectGatewayId = directConnectGatewayId
             self.maxResults = maxResults
@@ -1654,7 +1654,7 @@ extension DirectConnect {
         public let directConnectGatewayAttachments: [DirectConnectGatewayAttachment]?
         /// The token to retrieve the next page.
         public let nextToken: String?
-        
+
         public init(directConnectGatewayAttachments: [DirectConnectGatewayAttachment]? = nil, nextToken: String? = nil) {
             self.directConnectGatewayAttachments = directConnectGatewayAttachments
             self.nextToken = nextToken
@@ -1679,7 +1679,7 @@ extension DirectConnect {
         public let maxResults: Int32?
         /// The token provided in the previous call to retrieve the next page.
         public let nextToken: String?
-        
+
         public init(directConnectGatewayId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.directConnectGatewayId = directConnectGatewayId
             self.maxResults = maxResults
@@ -1703,7 +1703,7 @@ extension DirectConnect {
         public let directConnectGateways: [DirectConnectGateway]?
         /// The token to retrieve the next page.
         public let nextToken: String?
-        
+
         public init(directConnectGateways: [DirectConnectGateway]? = nil, nextToken: String? = nil) {
             self.directConnectGateways = directConnectGateways
             self.nextToken = nextToken
@@ -1722,7 +1722,7 @@ extension DirectConnect {
 
         /// The ID of the interconnect or LAG.
         public let connectionId: String
-        
+
         public init(connectionId: String) {
             self.connectionId = connectionId
         }
@@ -1745,7 +1745,7 @@ extension DirectConnect {
         public let loaContentType: LoaContentType?
         /// The name of the service provider who establishes connectivity on your behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect.
         public let providerName: String?
-        
+
         public init(interconnectId: String, loaContentType: LoaContentType? = nil, providerName: String? = nil) {
             self.interconnectId = interconnectId
             self.loaContentType = loaContentType
@@ -1766,7 +1766,7 @@ extension DirectConnect {
 
         /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA).
         public let loa: Loa?
-        
+
         public init(loa: Loa? = nil) {
             self.loa = loa
         }
@@ -1783,7 +1783,7 @@ extension DirectConnect {
 
         /// The ID of the interconnect.
         public let interconnectId: String?
-        
+
         public init(interconnectId: String? = nil) {
             self.interconnectId = interconnectId
         }
@@ -1800,7 +1800,7 @@ extension DirectConnect {
 
         /// The ID of the LAG.
         public let lagId: String?
-        
+
         public init(lagId: String? = nil) {
             self.lagId = lagId
         }
@@ -1823,7 +1823,7 @@ extension DirectConnect {
         public let loaContentType: LoaContentType?
         /// The name of the service provider who establishes connectivity on your behalf. If you specify this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect.
         public let providerName: String?
-        
+
         public init(connectionId: String, loaContentType: LoaContentType? = nil, providerName: String? = nil) {
             self.connectionId = connectionId
             self.loaContentType = loaContentType
@@ -1844,7 +1844,7 @@ extension DirectConnect {
 
         /// The Amazon Resource Names (ARNs) of the resources.
         public let resourceArns: [String]
-        
+
         public init(resourceArns: [String]) {
             self.resourceArns = resourceArns
         }
@@ -1861,7 +1861,7 @@ extension DirectConnect {
 
         /// Information about the tags.
         public let resourceTags: [ResourceTag]?
-        
+
         public init(resourceTags: [ResourceTag]? = nil) {
             self.resourceTags = resourceTags
         }
@@ -1887,7 +1887,7 @@ extension DirectConnect {
         public let connectionId: String?
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String?
-        
+
         public init(connectionId: String? = nil, virtualInterfaceId: String? = nil) {
             self.connectionId = connectionId
             self.virtualInterfaceId = virtualInterfaceId
@@ -1921,7 +1921,7 @@ extension DirectConnect {
         public let ownerAccount: String?
         /// The error message if the state of an object failed to advance.
         public let stateChangeError: String?
-        
+
         public init(amazonSideAsn: Int64? = nil, directConnectGatewayId: String? = nil, directConnectGatewayName: String? = nil, directConnectGatewayState: DirectConnectGatewayState? = nil, ownerAccount: String? = nil, stateChangeError: String? = nil) {
             self.amazonSideAsn = amazonSideAsn
             self.directConnectGatewayId = directConnectGatewayId
@@ -1975,7 +1975,7 @@ extension DirectConnect {
         public let virtualGatewayOwnerAccount: String?
         /// The AWS Region where the virtual private gateway is located.
         public let virtualGatewayRegion: String?
-        
+
         public init(allowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil, associatedGateway: AssociatedGateway? = nil, associationId: String? = nil, associationState: DirectConnectGatewayAssociationState? = nil, directConnectGatewayId: String? = nil, directConnectGatewayOwnerAccount: String? = nil, stateChangeError: String? = nil, virtualGatewayId: String? = nil, virtualGatewayOwnerAccount: String? = nil, virtualGatewayRegion: String? = nil) {
             self.allowedPrefixesToDirectConnectGateway = allowedPrefixesToDirectConnectGateway
             self.associatedGateway = associatedGateway
@@ -2028,7 +2028,7 @@ extension DirectConnect {
         public let proposalState: DirectConnectGatewayAssociationProposalState?
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
         public let requestedAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
-        
+
         public init(associatedGateway: AssociatedGateway? = nil, directConnectGatewayId: String? = nil, directConnectGatewayOwnerAccount: String? = nil, existingAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil, proposalId: String? = nil, proposalState: DirectConnectGatewayAssociationProposalState? = nil, requestedAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil) {
             self.associatedGateway = associatedGateway
             self.directConnectGatewayId = directConnectGatewayId
@@ -2091,7 +2091,7 @@ extension DirectConnect {
         public let virtualInterfaceOwnerAccount: String?
         /// The AWS Region where the virtual interface is located.
         public let virtualInterfaceRegion: String?
-        
+
         public init(attachmentState: DirectConnectGatewayAttachmentState? = nil, attachmentType: DirectConnectGatewayAttachmentType? = nil, directConnectGatewayId: String? = nil, stateChangeError: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceOwnerAccount: String? = nil, virtualInterfaceRegion: String? = nil) {
             self.attachmentState = attachmentState
             self.attachmentType = attachmentType
@@ -2145,7 +2145,7 @@ extension DirectConnect {
         public let connectionId: String
         /// The ID of the LAG.
         public let lagId: String
-        
+
         public init(connectionId: String, lagId: String) {
             self.connectionId = connectionId
             self.lagId = lagId
@@ -2213,7 +2213,7 @@ extension DirectConnect {
         public let region: String?
         /// Any tags assigned to the interconnect.
         public let tags: [Tag]?
-        
+
         public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, bandwidth: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, interconnectId: String? = nil, interconnectName: String? = nil, interconnectState: InterconnectState? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: TimeStamp? = nil, location: String? = nil, region: String? = nil, tags: [Tag]? = nil) {
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
@@ -2272,7 +2272,7 @@ extension DirectConnect {
 
         /// The interconnects.
         public let interconnects: [Interconnect]?
-        
+
         public init(interconnects: [Interconnect]? = nil) {
             self.interconnects = interconnects
         }
@@ -2340,7 +2340,7 @@ extension DirectConnect {
         public let region: String?
         /// Any tags assigned to link aggregation group (LAG).
         public let tags: [Tag]?
-        
+
         public init(allowsHostedConnections: Bool? = nil, awsDevice: String? = nil, awsDeviceV2: String? = nil, connections: [Connection]? = nil, connectionsBandwidth: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, lagName: String? = nil, lagState: LagState? = nil, location: String? = nil, minimumLinks: Int32? = nil, numberOfConnections: Int32? = nil, ownerAccount: String? = nil, region: String? = nil, tags: [Tag]? = nil) {
             self.allowsHostedConnections = allowsHostedConnections
             self.awsDevice = awsDevice
@@ -2408,7 +2408,7 @@ extension DirectConnect {
 
         /// The LAGs.
         public let lags: [Lag]?
-        
+
         public init(lags: [Lag]? = nil) {
             self.lags = lags
         }
@@ -2434,7 +2434,7 @@ extension DirectConnect {
         public let loaContent: Data?
         /// The standard media type for the LOA-CFA document. The only supported value is application/pdf.
         public let loaContentType: LoaContentType?
-        
+
         public init(loaContent: Data? = nil, loaContentType: LoaContentType? = nil) {
             self.loaContent = loaContent
             self.loaContentType = loaContentType
@@ -2467,7 +2467,7 @@ extension DirectConnect {
         public let locationName: String?
         /// The AWS Region for the location.
         public let region: String?
-        
+
         public init(availablePortSpeeds: [String]? = nil, locationCode: String? = nil, locationName: String? = nil, region: String? = nil) {
             self.availablePortSpeeds = availablePortSpeeds
             self.locationCode = locationCode
@@ -2490,7 +2490,7 @@ extension DirectConnect {
 
         /// The locations.
         public let locations: [Location]?
-        
+
         public init(locations: [Location]? = nil) {
             self.locations = locations
         }
@@ -2519,7 +2519,7 @@ extension DirectConnect {
         public let authKey: String?
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
-        
+
         public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32? = nil, authKey: String? = nil, customerAddress: String? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
@@ -2574,7 +2574,7 @@ extension DirectConnect {
         public let virtualInterfaceName: String
         /// The ID of the VLAN.
         public let vlan: Int32
-        
+
         public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, mtu: Int32? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceName: String, vlan: Int32) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
@@ -2642,7 +2642,7 @@ extension DirectConnect {
         public let virtualInterfaceName: String
         /// The ID of the VLAN.
         public let vlan: Int32
-        
+
         public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32, authKey: String? = nil, customerAddress: String? = nil, mtu: Int32? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int32) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
@@ -2706,7 +2706,7 @@ extension DirectConnect {
         public let virtualInterfaceName: String
         /// The ID of the VLAN.
         public let vlan: Int32
-        
+
         public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32, authKey: String? = nil, customerAddress: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int32) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
@@ -2770,7 +2770,7 @@ extension DirectConnect {
         public let virtualInterfaceName: String
         /// The ID of the VLAN.
         public let vlan: Int32
-        
+
         public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32, authKey: String? = nil, customerAddress: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int32) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
@@ -2837,7 +2837,7 @@ extension DirectConnect {
         public let virtualInterfaceName: String?
         /// The ID of the VLAN.
         public let vlan: Int32?
-        
+
         public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32? = nil, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, mtu: Int32? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int32? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
@@ -2903,7 +2903,7 @@ extension DirectConnect {
         public let virtualInterfaceName: String?
         /// The ID of the VLAN.
         public let vlan: Int32?
-        
+
         public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32? = nil, authKey: String? = nil, customerAddress: String? = nil, mtu: Int32? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int32? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
@@ -2946,7 +2946,7 @@ extension DirectConnect {
         public let resourceArn: String?
         /// The tags.
         public let tags: [Tag]?
-        
+
         public init(resourceArn: String? = nil, tags: [Tag]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2972,7 +2972,7 @@ extension DirectConnect {
 
         /// The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter.
         public let cidr: String?
-        
+
         public init(cidr: String? = nil) {
             self.cidr = cidr
         }
@@ -2992,7 +2992,7 @@ extension DirectConnect {
         public let key: String
         /// The value.
         public let value: String?
-        
+
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -3023,7 +3023,7 @@ extension DirectConnect {
         public let resourceArn: String
         /// The tags to assign.
         public let tags: [Tag]
-        
+
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3043,11 +3043,12 @@ extension DirectConnect {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3059,7 +3060,7 @@ extension DirectConnect {
         public let resourceArn: String
         /// The tag keys of the tags to remove.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3080,11 +3081,12 @@ extension DirectConnect {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateDirectConnectGatewayAssociationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3099,7 +3101,7 @@ extension DirectConnect {
         public let associationId: String?
         /// The Amazon VPC prefixes to no longer advertise to the Direct Connect gateway.
         public let removeAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
-        
+
         public init(addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil, associationId: String? = nil, removeAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil) {
             self.addAllowedPrefixesToDirectConnectGateway = addAllowedPrefixesToDirectConnectGateway
             self.associationId = associationId
@@ -3119,7 +3121,7 @@ extension DirectConnect {
         ]
 
         public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
-        
+
         public init(directConnectGatewayAssociation: DirectConnectGatewayAssociation? = nil) {
             self.directConnectGatewayAssociation = directConnectGatewayAssociation
         }
@@ -3142,7 +3144,7 @@ extension DirectConnect {
         public let lagName: String?
         /// The minimum number of physical connections that must be operational for the LAG itself to be operational.
         public let minimumLinks: Int32?
-        
+
         public init(lagId: String, lagName: String? = nil, minimumLinks: Int32? = nil) {
             self.lagId = lagId
             self.lagName = lagName
@@ -3166,7 +3168,7 @@ extension DirectConnect {
         public let mtu: Int32?
         /// The ID of the virtual private interface.
         public let virtualInterfaceId: String
-        
+
         public init(mtu: Int32? = nil, virtualInterfaceId: String) {
             self.mtu = mtu
             self.virtualInterfaceId = virtualInterfaceId
@@ -3188,7 +3190,7 @@ extension DirectConnect {
         public let virtualGatewayId: String?
         /// The state of the virtual private gateway. The following are the possible values:    pending: Initial state after creating the virtual private gateway.    available: Ready for use by a private virtual interface.    deleting: Initial state after deleting the virtual private gateway.    deleted: The virtual private gateway is deleted. The private virtual interface is unable to send traffic over this gateway.  
         public let virtualGatewayState: String?
-        
+
         public init(virtualGatewayId: String? = nil, virtualGatewayState: String? = nil) {
             self.virtualGatewayId = virtualGatewayId
             self.virtualGatewayState = virtualGatewayState
@@ -3207,7 +3209,7 @@ extension DirectConnect {
 
         /// The virtual private gateways.
         public let virtualGateways: [VirtualGateway]?
-        
+
         public init(virtualGateways: [VirtualGateway]? = nil) {
             self.virtualGateways = virtualGateways
         }
@@ -3293,7 +3295,7 @@ extension DirectConnect {
         public let virtualInterfaceType: String?
         /// The ID of the VLAN.
         public let vlan: Int32?
-        
+
         public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, amazonSideAsn: Int64? = nil, asn: Int32? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, bgpPeers: [BGPPeer]? = nil, connectionId: String? = nil, customerAddress: String? = nil, customerRouterConfig: String? = nil, directConnectGatewayId: String? = nil, jumboFrameCapable: Bool? = nil, location: String? = nil, mtu: Int32? = nil, ownerAccount: String? = nil, region: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceName: String? = nil, virtualInterfaceState: VirtualInterfaceState? = nil, virtualInterfaceType: String? = nil, vlan: Int32? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
@@ -3376,7 +3378,7 @@ extension DirectConnect {
 
         /// The virtual interfaces
         public let virtualInterfaces: [VirtualInterface]?
-        
+
         public init(virtualInterfaces: [VirtualInterface]? = nil) {
             self.virtualInterfaces = virtualInterfaces
         }
@@ -3391,5 +3393,4 @@ extension DirectConnect {
             case virtualInterfaces = "virtualInterfaces"
         }
     }
-
 }

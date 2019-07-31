@@ -15,7 +15,7 @@ extension Translate {
         public let name: String?
         /// The specific terms of the custom terminology applied to the input text by Amazon Translate for the translated text response. A maximum of 250 terms will be returned, and the specific terms applied will be the first 250 terms in the source text. 
         public let terms: [Term]?
-        
+
         public init(name: String? = nil, terms: [Term]? = nil) {
             self.name = name
             self.terms = terms
@@ -43,7 +43,7 @@ extension Translate {
 
         /// The name of the custom terminology being deleted. 
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -69,7 +69,7 @@ extension Translate {
         public let id: String
         /// The type of encryption key used by Amazon Translate to encrypt custom terminologies.
         public let `type`: EncryptionKeyType
-        
+
         public init(id: String, type: EncryptionKeyType) {
             self.id = id
             self.`type` = `type`
@@ -102,7 +102,7 @@ extension Translate {
         public let name: String
         /// The data format of the custom terminology being retrieved, either CSV or TMX.
         public let terminologyDataFormat: TerminologyDataFormat
-        
+
         public init(name: String, terminologyDataFormat: TerminologyDataFormat) {
             self.name = name
             self.terminologyDataFormat = terminologyDataFormat
@@ -130,7 +130,7 @@ extension Translate {
         public let terminologyDataLocation: TerminologyDataLocation?
         /// The properties of the custom terminology being retrieved.
         public let terminologyProperties: TerminologyProperties?
-        
+
         public init(terminologyDataLocation: TerminologyDataLocation? = nil, terminologyProperties: TerminologyProperties? = nil) {
             self.terminologyDataLocation = terminologyDataLocation
             self.terminologyProperties = terminologyProperties
@@ -166,7 +166,7 @@ extension Translate {
         public let name: String
         /// The terminology data for the custom terminology being imported.
         public let terminologyData: TerminologyData
-        
+
         public init(description: String? = nil, encryptionKey: EncryptionKey? = nil, mergeStrategy: MergeStrategy, name: String, terminologyData: TerminologyData) {
             self.description = description
             self.encryptionKey = encryptionKey
@@ -201,7 +201,7 @@ extension Translate {
 
         /// The properties of the custom terminology being imported.
         public let terminologyProperties: TerminologyProperties?
-        
+
         public init(terminologyProperties: TerminologyProperties? = nil) {
             self.terminologyProperties = terminologyProperties
         }
@@ -225,7 +225,7 @@ extension Translate {
         public let maxResults: Int32?
         /// If the result of the request to ListTerminologies was truncated, include the NextToken to fetch the next group of custom terminologies. 
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -254,7 +254,7 @@ extension Translate {
         public let nextToken: String?
         /// The properties list of the custom terminologies returned on the list request.
         public let terminologyPropertiesList: [TerminologyProperties]?
-        
+
         public init(nextToken: String? = nil, terminologyPropertiesList: [TerminologyProperties]? = nil) {
             self.nextToken = nextToken
             self.terminologyPropertiesList = terminologyPropertiesList
@@ -289,7 +289,7 @@ extension Translate {
         public let sourceText: String?
         /// The target text of the term being translated by the custom terminology.
         public let targetText: String?
-        
+
         public init(sourceText: String? = nil, targetText: String? = nil) {
             self.sourceText = sourceText
             self.targetText = targetText
@@ -318,7 +318,7 @@ extension Translate {
         public let file: Data
         /// The data format of the custom terminology. Either CSV or TMX.
         public let format: TerminologyDataFormat
-        
+
         public init(file: Data, format: TerminologyDataFormat) {
             self.file = file
             self.format = format
@@ -350,7 +350,7 @@ extension Translate {
         public let location: String
         /// The repository type for the custom terminology data.
         public let repositoryType: String
-        
+
         public init(location: String, repositoryType: String) {
             self.location = location
             self.repositoryType = repositoryType
@@ -403,7 +403,7 @@ extension Translate {
         public let targetLanguageCodes: [String]?
         /// The number of terms included in the custom terminology.
         public let termCount: Int32?
-        
+
         public init(arn: String? = nil, createdAt: TimeStamp? = nil, description: String? = nil, encryptionKey: EncryptionKey? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, sizeBytes: Int32? = nil, sourceLanguageCode: String? = nil, targetLanguageCodes: [String]? = nil, termCount: Int32? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -463,7 +463,7 @@ extension Translate {
         public let terminologyNames: [String]?
         /// The text to translate. The text string can be a maximum of 5,000 bytes long. Depending on your character set, this may be fewer than 5,000 characters.
         public let text: String
-        
+
         public init(sourceLanguageCode: String, targetLanguageCode: String, terminologyNames: [String]? = nil, text: String) {
             self.sourceLanguageCode = sourceLanguageCode
             self.targetLanguageCode = targetLanguageCode
@@ -510,7 +510,7 @@ extension Translate {
         public let targetLanguageCode: String
         /// The the translated text. The maximum length of this text is 5kb.
         public let translatedText: String
-        
+
         public init(appliedTerminologies: [AppliedTerminology]? = nil, sourceLanguageCode: String, targetLanguageCode: String, translatedText: String) {
             self.appliedTerminologies = appliedTerminologies
             self.sourceLanguageCode = sourceLanguageCode
@@ -537,5 +537,4 @@ extension Translate {
             case translatedText = "TranslatedText"
         }
     }
-
 }

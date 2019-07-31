@@ -18,7 +18,7 @@ extension Lightsail {
 
         /// The name of the static IP address.
         public let staticIpName: String
-        
+
         public init(staticIpName: String) {
             self.staticIpName = staticIpName
         }
@@ -39,7 +39,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the static IP address you allocated.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -68,7 +68,7 @@ extension Lightsail {
         public let diskPath: String
         /// The name of the Lightsail instance where you want to utilize the storage disk.
         public let instanceName: String
-        
+
         public init(diskName: String, diskPath: String, instanceName: String) {
             self.diskName = diskName
             self.diskPath = diskPath
@@ -95,7 +95,7 @@ extension Lightsail {
 
         /// An object describing the API operations.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -121,7 +121,7 @@ extension Lightsail {
         public let instanceNames: [String]
         /// The name of the load balancer.
         public let loadBalancerName: String
-        
+
         public init(instanceNames: [String], loadBalancerName: String) {
             self.instanceNames = instanceNames
             self.loadBalancerName = loadBalancerName
@@ -147,7 +147,7 @@ extension Lightsail {
 
         /// An object representing the API operations.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -173,7 +173,7 @@ extension Lightsail {
         public let certificateName: String
         /// The name of the load balancer to which you want to associate the SSL/TLS certificate.
         public let loadBalancerName: String
-        
+
         public init(certificateName: String, loadBalancerName: String) {
             self.certificateName = certificateName
             self.loadBalancerName = loadBalancerName
@@ -197,7 +197,7 @@ extension Lightsail {
 
         /// An object representing the API operations. These SSL/TLS certificates are only usable by Lightsail load balancers. You can't get the certificate and use it for another purpose.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -223,7 +223,7 @@ extension Lightsail {
         public let instanceName: String
         /// The name of the static IP.
         public let staticIpName: String
-        
+
         public init(instanceName: String, staticIpName: String) {
             self.instanceName = instanceName
             self.staticIpName = staticIpName
@@ -247,7 +247,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about your API operations.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -273,7 +273,7 @@ extension Lightsail {
         public let state: String?
         /// The name of the Availability Zone. The format is us-east-2a (case-sensitive).
         public let zoneName: String?
-        
+
         public init(state: String? = nil, zoneName: String? = nil) {
             self.state = state
             self.zoneName = zoneName
@@ -330,7 +330,7 @@ extension Lightsail {
         public let version: String?
         /// The version code.
         public let versionCode: String?
-        
+
         public init(blueprintId: String? = nil, description: String? = nil, group: String? = nil, isActive: Bool? = nil, licenseUrl: String? = nil, minPower: Int32? = nil, name: String? = nil, platform: InstancePlatform? = nil, productUrl: String? = nil, type: BlueprintType? = nil, version: String? = nil, versionCode: String? = nil) {
             self.blueprintId = blueprintId
             self.description = description
@@ -411,7 +411,7 @@ extension Lightsail {
         public let supportedPlatforms: [InstancePlatform]?
         /// The data transfer rate per month in GB (e.g., 2000).
         public let transferPerMonthInGb: Int32?
-        
+
         public init(bundleId: String? = nil, cpuCount: Int32? = nil, diskSizeInGb: Int32? = nil, instanceType: String? = nil, isActive: Bool? = nil, name: String? = nil, power: Int32? = nil, price: Float? = nil, ramSizeInGb: Float? = nil, supportedPlatforms: [InstancePlatform]? = nil, transferPerMonthInGb: Int32? = nil) {
             self.bundleId = bundleId
             self.cpuCount = cpuCount
@@ -455,7 +455,7 @@ extension Lightsail {
         public let instanceName: String
         /// Information about the public port you are trying to close.
         public let portInfo: PortInfo
-        
+
         public init(instanceName: String, portInfo: PortInfo) {
             self.instanceName = instanceName
             self.portInfo = portInfo
@@ -479,7 +479,7 @@ extension Lightsail {
 
         /// An array of key-value pairs that contains information about the operation.
         public let operation: Operation?
-        
+
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
@@ -521,7 +521,7 @@ extension Lightsail {
         public let sourceInfo: [CloudFormationStackRecordSourceInfo]?
         /// The current state of the CloudFormation stack record.
         public let state: RecordState?
-        
+
         public init(arn: String? = nil, createdAt: TimeStamp? = nil, destinationInfo: DestinationInfo? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, sourceInfo: [CloudFormationStackRecordSourceInfo]? = nil, state: RecordState? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -567,7 +567,7 @@ extension Lightsail {
         public let name: String?
         /// The Lightsail resource type (e.g., ExportSnapshotRecord).
         public let resourceType: CloudFormationStackRecordSourceType?
-        
+
         public init(arn: String? = nil, name: String? = nil, resourceType: CloudFormationStackRecordSourceType? = nil) {
             self.arn = arn
             self.name = name
@@ -604,7 +604,7 @@ extension Lightsail {
         public let sourceSnapshotName: String
         /// The name of the new instance or disk snapshot to be created as a copy.
         public let targetSnapshotName: String
-        
+
         public init(sourceRegion: RegionName, sourceSnapshotName: String, targetSnapshotName: String) {
             self.sourceRegion = sourceRegion
             self.sourceSnapshotName = sourceSnapshotName
@@ -630,7 +630,7 @@ extension Lightsail {
 
         /// A list of objects describing the API operation.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -653,7 +653,7 @@ extension Lightsail {
 
         /// An array of parameters that will be used to create the new Amazon EC2 instance. You can only pass one instance entry at a time in this array. You will get an invalid parameter error if you pass more than one instance entry in this array.
         public let instances: [InstanceEntry]
-        
+
         public init(instances: [InstanceEntry]) {
             self.instances = instances
         }
@@ -676,7 +676,7 @@ extension Lightsail {
 
         /// A list of objects describing the API operation.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -711,7 +711,7 @@ extension Lightsail {
         public let sizeInGb: Int32
         /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
         public let tags: [Tag]?
-        
+
         public init(availabilityZone: String, diskName: String, diskSnapshotName: String, sizeInGb: Int32, tags: [Tag]? = nil) {
             self.availabilityZone = availabilityZone
             self.diskName = diskName
@@ -742,7 +742,7 @@ extension Lightsail {
 
         /// An object describing the API operations.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -774,7 +774,7 @@ extension Lightsail {
         public let sizeInGb: Int32
         /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
         public let tags: [Tag]?
-        
+
         public init(availabilityZone: String, diskName: String, sizeInGb: Int32, tags: [Tag]? = nil) {
             self.availabilityZone = availabilityZone
             self.diskName = diskName
@@ -802,7 +802,7 @@ extension Lightsail {
 
         /// An object describing the API operations.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -834,7 +834,7 @@ extension Lightsail {
         public let instanceName: String?
         /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
         public let tags: [Tag]?
-        
+
         public init(diskName: String? = nil, diskSnapshotName: String, instanceName: String? = nil, tags: [Tag]? = nil) {
             self.diskName = diskName
             self.diskSnapshotName = diskSnapshotName
@@ -863,7 +863,7 @@ extension Lightsail {
 
         /// An object describing the API operations.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -889,7 +889,7 @@ extension Lightsail {
         public let domainEntry: DomainEntry
         /// The domain name (e.g., example.com) for which you want to create the domain entry.
         public let domainName: String
-        
+
         public init(domainEntry: DomainEntry, domainName: String) {
             self.domainEntry = domainEntry
             self.domainName = domainName
@@ -912,7 +912,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the operation.
         public let operation: Operation?
-        
+
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
@@ -936,7 +936,7 @@ extension Lightsail {
         public let domainName: String
         /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
         public let tags: [Tag]?
-        
+
         public init(domainName: String, tags: [Tag]? = nil) {
             self.domainName = domainName
             self.tags = tags
@@ -955,7 +955,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the domain resource you created.
         public let operation: Operation?
-        
+
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
@@ -982,7 +982,7 @@ extension Lightsail {
         public let instanceSnapshotName: String
         /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
         public let tags: [Tag]?
-        
+
         public init(instanceName: String, instanceSnapshotName: String, tags: [Tag]? = nil) {
             self.instanceName = instanceName
             self.instanceSnapshotName = instanceSnapshotName
@@ -1008,7 +1008,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the results of your create instances snapshot request.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -1052,7 +1052,7 @@ extension Lightsail {
         public let tags: [Tag]?
         /// You can create a launch script that configures a server with additional user data. For example, apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide. 
         public let userData: String?
-        
+
         public init(attachedDiskMapping: [String: [DiskMap]]? = nil, availabilityZone: String, bundleId: String, instanceNames: [String], instanceSnapshotName: String, keyPairName: String? = nil, tags: [Tag]? = nil, userData: String? = nil) {
             self.attachedDiskMapping = attachedDiskMapping
             self.availabilityZone = availabilityZone
@@ -1089,7 +1089,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the results of your create instances from snapshot request.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -1130,7 +1130,7 @@ extension Lightsail {
         public let tags: [Tag]?
         /// A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide. 
         public let userData: String?
-        
+
         public init(availabilityZone: String, blueprintId: String, bundleId: String, instanceNames: [String], keyPairName: String? = nil, tags: [Tag]? = nil, userData: String? = nil) {
             self.availabilityZone = availabilityZone
             self.blueprintId = blueprintId
@@ -1165,7 +1165,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the results of your create instances request.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -1191,7 +1191,7 @@ extension Lightsail {
         public let keyPairName: String
         /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
         public let tags: [Tag]?
-        
+
         public init(keyPairName: String, tags: [Tag]? = nil) {
             self.keyPairName = keyPairName
             self.tags = tags
@@ -1223,7 +1223,7 @@ extension Lightsail {
         public let privateKeyBase64: String?
         /// A base64-encoded public key of the ssh-rsa type.
         public let publicKeyBase64: String?
-        
+
         public init(keyPair: KeyPair? = nil, operation: Operation? = nil, privateKeyBase64: String? = nil, publicKeyBase64: String? = nil) {
             self.keyPair = keyPair
             self.operation = operation
@@ -1269,7 +1269,7 @@ extension Lightsail {
         public let loadBalancerName: String
         /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
         public let tags: [Tag]?
-        
+
         public init(certificateAlternativeNames: [String]? = nil, certificateDomainName: String? = nil, certificateName: String? = nil, healthCheckPath: String? = nil, instancePort: Int32, loadBalancerName: String, tags: [Tag]? = nil) {
             self.certificateAlternativeNames = certificateAlternativeNames
             self.certificateDomainName = certificateDomainName
@@ -1305,7 +1305,7 @@ extension Lightsail {
 
         /// An object containing information about the API operations.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -1340,7 +1340,7 @@ extension Lightsail {
         public let loadBalancerName: String
         /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
         public let tags: [Tag]?
-        
+
         public init(certificateAlternativeNames: [String]? = nil, certificateDomainName: String, certificateName: String, loadBalancerName: String, tags: [Tag]? = nil) {
             self.certificateAlternativeNames = certificateAlternativeNames
             self.certificateDomainName = certificateDomainName
@@ -1370,7 +1370,7 @@ extension Lightsail {
 
         /// An object containing information about the API operations.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -1417,7 +1417,7 @@ extension Lightsail {
         public let tags: [Tag]?
         /// Specifies whether your database is restored from the latest backup time. A value of true restores from the latest backup time.  Default: false  Constraints: Cannot be specified if the restore time parameter is provided.
         public let useLatestRestorableTime: Bool?
-        
+
         public init(availabilityZone: String? = nil, publiclyAccessible: Bool? = nil, relationalDatabaseBundleId: String? = nil, relationalDatabaseName: String, relationalDatabaseSnapshotName: String? = nil, restoreTime: TimeStamp? = nil, sourceRelationalDatabaseName: String? = nil, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil) {
             self.availabilityZone = availabilityZone
             self.publiclyAccessible = publiclyAccessible
@@ -1456,7 +1456,7 @@ extension Lightsail {
 
         /// An object describing the result of your create relational database from snapshot request.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -1509,7 +1509,7 @@ extension Lightsail {
         public let relationalDatabaseName: String
         /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
         public let tags: [Tag]?
-        
+
         public init(availabilityZone: String? = nil, masterDatabaseName: String, masterUsername: String, masterUserPassword: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, relationalDatabaseBlueprintId: String, relationalDatabaseBundleId: String, relationalDatabaseName: String, tags: [Tag]? = nil) {
             self.availabilityZone = availabilityZone
             self.masterDatabaseName = masterDatabaseName
@@ -1550,7 +1550,7 @@ extension Lightsail {
 
         /// An object describing the result of your create relational database request.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -1579,7 +1579,7 @@ extension Lightsail {
         public let relationalDatabaseSnapshotName: String
         /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
         public let tags: [Tag]?
-        
+
         public init(relationalDatabaseName: String, relationalDatabaseSnapshotName: String, tags: [Tag]? = nil) {
             self.relationalDatabaseName = relationalDatabaseName
             self.relationalDatabaseSnapshotName = relationalDatabaseSnapshotName
@@ -1605,7 +1605,7 @@ extension Lightsail {
 
         /// An object describing the result of your create relational database snapshot request.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -1628,7 +1628,7 @@ extension Lightsail {
 
         /// The unique name of the disk you want to delete (e.g., my-disk).
         public let diskName: String
-        
+
         public init(diskName: String) {
             self.diskName = diskName
         }
@@ -1649,7 +1649,7 @@ extension Lightsail {
 
         /// An object describing the API operations.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -1672,7 +1672,7 @@ extension Lightsail {
 
         /// The name of the disk snapshot you want to delete (e.g., my-disk-snapshot).
         public let diskSnapshotName: String
-        
+
         public init(diskSnapshotName: String) {
             self.diskSnapshotName = diskSnapshotName
         }
@@ -1693,7 +1693,7 @@ extension Lightsail {
 
         /// An object describing the API operations.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -1719,7 +1719,7 @@ extension Lightsail {
         public let domainEntry: DomainEntry
         /// The name of the domain entry to delete.
         public let domainName: String
-        
+
         public init(domainEntry: DomainEntry, domainName: String) {
             self.domainEntry = domainEntry
             self.domainName = domainName
@@ -1742,7 +1742,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the results of your delete domain entry request.
         public let operation: Operation?
-        
+
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
@@ -1763,7 +1763,7 @@ extension Lightsail {
 
         /// The specific domain name to delete.
         public let domainName: String
-        
+
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -1780,7 +1780,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the results of your delete domain request.
         public let operation: Operation?
-        
+
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
@@ -1801,7 +1801,7 @@ extension Lightsail {
 
         /// The name of the instance to delete.
         public let instanceName: String
-        
+
         public init(instanceName: String) {
             self.instanceName = instanceName
         }
@@ -1822,7 +1822,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the results of your delete instance request.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -1845,7 +1845,7 @@ extension Lightsail {
 
         /// The name of the snapshot to delete.
         public let instanceSnapshotName: String
-        
+
         public init(instanceSnapshotName: String) {
             self.instanceSnapshotName = instanceSnapshotName
         }
@@ -1866,7 +1866,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the results of your delete instance snapshot request.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -1889,7 +1889,7 @@ extension Lightsail {
 
         /// The name of the key pair to delete.
         public let keyPairName: String
-        
+
         public init(keyPairName: String) {
             self.keyPairName = keyPairName
         }
@@ -1910,7 +1910,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the results of your delete key pair request.
         public let operation: Operation?
-        
+
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
@@ -1931,7 +1931,7 @@ extension Lightsail {
 
         /// The name of the instance for which you want to reset the host key or certificate.
         public let instanceName: String
-        
+
         public init(instanceName: String) {
             self.instanceName = instanceName
         }
@@ -1952,7 +1952,7 @@ extension Lightsail {
 
         /// A list of objects describing the API operation.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -1975,7 +1975,7 @@ extension Lightsail {
 
         /// The name of the load balancer you want to delete.
         public let loadBalancerName: String
-        
+
         public init(loadBalancerName: String) {
             self.loadBalancerName = loadBalancerName
         }
@@ -1996,7 +1996,7 @@ extension Lightsail {
 
         /// An object describing the API operations.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -2025,7 +2025,7 @@ extension Lightsail {
         public let force: Bool?
         /// The load balancer name.
         public let loadBalancerName: String
-        
+
         public init(certificateName: String, force: Bool? = nil, loadBalancerName: String) {
             self.certificateName = certificateName
             self.force = force
@@ -2051,7 +2051,7 @@ extension Lightsail {
 
         /// An object describing the API operations.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -2080,7 +2080,7 @@ extension Lightsail {
         public let relationalDatabaseName: String
         /// Determines whether a final database snapshot is created before your database is deleted. If true is specified, no database snapshot is created. If false is specified, a database snapshot is created before your database is deleted. You must specify the final relational database snapshot name parameter if the skip final snapshot parameter is false. Default: false 
         public let skipFinalSnapshot: Bool?
-        
+
         public init(finalRelationalDatabaseSnapshotName: String? = nil, relationalDatabaseName: String, skipFinalSnapshot: Bool? = nil) {
             self.finalRelationalDatabaseSnapshotName = finalRelationalDatabaseSnapshotName
             self.relationalDatabaseName = relationalDatabaseName
@@ -2106,7 +2106,7 @@ extension Lightsail {
 
         /// An object describing the result of your delete relational database request.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -2129,7 +2129,7 @@ extension Lightsail {
 
         /// The name of the database snapshot that you are deleting.
         public let relationalDatabaseSnapshotName: String
-        
+
         public init(relationalDatabaseSnapshotName: String) {
             self.relationalDatabaseSnapshotName = relationalDatabaseSnapshotName
         }
@@ -2150,7 +2150,7 @@ extension Lightsail {
 
         /// An object describing the result of your delete relational database snapshot request.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -2176,7 +2176,7 @@ extension Lightsail {
         public let id: String?
         /// The destination service of the record.
         public let service: String?
-        
+
         public init(id: String? = nil, service: String? = nil) {
             self.id = id
             self.service = service
@@ -2200,7 +2200,7 @@ extension Lightsail {
 
         /// The unique name of the disk you want to detach from your instance (e.g., my-disk).
         public let diskName: String
-        
+
         public init(diskName: String) {
             self.diskName = diskName
         }
@@ -2221,7 +2221,7 @@ extension Lightsail {
 
         /// An object describing the API operations.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -2247,7 +2247,7 @@ extension Lightsail {
         public let instanceNames: [String]
         /// The name of the Lightsail load balancer.
         public let loadBalancerName: String
-        
+
         public init(instanceNames: [String], loadBalancerName: String) {
             self.instanceNames = instanceNames
             self.loadBalancerName = loadBalancerName
@@ -2273,7 +2273,7 @@ extension Lightsail {
 
         /// An object describing the API operations.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -2296,7 +2296,7 @@ extension Lightsail {
 
         /// The name of the static IP to detach from the instance.
         public let staticIpName: String
-        
+
         public init(staticIpName: String) {
             self.staticIpName = staticIpName
         }
@@ -2317,7 +2317,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the results of your detach static IP request.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -2379,7 +2379,7 @@ extension Lightsail {
         public let supportCode: String?
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
-        
+
         public init(arn: String? = nil, attachedTo: String? = nil, createdAt: TimeStamp? = nil, iops: Int32? = nil, isAttached: Bool? = nil, isSystemDisk: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, path: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int32? = nil, state: DiskState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.attachedTo = attachedTo
@@ -2437,7 +2437,7 @@ extension Lightsail {
         public let path: String?
         /// The size of the disk in GB (e.g., 32).
         public let sizeInGb: Int32?
-        
+
         public init(isSystemDisk: Bool? = nil, name: String? = nil, path: String? = nil, sizeInGb: Int32? = nil) {
             self.isSystemDisk = isSystemDisk
             self.name = name
@@ -2467,7 +2467,7 @@ extension Lightsail {
         public let newDiskName: String?
         /// The original disk path exposed to the instance (for example, /dev/sdh).
         public let originalDiskPath: String?
-        
+
         public init(newDiskName: String? = nil, originalDiskPath: String? = nil) {
             self.newDiskName = newDiskName
             self.originalDiskPath = originalDiskPath
@@ -2530,7 +2530,7 @@ extension Lightsail {
         public let supportCode: String?
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
-        
+
         public init(arn: String? = nil, createdAt: TimeStamp? = nil, fromDiskArn: String? = nil, fromDiskName: String? = nil, fromInstanceArn: String? = nil, fromInstanceName: String? = nil, location: ResourceLocation? = nil, name: String? = nil, progress: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int32? = nil, state: DiskSnapshotState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2582,7 +2582,7 @@ extension Lightsail {
 
         /// The size of the disk in GB (e.g., 32).
         public let sizeInGb: Int32?
-        
+
         public init(sizeInGb: Int32? = nil) {
             self.sizeInGb = sizeInGb
         }
@@ -2637,7 +2637,7 @@ extension Lightsail {
         public let supportCode: String?
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
-        
+
         public init(arn: String? = nil, createdAt: TimeStamp? = nil, domainEntries: [DomainEntry]? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2688,7 +2688,7 @@ extension Lightsail {
         public let target: String?
         /// The type of domain entry, such as address (A), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority (SOA), service locator (SRV), or text (TXT). The following domain entry types can be used:    A     CNAME     MX     NS     SOA     SRV     TXT   
         public let `type`: String?
-        
+
         public init(id: String? = nil, isAlias: Bool? = nil, name: String? = nil, target: String? = nil, type: String? = nil) {
             self.id = id
             self.isAlias = isAlias
@@ -2711,11 +2711,12 @@ extension Lightsail {
     }
 
     public struct DownloadDefaultKeyPairRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DownloadDefaultKeyPairResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2727,7 +2728,7 @@ extension Lightsail {
         public let privateKeyBase64: String?
         /// A base64-encoded public key of the ssh-rsa type.
         public let publicKeyBase64: String?
-        
+
         public init(privateKeyBase64: String? = nil, publicKeyBase64: String? = nil) {
             self.privateKeyBase64 = privateKeyBase64
             self.publicKeyBase64 = publicKeyBase64
@@ -2767,7 +2768,7 @@ extension Lightsail {
         public let sourceInfo: ExportSnapshotRecordSourceInfo?
         /// The state of the export snapshot record.
         public let state: RecordState?
-        
+
         public init(arn: String? = nil, createdAt: TimeStamp? = nil, destinationInfo: DestinationInfo? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, sourceInfo: ExportSnapshotRecordSourceInfo? = nil, state: RecordState? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2826,7 +2827,7 @@ extension Lightsail {
         public let name: String?
         /// The Lightsail resource type (e.g., InstanceSnapshot or DiskSnapshot).
         public let resourceType: ExportSnapshotRecordSourceType?
-        
+
         public init(arn: String? = nil, createdAt: TimeStamp? = nil, diskSnapshotInfo: DiskSnapshotInfo? = nil, fromResourceArn: String? = nil, fromResourceName: String? = nil, instanceSnapshotInfo: InstanceSnapshotInfo? = nil, name: String? = nil, resourceType: ExportSnapshotRecordSourceType? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2871,7 +2872,7 @@ extension Lightsail {
 
         /// The name of the instance or disk snapshot to be exported to Amazon EC2.
         public let sourceSnapshotName: String
-        
+
         public init(sourceSnapshotName: String) {
             self.sourceSnapshotName = sourceSnapshotName
         }
@@ -2892,7 +2893,7 @@ extension Lightsail {
 
         /// A list of objects describing the API operation.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -2915,7 +2916,7 @@ extension Lightsail {
 
         /// A token used for paginating results from your get active names request.
         public let pageToken: String?
-        
+
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
         }
@@ -2935,7 +2936,7 @@ extension Lightsail {
         public let activeNames: [String]?
         /// A token used for advancing to the next page of results from your get active names request.
         public let nextPageToken: String?
-        
+
         public init(activeNames: [String]? = nil, nextPageToken: String? = nil) {
             self.activeNames = activeNames
             self.nextPageToken = nextPageToken
@@ -2957,7 +2958,7 @@ extension Lightsail {
         public let includeInactive: Bool?
         /// A token used for advancing to the next page of results from your get blueprints request.
         public let pageToken: String?
-        
+
         public init(includeInactive: Bool? = nil, pageToken: String? = nil) {
             self.includeInactive = includeInactive
             self.pageToken = pageToken
@@ -2979,7 +2980,7 @@ extension Lightsail {
         public let blueprints: [Blueprint]?
         /// A token used for advancing to the next page of results from your get blueprints request.
         public let nextPageToken: String?
-        
+
         public init(blueprints: [Blueprint]? = nil, nextPageToken: String? = nil) {
             self.blueprints = blueprints
             self.nextPageToken = nextPageToken
@@ -3007,7 +3008,7 @@ extension Lightsail {
         public let includeInactive: Bool?
         /// A token used for advancing to the next page of results from your get bundles request.
         public let pageToken: String?
-        
+
         public init(includeInactive: Bool? = nil, pageToken: String? = nil) {
             self.includeInactive = includeInactive
             self.pageToken = pageToken
@@ -3029,7 +3030,7 @@ extension Lightsail {
         public let bundles: [Bundle]?
         /// A token used for advancing to the next page of results from your get active names request.
         public let nextPageToken: String?
-        
+
         public init(bundles: [Bundle]? = nil, nextPageToken: String? = nil) {
             self.bundles = bundles
             self.nextPageToken = nextPageToken
@@ -3054,7 +3055,7 @@ extension Lightsail {
 
         /// A token used for advancing to a specific page of results for your get cloud formation stack records request.
         public let pageToken: String?
-        
+
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
         }
@@ -3074,7 +3075,7 @@ extension Lightsail {
         public let cloudFormationStackRecords: [CloudFormationStackRecord]?
         /// A token used for advancing to the next page of results of your get relational database bundles request.
         public let nextPageToken: String?
-        
+
         public init(cloudFormationStackRecords: [CloudFormationStackRecord]? = nil, nextPageToken: String? = nil) {
             self.cloudFormationStackRecords = cloudFormationStackRecords
             self.nextPageToken = nextPageToken
@@ -3099,7 +3100,7 @@ extension Lightsail {
 
         /// The name of the disk (e.g., my-disk).
         public let diskName: String
-        
+
         public init(diskName: String) {
             self.diskName = diskName
         }
@@ -3120,7 +3121,7 @@ extension Lightsail {
 
         /// An object containing information about the disk.
         public let disk: Disk?
-        
+
         public init(disk: Disk? = nil) {
             self.disk = disk
         }
@@ -3141,7 +3142,7 @@ extension Lightsail {
 
         /// The name of the disk snapshot (e.g., my-disk-snapshot).
         public let diskSnapshotName: String
-        
+
         public init(diskSnapshotName: String) {
             self.diskSnapshotName = diskSnapshotName
         }
@@ -3162,7 +3163,7 @@ extension Lightsail {
 
         /// An object containing information about the disk snapshot.
         public let diskSnapshot: DiskSnapshot?
-        
+
         public init(diskSnapshot: DiskSnapshot? = nil) {
             self.diskSnapshot = diskSnapshot
         }
@@ -3183,7 +3184,7 @@ extension Lightsail {
 
         /// A token used for advancing to the next page of results from your GetDiskSnapshots request.
         public let pageToken: String?
-        
+
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
         }
@@ -3203,7 +3204,7 @@ extension Lightsail {
         public let diskSnapshots: [DiskSnapshot]?
         /// A token used for advancing to the next page of results from your GetDiskSnapshots request.
         public let nextPageToken: String?
-        
+
         public init(diskSnapshots: [DiskSnapshot]? = nil, nextPageToken: String? = nil) {
             self.diskSnapshots = diskSnapshots
             self.nextPageToken = nextPageToken
@@ -3228,7 +3229,7 @@ extension Lightsail {
 
         /// A token used for advancing to the next page of results from your GetDisks request.
         public let pageToken: String?
-        
+
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
         }
@@ -3248,7 +3249,7 @@ extension Lightsail {
         public let disks: [Disk]?
         /// A token used for advancing to the next page of results from your GetDisks request.
         public let nextPageToken: String?
-        
+
         public init(disks: [Disk]? = nil, nextPageToken: String? = nil) {
             self.disks = disks
             self.nextPageToken = nextPageToken
@@ -3273,7 +3274,7 @@ extension Lightsail {
 
         /// The domain name for which your want to return information about.
         public let domainName: String
-        
+
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -3290,7 +3291,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about your get domain request.
         public let domain: Domain?
-        
+
         public init(domain: Domain? = nil) {
             self.domain = domain
         }
@@ -3311,7 +3312,7 @@ extension Lightsail {
 
         /// A token used for advancing to the next page of results from your get domains request.
         public let pageToken: String?
-        
+
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
         }
@@ -3331,7 +3332,7 @@ extension Lightsail {
         public let domains: [Domain]?
         /// A token used for advancing to the next page of results from your get active names request.
         public let nextPageToken: String?
-        
+
         public init(domains: [Domain]? = nil, nextPageToken: String? = nil) {
             self.domains = domains
             self.nextPageToken = nextPageToken
@@ -3356,7 +3357,7 @@ extension Lightsail {
 
         /// A token used for advancing to a specific page of results for your get export snapshot records request.
         public let pageToken: String?
-        
+
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
         }
@@ -3376,7 +3377,7 @@ extension Lightsail {
         public let exportSnapshotRecords: [ExportSnapshotRecord]?
         /// A token used for advancing to the next page of results of your get relational database bundles request.
         public let nextPageToken: String?
-        
+
         public init(exportSnapshotRecords: [ExportSnapshotRecord]? = nil, nextPageToken: String? = nil) {
             self.exportSnapshotRecords = exportSnapshotRecords
             self.nextPageToken = nextPageToken
@@ -3404,7 +3405,7 @@ extension Lightsail {
         public let instanceName: String
         /// The protocol to use to connect to your instance. Defaults to ssh.
         public let `protocol`: InstanceAccessProtocol?
-        
+
         public init(instanceName: String, protocol: InstanceAccessProtocol? = nil) {
             self.instanceName = instanceName
             self.`protocol` = `protocol`
@@ -3427,7 +3428,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about a get instance access request.
         public let accessDetails: InstanceAccessDetails?
-        
+
         public init(accessDetails: InstanceAccessDetails? = nil) {
             self.accessDetails = accessDetails
         }
@@ -3466,7 +3467,7 @@ extension Lightsail {
         public let statistics: [MetricStatistic]
         /// The unit. The list of valid values is below.
         public let unit: MetricUnit
-        
+
         public init(endTime: TimeStamp, instanceName: String, metricName: InstanceMetricName, period: Int32, startTime: TimeStamp, statistics: [MetricStatistic], unit: MetricUnit) {
             self.endTime = endTime
             self.instanceName = instanceName
@@ -3504,7 +3505,7 @@ extension Lightsail {
         public let metricData: [MetricDatapoint]?
         /// The metric name to return data for.
         public let metricName: InstanceMetricName?
-        
+
         public init(metricData: [MetricDatapoint]? = nil, metricName: InstanceMetricName? = nil) {
             self.metricData = metricData
             self.metricName = metricName
@@ -3523,7 +3524,7 @@ extension Lightsail {
 
         /// The name of the instance.
         public let instanceName: String
-        
+
         public init(instanceName: String) {
             self.instanceName = instanceName
         }
@@ -3544,7 +3545,7 @@ extension Lightsail {
 
         /// Information about the port states resulting from your request.
         public let portStates: [InstancePortState]?
-        
+
         public init(portStates: [InstancePortState]? = nil) {
             self.portStates = portStates
         }
@@ -3567,7 +3568,7 @@ extension Lightsail {
 
         /// The name of the instance.
         public let instanceName: String
-        
+
         public init(instanceName: String) {
             self.instanceName = instanceName
         }
@@ -3588,7 +3589,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the specified instance.
         public let instance: Instance?
-        
+
         public init(instance: Instance? = nil) {
             self.instance = instance
         }
@@ -3609,7 +3610,7 @@ extension Lightsail {
 
         /// The name of the snapshot for which you are requesting information.
         public let instanceSnapshotName: String
-        
+
         public init(instanceSnapshotName: String) {
             self.instanceSnapshotName = instanceSnapshotName
         }
@@ -3630,7 +3631,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the results of your get instance snapshot request.
         public let instanceSnapshot: InstanceSnapshot?
-        
+
         public init(instanceSnapshot: InstanceSnapshot? = nil) {
             self.instanceSnapshot = instanceSnapshot
         }
@@ -3651,7 +3652,7 @@ extension Lightsail {
 
         /// A token used for advancing to the next page of results from your get instance snapshots request.
         public let pageToken: String?
-        
+
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
         }
@@ -3671,7 +3672,7 @@ extension Lightsail {
         public let instanceSnapshots: [InstanceSnapshot]?
         /// A token used for advancing to the next page of results from your get instance snapshots request.
         public let nextPageToken: String?
-        
+
         public init(instanceSnapshots: [InstanceSnapshot]? = nil, nextPageToken: String? = nil) {
             self.instanceSnapshots = instanceSnapshots
             self.nextPageToken = nextPageToken
@@ -3696,7 +3697,7 @@ extension Lightsail {
 
         /// The name of the instance to get state information about.
         public let instanceName: String
-        
+
         public init(instanceName: String) {
             self.instanceName = instanceName
         }
@@ -3717,7 +3718,7 @@ extension Lightsail {
 
         /// The state of the instance.
         public let state: InstanceState?
-        
+
         public init(state: InstanceState? = nil) {
             self.state = state
         }
@@ -3734,7 +3735,7 @@ extension Lightsail {
 
         /// A token used for advancing to the next page of results from your get instances request.
         public let pageToken: String?
-        
+
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
         }
@@ -3754,7 +3755,7 @@ extension Lightsail {
         public let instances: [Instance]?
         /// A token used for advancing to the next page of results from your get instances request.
         public let nextPageToken: String?
-        
+
         public init(instances: [Instance]? = nil, nextPageToken: String? = nil) {
             self.instances = instances
             self.nextPageToken = nextPageToken
@@ -3779,7 +3780,7 @@ extension Lightsail {
 
         /// The name of the key pair for which you are requesting information.
         public let keyPairName: String
-        
+
         public init(keyPairName: String) {
             self.keyPairName = keyPairName
         }
@@ -3800,7 +3801,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the key pair.
         public let keyPair: KeyPair?
-        
+
         public init(keyPair: KeyPair? = nil) {
             self.keyPair = keyPair
         }
@@ -3821,7 +3822,7 @@ extension Lightsail {
 
         /// A token used for advancing to the next page of results from your get key pairs request.
         public let pageToken: String?
-        
+
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
         }
@@ -3841,7 +3842,7 @@ extension Lightsail {
         public let keyPairs: [KeyPair]?
         /// A token used for advancing to the next page of results from your get key pairs request.
         public let nextPageToken: String?
-        
+
         public init(keyPairs: [KeyPair]? = nil, nextPageToken: String? = nil) {
             self.keyPairs = keyPairs
             self.nextPageToken = nextPageToken
@@ -3884,7 +3885,7 @@ extension Lightsail {
         public let statistics: [MetricStatistic]
         /// The unit for the time period request. Valid values are listed below.
         public let unit: MetricUnit
-        
+
         public init(endTime: TimeStamp, loadBalancerName: String, metricName: LoadBalancerMetricName, period: Int32, startTime: TimeStamp, statistics: [MetricStatistic], unit: MetricUnit) {
             self.endTime = endTime
             self.loadBalancerName = loadBalancerName
@@ -3922,7 +3923,7 @@ extension Lightsail {
         public let metricData: [MetricDatapoint]?
         /// The metric about which you are receiving information. Valid values are listed below, along with the most useful statistics to include in your request.     ClientTLSNegotiationErrorCount  - The number of TLS connections initiated by the client that did not establish a session with the load balancer. Possible causes include a mismatch of ciphers or protocols.  Statistics: The most useful statistic is Sum.     HealthyHostCount  - The number of target instances that are considered healthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.     UnhealthyHostCount  - The number of target instances that are considered unhealthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.     HTTPCode_LB_4XX_Count  - The number of HTTP 4XX client error codes that originate from the load balancer. Client errors are generated when requests are malformed or incomplete. These requests have not been received by the target instance. This count does not include any response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_LB_5XX_Count  - The number of HTTP 5XX server error codes that originate from the load balancer. This count does not include any response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_2XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_3XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.   Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_4XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_5XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     InstanceResponseTime  - The time elapsed, in seconds, after the request leaves the load balancer until a response from the target instance is received.  Statistics: The most useful statistic is Average.     RejectedConnectionCount  - The number of connections that were rejected because the load balancer had reached its maximum number of connections.  Statistics: The most useful statistic is Sum.     RequestCount  - The number of requests processed over IPv4. This count includes only the requests with a response generated by a target instance of the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  
         public let metricName: LoadBalancerMetricName?
-        
+
         public init(metricData: [MetricDatapoint]? = nil, metricName: LoadBalancerMetricName? = nil) {
             self.metricData = metricData
             self.metricName = metricName
@@ -3941,7 +3942,7 @@ extension Lightsail {
 
         /// The name of the load balancer.
         public let loadBalancerName: String
-        
+
         public init(loadBalancerName: String) {
             self.loadBalancerName = loadBalancerName
         }
@@ -3962,7 +3963,7 @@ extension Lightsail {
 
         /// An object containing information about your load balancer.
         public let loadBalancer: LoadBalancer?
-        
+
         public init(loadBalancer: LoadBalancer? = nil) {
             self.loadBalancer = loadBalancer
         }
@@ -3983,7 +3984,7 @@ extension Lightsail {
 
         /// The name of the load balancer you associated with your SSL/TLS certificate.
         public let loadBalancerName: String
-        
+
         public init(loadBalancerName: String) {
             self.loadBalancerName = loadBalancerName
         }
@@ -4004,7 +4005,7 @@ extension Lightsail {
 
         /// An array of LoadBalancerTlsCertificate objects describing your SSL/TLS certificates.
         public let tlsCertificates: [LoadBalancerTlsCertificate]?
-        
+
         public init(tlsCertificates: [LoadBalancerTlsCertificate]? = nil) {
             self.tlsCertificates = tlsCertificates
         }
@@ -4027,7 +4028,7 @@ extension Lightsail {
 
         /// A token used for paginating the results from your GetLoadBalancers request.
         public let pageToken: String?
-        
+
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
         }
@@ -4047,7 +4048,7 @@ extension Lightsail {
         public let loadBalancers: [LoadBalancer]?
         /// A token used for advancing to the next page of results from your GetLoadBalancers request.
         public let nextPageToken: String?
-        
+
         public init(loadBalancers: [LoadBalancer]? = nil, nextPageToken: String? = nil) {
             self.loadBalancers = loadBalancers
             self.nextPageToken = nextPageToken
@@ -4072,7 +4073,7 @@ extension Lightsail {
 
         /// A GUID used to identify the operation.
         public let operationId: String
-        
+
         public init(operationId: String) {
             self.operationId = operationId
         }
@@ -4093,7 +4094,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the results of your get operation request.
         public let operation: Operation?
-        
+
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
@@ -4117,7 +4118,7 @@ extension Lightsail {
         public let pageToken: String?
         /// The name of the resource for which you are requesting information.
         public let resourceName: String
-        
+
         public init(pageToken: String? = nil, resourceName: String) {
             self.pageToken = pageToken
             self.resourceName = resourceName
@@ -4143,7 +4144,7 @@ extension Lightsail {
         public let nextPageToken: String?
         /// An array of key-value pairs containing information about the results of your get operations for resource request.
         public let operations: [Operation]?
-        
+
         public init(nextPageToken: String? = nil, operations: [Operation]? = nil) {
             self.nextPageToken = nextPageToken
             self.operations = operations
@@ -4168,7 +4169,7 @@ extension Lightsail {
 
         /// A token used for advancing to the next page of results from your get operations request.
         public let pageToken: String?
-        
+
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
         }
@@ -4188,7 +4189,7 @@ extension Lightsail {
         public let nextPageToken: String?
         /// An array of key-value pairs containing information about the results of your get operations request.
         public let operations: [Operation]?
-        
+
         public init(nextPageToken: String? = nil, operations: [Operation]? = nil) {
             self.nextPageToken = nextPageToken
             self.operations = operations
@@ -4216,7 +4217,7 @@ extension Lightsail {
         public let includeAvailabilityZones: Bool?
         /// &gt;A Boolean value indicating whether to also include Availability Zones for databases in your get regions request. Availability Zones are indicated with a letter (e.g., us-east-2a).
         public let includeRelationalDatabaseAvailabilityZones: Bool?
-        
+
         public init(includeAvailabilityZones: Bool? = nil, includeRelationalDatabaseAvailabilityZones: Bool? = nil) {
             self.includeAvailabilityZones = includeAvailabilityZones
             self.includeRelationalDatabaseAvailabilityZones = includeRelationalDatabaseAvailabilityZones
@@ -4235,7 +4236,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about your get regions request.
         public let regions: [Region]?
-        
+
         public init(regions: [Region]? = nil) {
             self.regions = regions
         }
@@ -4258,7 +4259,7 @@ extension Lightsail {
 
         /// A token used for advancing to a specific page of results for your get relational database blueprints request.
         public let pageToken: String?
-        
+
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
         }
@@ -4278,7 +4279,7 @@ extension Lightsail {
         public let blueprints: [RelationalDatabaseBlueprint]?
         /// A token used for advancing to the next page of results of your get relational database blueprints request.
         public let nextPageToken: String?
-        
+
         public init(blueprints: [RelationalDatabaseBlueprint]? = nil, nextPageToken: String? = nil) {
             self.blueprints = blueprints
             self.nextPageToken = nextPageToken
@@ -4297,7 +4298,7 @@ extension Lightsail {
 
         /// A token used for advancing to a specific page of results for your get relational database bundles request.
         public let pageToken: String?
-        
+
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
         }
@@ -4317,7 +4318,7 @@ extension Lightsail {
         public let bundles: [RelationalDatabaseBundle]?
         /// A token used for advancing to the next page of results of your get relational database bundles request.
         public let nextPageToken: String?
-        
+
         public init(bundles: [RelationalDatabaseBundle]? = nil, nextPageToken: String? = nil) {
             self.bundles = bundles
             self.nextPageToken = nextPageToken
@@ -4342,7 +4343,7 @@ extension Lightsail {
         public let pageToken: String?
         /// The name of the database from which to get events.
         public let relationalDatabaseName: String
-        
+
         public init(durationInMinutes: Int32? = nil, pageToken: String? = nil, relationalDatabaseName: String) {
             self.durationInMinutes = durationInMinutes
             self.pageToken = pageToken
@@ -4370,7 +4371,7 @@ extension Lightsail {
         public let nextPageToken: String?
         /// An object describing the result of your get relational database events request.
         public let relationalDatabaseEvents: [RelationalDatabaseEvent]?
-        
+
         public init(nextPageToken: String? = nil, relationalDatabaseEvents: [RelationalDatabaseEvent]? = nil) {
             self.nextPageToken = nextPageToken
             self.relationalDatabaseEvents = relationalDatabaseEvents
@@ -4410,7 +4411,7 @@ extension Lightsail {
         public let startFromHead: Bool?
         /// The start of the time interval from which to get log events. Constraints:   Specified in Universal Coordinated Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the start time.  
         public let startTime: TimeStamp?
-        
+
         public init(endTime: TimeStamp? = nil, logStreamName: String, pageToken: String? = nil, relationalDatabaseName: String, startFromHead: Bool? = nil, startTime: TimeStamp? = nil) {
             self.endTime = endTime
             self.logStreamName = logStreamName
@@ -4447,7 +4448,7 @@ extension Lightsail {
         public let nextForwardToken: String?
         /// An object describing the result of your get relational database log events request.
         public let resourceLogEvents: [LogEvent]?
-        
+
         public init(nextBackwardToken: String? = nil, nextForwardToken: String? = nil, resourceLogEvents: [LogEvent]? = nil) {
             self.nextBackwardToken = nextBackwardToken
             self.nextForwardToken = nextForwardToken
@@ -4468,7 +4469,7 @@ extension Lightsail {
 
         /// The name of your database for which to get log streams.
         public let relationalDatabaseName: String
-        
+
         public init(relationalDatabaseName: String) {
             self.relationalDatabaseName = relationalDatabaseName
         }
@@ -4489,7 +4490,7 @@ extension Lightsail {
 
         /// An object describing the result of your get relational database log streams request.
         public let logStreams: [String]?
-        
+
         public init(logStreams: [String]? = nil) {
             self.logStreams = logStreams
         }
@@ -4509,7 +4510,7 @@ extension Lightsail {
         public let passwordVersion: RelationalDatabasePasswordVersion?
         /// The name of your database for which to get the master user password.
         public let relationalDatabaseName: String
-        
+
         public init(passwordVersion: RelationalDatabasePasswordVersion? = nil, relationalDatabaseName: String) {
             self.passwordVersion = passwordVersion
             self.relationalDatabaseName = relationalDatabaseName
@@ -4535,7 +4536,7 @@ extension Lightsail {
         public let createdAt: TimeStamp?
         /// The master user password for the password version specified.
         public let masterUserPassword: String?
-        
+
         public init(createdAt: TimeStamp? = nil, masterUserPassword: String? = nil) {
             self.createdAt = createdAt
             self.masterUserPassword = masterUserPassword
@@ -4572,7 +4573,7 @@ extension Lightsail {
         public let statistics: [MetricStatistic]
         /// The unit for the metric data request.
         public let unit: MetricUnit
-        
+
         public init(endTime: TimeStamp, metricName: RelationalDatabaseMetricName, period: Int32, relationalDatabaseName: String, startTime: TimeStamp, statistics: [MetricStatistic], unit: MetricUnit) {
             self.endTime = endTime
             self.metricName = metricName
@@ -4610,7 +4611,7 @@ extension Lightsail {
         public let metricData: [MetricDatapoint]?
         /// The name of the metric.
         public let metricName: RelationalDatabaseMetricName?
-        
+
         public init(metricData: [MetricDatapoint]? = nil, metricName: RelationalDatabaseMetricName? = nil) {
             self.metricData = metricData
             self.metricName = metricName
@@ -4632,7 +4633,7 @@ extension Lightsail {
         public let pageToken: String?
         /// The name of your database for which to get parameters.
         public let relationalDatabaseName: String
-        
+
         public init(pageToken: String? = nil, relationalDatabaseName: String) {
             self.pageToken = pageToken
             self.relationalDatabaseName = relationalDatabaseName
@@ -4658,7 +4659,7 @@ extension Lightsail {
         public let nextPageToken: String?
         /// An object describing the result of your get relational database parameters request.
         public let parameters: [RelationalDatabaseParameter]?
-        
+
         public init(nextPageToken: String? = nil, parameters: [RelationalDatabaseParameter]? = nil) {
             self.nextPageToken = nextPageToken
             self.parameters = parameters
@@ -4677,7 +4678,7 @@ extension Lightsail {
 
         /// The name of the database that you are looking up.
         public let relationalDatabaseName: String
-        
+
         public init(relationalDatabaseName: String) {
             self.relationalDatabaseName = relationalDatabaseName
         }
@@ -4698,7 +4699,7 @@ extension Lightsail {
 
         /// An object describing the specified database.
         public let relationalDatabase: RelationalDatabase?
-        
+
         public init(relationalDatabase: RelationalDatabase? = nil) {
             self.relationalDatabase = relationalDatabase
         }
@@ -4719,7 +4720,7 @@ extension Lightsail {
 
         /// The name of the database snapshot for which to get information.
         public let relationalDatabaseSnapshotName: String
-        
+
         public init(relationalDatabaseSnapshotName: String) {
             self.relationalDatabaseSnapshotName = relationalDatabaseSnapshotName
         }
@@ -4740,7 +4741,7 @@ extension Lightsail {
 
         /// An object describing the specified database snapshot.
         public let relationalDatabaseSnapshot: RelationalDatabaseSnapshot?
-        
+
         public init(relationalDatabaseSnapshot: RelationalDatabaseSnapshot? = nil) {
             self.relationalDatabaseSnapshot = relationalDatabaseSnapshot
         }
@@ -4761,7 +4762,7 @@ extension Lightsail {
 
         /// A token used for advancing to a specific page of results for your get relational database snapshots request.
         public let pageToken: String?
-        
+
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
         }
@@ -4781,7 +4782,7 @@ extension Lightsail {
         public let nextPageToken: String?
         /// An object describing the result of your get relational database snapshots request.
         public let relationalDatabaseSnapshots: [RelationalDatabaseSnapshot]?
-        
+
         public init(nextPageToken: String? = nil, relationalDatabaseSnapshots: [RelationalDatabaseSnapshot]? = nil) {
             self.nextPageToken = nextPageToken
             self.relationalDatabaseSnapshots = relationalDatabaseSnapshots
@@ -4806,7 +4807,7 @@ extension Lightsail {
 
         /// A token used for advancing to a specific page of results for your get relational database request.
         public let pageToken: String?
-        
+
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
         }
@@ -4826,7 +4827,7 @@ extension Lightsail {
         public let nextPageToken: String?
         /// An object describing the result of your get relational databases request.
         public let relationalDatabases: [RelationalDatabase]?
-        
+
         public init(nextPageToken: String? = nil, relationalDatabases: [RelationalDatabase]? = nil) {
             self.nextPageToken = nextPageToken
             self.relationalDatabases = relationalDatabases
@@ -4851,7 +4852,7 @@ extension Lightsail {
 
         /// The name of the static IP in Lightsail.
         public let staticIpName: String
-        
+
         public init(staticIpName: String) {
             self.staticIpName = staticIpName
         }
@@ -4872,7 +4873,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the requested static IP.
         public let staticIp: StaticIp?
-        
+
         public init(staticIp: StaticIp? = nil) {
             self.staticIp = staticIp
         }
@@ -4893,7 +4894,7 @@ extension Lightsail {
 
         /// A token used for advancing to the next page of results from your get static IPs request.
         public let pageToken: String?
-        
+
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
         }
@@ -4913,7 +4914,7 @@ extension Lightsail {
         public let nextPageToken: String?
         /// An array of key-value pairs containing information about your get static IPs request.
         public let staticIps: [StaticIp]?
-        
+
         public init(nextPageToken: String? = nil, staticIps: [StaticIp]? = nil) {
             self.nextPageToken = nextPageToken
             self.staticIps = staticIps
@@ -4956,7 +4957,7 @@ extension Lightsail {
         public let publicKey: String?
         /// The time that the SSH host key or RDP certificate was recorded by Lightsail.
         public let witnessedAt: TimeStamp?
-        
+
         public init(algorithm: String? = nil, fingerprintSHA1: String? = nil, fingerprintSHA256: String? = nil, notValidAfter: TimeStamp? = nil, notValidBefore: TimeStamp? = nil, publicKey: String? = nil, witnessedAt: TimeStamp? = nil) {
             self.algorithm = algorithm
             self.fingerprintSHA1 = fingerprintSHA1
@@ -4988,7 +4989,7 @@ extension Lightsail {
         public let keyPairName: String
         /// A base64-encoded public key of the ssh-rsa type.
         public let publicKeyBase64: String
-        
+
         public init(keyPairName: String, publicKeyBase64: String) {
             self.keyPairName = keyPairName
             self.publicKeyBase64 = publicKeyBase64
@@ -5011,7 +5012,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the request operation.
         public let operation: Operation?
-        
+
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
@@ -5086,7 +5087,7 @@ extension Lightsail {
         public let tags: [Tag]?
         /// The user name for connecting to the instance (e.g., ec2-user).
         public let username: String?
-        
+
         public init(arn: String? = nil, blueprintId: String? = nil, blueprintName: String? = nil, bundleId: String? = nil, createdAt: TimeStamp? = nil, hardware: InstanceHardware? = nil, ipv6Address: String? = nil, isStaticIp: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, networking: InstanceNetworking? = nil, privateIpAddress: String? = nil, publicIpAddress: String? = nil, resourceType: ResourceType? = nil, sshKeyName: String? = nil, state: InstanceState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, username: String? = nil) {
             self.arn = arn
             self.blueprintId = blueprintId
@@ -5181,7 +5182,7 @@ extension Lightsail {
         public let `protocol`: InstanceAccessProtocol?
         /// The user name to use when logging in to the Amazon Lightsail instance.
         public let username: String?
-        
+
         public init(certKey: String? = nil, expiresAt: TimeStamp? = nil, hostKeys: [HostKeyAttributes]? = nil, instanceName: String? = nil, ipAddress: String? = nil, password: String? = nil, passwordData: PasswordData? = nil, privateKey: String? = nil, protocol: InstanceAccessProtocol? = nil, username: String? = nil) {
             self.certKey = certKey
             self.expiresAt = expiresAt
@@ -5240,7 +5241,7 @@ extension Lightsail {
         public let sourceName: String
         /// A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. 
         public let userData: String?
-        
+
         public init(availabilityZone: String, instanceType: String, portInfoSource: PortInfoSourceType, sourceName: String, userData: String? = nil) {
             self.availabilityZone = availabilityZone
             self.instanceType = instanceType
@@ -5276,7 +5277,7 @@ extension Lightsail {
         public let disks: [Disk]?
         /// The amount of RAM in GB on the instance (e.g., 1.0).
         public let ramSizeInGb: Float?
-        
+
         public init(cpuCount: Int32? = nil, disks: [Disk]? = nil, ramSizeInGb: Float? = nil) {
             self.cpuCount = cpuCount
             self.disks = disks
@@ -5334,7 +5335,7 @@ extension Lightsail {
         public let instanceHealthReason: InstanceHealthReason?
         /// The name of the Lightsail instance for which you are requesting health check data.
         public let instanceName: String?
-        
+
         public init(instanceHealth: InstanceHealthState? = nil, instanceHealthReason: InstanceHealthReason? = nil, instanceName: String? = nil) {
             self.instanceHealth = instanceHealth
             self.instanceHealthReason = instanceHealthReason
@@ -5372,7 +5373,7 @@ extension Lightsail {
         public let monthlyTransfer: MonthlyTransfer?
         /// An array of key-value pairs containing information about the ports on the instance.
         public let ports: [InstancePortInfo]?
-        
+
         public init(monthlyTransfer: MonthlyTransfer? = nil, ports: [InstancePortInfo]? = nil) {
             self.monthlyTransfer = monthlyTransfer
             self.ports = ports
@@ -5421,7 +5422,7 @@ extension Lightsail {
         public let `protocol`: NetworkProtocol?
         /// The last port in the range.
         public let toPort: Int32?
-        
+
         public init(accessDirection: AccessDirection? = nil, accessFrom: String? = nil, accessType: PortAccessType? = nil, commonName: String? = nil, fromPort: Int32? = nil, protocol: NetworkProtocol? = nil, toPort: Int32? = nil) {
             self.accessDirection = accessDirection
             self.accessFrom = accessFrom
@@ -5466,7 +5467,7 @@ extension Lightsail {
         public let state: PortState?
         /// The last port in the range.
         public let toPort: Int32?
-        
+
         public init(fromPort: Int32? = nil, protocol: NetworkProtocol? = nil, state: PortState? = nil, toPort: Int32? = nil) {
             self.fromPort = fromPort
             self.`protocol` = `protocol`
@@ -5538,7 +5539,7 @@ extension Lightsail {
         public let supportCode: String?
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
-        
+
         public init(arn: String? = nil, createdAt: TimeStamp? = nil, fromAttachedDisks: [Disk]? = nil, fromBlueprintId: String? = nil, fromBundleId: String? = nil, fromInstanceArn: String? = nil, fromInstanceName: String? = nil, location: ResourceLocation? = nil, name: String? = nil, progress: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int32? = nil, state: InstanceSnapshotState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -5599,7 +5600,7 @@ extension Lightsail {
         public let fromBundleId: String?
         /// A list of objects describing the disks that were attached to the source instance.
         public let fromDiskInfo: [DiskInfo]?
-        
+
         public init(fromBlueprintId: String? = nil, fromBundleId: String? = nil, fromDiskInfo: [DiskInfo]? = nil) {
             self.fromBlueprintId = fromBlueprintId
             self.fromBundleId = fromBundleId
@@ -5638,7 +5639,7 @@ extension Lightsail {
         public let code: Int32?
         /// The state of the instance (e.g., running or pending).
         public let name: String?
-        
+
         public init(code: Int32? = nil, name: String? = nil) {
             self.code = code
             self.name = name
@@ -5651,11 +5652,12 @@ extension Lightsail {
     }
 
     public struct IsVpcPeeredRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct IsVpcPeeredResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -5664,7 +5666,7 @@ extension Lightsail {
 
         /// Returns true if the Lightsail VPC is peered; otherwise, false.
         public let isPeered: Bool?
-        
+
         public init(isPeered: Bool? = nil) {
             self.isPeered = isPeered
         }
@@ -5702,7 +5704,7 @@ extension Lightsail {
         public let supportCode: String?
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
-        
+
         public init(arn: String? = nil, createdAt: TimeStamp? = nil, fingerprint: String? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -5783,7 +5785,7 @@ extension Lightsail {
         public let tags: [Tag]?
         /// An array of LoadBalancerTlsCertificateSummary objects that provide additional information about the SSL/TLS certificates. For example, if true, the certificate is attached to the load balancer.
         public let tlsCertificateSummaries: [LoadBalancerTlsCertificateSummary]?
-        
+
         public init(arn: String? = nil, configurationOptions: [LoadBalancerAttributeName: String]? = nil, createdAt: TimeStamp? = nil, dnsName: String? = nil, healthCheckPath: String? = nil, instanceHealthSummary: [InstanceHealthSummary]? = nil, instancePort: Int32? = nil, location: ResourceLocation? = nil, name: String? = nil, protocol: LoadBalancerProtocol? = nil, publicPorts: [Int32]? = nil, resourceType: ResourceType? = nil, state: LoadBalancerState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, tlsCertificateSummaries: [LoadBalancerTlsCertificateSummary]? = nil) {
             self.arn = arn
             self.configurationOptions = configurationOptions
@@ -5957,7 +5959,7 @@ extension Lightsail {
         public let supportCode: String?
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
-        
+
         public init(arn: String? = nil, createdAt: TimeStamp? = nil, domainName: String? = nil, domainValidationRecords: [LoadBalancerTlsCertificateDomainValidationRecord]? = nil, failureReason: LoadBalancerTlsCertificateFailureReason? = nil, isAttached: Bool? = nil, issuedAt: TimeStamp? = nil, issuer: String? = nil, keyAlgorithm: String? = nil, loadBalancerName: String? = nil, location: ResourceLocation? = nil, name: String? = nil, notAfter: TimeStamp? = nil, notBefore: TimeStamp? = nil, renewalSummary: LoadBalancerTlsCertificateRenewalSummary? = nil, resourceType: ResourceType? = nil, revocationReason: LoadBalancerTlsCertificateRevocationReason? = nil, revokedAt: TimeStamp? = nil, serial: String? = nil, signatureAlgorithm: String? = nil, status: LoadBalancerTlsCertificateStatus? = nil, subject: String? = nil, subjectAlternativeNames: [String]? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -6046,7 +6048,7 @@ extension Lightsail {
         public let domainName: String?
         /// The status of the domain validation. Valid values are listed below.
         public let validationStatus: LoadBalancerTlsCertificateDomainStatus?
-        
+
         public init(domainName: String? = nil, validationStatus: LoadBalancerTlsCertificateDomainStatus? = nil) {
             self.domainName = domainName
             self.validationStatus = validationStatus
@@ -6077,7 +6079,7 @@ extension Lightsail {
         public let validationStatus: LoadBalancerTlsCertificateDomainStatus?
         /// The value for that type.
         public let value: String?
-        
+
         public init(domainName: String? = nil, name: String? = nil, type: String? = nil, validationStatus: LoadBalancerTlsCertificateDomainStatus? = nil, value: String? = nil) {
             self.domainName = domainName
             self.name = name
@@ -6128,7 +6130,7 @@ extension Lightsail {
         public let domainValidationOptions: [LoadBalancerTlsCertificateDomainValidationOption]?
         /// The status of Lightsail's managed renewal of the certificate. Valid values are listed below.
         public let renewalStatus: LoadBalancerTlsCertificateRenewalStatus?
-        
+
         public init(domainValidationOptions: [LoadBalancerTlsCertificateDomainValidationOption]? = nil, renewalStatus: LoadBalancerTlsCertificateRenewalStatus? = nil) {
             self.domainValidationOptions = domainValidationOptions
             self.renewalStatus = renewalStatus
@@ -6176,7 +6178,7 @@ extension Lightsail {
         public let isAttached: Bool?
         /// The name of the SSL/TLS certificate.
         public let name: String?
-        
+
         public init(isAttached: Bool? = nil, name: String? = nil) {
             self.isAttached = isAttached
             self.name = name
@@ -6202,7 +6204,7 @@ extension Lightsail {
         public let createdAt: TimeStamp?
         /// The message of the database log event.
         public let message: String?
-        
+
         public init(createdAt: TimeStamp? = nil, message: String? = nil) {
             self.createdAt = createdAt
             self.message = message
@@ -6239,7 +6241,7 @@ extension Lightsail {
         public let timestamp: TimeStamp?
         /// The unit. 
         public let unit: MetricUnit?
-        
+
         public init(average: Double? = nil, maximum: Double? = nil, minimum: Double? = nil, sampleCount: Double? = nil, sum: Double? = nil, timestamp: TimeStamp? = nil, unit: MetricUnit? = nil) {
             self.average = average
             self.maximum = maximum
@@ -6308,7 +6310,7 @@ extension Lightsail {
 
         /// The amount allocated per month (in GB).
         public let gbPerMonthAllocated: Int32?
-        
+
         public init(gbPerMonthAllocated: Int32? = nil) {
             self.gbPerMonthAllocated = gbPerMonthAllocated
         }
@@ -6335,7 +6337,7 @@ extension Lightsail {
         public let instanceName: String
         /// An array of key-value pairs containing information about the port mappings.
         public let portInfo: PortInfo
-        
+
         public init(instanceName: String, portInfo: PortInfo) {
             self.instanceName = instanceName
             self.portInfo = portInfo
@@ -6359,7 +6361,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the request operation.
         public let operation: Operation?
-        
+
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
@@ -6413,7 +6415,7 @@ extension Lightsail {
         public let status: OperationStatus?
         /// The timestamp when the status was changed (e.g., 1479816991.349).
         public let statusChangedAt: TimeStamp?
-        
+
         public init(createdAt: TimeStamp? = nil, errorCode: String? = nil, errorDetails: String? = nil, id: String? = nil, isTerminal: Bool? = nil, location: ResourceLocation? = nil, operationDetails: String? = nil, operationType: OperationType? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil, status: OperationStatus? = nil, statusChangedAt: TimeStamp? = nil) {
             self.createdAt = createdAt
             self.errorCode = errorCode
@@ -6518,7 +6520,7 @@ extension Lightsail {
         public let ciphertext: String?
         /// The name of the key pair that you used when creating your instance. If no key pair name was specified when creating the instance, Lightsail uses the default key pair (LightsailDefaultKeyPair). If you are using a custom key pair, you need to use your own means of decrypting your password using the ciphertext. Lightsail creates the ciphertext by encrypting your password with the public key part of this key pair.
         public let keyPairName: String?
-        
+
         public init(ciphertext: String? = nil, keyPairName: String? = nil) {
             self.ciphertext = ciphertext
             self.keyPairName = keyPairName
@@ -6535,11 +6537,12 @@ extension Lightsail {
     }
 
     public struct PeerVpcRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct PeerVpcResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -6548,7 +6551,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the request operation.
         public let operation: Operation?
-        
+
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
@@ -6575,7 +6578,7 @@ extension Lightsail {
         public let currentApplyDate: TimeStamp?
         /// Additional detail about the pending database maintenance action.
         public let description: String?
-        
+
         public init(action: String? = nil, currentApplyDate: TimeStamp? = nil, description: String? = nil) {
             self.action = action
             self.currentApplyDate = currentApplyDate
@@ -6607,7 +6610,7 @@ extension Lightsail {
         public let engineVersion: String?
         /// The password for the master user of the database.
         public let masterUserPassword: String?
-        
+
         public init(backupRetentionEnabled: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil) {
             self.backupRetentionEnabled = backupRetentionEnabled
             self.engineVersion = engineVersion
@@ -6640,7 +6643,7 @@ extension Lightsail {
         public let `protocol`: NetworkProtocol?
         /// The last port in the range.
         public let toPort: Int32?
-        
+
         public init(fromPort: Int32? = nil, protocol: NetworkProtocol? = nil, toPort: Int32? = nil) {
             self.fromPort = fromPort
             self.`protocol` = `protocol`
@@ -6685,7 +6688,7 @@ extension Lightsail {
         public let instanceName: String
         /// Specifies information about the public port(s).
         public let portInfos: [PortInfo]
-        
+
         public init(instanceName: String, portInfos: [PortInfo]) {
             self.instanceName = instanceName
             self.portInfos = portInfos
@@ -6711,7 +6714,7 @@ extension Lightsail {
 
         /// Describes metadata about the operation you just executed.
         public let operation: Operation?
-        
+
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
@@ -6732,7 +6735,7 @@ extension Lightsail {
 
         /// The name of the instance to reboot.
         public let instanceName: String
-        
+
         public init(instanceName: String) {
             self.instanceName = instanceName
         }
@@ -6753,7 +6756,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the request operations.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -6776,7 +6779,7 @@ extension Lightsail {
 
         /// The name of your database to reboot.
         public let relationalDatabaseName: String
-        
+
         public init(relationalDatabaseName: String) {
             self.relationalDatabaseName = relationalDatabaseName
         }
@@ -6797,7 +6800,7 @@ extension Lightsail {
 
         /// An object describing the result of your reboot relational database request.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -6842,7 +6845,7 @@ extension Lightsail {
         public let name: RegionName?
         /// The Availability Zones for databases. Follows the format us-east-2a (case-sensitive).
         public let relationalDatabaseAvailabilityZones: [AvailabilityZone]?
-        
+
         public init(availabilityZones: [AvailabilityZone]? = nil, continentCode: String? = nil, description: String? = nil, displayName: String? = nil, name: RegionName? = nil, relationalDatabaseAvailabilityZones: [AvailabilityZone]? = nil) {
             self.availabilityZones = availabilityZones
             self.continentCode = continentCode
@@ -6968,7 +6971,7 @@ extension Lightsail {
         public let supportCode: String?
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
-        
+
         public init(arn: String? = nil, backupRetentionEnabled: Bool? = nil, createdAt: TimeStamp? = nil, engine: String? = nil, engineVersion: String? = nil, hardware: RelationalDatabaseHardware? = nil, latestRestorableTime: TimeStamp? = nil, location: ResourceLocation? = nil, masterDatabaseName: String? = nil, masterEndpoint: RelationalDatabaseEndpoint? = nil, masterUsername: String? = nil, name: String? = nil, parameterApplyStatus: String? = nil, pendingMaintenanceActions: [PendingMaintenanceAction]? = nil, pendingModifiedValues: PendingModifiedRelationalDatabaseValues? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, relationalDatabaseBlueprintId: String? = nil, relationalDatabaseBundleId: String? = nil, resourceType: ResourceType? = nil, secondaryAvailabilityZone: String? = nil, state: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.backupRetentionEnabled = backupRetentionEnabled
@@ -7066,7 +7069,7 @@ extension Lightsail {
         public let engineVersionDescription: String?
         /// A Boolean value indicating whether the engine version is the default for the database blueprint.
         public let isEngineDefault: Bool?
-        
+
         public init(blueprintId: String? = nil, engine: RelationalDatabaseEngine? = nil, engineDescription: String? = nil, engineVersion: String? = nil, engineVersionDescription: String? = nil, isEngineDefault: Bool? = nil) {
             self.blueprintId = blueprintId
             self.engine = engine
@@ -7117,7 +7120,7 @@ extension Lightsail {
         public let ramSizeInGb: Float?
         /// The data transfer rate per month in GB for the database bundle.
         public let transferPerMonthInGb: Int32?
-        
+
         public init(bundleId: String? = nil, cpuCount: Int32? = nil, diskSizeInGb: Int32? = nil, isActive: Bool? = nil, isEncrypted: Bool? = nil, name: String? = nil, price: Float? = nil, ramSizeInGb: Float? = nil, transferPerMonthInGb: Int32? = nil) {
             self.bundleId = bundleId
             self.cpuCount = cpuCount
@@ -7153,7 +7156,7 @@ extension Lightsail {
         public let address: String?
         /// Specifies the port that the database is listening on.
         public let port: Int32?
-        
+
         public init(address: String? = nil, port: Int32? = nil) {
             self.address = address
             self.port = port
@@ -7190,7 +7193,7 @@ extension Lightsail {
         public let message: String?
         /// The database that the database event relates to.
         public let resource: String?
-        
+
         public init(createdAt: TimeStamp? = nil, eventCategories: [String]? = nil, message: String? = nil, resource: String? = nil) {
             self.createdAt = createdAt
             self.eventCategories = eventCategories
@@ -7223,7 +7226,7 @@ extension Lightsail {
         public let diskSizeInGb: Int32?
         /// The amount of RAM in GB for the database.
         public let ramSizeInGb: Float?
-        
+
         public init(cpuCount: Int32? = nil, diskSizeInGb: Int32? = nil, ramSizeInGb: Float? = nil) {
             self.cpuCount = cpuCount
             self.diskSizeInGb = diskSizeInGb
@@ -7275,7 +7278,7 @@ extension Lightsail {
         public let parameterName: String?
         /// Specifies the value of the parameter.
         public let parameterValue: String?
-        
+
         public init(allowedValues: String? = nil, applyMethod: String? = nil, applyType: String? = nil, dataType: String? = nil, description: String? = nil, isModifiable: Bool? = nil, parameterName: String? = nil, parameterValue: String? = nil) {
             self.allowedValues = allowedValues
             self.applyMethod = applyMethod
@@ -7355,7 +7358,7 @@ extension Lightsail {
         public let supportCode: String?
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
-        
+
         public init(arn: String? = nil, createdAt: TimeStamp? = nil, engine: String? = nil, engineVersion: String? = nil, fromRelationalDatabaseArn: String? = nil, fromRelationalDatabaseBlueprintId: String? = nil, fromRelationalDatabaseBundleId: String? = nil, fromRelationalDatabaseName: String? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int32? = nil, state: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -7410,7 +7413,7 @@ extension Lightsail {
 
         /// The name of the static IP to delete.
         public let staticIpName: String
-        
+
         public init(staticIpName: String) {
             self.staticIpName = staticIpName
         }
@@ -7431,7 +7434,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the request operation.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -7457,7 +7460,7 @@ extension Lightsail {
         public let availabilityZone: String?
         /// The AWS Region name.
         public let regionName: RegionName?
-        
+
         public init(availabilityZone: String? = nil, regionName: RegionName? = nil) {
             self.availabilityZone = availabilityZone
             self.regionName = regionName
@@ -7494,7 +7497,7 @@ extension Lightsail {
 
         /// The name of the instance (a virtual private server) to start.
         public let instanceName: String
-        
+
         public init(instanceName: String) {
             self.instanceName = instanceName
         }
@@ -7515,7 +7518,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the request operation.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -7538,7 +7541,7 @@ extension Lightsail {
 
         /// The name of your database to start.
         public let relationalDatabaseName: String
-        
+
         public init(relationalDatabaseName: String) {
             self.relationalDatabaseName = relationalDatabaseName
         }
@@ -7559,7 +7562,7 @@ extension Lightsail {
 
         /// An object describing the result of your start relational database request.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -7606,7 +7609,7 @@ extension Lightsail {
         public let resourceType: ResourceType?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
-        
+
         public init(arn: String? = nil, attachedTo: String? = nil, createdAt: TimeStamp? = nil, ipAddress: String? = nil, isAttached: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, supportCode: String? = nil) {
             self.arn = arn
             self.attachedTo = attachedTo
@@ -7649,7 +7652,7 @@ extension Lightsail {
         public let force: Bool?
         /// The name of the instance (a virtual private server) to stop.
         public let instanceName: String
-        
+
         public init(force: Bool? = nil, instanceName: String) {
             self.force = force
             self.instanceName = instanceName
@@ -7672,7 +7675,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the request operation.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -7698,7 +7701,7 @@ extension Lightsail {
         public let relationalDatabaseName: String
         /// The name of your new database snapshot to be created before stopping your database.
         public let relationalDatabaseSnapshotName: String?
-        
+
         public init(relationalDatabaseName: String, relationalDatabaseSnapshotName: String? = nil) {
             self.relationalDatabaseName = relationalDatabaseName
             self.relationalDatabaseSnapshotName = relationalDatabaseSnapshotName
@@ -7722,7 +7725,7 @@ extension Lightsail {
 
         /// An object describing the result of your stop relational database request.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -7748,7 +7751,7 @@ extension Lightsail {
         public let key: String?
         /// The value of the tag. Constraints: Tag values accept a maximum of 256 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -7770,7 +7773,7 @@ extension Lightsail {
         public let resourceName: String
         /// The tag key and optional value.
         public let tags: [Tag]
-        
+
         public init(resourceName: String, tags: [Tag]) {
             self.resourceName = resourceName
             self.tags = tags
@@ -7793,7 +7796,7 @@ extension Lightsail {
 
         /// A list of objects describing the API operation.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -7810,11 +7813,12 @@ extension Lightsail {
     }
 
     public struct UnpeerVpcRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UnpeerVpcResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -7823,7 +7827,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the request operation.
         public let operation: Operation?
-        
+
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
@@ -7847,7 +7851,7 @@ extension Lightsail {
         public let resourceName: String
         /// The tag keys to delete from the specified resource.
         public let tagKeys: [String]
-        
+
         public init(resourceName: String, tagKeys: [String]) {
             self.resourceName = resourceName
             self.tagKeys = tagKeys
@@ -7870,7 +7874,7 @@ extension Lightsail {
 
         /// A list of objects describing the API operation.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -7896,7 +7900,7 @@ extension Lightsail {
         public let domainEntry: DomainEntry
         /// The name of the domain recordset to update.
         public let domainName: String
-        
+
         public init(domainEntry: DomainEntry, domainName: String) {
             self.domainEntry = domainEntry
             self.domainName = domainName
@@ -7919,7 +7923,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the request operation.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -7948,7 +7952,7 @@ extension Lightsail {
         public let attributeValue: String
         /// The name of the load balancer that you want to modify (e.g., my-load-balancer.
         public let loadBalancerName: String
-        
+
         public init(attributeName: LoadBalancerAttributeName, attributeValue: String, loadBalancerName: String) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
@@ -7975,7 +7979,7 @@ extension Lightsail {
 
         /// An object describing the API operations.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -8001,7 +8005,7 @@ extension Lightsail {
         public let parameters: [RelationalDatabaseParameter]
         /// The name of your database for which to update parameters.
         public let relationalDatabaseName: String
-        
+
         public init(parameters: [RelationalDatabaseParameter], relationalDatabaseName: String) {
             self.parameters = parameters
             self.relationalDatabaseName = relationalDatabaseName
@@ -8024,7 +8028,7 @@ extension Lightsail {
 
         /// An object describing the result of your update relational database parameters request.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -8071,7 +8075,7 @@ extension Lightsail {
         public let relationalDatabaseName: String
         /// When true, the master user password is changed to a new strong password generated by Lightsail. Use the get relational database master user password operation to get the new password.
         public let rotateMasterUserPassword: Bool?
-        
+
         public init(applyImmediately: Bool? = nil, disableBackupRetention: Bool? = nil, enableBackupRetention: Bool? = nil, masterUserPassword: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, relationalDatabaseName: String, rotateMasterUserPassword: Bool? = nil) {
             self.applyImmediately = applyImmediately
             self.disableBackupRetention = disableBackupRetention
@@ -8108,7 +8112,7 @@ extension Lightsail {
 
         /// An object describing the result of your update relational database request.
         public let operations: [Operation]?
-        
+
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -8123,5 +8127,4 @@ extension Lightsail {
             case operations = "operations"
         }
     }
-
 }

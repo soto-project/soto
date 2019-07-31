@@ -22,7 +22,7 @@ extension Kafka {
         ///             Size of the EBS volume to update.
         ///          
         public let volumeSizeGB: Int32
-        
+
         public init(kafkaBrokerNodeId: String, volumeSizeGB: Int32) {
             self.kafkaBrokerNodeId = kafkaBrokerNodeId
             self.volumeSizeGB = volumeSizeGB
@@ -59,7 +59,7 @@ extension Kafka {
         ///             Contains information about storage volumes attached to MSK broker nodes.
         ///          
         public let storageInfo: StorageInfo?
-        
+
         public init(brokerAZDistribution: BrokerAZDistribution? = nil, clientSubnets: [String], instanceType: String, securityGroups: [String]? = nil, storageInfo: StorageInfo? = nil) {
             self.brokerAZDistribution = brokerAZDistribution
             self.clientSubnets = clientSubnets
@@ -111,7 +111,7 @@ extension Kafka {
         ///             Endpoints for accessing the broker.
         ///          
         public let endpoints: [String]?
-        
+
         public init(attachedENIId: String? = nil, brokerId: Double? = nil, clientSubnet: String? = nil, clientVpcIpAddress: String? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, endpoints: [String]? = nil) {
             self.attachedENIId = attachedENIId
             self.brokerId = brokerId
@@ -147,7 +147,7 @@ extension Kafka {
         ///             The version of Apache Kafka.
         ///          
         public let kafkaVersion: String?
-        
+
         public init(configurationArn: String? = nil, configurationRevision: Int64? = nil, kafkaVersion: String? = nil) {
             self.configurationArn = configurationArn
             self.configurationRevision = configurationRevision
@@ -169,7 +169,7 @@ extension Kafka {
         ///             Details for ClientAuthentication using TLS.
         ///          
         public let tls: Tls?
-        
+
         public init(tls: Tls? = nil) {
             self.tls = tls
         }
@@ -245,7 +245,7 @@ extension Kafka {
         ///             The connection string to use to connect to the Apache ZooKeeper cluster.
         ///          
         public let zookeeperConnectString: String?
-        
+
         public init(activeOperationArn: String? = nil, brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, clusterArn: String? = nil, clusterName: String? = nil, creationTime: TimeStamp? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, currentVersion: String? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, numberOfBrokerNodes: Int32? = nil, state: ClusterState? = nil, tags: [String: String]? = nil, zookeeperConnectString: String? = nil) {
             self.activeOperationArn = activeOperationArn
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
@@ -327,7 +327,7 @@ extension Kafka {
         ///             Information about cluster attributes after a cluster is updated.
         ///          
         public let targetClusterInfo: MutableClusterInfo?
-        
+
         public init(clientRequestId: String? = nil, clusterArn: String? = nil, creationTime: TimeStamp? = nil, endTime: TimeStamp? = nil, errorInfo: ErrorInfo? = nil, operationArn: String? = nil, operationState: String? = nil, operationType: String? = nil, sourceClusterInfo: MutableClusterInfo? = nil, targetClusterInfo: MutableClusterInfo? = nil) {
             self.clientRequestId = clientRequestId
             self.clusterArn = clusterArn
@@ -390,7 +390,7 @@ extension Kafka {
         ///             The name of the configuration.
         ///          
         public let name: String
-        
+
         public init(arn: String, creationTime: TimeStamp, description: String, kafkaVersions: [String], latestRevision: ConfigurationRevision, name: String) {
             self.arn = arn
             self.creationTime = creationTime
@@ -422,7 +422,7 @@ extension Kafka {
         ///             The revision of the configuration to use.
         ///          
         public let revision: Int64
-        
+
         public init(arn: String, revision: Int64) {
             self.arn = arn
             self.revision = revision
@@ -449,7 +449,7 @@ extension Kafka {
         ///             The revision number.
         ///          
         public let revision: Int64
-        
+
         public init(creationTime: TimeStamp, description: String? = nil, revision: Int64) {
             self.creationTime = creationTime
             self.description = description
@@ -503,7 +503,7 @@ extension Kafka {
         ///             Create tags when creating the cluster.
         ///          
         public let tags: [String: String]?
-        
+
         public init(brokerNodeGroupInfo: BrokerNodeGroupInfo, clientAuthentication: ClientAuthentication? = nil, clusterName: String, configurationInfo: ConfigurationInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String, numberOfBrokerNodes: Int32, tags: [String: String]? = nil) {
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
@@ -555,7 +555,7 @@ extension Kafka {
         ///             The state of the cluster. The possible states are CREATING, ACTIVE, and FAILED.
         ///          
         public let state: ClusterState?
-        
+
         public init(clusterArn: String? = nil, clusterName: String? = nil, state: ClusterState? = nil) {
             self.clusterArn = clusterArn
             self.clusterName = clusterName
@@ -587,7 +587,7 @@ extension Kafka {
         ///          
         public let name: String
         public let serverProperties: Data
-        
+
         public init(description: String? = nil, kafkaVersions: [String], name: String, serverProperties: Data) {
             self.description = description
             self.kafkaVersions = kafkaVersions
@@ -622,7 +622,7 @@ extension Kafka {
         ///             The name of the configuration.
         ///          
         public let name: String?
-        
+
         public init(arn: String? = nil, creationTime: TimeStamp? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -646,7 +646,7 @@ extension Kafka {
 
         public let clusterArn: String
         public let currentVersion: String?
-        
+
         public init(clusterArn: String, currentVersion: String? = nil) {
             self.clusterArn = clusterArn
             self.currentVersion = currentVersion
@@ -670,7 +670,7 @@ extension Kafka {
         ///             The state of the cluster. The possible states are CREATING, ACTIVE, and FAILED.
         ///          
         public let state: ClusterState?
-        
+
         public init(clusterArn: String? = nil, state: ClusterState? = nil) {
             self.clusterArn = clusterArn
             self.state = state
@@ -688,7 +688,7 @@ extension Kafka {
         ]
 
         public let clusterOperationArn: String
-        
+
         public init(clusterOperationArn: String) {
             self.clusterOperationArn = clusterOperationArn
         }
@@ -706,7 +706,7 @@ extension Kafka {
         ///             Cluster operation information
         ///          
         public let clusterOperationInfo: ClusterOperationInfo?
-        
+
         public init(clusterOperationInfo: ClusterOperationInfo? = nil) {
             self.clusterOperationInfo = clusterOperationInfo
         }
@@ -722,7 +722,7 @@ extension Kafka {
         ]
 
         public let clusterArn: String
-        
+
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
         }
@@ -740,7 +740,7 @@ extension Kafka {
         ///             The cluster information.
         ///          
         public let clusterInfo: ClusterInfo?
-        
+
         public init(clusterInfo: ClusterInfo? = nil) {
             self.clusterInfo = clusterInfo
         }
@@ -760,7 +760,7 @@ extension Kafka {
         ]
 
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -797,7 +797,7 @@ extension Kafka {
         ///             The name of the configuration.
         ///          
         public let name: String?
-        
+
         public init(arn: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, kafkaVersions: [String]? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -825,7 +825,7 @@ extension Kafka {
 
         public let arn: String
         public let revision: Int64
-        
+
         public init(arn: String, revision: Int64) {
             self.arn = arn
             self.revision = revision
@@ -858,7 +858,7 @@ extension Kafka {
         ///          
         public let revision: Int64?
         public let serverProperties: Data?
-        
+
         public init(arn: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, revision: Int64? = nil, serverProperties: Data? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -884,7 +884,7 @@ extension Kafka {
         ///             The size in GiB of the EBS volume for the data drive on each broker node.
         ///          
         public let volumeSize: Int32?
-        
+
         public init(volumeSize: Int32? = nil) {
             self.volumeSize = volumeSize
         }
@@ -907,7 +907,7 @@ extension Kafka {
         ///             The ARN of the AWS KMS key for encrypting data at rest. If you don't specify a KMS key, MSK creates one for you and uses it.
         ///          
         public let dataVolumeKMSKeyId: String
-        
+
         public init(dataVolumeKMSKeyId: String) {
             self.dataVolumeKMSKeyId = dataVolumeKMSKeyId
         }
@@ -937,7 +937,7 @@ extension Kafka {
         ///             The default value is true.
         ///          
         public let inCluster: Bool?
-        
+
         public init(clientBroker: ClientBroker? = nil, inCluster: Bool? = nil) {
             self.clientBroker = clientBroker
             self.inCluster = inCluster
@@ -961,7 +961,7 @@ extension Kafka {
         ///             The details for encryption in transit.
         ///          
         public let encryptionInTransit: EncryptionInTransit?
-        
+
         public init(encryptionAtRest: EncryptionAtRest? = nil, encryptionInTransit: EncryptionInTransit? = nil) {
             self.encryptionAtRest = encryptionAtRest
             self.encryptionInTransit = encryptionInTransit
@@ -992,7 +992,7 @@ extension Kafka {
         ///             The description of the error.
         ///          
         public let message: String?
-        
+
         public init(invalidParameter: String? = nil, message: String? = nil) {
             self.invalidParameter = invalidParameter
             self.message = message
@@ -1016,7 +1016,7 @@ extension Kafka {
         ///             An optional field to provide more details about the error.
         ///          
         public let errorString: String?
-        
+
         public init(errorCode: String? = nil, errorString: String? = nil) {
             self.errorCode = errorCode
             self.errorString = errorString
@@ -1034,7 +1034,7 @@ extension Kafka {
         ]
 
         public let clusterArn: String
-        
+
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
         }
@@ -1056,7 +1056,7 @@ extension Kafka {
         ///             A string containing one or more DNS names (or IP) and TLS port pairs.
         ///          
         public let bootstrapBrokerStringTls: String?
-        
+
         public init(bootstrapBrokerString: String? = nil, bootstrapBrokerStringTls: String? = nil) {
             self.bootstrapBrokerString = bootstrapBrokerString
             self.bootstrapBrokerStringTls = bootstrapBrokerStringTls
@@ -1078,7 +1078,7 @@ extension Kafka {
         public let clusterArn: String
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(clusterArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.clusterArn = clusterArn
             self.maxResults = maxResults
@@ -1109,7 +1109,7 @@ extension Kafka {
         ///             If the response of ListClusterOperations is truncated, it returns a NextToken in the response. This Nexttoken should be sent in the subsequent request to ListClusterOperations.
         ///          
         public let nextToken: String?
-        
+
         public init(clusterOperationInfoList: [ClusterOperationInfo]? = nil, nextToken: String? = nil) {
             self.clusterOperationInfoList = clusterOperationInfoList
             self.nextToken = nextToken
@@ -1131,7 +1131,7 @@ extension Kafka {
         public let clusterNameFilter: String?
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(clusterNameFilter: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.clusterNameFilter = clusterNameFilter
             self.maxResults = maxResults
@@ -1163,7 +1163,7 @@ extension Kafka {
         ///                To get another batch of clusters, provide this token in your next request.
         ///          
         public let nextToken: String?
-        
+
         public init(clusterInfoList: [ClusterInfo]? = nil, nextToken: String? = nil) {
             self.clusterInfoList = clusterInfoList
             self.nextToken = nextToken
@@ -1191,7 +1191,7 @@ extension Kafka {
         public let arn: String
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(arn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.arn = arn
             self.maxResults = maxResults
@@ -1222,7 +1222,7 @@ extension Kafka {
         ///             List of ConfigurationRevision objects.
         ///          
         public let revisions: [ConfigurationRevision]?
-        
+
         public init(nextToken: String? = nil, revisions: [ConfigurationRevision]? = nil) {
             self.nextToken = nextToken
             self.revisions = revisions
@@ -1242,7 +1242,7 @@ extension Kafka {
 
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1272,7 +1272,7 @@ extension Kafka {
         ///                To get another batch of configurations, provide this token in your next request.
         ///          
         public let nextToken: String?
-        
+
         public init(configurations: [Configuration]? = nil, nextToken: String? = nil) {
             self.configurations = configurations
             self.nextToken = nextToken
@@ -1294,7 +1294,7 @@ extension Kafka {
         public let clusterArn: String
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(clusterArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.clusterArn = clusterArn
             self.maxResults = maxResults
@@ -1326,7 +1326,7 @@ extension Kafka {
         ///             List containing a NodeInfo object.
         ///          
         public let nodeInfoList: [NodeInfo]?
-        
+
         public init(nextToken: String? = nil, nodeInfoList: [NodeInfo]? = nil) {
             self.nextToken = nextToken
             self.nodeInfoList = nodeInfoList
@@ -1344,7 +1344,7 @@ extension Kafka {
         ]
 
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1362,7 +1362,7 @@ extension Kafka {
         ///             The key-value pair for the resource tag.
         ///          
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1388,7 +1388,7 @@ extension Kafka {
         ///             The number of broker nodes in the cluster.
         ///          
         public let numberOfBrokerNodes: Int32?
-        
+
         public init(brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, configurationInfo: ConfigurationInfo? = nil, numberOfBrokerNodes: Int32? = nil) {
             self.brokerEBSVolumeInfo = brokerEBSVolumeInfo
             self.configurationInfo = configurationInfo
@@ -1430,7 +1430,7 @@ extension Kafka {
         ///             The ZookeeperNodeInfo.
         ///          
         public let zookeeperNodeInfo: ZookeeperNodeInfo?
-        
+
         public init(addedToClusterTime: String? = nil, brokerNodeInfo: BrokerNodeInfo? = nil, instanceType: String? = nil, nodeARN: String? = nil, nodeType: NodeType? = nil, zookeeperNodeInfo: ZookeeperNodeInfo? = nil) {
             self.addedToClusterTime = addedToClusterTime
             self.brokerNodeInfo = brokerNodeInfo
@@ -1463,7 +1463,7 @@ extension Kafka {
         ///             EBS volume information.
         ///          
         public let ebsStorageInfo: EBSStorageInfo?
-        
+
         public init(ebsStorageInfo: EBSStorageInfo? = nil) {
             self.ebsStorageInfo = ebsStorageInfo
         }
@@ -1487,7 +1487,7 @@ extension Kafka {
         ///             The key-value pair for the resource tag.
         ///          
         public let tags: [String: String]
-        
+
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1507,7 +1507,7 @@ extension Kafka {
         ///             List of ACM Certificate Authority ARNs.
         ///          
         public let certificateAuthorityArnList: [String]?
-        
+
         public init(certificateAuthorityArnList: [String]? = nil) {
             self.certificateAuthorityArnList = certificateAuthorityArnList
         }
@@ -1525,7 +1525,7 @@ extension Kafka {
 
         public let resourceArn: String
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1551,7 +1551,7 @@ extension Kafka {
         ///             Describes the target volume size and the ID of the broker to apply the update to.
         ///          
         public let targetBrokerEBSVolumeInfo: [BrokerEBSVolumeInfo]
-        
+
         public init(clusterArn: String, currentVersion: String, targetBrokerEBSVolumeInfo: [BrokerEBSVolumeInfo]) {
             self.clusterArn = clusterArn
             self.currentVersion = currentVersion
@@ -1577,7 +1577,7 @@ extension Kafka {
         ///             The Amazon Resource Name (ARN) of the cluster operation.
         ///          
         public let clusterOperationArn: String?
-        
+
         public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
             self.clusterArn = clusterArn
             self.clusterOperationArn = clusterOperationArn
@@ -1603,7 +1603,7 @@ extension Kafka {
         ///             The version of the cluster that needs to be updated.
         ///          
         public let currentVersion: String
-        
+
         public init(clusterArn: String, configurationInfo: ConfigurationInfo, currentVersion: String) {
             self.clusterArn = clusterArn
             self.configurationInfo = configurationInfo
@@ -1629,7 +1629,7 @@ extension Kafka {
         ///             The Amazon Resource Name (ARN) of the cluster operation.
         ///          
         public let clusterOperationArn: String?
-        
+
         public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
             self.clusterArn = clusterArn
             self.clusterOperationArn = clusterOperationArn
@@ -1665,7 +1665,7 @@ extension Kafka {
         ///             The version of Zookeeper.
         ///          
         public let zookeeperVersion: String?
-        
+
         public init(attachedENIId: String? = nil, clientVpcIpAddress: String? = nil, endpoints: [String]? = nil, zookeeperId: Double? = nil, zookeeperVersion: String? = nil) {
             self.attachedENIId = attachedENIId
             self.clientVpcIpAddress = clientVpcIpAddress
@@ -1682,5 +1682,4 @@ extension Kafka {
             case zookeeperVersion = "zookeeperVersion"
         }
     }
-
 }

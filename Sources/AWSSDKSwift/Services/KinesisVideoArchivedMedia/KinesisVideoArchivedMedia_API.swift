@@ -4,7 +4,6 @@ import Foundation
 import AWSSDKSwiftCore
 import NIO
 
-
 public struct KinesisVideoArchivedMedia {
 
     let client: AWSClient
@@ -42,5 +41,4 @@ public struct KinesisVideoArchivedMedia {
     public func listFragments(_ input: ListFragmentsInput) throws -> Future<ListFragmentsOutput> {
         return try client.send(operation: "ListFragments", path: "/listFragments", httpMethod: "POST", input: input)
     }
-
 }

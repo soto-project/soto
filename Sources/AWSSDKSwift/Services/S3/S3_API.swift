@@ -6,7 +6,6 @@ import NIO
 
 import S3Middleware
 
-
 public struct S3 {
 
     let client: AWSClient
@@ -470,5 +469,4 @@ public struct S3 {
     public func uploadPartCopy(_ input: UploadPartCopyRequest) throws -> Future<UploadPartCopyOutput> {
         return try client.send(operation: "UploadPartCopy", path: "/{Bucket}/{Key+}", httpMethod: "PUT", input: input)
     }
-
 }

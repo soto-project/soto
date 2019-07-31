@@ -15,7 +15,7 @@ extension SFN {
         public let cause: String?
         /// The error code of the failure.
         public let error: String?
-        
+
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
             self.error = error
@@ -47,7 +47,7 @@ extension SFN {
         public let creationDate: TimeStamp
         /// The name of the activity. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
         public let name: String
-        
+
         public init(activityArn: String, creationDate: TimeStamp, name: String) {
             self.activityArn = activityArn
             self.creationDate = creationDate
@@ -78,7 +78,7 @@ extension SFN {
         public let cause: String?
         /// The error code of the failure.
         public let error: String?
-        
+
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
             self.error = error
@@ -113,7 +113,7 @@ extension SFN {
         public let resource: String
         /// The maximum allowed duration of the activity task.
         public let timeoutInSeconds: Int64?
-        
+
         public init(heartbeatInSeconds: Int64? = nil, input: String? = nil, resource: String, timeoutInSeconds: Int64? = nil) {
             self.heartbeatInSeconds = heartbeatInSeconds
             self.input = input
@@ -142,7 +142,7 @@ extension SFN {
 
         /// The name of the worker that the task is assigned to. These names are provided by the workers when calling GetActivityTask.
         public let workerName: String?
-        
+
         public init(workerName: String? = nil) {
             self.workerName = workerName
         }
@@ -163,7 +163,7 @@ extension SFN {
 
         /// The JSON data output by the activity task.
         public let output: String?
-        
+
         public init(output: String? = nil) {
             self.output = output
         }
@@ -187,7 +187,7 @@ extension SFN {
         public let cause: String?
         /// The error code of the failure.
         public let error: String?
-        
+
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
             self.error = error
@@ -216,7 +216,7 @@ extension SFN {
         public let name: String
         /// The list of tags to add to a resource.
         public let tags: [Tag]?
-        
+
         public init(name: String, tags: [Tag]? = nil) {
             self.name = name
             self.tags = tags
@@ -246,7 +246,7 @@ extension SFN {
         public let activityArn: String
         /// The date the activity is created.
         public let creationDate: TimeStamp
-        
+
         public init(activityArn: String, creationDate: TimeStamp) {
             self.activityArn = activityArn
             self.creationDate = creationDate
@@ -279,7 +279,7 @@ extension SFN {
         public let roleArn: String
         /// Tags to be added when creating a state machine.
         public let tags: [Tag]?
-        
+
         public init(definition: String, name: String, roleArn: String, tags: [Tag]? = nil) {
             self.definition = definition
             self.name = name
@@ -317,7 +317,7 @@ extension SFN {
         public let creationDate: TimeStamp
         /// The Amazon Resource Name (ARN) that identifies the created state machine.
         public let stateMachineArn: String
-        
+
         public init(creationDate: TimeStamp, stateMachineArn: String) {
             self.creationDate = creationDate
             self.stateMachineArn = stateMachineArn
@@ -341,7 +341,7 @@ extension SFN {
 
         /// The Amazon Resource Name (ARN) of the activity to delete.
         public let activityArn: String
-        
+
         public init(activityArn: String) {
             self.activityArn = activityArn
         }
@@ -357,11 +357,12 @@ extension SFN {
     }
 
     public struct DeleteActivityOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteStateMachineInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -370,7 +371,7 @@ extension SFN {
 
         /// The Amazon Resource Name (ARN) of the state machine to delete.
         public let stateMachineArn: String
-        
+
         public init(stateMachineArn: String) {
             self.stateMachineArn = stateMachineArn
         }
@@ -386,11 +387,12 @@ extension SFN {
     }
 
     public struct DeleteStateMachineOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeActivityInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -399,7 +401,7 @@ extension SFN {
 
         /// The Amazon Resource Name (ARN) of the activity to describe.
         public let activityArn: String
-        
+
         public init(activityArn: String) {
             self.activityArn = activityArn
         }
@@ -427,7 +429,7 @@ extension SFN {
         public let creationDate: TimeStamp
         /// The name of the activity. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
         public let name: String
-        
+
         public init(activityArn: String, creationDate: TimeStamp, name: String) {
             self.activityArn = activityArn
             self.creationDate = creationDate
@@ -455,7 +457,7 @@ extension SFN {
 
         /// The Amazon Resource Name (ARN) of the execution to describe.
         public let executionArn: String
-        
+
         public init(executionArn: String) {
             self.executionArn = executionArn
         }
@@ -498,7 +500,7 @@ extension SFN {
         public let status: ExecutionStatus
         /// If the execution has already ended, the date the execution stopped.
         public let stopDate: TimeStamp?
-        
+
         public init(executionArn: String, input: String, name: String? = nil, output: String? = nil, startDate: TimeStamp, stateMachineArn: String, status: ExecutionStatus, stopDate: TimeStamp? = nil) {
             self.executionArn = executionArn
             self.input = input
@@ -540,7 +542,7 @@ extension SFN {
 
         /// The Amazon Resource Name (ARN) of the execution you want state machine information for.
         public let executionArn: String
-        
+
         public init(executionArn: String) {
             self.executionArn = executionArn
         }
@@ -574,7 +576,7 @@ extension SFN {
         public let stateMachineArn: String
         /// The date and time the state machine associated with an execution was updated. For a newly created state machine, this is the creation date.
         public let updateDate: TimeStamp
-        
+
         public init(definition: String, name: String, roleArn: String, stateMachineArn: String, updateDate: TimeStamp) {
             self.definition = definition
             self.name = name
@@ -610,7 +612,7 @@ extension SFN {
 
         /// The Amazon Resource Name (ARN) of the state machine to describe.
         public let stateMachineArn: String
-        
+
         public init(stateMachineArn: String) {
             self.stateMachineArn = stateMachineArn
         }
@@ -647,7 +649,7 @@ extension SFN {
         public let stateMachineArn: String
         /// The current status of the state machine.
         public let status: StateMachineStatus?
-        
+
         public init(creationDate: TimeStamp, definition: String, name: String, roleArn: String, stateMachineArn: String, status: StateMachineStatus? = nil) {
             self.creationDate = creationDate
             self.definition = definition
@@ -688,7 +690,7 @@ extension SFN {
         public let cause: String?
         /// The error code of the failure.
         public let error: String?
-        
+
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
             self.error = error
@@ -717,7 +719,7 @@ extension SFN {
         public let cause: String?
         /// The error code of the failure.
         public let error: String?
-        
+
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
             self.error = error
@@ -758,7 +760,7 @@ extension SFN {
         public let status: ExecutionStatus
         /// If the execution already ended, the date the execution stopped.
         public let stopDate: TimeStamp?
-        
+
         public init(executionArn: String, name: String, startDate: TimeStamp, stateMachineArn: String, status: ExecutionStatus, stopDate: TimeStamp? = nil) {
             self.executionArn = executionArn
             self.name = name
@@ -797,7 +799,7 @@ extension SFN {
         public let input: String?
         /// The Amazon Resource Name (ARN) of the IAM role used for executing AWS Lambda tasks.
         public let roleArn: String?
-        
+
         public init(input: String? = nil, roleArn: String? = nil) {
             self.input = input
             self.roleArn = roleArn
@@ -831,7 +833,7 @@ extension SFN {
 
         /// The JSON data output by the execution.
         public let output: String?
-        
+
         public init(output: String? = nil) {
             self.output = output
         }
@@ -855,7 +857,7 @@ extension SFN {
         public let cause: String?
         /// The error code of the failure.
         public let error: String?
-        
+
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
             self.error = error
@@ -884,7 +886,7 @@ extension SFN {
         public let activityArn: String
         /// You can provide an arbitrary name in order to identify the worker that the task is assigned to. This name is used when it is logged in the execution history.
         public let workerName: String?
-        
+
         public init(activityArn: String, workerName: String? = nil) {
             self.activityArn = activityArn
             self.workerName = workerName
@@ -913,7 +915,7 @@ extension SFN {
         public let input: String?
         /// A token that identifies the scheduled task. This token must be copied and included in subsequent calls to SendTaskHeartbeat, SendTaskSuccess or SendTaskFailure in order to report the progress or completion of the task.
         public let taskToken: String?
-        
+
         public init(input: String? = nil, taskToken: String? = nil) {
             self.input = input
             self.taskToken = taskToken
@@ -947,7 +949,7 @@ extension SFN {
         public let nextToken: String?
         /// Lists events in descending order of their timeStamp.
         public let reverseOrder: Bool?
-        
+
         public init(executionArn: String, maxResults: Int32? = nil, nextToken: String? = nil, reverseOrder: Bool? = nil) {
             self.executionArn = executionArn
             self.maxResults = maxResults
@@ -982,7 +984,7 @@ extension SFN {
         public let events: [HistoryEvent]
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
-        
+
         public init(events: [HistoryEvent], nextToken: String? = nil) {
             self.events = events
             self.nextToken = nextToken
@@ -1083,7 +1085,7 @@ extension SFN {
         public let timestamp: TimeStamp
         /// The type of the event.
         public let `type`: HistoryEventType
-        
+
         public init(activityFailedEventDetails: ActivityFailedEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, id: Int64, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil, lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, previousEventId: Int64? = nil, stateEnteredEventDetails: StateEnteredEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, taskFailedEventDetails: TaskFailedEventDetails? = nil, taskScheduledEventDetails: TaskScheduledEventDetails? = nil, taskStartedEventDetails: TaskStartedEventDetails? = nil, taskStartFailedEventDetails: TaskStartFailedEventDetails? = nil, taskSubmitFailedEventDetails: TaskSubmitFailedEventDetails? = nil, taskSubmittedEventDetails: TaskSubmittedEventDetails? = nil, taskSucceededEventDetails: TaskSucceededEventDetails? = nil, taskTimedOutEventDetails: TaskTimedOutEventDetails? = nil, timestamp: TimeStamp, type: HistoryEventType) {
             self.activityFailedEventDetails = activityFailedEventDetails
             self.activityScheduledEventDetails = activityScheduledEventDetails
@@ -1242,7 +1244,7 @@ extension SFN {
         public let cause: String?
         /// The error code of the failure.
         public let error: String?
-        
+
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
             self.error = error
@@ -1271,7 +1273,7 @@ extension SFN {
         public let cause: String?
         /// The error code of the failure.
         public let error: String?
-        
+
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
             self.error = error
@@ -1303,7 +1305,7 @@ extension SFN {
         public let resource: String
         /// The maximum allowed duration of the lambda function.
         public let timeoutInSeconds: Int64?
-        
+
         public init(input: String? = nil, resource: String, timeoutInSeconds: Int64? = nil) {
             self.input = input
             self.resource = resource
@@ -1333,7 +1335,7 @@ extension SFN {
         public let cause: String?
         /// The error code of the failure.
         public let error: String?
-        
+
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
             self.error = error
@@ -1359,7 +1361,7 @@ extension SFN {
 
         /// The JSON data output by the lambda function.
         public let output: String?
-        
+
         public init(output: String? = nil) {
             self.output = output
         }
@@ -1383,7 +1385,7 @@ extension SFN {
         public let cause: String?
         /// The error code of the failure.
         public let error: String?
-        
+
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
             self.error = error
@@ -1412,7 +1414,7 @@ extension SFN {
         public let maxResults: Int32?
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1441,7 +1443,7 @@ extension SFN {
         public let activities: [ActivityListItem]
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
-        
+
         public init(activities: [ActivityListItem], nextToken: String? = nil) {
             self.activities = activities
             self.nextToken = nextToken
@@ -1477,7 +1479,7 @@ extension SFN {
         public let stateMachineArn: String
         /// If specified, only list the executions whose current execution status matches the given filter.
         public let statusFilter: ExecutionStatus?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, stateMachineArn: String, statusFilter: ExecutionStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1512,7 +1514,7 @@ extension SFN {
         public let executions: [ExecutionListItem]
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
-        
+
         public init(executions: [ExecutionListItem], nextToken: String? = nil) {
             self.executions = executions
             self.nextToken = nextToken
@@ -1542,7 +1544,7 @@ extension SFN {
         public let maxResults: Int32?
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1570,7 +1572,7 @@ extension SFN {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
         public let stateMachines: [StateMachineListItem]
-        
+
         public init(nextToken: String? = nil, stateMachines: [StateMachineListItem]) {
             self.nextToken = nextToken
             self.stateMachines = stateMachines
@@ -1597,7 +1599,7 @@ extension SFN {
 
         /// The Amazon Resource Name (ARN) for the Step Functions state machine or activity.
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1619,7 +1621,7 @@ extension SFN {
 
         /// An array of tags associated with the resource.
         public let tags: [Tag]?
-        
+
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -1648,7 +1650,7 @@ extension SFN {
         public let error: String?
         /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTask::taskToken).
         public let taskToken: String
-        
+
         public init(cause: String? = nil, error: String? = nil, taskToken: String) {
             self.cause = cause
             self.error = error
@@ -1672,11 +1674,12 @@ extension SFN {
     }
 
     public struct SendTaskFailureOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct SendTaskHeartbeatInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1685,7 +1688,7 @@ extension SFN {
 
         /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTaskOutput$taskToken).
         public let taskToken: String
-        
+
         public init(taskToken: String) {
             self.taskToken = taskToken
         }
@@ -1701,11 +1704,12 @@ extension SFN {
     }
 
     public struct SendTaskHeartbeatOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct SendTaskSuccessInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1717,7 +1721,7 @@ extension SFN {
         public let output: String
         /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTaskOutput$taskToken).
         public let taskToken: String
-        
+
         public init(output: String, taskToken: String) {
             self.output = output
             self.taskToken = taskToken
@@ -1736,11 +1740,12 @@ extension SFN {
     }
 
     public struct SendTaskSuccessOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct StartExecutionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1755,7 +1760,7 @@ extension SFN {
         public let name: String?
         /// The Amazon Resource Name (ARN) of the state machine to execute.
         public let stateMachineArn: String
-        
+
         public init(input: String? = nil, name: String? = nil, stateMachineArn: String) {
             self.input = input
             self.name = name
@@ -1787,7 +1792,7 @@ extension SFN {
         public let executionArn: String
         /// The date the execution is started.
         public let startDate: TimeStamp
-        
+
         public init(executionArn: String, startDate: TimeStamp) {
             self.executionArn = executionArn
             self.startDate = startDate
@@ -1814,7 +1819,7 @@ extension SFN {
         public let input: String?
         /// The name of the state.
         public let name: String
-        
+
         public init(input: String? = nil, name: String) {
             self.input = input
             self.name = name
@@ -1842,7 +1847,7 @@ extension SFN {
         public let name: String
         /// The JSON output data of the state.
         public let output: String?
-        
+
         public init(name: String, output: String? = nil) {
             self.name = name
             self.output = output
@@ -1873,7 +1878,7 @@ extension SFN {
         public let name: String
         /// The Amazon Resource Name (ARN) that identifies the state machine.
         public let stateMachineArn: String
-        
+
         public init(creationDate: TimeStamp, name: String, stateMachineArn: String) {
             self.creationDate = creationDate
             self.name = name
@@ -1913,7 +1918,7 @@ extension SFN {
         public let error: String?
         /// The Amazon Resource Name (ARN) of the execution to stop.
         public let executionArn: String
-        
+
         public init(cause: String? = nil, error: String? = nil, executionArn: String) {
             self.cause = cause
             self.error = error
@@ -1943,7 +1948,7 @@ extension SFN {
 
         /// The date the execution is stopped.
         public let stopDate: TimeStamp
-        
+
         public init(stopDate: TimeStamp) {
             self.stopDate = stopDate
         }
@@ -1963,7 +1968,7 @@ extension SFN {
         public let key: String?
         /// The value of a tag.
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1992,7 +1997,7 @@ extension SFN {
         public let resourceArn: String
         /// The list of tags to add to a resource. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @.
         public let tags: [Tag]
-        
+
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2013,11 +2018,12 @@ extension SFN {
     }
 
     public struct TagResourceOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct TaskFailedEventDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2035,7 +2041,7 @@ extension SFN {
         public let resource: String
         /// The action of the resource called by a task state.
         public let resourceType: String
-        
+
         public init(cause: String? = nil, error: String? = nil, resource: String, resourceType: String) {
             self.cause = cause
             self.error = error
@@ -2081,7 +2087,7 @@ extension SFN {
         public let resourceType: String
         /// The maximum allowed duration of the task.
         public let timeoutInSeconds: Int64?
-        
+
         public init(parameters: String, region: String, resource: String, resourceType: String, timeoutInSeconds: Int64? = nil) {
             self.parameters = parameters
             self.region = region
@@ -2126,7 +2132,7 @@ extension SFN {
         public let resource: String
         /// The action of the resource called by a task state.
         public let resourceType: String
-        
+
         public init(cause: String? = nil, error: String? = nil, resource: String, resourceType: String) {
             self.cause = cause
             self.error = error
@@ -2163,7 +2169,7 @@ extension SFN {
         public let resource: String
         /// The action of the resource called by a task state.
         public let resourceType: String
-        
+
         public init(resource: String, resourceType: String) {
             self.resource = resource
             self.resourceType = resourceType
@@ -2198,7 +2204,7 @@ extension SFN {
         public let resource: String
         /// The action of the resource called by a task state.
         public let resourceType: String
-        
+
         public init(cause: String? = nil, error: String? = nil, resource: String, resourceType: String) {
             self.cause = cause
             self.error = error
@@ -2238,7 +2244,7 @@ extension SFN {
         public let resource: String
         /// The action of the resource called by a task state.
         public let resourceType: String
-        
+
         public init(output: String? = nil, resource: String, resourceType: String) {
             self.output = output
             self.resource = resource
@@ -2273,7 +2279,7 @@ extension SFN {
         public let resource: String
         /// The action of the resource called by a task state.
         public let resourceType: String
-        
+
         public init(output: String? = nil, resource: String, resourceType: String) {
             self.output = output
             self.resource = resource
@@ -2311,7 +2317,7 @@ extension SFN {
         public let resource: String
         /// The action of the resource called by a task state.
         public let resourceType: String
-        
+
         public init(cause: String? = nil, error: String? = nil, resource: String, resourceType: String) {
             self.cause = cause
             self.error = error
@@ -2348,7 +2354,7 @@ extension SFN {
         public let resourceArn: String
         /// The list of tags to remove from the resource.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2370,11 +2376,12 @@ extension SFN {
     }
 
     public struct UntagResourceOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateStateMachineInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2389,7 +2396,7 @@ extension SFN {
         public let roleArn: String?
         /// The Amazon Resource Name (ARN) of the state machine.
         public let stateMachineArn: String
-        
+
         public init(definition: String? = nil, roleArn: String? = nil, stateMachineArn: String) {
             self.definition = definition
             self.roleArn = roleArn
@@ -2419,7 +2426,7 @@ extension SFN {
 
         /// The date and time the state machine was updated.
         public let updateDate: TimeStamp
-        
+
         public init(updateDate: TimeStamp) {
             self.updateDate = updateDate
         }
@@ -2428,5 +2435,4 @@ extension SFN {
             case updateDate = "updateDate"
         }
     }
-
 }

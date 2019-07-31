@@ -205,5 +205,4 @@ public struct Personalize {
     public func updateCampaign(_ input: UpdateCampaignRequest) throws -> Future<UpdateCampaignResponse> {
         return try client.send(operation: "UpdateCampaign", path: "/", httpMethod: "POST", input: input)
     }
-
 }

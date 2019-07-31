@@ -121,5 +121,4 @@ public struct CodeBuild {
     public func updateWebhook(_ input: UpdateWebhookInput) throws -> Future<UpdateWebhookOutput> {
         return try client.send(operation: "UpdateWebhook", path: "/", httpMethod: "POST", input: input)
     }
-
 }

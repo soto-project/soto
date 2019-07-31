@@ -105,5 +105,4 @@ public struct MigrationHub {
     public func putResourceAttributes(_ input: PutResourceAttributesRequest) throws -> Future<PutResourceAttributesResult> {
         return try client.send(operation: "PutResourceAttributes", path: "/", httpMethod: "POST", input: input)
     }
-
 }

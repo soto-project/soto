@@ -40,5 +40,4 @@ public struct CostandUsageReportService {
     public func putReportDefinition(_ input: PutReportDefinitionRequest) throws -> Future<PutReportDefinitionResponse> {
         return try client.send(operation: "PutReportDefinition", path: "/", httpMethod: "POST", input: input)
     }
-
 }

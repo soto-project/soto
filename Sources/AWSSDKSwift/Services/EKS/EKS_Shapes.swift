@@ -12,7 +12,7 @@ extension EKS {
 
         /// The Base64-encoded certificate data required to communicate with your cluster. Add this to the certificate-authority-data section of the kubeconfig file for your cluster.
         public let data: String?
-        
+
         public init(data: String? = nil) {
             self.data = data
         }
@@ -62,7 +62,7 @@ extension EKS {
         public let status: ClusterStatus?
         /// The Kubernetes server version for the cluster.
         public let version: String?
-        
+
         public init(arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, endpoint: String? = nil, logging: Logging? = nil, name: String? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, version: String? = nil) {
             self.arn = arn
             self.certificateAuthority = certificateAuthority
@@ -124,7 +124,7 @@ extension EKS {
         public let roleArn: String
         /// The desired Kubernetes version for your cluster. If you don't specify a value here, the latest version available in Amazon EKS is used.
         public let version: String?
-        
+
         public init(clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), logging: Logging? = nil, name: String, resourcesVpcConfig: VpcConfigRequest, roleArn: String, version: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.logging = logging
@@ -157,7 +157,7 @@ extension EKS {
 
         /// The full description of your new cluster.
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -174,7 +174,7 @@ extension EKS {
 
         /// The name of the cluster to delete.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -191,7 +191,7 @@ extension EKS {
 
         /// The full description of the cluster to delete.
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -208,7 +208,7 @@ extension EKS {
 
         /// The name of the cluster to describe.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -225,7 +225,7 @@ extension EKS {
 
         /// The full description of your specified cluster.
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -245,7 +245,7 @@ extension EKS {
         public let name: String
         /// The ID of the update to describe.
         public let updateId: String
-        
+
         public init(name: String, updateId: String) {
             self.name = name
             self.updateId = updateId
@@ -264,7 +264,7 @@ extension EKS {
 
         /// The full description of the specified update.
         public let update: Update?
-        
+
         public init(update: Update? = nil) {
             self.update = update
         }
@@ -299,7 +299,7 @@ extension EKS {
         public let errorMessage: String?
         /// An optional field that contains the resource IDs associated with the error.
         public let resourceIds: [String]?
-        
+
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, resourceIds: [String]? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -323,7 +323,7 @@ extension EKS {
         public let maxResults: Int32?
         /// The nextToken value returned from a previous paginated ListClusters request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -350,7 +350,7 @@ extension EKS {
         public let clusters: [String]?
         /// The nextToken value to include in a future ListClusters request. When the results of a ListClusters request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
-        
+
         public init(clusters: [String]? = nil, nextToken: String? = nil) {
             self.clusters = clusters
             self.nextToken = nextToken
@@ -375,7 +375,7 @@ extension EKS {
         public let name: String
         /// The nextToken value returned from a previous paginated ListUpdates request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, name: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -404,7 +404,7 @@ extension EKS {
         public let nextToken: String?
         /// A list of all the updates for the specified cluster and Region.
         public let updateIds: [String]?
-        
+
         public init(nextToken: String? = nil, updateIds: [String]? = nil) {
             self.nextToken = nextToken
             self.updateIds = updateIds
@@ -426,7 +426,7 @@ extension EKS {
         public let enabled: Bool?
         /// The available cluster control plane log types.
         public let types: [LogType]?
-        
+
         public init(enabled: Bool? = nil, types: [LogType]? = nil) {
             self.enabled = enabled
             self.types = types
@@ -454,7 +454,7 @@ extension EKS {
 
         /// The cluster control plane logging configuration for your cluster.
         public let clusterLogging: [LogSetup]?
-        
+
         public init(clusterLogging: [LogSetup]? = nil) {
             self.clusterLogging = clusterLogging
         }
@@ -486,7 +486,7 @@ extension EKS {
         public let status: UpdateStatus?
         /// The type of the update.
         public let `type`: UpdateType?
-        
+
         public init(createdAt: TimeStamp? = nil, errors: [ErrorDetail]? = nil, id: String? = nil, params: [UpdateParam]? = nil, status: UpdateStatus? = nil, type: UpdateType? = nil) {
             self.createdAt = createdAt
             self.errors = errors
@@ -521,7 +521,7 @@ extension EKS {
         /// The name of the Amazon EKS cluster to update.
         public let name: String
         public let resourcesVpcConfig: VpcConfigRequest?
-        
+
         public init(clientRequestToken: String? = UpdateClusterConfigRequest.idempotencyToken(), logging: Logging? = nil, name: String, resourcesVpcConfig: VpcConfigRequest? = nil) {
             self.clientRequestToken = clientRequestToken
             self.logging = logging
@@ -543,7 +543,7 @@ extension EKS {
         ]
 
         public let update: Update?
-        
+
         public init(update: Update? = nil) {
             self.update = update
         }
@@ -566,7 +566,7 @@ extension EKS {
         public let name: String
         /// The desired Kubernetes version following a successful update.
         public let version: String
-        
+
         public init(clientRequestToken: String? = UpdateClusterVersionRequest.idempotencyToken(), name: String, version: String) {
             self.clientRequestToken = clientRequestToken
             self.name = name
@@ -587,7 +587,7 @@ extension EKS {
 
         /// The full description of the specified update
         public let update: Update?
-        
+
         public init(update: Update? = nil) {
             self.update = update
         }
@@ -607,7 +607,7 @@ extension EKS {
         public let `type`: UpdateParamType?
         /// The value of the keys submitted as part of an update request.
         public let value: String?
-        
+
         public init(type: UpdateParamType? = nil, value: String? = nil) {
             self.`type` = `type`
             self.value = value
@@ -659,7 +659,7 @@ extension EKS {
         public let securityGroupIds: [String]?
         /// Specify subnets for your Amazon EKS worker nodes. Amazon EKS creates cross-account elastic network interfaces in these subnets to allow communication between your worker nodes and the Kubernetes control plane.
         public let subnetIds: [String]?
-        
+
         public init(endpointPrivateAccess: Bool? = nil, endpointPublicAccess: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
             self.endpointPrivateAccess = endpointPrivateAccess
             self.endpointPublicAccess = endpointPublicAccess
@@ -694,7 +694,7 @@ extension EKS {
         public let subnetIds: [String]?
         /// The VPC associated with your cluster.
         public let vpcId: String?
-        
+
         public init(endpointPrivateAccess: Bool? = nil, endpointPublicAccess: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.endpointPrivateAccess = endpointPrivateAccess
             self.endpointPublicAccess = endpointPublicAccess
@@ -711,5 +711,4 @@ extension EKS {
             case vpcId = "vpcId"
         }
     }
-
 }

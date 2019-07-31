@@ -726,5 +726,4 @@ public struct IAM {
     public func uploadSigningCertificate(_ input: UploadSigningCertificateRequest) throws -> Future<UploadSigningCertificateResponse> {
         return try client.send(operation: "UploadSigningCertificate", path: "/", httpMethod: "POST", input: input)
     }
-
 }

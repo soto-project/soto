@@ -15,7 +15,7 @@ extension SecurityHub {
         public let invitationId: String?
         /// The account ID of the Security Hub master account that sent the invitation.
         public let masterId: String?
-        
+
         public init(invitationId: String? = nil, masterId: String? = nil) {
             self.invitationId = invitationId
             self.masterId = masterId
@@ -33,11 +33,12 @@ extension SecurityHub {
     }
 
     public struct AcceptInvitationResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct AccountDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -49,7 +50,7 @@ extension SecurityHub {
         public let accountId: String?
         /// The email of an AWS account.
         public let email: String?
-        
+
         public init(accountId: String? = nil, email: String? = nil) {
             self.accountId = accountId
             self.email = email
@@ -78,7 +79,7 @@ extension SecurityHub {
         public let description: String
         /// The name of the action target.
         public let name: String
-        
+
         public init(actionTargetArn: String, description: String, name: String) {
             self.actionTargetArn = actionTargetArn
             self.description = description
@@ -129,7 +130,7 @@ extension SecurityHub {
         public let `type`: String?
         /// The identifier of the VPC that the instance was launched in.
         public let vpcId: String?
-        
+
         public init(iamInstanceProfileArn: String? = nil, imageId: String? = nil, ipV4Addresses: [String]? = nil, ipV6Addresses: [String]? = nil, keyName: String? = nil, launchedAt: String? = nil, subnetId: String? = nil, type: String? = nil, vpcId: String? = nil) {
             self.iamInstanceProfileArn = iamInstanceProfileArn
             self.imageId = imageId
@@ -184,7 +185,7 @@ extension SecurityHub {
         public let status: AwsIamAccessKeyStatus?
         /// The user associated with the IAM access key related to a finding.
         public let userName: String?
-        
+
         public init(createdAt: String? = nil, status: AwsIamAccessKeyStatus? = nil, userName: String? = nil) {
             self.createdAt = createdAt
             self.status = status
@@ -219,7 +220,7 @@ extension SecurityHub {
         public let ownerId: String?
         /// The display name of the owner of the S3 bucket.
         public let ownerName: String?
-        
+
         public init(ownerId: String? = nil, ownerName: String? = nil) {
             self.ownerId = ownerId
             self.ownerName = ownerName
@@ -330,7 +331,7 @@ extension SecurityHub {
         public let verificationState: VerificationState?
         /// The workflow state of a finding. 
         public let workflowState: WorkflowState?
-        
+
         public init(awsAccountId: String, compliance: Compliance? = nil, confidence: Int32? = nil, createdAt: String, criticality: Int32? = nil, description: String, firstObservedAt: String? = nil, generatorId: String, id: String, lastObservedAt: String? = nil, malware: [Malware]? = nil, network: Network? = nil, note: Note? = nil, process: ProcessDetails? = nil, productArn: String, productFields: [String: String]? = nil, recordState: RecordState? = nil, relatedFindings: [RelatedFinding]? = nil, remediation: Remediation? = nil, resources: [Resource], schemaVersion: String, severity: Severity, sourceUrl: String? = nil, threatIntelIndicators: [ThreatIntelIndicator]? = nil, title: String, types: [String], updatedAt: String, userDefinedFields: [String: String]? = nil, verificationState: VerificationState? = nil, workflowState: WorkflowState? = nil) {
             self.awsAccountId = awsAccountId
             self.compliance = compliance
@@ -685,7 +686,7 @@ extension SecurityHub {
         public let verificationState: [StringFilter]?
         /// The workflow state of a finding.
         public let workflowState: [StringFilter]?
-        
+
         public init(awsAccountId: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, keyword: [KeywordFilter]? = nil, lastObservedAt: [DateFilter]? = nil, malwareName: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, malwareState: [StringFilter]? = nil, malwareType: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, networkDirection: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, networkSourceMac: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, processName: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, processPath: [StringFilter]? = nil, processPid: [NumberFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, productArn: [StringFilter]? = nil, productFields: [MapFilter]? = nil, productName: [StringFilter]? = nil, recommendationText: [StringFilter]? = nil, recordState: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, resourceAwsIamAccessKeyUserName: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, resourceContainerName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severityLabel: [StringFilter]? = nil, severityNormalized: [NumberFilter]? = nil, severityProduct: [NumberFilter]? = nil, sourceUrl: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, workflowState: [StringFilter]? = nil) {
             self.awsAccountId = awsAccountId
             self.companyName = companyName
@@ -1094,7 +1095,7 @@ extension SecurityHub {
 
         /// The ARNs of the standards subscriptions to disable.
         public let standardsSubscriptionArns: [String]
-        
+
         public init(standardsSubscriptionArns: [String]) {
             self.standardsSubscriptionArns = standardsSubscriptionArns
         }
@@ -1119,7 +1120,7 @@ extension SecurityHub {
 
         /// The details of the standards subscriptions that were disabled.
         public let standardsSubscriptions: [StandardsSubscription]?
-        
+
         public init(standardsSubscriptions: [StandardsSubscription]? = nil) {
             self.standardsSubscriptions = standardsSubscriptions
         }
@@ -1142,7 +1143,7 @@ extension SecurityHub {
 
         /// The list of standards compliance checks to enable.  In this release, Security Hub supports only the CIS AWS Foundations standard. The ARN for the standard is arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0. 
         public let standardsSubscriptionRequests: [StandardsSubscriptionRequest]
-        
+
         public init(standardsSubscriptionRequests: [StandardsSubscriptionRequest]) {
             self.standardsSubscriptionRequests = standardsSubscriptionRequests
         }
@@ -1167,7 +1168,7 @@ extension SecurityHub {
 
         /// The details of the standards subscriptions that were enabled.
         public let standardsSubscriptions: [StandardsSubscription]?
-        
+
         public init(standardsSubscriptions: [StandardsSubscription]? = nil) {
             self.standardsSubscriptions = standardsSubscriptions
         }
@@ -1190,7 +1191,7 @@ extension SecurityHub {
 
         /// A list of findings to import. To successfully import a finding, it must follow the AWS Security Finding Format.
         public let findings: [AwsSecurityFinding]
-        
+
         public init(findings: [AwsSecurityFinding]) {
             self.findings = findings
         }
@@ -1219,7 +1220,7 @@ extension SecurityHub {
         public let failedFindings: [ImportFindingsError]?
         /// The number of findings that were successfully imported.
         public let successCount: Int32
-        
+
         public init(failedCount: Int32, failedFindings: [ImportFindingsError]? = nil, successCount: Int32) {
             self.failedCount = failedCount
             self.failedFindings = failedFindings
@@ -1246,7 +1247,7 @@ extension SecurityHub {
 
         /// The result of a compliance check.
         public let status: ComplianceStatus?
-        
+
         public init(status: ComplianceStatus? = nil) {
             self.status = status
         }
@@ -1280,7 +1281,7 @@ extension SecurityHub {
         public let launchedAt: String?
         /// The name of the container related to a finding.
         public let name: String?
-        
+
         public init(imageId: String? = nil, imageName: String? = nil, launchedAt: String? = nil, name: String? = nil) {
             self.imageId = imageId
             self.imageName = imageName
@@ -1316,7 +1317,7 @@ extension SecurityHub {
         public let id: String
         /// The name of the custom action target.
         public let name: String
-        
+
         public init(description: String, id: String, name: String) {
             self.description = description
             self.id = id
@@ -1343,7 +1344,7 @@ extension SecurityHub {
 
         /// The ARN for the custom action target.
         public let actionTargetArn: String
-        
+
         public init(actionTargetArn: String) {
             self.actionTargetArn = actionTargetArn
         }
@@ -1370,7 +1371,7 @@ extension SecurityHub {
         public let groupByAttribute: String
         /// The name of the custom insight to create.
         public let name: String
-        
+
         public init(filters: AwsSecurityFindingFilters, groupByAttribute: String, name: String) {
             self.filters = filters
             self.groupByAttribute = groupByAttribute
@@ -1397,7 +1398,7 @@ extension SecurityHub {
 
         /// The ARN of the insight created.
         public let insightArn: String
-        
+
         public init(insightArn: String) {
             self.insightArn = insightArn
         }
@@ -1418,7 +1419,7 @@ extension SecurityHub {
 
         /// A list of account ID and email address pairs of the accounts to associate with the Security Hub master account.
         public let accountDetails: [AccountDetails]?
-        
+
         public init(accountDetails: [AccountDetails]? = nil) {
             self.accountDetails = accountDetails
         }
@@ -1441,7 +1442,7 @@ extension SecurityHub {
 
         /// A list of account ID and email address pairs of the AWS accounts that weren't processed.
         public let unprocessedAccounts: [Result]?
-        
+
         public init(unprocessedAccounts: [Result]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -1470,7 +1471,7 @@ extension SecurityHub {
         public let end: String?
         /// A start date for the date filter.
         public let start: String?
-        
+
         public init(dateRange: DateRange? = nil, end: String? = nil, start: String? = nil) {
             self.dateRange = dateRange
             self.end = end
@@ -1499,7 +1500,7 @@ extension SecurityHub {
         public let unit: DateRangeUnit?
         /// A date range value for the date filter.
         public let value: Int32?
-        
+
         public init(unit: DateRangeUnit? = nil, value: Int32? = nil) {
             self.unit = unit
             self.value = value
@@ -1523,7 +1524,7 @@ extension SecurityHub {
 
         /// A list of account IDs that specify the accounts that invitations to Security Hub are declined from.
         public let accountIds: [String]?
-        
+
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
@@ -1546,7 +1547,7 @@ extension SecurityHub {
 
         /// A list of account ID and email address pairs of the AWS accounts that weren't processed.
         public let unprocessedAccounts: [Result]?
-        
+
         public init(unprocessedAccounts: [Result]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -1569,7 +1570,7 @@ extension SecurityHub {
 
         /// The ARN of the custom action target to delete.
         public let actionTargetArn: String
-        
+
         public init(actionTargetArn: String) {
             self.actionTargetArn = actionTargetArn
         }
@@ -1590,7 +1591,7 @@ extension SecurityHub {
 
         /// The ARN of the custom action target that was deleted.
         public let actionTargetArn: String
-        
+
         public init(actionTargetArn: String) {
             self.actionTargetArn = actionTargetArn
         }
@@ -1611,7 +1612,7 @@ extension SecurityHub {
 
         /// The ARN of the insight to delete.
         public let insightArn: String
-        
+
         public init(insightArn: String) {
             self.insightArn = insightArn
         }
@@ -1632,7 +1633,7 @@ extension SecurityHub {
 
         /// The ARN of the insight that was deleted.
         public let insightArn: String
-        
+
         public init(insightArn: String) {
             self.insightArn = insightArn
         }
@@ -1653,7 +1654,7 @@ extension SecurityHub {
 
         /// A list of the account IDs that sent the invitations to delete.
         public let accountIds: [String]?
-        
+
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
@@ -1676,7 +1677,7 @@ extension SecurityHub {
 
         /// A list of account ID and email address pairs of the AWS accounts that invitations weren't deleted for.
         public let unprocessedAccounts: [Result]?
-        
+
         public init(unprocessedAccounts: [Result]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -1699,7 +1700,7 @@ extension SecurityHub {
 
         /// A list of account IDs of the member accounts to delete.
         public let accountIds: [String]?
-        
+
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
@@ -1722,7 +1723,7 @@ extension SecurityHub {
 
         /// A list of account ID and email address pairs of the AWS accounts that weren't deleted.
         public let unprocessedAccounts: [Result]?
-        
+
         public init(unprocessedAccounts: [Result]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -1751,7 +1752,7 @@ extension SecurityHub {
         public let maxResults: Int32?
         /// The token that is required for pagination.
         public let nextToken: String?
-        
+
         public init(actionTargetArns: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.actionTargetArns = actionTargetArns
             self.maxResults = maxResults
@@ -1783,7 +1784,7 @@ extension SecurityHub {
         public let actionTargets: [ActionTarget]
         /// The token that is required for pagination.
         public let nextToken: String?
-        
+
         public init(actionTargets: [ActionTarget], nextToken: String? = nil) {
             self.actionTargets = actionTargets
             self.nextToken = nextToken
@@ -1808,7 +1809,7 @@ extension SecurityHub {
 
         /// The ARN of the Hub resource to retrieve.
         public let hubArn: String?
-        
+
         public init(hubArn: String? = nil) {
             self.hubArn = hubArn
         }
@@ -1832,7 +1833,7 @@ extension SecurityHub {
         public let hubArn: String?
         /// The date and time when Security Hub was enabled in the account.
         public let subscribedAt: String?
-        
+
         public init(hubArn: String? = nil, subscribedAt: String? = nil) {
             self.hubArn = hubArn
             self.subscribedAt = subscribedAt
@@ -1859,7 +1860,7 @@ extension SecurityHub {
         public let maxResults: Int32?
         /// The token that is required for pagination.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1886,7 +1887,7 @@ extension SecurityHub {
         public let nextToken: String?
         /// A list of products, including details for each product.
         public let products: [Product]
-        
+
         public init(nextToken: String? = nil, products: [Product]) {
             self.nextToken = nextToken
             self.products = products
@@ -1911,7 +1912,7 @@ extension SecurityHub {
 
         /// The ARN of the integrated product to disable the integration for.
         public let productSubscriptionArn: String
-        
+
         public init(productSubscriptionArn: String) {
             self.productSubscriptionArn = productSubscriptionArn
         }
@@ -1926,39 +1927,44 @@ extension SecurityHub {
     }
 
     public struct DisableImportFindingsForProductResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisableSecurityHubRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisableSecurityHubResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociateFromMasterAccountRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociateFromMasterAccountResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociateMembersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1967,7 +1973,7 @@ extension SecurityHub {
 
         /// The account IDs of the member accounts to disassociate from the master account.
         public let accountIds: [String]?
-        
+
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
@@ -1984,11 +1990,12 @@ extension SecurityHub {
     }
 
     public struct DisassociateMembersResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct EnableImportFindingsForProductRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1997,7 +2004,7 @@ extension SecurityHub {
 
         /// The ARN of the product to enable the integration for.
         public let productArn: String
-        
+
         public init(productArn: String) {
             self.productArn = productArn
         }
@@ -2018,7 +2025,7 @@ extension SecurityHub {
 
         /// The ARN of your subscription to the product to enable integrations for.
         public let productSubscriptionArn: String?
-        
+
         public init(productSubscriptionArn: String? = nil) {
             self.productSubscriptionArn = productSubscriptionArn
         }
@@ -2039,7 +2046,7 @@ extension SecurityHub {
 
         /// The tags to add to the Hub resource when you enable Security Hub.
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2050,11 +2057,12 @@ extension SecurityHub {
     }
 
     public struct EnableSecurityHubResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetEnabledStandardsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2069,7 +2077,7 @@ extension SecurityHub {
         public let nextToken: String?
         /// A list of the standards subscription ARNs for the standards to retrieve.
         public let standardsSubscriptionArns: [String]?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, standardsSubscriptionArns: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2103,7 +2111,7 @@ extension SecurityHub {
         public let nextToken: String?
         /// A list of StandardsSubscriptions objects that include information about the enabled standards.
         public let standardsSubscriptions: [StandardsSubscription]?
-        
+
         public init(nextToken: String? = nil, standardsSubscriptions: [StandardsSubscription]? = nil) {
             self.nextToken = nextToken
             self.standardsSubscriptions = standardsSubscriptions
@@ -2137,7 +2145,7 @@ extension SecurityHub {
         public let nextToken: String?
         /// Findings attributes used to sort the list of findings returned.
         public let sortCriteria: [SortCriterion]?
-        
+
         public init(filters: AwsSecurityFindingFilters? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [SortCriterion]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2172,7 +2180,7 @@ extension SecurityHub {
         public let findings: [AwsSecurityFinding]
         /// The token that is required for pagination.
         public let nextToken: String?
-        
+
         public init(findings: [AwsSecurityFinding], nextToken: String? = nil) {
             self.findings = findings
             self.nextToken = nextToken
@@ -2197,7 +2205,7 @@ extension SecurityHub {
 
         /// The ARN of the insight whose results you want to see.
         public let insightArn: String
-        
+
         public init(insightArn: String) {
             self.insightArn = insightArn
         }
@@ -2218,7 +2226,7 @@ extension SecurityHub {
 
         /// The insight results returned by the operation.
         public let insightResults: InsightResults
-        
+
         public init(insightResults: InsightResults) {
             self.insightResults = insightResults
         }
@@ -2245,7 +2253,7 @@ extension SecurityHub {
         public let maxResults: Int32?
         /// Paginates results. On your first call to the GetInsights operation, set the value of this parameter to NULL. For subsequent calls to the operation, fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
         public let nextToken: String?
-        
+
         public init(insightArns: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.insightArns = insightArns
             self.maxResults = maxResults
@@ -2277,7 +2285,7 @@ extension SecurityHub {
         public let insights: [Insight]
         /// The token that is required for pagination.
         public let nextToken: String?
-        
+
         public init(insights: [Insight], nextToken: String? = nil) {
             self.insights = insights
             self.nextToken = nextToken
@@ -2296,11 +2304,12 @@ extension SecurityHub {
     }
 
     public struct GetInvitationsCountRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetInvitationsCountResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2309,7 +2318,7 @@ extension SecurityHub {
 
         /// The number of all membership invitations sent to this Security Hub member account, not including the currently accepted invitation. 
         public let invitationsCount: Int32?
-        
+
         public init(invitationsCount: Int32? = nil) {
             self.invitationsCount = invitationsCount
         }
@@ -2320,11 +2329,12 @@ extension SecurityHub {
     }
 
     public struct GetMasterAccountRequest: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetMasterAccountResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2333,7 +2343,7 @@ extension SecurityHub {
 
         /// A list of details about the Security Hub master account for the current member account. 
         public let master: Invitation?
-        
+
         public init(master: Invitation? = nil) {
             self.master = master
         }
@@ -2354,7 +2364,7 @@ extension SecurityHub {
 
         /// A list of account IDs for the Security Hub member accounts that you want to return the details for. 
         public let accountIds: [String]
-        
+
         public init(accountIds: [String]) {
             self.accountIds = accountIds
         }
@@ -2380,7 +2390,7 @@ extension SecurityHub {
         public let members: [Member]?
         /// A list of account ID and email address pairs of the AWS accounts that couldn't be processed.
         public let unprocessedAccounts: [Result]?
-        
+
         public init(members: [Member]? = nil, unprocessedAccounts: [Result]? = nil) {
             self.members = members
             self.unprocessedAccounts = unprocessedAccounts
@@ -2414,7 +2424,7 @@ extension SecurityHub {
         public let errorMessage: String
         /// The ID of the error made during the BatchImportFindings operation.
         public let id: String
-        
+
         public init(errorCode: String, errorMessage: String, id: String) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -2450,7 +2460,7 @@ extension SecurityHub {
         public let insightArn: String
         /// The name of a Security Hub insight.
         public let name: String
-        
+
         public init(filters: AwsSecurityFindingFilters, groupByAttribute: String, insightArn: String, name: String) {
             self.filters = filters
             self.groupByAttribute = groupByAttribute
@@ -2483,7 +2493,7 @@ extension SecurityHub {
         public let count: Int32
         /// The value of the attribute that the findings are grouped by for the insight whose results are returned by the GetInsightResults operation.
         public let groupByAttributeValue: String
-        
+
         public init(count: Int32, groupByAttributeValue: String) {
             self.count = count
             self.groupByAttributeValue = groupByAttributeValue
@@ -2512,7 +2522,7 @@ extension SecurityHub {
         public let insightArn: String
         /// The list of insight result values returned by the GetInsightResults operation.
         public let resultValues: [InsightResultValue]
-        
+
         public init(groupByAttribute: String, insightArn: String, resultValues: [InsightResultValue]) {
             self.groupByAttribute = groupByAttribute
             self.insightArn = insightArn
@@ -2550,7 +2560,7 @@ extension SecurityHub {
         public let invitedAt: TimeStamp?
         /// The current status of the association between member and master accounts.
         public let memberStatus: String?
-        
+
         public init(accountId: String? = nil, invitationId: String? = nil, invitedAt: TimeStamp? = nil, memberStatus: String? = nil) {
             self.accountId = accountId
             self.invitationId = invitationId
@@ -2578,7 +2588,7 @@ extension SecurityHub {
 
         /// A list of IDs of the AWS accounts that you want to invite to Security Hub as members. 
         public let accountIds: [String]?
-        
+
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
@@ -2601,7 +2611,7 @@ extension SecurityHub {
 
         /// A list of account ID and email address pairs of the AWS accounts that couldn't be processed. 
         public let unprocessedAccounts: [Result]?
-        
+
         public init(unprocessedAccounts: [Result]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -2624,7 +2634,7 @@ extension SecurityHub {
 
         /// A finding's CIDR value.
         public let cidr: String?
-        
+
         public init(cidr: String? = nil) {
             self.cidr = cidr
         }
@@ -2645,7 +2655,7 @@ extension SecurityHub {
 
         /// A value for the keyword.
         public let value: String?
-        
+
         public init(value: String? = nil) {
             self.value = value
         }
@@ -2669,7 +2679,7 @@ extension SecurityHub {
         public let maxResults: Int32?
         /// Paginates results. On your first call to the ListEnabledProductsForImport operation, set the value of this parameter to NULL. For subsequent calls to the operation, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2696,7 +2706,7 @@ extension SecurityHub {
         public let nextToken: String?
         /// A list of ARNs for the resources that represent your subscriptions to products. 
         public let productSubscriptions: [String]?
-        
+
         public init(nextToken: String? = nil, productSubscriptions: [String]? = nil) {
             self.nextToken = nextToken
             self.productSubscriptions = productSubscriptions
@@ -2724,7 +2734,7 @@ extension SecurityHub {
         public let maxResults: Int32?
         /// Paginates results. On your first call to the ListInvitations operation, set the value of this parameter to NULL. For subsequent calls to the operation, fill nextToken in the request with the value of NextToken from the previous response to continue listing data. 
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2751,7 +2761,7 @@ extension SecurityHub {
         public let invitations: [Invitation]?
         /// The token that is required for pagination.
         public let nextToken: String?
-        
+
         public init(invitations: [Invitation]? = nil, nextToken: String? = nil) {
             self.invitations = invitations
             self.nextToken = nextToken
@@ -2783,7 +2793,7 @@ extension SecurityHub {
         public let nextToken: String?
         /// Specifies which member accounts the response includes based on their relationship status with the master account. The default value is TRUE. If onlyAssociated is set to TRUE, the response includes member accounts whose relationship status with the master is set to ENABLED or DISABLED. If onlyAssociated is set to FALSE, the response includes all existing member accounts. 
         public let onlyAssociated: Bool?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, onlyAssociated: Bool? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2812,7 +2822,7 @@ extension SecurityHub {
         public let members: [Member]?
         /// The token that is required for pagination.
         public let nextToken: String?
-        
+
         public init(members: [Member]? = nil, nextToken: String? = nil) {
             self.members = members
             self.nextToken = nextToken
@@ -2838,7 +2848,7 @@ extension SecurityHub {
 
         /// The ARN of the resource to retrieve tags for.
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2859,7 +2869,7 @@ extension SecurityHub {
 
         /// The tags associated with a resource.
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2885,7 +2895,7 @@ extension SecurityHub {
         public let state: MalwareState?
         /// The type of the malware that was observed.
         public let `type`: MalwareType?
-        
+
         public init(name: String, path: String? = nil, state: MalwareState? = nil, type: MalwareType? = nil) {
             self.name = name
             self.path = path
@@ -2945,7 +2955,7 @@ extension SecurityHub {
         public let key: String?
         /// The value for the key in the map filter.
         public let value: String?
-        
+
         public init(comparison: MapFilterComparison? = nil, key: String? = nil, value: String? = nil) {
             self.comparison = comparison
             self.key = key
@@ -2991,7 +3001,7 @@ extension SecurityHub {
         public let memberStatus: String?
         /// The timestamp for the date and time when the member account was updated.
         public let updatedAt: TimeStamp?
-        
+
         public init(accountId: String? = nil, email: String? = nil, invitedAt: TimeStamp? = nil, masterId: String? = nil, memberStatus: String? = nil, updatedAt: TimeStamp? = nil) {
             self.accountId = accountId
             self.email = email
@@ -3054,7 +3064,7 @@ extension SecurityHub {
         public let sourceMac: String?
         /// The source port of network-related information about a finding.
         public let sourcePort: Int32?
-        
+
         public init(destinationDomain: String? = nil, destinationIpV4: String? = nil, destinationIpV6: String? = nil, destinationPort: Int32? = nil, direction: NetworkDirection? = nil, protocol: String? = nil, sourceDomain: String? = nil, sourceIpV4: String? = nil, sourceIpV6: String? = nil, sourceMac: String? = nil, sourcePort: Int32? = nil) {
             self.destinationDomain = destinationDomain
             self.destinationIpV4 = destinationIpV4
@@ -3114,7 +3124,7 @@ extension SecurityHub {
         public let updatedAt: String
         /// The principal that created a note.
         public let updatedBy: String
-        
+
         public init(text: String, updatedAt: String, updatedBy: String) {
             self.text = text
             self.updatedAt = updatedAt
@@ -3144,7 +3154,7 @@ extension SecurityHub {
         public let text: String
         /// The principal that updated the note.
         public let updatedBy: String
-        
+
         public init(text: String, updatedBy: String) {
             self.text = text
             self.updatedBy = updatedBy
@@ -3174,7 +3184,7 @@ extension SecurityHub {
         public let gte: Double?
         /// The less-than-equal condition to be applied to a single field when querying for findings. 
         public let lte: Double?
-        
+
         public init(eq: Double? = nil, gte: Double? = nil, lte: Double? = nil) {
             self.eq = eq
             self.gte = gte
@@ -3217,7 +3227,7 @@ extension SecurityHub {
         public let pid: Int32?
         /// The date and time when the process was terminated.
         public let terminatedAt: String?
-        
+
         public init(launchedAt: String? = nil, name: String? = nil, parentPid: Int32? = nil, path: String? = nil, pid: Int32? = nil, terminatedAt: String? = nil) {
             self.launchedAt = launchedAt
             self.name = name
@@ -3272,7 +3282,7 @@ extension SecurityHub {
         public let productName: String?
         /// The resource policy associated with the product.
         public let productSubscriptionResourcePolicy: String?
-        
+
         public init(activationUrl: String? = nil, categories: [String]? = nil, companyName: String? = nil, description: String? = nil, marketplaceUrl: String? = nil, productArn: String, productName: String? = nil, productSubscriptionResourcePolicy: String? = nil) {
             self.activationUrl = activationUrl
             self.categories = categories
@@ -3319,7 +3329,7 @@ extension SecurityHub {
         public let text: String?
         /// A URL to a page or site that contains information about how to remediate a finding.
         public let url: String?
-        
+
         public init(text: String? = nil, url: String? = nil) {
             self.text = text
             self.url = url
@@ -3352,7 +3362,7 @@ extension SecurityHub {
         public let id: String
         /// The ARN of the product that generated a related finding.
         public let productArn: String
-        
+
         public init(id: String, productArn: String) {
             self.id = id
             self.productArn = productArn
@@ -3376,7 +3386,7 @@ extension SecurityHub {
 
         /// A recommendation on the steps to take to remediate the issue identified by a finding.
         public let recommendation: Recommendation?
-        
+
         public init(recommendation: Recommendation? = nil) {
             self.recommendation = recommendation
         }
@@ -3412,7 +3422,7 @@ extension SecurityHub {
         public let tags: [String: String]?
         /// The type of the resource that details are provided for.
         public let `type`: String
-        
+
         public init(details: ResourceDetails? = nil, id: String, partition: Partition? = nil, region: String? = nil, tags: [String: String]? = nil, type: String) {
             self.details = details
             self.id = id
@@ -3458,7 +3468,7 @@ extension SecurityHub {
         public let container: ContainerDetails?
         /// Details about a resource that doesn't have a specific type defined.
         public let other: [String: String]?
-        
+
         public init(awsEc2Instance: AwsEc2InstanceDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
             self.awsEc2Instance = awsEc2Instance
             self.awsIamAccessKey = awsIamAccessKey
@@ -3493,7 +3503,7 @@ extension SecurityHub {
         public let accountId: String?
         /// The reason that the account wasn't be processed.
         public let processingResult: String?
-        
+
         public init(accountId: String? = nil, processingResult: String? = nil) {
             self.accountId = accountId
             self.processingResult = processingResult
@@ -3519,7 +3529,7 @@ extension SecurityHub {
         public let normalized: Int32
         /// The native severity as defined by the AWS service or integrated partner product that generated the finding.
         public let product: Double?
-        
+
         public init(normalized: Int32, product: Double? = nil) {
             self.normalized = normalized
             self.product = product
@@ -3541,7 +3551,7 @@ extension SecurityHub {
         public let field: String?
         /// The order used to sort findings.
         public let sortOrder: SortOrder?
-        
+
         public init(field: String? = nil, sortOrder: SortOrder? = nil) {
             self.field = field
             self.sortOrder = sortOrder
@@ -3588,7 +3598,7 @@ extension SecurityHub {
         public let standardsStatus: StandardsStatus
         /// The ARN of a resource that represents your subscription to a supported standard.
         public let standardsSubscriptionArn: String
-        
+
         public init(standardsArn: String, standardsInput: [String: String], standardsStatus: StandardsStatus, standardsSubscriptionArn: String) {
             self.standardsArn = standardsArn
             self.standardsInput = standardsInput
@@ -3619,7 +3629,7 @@ extension SecurityHub {
         public let standardsArn: String
         /// A key-value pair of input for the standard.
         public let standardsInput: [String: String]?
-        
+
         public init(standardsArn: String, standardsInput: [String: String]? = nil) {
             self.standardsArn = standardsArn
             self.standardsInput = standardsInput
@@ -3645,7 +3655,7 @@ extension SecurityHub {
         public let comparison: StringFilterComparison?
         /// The string filter value.
         public let value: String?
-        
+
         public init(comparison: StringFilterComparison? = nil, value: String? = nil) {
             self.comparison = comparison
             self.value = value
@@ -3677,7 +3687,7 @@ extension SecurityHub {
         public let resourceArn: String
         /// The tags to add to the resource.
         public let tags: [String: String]
-        
+
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3694,11 +3704,12 @@ extension SecurityHub {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct ThreatIntelIndicator: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3722,7 +3733,7 @@ extension SecurityHub {
         public let `type`: ThreatIntelIndicatorType?
         /// The value of a threat intel indicator.
         public let value: String?
-        
+
         public init(category: ThreatIntelIndicatorCategory? = nil, lastObservedAt: String? = nil, source: String? = nil, sourceUrl: String? = nil, type: ThreatIntelIndicatorType? = nil, value: String? = nil) {
             self.category = category
             self.lastObservedAt = lastObservedAt
@@ -3784,7 +3795,7 @@ extension SecurityHub {
         public let resourceArn: String
         /// The tag keys associated with the tags to remove from the resource.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3808,11 +3819,12 @@ extension SecurityHub {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateActionTargetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3827,7 +3839,7 @@ extension SecurityHub {
         public let description: String?
         /// The updated name of the custom action target.
         public let name: String?
-        
+
         public init(actionTargetArn: String, description: String? = nil, name: String? = nil) {
             self.actionTargetArn = actionTargetArn
             self.description = description
@@ -3848,11 +3860,12 @@ extension SecurityHub {
     }
 
     public struct UpdateActionTargetResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateFindingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3867,7 +3880,7 @@ extension SecurityHub {
         public let note: NoteUpdate?
         /// The updated record state for the finding.
         public let recordState: RecordState?
-        
+
         public init(filters: AwsSecurityFindingFilters, note: NoteUpdate? = nil, recordState: RecordState? = nil) {
             self.filters = filters
             self.note = note
@@ -3887,11 +3900,12 @@ extension SecurityHub {
     }
 
     public struct UpdateFindingsResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateInsightRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3909,7 +3923,7 @@ extension SecurityHub {
         public let insightArn: String
         /// The updated name for the insight.
         public let name: String?
-        
+
         public init(filters: AwsSecurityFindingFilters? = nil, groupByAttribute: String? = nil, insightArn: String, name: String? = nil) {
             self.filters = filters
             self.groupByAttribute = groupByAttribute
@@ -3933,11 +3947,12 @@ extension SecurityHub {
     }
 
     public struct UpdateInsightResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum VerificationState: String, CustomStringConvertible, Codable {
         case unknown = "UNKNOWN"
@@ -3955,5 +3970,4 @@ extension SecurityHub {
         case resolved = "RESOLVED"
         public var description: String { return self.rawValue }
     }
-
 }

@@ -15,7 +15,7 @@ extension CloudTrail {
         public let resourceId: String
         /// Contains a list of CloudTrail tags, up to a limit of 50
         public let tagsList: [Tag]?
-        
+
         public init(resourceId: String, tagsList: [Tag]? = nil) {
             self.resourceId = resourceId
             self.tagsList = tagsList
@@ -28,11 +28,12 @@ extension CloudTrail {
     }
 
     public struct AddTagsResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateTrailRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -71,7 +72,7 @@ extension CloudTrail {
         public let s3KeyPrefix: String?
         /// Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
         public let snsTopicName: String?
-        
+
         public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, enableLogFileValidation: Bool? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, name: String, s3BucketName: String, s3KeyPrefix: String? = nil, snsTopicName: String? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
@@ -141,7 +142,7 @@ extension CloudTrail {
         public let snsTopicARN: String?
         /// Specifies the ARN of the trail that was created. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let trailARN: String?
-        
+
         public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil, trailARN: String? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
@@ -183,7 +184,7 @@ extension CloudTrail {
         public let `type`: String?
         /// An array of Amazon Resource Name (ARN) strings or partial ARN strings for the specified objects.   To log data events for all objects in all S3 buckets in your AWS account, specify the prefix as arn:aws:s3:::.   This will also enable logging of data event activity performed by any user or role in your AWS account, even if that activity is performed on a bucket that belongs to another AWS account.     To log data events for all objects in all S3 buckets that include my-bucket in their names, specify the prefix as aws:s3:::my-bucket. The trail logs data events for all objects in all buckets whose name contains a match for my-bucket.    To log data events for all objects in an S3 bucket, specify the bucket and an empty object prefix such as arn:aws:s3:::bucket-1/. The trail logs data events for all objects in this S3 bucket.   To log data events for specific objects, specify the S3 bucket and object prefix such as arn:aws:s3:::bucket-1/example-images. The trail logs data events for objects in this S3 bucket that match the prefix.   To log data events for all functions in your AWS account, specify the prefix as arn:aws:lambda.  This will also enable logging of Invoke activity performed by any user or role in your AWS account, even if that activity is performed on a function that belongs to another AWS account.     To log data eents for a specific Lambda function, specify the function ARN.  Lambda function ARNs are exact. Unlike S3, you cannot use matching. For example, if you specify a function ARN arn:aws:lambda:us-west-2:111111111111:function:helloworld, data events will only be logged for arn:aws:lambda:us-west-2:111111111111:function:helloworld. They will not be logged for arn:aws:lambda:us-west-2:111111111111:function:helloworld2.   
         public let values: [String]?
-        
+
         public init(type: String? = nil, values: [String]? = nil) {
             self.`type` = `type`
             self.values = values
@@ -202,7 +203,7 @@ extension CloudTrail {
 
         /// Specifies the name or the CloudTrail ARN of the trail to be deleted. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -213,11 +214,12 @@ extension CloudTrail {
     }
 
     public struct DeleteTrailResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeTrailsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -229,7 +231,7 @@ extension CloudTrail {
         public let includeShadowTrails: Bool?
         /// Specifies a list of trail names, trail ARNs, or both, of the trails to describe. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  If an empty list is specified, information for the trail in the current region is returned.   If an empty list is specified and IncludeShadowTrails is false, then information for all trails in the current region is returned.   If an empty list is specified and IncludeShadowTrails is null or true, then information for all trails in the current region and any associated shadow trails in other regions is returned.    If one or more trail names are specified, information is returned only if the names match the names of trails belonging only to the current region. To return information about a trail in another region, you must specify its trail ARN. 
         public let trailNameList: [String]?
-        
+
         public init(includeShadowTrails: Bool? = nil, trailNameList: [String]? = nil) {
             self.includeShadowTrails = includeShadowTrails
             self.trailNameList = trailNameList
@@ -248,7 +250,7 @@ extension CloudTrail {
 
         /// The list of trail objects.
         public let trailList: [Trail]?
-        
+
         public init(trailList: [Trail]? = nil) {
             self.trailList = trailList
         }
@@ -289,7 +291,7 @@ extension CloudTrail {
         public let resources: [Resource]?
         /// A user name or role name of the requester that called the API in the event returned.
         public let username: String?
-        
+
         public init(accessKeyId: String? = nil, cloudTrailEvent: String? = nil, eventId: String? = nil, eventName: String? = nil, eventSource: String? = nil, eventTime: TimeStamp? = nil, readOnly: String? = nil, resources: [Resource]? = nil, username: String? = nil) {
             self.accessKeyId = accessKeyId
             self.cloudTrailEvent = cloudTrailEvent
@@ -328,7 +330,7 @@ extension CloudTrail {
         public let includeManagementEvents: Bool?
         /// Specify if you want your trail to log read-only events, write-only events, or all. For example, the EC2 GetConsoleOutput is a read-only API operation and RunInstances is a write-only API operation.  By default, the value is All.
         public let readWriteType: ReadWriteType?
-        
+
         public init(dataResources: [DataResource]? = nil, includeManagementEvents: Bool? = nil, readWriteType: ReadWriteType? = nil) {
             self.dataResources = dataResources
             self.includeManagementEvents = includeManagementEvents
@@ -349,7 +351,7 @@ extension CloudTrail {
 
         /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let trailName: String
-        
+
         public init(trailName: String) {
             self.trailName = trailName
         }
@@ -369,7 +371,7 @@ extension CloudTrail {
         public let eventSelectors: [EventSelector]?
         /// The specified trail ARN that has the event selectors.
         public let trailARN: String?
-        
+
         public init(eventSelectors: [EventSelector]? = nil, trailARN: String? = nil) {
             self.eventSelectors = eventSelectors
             self.trailARN = trailARN
@@ -388,7 +390,7 @@ extension CloudTrail {
 
         /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another region), you must specify its ARN. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -453,7 +455,7 @@ extension CloudTrail {
         public let timeLoggingStarted: String?
         /// This field is deprecated.
         public let timeLoggingStopped: String?
-        
+
         public init(isLogging: Bool? = nil, latestCloudWatchLogsDeliveryError: String? = nil, latestCloudWatchLogsDeliveryTime: TimeStamp? = nil, latestDeliveryAttemptSucceeded: String? = nil, latestDeliveryAttemptTime: String? = nil, latestDeliveryError: String? = nil, latestDeliveryTime: TimeStamp? = nil, latestDigestDeliveryError: String? = nil, latestDigestDeliveryTime: TimeStamp? = nil, latestNotificationAttemptSucceeded: String? = nil, latestNotificationAttemptTime: String? = nil, latestNotificationError: String? = nil, latestNotificationTime: TimeStamp? = nil, startLoggingTime: TimeStamp? = nil, stopLoggingTime: TimeStamp? = nil, timeLoggingStarted: String? = nil, timeLoggingStopped: String? = nil) {
             self.isLogging = isLogging
             self.latestCloudWatchLogsDeliveryError = latestCloudWatchLogsDeliveryError
@@ -508,7 +510,7 @@ extension CloudTrail {
         public let nextToken: String?
         /// Optionally specifies, in UTC, the start of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used, and the current public key is returned.
         public let startTime: TimeStamp?
-        
+
         public init(endTime: TimeStamp? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil) {
             self.endTime = endTime
             self.nextToken = nextToken
@@ -532,7 +534,7 @@ extension CloudTrail {
         public let nextToken: String?
         /// Contains an array of PublicKey objects.  The returned public keys may have validity time ranges that overlap. 
         public let publicKeyList: [PublicKey]?
-        
+
         public init(nextToken: String? = nil, publicKeyList: [PublicKey]? = nil) {
             self.nextToken = nextToken
             self.publicKeyList = publicKeyList
@@ -554,7 +556,7 @@ extension CloudTrail {
         public let nextToken: String?
         /// Specifies a list of trail ARNs whose tags will be listed. The list has a limit of 20 ARNs. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let resourceIdList: [String]
-        
+
         public init(nextToken: String? = nil, resourceIdList: [String]) {
             self.nextToken = nextToken
             self.resourceIdList = resourceIdList
@@ -576,7 +578,7 @@ extension CloudTrail {
         public let nextToken: String?
         /// A list of resource tags.
         public let resourceTagList: [ResourceTag]?
-        
+
         public init(nextToken: String? = nil, resourceTagList: [ResourceTag]? = nil) {
             self.nextToken = nextToken
             self.resourceTagList = resourceTagList
@@ -598,7 +600,7 @@ extension CloudTrail {
         public let attributeKey: LookupAttributeKey
         /// Specifies a value for the specified AttributeKey.
         public let attributeValue: String
-        
+
         public init(attributeKey: LookupAttributeKey, attributeValue: String) {
             self.attributeKey = attributeKey
             self.attributeValue = attributeValue
@@ -641,7 +643,7 @@ extension CloudTrail {
         public let nextToken: String?
         /// Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
         public let startTime: TimeStamp?
-        
+
         public init(endTime: TimeStamp? = nil, lookupAttributes: [LookupAttribute]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil) {
             self.endTime = endTime
             self.lookupAttributes = lookupAttributes
@@ -674,7 +676,7 @@ extension CloudTrail {
         public let events: [Event]?
         /// The token to use to get the next page of results after a previous API call. If the token does not appear, there are no more results to return. The token must be passed in with the same parameters as the previous call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
         public let nextToken: String?
-        
+
         public init(events: [Event]? = nil, nextToken: String? = nil) {
             self.events = events
             self.nextToken = nextToken
@@ -702,7 +704,7 @@ extension CloudTrail {
         public let validityStartTime: TimeStamp?
         /// The DER encoded public key value in PKCS#1 format.
         public let value: Data?
-        
+
         public init(fingerprint: String? = nil, validityEndTime: TimeStamp? = nil, validityStartTime: TimeStamp? = nil, value: Data? = nil) {
             self.fingerprint = fingerprint
             self.validityEndTime = validityEndTime
@@ -728,7 +730,7 @@ extension CloudTrail {
         public let eventSelectors: [EventSelector]
         /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let trailName: String
-        
+
         public init(eventSelectors: [EventSelector], trailName: String) {
             self.eventSelectors = eventSelectors
             self.trailName = trailName
@@ -750,7 +752,7 @@ extension CloudTrail {
         public let eventSelectors: [EventSelector]?
         /// Specifies the ARN of the trail that was updated with event selectors. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let trailARN: String?
-        
+
         public init(eventSelectors: [EventSelector]? = nil, trailARN: String? = nil) {
             self.eventSelectors = eventSelectors
             self.trailARN = trailARN
@@ -779,7 +781,7 @@ extension CloudTrail {
         public let resourceId: String
         /// Specifies a list of tags to be removed.
         public let tagsList: [Tag]?
-        
+
         public init(resourceId: String, tagsList: [Tag]? = nil) {
             self.resourceId = resourceId
             self.tagsList = tagsList
@@ -792,11 +794,12 @@ extension CloudTrail {
     }
 
     public struct RemoveTagsResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Resource: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -808,7 +811,7 @@ extension CloudTrail {
         public let resourceName: String?
         /// The type of a resource referenced by the event returned. When the resource type cannot be determined, null is returned. Some examples of resource types are: Instance for EC2, Trail for CloudTrail, DBInstance for RDS, and AccessKey for IAM. For a list of resource types supported for event lookup, see Resource Types Supported for Event Lookup.
         public let resourceType: String?
-        
+
         public init(resourceName: String? = nil, resourceType: String? = nil) {
             self.resourceName = resourceName
             self.resourceType = resourceType
@@ -830,7 +833,7 @@ extension CloudTrail {
         public let resourceId: String?
         /// A list of tags.
         public let tagsList: [Tag]?
-        
+
         public init(resourceId: String? = nil, tagsList: [Tag]? = nil) {
             self.resourceId = resourceId
             self.tagsList = tagsList
@@ -849,7 +852,7 @@ extension CloudTrail {
 
         /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail logs AWS API calls. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -860,11 +863,12 @@ extension CloudTrail {
     }
 
     public struct StartLoggingResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct StopLoggingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -873,7 +877,7 @@ extension CloudTrail {
 
         /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail will stop logging AWS API calls. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -884,11 +888,12 @@ extension CloudTrail {
     }
 
     public struct StopLoggingResponse: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -900,7 +905,7 @@ extension CloudTrail {
         public let key: String
         /// The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters.
         public let value: String?
-        
+
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -958,7 +963,7 @@ extension CloudTrail {
         public let snsTopicARN: String?
         /// Specifies the ARN of the trail. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let trailARN: String?
-        
+
         public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, hasCustomEventSelectors: Bool? = nil, homeRegion: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil, trailARN: String? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
@@ -1031,7 +1036,7 @@ extension CloudTrail {
         public let s3KeyPrefix: String?
         /// Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
         public let snsTopicName: String?
-        
+
         public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, enableLogFileValidation: Bool? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, name: String, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicName: String? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
@@ -1101,7 +1106,7 @@ extension CloudTrail {
         public let snsTopicARN: String?
         /// Specifies the ARN of the trail that was updated. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let trailARN: String?
-        
+
         public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil, trailARN: String? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
@@ -1132,5 +1137,4 @@ extension CloudTrail {
             case trailARN = "TrailARN"
         }
     }
-
 }

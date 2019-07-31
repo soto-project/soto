@@ -165,5 +165,4 @@ public struct SMS {
     public func updateReplicationJob(_ input: UpdateReplicationJobRequest) throws -> Future<UpdateReplicationJobResponse> {
         return try client.send(operation: "UpdateReplicationJob", path: "/", httpMethod: "POST", input: input)
     }
-
 }

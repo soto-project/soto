@@ -275,5 +275,4 @@ public struct AWSDirectoryService {
     public func verifyTrust(_ input: VerifyTrustRequest) throws -> Future<VerifyTrustResult> {
         return try client.send(operation: "VerifyTrust", path: "/", httpMethod: "POST", input: input)
     }
-
 }

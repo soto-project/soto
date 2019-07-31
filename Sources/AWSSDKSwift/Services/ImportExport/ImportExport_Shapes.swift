@@ -13,7 +13,7 @@ extension ImportExport {
 
         public let description: String?
         public let url: String?
-        
+
         public init(description: String? = nil, url: String? = nil) {
             self.description = description
             self.url = url
@@ -33,7 +33,7 @@ extension ImportExport {
 
         public let aPIVersion: String?
         public let jobId: String
-        
+
         public init(aPIVersion: String? = nil, jobId: String) {
             self.aPIVersion = aPIVersion
             self.jobId = jobId
@@ -51,7 +51,7 @@ extension ImportExport {
         ]
 
         public let success: Bool?
-        
+
         public init(success: Bool? = nil) {
             self.success = success
         }
@@ -75,7 +75,7 @@ extension ImportExport {
         public let manifest: String
         public let manifestAddendum: String?
         public let validateOnly: Bool
-        
+
         public init(aPIVersion: String? = nil, jobType: JobType, manifest: String, manifestAddendum: String? = nil, validateOnly: Bool) {
             self.aPIVersion = aPIVersion
             self.jobType = jobType
@@ -109,7 +109,7 @@ extension ImportExport {
         public let signature: String?
         public let signatureFileContents: String?
         public let warningMessage: String?
-        
+
         public init(artifactList: [Artifact]? = nil, jobId: String? = nil, jobType: JobType? = nil, signature: String? = nil, signatureFileContents: String? = nil, warningMessage: String? = nil) {
             self.artifactList = artifactList
             self.jobId = jobId
@@ -157,7 +157,7 @@ extension ImportExport {
         public let street1: String?
         public let street2: String?
         public let street3: String?
-        
+
         public init(aPIVersion: String? = nil, city: String? = nil, company: String? = nil, country: String? = nil, jobIds: [String], name: String? = nil, phoneNumber: String? = nil, postalCode: String? = nil, stateOrProvince: String? = nil, street1: String? = nil, street2: String? = nil, street3: String? = nil) {
             self.aPIVersion = aPIVersion
             self.city = city
@@ -197,7 +197,7 @@ extension ImportExport {
 
         public let shippingLabelURL: String?
         public let warning: String?
-        
+
         public init(shippingLabelURL: String? = nil, warning: String? = nil) {
             self.shippingLabelURL = shippingLabelURL
             self.warning = warning
@@ -217,7 +217,7 @@ extension ImportExport {
 
         public let aPIVersion: String?
         public let jobId: String
-        
+
         public init(aPIVersion: String? = nil, jobId: String) {
             self.aPIVersion = aPIVersion
             self.jobId = jobId
@@ -265,7 +265,7 @@ extension ImportExport {
         public let signature: String?
         public let signatureFileContents: String?
         public let trackingNumber: String?
-        
+
         public init(artifactList: [Artifact]? = nil, carrier: String? = nil, creationDate: TimeStamp? = nil, currentManifest: String? = nil, errorCount: Int32? = nil, jobId: String? = nil, jobType: JobType? = nil, locationCode: String? = nil, locationMessage: String? = nil, logBucket: String? = nil, logKey: String? = nil, progressCode: String? = nil, progressMessage: String? = nil, signature: String? = nil, signatureFileContents: String? = nil, trackingNumber: String? = nil) {
             self.artifactList = artifactList
             self.carrier = carrier
@@ -317,7 +317,7 @@ extension ImportExport {
         public let isCanceled: Bool?
         public let jobId: String?
         public let jobType: JobType?
-        
+
         public init(creationDate: TimeStamp? = nil, isCanceled: Bool? = nil, jobId: String? = nil, jobType: JobType? = nil) {
             self.creationDate = creationDate
             self.isCanceled = isCanceled
@@ -349,7 +349,7 @@ extension ImportExport {
         public let aPIVersion: String?
         public let marker: String?
         public let maxJobs: Int32?
-        
+
         public init(aPIVersion: String? = nil, marker: String? = nil, maxJobs: Int32? = nil) {
             self.aPIVersion = aPIVersion
             self.marker = marker
@@ -371,7 +371,7 @@ extension ImportExport {
 
         public let isTruncated: Bool?
         public let jobs: [Job]?
-        
+
         public init(isTruncated: Bool? = nil, jobs: [Job]? = nil) {
             self.isTruncated = isTruncated
             self.jobs = jobs
@@ -397,7 +397,7 @@ extension ImportExport {
         public let jobType: JobType
         public let manifest: String
         public let validateOnly: Bool
-        
+
         public init(aPIVersion: String? = nil, jobId: String, jobType: JobType, manifest: String, validateOnly: Bool) {
             self.aPIVersion = aPIVersion
             self.jobId = jobId
@@ -425,7 +425,7 @@ extension ImportExport {
         public let artifactList: [Artifact]?
         public let success: Bool?
         public let warningMessage: String?
-        
+
         public init(artifactList: [Artifact]? = nil, success: Bool? = nil, warningMessage: String? = nil) {
             self.artifactList = artifactList
             self.success = success
@@ -438,5 +438,4 @@ extension ImportExport {
             case warningMessage = "WarningMessage"
         }
     }
-
 }

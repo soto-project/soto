@@ -105,5 +105,4 @@ public struct OpsWorksCM {
     public func updateServerEngineAttributes(_ input: UpdateServerEngineAttributesRequest) throws -> Future<UpdateServerEngineAttributesResponse> {
         return try client.send(operation: "UpdateServerEngineAttributes", path: "/", httpMethod: "POST", input: input)
     }
-
 }

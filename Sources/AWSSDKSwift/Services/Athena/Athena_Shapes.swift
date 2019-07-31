@@ -12,7 +12,7 @@ extension Athena {
 
         /// An array of query IDs.
         public let namedQueryIds: [String]
-        
+
         public init(namedQueryIds: [String]) {
             self.namedQueryIds = namedQueryIds
         }
@@ -37,7 +37,7 @@ extension Athena {
         public let namedQueries: [NamedQuery]?
         /// Information about provided query IDs.
         public let unprocessedNamedQueryIds: [UnprocessedNamedQueryId]?
-        
+
         public init(namedQueries: [NamedQuery]? = nil, unprocessedNamedQueryIds: [UnprocessedNamedQueryId]? = nil) {
             self.namedQueries = namedQueries
             self.unprocessedNamedQueryIds = unprocessedNamedQueryIds
@@ -65,7 +65,7 @@ extension Athena {
 
         /// An array of query execution IDs.
         public let queryExecutionIds: [String]
-        
+
         public init(queryExecutionIds: [String]) {
             self.queryExecutionIds = queryExecutionIds
         }
@@ -90,7 +90,7 @@ extension Athena {
         public let queryExecutions: [QueryExecution]?
         /// Information about the query executions that failed to run.
         public let unprocessedQueryExecutionIds: [UnprocessedQueryExecutionId]?
-        
+
         public init(queryExecutions: [QueryExecution]? = nil, unprocessedQueryExecutionIds: [UnprocessedQueryExecutionId]? = nil) {
             self.queryExecutions = queryExecutions
             self.unprocessedQueryExecutionIds = unprocessedQueryExecutionIds
@@ -145,7 +145,7 @@ extension Athena {
         public let tableName: String?
         /// The data type of the column.
         public let `type`: String
-        
+
         public init(caseSensitive: Bool? = nil, catalogName: String? = nil, label: String? = nil, name: String, nullable: ColumnNullable? = nil, precision: Int32? = nil, scale: Int32? = nil, schemaName: String? = nil, tableName: String? = nil, type: String) {
             self.caseSensitive = caseSensitive
             self.catalogName = catalogName
@@ -202,7 +202,7 @@ extension Athena {
         public let queryString: String
         /// The name of the workgroup in which the named query is being created.
         public let workGroup: String?
-        
+
         public init(clientRequestToken: String? = CreateNamedQueryInput.idempotencyToken(), database: String, description: String? = nil, name: String, queryString: String, workGroup: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.database = database
@@ -243,7 +243,7 @@ extension Athena {
 
         /// The unique ID of the query.
         public let namedQueryId: String?
-        
+
         public init(namedQueryId: String? = nil) {
             self.namedQueryId = namedQueryId
         }
@@ -269,7 +269,7 @@ extension Athena {
         public let name: String
         /// One or more tags, separated by commas, that you want to attach to the workgroup as you create it.
         public let tags: [Tag]?
-        
+
         public init(configuration: WorkGroupConfiguration? = nil, description: String? = nil, name: String, tags: [Tag]? = nil) {
             self.configuration = configuration
             self.description = description
@@ -296,11 +296,12 @@ extension Athena {
     }
 
     public struct CreateWorkGroupOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Datum: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -309,7 +310,7 @@ extension Athena {
 
         /// The value of the datum.
         public let varCharValue: String?
-        
+
         public init(varCharValue: String? = nil) {
             self.varCharValue = varCharValue
         }
@@ -326,7 +327,7 @@ extension Athena {
 
         /// The unique ID of the query to delete.
         public let namedQueryId: String
-        
+
         public init(namedQueryId: String = DeleteNamedQueryInput.idempotencyToken()) {
             self.namedQueryId = namedQueryId
         }
@@ -337,11 +338,12 @@ extension Athena {
     }
 
     public struct DeleteNamedQueryOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteWorkGroupInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -353,7 +355,7 @@ extension Athena {
         public let recursiveDeleteOption: Bool?
         /// The unique name of the workgroup to delete.
         public let workGroup: String
-        
+
         public init(recursiveDeleteOption: Bool? = nil, workGroup: String) {
             self.recursiveDeleteOption = recursiveDeleteOption
             self.workGroup = workGroup
@@ -370,11 +372,12 @@ extension Athena {
     }
 
     public struct DeleteWorkGroupOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct EncryptionConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -386,7 +389,7 @@ extension Athena {
         public let encryptionOption: EncryptionOption
         /// For SSE-KMS and CSE-KMS, this is the KMS key ARN or ID.
         public let kmsKey: String?
-        
+
         public init(encryptionOption: EncryptionOption, kmsKey: String? = nil) {
             self.encryptionOption = encryptionOption
             self.kmsKey = kmsKey
@@ -412,7 +415,7 @@ extension Athena {
 
         /// The unique ID of the query. Use ListNamedQueries to get query IDs.
         public let namedQueryId: String
-        
+
         public init(namedQueryId: String) {
             self.namedQueryId = namedQueryId
         }
@@ -429,7 +432,7 @@ extension Athena {
 
         /// Information about the query.
         public let namedQuery: NamedQuery?
-        
+
         public init(namedQuery: NamedQuery? = nil) {
             self.namedQuery = namedQuery
         }
@@ -450,7 +453,7 @@ extension Athena {
 
         /// The unique ID of the query execution.
         public let queryExecutionId: String
-        
+
         public init(queryExecutionId: String) {
             self.queryExecutionId = queryExecutionId
         }
@@ -467,7 +470,7 @@ extension Athena {
 
         /// Information about the query execution.
         public let queryExecution: QueryExecution?
-        
+
         public init(queryExecution: QueryExecution? = nil) {
             self.queryExecution = queryExecution
         }
@@ -494,7 +497,7 @@ extension Athena {
         public let nextToken: String?
         /// The unique ID of the query execution.
         public let queryExecutionId: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, queryExecutionId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -528,7 +531,7 @@ extension Athena {
         public let resultSet: ResultSet?
         /// The number of rows inserted with a CREATE TABLE AS SELECT statement. 
         public let updateCount: Int64?
-        
+
         public init(nextToken: String? = nil, resultSet: ResultSet? = nil, updateCount: Int64? = nil) {
             self.nextToken = nextToken
             self.resultSet = resultSet
@@ -554,7 +557,7 @@ extension Athena {
 
         /// The name of the workgroup.
         public let workGroup: String
-        
+
         public init(workGroup: String) {
             self.workGroup = workGroup
         }
@@ -575,7 +578,7 @@ extension Athena {
 
         /// Information about the workgroup.
         public let workGroup: WorkGroup?
-        
+
         public init(workGroup: WorkGroup? = nil) {
             self.workGroup = workGroup
         }
@@ -602,7 +605,7 @@ extension Athena {
         public let nextToken: String?
         /// The name of the workgroup from which the named queries are being returned.
         public let workGroup: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, workGroup: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -634,7 +637,7 @@ extension Athena {
         public let namedQueryIds: [String]?
         /// A token to be used by the next request if this request is truncated.
         public let nextToken: String?
-        
+
         public init(namedQueryIds: [String]? = nil, nextToken: String? = nil) {
             self.namedQueryIds = namedQueryIds
             self.nextToken = nextToken
@@ -666,7 +669,7 @@ extension Athena {
         public let nextToken: String?
         /// The name of the workgroup from which queries are being returned.
         public let workGroup: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, workGroup: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -698,7 +701,7 @@ extension Athena {
         public let nextToken: String?
         /// The unique IDs of each query execution as an array of strings.
         public let queryExecutionIds: [String]?
-        
+
         public init(nextToken: String? = nil, queryExecutionIds: [String]? = nil) {
             self.nextToken = nextToken
             self.queryExecutionIds = queryExecutionIds
@@ -730,7 +733,7 @@ extension Athena {
         public let nextToken: String?
         /// Lists the tags for the workgroup resource with the specified ARN.
         public let resourceARN: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceARN: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -762,7 +765,7 @@ extension Athena {
         public let nextToken: String?
         /// The list of tags associated with this workgroup.
         public let tags: [Tag]?
-        
+
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -792,7 +795,7 @@ extension Athena {
         public let maxResults: Int32?
         /// A token to be used by the next request if this request is truncated.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -821,7 +824,7 @@ extension Athena {
         public let nextToken: String?
         /// The list of workgroups, including their names, descriptions, creation times, and states.
         public let workGroups: [WorkGroupSummary]?
-        
+
         public init(nextToken: String? = nil, workGroups: [WorkGroupSummary]? = nil) {
             self.nextToken = nextToken
             self.workGroups = workGroups
@@ -865,7 +868,7 @@ extension Athena {
         public let queryString: String
         /// The name of the workgroup that contains the named query.
         public let workGroup: String?
-        
+
         public init(database: String, description: String? = nil, name: String, namedQueryId: String? = nil, queryString: String, workGroup: String? = nil) {
             self.database = database
             self.description = description
@@ -925,7 +928,7 @@ extension Athena {
         public let status: QueryExecutionStatus?
         /// The name of the workgroup in which the query ran.
         public let workGroup: String?
-        
+
         public init(query: String? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryExecutionId: String? = nil, resultConfiguration: ResultConfiguration? = nil, statementType: StatementType? = nil, statistics: QueryExecutionStatistics? = nil, status: QueryExecutionStatus? = nil, workGroup: String? = nil) {
             self.query = query
             self.queryExecutionContext = queryExecutionContext
@@ -963,7 +966,7 @@ extension Athena {
 
         /// The name of the database.
         public let database: String?
-        
+
         public init(database: String? = nil) {
             self.database = database
         }
@@ -997,7 +1000,7 @@ extension Athena {
         public let dataScannedInBytes: Int64?
         /// The number of milliseconds that the query took to execute.
         public let engineExecutionTimeInMillis: Int64?
-        
+
         public init(dataScannedInBytes: Int64? = nil, engineExecutionTimeInMillis: Int64? = nil) {
             self.dataScannedInBytes = dataScannedInBytes
             self.engineExecutionTimeInMillis = engineExecutionTimeInMillis
@@ -1025,7 +1028,7 @@ extension Athena {
         public let stateChangeReason: String?
         /// The date and time that the query was submitted.
         public let submissionDateTime: TimeStamp?
-        
+
         public init(completionDateTime: TimeStamp? = nil, state: QueryExecutionState? = nil, stateChangeReason: String? = nil, submissionDateTime: TimeStamp? = nil) {
             self.completionDateTime = completionDateTime
             self.state = state
@@ -1051,7 +1054,7 @@ extension Athena {
         public let encryptionConfiguration: EncryptionConfiguration?
         /// The location in Amazon S3 where your query results are stored, such as s3://path/to/query/bucket/. For more information, see Queries and Query Result Files. If workgroup settings override client-side settings, then the query uses the location for the query results and the encryption configuration that are specified for the workgroup. The "workgroup settings override" is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
         public let outputLocation: String?
-        
+
         public init(encryptionConfiguration: EncryptionConfiguration? = nil, outputLocation: String? = nil) {
             self.encryptionConfiguration = encryptionConfiguration
             self.outputLocation = outputLocation
@@ -1079,7 +1082,7 @@ extension Athena {
         public let removeEncryptionConfiguration: Bool?
         /// If set to "true", indicates that the previously-specified query results location (also known as a client-side setting) for queries in this workgroup should be ignored and set to null. If set to "false" or not set, and a value is present in the OutputLocation in ResultConfigurationUpdates (the client-side setting), the OutputLocation in the workgroup's ResultConfiguration will be updated with the new value. For more information, see Workgroup Settings Override Client-Side Settings.
         public let removeOutputLocation: Bool?
-        
+
         public init(encryptionConfiguration: EncryptionConfiguration? = nil, outputLocation: String? = nil, removeEncryptionConfiguration: Bool? = nil, removeOutputLocation: Bool? = nil) {
             self.encryptionConfiguration = encryptionConfiguration
             self.outputLocation = outputLocation
@@ -1105,7 +1108,7 @@ extension Athena {
         public let resultSetMetadata: ResultSetMetadata?
         /// The rows in the table.
         public let rows: [Row]?
-        
+
         public init(resultSetMetadata: ResultSetMetadata? = nil, rows: [Row]? = nil) {
             self.resultSetMetadata = resultSetMetadata
             self.rows = rows
@@ -1124,7 +1127,7 @@ extension Athena {
 
         /// Information about the columns returned in a query result metadata.
         public let columnInfo: [ColumnInfo]?
-        
+
         public init(columnInfo: [ColumnInfo]? = nil) {
             self.columnInfo = columnInfo
         }
@@ -1141,7 +1144,7 @@ extension Athena {
 
         /// The data that populates a row in a query result table.
         public let data: [Datum]?
-        
+
         public init(data: [Datum]? = nil) {
             self.data = data
         }
@@ -1170,7 +1173,7 @@ extension Athena {
         public let resultConfiguration: ResultConfiguration?
         /// The name of the workgroup in which the query is being started.
         public let workGroup: String?
-        
+
         public init(clientRequestToken: String? = StartQueryExecutionInput.idempotencyToken(), queryExecutionContext: QueryExecutionContext? = nil, queryString: String, resultConfiguration: ResultConfiguration? = nil, workGroup: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.queryExecutionContext = queryExecutionContext
@@ -1204,7 +1207,7 @@ extension Athena {
 
         /// The unique ID of the query that ran as a result of this request.
         public let queryExecutionId: String?
-        
+
         public init(queryExecutionId: String? = nil) {
             self.queryExecutionId = queryExecutionId
         }
@@ -1228,7 +1231,7 @@ extension Athena {
 
         /// The unique ID of the query execution to stop.
         public let queryExecutionId: String
-        
+
         public init(queryExecutionId: String = StopQueryExecutionInput.idempotencyToken()) {
             self.queryExecutionId = queryExecutionId
         }
@@ -1239,11 +1242,12 @@ extension Athena {
     }
 
     public struct StopQueryExecutionOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1255,7 +1259,7 @@ extension Athena {
         public let key: String?
         /// A tag value. The tag value length is from 0 to 256 Unicode characters in UTF-8. You can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag values are case-sensitive. 
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1284,7 +1288,7 @@ extension Athena {
         public let resourceARN: String
         /// One or more tags, separated by commas, to be added to the resource, such as a workgroup.
         public let tags: [Tag]
-        
+
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -1305,11 +1309,12 @@ extension Athena {
     }
 
     public struct TagResourceOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public enum ThrottleReason: String, CustomStringConvertible, Codable {
         case concurrentQueryLimitExceeded = "CONCURRENT_QUERY_LIMIT_EXCEEDED"
@@ -1329,7 +1334,7 @@ extension Athena {
         public let errorMessage: String?
         /// The unique identifier of the named query.
         public let namedQueryId: String?
-        
+
         public init(errorCode: String? = nil, errorMessage: String? = nil, namedQueryId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1361,7 +1366,7 @@ extension Athena {
         public let errorMessage: String?
         /// The unique identifier of the query execution.
         public let queryExecutionId: String?
-        
+
         public init(errorCode: String? = nil, errorMessage: String? = nil, queryExecutionId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1390,7 +1395,7 @@ extension Athena {
         public let resourceARN: String
         /// Removes the tags associated with one or more tag keys from the workgroup resource.
         public let tagKeys: [String]
-        
+
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -1412,11 +1417,12 @@ extension Athena {
     }
 
     public struct UntagResourceOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateWorkGroupInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1434,7 +1440,7 @@ extension Athena {
         public let state: WorkGroupState?
         /// The specified workgroup that will be updated.
         public let workGroup: String
-        
+
         public init(configurationUpdates: WorkGroupConfigurationUpdates? = nil, description: String? = nil, state: WorkGroupState? = nil, workGroup: String) {
             self.configurationUpdates = configurationUpdates
             self.description = description
@@ -1458,11 +1464,12 @@ extension Athena {
     }
 
     public struct UpdateWorkGroupOutput: AWSShape {
-        
+
+
         public init() {
         }
 
-        }
+    }
 
     public struct WorkGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1483,7 +1490,7 @@ extension Athena {
         public let name: String
         /// The state of the workgroup: ENABLED or DISABLED.
         public let state: WorkGroupState?
-        
+
         public init(configuration: WorkGroupConfiguration? = nil, creationTime: TimeStamp? = nil, description: String? = nil, name: String, state: WorkGroupState? = nil) {
             self.configuration = configuration
             self.creationTime = creationTime
@@ -1524,7 +1531,7 @@ extension Athena {
         public let publishCloudWatchMetricsEnabled: Bool?
         /// The configuration for the workgroup, which includes the location in Amazon S3 where query results are stored and the encryption option, if any, used for query results.
         public let resultConfiguration: ResultConfiguration?
-        
+
         public init(bytesScannedCutoffPerQuery: Int64? = nil, enforceWorkGroupConfiguration: Bool? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, resultConfiguration: ResultConfiguration? = nil) {
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
             self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
@@ -1563,7 +1570,7 @@ extension Athena {
         public let removeBytesScannedCutoffPerQuery: Bool?
         /// The result configuration information about the queries in this workgroup that will be updated. Includes the updated results location and an updated option for encrypting query results.
         public let resultConfigurationUpdates: ResultConfigurationUpdates?
-        
+
         public init(bytesScannedCutoffPerQuery: Int64? = nil, enforceWorkGroupConfiguration: Bool? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, removeBytesScannedCutoffPerQuery: Bool? = nil, resultConfigurationUpdates: ResultConfigurationUpdates? = nil) {
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
             self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
@@ -1607,7 +1614,7 @@ extension Athena {
         public let name: String?
         /// The state of the workgroup.
         public let state: WorkGroupState?
-        
+
         public init(creationTime: TimeStamp? = nil, description: String? = nil, name: String? = nil, state: WorkGroupState? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -1628,5 +1635,4 @@ extension Athena {
             case state = "State"
         }
     }
-
 }

@@ -15,7 +15,7 @@ extension Support {
         public let attachments: [Attachment]
         /// The ID of the attachment set. If an attachmentSetId is not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId is specified, the attachments are added to the specified set, if it exists.
         public let attachmentSetId: String?
-        
+
         public init(attachments: [Attachment], attachmentSetId: String? = nil) {
             self.attachments = attachments
             self.attachmentSetId = attachmentSetId
@@ -37,7 +37,7 @@ extension Support {
         public let attachmentSetId: String?
         /// The time and date when the attachment set expires.
         public let expiryTime: String?
-        
+
         public init(attachmentSetId: String? = nil, expiryTime: String? = nil) {
             self.attachmentSetId = attachmentSetId
             self.expiryTime = expiryTime
@@ -65,7 +65,7 @@ extension Support {
         public let ccEmailAddresses: [String]?
         /// The body of an email communication to add to the support case.
         public let communicationBody: String
-        
+
         public init(attachmentSetId: String? = nil, caseId: String? = nil, ccEmailAddresses: [String]? = nil, communicationBody: String) {
             self.attachmentSetId = attachmentSetId
             self.caseId = caseId
@@ -95,7 +95,7 @@ extension Support {
 
         /// True if AddCommunicationToCase succeeds. Otherwise, returns an error.
         public let result: Bool?
-        
+
         public init(result: Bool? = nil) {
             self.result = result
         }
@@ -115,7 +115,7 @@ extension Support {
         public let data: Data?
         /// The name of the attachment file.
         public let fileName: String?
-        
+
         public init(data: Data? = nil, fileName: String? = nil) {
             self.data = data
             self.fileName = fileName
@@ -137,7 +137,7 @@ extension Support {
         public let attachmentId: String?
         /// The file name of the attachment.
         public let fileName: String?
-        
+
         public init(attachmentId: String? = nil, fileName: String? = nil) {
             self.attachmentId = attachmentId
             self.fileName = fileName
@@ -189,7 +189,7 @@ extension Support {
         public let submittedBy: String?
         /// The time that the case was case created in the AWS Support Center.
         public let timeCreated: String?
-        
+
         public init(caseId: String? = nil, categoryCode: String? = nil, ccEmailAddresses: [String]? = nil, displayId: String? = nil, language: String? = nil, recentCommunications: RecentCaseCommunications? = nil, serviceCode: String? = nil, severityCode: String? = nil, status: String? = nil, subject: String? = nil, submittedBy: String? = nil, timeCreated: String? = nil) {
             self.caseId = caseId
             self.categoryCode = categoryCode
@@ -237,7 +237,7 @@ extension Support {
         public let code: String?
         /// The category name for the support case.
         public let name: String?
-        
+
         public init(code: String? = nil, name: String? = nil) {
             self.code = code
             self.name = name
@@ -268,7 +268,7 @@ extension Support {
         public let submittedBy: String?
         /// The time the communication was created.
         public let timeCreated: String?
-        
+
         public init(attachmentSet: [AttachmentDetails]? = nil, body: String? = nil, caseId: String? = nil, submittedBy: String? = nil, timeCreated: String? = nil) {
             self.attachmentSet = attachmentSet
             self.body = body
@@ -322,7 +322,7 @@ extension Support {
         public let severityCode: String?
         /// The title of the AWS Support case.
         public let subject: String
-        
+
         public init(attachmentSetId: String? = nil, categoryCode: String? = nil, ccEmailAddresses: [String]? = nil, communicationBody: String, issueType: String? = nil, language: String? = nil, serviceCode: String? = nil, severityCode: String? = nil, subject: String) {
             self.attachmentSetId = attachmentSetId
             self.categoryCode = categoryCode
@@ -362,7 +362,7 @@ extension Support {
 
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
         public let caseId: String?
-        
+
         public init(caseId: String? = nil) {
             self.caseId = caseId
         }
@@ -379,7 +379,7 @@ extension Support {
 
         /// The ID of the attachment to return. Attachment IDs are returned by the DescribeCommunications operation.
         public let attachmentId: String
-        
+
         public init(attachmentId: String) {
             self.attachmentId = attachmentId
         }
@@ -396,7 +396,7 @@ extension Support {
 
         /// The attachment content and file name.
         public let attachment: Attachment?
-        
+
         public init(attachment: Attachment? = nil) {
             self.attachment = attachment
         }
@@ -437,7 +437,7 @@ extension Support {
         public let maxResults: Int32?
         /// A resumption point for pagination.
         public let nextToken: String?
-        
+
         public init(afterTime: String? = nil, beforeTime: String? = nil, caseIdList: [String]? = nil, displayId: String? = nil, includeCommunications: Bool? = nil, includeResolvedCases: Bool? = nil, language: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.afterTime = afterTime
             self.beforeTime = beforeTime
@@ -480,7 +480,7 @@ extension Support {
         public let cases: [CaseDetails]?
         /// A resumption point for pagination.
         public let nextToken: String?
-        
+
         public init(cases: [CaseDetails]? = nil, nextToken: String? = nil) {
             self.cases = cases
             self.nextToken = nextToken
@@ -517,7 +517,7 @@ extension Support {
         public let maxResults: Int32?
         /// A resumption point for pagination.
         public let nextToken: String?
-        
+
         public init(afterTime: String? = nil, beforeTime: String? = nil, caseId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.afterTime = afterTime
             self.beforeTime = beforeTime
@@ -550,7 +550,7 @@ extension Support {
         public let communications: [Communication]?
         /// A resumption point for pagination.
         public let nextToken: String?
-        
+
         public init(communications: [Communication]? = nil, nextToken: String? = nil) {
             self.communications = communications
             self.nextToken = nextToken
@@ -578,7 +578,7 @@ extension Support {
         public let language: String?
         /// A JSON-formatted list of service codes available for AWS services.
         public let serviceCodeList: [String]?
-        
+
         public init(language: String? = nil, serviceCodeList: [String]? = nil) {
             self.language = language
             self.serviceCodeList = serviceCodeList
@@ -602,7 +602,7 @@ extension Support {
 
         /// A JSON-formatted list of AWS services.
         public let services: [Service]?
-        
+
         public init(services: [Service]? = nil) {
             self.services = services
         }
@@ -619,7 +619,7 @@ extension Support {
 
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
-        
+
         public init(language: String? = nil) {
             self.language = language
         }
@@ -636,7 +636,7 @@ extension Support {
 
         /// The available severity levels for the support case. Available severity levels are defined by your service level agreement with AWS.
         public let severityLevels: [SeverityLevel]?
-        
+
         public init(severityLevels: [SeverityLevel]? = nil) {
             self.severityLevels = severityLevels
         }
@@ -653,7 +653,7 @@ extension Support {
 
         /// The IDs of the Trusted Advisor checks to get the status of. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
         public let checkIds: [String]
-        
+
         public init(checkIds: [String]) {
             self.checkIds = checkIds
         }
@@ -670,7 +670,7 @@ extension Support {
 
         /// The refresh status of the specified Trusted Advisor checks.
         public let statuses: [TrustedAdvisorCheckRefreshStatus]
-        
+
         public init(statuses: [TrustedAdvisorCheckRefreshStatus]) {
             self.statuses = statuses
         }
@@ -690,7 +690,7 @@ extension Support {
         public let checkId: String
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
-        
+
         public init(checkId: String, language: String? = nil) {
             self.checkId = checkId
             self.language = language
@@ -709,7 +709,7 @@ extension Support {
 
         /// The detailed results of the Trusted Advisor check.
         public let result: TrustedAdvisorCheckResult?
-        
+
         public init(result: TrustedAdvisorCheckResult? = nil) {
             self.result = result
         }
@@ -726,7 +726,7 @@ extension Support {
 
         /// The IDs of the Trusted Advisor checks.
         public let checkIds: [String]
-        
+
         public init(checkIds: [String]) {
             self.checkIds = checkIds
         }
@@ -743,7 +743,7 @@ extension Support {
 
         /// The summary information for the requested Trusted Advisor checks.
         public let summaries: [TrustedAdvisorCheckSummary]
-        
+
         public init(summaries: [TrustedAdvisorCheckSummary]) {
             self.summaries = summaries
         }
@@ -760,7 +760,7 @@ extension Support {
 
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String
-        
+
         public init(language: String) {
             self.language = language
         }
@@ -777,7 +777,7 @@ extension Support {
 
         /// Information about all available Trusted Advisor checks.
         public let checks: [TrustedAdvisorCheckDescription]
-        
+
         public init(checks: [TrustedAdvisorCheckDescription]) {
             self.checks = checks
         }
@@ -797,7 +797,7 @@ extension Support {
         public let communications: [Communication]?
         /// A resumption point for pagination.
         public let nextToken: String?
-        
+
         public init(communications: [Communication]? = nil, nextToken: String? = nil) {
             self.communications = communications
             self.nextToken = nextToken
@@ -822,7 +822,7 @@ extension Support {
 
         /// The unique identifier for the Trusted Advisor check to refresh. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
         public let checkId: String
-        
+
         public init(checkId: String) {
             self.checkId = checkId
         }
@@ -839,7 +839,7 @@ extension Support {
 
         /// The current refresh status for a check, including the amount of time until the check is eligible for refresh.
         public let status: TrustedAdvisorCheckRefreshStatus
-        
+
         public init(status: TrustedAdvisorCheckRefreshStatus) {
             self.status = status
         }
@@ -856,7 +856,7 @@ extension Support {
 
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
         public let caseId: String?
-        
+
         public init(caseId: String? = nil) {
             self.caseId = caseId
         }
@@ -876,7 +876,7 @@ extension Support {
         public let finalCaseStatus: String?
         /// The status of the case when the ResolveCase request was sent.
         public let initialCaseStatus: String?
-        
+
         public init(finalCaseStatus: String? = nil, initialCaseStatus: String? = nil) {
             self.finalCaseStatus = finalCaseStatus
             self.initialCaseStatus = initialCaseStatus
@@ -901,7 +901,7 @@ extension Support {
         public let code: String?
         /// The friendly name for an AWS service. The code element contains the corresponding code.
         public let name: String?
-        
+
         public init(categories: [Category]? = nil, code: String? = nil, name: String? = nil) {
             self.categories = categories
             self.code = code
@@ -925,7 +925,7 @@ extension Support {
         public let code: String?
         /// The name of the severity level that corresponds to the severity level code.
         public let name: String?
-        
+
         public init(code: String? = nil, name: String? = nil) {
             self.code = code
             self.name = name
@@ -944,7 +944,7 @@ extension Support {
 
         /// The summary information about cost savings for a Trusted Advisor check that is in the Cost Optimizing category.
         public let costOptimizing: TrustedAdvisorCostOptimizingSummary?
-        
+
         public init(costOptimizing: TrustedAdvisorCostOptimizingSummary? = nil) {
             self.costOptimizing = costOptimizing
         }
@@ -973,7 +973,7 @@ extension Support {
         public let metadata: [String]
         /// The display name for the Trusted Advisor check.
         public let name: String
-        
+
         public init(category: String, description: String, id: String, metadata: [String], name: String) {
             self.category = category
             self.description = description
@@ -1004,7 +1004,7 @@ extension Support {
         public let millisUntilNextRefreshable: Int64
         /// The status of the Trusted Advisor check for which a refresh has been requested: "none", "enqueued", "processing", "success", or "abandoned".
         public let status: String
-        
+
         public init(checkId: String, millisUntilNextRefreshable: Int64, status: String) {
             self.checkId = checkId
             self.millisUntilNextRefreshable = millisUntilNextRefreshable
@@ -1039,7 +1039,7 @@ extension Support {
         public let status: String
         /// The time of the last refresh of the check.
         public let timestamp: String
-        
+
         public init(categorySpecificSummary: TrustedAdvisorCategorySpecificSummary, checkId: String, flaggedResources: [TrustedAdvisorResourceDetail], resourcesSummary: TrustedAdvisorResourcesSummary, status: String, timestamp: String) {
             self.categorySpecificSummary = categorySpecificSummary
             self.checkId = checkId
@@ -1080,7 +1080,7 @@ extension Support {
         public let status: String
         /// The time of the last refresh of the check.
         public let timestamp: String
-        
+
         public init(categorySpecificSummary: TrustedAdvisorCategorySpecificSummary, checkId: String, hasFlaggedResources: Bool? = nil, resourcesSummary: TrustedAdvisorResourcesSummary, status: String, timestamp: String) {
             self.categorySpecificSummary = categorySpecificSummary
             self.checkId = checkId
@@ -1110,7 +1110,7 @@ extension Support {
         public let estimatedMonthlySavings: Double
         /// The estimated percentage of savings that might be realized if the recommended actions are taken.
         public let estimatedPercentMonthlySavings: Double
-        
+
         public init(estimatedMonthlySavings: Double, estimatedPercentMonthlySavings: Double) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.estimatedPercentMonthlySavings = estimatedPercentMonthlySavings
@@ -1141,7 +1141,7 @@ extension Support {
         public let resourceId: String
         /// The status code for the resource identified in the Trusted Advisor check.
         public let status: String
-        
+
         public init(isSuppressed: Bool? = nil, metadata: [String], region: String? = nil, resourceId: String, status: String) {
             self.isSuppressed = isSuppressed
             self.metadata = metadata
@@ -1175,7 +1175,7 @@ extension Support {
         public let resourcesProcessed: Int64
         /// The number of AWS resources ignored by Trusted Advisor because they were marked as suppressed by the user.
         public let resourcesSuppressed: Int64
-        
+
         public init(resourcesFlagged: Int64, resourcesIgnored: Int64, resourcesProcessed: Int64, resourcesSuppressed: Int64) {
             self.resourcesFlagged = resourcesFlagged
             self.resourcesIgnored = resourcesIgnored
@@ -1190,5 +1190,4 @@ extension Support {
             case resourcesSuppressed = "resourcesSuppressed"
         }
     }
-
 }

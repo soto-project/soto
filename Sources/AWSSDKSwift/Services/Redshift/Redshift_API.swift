@@ -429,5 +429,4 @@ public struct Redshift {
     public func rotateEncryptionKey(_ input: RotateEncryptionKeyMessage) throws -> Future<RotateEncryptionKeyResult> {
         return try client.send(operation: "RotateEncryptionKey", path: "/", httpMethod: "POST", input: input)
     }
-
 }

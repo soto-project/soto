@@ -44,5 +44,4 @@ public struct IoTJobsDataPlane {
     public func updateJobExecution(_ input: UpdateJobExecutionRequest) throws -> Future<UpdateJobExecutionResponse> {
         return try client.send(operation: "UpdateJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: "POST", input: input)
     }
-
 }
