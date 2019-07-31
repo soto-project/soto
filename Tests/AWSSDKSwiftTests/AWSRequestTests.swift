@@ -8,6 +8,7 @@
 
 import Foundation
 import XCTest
+@testable import ACM
 @testable import CloudFront
 @testable import EC2
 @testable import IAM
@@ -163,6 +164,12 @@ class AWSRequestTests: XCTestCase {
         testAWSValidationFail(client: CloudFront().client, operation: "ListTagsForResource", input: request3)
         let successRequest = CloudFront.ListTagsForResourceRequest(resource: "arn:aws:cloudfront::58979345:test")
         testAWSValidationSuccess(client: CloudFront().client, operation: "ListTagsForResource", input: successRequest)
+    }
+    
+    func testACMAddTagsToCertificateValidate() {
+        // test validating array members
+        let request = ACM.AddTagsToCertificateRequest(certificateArn: "arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012", tags: [ACM.Tag(key:"hello", value:"1"), ACM.Tag(key:"hello?", value:"1")])
+        testAWSValidationFail(client: ACM().client, operation: "AddTagsToCertificate", input: request)
     }
     
     static var allTests : [(String, (AWSRequestTests) -> () throws -> Void)] {
