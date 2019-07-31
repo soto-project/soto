@@ -183,6 +183,8 @@ class AWSRequestTests: XCTestCase {
             ("testSESSendEmail", testSESSendEmail),
             ("testS3GetObjectAclValidate", testS3GetObjectAclValidate),
             ("testIAMAttachGroupPolicyValidate", testIAMAttachGroupPolicyValidate),
+            ("testCloudFrontListTagsForResourceValidate", testCloudFrontListTagsForResourceValidate),
+            ("testACMAddTagsToCertificateValidate", testACMAddTagsToCertificateValidate),
         ]
     }
 }
