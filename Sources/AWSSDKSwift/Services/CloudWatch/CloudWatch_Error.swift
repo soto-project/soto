@@ -12,6 +12,7 @@ public enum CloudWatchErrorType: AWSErrorType {
     case invalidNextToken(message: String?)
     case invalidParameterCombinationException(message: String?)
     case invalidParameterValueException(message: String?)
+    case limitExceededException(message: String?)
     case limitExceededFault(message: String?)
     case missingRequiredParameterException(message: String?)
     case resourceNotFound(message: String?)
@@ -41,6 +42,8 @@ extension CloudWatchErrorType {
             self = .invalidParameterCombinationException(message: message)
         case "InvalidParameterValueException":
             self = .invalidParameterValueException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         case "LimitExceededFault":
             self = .limitExceededFault(message: message)
         case "MissingRequiredParameterException":

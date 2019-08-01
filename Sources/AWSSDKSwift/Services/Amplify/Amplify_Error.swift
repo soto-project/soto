@@ -9,6 +9,7 @@ public enum AmplifyErrorType: AWSErrorType {
     case internalFailureException(message: String?)
     case limitExceededException(message: String?)
     case notFoundException(message: String?)
+    case resourceNotFoundException(message: String?)
     case unauthorizedException(message: String?)
 }
 
@@ -29,6 +30,8 @@ extension AmplifyErrorType {
             self = .limitExceededException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         case "UnauthorizedException":
             self = .unauthorizedException(message: message)
         default:

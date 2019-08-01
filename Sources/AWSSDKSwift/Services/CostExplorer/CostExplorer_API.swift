@@ -63,5 +63,10 @@ public struct CostExplorer {
         return try client.send(operation: "GetTags", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Retrieves a forecast for how much Amazon Web Services predicts that you will use over the forecast time period that you select, based on your past usage. 
+    public func getUsageForecast(_ input: GetUsageForecastRequest) throws -> Future<GetUsageForecastResponse> {
+        return try client.send(operation: "GetUsageForecast", path: "/", httpMethod: "POST", input: input)
+    }
+
 
 }

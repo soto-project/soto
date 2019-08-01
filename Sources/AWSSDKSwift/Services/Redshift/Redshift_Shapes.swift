@@ -327,6 +327,7 @@ extension Redshift {
             AWSShapeMember(label: "AllowVersionUpgrade", required: false, type: .boolean), 
             AWSShapeMember(label: "AutomatedSnapshotRetentionPeriod", required: false, type: .integer), 
             AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterAvailabilityStatus", required: false, type: .string), 
             AWSShapeMember(label: "ClusterCreateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "ClusterIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "ClusterNodes", required: false, type: .list, encoding: .list(member:"member")), 
@@ -373,6 +374,8 @@ extension Redshift {
         public let automatedSnapshotRetentionPeriod: Int32?
         /// The name of the Availability Zone in which the cluster is located.
         public let availabilityZone: String?
+        /// The availability status of the cluster for queries. Possible values are the following:   Available - The cluster is available for queries.    Unavailable - The cluster is not available for queries.   Maintenance - The cluster is intermittently available for queries due to maintenance activities.   Modifying - The cluster is intermittently available for queries due to changes that modify the cluster.   Failed - The cluster failed and is not available for queries.  
+        public let clusterAvailabilityStatus: String?
         /// The date and time that the cluster was created.
         public let clusterCreateTime: TimeStamp?
         /// The unique identifier of the cluster.
@@ -451,10 +454,11 @@ extension Redshift {
         /// A list of Amazon Virtual Private Cloud (Amazon VPC) security groups that are associated with the cluster. This parameter is returned only if the cluster is in a VPC.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, availabilityZone: String? = nil, clusterCreateTime: TimeStamp? = nil, clusterIdentifier: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dBName: String? = nil, dataTransferProgress: DataTransferProgress? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int32? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nodeType: String? = nil, numberOfNodes: Int32? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, availabilityZone: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: TimeStamp? = nil, clusterIdentifier: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dBName: String? = nil, dataTransferProgress: DataTransferProgress? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int32? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nodeType: String? = nil, numberOfNodes: Int32? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.availabilityZone = availabilityZone
+            self.clusterAvailabilityStatus = clusterAvailabilityStatus
             self.clusterCreateTime = clusterCreateTime
             self.clusterIdentifier = clusterIdentifier
             self.clusterNodes = clusterNodes
@@ -500,6 +504,7 @@ extension Redshift {
             case allowVersionUpgrade = "AllowVersionUpgrade"
             case automatedSnapshotRetentionPeriod = "AutomatedSnapshotRetentionPeriod"
             case availabilityZone = "AvailabilityZone"
+            case clusterAvailabilityStatus = "ClusterAvailabilityStatus"
             case clusterCreateTime = "ClusterCreateTime"
             case clusterIdentifier = "ClusterIdentifier"
             case clusterNodes = "ClusterNodes"

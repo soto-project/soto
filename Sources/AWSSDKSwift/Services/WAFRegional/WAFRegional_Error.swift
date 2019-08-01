@@ -4,6 +4,7 @@ import AWSSDKSwiftCore
 
 /// Error enum for WAFRegional
 public enum WAFRegionalErrorType: AWSErrorType {
+    case wAFBadRequestException(message: String?)
     case wAFDisallowedNameException(message: String?)
     case wAFInternalErrorException(message: String?)
     case wAFInvalidAccountException(message: String?)
@@ -19,6 +20,8 @@ public enum WAFRegionalErrorType: AWSErrorType {
     case wAFServiceLinkedRoleErrorException(message: String?)
     case wAFStaleDataException(message: String?)
     case wAFSubscriptionNotFoundException(message: String?)
+    case wAFTagOperationException(message: String?)
+    case wAFTagOperationInternalErrorException(message: String?)
     case wAFUnavailableEntityException(message: String?)
 }
 
@@ -29,6 +32,8 @@ extension WAFRegionalErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "WAFBadRequestException":
+            self = .wAFBadRequestException(message: message)
         case "WAFDisallowedNameException":
             self = .wAFDisallowedNameException(message: message)
         case "WAFInternalErrorException":
@@ -59,6 +64,10 @@ extension WAFRegionalErrorType {
             self = .wAFStaleDataException(message: message)
         case "WAFSubscriptionNotFoundException":
             self = .wAFSubscriptionNotFoundException(message: message)
+        case "WAFTagOperationException":
+            self = .wAFTagOperationException(message: message)
+        case "WAFTagOperationInternalErrorException":
+            self = .wAFTagOperationInternalErrorException(message: message)
         case "WAFUnavailableEntityException":
             self = .wAFUnavailableEntityException(message: message)
         default:

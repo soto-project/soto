@@ -374,7 +374,7 @@ extension AppStream {
         public let enableDefaultInternetAccess: Bool?
         /// The fleet type.  ALWAYS_ON  Provides users with instant-on access to their apps. You are charged for all running instances in your fleet, even if no users are streaming apps.  ON_DEMAND  Provide users with access to applications after they connect, which takes one to two minutes. You are charged for instance streaming when users are connected and a small hourly fee for instances that are not streaming apps.  
         public let fleetType: FleetType?
-        /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If they try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 3600. The default value is 900.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.  
+        /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If they try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 3600. The default value is 0.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.  
         public let idleDisconnectTimeoutInSeconds: Int32?
         /// The ARN of the public, private, or shared image to use.
         public let imageArn: String?
@@ -714,7 +714,7 @@ extension AppStream {
             AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
             AWSShapeMember(label: "Schedule", required: false, type: .enum)
         ]
-        /// The Amazon S3 bucket where generated reports are stored. When a usage report subscription is enabled for the first time for an account in an AWS Region, an S3 bucket is created. The bucket is unique to the AWS account and the Region. 
+        /// The Amazon S3 bucket where generated reports are stored. If you enabled on-instance session scripts and Amazon S3 logging for your session script configuration, AppStream 2.0 created an S3 bucket to store the script output. The bucket is unique to your account and Region. When you enable usage reporting in this case, AppStream 2.0 uses the same bucket to store your usage reports. If you haven't already enabled on-instance session scripts, when you enable usage reports, AppStream 2.0 creates a new S3 bucket.
         public let s3BucketName: String?
         /// The schedule for generating usage reports.
         public let schedule: UsageReportSchedule?
@@ -1676,7 +1676,7 @@ extension AppStream {
         public let fleetErrors: [FleetError]?
         /// The fleet type.  ALWAYS_ON  Provides users with instant-on access to their apps. You are charged for all running instances in your fleet, even if no users are streaming apps.  ON_DEMAND  Provide users with access to applications after they connect, which takes one to two minutes. You are charged for instance streaming when users are connected and a small hourly fee for instances that are not streaming apps.  
         public let fleetType: FleetType?
-        /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 3600. The default value is 900.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.  
+        /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 3600. The default value is 0.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.  
         public let idleDisconnectTimeoutInSeconds: Int32?
         /// The ARN for the public, private, or shared image.
         public let imageArn: String?
@@ -1817,6 +1817,7 @@ extension AppStream {
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "ImageBuilderName", required: false, type: .string), 
             AWSShapeMember(label: "ImageBuilderSupported", required: false, type: .boolean), 
             AWSShapeMember(label: "ImagePermissions", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -1840,6 +1841,8 @@ extension AppStream {
         public let description: String?
         /// The image name to display.
         public let displayName: String?
+        /// The name of the image builder that was used to create the private image. If the image is shared, this value is null.
+        public let imageBuilderName: String?
         /// Indicates whether an image builder can be launched from this image.
         public let imageBuilderSupported: Bool?
         /// The permissions to provide to the destination AWS account for the specified image.
@@ -1857,7 +1860,7 @@ extension AppStream {
         /// Indicates whether the image is public or private.
         public let visibility: VisibilityType?
 
-        public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, displayName: String? = nil, imageBuilderSupported: Bool? = nil, imagePermissions: ImagePermissions? = nil, name: String, platform: PlatformType? = nil, publicBaseImageReleasedDate: TimeStamp? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, visibility: VisibilityType? = nil) {
+        public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, displayName: String? = nil, imageBuilderName: String? = nil, imageBuilderSupported: Bool? = nil, imagePermissions: ImagePermissions? = nil, name: String, platform: PlatformType? = nil, publicBaseImageReleasedDate: TimeStamp? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, visibility: VisibilityType? = nil) {
             self.applications = applications
             self.appstreamAgentVersion = appstreamAgentVersion
             self.arn = arn
@@ -1865,6 +1868,7 @@ extension AppStream {
             self.createdTime = createdTime
             self.description = description
             self.displayName = displayName
+            self.imageBuilderName = imageBuilderName
             self.imageBuilderSupported = imageBuilderSupported
             self.imagePermissions = imagePermissions
             self.name = name
@@ -1883,6 +1887,7 @@ extension AppStream {
             case createdTime = "CreatedTime"
             case description = "Description"
             case displayName = "DisplayName"
+            case imageBuilderName = "ImageBuilderName"
             case imageBuilderSupported = "ImageBuilderSupported"
             case imagePermissions = "ImagePermissions"
             case name = "Name"
@@ -1907,6 +1912,7 @@ extension AppStream {
             AWSShapeMember(label: "ImageBuilderErrors", required: false, type: .list), 
             AWSShapeMember(label: "InstanceType", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "NetworkAccessConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "Platform", required: false, type: .enum), 
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "StateChangeReason", required: false, type: .structure), 
@@ -1934,6 +1940,7 @@ extension AppStream {
         public let instanceType: String?
         /// The name of the image builder.
         public let name: String
+        public let networkAccessConfiguration: NetworkAccessConfiguration?
         /// The operating system platform of the image builder.
         public let platform: PlatformType?
         /// The state of the image builder.
@@ -1943,7 +1950,7 @@ extension AppStream {
         /// The VPC configuration of the image builder.
         public let vpcConfig: VpcConfig?
 
-        public init(appstreamAgentVersion: String? = nil, arn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, imageArn: String? = nil, imageBuilderErrors: [ResourceError]? = nil, instanceType: String? = nil, name: String, platform: PlatformType? = nil, state: ImageBuilderState? = nil, stateChangeReason: ImageBuilderStateChangeReason? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(appstreamAgentVersion: String? = nil, arn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, imageArn: String? = nil, imageBuilderErrors: [ResourceError]? = nil, instanceType: String? = nil, name: String, networkAccessConfiguration: NetworkAccessConfiguration? = nil, platform: PlatformType? = nil, state: ImageBuilderState? = nil, stateChangeReason: ImageBuilderStateChangeReason? = nil, vpcConfig: VpcConfig? = nil) {
             self.appstreamAgentVersion = appstreamAgentVersion
             self.arn = arn
             self.createdTime = createdTime
@@ -1955,6 +1962,7 @@ extension AppStream {
             self.imageBuilderErrors = imageBuilderErrors
             self.instanceType = instanceType
             self.name = name
+            self.networkAccessConfiguration = networkAccessConfiguration
             self.platform = platform
             self.state = state
             self.stateChangeReason = stateChangeReason
@@ -1973,6 +1981,7 @@ extension AppStream {
             case imageBuilderErrors = "ImageBuilderErrors"
             case instanceType = "InstanceType"
             case name = "Name"
+            case networkAccessConfiguration = "NetworkAccessConfiguration"
             case platform = "Platform"
             case state = "State"
             case stateChangeReason = "StateChangeReason"
@@ -2782,7 +2791,7 @@ extension AppStream {
         public let domainJoinInfo: DomainJoinInfo?
         /// Enables or disables default internet access for the fleet.
         public let enableDefaultInternetAccess: Bool?
-        /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected.  To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 3600. The default value is 900.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.  
+        /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected.  To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 3600. The default value is 0.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.  
         public let idleDisconnectTimeoutInSeconds: Int32?
         /// The ARN of the public, private, or shared image to use.
         public let imageArn: String?
@@ -2981,11 +2990,11 @@ extension AppStream {
         ]
         /// The time when the last usage report was generated.
         public let lastGeneratedReportDate: TimeStamp?
-        /// The Amazon S3 bucket where generated reports are stored. When a usage report subscription is enabled for the first time for an account in an AWS Region, an S3 bucket is created. The bucket is unique to the AWS account and the Region.
+        /// The Amazon S3 bucket where generated reports are stored. If you enabled on-instance session scripts and Amazon S3 logging for your session script configuration, AppStream 2.0 created an S3 bucket to store the script output. The bucket is unique to your account and Region. When you enable usage reporting in this case, AppStream 2.0 uses the same bucket to store your usage reports. If you haven't already enabled on-instance session scripts, when you enable usage reports, AppStream 2.0 creates a new S3 bucket.
         public let s3BucketName: String?
         /// The schedule for generating usage reports.
         public let schedule: UsageReportSchedule?
-        /// The errors that are returned when usage reports can't be generated.
+        /// The errors that were returned if usage reports couldn't be generated.
         public let subscriptionErrors: [LastReportGenerationExecutionError]?
 
         public init(lastGeneratedReportDate: TimeStamp? = nil, s3BucketName: String? = nil, schedule: UsageReportSchedule? = nil, subscriptionErrors: [LastReportGenerationExecutionError]? = nil) {
@@ -3153,7 +3162,7 @@ extension AppStream {
         ]
         /// The identifiers of the security groups for the fleet or image builder.
         public let securityGroupIds: [String]?
-        /// The identifiers of the subnets to which a network interface is attached from the fleet instance or image builder instance. Fleet instances use one or two subnets. Image builder instances use one subnet.
+        /// The identifiers of the subnets to which a network interface is attached from the fleet instance or image builder instance. Fleet instances use one or more subnets. Image builder instances use one subnet.
         public let subnetIds: [String]?
 
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {

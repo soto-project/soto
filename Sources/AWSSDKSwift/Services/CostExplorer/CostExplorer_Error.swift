@@ -9,6 +9,7 @@ public enum CostExplorerErrorType: AWSErrorType {
     case invalidNextTokenException(message: String?)
     case limitExceededException(message: String?)
     case requestChangedException(message: String?)
+    case unresolvableUsageUnitException(message: String?)
 }
 
 extension CostExplorerErrorType {
@@ -28,6 +29,8 @@ extension CostExplorerErrorType {
             self = .limitExceededException(message: message)
         case "RequestChangedException":
             self = .requestChangedException(message: message)
+        case "UnresolvableUsageUnitException":
+            self = .unresolvableUsageUnitException(message: message)
         default:
             return nil
         }

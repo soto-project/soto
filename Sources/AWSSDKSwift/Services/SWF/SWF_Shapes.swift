@@ -1448,10 +1448,13 @@ extension SWF {
 
     public struct DomainInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "status", required: true, type: .enum)
         ]
+        /// The ARN of the domain.
+        public let arn: String?
         /// The description of the domain provided through RegisterDomain.
         public let description: String?
         /// The name of the domain. This name is unique within the account.
@@ -1459,13 +1462,15 @@ extension SWF {
         /// The status of the domain:    REGISTERED – The domain is properly registered and available. You can use this domain for registering types and creating new workflow executions.     DEPRECATED – The domain was deprecated using DeprecateDomain, but is still in use. You should not create new workflow executions in this domain.   
         public let status: RegistrationStatus
 
-        public init(description: String? = nil, name: String, status: RegistrationStatus) {
+        public init(arn: String? = nil, description: String? = nil, name: String, status: RegistrationStatus) {
+            self.arn = arn
             self.description = description
             self.name = name
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case description = "description"
             case name = "name"
             case status = "status"
@@ -1680,9 +1685,9 @@ extension SWF {
         public let domain: String
         /// Specifies the workflow execution for which to return the history.
         public let execution: WorkflowExecution
-        /// The maximum number of results that are returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
+        /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results. 
         public let maximumPageSize: Int32?
-        /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
+        /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime".  The configured maximumPageSize determines how many results can be returned in a single call. 
         public let nextPageToken: String?
         /// When set to true, returns the events in reverse order. By default the results are returned in ascending order of the eventTimeStamp of the events.
         public let reverseOrder: Bool?
@@ -2177,11 +2182,11 @@ extension SWF {
         ]
         /// The name of the domain in which the activity types have been registered.
         public let domain: String
-        /// The maximum number of results that are returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
+        /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results. 
         public let maximumPageSize: Int32?
         /// If specified, only lists the activity types that have this name.
         public let name: String?
-        /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
+        /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime".  The configured maximumPageSize determines how many results can be returned in a single call. 
         public let nextPageToken: String?
         /// Specifies the registration status of the activity types to list.
         public let registrationStatus: RegistrationStatus
@@ -2228,9 +2233,9 @@ extension SWF {
         public let domain: String
         /// If specified, only workflow executions matching the workflow ID specified in the filter are returned.   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let executionFilter: WorkflowExecutionFilter?
-        /// The maximum number of results that are returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
+        /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results. 
         public let maximumPageSize: Int32?
-        /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
+        /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime".  The configured maximumPageSize determines how many results can be returned in a single call. 
         public let nextPageToken: String?
         /// When set to true, returns the results in reverse order. By default the results are returned in descending order of the start or the close time of the executions.
         public let reverseOrder: Bool?
@@ -2275,9 +2280,9 @@ extension SWF {
             AWSShapeMember(label: "registrationStatus", required: true, type: .enum), 
             AWSShapeMember(label: "reverseOrder", required: false, type: .boolean)
         ]
-        /// The maximum number of results that are returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
+        /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results. 
         public let maximumPageSize: Int32?
-        /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
+        /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime".  The configured maximumPageSize determines how many results can be returned in a single call. 
         public let nextPageToken: String?
         /// Specifies the registration status of the domains to list.
         public let registrationStatus: RegistrationStatus
@@ -2314,9 +2319,9 @@ extension SWF {
         public let domain: String
         /// If specified, only workflow executions matching the workflow ID specified in the filter are returned.   executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let executionFilter: WorkflowExecutionFilter?
-        /// The maximum number of results that are returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
+        /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results. 
         public let maximumPageSize: Int32?
-        /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
+        /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime".  The configured maximumPageSize determines how many results can be returned in a single call. 
         public let nextPageToken: String?
         /// When set to true, returns the results in reverse order. By default the results are returned in descending order of the start time of the executions.
         public let reverseOrder: Bool?
@@ -2350,6 +2355,38 @@ extension SWF {
         }
     }
 
+    public struct ListTagsForResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) for the Amazon SWF domain.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .list)
+        ]
+        /// An array of tags associated with the domain.
+        public let tags: [ResourceTag]?
+
+        public init(tags: [ResourceTag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
     public struct ListWorkflowTypesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "domain", required: true, type: .string), 
@@ -2361,11 +2398,11 @@ extension SWF {
         ]
         /// The name of the domain in which the workflow types have been registered.
         public let domain: String
-        /// The maximum number of results that are returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
+        /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results. 
         public let maximumPageSize: Int32?
         /// If specified, lists the workflow type with this name.
         public let name: String?
-        /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
+        /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime".  The configured maximumPageSize determines how many results can be returned in a single call. 
         public let nextPageToken: String?
         /// Specifies the registration status of the workflow types to list.
         public let registrationStatus: RegistrationStatus
@@ -2448,7 +2485,7 @@ extension SWF {
         public let domain: String
         /// Identity of the worker making the request, recorded in the ActivityTaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user defined.
         public let identity: String?
-        /// Specifies the task list to poll for activity tasks. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
+        /// Specifies the task list to poll for activity tasks. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
         public let taskList: TaskList
 
         public init(domain: String, identity: String? = nil, taskList: TaskList) {
@@ -2477,13 +2514,13 @@ extension SWF {
         public let domain: String
         /// Identity of the decider making the request, which is recorded in the DecisionTaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user defined.
         public let identity: String?
-        /// The maximum number of results that are returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
+        /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results.  This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maximumPageSize: Int32?
-        /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.  The nextPageToken returned by this action cannot be used with GetWorkflowExecutionHistory to get the next page. You must call PollForDecisionTask again (with the nextPageToken) to retrieve the next page of history records. Calling PollForDecisionTask with a nextPageToken doesn't return a new decision task. 
+        /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime".  The configured maximumPageSize determines how many results can be returned in a single call.   The nextPageToken returned by this action cannot be used with GetWorkflowExecutionHistory to get the next page. You must call PollForDecisionTask again (with the nextPageToken) to retrieve the next page of history records. Calling PollForDecisionTask with a nextPageToken doesn't return a new decision task. 
         public let nextPageToken: String?
         /// When set to true, returns the events in reverse order. By default the results are returned in ascending order of the eventTimestamp of the events.
         public let reverseOrder: Bool?
-        /// Specifies the task list to poll for decision tasks. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
+        /// Specifies the task list to poll for decision tasks. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
         public let taskList: TaskList
 
         public init(domain: String, identity: String? = nil, maximumPageSize: Int32? = nil, nextPageToken: String? = nil, reverseOrder: Bool? = nil, taskList: TaskList) {
@@ -2607,9 +2644,9 @@ extension SWF {
         public let description: String?
         /// The name of the domain in which this activity is to be registered.
         public let domain: String
-        /// The name of the activity type within the domain. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
+        /// The name of the activity type within the domain. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
         public let name: String
-        /// The version of the activity type.  The activity type consists of the name and version, the combination of which must be unique within the domain.  The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
+        /// The version of the activity type.  The activity type consists of the name and version, the combination of which must be unique within the domain.  The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
         public let version: String
 
         public init(defaultTaskHeartbeatTimeout: String? = nil, defaultTaskList: TaskList? = nil, defaultTaskPriority: String? = nil, defaultTaskScheduleToCloseTimeout: String? = nil, defaultTaskScheduleToStartTimeout: String? = nil, defaultTaskStartToCloseTimeout: String? = nil, description: String? = nil, domain: String, name: String, version: String) {
@@ -2643,24 +2680,29 @@ extension SWF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "workflowExecutionRetentionPeriodInDays", required: true, type: .string)
         ]
         /// A text description of the domain.
         public let description: String?
-        /// Name of the domain to register. The name must be unique in the region that the domain is registered in. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
+        /// Name of the domain to register. The name must be unique in the region that the domain is registered in. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
         public let name: String
+        /// Tags to be added when registering a domain. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @.
+        public let tags: [ResourceTag]?
         /// The duration (in days) that records and histories of workflow executions on the domain should be kept by the service. After the retention period, the workflow execution isn't available in the results of visibility calls. If you pass the value NONE or 0 (zero), then the workflow execution history isn't retained. As soon as the workflow execution completes, the execution record and its history are deleted. The maximum workflow execution retention period is 90 days. For more information about Amazon SWF service limits, see: Amazon SWF Service Limits in the Amazon SWF Developer Guide.
         public let workflowExecutionRetentionPeriodInDays: String
 
-        public init(description: String? = nil, name: String, workflowExecutionRetentionPeriodInDays: String) {
+        public init(description: String? = nil, name: String, tags: [ResourceTag]? = nil, workflowExecutionRetentionPeriodInDays: String) {
             self.description = description
             self.name = name
+            self.tags = tags
             self.workflowExecutionRetentionPeriodInDays = workflowExecutionRetentionPeriodInDays
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case name = "name"
+            case tags = "tags"
             case workflowExecutionRetentionPeriodInDays = "workflowExecutionRetentionPeriodInDays"
         }
     }
@@ -2682,7 +2724,7 @@ extension SWF {
         public let defaultChildPolicy: ChildPolicy?
         /// If set, specifies the default maximum duration for executions of this workflow type. You can override this default when starting an execution through the StartWorkflowExecution Action or StartChildWorkflowExecution Decision. The duration is specified in seconds; an integer greater than or equal to 0. Unlike some of the other timeout parameters in Amazon SWF, you cannot specify a value of "NONE" for defaultExecutionStartToCloseTimeout; there is a one-year max limit on the time that a workflow execution can run. Exceeding this limit always causes the workflow execution to time out.
         public let defaultExecutionStartToCloseTimeout: String?
-        /// The default IAM role attached to this workflow type.  Executions of this workflow type need IAM roles to invoke Lambda functions. If you don't specify an IAM role when you start this workflow type, the default Lambda role is attached to the execution. For more information, see http://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html in the Amazon SWF Developer Guide. 
+        /// The default IAM role attached to this workflow type.  Executions of this workflow type need IAM roles to invoke Lambda functions. If you don't specify an IAM role when you start this workflow type, the default Lambda role is attached to the execution. For more information, see https://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html in the Amazon SWF Developer Guide. 
         public let defaultLambdaRole: String?
         /// If set, specifies the default task list to use for scheduling decision tasks for executions of this workflow type. This default is used only if a task list isn't provided when starting the execution through the StartWorkflowExecution Action or StartChildWorkflowExecution Decision.
         public let defaultTaskList: TaskList?
@@ -2694,9 +2736,9 @@ extension SWF {
         public let description: String?
         /// The name of the domain in which to register the workflow type.
         public let domain: String
-        /// The name of the workflow type. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
+        /// The name of the workflow type. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
         public let name: String
-        /// The version of the workflow type.  The workflow type consists of the name and version, the combination of which must be unique within the domain. To get a list of all currently registered workflow types, use the ListWorkflowTypes action.  The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
+        /// The version of the workflow type.  The workflow type consists of the name and version, the combination of which must be unique within the domain. To get a list of all currently registered workflow types, use the ListWorkflowTypes action.  The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
         public let version: String
 
         public init(defaultChildPolicy: ChildPolicy? = nil, defaultExecutionStartToCloseTimeout: String? = nil, defaultLambdaRole: String? = nil, defaultTaskList: TaskList? = nil, defaultTaskPriority: String? = nil, defaultTaskStartToCloseTimeout: String? = nil, description: String? = nil, domain: String, name: String, version: String) {
@@ -2908,6 +2950,27 @@ extension SWF {
             case domain = "domain"
             case runId = "runId"
             case workflowId = "workflowId"
+        }
+    }
+
+    public struct ResourceTag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: true, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .string)
+        ]
+        /// The key of a tag.
+        public let key: String
+        /// The value of a tag.
+        public let value: String?
+
+        public init(key: String, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -3670,17 +3733,17 @@ extension SWF {
         public let executionStartToCloseTimeout: String?
         /// The input for the workflow execution. This is a free form string which should be meaningful to the workflow you are starting. This input is made available to the new workflow execution in the WorkflowExecutionStarted history event.
         public let input: String?
-        /// The IAM role to attach to this workflow execution.  Executions of this workflow type need IAM roles to invoke Lambda functions. If you don't attach an IAM role, any attempt to schedule a Lambda task fails. This results in a ScheduleLambdaFunctionFailed history event. For more information, see http://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html in the Amazon SWF Developer Guide. 
+        /// The IAM role to attach to this workflow execution.  Executions of this workflow type need IAM roles to invoke Lambda functions. If you don't attach an IAM role, any attempt to schedule a Lambda task fails. This results in a ScheduleLambdaFunctionFailed history event. For more information, see https://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html in the Amazon SWF Developer Guide. 
         public let lambdaRole: String?
         /// The list of tags to associate with the workflow execution. You can specify a maximum of 5 tags. You can list workflow executions with a specific tag by calling ListOpenWorkflowExecutions or ListClosedWorkflowExecutions and specifying a TagFilter.
         public let tagList: [String]?
-        /// The task list to use for the decision tasks generated for this workflow execution. This overrides the defaultTaskList specified when registering the workflow type.  A task list for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task list was specified at registration time then a fault is returned.  The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
+        /// The task list to use for the decision tasks generated for this workflow execution. This overrides the defaultTaskList specified when registering the workflow type.  A task list for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task list was specified at registration time then a fault is returned.  The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
         public let taskList: TaskList?
         /// The task priority to use for this workflow execution. This overrides any default priority that was assigned when the workflow type was registered. If not set, then the default task priority for the workflow type is used. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon SWF Developer Guide.
         public let taskPriority: String?
         /// Specifies the maximum duration of decision tasks for this workflow execution. This parameter overrides the defaultTaskStartToCloseTimout specified when registering the workflow type using RegisterWorkflowType. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.  A task start-to-close timeout for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task start-to-close timeout was specified at registration time then a fault is returned. 
         public let taskStartToCloseTimeout: String?
-        /// The user defined identifier associated with the workflow execution. You can use this to associate a custom identifier with the workflow execution. You may specify the same identifier if a workflow execution is logically a restart of a previous execution. You cannot have two open workflow executions with the same workflowId at the same time. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
+        /// The user defined identifier associated with the workflow execution. You can use this to associate a custom identifier with the workflow execution. You may specify the same identifier if a workflow execution is logically a restart of a previous execution. You cannot have two open workflow executions with the same workflowId at the same time within the same domain. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
         public let workflowId: String
         /// The type of the workflow to start.
         public let workflowType: WorkflowType
@@ -3718,7 +3781,7 @@ extension SWF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tag", required: true, type: .string)
         ]
-        ///  Specifies the tag that must be associated with the execution for it to meet the filter criteria.
+        ///  Specifies the tag that must be associated with the execution for it to meet the filter criteria. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @.
         public let tag: String
 
         public init(tag: String) {
@@ -3727,6 +3790,27 @@ extension SWF {
 
         private enum CodingKeys: String, CodingKey {
             case tag = "tag"
+        }
+    }
+
+    public struct TagResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) for the Amazon SWF domain.
+        public let resourceArn: String
+        /// The list of tags to add to a domain.  Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @.
+        public let tags: [ResourceTag]
+
+        public init(resourceArn: String, tags: [ResourceTag]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
@@ -3862,6 +3946,85 @@ extension SWF {
             case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
             case startToFireTimeout = "startToFireTimeout"
             case timerId = "timerId"
+        }
+    }
+
+    public struct UndeprecateActivityTypeInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "activityType", required: true, type: .structure), 
+            AWSShapeMember(label: "domain", required: true, type: .string)
+        ]
+        /// The activity type to undeprecate.
+        public let activityType: ActivityType
+        /// The name of the domain of the deprecated activity type.
+        public let domain: String
+
+        public init(activityType: ActivityType, domain: String) {
+            self.activityType = activityType
+            self.domain = domain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activityType = "activityType"
+            case domain = "domain"
+        }
+    }
+
+    public struct UndeprecateDomainInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string)
+        ]
+        /// The name of the domain of the deprecated workflow type.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct UndeprecateWorkflowTypeInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domain", required: true, type: .string), 
+            AWSShapeMember(label: "workflowType", required: true, type: .structure)
+        ]
+        /// The name of the domain of the deprecated workflow type.
+        public let domain: String
+        /// The name of the domain of the deprecated workflow type.
+        public let workflowType: WorkflowType
+
+        public init(domain: String, workflowType: WorkflowType) {
+            self.domain = domain
+            self.workflowType = workflowType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "domain"
+            case workflowType = "workflowType"
+        }
+    }
+
+    public struct UntagResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "tagKeys", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) for the Amazon SWF domain.
+        public let resourceArn: String
+        /// The list of tags to remove from the Amazon SWF domain.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 
@@ -4478,7 +4641,7 @@ extension SWF {
         public let defaultChildPolicy: ChildPolicy?
         ///  The default maximum duration, specified when registering the workflow type, for executions of this workflow type. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution Decision. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let defaultExecutionStartToCloseTimeout: String?
-        /// The default IAM role attached to this workflow type.  Executions of this workflow type need IAM roles to invoke Lambda functions. If you don't specify an IAM role when starting this workflow type, the default Lambda role is attached to the execution. For more information, see http://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html in the Amazon SWF Developer Guide. 
+        /// The default IAM role attached to this workflow type.  Executions of this workflow type need IAM roles to invoke Lambda functions. If you don't specify an IAM role when starting this workflow type, the default Lambda role is attached to the execution. For more information, see https://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html in the Amazon SWF Developer Guide. 
         public let defaultLambdaRole: String?
         ///  The default task list, specified when registering the workflow type, for decisions tasks scheduled for workflow executions of this type. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution Decision.
         public let defaultTaskList: TaskList?

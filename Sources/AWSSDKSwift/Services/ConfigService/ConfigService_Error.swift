@@ -23,6 +23,7 @@ public enum ConfigServiceErrorType: AWSErrorType {
     case maxNumberOfConfigRulesExceededException(message: String?)
     case maxNumberOfConfigurationRecordersExceededException(message: String?)
     case maxNumberOfDeliveryChannelsExceededException(message: String?)
+    case maxNumberOfOrganizationConfigRulesExceededException(message: String?)
     case maxNumberOfRetentionConfigurationsExceededException(message: String?)
     case noAvailableConfigurationRecorderException(message: String?)
     case noAvailableDeliveryChannelException(message: String?)
@@ -33,11 +34,13 @@ public enum ConfigServiceErrorType: AWSErrorType {
     case noSuchConfigurationAggregatorException(message: String?)
     case noSuchConfigurationRecorderException(message: String?)
     case noSuchDeliveryChannelException(message: String?)
+    case noSuchOrganizationConfigRuleException(message: String?)
     case noSuchRemediationConfigurationException(message: String?)
     case noSuchRetentionConfigurationException(message: String?)
     case organizationAccessDeniedException(message: String?)
     case organizationAllFeaturesNotEnabledException(message: String?)
     case oversizedConfigurationItemException(message: String?)
+    case remediationInProgressException(message: String?)
     case resourceInUseException(message: String?)
     case resourceNotDiscoveredException(message: String?)
     case resourceNotFoundException(message: String?)
@@ -90,6 +93,8 @@ extension ConfigServiceErrorType {
             self = .maxNumberOfConfigurationRecordersExceededException(message: message)
         case "MaxNumberOfDeliveryChannelsExceededException":
             self = .maxNumberOfDeliveryChannelsExceededException(message: message)
+        case "MaxNumberOfOrganizationConfigRulesExceededException":
+            self = .maxNumberOfOrganizationConfigRulesExceededException(message: message)
         case "MaxNumberOfRetentionConfigurationsExceededException":
             self = .maxNumberOfRetentionConfigurationsExceededException(message: message)
         case "NoAvailableConfigurationRecorderException":
@@ -110,6 +115,8 @@ extension ConfigServiceErrorType {
             self = .noSuchConfigurationRecorderException(message: message)
         case "NoSuchDeliveryChannelException":
             self = .noSuchDeliveryChannelException(message: message)
+        case "NoSuchOrganizationConfigRuleException":
+            self = .noSuchOrganizationConfigRuleException(message: message)
         case "NoSuchRemediationConfigurationException":
             self = .noSuchRemediationConfigurationException(message: message)
         case "NoSuchRetentionConfigurationException":
@@ -120,6 +127,8 @@ extension ConfigServiceErrorType {
             self = .organizationAllFeaturesNotEnabledException(message: message)
         case "OversizedConfigurationItemException":
             self = .oversizedConfigurationItemException(message: message)
+        case "RemediationInProgressException":
+            self = .remediationInProgressException(message: message)
         case "ResourceInUseException":
             self = .resourceInUseException(message: message)
         case "ResourceNotDiscoveredException":

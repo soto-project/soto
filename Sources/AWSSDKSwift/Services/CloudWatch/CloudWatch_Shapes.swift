@@ -41,11 +41,71 @@ extension CloudWatch {
         }
     }
 
+    public struct AnomalyDetector: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Configuration", required: false, type: .structure), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "MetricName", required: false, type: .string), 
+            AWSShapeMember(label: "Namespace", required: false, type: .string), 
+            AWSShapeMember(label: "Stat", required: false, type: .string)
+        ]
+        /// The configuration specifies details about how the anomaly detection model is to be trained, including time ranges to exclude from use for training the model, and the time zone to use for the metric.
+        public let configuration: AnomalyDetectorConfiguration?
+        /// The metric dimensions associated with the anomaly detection model.
+        public let dimensions: [Dimension]?
+        /// The name of the metric associated with the anomaly detection model.
+        public let metricName: String?
+        /// The namespace of the metric associated with the anomaly detection model.
+        public let namespace: String?
+        /// The statistic associated with the anomaly detection model.
+        public let stat: String?
+
+        public init(configuration: AnomalyDetectorConfiguration? = nil, dimensions: [Dimension]? = nil, metricName: String? = nil, namespace: String? = nil, stat: String? = nil) {
+            self.configuration = configuration
+            self.dimensions = dimensions
+            self.metricName = metricName
+            self.namespace = namespace
+            self.stat = stat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+            case dimensions = "Dimensions"
+            case metricName = "MetricName"
+            case namespace = "Namespace"
+            case stat = "Stat"
+        }
+    }
+
+    public struct AnomalyDetectorConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExcludedTimeRanges", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "MetricTimezone", required: false, type: .string)
+        ]
+        /// An array of time ranges to exclude from use when the anomaly detection model is trained. Use this to make sure that events that could cause unusual values for the metric, such as deployments, aren't used when CloudWatch creates the model.
+        public let excludedTimeRanges: [Range]?
+        /// The time zone to use for the metric. This is useful to enable the model to automatically account for daylight savings time changes if the metric is sensitive to such time changes. To specify a time zone, use the name of the time zone as specified in the standard tz database. For more information, see tz database.
+        public let metricTimezone: String?
+
+        public init(excludedTimeRanges: [Range]? = nil, metricTimezone: String? = nil) {
+            self.excludedTimeRanges = excludedTimeRanges
+            self.metricTimezone = metricTimezone
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case excludedTimeRanges = "ExcludedTimeRanges"
+            case metricTimezone = "MetricTimezone"
+        }
+    }
+
     public enum ComparisonOperator: String, CustomStringConvertible, Codable {
         case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
         case greaterthanthreshold = "GreaterThanThreshold"
         case lessthanthreshold = "LessThanThreshold"
         case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
+        case lessthanlowerorgreaterthanupperthreshold = "LessThanLowerOrGreaterThanUpperThreshold"
+        case lessthanlowerthreshold = "LessThanLowerThreshold"
+        case greaterthanupperthreshold = "GreaterThanUpperThreshold"
         public var description: String { return self.rawValue }
     }
 
@@ -166,6 +226,44 @@ extension CloudWatch {
         private enum CodingKeys: String, CodingKey {
             case alarmNames = "AlarmNames"
         }
+    }
+
+    public struct DeleteAnomalyDetectorInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Dimensions", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "MetricName", required: true, type: .string), 
+            AWSShapeMember(label: "Namespace", required: true, type: .string), 
+            AWSShapeMember(label: "Stat", required: true, type: .string)
+        ]
+        /// The metric dimensions associated with the anomaly detection model to delete.
+        public let dimensions: [Dimension]?
+        /// The metric name associated with the anomaly detection model to delete.
+        public let metricName: String
+        /// The namespace associated with the anomaly detection model to delete.
+        public let namespace: String
+        /// The statistic associated with the anomaly detection model to delete.
+        public let stat: String
+
+        public init(dimensions: [Dimension]? = nil, metricName: String, namespace: String, stat: String) {
+            self.dimensions = dimensions
+            self.metricName = metricName
+            self.namespace = namespace
+            self.stat = stat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case metricName = "MetricName"
+            case namespace = "Namespace"
+            case stat = "Stat"
+        }
+    }
+
+    public struct DeleteAnomalyDetectorOutput: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct DeleteDashboardsInput: AWSShape {
@@ -373,6 +471,63 @@ extension CloudWatch {
 
         private enum CodingKeys: String, CodingKey {
             case metricAlarms = "MetricAlarms"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeAnomalyDetectorsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Dimensions", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "MetricName", required: false, type: .string), 
+            AWSShapeMember(label: "Namespace", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Limits the results to only the anomaly detection models that are associated with the specified metric dimensions. If there are multiple metrics that have these dimensions and have anomaly detection models associated, they're all returned.
+        public let dimensions: [Dimension]?
+        /// The maximum number of results to return in one operation. The maximum value you can specify is 10. To retrieve the remaining results, make another call with the returned NextToken value. 
+        public let maxResults: Int32?
+        /// Limits the results to only the anomaly detection models that are associated with the specified metric name. If there are multiple metrics with this name in different namespaces that have anomaly detection models, they're all returned.
+        public let metricName: String?
+        /// Limits the results to only the anomaly detection models that are associated with the specified namespace.
+        public let namespace: String?
+        /// Use the token returned by the previous operation to request the next page of results.
+        public let nextToken: String?
+
+        public init(dimensions: [Dimension]? = nil, maxResults: Int32? = nil, metricName: String? = nil, namespace: String? = nil, nextToken: String? = nil) {
+            self.dimensions = dimensions
+            self.maxResults = maxResults
+            self.metricName = metricName
+            self.namespace = namespace
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case maxResults = "MaxResults"
+            case metricName = "MetricName"
+            case namespace = "Namespace"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeAnomalyDetectorsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnomalyDetectors", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The list of anomaly detection models returned by the operation.
+        public let anomalyDetectors: [AnomalyDetector]?
+        /// A token that you can use in a subsequent operation to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(anomalyDetectors: [AnomalyDetector]? = nil, nextToken: String? = nil) {
+            self.anomalyDetectors = anomalyDetectors
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetectors = "AnomalyDetectors"
             case nextToken = "NextToken"
         }
     }
@@ -880,6 +1035,7 @@ extension CloudWatch {
             AWSShapeMember(label: "StateValue", required: false, type: .enum), 
             AWSShapeMember(label: "Statistic", required: false, type: .enum), 
             AWSShapeMember(label: "Threshold", required: false, type: .double), 
+            AWSShapeMember(label: "ThresholdMetricId", required: false, type: .string), 
             AWSShapeMember(label: "TreatMissingData", required: false, type: .string), 
             AWSShapeMember(label: "Unit", required: false, type: .enum)
         ]
@@ -909,8 +1065,9 @@ extension CloudWatch {
         public let extendedStatistic: String?
         /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN).
         public let insufficientDataActions: [String]?
-        /// The name of the metric associated with the alarm.
+        /// The name of the metric associated with the alarm, if this is an alarm based on a single metric.
         public let metricName: String?
+        /// An array of MetricDataQuery structures, used in an alarm based on a metric math expression. Each structure either retrieves a metric or performs a math expression. One item in the Metrics array is the math expression that the alarm watches. This expression by designated by having ReturnValue set to true.
         public let metrics: [MetricDataQuery]?
         /// The namespace of the metric associated with the alarm.
         public let namespace: String?
@@ -930,12 +1087,14 @@ extension CloudWatch {
         public let statistic: Statistic?
         /// The value to compare with the specified statistic.
         public let threshold: Double?
+        /// In an alarm based on an anomaly detection model, this is the ID of the ANOMALY_DETECTION_BAND function used as the threshold for the alarm.
+        public let thresholdMetricId: String?
         /// Sets how this alarm is to handle missing data points. If this parameter is omitted, the default behavior of missing is used.
         public let treatMissingData: String?
         /// The unit of the metric associated with the alarm.
         public let unit: StandardUnit?
 
-        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: TimeStamp? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, datapointsToAlarm: Int32? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationPeriods: Int32? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, oKActions: [String]? = nil, period: Int32? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateUpdatedTimestamp: TimeStamp? = nil, stateValue: StateValue? = nil, statistic: Statistic? = nil, threshold: Double? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil) {
+        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: TimeStamp? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, datapointsToAlarm: Int32? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationPeriods: Int32? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, oKActions: [String]? = nil, period: Int32? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateUpdatedTimestamp: TimeStamp? = nil, stateValue: StateValue? = nil, statistic: Statistic? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil) {
             self.actionsEnabled = actionsEnabled
             self.alarmActions = alarmActions
             self.alarmArn = alarmArn
@@ -960,6 +1119,7 @@ extension CloudWatch {
             self.stateValue = stateValue
             self.statistic = statistic
             self.threshold = threshold
+            self.thresholdMetricId = thresholdMetricId
             self.treatMissingData = treatMissingData
             self.unit = unit
         }
@@ -989,6 +1149,7 @@ extension CloudWatch {
             case stateValue = "StateValue"
             case statistic = "Statistic"
             case threshold = "Threshold"
+            case thresholdMetricId = "ThresholdMetricId"
             case treatMissingData = "TreatMissingData"
             case unit = "Unit"
         }
@@ -1095,7 +1256,7 @@ extension CloudWatch {
         public let storageResolution: Int32?
         /// The time the metric data was received, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let timestamp: TimeStamp?
-        /// The unit of the metric.
+        /// When you are using a Put operation, this defines what unit you want to use when storing the metric. In a Get operation, this displays the unit that is used for the metric.
         public let unit: StandardUnit?
         /// The value for the metric. Although the parameter accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2). In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
         public let value: Double?
@@ -1140,7 +1301,7 @@ extension CloudWatch {
         public let period: Int32
         /// The statistic to return. It can include any CloudWatch statistic or extended statistic.
         public let stat: String
-        /// The unit to use for the returned data points.
+        /// When you are using a Put operation, this defines what unit you want to use when storing the metric. In a Get operation, this displays the unit that is used for the metric.
         public let unit: StandardUnit?
 
         public init(metric: Metric, period: Int32, stat: String, unit: StandardUnit? = nil) {
@@ -1156,6 +1317,49 @@ extension CloudWatch {
             case stat = "Stat"
             case unit = "Unit"
         }
+    }
+
+    public struct PutAnomalyDetectorInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Configuration", required: false, type: .structure), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "MetricName", required: true, type: .string), 
+            AWSShapeMember(label: "Namespace", required: true, type: .string), 
+            AWSShapeMember(label: "Stat", required: true, type: .string)
+        ]
+        /// The configuration specifies details about how the anomaly detection model is to be trained, including time ranges to exclude when training and updating the model. You can specify as many as 10 time ranges. The configuration can also include the time zone to use for the metric. You can in
+        public let configuration: AnomalyDetectorConfiguration?
+        /// The metric dimensions to create the anomaly detection model for.
+        public let dimensions: [Dimension]?
+        /// The name of the metric to create the anomaly detection model for.
+        public let metricName: String
+        /// The namespace of the metric to create the anomaly detection model for.
+        public let namespace: String
+        /// The statistic to use for the metric and the anomaly detection model.
+        public let stat: String
+
+        public init(configuration: AnomalyDetectorConfiguration? = nil, dimensions: [Dimension]? = nil, metricName: String, namespace: String, stat: String) {
+            self.configuration = configuration
+            self.dimensions = dimensions
+            self.metricName = metricName
+            self.namespace = namespace
+            self.stat = stat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+            case dimensions = "Dimensions"
+            case metricName = "MetricName"
+            case namespace = "Namespace"
+            case stat = "Stat"
+        }
+    }
+
+    public struct PutAnomalyDetectorOutput: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct PutDashboardInput: AWSShape {
@@ -1215,7 +1419,8 @@ extension CloudWatch {
             AWSShapeMember(label: "Period", required: false, type: .integer), 
             AWSShapeMember(label: "Statistic", required: false, type: .enum), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Threshold", required: true, type: .double), 
+            AWSShapeMember(label: "Threshold", required: false, type: .double), 
+            AWSShapeMember(label: "ThresholdMetricId", required: false, type: .string), 
             AWSShapeMember(label: "TreatMissingData", required: false, type: .string), 
             AWSShapeMember(label: "Unit", required: false, type: .enum)
         ]
@@ -1227,7 +1432,7 @@ extension CloudWatch {
         public let alarmDescription: String?
         /// The name for the alarm. This name must be unique within your AWS account.
         public let alarmName: String
-        ///  The arithmetic operation to use when comparing the specified statistic and threshold. The specified statistic value is used as the first operand.
+        ///  The arithmetic operation to use when comparing the specified statistic and threshold. The specified statistic value is used as the first operand. The values LessThanLowerOrGreaterThanUpperThreshold, LessThanLowerThreshold, and GreaterThanUpperThreshold are used only for alarms based on anomaly detection models.
         public let comparisonOperator: ComparisonOperator
         /// The number of datapoints that must be breaching to trigger the alarm. This is used only if you are setting an "M out of N" alarm. In that case, this value is the M. For more information, see Evaluating an Alarm in the Amazon CloudWatch User Guide.
         public let datapointsToAlarm: Int32?
@@ -1256,13 +1461,15 @@ extension CloudWatch {
         /// A list of key-value pairs to associate with the alarm. You can associate as many as 50 tags with an alarm. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values.
         public let tags: [Tag]?
         /// The value against which the specified statistic is compared.
-        public let threshold: Double
+        public let threshold: Double?
+        /// If this is an alarm based on an anomaly detection model, make this value match the ID of the ANOMALY_DETECTION_BAND function. For an example of how to use this parameter, see the Anomaly Detection Model Alarm example on this page. If your alarm uses this parameter, it cannot have Auto Scaling actions.
+        public let thresholdMetricId: String?
         ///  Sets how this alarm is to handle missing data points. If TreatMissingData is omitted, the default behavior of missing is used. For more information, see Configuring How CloudWatch Alarms Treats Missing Data. Valid Values: breaching | notBreaching | ignore | missing 
         public let treatMissingData: String?
         /// The unit of measure for the statistic. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately. If you specify a unit, you must use a unit that is appropriate for the metric. Otherwise, the CloudWatch alarm can get stuck in the INSUFFICIENT DATA state. 
         public let unit: StandardUnit?
 
-        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String, comparisonOperator: ComparisonOperator, datapointsToAlarm: Int32? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationPeriods: Int32, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, oKActions: [String]? = nil, period: Int32? = nil, statistic: Statistic? = nil, tags: [Tag]? = nil, threshold: Double, treatMissingData: String? = nil, unit: StandardUnit? = nil) {
+        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String, comparisonOperator: ComparisonOperator, datapointsToAlarm: Int32? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationPeriods: Int32, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, oKActions: [String]? = nil, period: Int32? = nil, statistic: Statistic? = nil, tags: [Tag]? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil) {
             self.actionsEnabled = actionsEnabled
             self.alarmActions = alarmActions
             self.alarmDescription = alarmDescription
@@ -1282,6 +1489,7 @@ extension CloudWatch {
             self.statistic = statistic
             self.tags = tags
             self.threshold = threshold
+            self.thresholdMetricId = thresholdMetricId
             self.treatMissingData = treatMissingData
             self.unit = unit
         }
@@ -1306,6 +1514,7 @@ extension CloudWatch {
             case statistic = "Statistic"
             case tags = "Tags"
             case threshold = "Threshold"
+            case thresholdMetricId = "ThresholdMetricId"
             case treatMissingData = "TreatMissingData"
             case unit = "Unit"
         }
@@ -1329,6 +1538,27 @@ extension CloudWatch {
         private enum CodingKeys: String, CodingKey {
             case metricData = "MetricData"
             case namespace = "Namespace"
+        }
+    }
+
+    public struct Range: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
+        ]
+        /// The end time of the range to exclude. The format is yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
+        public let endTime: TimeStamp
+        /// The start time of the range to exclude. The format is yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
+        public let startTime: TimeStamp
+
+        public init(endTime: TimeStamp, startTime: TimeStamp) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case startTime = "StartTime"
         }
     }
 

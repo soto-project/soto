@@ -33,27 +33,32 @@ class AWSRequestTests: XCTestCase {
     func testAWSShapeRequest<Input: AWSShape>(client: AWSClient, operation: String, path: String="/", httpMethod: String="POST", input: Input, expected: String) {
         do {
             let awsRequest = try client.debugCreateAWSRequest(operation: operation, path: path, httpMethod: httpMethod, input: input)
-            var expected = expected
+            var expected2 = expected
 
             // If XML remove whitespace from expected by converting to XMLNode and back
             if case .restxml = client.serviceProtocol.type {
-                let document = try XMLDocument(xmlString: expected)
-                document.isStandalone = false
-                expected = document.xmlString
+                let document = try XML.Document(data: expected.data(using: .utf8)!)
+                expected2 = document.xmlString
             }
 
-            try testRequestedBody(expected: expected, result: awsRequest)
+            try testRequestedBody(expected: expected2, result: awsRequest)
         } catch {
             XCTFail(error.localizedDescription)
         }
     }
 
-    func testS3CreateMultipartUpload() {
-        let expectedResult = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <CreateMultipartUploadRequest> <x-amz-acl>authenticated-read</x-amz-acl> <Bucket>test-bucket</Bucket> <Expires>1970-04-26T17:46:40.000Z</Expires> <Key>test-object</Key> <Metadata><entry><key>test-key</key><value>test-value</value></entry></Metadata> <x-amz-object-lock-legal-hold>ON</x-amz-object-lock-legal-hold> <x-amz-object-lock-mode>COMPLIANCE</x-amz-object-lock-mode> <x-amz-object-lock-retain-until-date>1970-04-26T18:46:40.000Z</x-amz-object-lock-retain-until-date> <x-amz-request-payer>requester</x-amz-request-payer> <x-amz-server-side-encryption>AES256</x-amz-server-side-encryption> <x-amz-storage-class>STANDARD</x-amz-storage-class> </CreateMultipartUploadRequest>"
+    func testS3PutBucketLifecycleConfigurationRequest() {
+        let expectedResult = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><LifecycleConfiguration><Rule><AbortIncompleteMultipartUpload><DaysAfterInitiation>7</DaysAfterInitiation></AbortIncompleteMultipartUpload><Status>Enabled</Status></Rule><Rule><Expiration><Days>30</Days><ExpiredObjectDeleteMarker>true</ExpiredObjectDeleteMarker></Expiration><Filter><Prefix>temp</Prefix></Filter><Status>Enabled</Status></Rule><Rule><Status>Enabled</Status><Transition><Days>20</Days><StorageClass>GLACIER</StorageClass></Transition><Transition><Days>180</Days><StorageClass>DEEP_ARCHIVE</StorageClass></Transition></Rule><Rule><NoncurrentVersionExpiration><NoncurrentDays>90</NoncurrentDays></NoncurrentVersionExpiration><Status>Disabled</Status></Rule></LifecycleConfiguration>"
 
-        let request = S3.CreateMultipartUploadRequest(acl: .authenticatedRead, bucket: "test-bucket", expires: TimeStamp(Date(timeIntervalSince1970: 10000000)), key:"test-object", metadata: ["test-key":"test-value"], objectLockLegalHoldStatus:.on, objectLockMode: .compliance, objectLockRetainUntilDate: TimeStamp(Date(timeIntervalSince1970: 10003600)), requestPayer: .requester, serverSideEncryption: .aes256, storageClass: .standard)
+        let abortRule = S3.LifecycleRule(abortIncompleteMultipartUpload: S3.AbortIncompleteMultipartUpload(daysAfterInitiation: 7), status:.enabled)
+        let tempFileRule = S3.LifecycleRule(expiration: S3.LifecycleExpiration(days:30, expiredObjectDeleteMarker:true), filter:S3.LifecycleRuleFilter(prefix:"temp"), status:.enabled)
+        let glacierRule = S3.LifecycleRule(status:.enabled, transitions: [S3.Transition(days:20, storageClass:.glacier), S3.Transition(days:180, storageClass:.deepArchive)])
+        let versionsRule = S3.LifecycleRule(noncurrentVersionExpiration:S3.NoncurrentVersionExpiration(noncurrentDays: 90), status:.disabled)
+        let rules = [abortRule, tempFileRule, glacierRule, versionsRule]
+        let lifecycleConfiguration = S3.BucketLifecycleConfiguration(rules: rules)
+        let request = S3.PutBucketLifecycleConfigurationRequest(bucket: "bucket", lifecycleConfiguration: lifecycleConfiguration)
 
-        testAWSShapeRequest(client:S3().client, operation: "CreateMultipartUpload", path: "/{Bucket}/{Key+}?uploads", httpMethod: "POST", input: request, expected: expectedResult)
+        testAWSShapeRequest(client:S3().client, operation: "PutBucketLifecycleConfiguration", path: "/{Bucket}?lifecycle", httpMethod: "PUT", input: request, expected: expectedResult)
     }
 
     func testSNSCreateTopic() {
@@ -64,7 +69,7 @@ class AWSRequestTests: XCTestCase {
     }
 
     func testCloudFrontCreateDistribution() {
-        let expectedResult = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <DistributionConfig> <CallerReference>test</CallerReference> <Comment></Comment> <DefaultCacheBehavior> <ForwardedValues> <Cookies> <Forward>all</Forward> </Cookies> <QueryString>true</QueryString> </ForwardedValues> <MinTTL>1024</MinTTL> <TargetOriginId>AWSRequestTests</TargetOriginId> <TrustedSigners> <Enabled>true</Enabled> <Quantity>2</Quantity> </TrustedSigners> <ViewerProtocolPolicy>https-only</ViewerProtocolPolicy> </DefaultCacheBehavior><Enabled>true</Enabled><Origins><Items><Origin><DomainName>aws.sdk.swift.com</DomainName><Id>1234</Id></Origin></Items><Quantity>1</Quantity></Origins></DistributionConfig>"
+        let expectedResult = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><DistributionConfig><CallerReference>test</CallerReference><Comment></Comment><DefaultCacheBehavior><ForwardedValues><Cookies><Forward>all</Forward></Cookies><QueryString>true</QueryString></ForwardedValues><MinTTL>1024</MinTTL><TargetOriginId>AWSRequestTests</TargetOriginId><TrustedSigners><Enabled>true</Enabled><Quantity>2</Quantity></TrustedSigners><ViewerProtocolPolicy>https-only</ViewerProtocolPolicy></DefaultCacheBehavior><Enabled>true</Enabled><Origins><Items><Origin><DomainName>aws.sdk.swift.com</DomainName><Id>1234</Id></Origin></Items><Quantity>1</Quantity></Origins></DistributionConfig>"
 
         let cookiePreference = CloudFront.CookiePreference(forward:.all)
         let forwardedValues = CloudFront.ForwardedValues(cookies: cookiePreference, queryString: true)
@@ -110,9 +115,9 @@ class AWSRequestTests: XCTestCase {
 
     static var allTests : [(String, (AWSRequestTests) -> () throws -> Void)] {
         return [
-            ("testS3CreateMultipartUpload", testS3CreateMultipartUpload),
+            ("testS3PutBucketLifecycleConfigurationRequest", testS3PutBucketLifecycleConfigurationRequest),
             ("testSNSCreateTopic", testSNSCreateTopic),
-            //("testCloudFrontCreateDistribution", testCloudFrontCreateDistribution),
+            ("testCloudFrontCreateDistribution", testCloudFrontCreateDistribution),
             ("testEC2CreateImage", testEC2CreateImage),
             ("testEC2CreateInstanceExportTask", testEC2CreateInstanceExportTask),
             ("testIAMSimulateCustomPolicy", testIAMSimulateCustomPolicy),

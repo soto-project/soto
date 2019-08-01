@@ -300,7 +300,8 @@ extension WAF {
             AWSShapeMember(label: "MetricName", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "RateKey", required: true, type: .enum), 
-            AWSShapeMember(label: "RateLimit", required: true, type: .long)
+            AWSShapeMember(label: "RateLimit", required: true, type: .long), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The ChangeToken that you used to submit the CreateRateBasedRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String
@@ -312,13 +313,15 @@ extension WAF {
         public let rateKey: RateKey
         /// The maximum number of requests, which have an identical value in the field that is specified by RateKey, allowed in a five-minute period. If the number of requests exceeds the RateLimit and the other predicates specified in the rule are also met, AWS WAF triggers the action that is specified for this rule.
         public let rateLimit: Int64
+        public let tags: [Tag]?
 
-        public init(changeToken: String, metricName: String, name: String, rateKey: RateKey, rateLimit: Int64) {
+        public init(changeToken: String, metricName: String, name: String, rateKey: RateKey, rateLimit: Int64, tags: [Tag]? = nil) {
             self.changeToken = changeToken
             self.metricName = metricName
             self.name = name
             self.rateKey = rateKey
             self.rateLimit = rateLimit
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -327,6 +330,7 @@ extension WAF {
             case name = "Name"
             case rateKey = "RateKey"
             case rateLimit = "RateLimit"
+            case tags = "Tags"
         }
     }
 
@@ -439,7 +443,8 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
@@ -447,17 +452,20 @@ extension WAF {
         public let metricName: String
         /// A friendly name or description of the RuleGroup. You can't change Name after you create a RuleGroup.
         public let name: String
+        public let tags: [Tag]?
 
-        public init(changeToken: String, metricName: String, name: String) {
+        public init(changeToken: String, metricName: String, name: String, tags: [Tag]? = nil) {
             self.changeToken = changeToken
             self.metricName = metricName
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case metricName = "MetricName"
             case name = "Name"
+            case tags = "Tags"
         }
     }
 
@@ -486,7 +494,8 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
@@ -494,17 +503,20 @@ extension WAF {
         public let metricName: String
         /// A friendly name or description of the Rule. You can't change the name of a Rule after you create it.
         public let name: String
+        public let tags: [Tag]?
 
-        public init(changeToken: String, metricName: String, name: String) {
+        public init(changeToken: String, metricName: String, name: String, tags: [Tag]? = nil) {
             self.changeToken = changeToken
             self.metricName = metricName
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case metricName = "MetricName"
             case name = "Name"
+            case tags = "Tags"
         }
     }
 
@@ -618,7 +630,8 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "DefaultAction", required: true, type: .structure), 
             AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
@@ -628,12 +641,14 @@ extension WAF {
         public let metricName: String
         /// A friendly name or description of the WebACL. You can't change Name after you create the WebACL.
         public let name: String
+        public let tags: [Tag]?
 
-        public init(changeToken: String, defaultAction: WafAction, metricName: String, name: String) {
+        public init(changeToken: String, defaultAction: WafAction, metricName: String, name: String, tags: [Tag]? = nil) {
             self.changeToken = changeToken
             self.defaultAction = defaultAction
             self.metricName = metricName
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -641,6 +656,7 @@ extension WAF {
             case defaultAction = "DefaultAction"
             case metricName = "MetricName"
             case name = "Name"
+            case tags = "Tags"
         }
     }
 
@@ -2891,6 +2907,48 @@ extension WAF {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
+        ]
+        public let limit: Int32?
+        public let nextMarker: String?
+        public let resourceARN: String
+
+        public init(limit: Int32? = nil, nextMarker: String? = nil, resourceARN: String) {
+            self.limit = limit
+            self.nextMarker = nextMarker
+            self.resourceARN = resourceARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case nextMarker = "NextMarker"
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "TagInfoForResource", required: false, type: .structure)
+        ]
+        public let nextMarker: String?
+        public let tagInfoForResource: TagInfoForResource?
+
+        public init(nextMarker: String? = nil, tagInfoForResource: TagInfoForResource? = nil) {
+            self.nextMarker = nextMarker
+            self.tagInfoForResource = tagInfoForResource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextMarker = "NextMarker"
+            case tagInfoForResource = "TagInfoForResource"
+        }
+    }
+
     public struct ListWebACLsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
@@ -3029,6 +3087,8 @@ extension WAF {
         case ruleType = "RULE_TYPE"
         case nextMarker = "NEXT_MARKER"
         case resourceArn = "RESOURCE_ARN"
+        case tags = "TAGS"
+        case tagKeys = "TAG_KEYS"
         public var description: String { return self.rawValue }
     }
 
@@ -3036,6 +3096,7 @@ extension WAF {
         case invalidOption = "INVALID_OPTION"
         case illegalCombination = "ILLEGAL_COMBINATION"
         case illegalArgument = "ILLEGAL_ARGUMENT"
+        case invalidTagKey = "INVALID_TAG_KEY"
         public var description: String { return self.rawValue }
     }
 
@@ -3744,6 +3805,70 @@ extension WAF {
         }
     }
 
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        public let key: String?
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagInfoForResource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeMember(label: "TagList", required: false, type: .list)
+        ]
+        public let resourceARN: String?
+        public let tagList: [Tag]?
+
+        public init(resourceARN: String? = nil, tagList: [Tag]? = nil) {
+            self.resourceARN = resourceARN
+            self.tagList = tagList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagList = "TagList"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+        public let resourceARN: String
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public enum TextTransformation: String, CustomStringConvertible, Codable {
         case none = "NONE"
         case compressWhiteSpace = "COMPRESS_WHITE_SPACE"
@@ -3773,6 +3898,32 @@ extension WAF {
             case endTime = "EndTime"
             case startTime = "StartTime"
         }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+        public let resourceARN: String
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct UpdateByteMatchSetRequest: AWSShape {
