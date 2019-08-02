@@ -152,6 +152,15 @@ extension CodePipeline {
             self.configuration = configuration
         }
 
+        public func validate() throws {
+            try configuration?.forEach {
+                try validate($0.key, name:"configuration[key:]", max: 50)
+                try validate($0.key, name:"configuration[key:]", min: 1)
+                try validate($0.value, name:"configuration[:Value]", max: 1000)
+                try validate($0.value, name:"configuration[:Value]", min: 1)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case configuration = "configuration"
         }
@@ -288,6 +297,12 @@ extension CodePipeline {
 
         public func validate() throws {
             try actionTypeId.validate()
+            try configuration?.forEach {
+                try validate($0.key, name:"configuration[key:]", max: 50)
+                try validate($0.key, name:"configuration[key:]", min: 1)
+                try validate($0.value, name:"configuration[:Value]", max: 1000)
+                try validate($0.value, name:"configuration[:Value]", min: 1)
+            }
             try inputArtifacts?.forEach {
                 try $0.validate()
             }
@@ -511,6 +526,12 @@ extension CodePipeline {
 
         public func validate() throws {
             try actionTypeId?.validate()
+            try configuration?.forEach {
+                try validate($0.key, name:"configuration[key:]", max: 50)
+                try validate($0.key, name:"configuration[key:]", min: 1)
+                try validate($0.value, name:"configuration[:Value]", max: 1000)
+                try validate($0.value, name:"configuration[:Value]", min: 1)
+            }
             try inputArtifacts?.forEach {
                 try $0.validate()
             }
@@ -2010,6 +2031,7 @@ extension CodePipeline {
         }
 
         public func validate() throws {
+            try actionConfiguration?.validate()
             try actionTypeId?.validate()
             try validate(continuationToken, name:"continuationToken", max: 2048)
             try validate(continuationToken, name:"continuationToken", min: 1)
@@ -2612,6 +2634,11 @@ extension CodePipeline {
 
         public func validate() throws {
             try artifactStore?.validate()
+            try artifactStores?.forEach {
+                try validate($0.key, name:"artifactStores[key:]", max: 30)
+                try validate($0.key, name:"artifactStores[key:]", min: 4)
+                try $0.value.validate()
+            }
             try validate(name, name:"name", max: 100)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[A-Za-z0-9.@\\-_]+")
@@ -2826,6 +2853,13 @@ extension CodePipeline {
         public func validate() throws {
             try actionTypeId.validate()
             try validate(maxBatchSize, name:"maxBatchSize", min: 1)
+            try queryParam?.forEach {
+                try validate($0.key, name:"queryParam[key:]", max: 50)
+                try validate($0.key, name:"queryParam[key:]", min: 1)
+                try validate($0.value, name:"queryParam[:Value]", max: 50)
+                try validate($0.value, name:"queryParam[:Value]", min: 1)
+                try validate($0.value, name:"queryParam[:Value]", pattern: "[a-zA-Z0-9_-]+")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3771,6 +3805,7 @@ extension CodePipeline {
         }
 
         public func validate() throws {
+            try actionConfiguration?.validate()
             try actionTypeId?.validate()
             try validate(continuationToken, name:"continuationToken", max: 2048)
             try validate(continuationToken, name:"continuationToken", min: 1)

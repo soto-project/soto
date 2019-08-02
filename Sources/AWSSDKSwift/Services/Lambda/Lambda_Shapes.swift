@@ -284,6 +284,7 @@ extension Lambda {
             try validate(name, name:"name", max: 128)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
+            try routingConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -306,6 +307,16 @@ extension Lambda {
 
         public init(additionalVersionWeights: [String: Double]? = nil) {
             self.additionalVersionWeights = additionalVersionWeights
+        }
+
+        public func validate() throws {
+            try additionalVersionWeights?.forEach {
+                try validate($0.key, name:"additionalVersionWeights[key:]", max: 1024)
+                try validate($0.key, name:"additionalVersionWeights[key:]", min: 1)
+                try validate($0.key, name:"additionalVersionWeights[key:]", pattern: "[0-9]+")
+                try validate($0.value, name:"additionalVersionWeights[:Value]", max: 1)
+                try validate($0.value, name:"additionalVersionWeights[:Value]", min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -374,6 +385,7 @@ extension Lambda {
             try validate(name, name:"name", max: 128)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
+            try routingConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -513,6 +525,7 @@ extension Lambda {
             try deadLetterConfig?.validate()
             try validate(description, name:"description", max: 256)
             try validate(description, name:"description", min: 0)
+            try environment?.validate()
             try validate(functionName, name:"functionName", max: 140)
             try validate(functionName, name:"functionName", min: 1)
             try validate(functionName, name:"functionName", pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
@@ -714,6 +727,12 @@ extension Lambda {
             self.variables = variables
         }
 
+        public func validate() throws {
+            try variables?.forEach {
+                try validate($0.key, name:"variables[key:]", pattern: "[a-zA-Z]([a-zA-Z0-9_])+")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case variables = "Variables"
         }
@@ -755,6 +774,12 @@ extension Lambda {
         public init(error: EnvironmentError? = nil, variables: [String: String]? = nil) {
             self.error = error
             self.variables = variables
+        }
+
+        public func validate() throws {
+            try variables?.forEach {
+                try validate($0.key, name:"variables[key:]", pattern: "[a-zA-Z]([a-zA-Z0-9_])+")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -985,6 +1010,7 @@ extension Lambda {
             try deadLetterConfig?.validate()
             try validate(description, name:"description", max: 256)
             try validate(description, name:"description", min: 0)
+            try environment?.validate()
             try validate(functionArn, name:"functionArn", pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_\\.]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
             try validate(functionName, name:"functionName", max: 170)
             try validate(functionName, name:"functionName", min: 1)
@@ -2646,6 +2672,7 @@ extension Lambda {
             try validate(name, name:"name", max: 128)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
+            try routingConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2831,6 +2858,7 @@ extension Lambda {
             try deadLetterConfig?.validate()
             try validate(description, name:"description", max: 256)
             try validate(description, name:"description", min: 0)
+            try environment?.validate()
             try validate(functionName, name:"functionName", max: 140)
             try validate(functionName, name:"functionName", min: 1)
             try validate(functionName, name:"functionName", pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")

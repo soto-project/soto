@@ -112,6 +112,9 @@ extension MarketplaceEntitlementService {
         }
 
         public func validate() throws {
+            try filter?.forEach {
+                try validate($0.value, name:"filter[:Value]", min: 1)
+            }
             try validate(nextToken, name:"nextToken", pattern: "\\S+")
             try validate(productCode, name:"productCode", max: 255)
             try validate(productCode, name:"productCode", min: 1)

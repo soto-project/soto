@@ -4794,6 +4794,11 @@ extension ConfigService {
         public func validate() throws {
             try validate(configRuleName, name:"configRuleName", max: 64)
             try validate(configRuleName, name:"configRuleName", min: 1)
+            try parameters?.forEach {
+                try validate($0.key, name:"parameters[key:]", max: 256)
+                try validate($0.key, name:"parameters[key:]", min: 1)
+                try $0.value.validate()
+            }
             try validate(targetId, name:"targetId", max: 256)
             try validate(targetId, name:"targetId", min: 1)
         }

@@ -2554,6 +2554,12 @@ extension ElasticTranscoder {
             try validate(aspectRatio, name:"aspectRatio", pattern: "(^auto$)|(^1:1$)|(^4:3$)|(^3:2$)|(^16:9$)")
             try validate(bitRate, name:"bitRate", pattern: "(^\\d{2,5}$)|(^auto$)")
             try validate(codec, name:"codec", pattern: "(^H\\.264$)|(^vp8$)|(^vp9$)|(^mpeg2$)|(^gif$)")
+            try codecOptions?.forEach {
+                try validate($0.key, name:"codecOptions[key:]", max: 255)
+                try validate($0.key, name:"codecOptions[key:]", min: 1)
+                try validate($0.value, name:"codecOptions[:Value]", max: 255)
+                try validate($0.value, name:"codecOptions[:Value]", min: 1)
+            }
             try validate(displayAspectRatio, name:"displayAspectRatio", pattern: "(^auto$)|(^1:1$)|(^4:3$)|(^3:2$)|(^16:9$)")
             try validate(fixedGOP, name:"fixedGOP", pattern: "(^true$)|(^false$)")
             try validate(frameRate, name:"frameRate", pattern: "(^auto$)|(^10$)|(^15$)|(^23.97$)|(^24$)|(^25$)|(^29.97$)|(^30$)|(^50$)|(^60$)")

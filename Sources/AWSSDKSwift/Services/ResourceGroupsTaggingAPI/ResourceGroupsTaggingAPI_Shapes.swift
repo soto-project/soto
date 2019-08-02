@@ -347,6 +347,12 @@ extension ResourceGroupsTaggingAPI {
             }
             try validate(resourceARNList, name:"resourceARNList", max: 20)
             try validate(resourceARNList, name:"resourceARNList", min: 1)
+            try tags.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -365,6 +371,13 @@ extension ResourceGroupsTaggingAPI {
 
         public init(failedResourcesMap: [String: FailureInfo]? = nil) {
             self.failedResourcesMap = failedResourcesMap
+        }
+
+        public func validate() throws {
+            try failedResourcesMap?.forEach {
+                try validate($0.key, name:"failedResourcesMap[key:]", max: 1600)
+                try validate($0.key, name:"failedResourcesMap[key:]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -419,6 +432,13 @@ extension ResourceGroupsTaggingAPI {
 
         public init(failedResourcesMap: [String: FailureInfo]? = nil) {
             self.failedResourcesMap = failedResourcesMap
+        }
+
+        public func validate() throws {
+            try failedResourcesMap?.forEach {
+                try validate($0.key, name:"failedResourcesMap[key:]", max: 1600)
+                try validate($0.key, name:"failedResourcesMap[key:]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -1143,6 +1143,11 @@ extension S3Control {
             try validate(contentMD5, name:"contentMD5", min: 1)
             try validate(contentType, name:"contentType", max: 1024)
             try validate(contentType, name:"contentType", min: 1)
+            try userMetadata?.forEach {
+                try validate($0.key, name:"userMetadata[key:]", max: 1024)
+                try validate($0.key, name:"userMetadata[key:]", min: 1)
+                try validate($0.value, name:"userMetadata[:Value]", max: 1024)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -202,6 +202,10 @@ extension CloudHSMV2 {
             try validate(sourceBackupId, name:"sourceBackupId", pattern: "backup-[2-7a-zA-Z]{11,16}")
             try validate(stateMessage, name:"stateMessage", max: 300)
             try validate(stateMessage, name:"stateMessage", pattern: ".*")
+            try subnetMapping?.forEach {
+                try validate($0.key, name:"subnetMapping[key:]", pattern: "[a-z]{2}(-(gov))?-(east|west|north|south|central){1,2}-\\d[a-z]")
+                try validate($0.value, name:"subnetMapping[:Value]", pattern: "subnet-[0-9a-fA-F]{8,17}")
+            }
             try validate(vpcId, name:"vpcId", pattern: "vpc-[0-9a-fA-F]")
         }
 
@@ -563,6 +567,9 @@ extension CloudHSMV2 {
         }
 
         public func validate() throws {
+            try filters?.forEach {
+                try validate($0.key, name:"filters[key:]", pattern: "[a-zA-Z0-9_-]+")
+            }
             try validate(maxResults, name:"maxResults", max: 100)
             try validate(maxResults, name:"maxResults", min: 1)
             try validate(nextToken, name:"nextToken", max: 256)
@@ -628,6 +635,9 @@ extension CloudHSMV2 {
         }
 
         public func validate() throws {
+            try filters?.forEach {
+                try validate($0.key, name:"filters[key:]", pattern: "[a-zA-Z0-9_-]+")
+            }
             try validate(maxResults, name:"maxResults", max: 100)
             try validate(maxResults, name:"maxResults", min: 1)
             try validate(nextToken, name:"nextToken", max: 256)

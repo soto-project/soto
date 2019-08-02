@@ -2208,6 +2208,10 @@ extension IAM {
         public func validate() throws {
             try validate(evalActionName, name:"evalActionName", max: 128)
             try validate(evalActionName, name:"evalActionName", min: 3)
+            try evalDecisionDetails?.forEach {
+                try validate($0.key, name:"evalDecisionDetails[key:]", max: 256)
+                try validate($0.key, name:"evalDecisionDetails[key:]", min: 3)
+            }
             try validate(evalResourceName, name:"evalResourceName", max: 2048)
             try validate(evalResourceName, name:"evalResourceName", min: 1)
             try missingContextValues?.forEach {
@@ -6898,6 +6902,10 @@ extension IAM {
         }
 
         public func validate() throws {
+            try evalDecisionDetails?.forEach {
+                try validate($0.key, name:"evalDecisionDetails[key:]", max: 256)
+                try validate($0.key, name:"evalDecisionDetails[key:]", min: 3)
+            }
             try validate(evalResourceName, name:"evalResourceName", max: 2048)
             try validate(evalResourceName, name:"evalResourceName", min: 1)
             try missingContextValues?.forEach {

@@ -526,6 +526,14 @@ extension WorkDocs {
         public func validate() throws {
             try validate(authenticationToken, name:"authenticationToken", max: 8199)
             try validate(authenticationToken, name:"authenticationToken", min: 1)
+            try customMetadata.forEach {
+                try validate($0.key, name:"customMetadata[key:]", max: 56)
+                try validate($0.key, name:"customMetadata[key:]", min: 1)
+                try validate($0.key, name:"customMetadata[key:]", pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+                try validate($0.value, name:"customMetadata[:Value]", max: 256)
+                try validate($0.value, name:"customMetadata[:Value]", min: 1)
+                try validate($0.value, name:"customMetadata[:Value]", pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+            }
             try validate(resourceId, name:"resourceId", max: 128)
             try validate(resourceId, name:"resourceId", min: 1)
             try validate(resourceId, name:"resourceId", pattern: "[\\w+-.@]+")
@@ -2135,6 +2143,14 @@ extension WorkDocs {
             try validate(signature, name:"signature", max: 128)
             try validate(signature, name:"signature", min: 0)
             try validate(signature, name:"signature", pattern: "[&\\w+-.@]+")
+            try source?.forEach {
+                try validate($0.value, name:"source[:Value]", max: 1024)
+                try validate($0.value, name:"source[:Value]", min: 1)
+            }
+            try thumbnail?.forEach {
+                try validate($0.value, name:"thumbnail[:Value]", max: 1024)
+                try validate($0.value, name:"thumbnail[:Value]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2425,6 +2441,14 @@ extension WorkDocs {
         }
 
         public func validate() throws {
+            try customMetadata?.forEach {
+                try validate($0.key, name:"customMetadata[key:]", max: 56)
+                try validate($0.key, name:"customMetadata[key:]", min: 1)
+                try validate($0.key, name:"customMetadata[key:]", pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+                try validate($0.value, name:"customMetadata[:Value]", max: 256)
+                try validate($0.value, name:"customMetadata[:Value]", min: 1)
+                try validate($0.value, name:"customMetadata[:Value]", pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+            }
             try metadata?.validate()
         }
 
@@ -2502,6 +2526,14 @@ extension WorkDocs {
         }
 
         public func validate() throws {
+            try customMetadata?.forEach {
+                try validate($0.key, name:"customMetadata[key:]", max: 56)
+                try validate($0.key, name:"customMetadata[key:]", min: 1)
+                try validate($0.key, name:"customMetadata[key:]", pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+                try validate($0.value, name:"customMetadata[:Value]", max: 256)
+                try validate($0.value, name:"customMetadata[:Value]", min: 1)
+                try validate($0.value, name:"customMetadata[:Value]", pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+            }
             try metadata?.validate()
         }
 
@@ -2636,6 +2668,14 @@ extension WorkDocs {
         }
 
         public func validate() throws {
+            try customMetadata?.forEach {
+                try validate($0.key, name:"customMetadata[key:]", max: 56)
+                try validate($0.key, name:"customMetadata[key:]", min: 1)
+                try validate($0.key, name:"customMetadata[key:]", pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+                try validate($0.value, name:"customMetadata[:Value]", max: 256)
+                try validate($0.value, name:"customMetadata[:Value]", min: 1)
+                try validate($0.value, name:"customMetadata[:Value]", pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+            }
             try metadata?.validate()
         }
 
@@ -3657,6 +3697,13 @@ extension WorkDocs {
         }
 
         public func validate() throws {
+            try signedHeaders?.forEach {
+                try validate($0.key, name:"signedHeaders[key:]", max: 256)
+                try validate($0.key, name:"signedHeaders[key:]", min: 1)
+                try validate($0.key, name:"signedHeaders[key:]", pattern: "[\\w-]+")
+                try validate($0.value, name:"signedHeaders[:Value]", max: 1024)
+                try validate($0.value, name:"signedHeaders[:Value]", min: 1)
+            }
             try validate(uploadUrl, name:"uploadUrl", max: 1024)
             try validate(uploadUrl, name:"uploadUrl", min: 1)
         }

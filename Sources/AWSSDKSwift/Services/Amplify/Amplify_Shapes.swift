@@ -115,12 +115,22 @@ extension Amplify {
             try validate(defaultDomain, name:"defaultDomain", max: 1000)
             try validate(defaultDomain, name:"defaultDomain", min: 1)
             try validate(description, name:"description", max: 1000)
+            try environmentVariables.forEach {
+                try validate($0.key, name:"environmentVariables[key:]", max: 255)
+                try validate($0.value, name:"environmentVariables[:Value]", max: 1000)
+            }
             try validate(iamServiceRoleArn, name:"iamServiceRoleArn", max: 1000)
             try validate(iamServiceRoleArn, name:"iamServiceRoleArn", min: 1)
             try validate(name, name:"name", max: 255)
             try validate(name, name:"name", min: 1)
             try productionBranch?.validate()
             try validate(repository, name:"repository", max: 1000)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -188,6 +198,10 @@ extension Amplify {
             try validate(basicAuthCredentials, name:"basicAuthCredentials", max: 2000)
             try validate(buildSpec, name:"buildSpec", max: 25000)
             try validate(buildSpec, name:"buildSpec", min: 1)
+            try environmentVariables?.forEach {
+                try validate($0.key, name:"environmentVariables[key:]", max: 255)
+                try validate($0.value, name:"environmentVariables[:Value]", max: 1000)
+            }
             try validate(framework, name:"framework", max: 255)
         }
 
@@ -312,7 +326,17 @@ extension Amplify {
             try validate(customDomains, name:"customDomains", max: 255)
             try validate(description, name:"description", max: 1000)
             try validate(displayName, name:"displayName", max: 255)
+            try environmentVariables.forEach {
+                try validate($0.key, name:"environmentVariables[key:]", max: 255)
+                try validate($0.value, name:"environmentVariables[:Value]", max: 1000)
+            }
             try validate(framework, name:"framework", max: 255)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
             try validate(thumbnailUrl, name:"thumbnailUrl", max: 2000)
             try validate(thumbnailUrl, name:"thumbnailUrl", min: 1)
             try validate(totalNumberOfJobs, name:"totalNumberOfJobs", max: 1000)
@@ -434,12 +458,22 @@ extension Amplify {
                 try $0.validate()
             }
             try validate(description, name:"description", max: 1000)
+            try environmentVariables?.forEach {
+                try validate($0.key, name:"environmentVariables[key:]", max: 255)
+                try validate($0.value, name:"environmentVariables[:Value]", max: 1000)
+            }
             try validate(iamServiceRoleArn, name:"iamServiceRoleArn", max: 1000)
             try validate(iamServiceRoleArn, name:"iamServiceRoleArn", min: 1)
             try validate(name, name:"name", max: 255)
             try validate(name, name:"name", min: 1)
             try validate(oauthToken, name:"oauthToken", max: 100)
             try validate(repository, name:"repository", max: 1000)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -557,7 +591,17 @@ extension Amplify {
             try validate(buildSpec, name:"buildSpec", min: 1)
             try validate(description, name:"description", max: 1000)
             try validate(displayName, name:"displayName", max: 255)
+            try environmentVariables?.forEach {
+                try validate($0.key, name:"environmentVariables[key:]", max: 255)
+                try validate($0.value, name:"environmentVariables[:Value]", max: 1000)
+            }
             try validate(framework, name:"framework", max: 255)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -624,6 +668,10 @@ extension Amplify {
             try validate(appId, name:"appId", min: 1)
             try validate(branchName, name:"branchName", max: 255)
             try validate(branchName, name:"branchName", min: 1)
+            try fileMap?.forEach {
+                try validate($0.key, name:"fileMap[key:]", max: 255)
+                try validate($0.value, name:"fileMap[:Value]", max: 32)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -654,6 +702,10 @@ extension Amplify {
         }
 
         public func validate() throws {
+            try fileUploadUrls.forEach {
+                try validate($0.key, name:"fileUploadUrls[key:]", max: 255)
+                try validate($0.value, name:"fileUploadUrls[:Value]", max: 1000)
+            }
             try validate(jobId, name:"jobId", max: 255)
             try validate(zipUploadUrl, name:"zipUploadUrl", max: 1000)
         }
@@ -1774,6 +1826,15 @@ extension Amplify {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
         }
@@ -2090,6 +2151,11 @@ extension Amplify {
         public func validate() throws {
             try validate(artifactsUrl, name:"artifactsUrl", max: 1000)
             try validate(logUrl, name:"logUrl", max: 1000)
+            try screenshots?.forEach {
+                try validate($0.key, name:"screenshots[key:]", max: 256)
+                try validate($0.value, name:"screenshots[:Value]", max: 2000)
+                try validate($0.value, name:"screenshots[:Value]", min: 1)
+            }
             try validate(statusReason, name:"statusReason", max: 1000)
             try validate(stepName, name:"stepName", max: 255)
         }
@@ -2241,6 +2307,12 @@ extension Amplify {
 
         public func validate() throws {
             try validate(resourceArn, name:"resourceArn", pattern: "^arn:aws:amplify:.*")
+            try tags.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2377,6 +2449,10 @@ extension Amplify {
                 try $0.validate()
             }
             try validate(description, name:"description", max: 1000)
+            try environmentVariables?.forEach {
+                try validate($0.key, name:"environmentVariables[key:]", max: 255)
+                try validate($0.value, name:"environmentVariables[:Value]", max: 1000)
+            }
             try validate(iamServiceRoleArn, name:"iamServiceRoleArn", max: 1000)
             try validate(iamServiceRoleArn, name:"iamServiceRoleArn", min: 1)
             try validate(name, name:"name", max: 255)
@@ -2492,6 +2568,10 @@ extension Amplify {
             try validate(buildSpec, name:"buildSpec", min: 1)
             try validate(description, name:"description", max: 1000)
             try validate(displayName, name:"displayName", max: 255)
+            try environmentVariables?.forEach {
+                try validate($0.key, name:"environmentVariables[key:]", max: 255)
+                try validate($0.value, name:"environmentVariables[:Value]", max: 1000)
+            }
             try validate(framework, name:"framework", max: 255)
         }
 

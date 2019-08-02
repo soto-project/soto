@@ -25,6 +25,12 @@ extension Kinesis {
             try validate(streamName, name:"streamName", max: 128)
             try validate(streamName, name:"streamName", min: 1)
             try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+            try tags.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

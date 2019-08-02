@@ -751,6 +751,11 @@ extension FMS {
         }
 
         public func validate() throws {
+            try issueInfoMap?.forEach {
+                try validate($0.value, name:"issueInfoMap[:Value]", max: 1024)
+                try validate($0.value, name:"issueInfoMap[:Value]", min: 1)
+                try validate($0.value, name:"issueInfoMap[:Value]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
             try validate(memberAccount, name:"memberAccount", max: 1024)
             try validate(memberAccount, name:"memberAccount", min: 1)
             try validate(memberAccount, name:"memberAccount", pattern: "^[0-9]+$")
@@ -815,6 +820,11 @@ extension FMS {
         public func validate() throws {
             try evaluationResults?.forEach {
                 try $0.validate()
+            }
+            try issueInfoMap?.forEach {
+                try validate($0.value, name:"issueInfoMap[:Value]", max: 1024)
+                try validate($0.value, name:"issueInfoMap[:Value]", min: 1)
+                try validate($0.value, name:"issueInfoMap[:Value]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try validate(memberAccount, name:"memberAccount", max: 1024)
             try validate(memberAccount, name:"memberAccount", min: 1)

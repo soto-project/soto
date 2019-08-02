@@ -3478,6 +3478,12 @@ extension KinesisAnalyticsV2 {
             try validate(propertyGroupId, name:"propertyGroupId", max: 50)
             try validate(propertyGroupId, name:"propertyGroupId", min: 1)
             try validate(propertyGroupId, name:"propertyGroupId", pattern: "[a-zA-Z0-9_.-]+")
+            try propertyMap.forEach {
+                try validate($0.key, name:"propertyMap[key:]", max: 2048)
+                try validate($0.key, name:"propertyMap[key:]", min: 1)
+                try validate($0.value, name:"propertyMap[:Value]", max: 2048)
+                try validate($0.value, name:"propertyMap[:Value]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

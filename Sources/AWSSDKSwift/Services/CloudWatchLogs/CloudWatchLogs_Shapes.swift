@@ -165,6 +165,13 @@ extension CloudWatchLogs {
             try validate(logGroupName, name:"logGroupName", max: 512)
             try validate(logGroupName, name:"logGroupName", min: 1)
             try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1611,6 +1618,16 @@ extension CloudWatchLogs {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
         }
@@ -2687,6 +2704,13 @@ extension CloudWatchLogs {
             try validate(logGroupName, name:"logGroupName", max: 512)
             try validate(logGroupName, name:"logGroupName", min: 1)
             try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try tags.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

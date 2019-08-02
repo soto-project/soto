@@ -1065,6 +1065,9 @@ extension Lightsail {
         }
 
         public func validate() throws {
+            try attachedDiskMapping?.forEach {
+                try validate($0.key, name:"attachedDiskMapping[key:]", pattern: "\\w[\\w\\-]*\\w")
+            }
             try validate(bundleId, name:"bundleId", pattern: ".*\\S.*")
             try validate(instanceSnapshotName, name:"instanceSnapshotName", pattern: "\\w[\\w\\-]*\\w")
             try validate(keyPairName, name:"keyPairName", pattern: "\\w[\\w\\-]*\\w")

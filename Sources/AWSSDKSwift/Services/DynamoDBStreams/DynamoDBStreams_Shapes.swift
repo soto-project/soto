@@ -53,6 +53,16 @@ extension DynamoDBStreams {
             self.ss = ss
         }
 
+        public func validate() throws {
+            try l?.forEach {
+                try $0.validate()
+            }
+            try m?.forEach {
+                try validate($0.key, name:"m[key:]", max: 65535)
+                try $0.value.validate()
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case b = "B"
             case bool = "BOOL"
@@ -642,6 +652,18 @@ extension DynamoDBStreams {
         }
 
         public func validate() throws {
+            try keys?.forEach {
+                try validate($0.key, name:"keys[key:]", max: 65535)
+                try $0.value.validate()
+            }
+            try newImage?.forEach {
+                try validate($0.key, name:"newImage[key:]", max: 65535)
+                try $0.value.validate()
+            }
+            try oldImage?.forEach {
+                try validate($0.key, name:"oldImage[key:]", max: 65535)
+                try $0.value.validate()
+            }
             try validate(sequenceNumber, name:"sequenceNumber", max: 40)
             try validate(sequenceNumber, name:"sequenceNumber", min: 21)
             try validate(sizeBytes, name:"sizeBytes", min: 1)

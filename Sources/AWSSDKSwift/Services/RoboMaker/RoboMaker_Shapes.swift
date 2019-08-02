@@ -177,6 +177,14 @@ extension RoboMaker {
             try validate(fleet, name:"fleet", max: 1224)
             try validate(fleet, name:"fleet", min: 1)
             try validate(fleet, name:"fleet", pattern: "arn:.*")
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -245,6 +253,14 @@ extension RoboMaker {
             try validate(fleet, name:"fleet", max: 1224)
             try validate(fleet, name:"fleet", min: 1)
             try validate(fleet, name:"fleet", pattern: "arn:.*")
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -280,6 +296,14 @@ extension RoboMaker {
             try validate(name, name:"name", max: 255)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[a-zA-Z0-9_\\-]*")
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -319,6 +343,14 @@ extension RoboMaker {
             try validate(name, name:"name", max: 255)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[a-zA-Z0-9_\\-]*")
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -359,6 +391,14 @@ extension RoboMaker {
             try validate(name, name:"name", pattern: "[a-zA-Z0-9_\\-]*")
             try sources.forEach {
                 try $0.validate()
+            }
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
             }
         }
 
@@ -422,6 +462,14 @@ extension RoboMaker {
             try validate(revisionId, name:"revisionId", pattern: "[a-zA-Z0-9_.\\-]*")
             try sources?.forEach {
                 try $0.validate()
+            }
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
             }
             try validate(version, name:"version", max: 255)
             try validate(version, name:"version", min: 1)
@@ -566,6 +614,14 @@ extension RoboMaker {
             try validate(name, name:"name", max: 255)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[a-zA-Z0-9_\\-]*")
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -617,6 +673,14 @@ extension RoboMaker {
             try validate(name, name:"name", max: 255)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[a-zA-Z0-9_\\-]*")
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -669,6 +733,14 @@ extension RoboMaker {
             try simulationSoftwareSuite.validate()
             try sources.forEach {
                 try $0.validate()
+            }
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
             }
         }
 
@@ -744,6 +816,14 @@ extension RoboMaker {
             try simulationSoftwareSuite?.validate()
             try sources?.forEach {
                 try $0.validate()
+            }
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
             }
             try validate(version, name:"version", max: 255)
             try validate(version, name:"version", min: 1)
@@ -934,6 +1014,14 @@ extension RoboMaker {
             }
             try validate(simulationApplications, name:"simulationApplications", max: 1)
             try validate(simulationApplications, name:"simulationApplications", min: 1)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
             try vpcConfig?.validate()
         }
 
@@ -1039,6 +1127,14 @@ extension RoboMaker {
             }
             try validate(simulationApplications, name:"simulationApplications", max: 1)
             try validate(simulationApplications, name:"simulationApplications", min: 1)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
             try vpcConfig?.validate()
         }
 
@@ -1384,6 +1480,13 @@ extension RoboMaker {
         }
 
         public func validate() throws {
+            try environmentVariables?.forEach {
+                try validate($0.key, name:"environmentVariables[key:]", max: 1024)
+                try validate($0.key, name:"environmentVariables[key:]", min: 1)
+                try validate($0.key, name:"environmentVariables[key:]", pattern: "[A-Z_][A-Z0-9_]*")
+                try validate($0.value, name:"environmentVariables[:Value]", max: 1024)
+                try validate($0.value, name:"environmentVariables[:Value]", min: 1)
+            }
             try validate(launchFile, name:"launchFile", max: 1024)
             try validate(launchFile, name:"launchFile", min: 1)
             try validate(launchFile, name:"launchFile", pattern: "[a-zA-Z0-9_.\\-]*")
@@ -1564,6 +1667,14 @@ extension RoboMaker {
             try robotDeploymentSummary?.forEach {
                 try $0.validate()
             }
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1658,6 +1769,14 @@ extension RoboMaker {
             }
             try validate(robots, name:"robots", max: 1000)
             try validate(robots, name:"robots", min: 0)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1755,6 +1874,14 @@ extension RoboMaker {
             try validate(revisionId, name:"revisionId", pattern: "[a-zA-Z0-9_.\\-]*")
             try sources?.forEach {
                 try $0.validate()
+            }
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
             }
             try validate(version, name:"version", max: 255)
             try validate(version, name:"version", min: 1)
@@ -1859,6 +1986,14 @@ extension RoboMaker {
             try validate(name, name:"name", max: 255)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[a-zA-Z0-9_\\-]*")
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1968,6 +2103,14 @@ extension RoboMaker {
             try simulationSoftwareSuite?.validate()
             try sources?.forEach {
                 try $0.validate()
+            }
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
             }
             try validate(version, name:"version", max: 255)
             try validate(version, name:"version", min: 1)
@@ -2111,6 +2254,14 @@ extension RoboMaker {
             }
             try validate(simulationApplications, name:"simulationApplications", max: 1)
             try validate(simulationApplications, name:"simulationApplications", min: 1)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
             try vpcConfig?.validate()
         }
 
@@ -2251,6 +2402,13 @@ extension RoboMaker {
         }
 
         public func validate() throws {
+            try environmentVariables?.forEach {
+                try validate($0.key, name:"environmentVariables[key:]", max: 1024)
+                try validate($0.key, name:"environmentVariables[key:]", min: 1)
+                try validate($0.key, name:"environmentVariables[key:]", pattern: "[A-Z_][A-Z0-9_]*")
+                try validate($0.value, name:"environmentVariables[:Value]", max: 1024)
+                try validate($0.value, name:"environmentVariables[:Value]", min: 1)
+            }
             try validate(launchFile, name:"launchFile", max: 1024)
             try validate(launchFile, name:"launchFile", min: 1)
             try validate(launchFile, name:"launchFile", pattern: "[a-zA-Z0-9_.\\-]*")
@@ -2737,6 +2895,17 @@ extension RoboMaker {
 
         public init(tags: [String: String]? = nil) {
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3395,6 +3564,14 @@ extension RoboMaker {
             }
             try validate(simulationApplications, name:"simulationApplications", max: 1)
             try validate(simulationApplications, name:"simulationApplications", min: 1)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
             try vpcConfig?.validate()
         }
 
@@ -3745,6 +3922,14 @@ extension RoboMaker {
             try validate(resourceArn, name:"resourceArn", max: 1224)
             try validate(resourceArn, name:"resourceArn", min: 1)
             try validate(resourceArn, name:"resourceArn", pattern: "arn:.*")
+            try tags.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

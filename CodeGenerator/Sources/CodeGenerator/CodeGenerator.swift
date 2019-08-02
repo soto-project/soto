@@ -211,13 +211,17 @@ extension AWSService {
         let required : Bool
         let reqs : [String : Any]
         let member : ValidationContext?
-        
-        init(name: String, shape: Bool = false, required: Bool = true, reqs: [String: Any] = [:], member: ValidationContext? = nil) {
+        let key : ValidationContext?
+        let value : ValidationContext?
+
+        init(name: String, shape: Bool = false, required: Bool = true, reqs: [String: Any] = [:], member: ValidationContext? = nil, key: ValidationContext? = nil, value: ValidationContext? = nil) {
             self.name = name
             self.shape = shape
             self.required = required
             self.reqs = reqs
             self.member = member
+            self.key = key
+            self.value = value
         }
     }
     
@@ -351,7 +355,7 @@ extension AWSService {
     }
     
     /// Generate validation context
-    func generateValidationContext(name: String, shape: Shape, required: Bool) -> ValidationContext? {
+    func generateValidationContext(name: String, shape: Shape, required: Bool, container: Bool = false) -> ValidationContext? {
         var requirements : [String: Any] = [:]
         switch shape.type {
         case .integer(let max, let min),
@@ -368,10 +372,21 @@ extension AWSService {
         case .list(let shape, let max, let min):
             requirements["max"] = max
             requirements["min"] = min
-            if let memberValidationContext = generateValidationContext(name: name+"[]", shape: shape, required: true) {
-                return ValidationContext(name: name.toSwiftVariableCase(), required: required, reqs: requirements, member: memberValidationContext)
+            // validation code doesn't support containers inside containers. Only service affected by this is SSM
+            if !container {
+                if let memberValidationContext = generateValidationContext(name: name+"[]", shape: shape, required: true, container: true) {
+                    return ValidationContext(name: name.toSwiftVariableCase(), required: required, reqs: requirements, member: memberValidationContext)
+                }
             }
-            
+        case .map(let key, let value):
+            // validation code doesn't support containers inside containers. Only service affected by this is SSM
+            if !container {
+                let keyValidationContext = generateValidationContext(name: name+"[key:_]", shape: key, required: true, container: true)
+                let valueValiationContext = generateValidationContext(name: name+"[_:value]", shape: value, required: true, container: true)
+                if keyValidationContext != nil || valueValiationContext != nil {
+                    return ValidationContext(name: name.toSwiftVariableCase(), required: required, key: keyValidationContext, value: valueValiationContext)
+                }
+            }
         case .string(let max, let min, let pattern):
             requirements["max"] = max
             requirements["min"] = min

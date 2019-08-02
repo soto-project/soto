@@ -3520,6 +3520,12 @@ extension APIGateway {
             self.uri = uri
         }
 
+        public func validate() throws {
+            try integrationResponses?.forEach {
+                try $0.value.validate()
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case cacheKeyParameters = "cacheKeyParameters"
             case cacheNamespace = "cacheNamespace"
@@ -3644,6 +3650,13 @@ extension APIGateway {
             self.requestModels = requestModels
             self.requestParameters = requestParameters
             self.requestValidatorId = requestValidatorId
+        }
+
+        public func validate() throws {
+            try methodIntegration?.validate()
+            try methodResponses?.forEach {
+                try $0.value.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4338,6 +4351,12 @@ extension APIGateway {
             self.resourceMethods = resourceMethods
         }
 
+        public func validate() throws {
+            try resourceMethods?.forEach {
+                try $0.value.validate()
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id = "id"
             case parentId = "parentId"
@@ -4360,6 +4379,12 @@ extension APIGateway {
         public init(items: [Resource]? = nil, position: String? = nil) {
             self.items = items
             self.position = position
+        }
+
+        public func validate() throws {
+            try items?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

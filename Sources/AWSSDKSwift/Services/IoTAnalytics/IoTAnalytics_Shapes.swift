@@ -26,6 +26,12 @@ extension IoTAnalytics {
         }
 
         public func validate() throws {
+            try attributes.forEach {
+                try validate($0.key, name:"attributes[key:]", max: 256)
+                try validate($0.key, name:"attributes[key:]", min: 1)
+                try validate($0.value, name:"attributes[:Value]", max: 256)
+                try validate($0.value, name:"attributes[:Value]", min: 1)
+            }
             try validate(name, name:"name", max: 128)
             try validate(name, name:"name", min: 1)
             try validate(next, name:"next", max: 128)

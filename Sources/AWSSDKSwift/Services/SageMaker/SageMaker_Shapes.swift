@@ -718,6 +718,12 @@ extension SageMaker {
         public func validate() throws {
             try validate(containerHostname, name:"containerHostname", max: 63)
             try validate(containerHostname, name:"containerHostname", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try environment?.forEach {
+                try validate($0.key, name:"environment[key:]", max: 1024)
+                try validate($0.key, name:"environment[key:]", pattern: "[a-zA-Z_][a-zA-Z0-9_]*")
+                try validate($0.value, name:"environment[:Value]", max: 1024)
+                try validate($0.value, name:"environment[:Value]", pattern: "[\\S\\s]*")
+            }
             try validate(image, name:"image", max: 255)
             try validate(image, name:"image", pattern: "[\\S]+")
             try validate(modelDataUrl, name:"modelDataUrl", max: 1024)
@@ -1793,6 +1799,12 @@ extension SageMaker {
 
         public func validate() throws {
             try algorithmSpecification.validate()
+            try hyperParameters?.forEach {
+                try validate($0.key, name:"hyperParameters[key:]", max: 256)
+                try validate($0.key, name:"hyperParameters[key:]", pattern: ".*")
+                try validate($0.value, name:"hyperParameters[:Value]", max: 256)
+                try validate($0.value, name:"hyperParameters[:Value]", pattern: ".*")
+            }
             try inputDataConfig?.forEach {
                 try $0.validate()
             }
@@ -1907,6 +1919,12 @@ extension SageMaker {
 
         public func validate() throws {
             try dataProcessing?.validate()
+            try environment?.forEach {
+                try validate($0.key, name:"environment[key:]", max: 1024)
+                try validate($0.key, name:"environment[key:]", pattern: "[a-zA-Z_][a-zA-Z0-9_]*")
+                try validate($0.value, name:"environment[:Value]", max: 10240)
+                try validate($0.value, name:"environment[:Value]", pattern: "[\\S\\s]*")
+            }
             try validate(maxConcurrentTransforms, name:"maxConcurrentTransforms", min: 0)
             try validate(maxPayloadInMB, name:"maxPayloadInMB", min: 0)
             try validate(modelName, name:"modelName", max: 63)
@@ -3734,6 +3752,12 @@ extension SageMaker {
             }
             try validate(finalMetricDataList, name:"finalMetricDataList", max: 20)
             try validate(finalMetricDataList, name:"finalMetricDataList", min: 0)
+            try hyperParameters?.forEach {
+                try validate($0.key, name:"hyperParameters[key:]", max: 256)
+                try validate($0.key, name:"hyperParameters[key:]", pattern: ".*")
+                try validate($0.value, name:"hyperParameters[:Value]", max: 256)
+                try validate($0.value, name:"hyperParameters[:Value]", pattern: ".*")
+            }
             try inputDataConfig?.forEach {
                 try $0.validate()
             }
@@ -3886,6 +3910,12 @@ extension SageMaker {
 
         public func validate() throws {
             try dataProcessing?.validate()
+            try environment?.forEach {
+                try validate($0.key, name:"environment[key:]", max: 1024)
+                try validate($0.key, name:"environment[key:]", pattern: "[a-zA-Z_][a-zA-Z0-9_]*")
+                try validate($0.value, name:"environment[:Value]", max: 10240)
+                try validate($0.value, name:"environment[:Value]", pattern: "[\\S\\s]*")
+            }
             try validate(failureReason, name:"failureReason", max: 1024)
             try validate(labelingJobArn, name:"labelingJobArn", max: 2048)
             try validate(labelingJobArn, name:"labelingJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:labeling-job/.*")
@@ -4589,6 +4619,12 @@ extension SageMaker {
             try validate(roleArn, name:"roleArn", max: 2048)
             try validate(roleArn, name:"roleArn", min: 20)
             try validate(roleArn, name:"roleArn", pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try staticHyperParameters?.forEach {
+                try validate($0.key, name:"staticHyperParameters[key:]", max: 256)
+                try validate($0.key, name:"staticHyperParameters[key:]", pattern: ".*")
+                try validate($0.value, name:"staticHyperParameters[:Value]", max: 256)
+                try validate($0.value, name:"staticHyperParameters[:Value]", pattern: ".*")
+            }
             try stoppingCondition.validate()
             try vpcConfig?.validate()
         }
@@ -4667,6 +4703,12 @@ extension SageMaker {
             try validate(trainingJobName, name:"trainingJobName", max: 63)
             try validate(trainingJobName, name:"trainingJobName", min: 1)
             try validate(trainingJobName, name:"trainingJobName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try tunedHyperParameters.forEach {
+                try validate($0.key, name:"tunedHyperParameters[key:]", max: 256)
+                try validate($0.key, name:"tunedHyperParameters[key:]", pattern: ".*")
+                try validate($0.value, name:"tunedHyperParameters[:Value]", max: 256)
+                try validate($0.value, name:"tunedHyperParameters[:Value]", pattern: ".*")
+            }
             try validate(tuningJobName, name:"tuningJobName", max: 32)
             try validate(tuningJobName, name:"tuningJobName", min: 1)
             try validate(tuningJobName, name:"tuningJobName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
@@ -9292,6 +9334,12 @@ extension SageMaker {
             }
             try validate(finalMetricDataList, name:"finalMetricDataList", max: 20)
             try validate(finalMetricDataList, name:"finalMetricDataList", min: 0)
+            try hyperParameters?.forEach {
+                try validate($0.key, name:"hyperParameters[key:]", max: 256)
+                try validate($0.key, name:"hyperParameters[key:]", pattern: ".*")
+                try validate($0.value, name:"hyperParameters[:Value]", max: 256)
+                try validate($0.value, name:"hyperParameters[:Value]", pattern: ".*")
+            }
             try inputDataConfig?.forEach {
                 try $0.validate()
             }
@@ -9383,6 +9431,12 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try hyperParameters?.forEach {
+                try validate($0.key, name:"hyperParameters[key:]", max: 256)
+                try validate($0.key, name:"hyperParameters[key:]", pattern: ".*")
+                try validate($0.value, name:"hyperParameters[:Value]", max: 256)
+                try validate($0.value, name:"hyperParameters[:Value]", pattern: ".*")
+            }
             try inputDataConfig.forEach {
                 try $0.validate()
             }
@@ -9724,6 +9778,12 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try environment?.forEach {
+                try validate($0.key, name:"environment[key:]", max: 1024)
+                try validate($0.key, name:"environment[key:]", pattern: "[a-zA-Z_][a-zA-Z0-9_]*")
+                try validate($0.value, name:"environment[:Value]", max: 10240)
+                try validate($0.value, name:"environment[:Value]", pattern: "[\\S\\s]*")
+            }
             try validate(maxConcurrentTransforms, name:"maxConcurrentTransforms", min: 0)
             try validate(maxPayloadInMB, name:"maxPayloadInMB", min: 0)
             try transformInput.validate()

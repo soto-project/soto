@@ -394,6 +394,12 @@ extension CloudWatchEvents {
         }
 
         public func validate() throws {
+            try inputPathsMap?.forEach {
+                try validate($0.key, name:"inputPathsMap[key:]", max: 256)
+                try validate($0.key, name:"inputPathsMap[key:]", min: 1)
+                try validate($0.key, name:"inputPathsMap[key:]", pattern: "[A-Za-z0-9\\_\\-]+")
+                try validate($0.value, name:"inputPathsMap[:Value]", max: 256)
+            }
             try validate(inputTemplate, name:"inputTemplate", max: 8192)
             try validate(inputTemplate, name:"inputTemplate", min: 1)
         }

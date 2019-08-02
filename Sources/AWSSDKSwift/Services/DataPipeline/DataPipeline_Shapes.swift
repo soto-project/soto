@@ -1451,6 +1451,12 @@ extension DataPipeline {
             try validate(attemptId, name:"attemptId", max: 1024)
             try validate(attemptId, name:"attemptId", min: 1)
             try validate(attemptId, name:"attemptId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try objects?.forEach {
+                try validate($0.key, name:"objects[key:]", max: 1024)
+                try validate($0.key, name:"objects[key:]", min: 1)
+                try validate($0.key, name:"objects[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+                try $0.value.validate()
+            }
             try validate(pipelineId, name:"pipelineId", max: 1024)
             try validate(pipelineId, name:"pipelineId", min: 1)
             try validate(pipelineId, name:"pipelineId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")

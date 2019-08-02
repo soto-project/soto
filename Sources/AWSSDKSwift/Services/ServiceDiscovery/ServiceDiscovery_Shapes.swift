@@ -408,6 +408,10 @@ extension ServiceDiscovery {
             try validate(maxResults, name:"maxResults", max: 100)
             try validate(maxResults, name:"maxResults", min: 1)
             try validate(namespaceName, name:"namespaceName", max: 1024)
+            try queryParameters?.forEach {
+                try validate($0.key, name:"queryParameters[key:]", max: 255)
+                try validate($0.value, name:"queryParameters[:Value]", max: 1024)
+            }
             try validate(serviceName, name:"serviceName", pattern: "((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\\.$)")
         }
 
@@ -658,6 +662,9 @@ extension ServiceDiscovery {
 
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 4096)
+            try status?.forEach {
+                try validate($0.key, name:"status[key:]", max: 64)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -897,6 +904,10 @@ extension ServiceDiscovery {
         }
 
         public func validate() throws {
+            try attributes?.forEach {
+                try validate($0.key, name:"attributes[key:]", max: 255)
+                try validate($0.value, name:"attributes[:Value]", max: 1024)
+            }
             try validate(instanceId, name:"instanceId", max: 64)
             try validate(namespaceName, name:"namespaceName", max: 1024)
             try validate(serviceName, name:"serviceName", pattern: "((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\\.$)")
@@ -953,6 +964,10 @@ extension ServiceDiscovery {
         }
 
         public func validate() throws {
+            try attributes?.forEach {
+                try validate($0.key, name:"attributes[key:]", max: 255)
+                try validate($0.value, name:"attributes[:Value]", max: 1024)
+            }
             try validate(creatorRequestId, name:"creatorRequestId", max: 64)
             try validate(id, name:"id", max: 64)
         }
@@ -981,6 +996,10 @@ extension ServiceDiscovery {
         }
 
         public func validate() throws {
+            try attributes?.forEach {
+                try validate($0.key, name:"attributes[key:]", max: 255)
+                try validate($0.value, name:"attributes[:Value]", max: 1024)
+            }
             try validate(id, name:"id", max: 64)
         }
 
@@ -1488,6 +1507,9 @@ extension ServiceDiscovery {
 
         public func validate() throws {
             try validate(id, name:"id", max: 255)
+            try targets?.forEach {
+                try validate($0.value, name:"targets[:Value]", max: 64)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1628,6 +1650,10 @@ extension ServiceDiscovery {
         }
 
         public func validate() throws {
+            try attributes.forEach {
+                try validate($0.key, name:"attributes[key:]", max: 255)
+                try validate($0.value, name:"attributes[:Value]", max: 1024)
+            }
             try validate(creatorRequestId, name:"creatorRequestId", max: 64)
             try validate(instanceId, name:"instanceId", max: 64)
             try validate(serviceId, name:"serviceId", max: 64)

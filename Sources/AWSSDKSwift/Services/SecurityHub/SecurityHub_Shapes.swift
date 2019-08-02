@@ -380,6 +380,10 @@ extension SecurityHub {
             try note?.validate()
             try process?.validate()
             try validate(productArn, name:"productArn", pattern: ".*\\S.*")
+            try productFields?.forEach {
+                try validate($0.key, name:"productFields[key:]", pattern: ".*\\S.*")
+                try validate($0.value, name:"productFields[:Value]", pattern: ".*\\S.*")
+            }
             try relatedFindings?.forEach {
                 try $0.validate()
             }
@@ -397,6 +401,10 @@ extension SecurityHub {
                 try validate($0, name:"types[]", pattern: ".*\\S.*")
             }
             try validate(updatedAt, name:"updatedAt", pattern: ".*\\S.*")
+            try userDefinedFields?.forEach {
+                try validate($0.key, name:"userDefinedFields[key:]", pattern: ".*\\S.*")
+                try validate($0.value, name:"userDefinedFields[:Value]", pattern: ".*\\S.*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2051,6 +2059,15 @@ extension SecurityHub {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
         }
@@ -2874,6 +2891,15 @@ extension SecurityHub {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
         }
@@ -3436,6 +3462,10 @@ extension SecurityHub {
             try details?.validate()
             try validate(id, name:"id", pattern: ".*\\S.*")
             try validate(region, name:"region", pattern: ".*\\S.*")
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", pattern: ".*\\S.*")
+                try validate($0.value, name:"tags[:Value]", pattern: ".*\\S.*")
+            }
             try validate(`type`, name:"`type`", pattern: ".*\\S.*")
         }
 
@@ -3482,6 +3512,10 @@ extension SecurityHub {
             try awsIamAccessKey?.validate()
             try awsS3Bucket?.validate()
             try container?.validate()
+            try other?.forEach {
+                try validate($0.key, name:"other[key:]", pattern: ".*\\S.*")
+                try validate($0.value, name:"other[:Value]", pattern: ".*\\S.*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3608,6 +3642,10 @@ extension SecurityHub {
 
         public func validate() throws {
             try validate(standardsArn, name:"standardsArn", pattern: ".*\\S.*")
+            try standardsInput.forEach {
+                try validate($0.key, name:"standardsInput[key:]", pattern: ".*\\S.*")
+                try validate($0.value, name:"standardsInput[:Value]", pattern: ".*\\S.*")
+            }
             try validate(standardsSubscriptionArn, name:"standardsSubscriptionArn", pattern: ".*\\S.*")
         }
 
@@ -3637,6 +3675,10 @@ extension SecurityHub {
 
         public func validate() throws {
             try validate(standardsArn, name:"standardsArn", pattern: ".*\\S.*")
+            try standardsInput?.forEach {
+                try validate($0.key, name:"standardsInput[key:]", pattern: ".*\\S.*")
+                try validate($0.value, name:"standardsInput[:Value]", pattern: ".*\\S.*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3695,6 +3737,12 @@ extension SecurityHub {
 
         public func validate() throws {
             try validate(resourceArn, name:"resourceArn", pattern: "^arn:aws:securityhub:.*")
+            try tags.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -376,6 +376,12 @@ extension SecretsManager {
             try tags?.forEach {
                 try $0.validate()
             }
+            try versionIdsToStages?.forEach {
+                try validate($0.key, name:"versionIdsToStages[key:]", max: 64)
+                try validate($0.key, name:"versionIdsToStages[key:]", min: 32)
+                try validate($0.value, name:"versionIdsToStages[:Value]", max: 20)
+                try validate($0.value, name:"versionIdsToStages[:Value]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1161,6 +1167,12 @@ extension SecretsManager {
             try validate(rotationLambdaARN, name:"rotationLambdaARN", max: 2048)
             try validate(rotationLambdaARN, name:"rotationLambdaARN", min: 0)
             try rotationRules?.validate()
+            try secretVersionsToStages?.forEach {
+                try validate($0.key, name:"secretVersionsToStages[key:]", max: 64)
+                try validate($0.key, name:"secretVersionsToStages[key:]", min: 32)
+                try validate($0.value, name:"secretVersionsToStages[:Value]", max: 20)
+                try validate($0.value, name:"secretVersionsToStages[:Value]", min: 1)
+            }
             try tags?.forEach {
                 try $0.validate()
             }

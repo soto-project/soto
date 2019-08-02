@@ -640,6 +640,15 @@ extension IoT {
             self.merge = merge
         }
 
+        public func validate() throws {
+            try attributes?.forEach {
+                try validate($0.key, name:"attributes[key:]", max: 128)
+                try validate($0.key, name:"attributes[key:]", pattern: "[a-zA-Z0-9_.,@/:#-]+")
+                try validate($0.value, name:"attributes[:Value]", max: 800)
+                try validate($0.value, name:"attributes[:Value]", pattern: "[a-zA-Z0-9_.,@/:#-]*")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
             case merge = "merge"
@@ -1004,6 +1013,12 @@ extension IoT {
             try validate(tokenKeyName, name:"tokenKeyName", max: 128)
             try validate(tokenKeyName, name:"tokenKeyName", min: 1)
             try validate(tokenKeyName, name:"tokenKeyName", pattern: "[a-zA-Z0-9_-]+")
+            try tokenSigningPublicKeys?.forEach {
+                try validate($0.key, name:"tokenSigningPublicKeys[key:]", max: 128)
+                try validate($0.key, name:"tokenSigningPublicKeys[key:]", min: 1)
+                try validate($0.key, name:"tokenSigningPublicKeys[key:]", pattern: "[a-zA-Z0-9:_-]+")
+                try validate($0.value, name:"tokenSigningPublicKeys[:Value]", max: 5120)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1413,6 +1428,14 @@ extension IoT {
             try validate(jobId, name:"jobId", max: 64)
             try validate(jobId, name:"jobId", min: 1)
             try validate(jobId, name:"jobId", pattern: "[a-zA-Z0-9_-]+")
+            try statusDetails?.forEach {
+                try validate($0.key, name:"statusDetails[key:]", max: 128)
+                try validate($0.key, name:"statusDetails[key:]", min: 1)
+                try validate($0.key, name:"statusDetails[key:]", pattern: "[a-zA-Z0-9:_-]+")
+                try validate($0.value, name:"statusDetails[:Value]", max: 1024)
+                try validate($0.value, name:"statusDetails[:Value]", min: 1)
+                try validate($0.value, name:"statusDetails[:Value]", pattern: "[^\\p{C}]*+")
+            }
             try validate(thingName, name:"thingName", max: 128)
             try validate(thingName, name:"thingName", min: 1)
             try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
@@ -1906,6 +1929,12 @@ extension IoT {
             try validate(tokenKeyName, name:"tokenKeyName", max: 128)
             try validate(tokenKeyName, name:"tokenKeyName", min: 1)
             try validate(tokenKeyName, name:"tokenKeyName", pattern: "[a-zA-Z0-9_-]+")
+            try tokenSigningPublicKeys.forEach {
+                try validate($0.key, name:"tokenSigningPublicKeys[key:]", max: 128)
+                try validate($0.key, name:"tokenSigningPublicKeys[key:]", min: 1)
+                try validate($0.key, name:"tokenSigningPublicKeys[key:]", pattern: "[a-zA-Z0-9:_-]+")
+                try validate($0.value, name:"tokenSigningPublicKeys[:Value]", max: 5120)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2776,6 +2805,9 @@ extension IoT {
         }
 
         public func validate() throws {
+            try alertTargets?.forEach {
+                try $0.value.validate()
+            }
             try behaviors?.forEach {
                 try $0.validate()
             }
@@ -3022,6 +3054,7 @@ extension IoT {
         }
 
         public func validate() throws {
+            try attributePayload?.validate()
             try validate(billingGroupName, name:"billingGroupName", max: 128)
             try validate(billingGroupName, name:"billingGroupName", min: 1)
             try validate(billingGroupName, name:"billingGroupName", pattern: "[a-zA-Z0-9:_-]+")
@@ -3954,6 +3987,9 @@ extension IoT {
         }
 
         public func validate() throws {
+            try auditNotificationTargetConfigurations?.forEach {
+                try $0.value.validate()
+            }
             try validate(roleArn, name:"roleArn", max: 2048)
             try validate(roleArn, name:"roleArn", min: 20)
         }
@@ -4021,6 +4057,9 @@ extension IoT {
         }
 
         public func validate() throws {
+            try auditDetails?.forEach {
+                try $0.value.validate()
+            }
             try validate(scheduledAuditName, name:"scheduledAuditName", max: 128)
             try validate(scheduledAuditName, name:"scheduledAuditName", min: 1)
             try validate(scheduledAuditName, name:"scheduledAuditName", pattern: "[a-zA-Z0-9_-]+")
@@ -4695,6 +4734,9 @@ extension IoT {
         }
 
         public func validate() throws {
+            try alertTargets?.forEach {
+                try $0.value.validate()
+            }
             try behaviors?.forEach {
                 try $0.validate()
             }
@@ -5035,6 +5077,12 @@ extension IoT {
         }
 
         public func validate() throws {
+            try attributes?.forEach {
+                try validate($0.key, name:"attributes[key:]", max: 128)
+                try validate($0.key, name:"attributes[key:]", pattern: "[a-zA-Z0-9_.,@/:#-]+")
+                try validate($0.value, name:"attributes[:Value]", max: 800)
+                try validate($0.value, name:"attributes[:Value]", pattern: "[a-zA-Z0-9_.,@/:#-]*")
+            }
             try validate(billingGroupName, name:"billingGroupName", max: 128)
             try validate(billingGroupName, name:"billingGroupName", min: 1)
             try validate(billingGroupName, name:"billingGroupName", pattern: "[a-zA-Z0-9:_-]+")
@@ -6472,6 +6520,7 @@ extension IoT {
             try validate(jobId, name:"jobId", max: 64)
             try validate(jobId, name:"jobId", min: 1)
             try validate(jobId, name:"jobId", pattern: "[a-zA-Z0-9_-]+")
+            try statusDetails?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6519,6 +6568,17 @@ extension IoT {
 
         public init(detailsMap: [String: String]? = nil) {
             self.detailsMap = detailsMap
+        }
+
+        public func validate() throws {
+            try detailsMap?.forEach {
+                try validate($0.key, name:"detailsMap[key:]", max: 128)
+                try validate($0.key, name:"detailsMap[key:]", min: 1)
+                try validate($0.key, name:"detailsMap[key:]", pattern: "[a-zA-Z0-9:_-]+")
+                try validate($0.value, name:"detailsMap[:Value]", max: 1024)
+                try validate($0.value, name:"detailsMap[:Value]", min: 1)
+                try validate($0.value, name:"detailsMap[:Value]", pattern: "[^\\p{C}]*+")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11749,6 +11809,12 @@ extension IoT {
         }
 
         public func validate() throws {
+            try attributes?.forEach {
+                try validate($0.key, name:"attributes[key:]", max: 128)
+                try validate($0.key, name:"attributes[key:]", pattern: "[a-zA-Z0-9_.,@/:#-]+")
+                try validate($0.value, name:"attributes[:Value]", max: 800)
+                try validate($0.value, name:"attributes[:Value]", pattern: "[a-zA-Z0-9_.,@/:#-]*")
+            }
             try validate(thingName, name:"thingName", max: 128)
             try validate(thingName, name:"thingName", min: 1)
             try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
@@ -11831,6 +11897,12 @@ extension IoT {
         }
 
         public func validate() throws {
+            try attributes?.forEach {
+                try validate($0.key, name:"attributes[key:]", max: 128)
+                try validate($0.key, name:"attributes[key:]", pattern: "[a-zA-Z0-9_.,@/:#-]+")
+                try validate($0.value, name:"attributes[:Value]", max: 800)
+                try validate($0.value, name:"attributes[:Value]", pattern: "[a-zA-Z0-9_.,@/:#-]*")
+            }
             try thingGroupNames?.forEach {
                 try validate($0, name:"thingGroupNames[]", max: 128)
                 try validate($0, name:"thingGroupNames[]", min: 1)
@@ -11884,6 +11956,12 @@ extension IoT {
         }
 
         public func validate() throws {
+            try attributes?.forEach {
+                try validate($0.key, name:"attributes[key:]", max: 128)
+                try validate($0.key, name:"attributes[key:]", pattern: "[a-zA-Z0-9_.,@/:#-]+")
+                try validate($0.value, name:"attributes[:Value]", max: 800)
+                try validate($0.value, name:"attributes[:Value]", pattern: "[a-zA-Z0-9_.,@/:#-]*")
+            }
             try parentGroupNames?.forEach {
                 try validate($0, name:"parentGroupNames[]", max: 128)
                 try validate($0, name:"parentGroupNames[]", min: 1)
@@ -11984,6 +12062,7 @@ extension IoT {
         }
 
         public func validate() throws {
+            try attributePayload?.validate()
             try validate(thingGroupDescription, name:"thingGroupDescription", max: 2028)
             try validate(thingGroupDescription, name:"thingGroupDescription", pattern: "[\\p{Graph}\\x20]*")
         }
@@ -12442,6 +12521,9 @@ extension IoT {
         }
 
         public func validate() throws {
+            try auditNotificationTargetConfigurations?.forEach {
+                try $0.value.validate()
+            }
             try validate(roleArn, name:"roleArn", max: 2048)
             try validate(roleArn, name:"roleArn", min: 20)
         }
@@ -12496,6 +12578,12 @@ extension IoT {
             try validate(tokenKeyName, name:"tokenKeyName", max: 128)
             try validate(tokenKeyName, name:"tokenKeyName", min: 1)
             try validate(tokenKeyName, name:"tokenKeyName", pattern: "[a-zA-Z0-9_-]+")
+            try tokenSigningPublicKeys?.forEach {
+                try validate($0.key, name:"tokenSigningPublicKeys[key:]", max: 128)
+                try validate($0.key, name:"tokenSigningPublicKeys[key:]", min: 1)
+                try validate($0.key, name:"tokenSigningPublicKeys[key:]", pattern: "[a-zA-Z0-9:_-]+")
+                try validate($0.value, name:"tokenSigningPublicKeys[:Value]", max: 5120)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13007,6 +13095,9 @@ extension IoT {
         }
 
         public func validate() throws {
+            try alertTargets?.forEach {
+                try $0.value.validate()
+            }
             try behaviors?.forEach {
                 try $0.validate()
             }
@@ -13076,6 +13167,9 @@ extension IoT {
         }
 
         public func validate() throws {
+            try alertTargets?.forEach {
+                try $0.value.validate()
+            }
             try behaviors?.forEach {
                 try $0.validate()
             }
@@ -13325,6 +13419,7 @@ extension IoT {
         }
 
         public func validate() throws {
+            try attributePayload?.validate()
             try validate(thingName, name:"thingName", max: 128)
             try validate(thingName, name:"thingName", min: 1)
             try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")

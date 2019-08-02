@@ -4658,6 +4658,15 @@ extension MediaConvert {
         }
 
         public func validate() throws {
+            try audioSelectorGroups?.forEach {
+                try $0.value.validate()
+            }
+            try audioSelectors?.forEach {
+                try $0.value.validate()
+            }
+            try captionSelectors?.forEach {
+                try $0.value.validate()
+            }
             try decryptionSettings?.validate()
             try validate(fileInput, name:"fileInput", pattern: "^(s3:\\/\\/)([^\\/]+\\/)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[xX][mM][lL])))$")
             try validate(filterStrength, name:"filterStrength", max: 5)
@@ -4860,6 +4869,15 @@ extension MediaConvert {
         }
 
         public func validate() throws {
+            try audioSelectorGroups?.forEach {
+                try $0.value.validate()
+            }
+            try audioSelectors?.forEach {
+                try $0.value.validate()
+            }
+            try captionSelectors?.forEach {
+                try $0.value.validate()
+            }
             try validate(filterStrength, name:"filterStrength", max: 5)
             try validate(filterStrength, name:"filterStrength", min: -5)
             try imageInserter?.validate()

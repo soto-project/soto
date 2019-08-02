@@ -65,6 +65,13 @@ extension Inspector {
             self.failedItems = failedItems
         }
 
+        public func validate() throws {
+            try failedItems.forEach {
+                try validate($0.key, name:"failedItems[key:]", max: 300)
+                try validate($0.key, name:"failedItems[key:]", min: 1)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case failedItems = "failedItems"
         }
@@ -1182,6 +1189,10 @@ extension Inspector {
             }
             try validate(assessmentRuns, name:"assessmentRuns", max: 10)
             try validate(assessmentRuns, name:"assessmentRuns", min: 0)
+            try failedItems.forEach {
+                try validate($0.key, name:"failedItems[key:]", max: 300)
+                try validate($0.key, name:"failedItems[key:]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1238,6 +1249,10 @@ extension Inspector {
             }
             try validate(assessmentTargets, name:"assessmentTargets", max: 10)
             try validate(assessmentTargets, name:"assessmentTargets", min: 0)
+            try failedItems.forEach {
+                try validate($0.key, name:"failedItems[key:]", max: 300)
+                try validate($0.key, name:"failedItems[key:]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1293,6 +1308,10 @@ extension Inspector {
             }
             try validate(assessmentTemplates, name:"assessmentTemplates", max: 10)
             try validate(assessmentTemplates, name:"assessmentTemplates", min: 0)
+            try failedItems.forEach {
+                try validate($0.key, name:"failedItems[key:]", max: 300)
+                try validate($0.key, name:"failedItems[key:]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1380,6 +1399,18 @@ extension Inspector {
             self.failedItems = failedItems
         }
 
+        public func validate() throws {
+            try exclusions.forEach {
+                try validate($0.key, name:"exclusions[key:]", max: 300)
+                try validate($0.key, name:"exclusions[key:]", min: 1)
+                try $0.value.validate()
+            }
+            try failedItems.forEach {
+                try validate($0.key, name:"failedItems[key:]", max: 300)
+                try validate($0.key, name:"failedItems[key:]", min: 1)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case exclusions = "exclusions"
             case failedItems = "failedItems"
@@ -1434,6 +1465,10 @@ extension Inspector {
         }
 
         public func validate() throws {
+            try failedItems.forEach {
+                try validate($0.key, name:"failedItems[key:]", max: 300)
+                try validate($0.key, name:"failedItems[key:]", min: 1)
+            }
             try findings.forEach {
                 try $0.validate()
             }
@@ -1490,6 +1525,10 @@ extension Inspector {
         }
 
         public func validate() throws {
+            try failedItems.forEach {
+                try validate($0.key, name:"failedItems[key:]", max: 300)
+                try validate($0.key, name:"failedItems[key:]", min: 1)
+            }
             try resourceGroups.forEach {
                 try $0.validate()
             }
@@ -1551,6 +1590,10 @@ extension Inspector {
         }
 
         public func validate() throws {
+            try failedItems.forEach {
+                try validate($0.key, name:"failedItems[key:]", max: 300)
+                try validate($0.key, name:"failedItems[key:]", min: 1)
+            }
             try rulesPackages.forEach {
                 try $0.validate()
             }
@@ -3171,6 +3214,13 @@ extension Inspector {
 
         public init(failedItems: [String: FailedItemDetails]) {
             self.failedItems = failedItems
+        }
+
+        public func validate() throws {
+            try failedItems.forEach {
+                try validate($0.key, name:"failedItems[key:]", max: 300)
+                try validate($0.key, name:"failedItems[key:]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

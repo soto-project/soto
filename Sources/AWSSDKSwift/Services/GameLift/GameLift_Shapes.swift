@@ -140,6 +140,10 @@ extension GameLift {
         public func validate() throws {
             try validate(s, name:"s", max: 1024)
             try validate(s, name:"s", min: 1)
+            try sdm?.forEach {
+                try validate($0.key, name:"sDM[key:]", max: 1024)
+                try validate($0.key, name:"sDM[key:]", min: 1)
+            }
             try sl?.forEach {
                 try validate($0, name:"sL[]", max: 1024)
                 try validate($0, name:"sL[]", min: 1)
@@ -967,6 +971,12 @@ extension GameLift {
             try validate(gameSessionId, name:"gameSessionId", max: 256)
             try validate(gameSessionId, name:"gameSessionId", min: 1)
             try validate(gameSessionId, name:"gameSessionId", pattern: "[a-zA-Z0-9:/-]+")
+            try playerDataMap?.forEach {
+                try validate($0.key, name:"playerDataMap[key:]", max: 1024)
+                try validate($0.key, name:"playerDataMap[key:]", min: 1)
+                try validate($0.value, name:"playerDataMap[:Value]", max: 2048)
+                try validate($0.value, name:"playerDataMap[:Value]", min: 1)
+            }
             try playerIds.forEach {
                 try validate($0, name:"playerIds[]", max: 1024)
                 try validate($0, name:"playerIds[]", min: 1)
@@ -4520,6 +4530,15 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try latencyInMs?.forEach {
+                try validate($0.key, name:"latencyInMs[key:]", min: 1)
+                try validate($0.value, name:"latencyInMs[:Value]", min: 1)
+            }
+            try playerAttributes?.forEach {
+                try validate($0.key, name:"playerAttributes[key:]", max: 1024)
+                try validate($0.key, name:"playerAttributes[key:]", min: 1)
+                try $0.value.validate()
+            }
             try validate(playerId, name:"playerId", max: 1024)
             try validate(playerId, name:"playerId", min: 1)
             try validate(team, name:"team", max: 1024)

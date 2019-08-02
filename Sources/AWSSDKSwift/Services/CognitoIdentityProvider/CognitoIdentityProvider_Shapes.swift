@@ -2375,6 +2375,10 @@ extension CognitoIdentityProvider {
         }
 
         public func validate() throws {
+            try attributeMapping?.forEach {
+                try validate($0.key, name:"attributeMapping[key:]", max: 32)
+                try validate($0.key, name:"attributeMapping[key:]", min: 1)
+            }
             try idpIdentifiers?.forEach {
                 try validate($0, name:"idpIdentifiers[]", max: 40)
                 try validate($0, name:"idpIdentifiers[]", min: 1)
@@ -2878,6 +2882,12 @@ extension CognitoIdentityProvider {
             try validate(smsVerificationMessage, name:"smsVerificationMessage", max: 140)
             try validate(smsVerificationMessage, name:"smsVerificationMessage", min: 6)
             try validate(smsVerificationMessage, name:"smsVerificationMessage", pattern: ".*\\{####\\}.*")
+            try userPoolTags?.forEach {
+                try validate($0.key, name:"userPoolTags[key:]", max: 128)
+                try validate($0.key, name:"userPoolTags[key:]", min: 1)
+                try validate($0.value, name:"userPoolTags[:Value]", max: 256)
+                try validate($0.value, name:"userPoolTags[:Value]", min: 0)
+            }
             try verificationMessageTemplate?.validate()
         }
 
@@ -4608,6 +4618,10 @@ extension CognitoIdentityProvider {
         }
 
         public func validate() throws {
+            try attributeMapping?.forEach {
+                try validate($0.key, name:"attributeMapping[key:]", max: 32)
+                try validate($0.key, name:"attributeMapping[key:]", min: 1)
+            }
             try idpIdentifiers?.forEach {
                 try validate($0, name:"idpIdentifiers[]", max: 40)
                 try validate($0, name:"idpIdentifiers[]", min: 1)
@@ -5126,6 +5140,15 @@ extension CognitoIdentityProvider {
 
         public init(tags: [String: String]? = nil) {
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6859,6 +6882,12 @@ extension CognitoIdentityProvider {
             try validate(resourceArn, name:"resourceArn", max: 2048)
             try validate(resourceArn, name:"resourceArn", min: 20)
             try validate(resourceArn, name:"resourceArn", pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7172,6 +7201,10 @@ extension CognitoIdentityProvider {
         }
 
         public func validate() throws {
+            try attributeMapping?.forEach {
+                try validate($0.key, name:"attributeMapping[key:]", max: 32)
+                try validate($0.key, name:"attributeMapping[key:]", min: 1)
+            }
             try idpIdentifiers?.forEach {
                 try validate($0, name:"idpIdentifiers[]", max: 40)
                 try validate($0, name:"idpIdentifiers[]", min: 1)
@@ -7652,6 +7685,12 @@ extension CognitoIdentityProvider {
             try validate(userPoolId, name:"userPoolId", max: 55)
             try validate(userPoolId, name:"userPoolId", min: 1)
             try validate(userPoolId, name:"userPoolId", pattern: "[\\w-]+_[0-9a-zA-Z]+")
+            try userPoolTags?.forEach {
+                try validate($0.key, name:"userPoolTags[key:]", max: 128)
+                try validate($0.key, name:"userPoolTags[key:]", min: 1)
+                try validate($0.value, name:"userPoolTags[:Value]", max: 256)
+                try validate($0.value, name:"userPoolTags[:Value]", min: 0)
+            }
             try verificationMessageTemplate?.validate()
         }
 
@@ -8265,6 +8304,12 @@ extension CognitoIdentityProvider {
             try validate(smsVerificationMessage, name:"smsVerificationMessage", max: 140)
             try validate(smsVerificationMessage, name:"smsVerificationMessage", min: 6)
             try validate(smsVerificationMessage, name:"smsVerificationMessage", pattern: ".*\\{####\\}.*")
+            try userPoolTags?.forEach {
+                try validate($0.key, name:"userPoolTags[key:]", max: 128)
+                try validate($0.key, name:"userPoolTags[key:]", min: 1)
+                try validate($0.value, name:"userPoolTags[:Value]", max: 256)
+                try validate($0.value, name:"userPoolTags[:Value]", min: 0)
+            }
             try verificationMessageTemplate?.validate()
         }
 

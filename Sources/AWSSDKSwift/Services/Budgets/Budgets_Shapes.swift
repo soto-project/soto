@@ -59,6 +59,17 @@ extension Budgets {
             try validate(budgetName, name:"budgetName", min: 1)
             try validate(budgetName, name:"budgetName", pattern: "[^:\\\\]+")
             try calculatedSpend?.validate()
+            try costFilters?.forEach {
+                try validate($0.key, name:"costFilters[key:]", max: 2147483647)
+                try validate($0.key, name:"costFilters[key:]", min: 0)
+                try validate($0.key, name:"costFilters[key:]", pattern: ".*")
+            }
+            try plannedBudgetLimits?.forEach {
+                try validate($0.key, name:"plannedBudgetLimits[key:]", max: 2147483647)
+                try validate($0.key, name:"plannedBudgetLimits[key:]", min: 0)
+                try validate($0.key, name:"plannedBudgetLimits[key:]", pattern: ".*")
+                try $0.value.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -111,6 +122,11 @@ extension Budgets {
             try validate(budgetName, name:"budgetName", max: 100)
             try validate(budgetName, name:"budgetName", min: 1)
             try validate(budgetName, name:"budgetName", pattern: "[^:\\\\]+")
+            try costFilters?.forEach {
+                try validate($0.key, name:"costFilters[key:]", max: 2147483647)
+                try validate($0.key, name:"costFilters[key:]", min: 0)
+                try validate($0.key, name:"costFilters[key:]", pattern: ".*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

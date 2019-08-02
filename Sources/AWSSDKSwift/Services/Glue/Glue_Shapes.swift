@@ -185,6 +185,12 @@ extension Glue {
         }
 
         public func validate() throws {
+            try errors?.forEach {
+                try validate($0.key, name:"errors[key:]", max: 255)
+                try validate($0.key, name:"errors[key:]", min: 1)
+                try validate($0.key, name:"errors[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+                try $0.value.validate()
+            }
             try succeeded?.forEach {
                 try validate($0, name:"succeeded[]", max: 255)
                 try validate($0, name:"succeeded[]", min: 1)
@@ -1333,6 +1339,9 @@ extension Glue {
         }
 
         public func validate() throws {
+            try connectionProperties?.forEach {
+                try validate($0.value, name:"connectionProperties[:Value]", max: 1024)
+            }
             try validate(description, name:"description", max: 2048)
             try validate(description, name:"description", min: 0)
             try validate(description, name:"description", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1398,6 +1407,9 @@ extension Glue {
         }
 
         public func validate() throws {
+            try connectionProperties.forEach {
+                try validate($0.value, name:"connectionProperties[:Value]", max: 1024)
+            }
             try validate(description, name:"description", max: 2048)
             try validate(description, name:"description", min: 0)
             try validate(description, name:"description", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1959,6 +1971,12 @@ extension Glue {
             try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try validate(tablePrefix, name:"tablePrefix", max: 128)
             try validate(tablePrefix, name:"tablePrefix", min: 0)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+            }
             try targets.validate()
         }
 
@@ -2149,6 +2167,12 @@ extension Glue {
             try validate(securityConfiguration, name:"securityConfiguration", max: 255)
             try validate(securityConfiguration, name:"securityConfiguration", min: 1)
             try validate(securityConfiguration, name:"securityConfiguration", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2394,6 +2418,12 @@ extension Glue {
             try validate(securityConfiguration, name:"securityConfiguration", max: 255)
             try validate(securityConfiguration, name:"securityConfiguration", min: 1)
             try validate(securityConfiguration, name:"securityConfiguration", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+            }
             try validate(timeout, name:"timeout", min: 1)
             try validate(workerType, name:"workerType", max: 255)
             try validate(workerType, name:"workerType", min: 1)
@@ -2739,6 +2769,12 @@ extension Glue {
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try predicate?.validate()
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+            }
             try validate(workflowName, name:"workflowName", max: 255)
             try validate(workflowName, name:"workflowName", min: 1)
             try validate(workflowName, name:"workflowName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -2850,9 +2886,20 @@ extension Glue {
         }
 
         public func validate() throws {
+            try defaultRunProperties?.forEach {
+                try validate($0.key, name:"defaultRunProperties[key:]", max: 255)
+                try validate($0.key, name:"defaultRunProperties[key:]", min: 1)
+                try validate($0.key, name:"defaultRunProperties[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            }
             try validate(name, name:"name", max: 255)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3070,6 +3117,12 @@ extension Glue {
             try validate(name, name:"name", max: 255)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try parameters?.forEach {
+                try validate($0.key, name:"parameters[key:]", max: 255)
+                try validate($0.key, name:"parameters[key:]", min: 1)
+                try validate($0.key, name:"parameters[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+                try validate($0.value, name:"parameters[:Value]", max: 512000)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3115,6 +3168,12 @@ extension Glue {
             try validate(name, name:"name", max: 255)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try parameters?.forEach {
+                try validate($0.key, name:"parameters[key:]", max: 255)
+                try validate($0.key, name:"parameters[key:]", min: 1)
+                try validate($0.key, name:"parameters[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+                try validate($0.value, name:"parameters[:Value]", max: 512000)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5758,6 +5817,15 @@ extension Glue {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
         }
@@ -6099,6 +6167,14 @@ extension Glue {
 
         public init(runProperties: [String: String]? = nil) {
             self.runProperties = runProperties
+        }
+
+        public func validate() throws {
+            try runProperties?.forEach {
+                try validate($0.key, name:"runProperties[key:]", max: 255)
+                try validate($0.key, name:"runProperties[key:]", min: 1)
+                try validate($0.key, name:"runProperties[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6961,6 +7037,12 @@ extension Glue {
         public func validate() throws {
             try validate(maxResults, name:"maxResults", max: 1000)
             try validate(maxResults, name:"maxResults", min: 1)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7025,6 +7107,12 @@ extension Glue {
         public func validate() throws {
             try validate(maxResults, name:"maxResults", max: 1000)
             try validate(maxResults, name:"maxResults", min: 1)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7087,6 +7175,12 @@ extension Glue {
         public func validate() throws {
             try validate(maxResults, name:"maxResults", max: 1000)
             try validate(maxResults, name:"maxResults", min: 1)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7156,6 +7250,12 @@ extension Glue {
             try validate(dependentJobName, name:"dependentJobName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try validate(maxResults, name:"maxResults", max: 1000)
             try validate(maxResults, name:"maxResults", min: 1)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7500,6 +7600,12 @@ extension Glue {
             try validate(databaseName, name:"databaseName", max: 255)
             try validate(databaseName, name:"databaseName", min: 1)
             try validate(databaseName, name:"databaseName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try parameters?.forEach {
+                try validate($0.key, name:"parameters[key:]", max: 255)
+                try validate($0.key, name:"parameters[key:]", min: 1)
+                try validate($0.key, name:"parameters[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+                try validate($0.value, name:"parameters[:Value]", max: 512000)
+            }
             try storageDescriptor?.validate()
             try validate(tableName, name:"tableName", max: 255)
             try validate(tableName, name:"tableName", min: 1)
@@ -7579,6 +7685,12 @@ extension Glue {
         }
 
         public func validate() throws {
+            try parameters?.forEach {
+                try validate($0.key, name:"parameters[key:]", max: 255)
+                try validate($0.key, name:"parameters[key:]", min: 1)
+                try validate($0.key, name:"parameters[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+                try validate($0.value, name:"parameters[:Value]", max: 512000)
+            }
             try storageDescriptor?.validate()
             try values?.forEach {
                 try validate($0, name:"values[]", max: 1024)
@@ -7848,6 +7960,11 @@ extension Glue {
             try validate(runId, name:"runId", max: 255)
             try validate(runId, name:"runId", min: 1)
             try validate(runId, name:"runId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try runProperties.forEach {
+                try validate($0.key, name:"runProperties[key:]", max: 255)
+                try validate($0.key, name:"runProperties[key:]", min: 1)
+                try validate($0.key, name:"runProperties[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8126,6 +8243,12 @@ extension Glue {
             try validate(name, name:"name", max: 255)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try parameters?.forEach {
+                try validate($0.key, name:"parameters[key:]", max: 255)
+                try validate($0.key, name:"parameters[key:]", min: 1)
+                try validate($0.key, name:"parameters[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+                try validate($0.value, name:"parameters[:Value]", max: 512000)
+            }
             try validate(serializationLibrary, name:"serializationLibrary", max: 255)
             try validate(serializationLibrary, name:"serializationLibrary", min: 1)
             try validate(serializationLibrary, name:"serializationLibrary", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -8603,6 +8726,12 @@ extension Glue {
             try validate(location, name:"location", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try validate(outputFormat, name:"outputFormat", max: 128)
             try validate(outputFormat, name:"outputFormat", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try parameters?.forEach {
+                try validate($0.key, name:"parameters[key:]", max: 255)
+                try validate($0.key, name:"parameters[key:]", min: 1)
+                try validate($0.key, name:"parameters[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+                try validate($0.value, name:"parameters[:Value]", max: 512000)
+            }
             try serdeInfo?.validate()
             try skewedInfo?.validate()
             try sortColumns?.forEach {
@@ -8714,6 +8843,12 @@ extension Glue {
             try validate(owner, name:"owner", max: 255)
             try validate(owner, name:"owner", min: 1)
             try validate(owner, name:"owner", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try parameters?.forEach {
+                try validate($0.key, name:"parameters[key:]", max: 255)
+                try validate($0.key, name:"parameters[key:]", min: 1)
+                try validate($0.key, name:"parameters[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+                try validate($0.value, name:"parameters[:Value]", max: 512000)
+            }
             try partitionKeys?.forEach {
                 try $0.validate()
             }
@@ -8839,6 +8974,12 @@ extension Glue {
             try validate(owner, name:"owner", max: 255)
             try validate(owner, name:"owner", min: 1)
             try validate(owner, name:"owner", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try parameters?.forEach {
+                try validate($0.key, name:"parameters[key:]", max: 255)
+                try validate($0.key, name:"parameters[key:]", min: 1)
+                try validate($0.key, name:"parameters[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+                try validate($0.value, name:"parameters[:Value]", max: 512000)
+            }
             try partitionKeys?.forEach {
                 try $0.validate()
             }
@@ -8951,6 +9092,12 @@ extension Glue {
             try validate(resourceArn, name:"resourceArn", max: 10240)
             try validate(resourceArn, name:"resourceArn", min: 1)
             try validate(resourceArn, name:"resourceArn", pattern: "arn:aws:glue:.*")
+            try tagsToAdd.forEach {
+                try validate($0.key, name:"tagsToAdd[key:]", max: 128)
+                try validate($0.key, name:"tagsToAdd[key:]", min: 1)
+                try validate($0.value, name:"tagsToAdd[:Value]", max: 256)
+                try validate($0.value, name:"tagsToAdd[:Value]", min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9938,6 +10085,11 @@ extension Glue {
         }
 
         public func validate() throws {
+            try defaultRunProperties?.forEach {
+                try validate($0.key, name:"defaultRunProperties[key:]", max: 255)
+                try validate($0.key, name:"defaultRunProperties[key:]", min: 1)
+                try validate($0.key, name:"defaultRunProperties[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            }
             try validate(name, name:"name", max: 255)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -10163,6 +10315,11 @@ extension Glue {
         }
 
         public func validate() throws {
+            try defaultRunProperties?.forEach {
+                try validate($0.key, name:"defaultRunProperties[key:]", max: 255)
+                try validate($0.key, name:"defaultRunProperties[key:]", min: 1)
+                try validate($0.key, name:"defaultRunProperties[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            }
             try graph?.validate()
             try lastRun?.validate()
             try validate(name, name:"name", max: 255)
@@ -10260,6 +10417,11 @@ extension Glue {
             try validate(workflowRunId, name:"workflowRunId", max: 255)
             try validate(workflowRunId, name:"workflowRunId", min: 1)
             try validate(workflowRunId, name:"workflowRunId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try workflowRunProperties?.forEach {
+                try validate($0.key, name:"workflowRunProperties[key:]", max: 255)
+                try validate($0.key, name:"workflowRunProperties[key:]", min: 1)
+                try validate($0.key, name:"workflowRunProperties[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

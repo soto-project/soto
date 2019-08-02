@@ -327,6 +327,12 @@ extension GuardDuty {
         public func validate() throws {
             try validate(clientToken, name:"clientToken", max: 64)
             try validate(clientToken, name:"clientToken", min: 0)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -410,6 +416,12 @@ extension GuardDuty {
             try validate(name, name:"name", min: 3)
             try validate(rank, name:"rank", max: 100)
             try validate(rank, name:"rank", min: 1)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -491,6 +503,12 @@ extension GuardDuty {
             try validate(location, name:"location", min: 1)
             try validate(name, name:"name", max: 300)
             try validate(name, name:"name", min: 1)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -664,6 +682,12 @@ extension GuardDuty {
             try validate(location, name:"location", min: 1)
             try validate(name, name:"name", max: 300)
             try validate(name, name:"name", min: 1)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1344,6 +1368,15 @@ extension GuardDuty {
             self.updatedAt = updatedAt
         }
 
+        public func validate() throws {
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
             case findingPublishingFrequency = "findingPublishingFrequency"
@@ -1420,6 +1453,12 @@ extension GuardDuty {
             try validate(name, name:"name", min: 3)
             try validate(rank, name:"rank", max: 100)
             try validate(rank, name:"rank", min: 1)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1606,6 +1645,12 @@ extension GuardDuty {
             try validate(location, name:"location", min: 1)
             try validate(name, name:"name", max: 300)
             try validate(name, name:"name", min: 1)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1813,6 +1858,12 @@ extension GuardDuty {
             try validate(location, name:"location", min: 1)
             try validate(name, name:"name", max: 300)
             try validate(name, name:"name", min: 1)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2459,6 +2510,15 @@ extension GuardDuty {
 
         public init(tags: [String: String]? = nil) {
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3220,6 +3280,12 @@ extension GuardDuty {
 
         public func validate() throws {
             try validate(resourceArn, name:"resourceArn", pattern: "^arn:[A-Za-z_.-]{1,20}:guardduty:[A-Za-z0-9_/.-]{0,63}:\\d+:detector/[A-Za-z0-9_/.-]{32,264}$")
+            try tags.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -51,6 +51,10 @@ extension Health {
             try validate(entityValue, name:"entityValue", max: 256)
             try validate(eventArn, name:"eventArn", max: 1600)
             try validate(eventArn, name:"eventArn", pattern: "arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}")
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 127)
+                try validate($0.value, name:"tags[:Value]", max: 255)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -702,6 +706,9 @@ extension Health {
 
         public func validate() throws {
             try event?.validate()
+            try eventMetadata?.forEach {
+                try validate($0.value, name:"eventMetadata[:Value]", max: 10240)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

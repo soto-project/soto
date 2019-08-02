@@ -387,6 +387,15 @@ extension AppSync {
             self.userPoolConfig = userPoolConfig
         }
 
+        public func validate() throws {
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case additionalAuthenticationProviders = "additionalAuthenticationProviders"
             case authenticationType = "authenticationType"
@@ -1318,6 +1327,12 @@ extension AppSync {
 
         public func validate() throws {
             try validate(name, name:"name", pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1782,6 +1797,15 @@ extension AppSync {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
         }
@@ -2132,6 +2156,12 @@ extension AppSync {
             try validate(resourceArn, name:"resourceArn", max: 75)
             try validate(resourceArn, name:"resourceArn", min: 70)
             try validate(resourceArn, name:"resourceArn", pattern: "^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\\d{12}:apis/[0-9A-Za-z_-]{26}$")
+            try tags.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

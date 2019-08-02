@@ -227,6 +227,13 @@ extension CodeStar {
             try sourceCode?.forEach {
                 try $0.validate()
             }
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
             try toolchain?.validate()
         }
 
@@ -962,6 +969,13 @@ extension CodeStar {
             try validate(nextToken, name:"nextToken", max: 512)
             try validate(nextToken, name:"nextToken", min: 1)
             try validate(nextToken, name:"nextToken", pattern: "^[\\w/+=]+$")
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1226,6 +1240,13 @@ extension CodeStar {
             try validate(id, name:"id", max: 15)
             try validate(id, name:"id", min: 2)
             try validate(id, name:"id", pattern: "^[a-z][a-z0-9-]+$")
+            try tags.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1244,6 +1265,16 @@ extension CodeStar {
 
         public init(tags: [String: String]? = nil) {
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1309,6 +1340,14 @@ extension CodeStar {
             try validate(roleArn, name:"roleArn", max: 1224)
             try validate(roleArn, name:"roleArn", min: 1)
             try source.validate()
+            try stackParameters?.forEach {
+                try validate($0.key, name:"stackParameters[key:]", max: 30)
+                try validate($0.key, name:"stackParameters[key:]", min: 1)
+                try validate($0.key, name:"stackParameters[key:]", pattern: "^\\S(.*\\S)?$")
+                try validate($0.value, name:"stackParameters[:Value]", max: 100)
+                try validate($0.value, name:"stackParameters[:Value]", min: 1)
+                try validate($0.value, name:"stackParameters[:Value]", pattern: "^\\S(.*\\S)?$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -315,6 +315,10 @@ extension ApplicationDiscoveryService {
         }
 
         public func validate() throws {
+            try schemaStorageConfig?.forEach {
+                try validate($0.key, name:"schemaStorageConfig[key:]", max: 252)
+                try validate($0.key, name:"schemaStorageConfig[key:]", min: 1)
+            }
             try validate(statusDetail, name:"statusDetail", max: 255)
             try validate(statusDetail, name:"statusDetail", min: 1)
         }
@@ -1498,6 +1502,13 @@ extension ApplicationDiscoveryService {
             self.s3Bucket = s3Bucket
             self.schemaStorageConfig = schemaStorageConfig
             self.startTime = startTime
+        }
+
+        public func validate() throws {
+            try schemaStorageConfig?.forEach {
+                try validate($0.key, name:"schemaStorageConfig[key:]", max: 252)
+                try validate($0.key, name:"schemaStorageConfig[key:]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

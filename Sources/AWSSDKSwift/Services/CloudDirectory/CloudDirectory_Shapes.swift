@@ -1377,6 +1377,14 @@ extension CloudDirectory {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try children?.forEach {
+                try validate($0.key, name:"children[key:]", max: 64)
+                try validate($0.key, name:"children[key:]", min: 1)
+                try validate($0.key, name:"children[key:]", pattern: "[^\\/\\[\\]\\(\\):\\{\\}#@!?\\s\\\\;]+")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case children = "Children"
             case nextToken = "NextToken"
@@ -2011,6 +2019,7 @@ extension CloudDirectory {
             try listIncomingTypedLinks?.validate()
             try listIndex?.validate()
             try listObjectAttributes?.validate()
+            try listObjectChildren?.validate()
             try listObjectParents?.validate()
             try listOutgoingTypedLinks?.validate()
         }
@@ -3236,6 +3245,7 @@ extension CloudDirectory {
         }
 
         public func validate() throws {
+            try attributeDefinition?.validate()
             try attributeReference?.validate()
             try validate(name, name:"name", max: 230)
             try validate(name, name:"name", min: 1)
@@ -3272,6 +3282,14 @@ extension CloudDirectory {
             self.isImmutable = isImmutable
             self.rules = rules
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try rules?.forEach {
+                try validate($0.key, name:"rules[key:]", max: 64)
+                try validate($0.key, name:"rules[key:]", min: 1)
+                try validate($0.key, name:"rules[key:]", pattern: "^[a-zA-Z0-9._-]*$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4543,6 +4561,14 @@ extension CloudDirectory {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try children?.forEach {
+                try validate($0.key, name:"children[key:]", max: 64)
+                try validate($0.key, name:"children[key:]", min: 1)
+                try validate($0.key, name:"children[key:]", pattern: "[^\\/\\[\\]\\(\\):\\{\\}#@!?\\s\\\\;]+")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case children = "Children"
             case nextToken = "NextToken"
@@ -4676,6 +4702,11 @@ extension CloudDirectory {
         public func validate() throws {
             try parentLinks?.forEach {
                 try $0.validate()
+            }
+            try parents?.forEach {
+                try validate($0.value, name:"parents[:Value]", max: 64)
+                try validate($0.value, name:"parents[:Value]", min: 1)
+                try validate($0.value, name:"parents[:Value]", pattern: "[^\\/\\[\\]\\(\\):\\{\\}#@!?\\s\\\\;]+")
             }
         }
 
@@ -5750,6 +5781,11 @@ extension CloudDirectory {
             try validate(name, name:"name", max: 230)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "^[a-zA-Z0-9._:-]*$")
+            try rules?.forEach {
+                try validate($0.key, name:"rules[key:]", max: 64)
+                try validate($0.key, name:"rules[key:]", min: 1)
+                try validate($0.key, name:"rules[key:]", pattern: "^[a-zA-Z0-9._-]*$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

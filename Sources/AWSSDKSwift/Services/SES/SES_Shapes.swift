@@ -1411,6 +1411,14 @@ extension SES {
             self.policies = policies
         }
 
+        public func validate() throws {
+            try policies.forEach {
+                try validate($0.key, name:"policies[key:]", max: 64)
+                try validate($0.key, name:"policies[key:]", min: 1)
+                try validate($0.value, name:"policies[:Value]", min: 1)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case policies = "Policies"
         }

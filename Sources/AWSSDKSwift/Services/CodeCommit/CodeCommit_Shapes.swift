@@ -833,6 +833,12 @@ extension CodeCommit {
             try validate(repositoryName, name:"repositoryName", max: 100)
             try validate(repositoryName, name:"repositoryName", min: 1)
             try validate(repositoryName, name:"repositoryName", pattern: "[\\w\\.-]+")
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2718,6 +2724,15 @@ extension CodeCommit {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case tags = "tags"
@@ -4497,6 +4512,15 @@ extension CodeCommit {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try tags.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

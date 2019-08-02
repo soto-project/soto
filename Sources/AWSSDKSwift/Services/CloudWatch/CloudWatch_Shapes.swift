@@ -227,6 +227,12 @@ extension CloudWatch {
             self.unit = unit
         }
 
+        public func validate() throws {
+            try extendedStatistics?.forEach {
+                try validate($0.key, name:"extendedStatistics[key:]", pattern: "p(\\d{1,2}(\\.\\d{0,2})?|100)")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case average = "Average"
             case extendedStatistics = "ExtendedStatistics"
@@ -988,6 +994,12 @@ extension CloudWatch {
         public init(datapoints: [Datapoint]? = nil, label: String? = nil) {
             self.datapoints = datapoints
             self.label = label
+        }
+
+        public func validate() throws {
+            try datapoints?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

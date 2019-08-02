@@ -1669,6 +1669,12 @@ extension XRay {
         }
 
         public func validate() throws {
+            try attributes?.forEach {
+                try validate($0.key, name:"attributes[key:]", max: 32)
+                try validate($0.key, name:"attributes[key:]", min: 1)
+                try validate($0.value, name:"attributes[:Value]", max: 32)
+                try validate($0.value, name:"attributes[:Value]", min: 1)
+            }
             try validate(fixedRate, name:"fixedRate", max: 1)
             try validate(fixedRate, name:"fixedRate", min: 0)
             try validate(host, name:"host", max: 64)
@@ -1790,6 +1796,12 @@ extension XRay {
         }
 
         public func validate() throws {
+            try attributes?.forEach {
+                try validate($0.key, name:"attributes[key:]", max: 32)
+                try validate($0.key, name:"attributes[key:]", min: 1)
+                try validate($0.value, name:"attributes[:Value]", max: 32)
+                try validate($0.value, name:"attributes[:Value]", min: 1)
+            }
             try validate(host, name:"host", max: 64)
             try validate(hTTPMethod, name:"hTTPMethod", max: 10)
             try validate(resourceARN, name:"resourceARN", max: 500)

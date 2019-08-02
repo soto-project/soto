@@ -43,13 +43,32 @@
 {%if v.member.shape %}
                 try $0.validate()
 {%endif %}
-{%for key,value in v.member.reqs %}
-                try validate($0, name:"{{v.member.name}}", {{key}}: {{value}})
+{%for req,var in v.member.reqs %}
+                try validate($0, name:"{{v.member.name}}", {{req}}: {{var}})
+{%endfor %}
+            }
+{%elif v.key or v.value %}
+{# validate dictionary members #}
+            try {{v.name}}{%if not v.required %}?{%endif %}.forEach {
+{# validate dictionary keys #}
+{%if v.key.shape %}
+                try $0.key.validate()
+{%endif %}
+{%for req,var in v.key.reqs %}
+                try validate($0.key, name:"{{v.key.name}}", {{req}}: {{var}})
+{%endfor %}
+{# validate dictionary values #}
+{%if v.value.shape %}
+                try $0.value.validate()
+{%endif %}
+{%for req,var in v.value.reqs %}
+                try validate($0.value, name:"{{v.value.name}}", {{req}}: {{var}})
 {%endfor %}
             }
 {%endif %}
-{%for key,value in v.reqs %}
-            try validate({{v.name}}, name:"{{v.name}}", {{key}}: {{value}})
+{# validate min,max,pattern #}
+{%for req,var in v.reqs %}
+            try validate({{v.name}}, name:"{{v.name}}", {{req}}: {{var}})
 {%endfor %}
 {%endfor %}
         }

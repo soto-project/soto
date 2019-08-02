@@ -1949,6 +1949,14 @@ extension DeviceFarm {
         }
 
         public func validate() throws {
+            try current?.forEach {
+                try validate($0.key, name:"current[key:]", min: 32)
+                try $0.value.validate()
+            }
+            try nextPeriod?.forEach {
+                try validate($0.key, name:"nextPeriod[key:]", min: 32)
+                try $0.value.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 4)
         }

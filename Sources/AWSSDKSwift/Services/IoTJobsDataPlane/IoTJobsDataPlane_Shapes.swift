@@ -176,6 +176,14 @@ extension IoTJobsDataPlane {
             try validate(jobId, name:"jobId", max: 64)
             try validate(jobId, name:"jobId", min: 1)
             try validate(jobId, name:"jobId", pattern: "[a-zA-Z0-9_-]+")
+            try statusDetails?.forEach {
+                try validate($0.key, name:"statusDetails[key:]", max: 128)
+                try validate($0.key, name:"statusDetails[key:]", min: 1)
+                try validate($0.key, name:"statusDetails[key:]", pattern: "[a-zA-Z0-9:_-]+")
+                try validate($0.value, name:"statusDetails[:Value]", max: 1024)
+                try validate($0.value, name:"statusDetails[:Value]", min: 1)
+                try validate($0.value, name:"statusDetails[:Value]", pattern: "[^\\p{C}]*+")
+            }
             try validate(thingName, name:"thingName", max: 128)
             try validate(thingName, name:"thingName", min: 1)
             try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
@@ -214,6 +222,17 @@ extension IoTJobsDataPlane {
             self.status = status
             self.statusDetails = statusDetails
             self.versionNumber = versionNumber
+        }
+
+        public func validate() throws {
+            try statusDetails?.forEach {
+                try validate($0.key, name:"statusDetails[key:]", max: 128)
+                try validate($0.key, name:"statusDetails[key:]", min: 1)
+                try validate($0.key, name:"statusDetails[key:]", pattern: "[a-zA-Z0-9:_-]+")
+                try validate($0.value, name:"statusDetails[:Value]", max: 1024)
+                try validate($0.value, name:"statusDetails[:Value]", min: 1)
+                try validate($0.value, name:"statusDetails[:Value]", pattern: "[^\\p{C}]*+")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -304,6 +323,14 @@ extension IoTJobsDataPlane {
         }
 
         public func validate() throws {
+            try statusDetails?.forEach {
+                try validate($0.key, name:"statusDetails[key:]", max: 128)
+                try validate($0.key, name:"statusDetails[key:]", min: 1)
+                try validate($0.key, name:"statusDetails[key:]", pattern: "[a-zA-Z0-9:_-]+")
+                try validate($0.value, name:"statusDetails[:Value]", max: 1024)
+                try validate($0.value, name:"statusDetails[:Value]", min: 1)
+                try validate($0.value, name:"statusDetails[:Value]", pattern: "[^\\p{C}]*+")
+            }
             try validate(thingName, name:"thingName", max: 128)
             try validate(thingName, name:"thingName", min: 1)
             try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
@@ -385,6 +412,14 @@ extension IoTJobsDataPlane {
             try validate(jobId, name:"jobId", max: 64)
             try validate(jobId, name:"jobId", min: 1)
             try validate(jobId, name:"jobId", pattern: "[a-zA-Z0-9_-]+")
+            try statusDetails?.forEach {
+                try validate($0.key, name:"statusDetails[key:]", max: 128)
+                try validate($0.key, name:"statusDetails[key:]", min: 1)
+                try validate($0.key, name:"statusDetails[key:]", pattern: "[a-zA-Z0-9:_-]+")
+                try validate($0.value, name:"statusDetails[:Value]", max: 1024)
+                try validate($0.value, name:"statusDetails[:Value]", min: 1)
+                try validate($0.value, name:"statusDetails[:Value]", pattern: "[^\\p{C}]*+")
+            }
             try validate(thingName, name:"thingName", max: 128)
             try validate(thingName, name:"thingName", min: 1)
             try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
@@ -420,6 +455,7 @@ extension IoTJobsDataPlane {
         }
 
         public func validate() throws {
+            try executionState?.validate()
             try validate(jobDocument, name:"jobDocument", max: 32768)
         }
 

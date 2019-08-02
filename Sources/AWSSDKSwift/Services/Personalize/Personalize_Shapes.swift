@@ -58,6 +58,14 @@ extension Personalize {
             try validate(algorithmArn, name:"algorithmArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             try algorithmImage?.validate()
             try defaultHyperParameterRanges?.validate()
+            try defaultHyperParameters?.forEach {
+                try validate($0.key, name:"defaultHyperParameters[key:]", max: 256)
+                try validate($0.value, name:"defaultHyperParameters[:Value]", max: 1000)
+            }
+            try defaultResourceConfig?.forEach {
+                try validate($0.key, name:"defaultResourceConfig[key:]", max: 256)
+                try validate($0.value, name:"defaultResourceConfig[:Value]", max: 1000)
+            }
             try validate(name, name:"name", max: 63)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
@@ -2236,6 +2244,10 @@ extension Personalize {
         }
 
         public func validate() throws {
+            try defaultParameters?.forEach {
+                try validate($0.key, name:"defaultParameters[key:]", max: 256)
+                try validate($0.value, name:"defaultParameters[:Value]", max: 1000)
+            }
             try validate(featureTransformationArn, name:"featureTransformationArn", max: 256)
             try validate(featureTransformationArn, name:"featureTransformationArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             try validate(name, name:"name", max: 63)
@@ -2293,6 +2305,9 @@ extension Personalize {
         }
 
         public func validate() throws {
+            try metrics?.forEach {
+                try validate($0.key, name:"metrics[key:]", max: 256)
+            }
             try validate(solutionVersionArn, name:"solutionVersionArn", max: 256)
             try validate(solutionVersionArn, name:"solutionVersionArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -3285,8 +3300,16 @@ extension Personalize {
         }
 
         public func validate() throws {
+            try algorithmHyperParameters?.forEach {
+                try validate($0.key, name:"algorithmHyperParameters[key:]", max: 256)
+                try validate($0.value, name:"algorithmHyperParameters[:Value]", max: 1000)
+            }
             try autoMLConfig?.validate()
             try validate(eventValueThreshold, name:"eventValueThreshold", max: 256)
+            try featureTransformationParameters?.forEach {
+                try validate($0.key, name:"featureTransformationParameters[key:]", max: 256)
+                try validate($0.value, name:"featureTransformationParameters[:Value]", max: 1000)
+            }
             try hpoConfig?.validate()
         }
 

@@ -97,6 +97,12 @@ extension CognitoIdentity {
             try validate(identityPoolName, name:"identityPoolName", max: 128)
             try validate(identityPoolName, name:"identityPoolName", min: 1)
             try validate(identityPoolName, name:"identityPoolName", pattern: "[\\w ]+")
+            try identityPoolTags?.forEach {
+                try validate($0.key, name:"identityPoolTags[key:]", max: 128)
+                try validate($0.key, name:"identityPoolTags[key:]", min: 1)
+                try validate($0.value, name:"identityPoolTags[:Value]", max: 256)
+                try validate($0.value, name:"identityPoolTags[:Value]", min: 0)
+            }
             try openIdConnectProviderARNs?.forEach {
                 try validate($0, name:"openIdConnectProviderARNs[]", max: 2048)
                 try validate($0, name:"openIdConnectProviderARNs[]", min: 20)
@@ -104,6 +110,13 @@ extension CognitoIdentity {
             try samlProviderARNs?.forEach {
                 try validate($0, name:"samlProviderARNs[]", max: 2048)
                 try validate($0, name:"samlProviderARNs[]", min: 20)
+            }
+            try supportedLoginProviders?.forEach {
+                try validate($0.key, name:"supportedLoginProviders[key:]", max: 128)
+                try validate($0.key, name:"supportedLoginProviders[key:]", min: 1)
+                try validate($0.value, name:"supportedLoginProviders[:Value]", max: 128)
+                try validate($0.value, name:"supportedLoginProviders[:Value]", min: 1)
+                try validate($0.value, name:"supportedLoginProviders[:Value]", pattern: "[\\w.;_/-]+")
             }
         }
 
@@ -303,6 +316,12 @@ extension CognitoIdentity {
             try validate(identityId, name:"identityId", max: 55)
             try validate(identityId, name:"identityId", min: 1)
             try validate(identityId, name:"identityId", pattern: "[\\w-]+:[0-9a-f-]+")
+            try logins?.forEach {
+                try validate($0.key, name:"logins[key:]", max: 128)
+                try validate($0.key, name:"logins[key:]", min: 1)
+                try validate($0.value, name:"logins[:Value]", max: 50000)
+                try validate($0.value, name:"logins[:Value]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -367,6 +386,12 @@ extension CognitoIdentity {
             try validate(identityPoolId, name:"identityPoolId", max: 55)
             try validate(identityPoolId, name:"identityPoolId", min: 1)
             try validate(identityPoolId, name:"identityPoolId", pattern: "[\\w-]+:[0-9a-f-]+")
+            try logins?.forEach {
+                try validate($0.key, name:"logins[key:]", max: 128)
+                try validate($0.key, name:"logins[key:]", min: 1)
+                try validate($0.value, name:"logins[:Value]", max: 50000)
+                try validate($0.value, name:"logins[:Value]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -446,6 +471,16 @@ extension CognitoIdentity {
             try validate(identityPoolId, name:"identityPoolId", max: 55)
             try validate(identityPoolId, name:"identityPoolId", min: 1)
             try validate(identityPoolId, name:"identityPoolId", pattern: "[\\w-]+:[0-9a-f-]+")
+            try roleMappings?.forEach {
+                try validate($0.key, name:"roleMappings[key:]", max: 128)
+                try validate($0.key, name:"roleMappings[key:]", min: 1)
+                try $0.value.validate()
+            }
+            try roles?.forEach {
+                try validate($0.key, name:"roles[key:]", pattern: "(un)?authenticated")
+                try validate($0.value, name:"roles[:Value]", max: 2048)
+                try validate($0.value, name:"roles[:Value]", min: 20)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -486,6 +521,12 @@ extension CognitoIdentity {
             try validate(identityPoolId, name:"identityPoolId", max: 55)
             try validate(identityPoolId, name:"identityPoolId", min: 1)
             try validate(identityPoolId, name:"identityPoolId", pattern: "[\\w-]+:[0-9a-f-]+")
+            try logins.forEach {
+                try validate($0.key, name:"logins[key:]", max: 128)
+                try validate($0.key, name:"logins[key:]", min: 1)
+                try validate($0.value, name:"logins[:Value]", max: 50000)
+                try validate($0.value, name:"logins[:Value]", min: 1)
+            }
             try validate(tokenDuration, name:"tokenDuration", max: 86400)
             try validate(tokenDuration, name:"tokenDuration", min: 1)
         }
@@ -546,6 +587,12 @@ extension CognitoIdentity {
             try validate(identityId, name:"identityId", max: 55)
             try validate(identityId, name:"identityId", min: 1)
             try validate(identityId, name:"identityId", pattern: "[\\w-]+:[0-9a-f-]+")
+            try logins?.forEach {
+                try validate($0.key, name:"logins[key:]", max: 128)
+                try validate($0.key, name:"logins[key:]", min: 1)
+                try validate($0.value, name:"logins[:Value]", max: 50000)
+                try validate($0.value, name:"logins[:Value]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -681,6 +728,12 @@ extension CognitoIdentity {
             try validate(identityPoolName, name:"identityPoolName", max: 128)
             try validate(identityPoolName, name:"identityPoolName", min: 1)
             try validate(identityPoolName, name:"identityPoolName", pattern: "[\\w ]+")
+            try identityPoolTags?.forEach {
+                try validate($0.key, name:"identityPoolTags[key:]", max: 128)
+                try validate($0.key, name:"identityPoolTags[key:]", min: 1)
+                try validate($0.value, name:"identityPoolTags[:Value]", max: 256)
+                try validate($0.value, name:"identityPoolTags[:Value]", min: 0)
+            }
             try openIdConnectProviderARNs?.forEach {
                 try validate($0, name:"openIdConnectProviderARNs[]", max: 2048)
                 try validate($0, name:"openIdConnectProviderARNs[]", min: 20)
@@ -688,6 +741,13 @@ extension CognitoIdentity {
             try samlProviderARNs?.forEach {
                 try validate($0, name:"samlProviderARNs[]", max: 2048)
                 try validate($0, name:"samlProviderARNs[]", min: 20)
+            }
+            try supportedLoginProviders?.forEach {
+                try validate($0.key, name:"supportedLoginProviders[key:]", max: 128)
+                try validate($0.key, name:"supportedLoginProviders[key:]", min: 1)
+                try validate($0.value, name:"supportedLoginProviders[:Value]", max: 128)
+                try validate($0.value, name:"supportedLoginProviders[:Value]", min: 1)
+                try validate($0.value, name:"supportedLoginProviders[:Value]", pattern: "[\\w.;_/-]+")
             }
         }
 
@@ -906,6 +966,15 @@ extension CognitoIdentity {
 
         public init(tags: [String: String]? = nil) {
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1208,6 +1277,16 @@ extension CognitoIdentity {
             try validate(identityPoolId, name:"identityPoolId", max: 55)
             try validate(identityPoolId, name:"identityPoolId", min: 1)
             try validate(identityPoolId, name:"identityPoolId", pattern: "[\\w-]+:[0-9a-f-]+")
+            try roleMappings?.forEach {
+                try validate($0.key, name:"roleMappings[key:]", max: 128)
+                try validate($0.key, name:"roleMappings[key:]", min: 1)
+                try $0.value.validate()
+            }
+            try roles.forEach {
+                try validate($0.key, name:"roles[key:]", pattern: "(un)?authenticated")
+                try validate($0.value, name:"roles[:Value]", max: 2048)
+                try validate($0.value, name:"roles[:Value]", min: 20)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1236,6 +1315,12 @@ extension CognitoIdentity {
         public func validate() throws {
             try validate(resourceArn, name:"resourceArn", max: 2048)
             try validate(resourceArn, name:"resourceArn", min: 20)
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:Value]", min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1322,6 +1407,12 @@ extension CognitoIdentity {
             try validate(identityId, name:"identityId", max: 55)
             try validate(identityId, name:"identityId", min: 1)
             try validate(identityId, name:"identityId", pattern: "[\\w-]+:[0-9a-f-]+")
+            try logins.forEach {
+                try validate($0.key, name:"logins[key:]", max: 128)
+                try validate($0.key, name:"logins[key:]", min: 1)
+                try validate($0.value, name:"logins[:Value]", max: 50000)
+                try validate($0.value, name:"logins[:Value]", min: 1)
+            }
             try loginsToRemove.forEach {
                 try validate($0, name:"loginsToRemove[]", max: 128)
                 try validate($0, name:"loginsToRemove[]", min: 1)

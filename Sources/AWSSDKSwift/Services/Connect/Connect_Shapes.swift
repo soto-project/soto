@@ -468,6 +468,15 @@ extension Connect {
             self.attributes = attributes
         }
 
+        public func validate() throws {
+            try attributes?.forEach {
+                try validate($0.key, name:"attributes[key:]", max: 32767)
+                try validate($0.key, name:"attributes[key:]", min: 1)
+                try validate($0.value, name:"attributes[:Value]", max: 32767)
+                try validate($0.value, name:"attributes[:Value]", min: 0)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case attributes = "Attributes"
         }
@@ -1309,6 +1318,12 @@ extension Connect {
         }
 
         public func validate() throws {
+            try attributes?.forEach {
+                try validate($0.key, name:"attributes[key:]", max: 32767)
+                try validate($0.key, name:"attributes[key:]", min: 1)
+                try validate($0.value, name:"attributes[:Value]", max: 32767)
+                try validate($0.value, name:"attributes[:Value]", min: 0)
+            }
             try validate(clientToken, name:"clientToken", max: 500)
             try validate(contactFlowId, name:"contactFlowId", max: 500)
             try validate(instanceId, name:"instanceId", max: 100)
@@ -1442,6 +1457,12 @@ extension Connect {
         }
 
         public func validate() throws {
+            try attributes.forEach {
+                try validate($0.key, name:"attributes[key:]", max: 32767)
+                try validate($0.key, name:"attributes[key:]", min: 1)
+                try validate($0.value, name:"attributes[:Value]", max: 32767)
+                try validate($0.value, name:"attributes[:Value]", min: 0)
+            }
             try validate(initialContactId, name:"initialContactId", max: 256)
             try validate(initialContactId, name:"initialContactId", min: 1)
             try validate(instanceId, name:"instanceId", max: 100)

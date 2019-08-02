@@ -457,6 +457,7 @@ extension Firehose {
 
         public func validate() throws {
             try hiveJsonSerDe?.validate()
+            try openXJsonSerDe?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1409,6 +1410,13 @@ extension Firehose {
             self.caseInsensitive = caseInsensitive
             self.columnToJsonKeyMappings = columnToJsonKeyMappings
             self.convertDotsInJsonKeysToUnderscores = convertDotsInJsonKeysToUnderscores
+        }
+
+        public func validate() throws {
+            try columnToJsonKeyMappings?.forEach {
+                try validate($0.key, name:"columnToJsonKeyMappings[key:]", pattern: "^\\S+$")
+                try validate($0.value, name:"columnToJsonKeyMappings[:Value]", pattern: "^(?!\\s*$).+")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -80,6 +80,11 @@ extension IoT1ClickProjects {
         }
 
         public func validate() throws {
+            try attributes?.forEach {
+                try validate($0.key, name:"attributes[key:]", max: 128)
+                try validate($0.key, name:"attributes[key:]", min: 1)
+                try validate($0.value, name:"attributes[:Value]", max: 800)
+            }
             try validate(placementName, name:"placementName", max: 128)
             try validate(placementName, name:"placementName", min: 1)
             try validate(placementName, name:"placementName", pattern: "^[a-zA-Z0-9_-]+$")
@@ -130,9 +135,16 @@ extension IoT1ClickProjects {
         public func validate() throws {
             try validate(description, name:"description", max: 500)
             try validate(description, name:"description", min: 0)
+            try placementTemplate?.validate()
             try validate(projectName, name:"projectName", max: 128)
             try validate(projectName, name:"projectName", min: 1)
             try validate(projectName, name:"projectName", pattern: "^[0-9A-Za-z_-]+$")
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -334,6 +346,11 @@ extension IoT1ClickProjects {
         }
 
         public func validate() throws {
+            try callbackOverrides?.forEach {
+                try validate($0.key, name:"callbackOverrides[key:]", max: 128)
+                try validate($0.key, name:"callbackOverrides[key:]", min: 1)
+                try validate($0.value, name:"callbackOverrides[:Value]", max: 200)
+            }
             try validate(deviceType, name:"deviceType", max: 128)
         }
 
@@ -431,6 +448,16 @@ extension IoT1ClickProjects {
 
         public init(devices: [String: String]) {
             self.devices = devices
+        }
+
+        public func validate() throws {
+            try devices.forEach {
+                try validate($0.key, name:"devices[key:]", max: 128)
+                try validate($0.key, name:"devices[key:]", min: 1)
+                try validate($0.key, name:"devices[key:]", pattern: "^[a-zA-Z0-9_-]+$")
+                try validate($0.value, name:"devices[:Value]", max: 32)
+                try validate($0.value, name:"devices[:Value]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -597,6 +624,15 @@ extension IoT1ClickProjects {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
         }
@@ -631,6 +667,11 @@ extension IoT1ClickProjects {
         }
 
         public func validate() throws {
+            try attributes.forEach {
+                try validate($0.key, name:"attributes[key:]", max: 128)
+                try validate($0.key, name:"attributes[key:]", min: 1)
+                try validate($0.value, name:"attributes[:Value]", max: 800)
+            }
             try validate(placementName, name:"placementName", max: 128)
             try validate(placementName, name:"placementName", min: 1)
             try validate(placementName, name:"placementName", pattern: "^[a-zA-Z0-9_-]+$")
@@ -705,6 +746,20 @@ extension IoT1ClickProjects {
             self.deviceTemplates = deviceTemplates
         }
 
+        public func validate() throws {
+            try defaultAttributes?.forEach {
+                try validate($0.key, name:"defaultAttributes[key:]", max: 128)
+                try validate($0.key, name:"defaultAttributes[key:]", min: 1)
+                try validate($0.value, name:"defaultAttributes[:Value]", max: 800)
+            }
+            try deviceTemplates?.forEach {
+                try validate($0.key, name:"deviceTemplates[key:]", max: 128)
+                try validate($0.key, name:"deviceTemplates[key:]", min: 1)
+                try validate($0.key, name:"deviceTemplates[key:]", pattern: "^[a-zA-Z0-9_-]+$")
+                try $0.value.validate()
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case defaultAttributes = "defaultAttributes"
             case deviceTemplates = "deviceTemplates"
@@ -751,9 +806,16 @@ extension IoT1ClickProjects {
             try validate(arn, name:"arn", pattern: "^arn:aws:iot1click:[A-Za-z0-9_/.-]{0,63}:\\d+:projects/[0-9A-Za-z_-]{1,128}$")
             try validate(description, name:"description", max: 500)
             try validate(description, name:"description", min: 0)
+            try placementTemplate?.validate()
             try validate(projectName, name:"projectName", max: 128)
             try validate(projectName, name:"projectName", min: 1)
             try validate(projectName, name:"projectName", pattern: "^[0-9A-Za-z_-]+$")
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -800,6 +862,12 @@ extension IoT1ClickProjects {
             try validate(projectName, name:"projectName", max: 128)
             try validate(projectName, name:"projectName", min: 1)
             try validate(projectName, name:"projectName", pattern: "^[0-9A-Za-z_-]+$")
+            try tags?.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -829,6 +897,12 @@ extension IoT1ClickProjects {
 
         public func validate() throws {
             try validate(resourceArn, name:"resourceArn", pattern: "^arn:aws:iot1click:[A-Za-z0-9_/.-]{0,63}:\\d+:projects/[0-9A-Za-z_-]{1,128}$")
+            try tags.forEach {
+                try validate($0.key, name:"tags[key:]", max: 128)
+                try validate($0.key, name:"tags[key:]", min: 1)
+                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[:Value]", max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -907,6 +981,11 @@ extension IoT1ClickProjects {
         }
 
         public func validate() throws {
+            try attributes?.forEach {
+                try validate($0.key, name:"attributes[key:]", max: 128)
+                try validate($0.key, name:"attributes[key:]", min: 1)
+                try validate($0.value, name:"attributes[:Value]", max: 800)
+            }
             try validate(placementName, name:"placementName", max: 128)
             try validate(placementName, name:"placementName", min: 1)
             try validate(placementName, name:"placementName", pattern: "^[a-zA-Z0-9_-]+$")
@@ -953,6 +1032,7 @@ extension IoT1ClickProjects {
         public func validate() throws {
             try validate(description, name:"description", max: 500)
             try validate(description, name:"description", min: 0)
+            try placementTemplate?.validate()
             try validate(projectName, name:"projectName", max: 128)
             try validate(projectName, name:"projectName", min: 1)
             try validate(projectName, name:"projectName", pattern: "^[0-9A-Za-z_-]+$")

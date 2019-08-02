@@ -2564,7 +2564,13 @@ extension MachineLearning {
         }
 
         public func validate() throws {
+            try details?.forEach {
+                try validate($0.value, name:"details[:Value]", min: 1)
+            }
             try validate(predictedLabel, name:"predictedLabel", min: 1)
+            try predictedScores?.forEach {
+                try validate($0.key, name:"predictedScores[key:]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

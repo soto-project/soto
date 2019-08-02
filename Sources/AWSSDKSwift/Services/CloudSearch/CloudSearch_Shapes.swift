@@ -1845,6 +1845,14 @@ extension CloudSearch {
             self.domainNames = domainNames
         }
 
+        public func validate() throws {
+            try domainNames?.forEach {
+                try validate($0.key, name:"domainNames[key:]", max: 28)
+                try validate($0.key, name:"domainNames[key:]", min: 3)
+                try validate($0.key, name:"domainNames[key:]", pattern: "[a-z][a-z0-9\\-]+")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case domainNames = "DomainNames"
         }

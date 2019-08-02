@@ -987,6 +987,18 @@ extension SSM {
             try validate(maxErrors, name:"maxErrors", max: 7)
             try validate(maxErrors, name:"maxErrors", min: 1)
             try validate(maxErrors, name:"maxErrors", pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
+            try outputs?.forEach {
+                try validate($0.key, name:"outputs[key:]", max: 50)
+                try validate($0.key, name:"outputs[key:]", min: 1)
+                try validate($0.value, name:"outputs[:Value]", max: 10)
+                try validate($0.value, name:"outputs[:Value]", min: 0)
+            }
+            try parameters?.forEach {
+                try validate($0.key, name:"parameters[key:]", max: 50)
+                try validate($0.key, name:"parameters[key:]", min: 1)
+                try validate($0.value, name:"parameters[:Value]", max: 10)
+                try validate($0.value, name:"parameters[:Value]", min: 0)
+            }
             try validate(parentAutomationExecutionId, name:"parentAutomationExecutionId", max: 36)
             try validate(parentAutomationExecutionId, name:"parentAutomationExecutionId", min: 36)
             try stepExecutions?.forEach {
@@ -1187,6 +1199,12 @@ extension SSM {
             try validate(maxErrors, name:"maxErrors", max: 7)
             try validate(maxErrors, name:"maxErrors", min: 1)
             try validate(maxErrors, name:"maxErrors", pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
+            try outputs?.forEach {
+                try validate($0.key, name:"outputs[key:]", max: 50)
+                try validate($0.key, name:"outputs[key:]", min: 1)
+                try validate($0.value, name:"outputs[:Value]", max: 10)
+                try validate($0.value, name:"outputs[:Value]", min: 0)
+            }
             try validate(parentAutomationExecutionId, name:"parentAutomationExecutionId", max: 36)
             try validate(parentAutomationExecutionId, name:"parentAutomationExecutionId", min: 36)
             try validate(targetMaps, name:"targetMaps", max: 300)
@@ -1858,6 +1876,12 @@ extension SSM {
             try validate(complianceType, name:"complianceType", max: 100)
             try validate(complianceType, name:"complianceType", min: 1)
             try validate(complianceType, name:"complianceType", pattern: "[A-Za-z0-9_\\-]\\w+|Custom:[a-zA-Z0-9_\\-]\\w+")
+            try details?.forEach {
+                try validate($0.key, name:"details[key:]", max: 64)
+                try validate($0.key, name:"details[key:]", min: 1)
+                try validate($0.value, name:"details[:Value]", max: 4096)
+                try validate($0.value, name:"details[:Value]", min: 0)
+            }
             try executionSummary?.validate()
             try validate(id, name:"id", max: 100)
             try validate(id, name:"id", min: 1)
@@ -1910,6 +1934,12 @@ extension SSM {
         }
 
         public func validate() throws {
+            try details?.forEach {
+                try validate($0.key, name:"details[key:]", max: 64)
+                try validate($0.key, name:"details[key:]", min: 1)
+                try validate($0.value, name:"details[:Value]", max: 4096)
+                try validate($0.value, name:"details[:Value]", min: 0)
+            }
             try validate(id, name:"id", max: 100)
             try validate(id, name:"id", min: 1)
             try validate(title, name:"title", max: 500)
@@ -2638,6 +2668,10 @@ extension SSM {
         public func validate() throws {
             try validate(description, name:"description", max: 1024)
             try validate(description, name:"description", min: 1)
+            try operationalData?.forEach {
+                try validate($0.key, name:"operationalData[key:]", max: 128)
+                try validate($0.key, name:"operationalData[key:]", min: 1)
+            }
             try validate(priority, name:"priority", max: 5)
             try validate(priority, name:"priority", min: 1)
             try validate(source, name:"source", max: 64)
@@ -6184,6 +6218,15 @@ extension SSM {
             self.failureType = failureType
         }
 
+        public func validate() throws {
+            try details?.forEach {
+                try validate($0.key, name:"details[key:]", max: 50)
+                try validate($0.key, name:"details[key:]", min: 1)
+                try validate($0.value, name:"details[:Value]", max: 10)
+                try validate($0.value, name:"details[:Value]", min: 0)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case details = "Details"
             case failureStage = "FailureStage"
@@ -6728,6 +6771,12 @@ extension SSM {
         public init(entities: [InventoryResultEntity]? = nil, nextToken: String? = nil) {
             self.entities = entities
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try entities?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7381,6 +7430,11 @@ extension SSM {
             try validate(taskArn, name:"taskArn", max: 1600)
             try validate(taskArn, name:"taskArn", min: 1)
             try taskInvocationParameters?.validate()
+            try taskParameters?.forEach {
+                try validate($0.key, name:"taskParameters[key:]", max: 255)
+                try validate($0.key, name:"taskParameters[key:]", min: 1)
+                try $0.value.validate()
+            }
             try validate(windowId, name:"windowId", max: 20)
             try validate(windowId, name:"windowId", min: 20)
             try validate(windowId, name:"windowId", pattern: "^mw-[0-9a-f]{17}$")
@@ -7510,6 +7564,12 @@ extension SSM {
         public init(entities: [OpsEntity]? = nil, nextToken: String? = nil) {
             self.entities = entities
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try entities?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8831,6 +8891,12 @@ extension SSM {
             try validate(content, name:"content", max: 10000)
             try validate(content, name:"content", min: 0)
             try validate(contentHash, name:"contentHash", max: 256)
+            try context?.forEach {
+                try validate($0.key, name:"context[key:]", max: 64)
+                try validate($0.key, name:"context[key:]", min: 1)
+                try validate($0.value, name:"context[:Value]", max: 4096)
+                try validate($0.value, name:"context[:Value]", min: 0)
+            }
             try validate(schemaVersion, name:"schemaVersion", pattern: "^([0-9]{1,6})(\\.[0-9]{1,6})$")
             try validate(typeName, name:"typeName", max: 100)
             try validate(typeName, name:"typeName", min: 1)
@@ -8934,6 +9000,12 @@ extension SSM {
         public init(data: [String: InventoryResultItem]? = nil, id: String? = nil) {
             self.data = data
             self.id = id
+        }
+
+        public func validate() throws {
+            try data?.forEach {
+                try $0.value.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9957,6 +10029,12 @@ extension SSM {
 
         public func validate() throws {
             try validate(documentVersion, name:"documentVersion", pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try parameters?.forEach {
+                try validate($0.key, name:"parameters[key:]", max: 50)
+                try validate($0.key, name:"parameters[key:]", min: 1)
+                try validate($0.value, name:"parameters[:Value]", max: 10)
+                try validate($0.value, name:"parameters[:Value]", min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10614,6 +10692,11 @@ extension SSM {
             try validate(targets, name:"targets", min: 0)
             try validate(taskArn, name:"taskArn", max: 1600)
             try validate(taskArn, name:"taskArn", min: 1)
+            try taskParameters?.forEach {
+                try validate($0.key, name:"taskParameters[key:]", max: 255)
+                try validate($0.key, name:"taskParameters[key:]", min: 1)
+                try $0.value.validate()
+            }
             try validate(windowId, name:"windowId", max: 20)
             try validate(windowId, name:"windowId", min: 20)
             try validate(windowId, name:"windowId", pattern: "^mw-[0-9a-f]{17}$")
@@ -10887,6 +10970,12 @@ extension SSM {
             try validate(typeName, name:"typeName", max: 100)
             try validate(typeName, name:"typeName", min: 1)
             try validate(typeName, name:"typeName", pattern: "^(AWS|Custom):.*$")
+            try values?.forEach {
+                try validate($0.key, name:"values[key:]", max: 32)
+                try validate($0.key, name:"values[key:]", min: 1)
+                try validate($0.value, name:"values[:Value]", max: 512)
+                try validate($0.value, name:"values[:Value]", min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10913,6 +11002,12 @@ extension SSM {
         public init(data: [String: OpsEntityItem]? = nil, id: String? = nil) {
             self.data = data
             self.id = id
+        }
+
+        public func validate() throws {
+            try data?.forEach {
+                try $0.value.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11054,6 +11149,10 @@ extension SSM {
         public func validate() throws {
             try validate(description, name:"description", max: 1024)
             try validate(description, name:"description", min: 1)
+            try operationalData?.forEach {
+                try validate($0.key, name:"operationalData[key:]", max: 128)
+                try validate($0.key, name:"operationalData[key:]", min: 1)
+            }
             try validate(opsItemId, name:"opsItemId", pattern: "^(oi)-[0-9a-f]{12}$")
             try validate(priority, name:"priority", max: 5)
             try validate(priority, name:"priority", min: 1)
@@ -11234,6 +11333,10 @@ extension SSM {
         }
 
         public func validate() throws {
+            try operationalData?.forEach {
+                try validate($0.key, name:"operationalData[key:]", max: 128)
+                try validate($0.key, name:"operationalData[key:]", min: 1)
+            }
             try validate(opsItemId, name:"opsItemId", pattern: "^(oi)-[0-9a-f]{12}$")
             try validate(priority, name:"priority", max: 5)
             try validate(priority, name:"priority", min: 1)
@@ -12660,6 +12763,11 @@ extension SSM {
             try validate(taskArn, name:"taskArn", max: 1600)
             try validate(taskArn, name:"taskArn", min: 1)
             try taskInvocationParameters?.validate()
+            try taskParameters?.forEach {
+                try validate($0.key, name:"taskParameters[key:]", max: 255)
+                try validate($0.key, name:"taskParameters[key:]", min: 1)
+                try $0.value.validate()
+            }
             try validate(windowId, name:"windowId", max: 20)
             try validate(windowId, name:"windowId", min: 20)
             try validate(windowId, name:"windowId", pattern: "^mw-[0-9a-f]{17}$")
@@ -13208,6 +13316,12 @@ extension SSM {
         public func validate() throws {
             try validate(automationExecutionId, name:"automationExecutionId", max: 36)
             try validate(automationExecutionId, name:"automationExecutionId", min: 36)
+            try payload?.forEach {
+                try validate($0.key, name:"payload[key:]", max: 50)
+                try validate($0.key, name:"payload[key:]", min: 1)
+                try validate($0.value, name:"payload[:Value]", max: 10)
+                try validate($0.value, name:"payload[:Value]", min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13722,6 +13836,12 @@ extension SSM {
             try validate(maxErrors, name:"maxErrors", max: 7)
             try validate(maxErrors, name:"maxErrors", min: 1)
             try validate(maxErrors, name:"maxErrors", pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
+            try parameters?.forEach {
+                try validate($0.key, name:"parameters[key:]", max: 50)
+                try validate($0.key, name:"parameters[key:]", min: 1)
+                try validate($0.value, name:"parameters[:Value]", max: 10)
+                try validate($0.value, name:"parameters[:Value]", min: 0)
+            }
             try targetLocations?.forEach {
                 try $0.validate()
             }
@@ -13797,6 +13917,10 @@ extension SSM {
 
         public func validate() throws {
             try validate(documentName, name:"documentName", pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try parameters?.forEach {
+                try validate($0.key, name:"parameters[key:]", max: 255)
+                try validate($0.key, name:"parameters[key:]", min: 1)
+            }
             try validate(target, name:"target", max: 50)
             try validate(target, name:"target", min: 1)
         }
@@ -13940,6 +14064,19 @@ extension SSM {
 
         public func validate() throws {
             try validate(action, name:"action", pattern: "^aws:[a-zA-Z]{3,25}$")
+            try failureDetails?.validate()
+            try outputs?.forEach {
+                try validate($0.key, name:"outputs[key:]", max: 50)
+                try validate($0.key, name:"outputs[key:]", min: 1)
+                try validate($0.value, name:"outputs[:Value]", max: 10)
+                try validate($0.value, name:"outputs[:Value]", min: 0)
+            }
+            try overriddenParameters?.forEach {
+                try validate($0.key, name:"overriddenParameters[key:]", max: 50)
+                try validate($0.key, name:"overriddenParameters[key:]", min: 1)
+                try validate($0.value, name:"overriddenParameters[:Value]", max: 10)
+                try validate($0.value, name:"overriddenParameters[:Value]", min: 0)
+            }
             try targetLocation?.validate()
             try targets?.forEach {
                 try $0.validate()
@@ -14913,6 +15050,11 @@ extension SSM {
             try validate(taskArn, name:"taskArn", max: 1600)
             try validate(taskArn, name:"taskArn", min: 1)
             try taskInvocationParameters?.validate()
+            try taskParameters?.forEach {
+                try validate($0.key, name:"taskParameters[key:]", max: 255)
+                try validate($0.key, name:"taskParameters[key:]", min: 1)
+                try $0.value.validate()
+            }
             try validate(windowId, name:"windowId", max: 20)
             try validate(windowId, name:"windowId", min: 20)
             try validate(windowId, name:"windowId", pattern: "^mw-[0-9a-f]{17}$")
@@ -15021,6 +15163,11 @@ extension SSM {
             try validate(taskArn, name:"taskArn", max: 1600)
             try validate(taskArn, name:"taskArn", min: 1)
             try taskInvocationParameters?.validate()
+            try taskParameters?.forEach {
+                try validate($0.key, name:"taskParameters[key:]", max: 255)
+                try validate($0.key, name:"taskParameters[key:]", min: 1)
+                try $0.value.validate()
+            }
             try validate(windowId, name:"windowId", max: 20)
             try validate(windowId, name:"windowId", min: 20)
             try validate(windowId, name:"windowId", pattern: "^mw-[0-9a-f]{17}$")
@@ -15128,6 +15275,10 @@ extension SSM {
         public func validate() throws {
             try validate(description, name:"description", max: 1024)
             try validate(description, name:"description", min: 1)
+            try operationalData?.forEach {
+                try validate($0.key, name:"operationalData[key:]", max: 128)
+                try validate($0.key, name:"operationalData[key:]", min: 1)
+            }
             try validate(opsItemId, name:"opsItemId", pattern: "^(oi)-[0-9a-f]{12}$")
             try validate(priority, name:"priority", max: 5)
             try validate(priority, name:"priority", min: 1)
