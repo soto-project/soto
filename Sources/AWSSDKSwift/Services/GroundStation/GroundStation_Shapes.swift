@@ -927,10 +927,6 @@ extension GroundStation {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try configData.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case configArn = "configArn"
             case configData = "configData"
@@ -980,12 +976,6 @@ extension GroundStation {
             self.dataflowEndpointGroupId = dataflowEndpointGroupId
             self.endpointsDetails = endpointsDetails
             self.tags = tags
-        }
-
-        public func validate() throws {
-            try endpointsDetails?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1121,19 +1111,6 @@ extension GroundStation {
             self.trackingConfigArn = trackingConfigArn
         }
 
-        public func validate() throws {
-            try validate(contactPostPassDurationSeconds, name:"contactPostPassDurationSeconds", max: 21600)
-            try validate(contactPostPassDurationSeconds, name:"contactPostPassDurationSeconds", min: 1)
-            try validate(contactPrePassDurationSeconds, name:"contactPrePassDurationSeconds", max: 21600)
-            try validate(contactPrePassDurationSeconds, name:"contactPrePassDurationSeconds", min: 1)
-            try dataflowEdges?.forEach {
-                try validate($0, name:"dataflowEdges[]", max: 2)
-                try validate($0, name:"dataflowEdges[]", min: 2)
-            }
-            try validate(minimumViableContactDurationSeconds, name:"minimumViableContactDurationSeconds", max: 21600)
-            try validate(minimumViableContactDurationSeconds, name:"minimumViableContactDurationSeconds", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case contactPostPassDurationSeconds = "contactPostPassDurationSeconds"
             case contactPrePassDurationSeconds = "contactPrePassDurationSeconds"
@@ -1195,14 +1172,6 @@ extension GroundStation {
             self.satelliteArn = satelliteArn
             self.satelliteId = satelliteId
             self.tags = tags
-        }
-
-        public func validate() throws {
-            try validate(noradSatelliteID, name:"noradSatelliteID", max: 99999)
-            try validate(noradSatelliteID, name:"noradSatelliteID", min: 1)
-            try validate(satelliteId, name:"satelliteId", max: 128)
-            try validate(satelliteId, name:"satelliteId", min: 1)
-            try validate(satelliteId, name:"satelliteId", pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1530,12 +1499,6 @@ extension GroundStation {
             self.satellites = satellites
         }
 
-        public func validate() throws {
-            try satellites?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case satellites = "satellites"
@@ -1692,14 +1655,6 @@ extension GroundStation {
             self.noradSatelliteID = noradSatelliteID
             self.satelliteArn = satelliteArn
             self.satelliteId = satelliteId
-        }
-
-        public func validate() throws {
-            try validate(noradSatelliteID, name:"noradSatelliteID", max: 99999)
-            try validate(noradSatelliteID, name:"noradSatelliteID", min: 1)
-            try validate(satelliteId, name:"satelliteId", max: 128)
-            try validate(satelliteId, name:"satelliteId", min: 1)
-            try validate(satelliteId, name:"satelliteId", pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {

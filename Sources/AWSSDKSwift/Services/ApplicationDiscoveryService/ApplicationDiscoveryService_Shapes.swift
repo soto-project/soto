@@ -314,15 +314,6 @@ extension ApplicationDiscoveryService {
             self.stopTime = stopTime
         }
 
-        public func validate() throws {
-            try schemaStorageConfig?.forEach {
-                try validate($0.key, name:"schemaStorageConfig[key:]", max: 252)
-                try validate($0.key, name:"schemaStorageConfig[key:]", min: 1)
-            }
-            try validate(statusDetail, name:"statusDetail", max: 255)
-            try validate(statusDetail, name:"statusDetail", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case dataSource = "dataSource"
             case exportId = "exportId"
@@ -705,12 +696,6 @@ extension ApplicationDiscoveryService {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try descriptions?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case descriptions = "descriptions"
             case nextToken = "nextToken"
@@ -868,12 +853,6 @@ extension ApplicationDiscoveryService {
         public init(nextToken: String? = nil, tasks: [ImportTask]? = nil) {
             self.nextToken = nextToken
             self.tasks = tasks
-        }
-
-        public func validate() throws {
-            try tasks?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1222,15 +1201,6 @@ extension ApplicationDiscoveryService {
             self.status = status
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 100)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 1)
-            try validate(importUrl, name:"importUrl", max: 4000)
-            try validate(importUrl, name:"importUrl", min: 1)
-            try validate(name, name:"name", max: 100)
-            try validate(name, name:"name", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case applicationImportFailure = "applicationImportFailure"
             case applicationImportSuccess = "applicationImportSuccess"
@@ -1504,13 +1474,6 @@ extension ApplicationDiscoveryService {
             self.startTime = startTime
         }
 
-        public func validate() throws {
-            try schemaStorageConfig?.forEach {
-                try validate($0.key, name:"schemaStorageConfig[key:]", max: 252)
-                try validate($0.key, name:"schemaStorageConfig[key:]", min: 1)
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case dataSource = "dataSource"
             case exportId = "exportId"
@@ -1649,10 +1612,6 @@ extension ApplicationDiscoveryService {
 
         public init(task: ImportTask? = nil) {
             self.task = task
-        }
-
-        public func validate() throws {
-            try task?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

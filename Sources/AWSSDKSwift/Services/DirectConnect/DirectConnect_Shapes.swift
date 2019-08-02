@@ -249,10 +249,6 @@ extension DirectConnect {
             self.virtualInterface = virtualInterface
         }
 
-        public func validate() throws {
-            try virtualInterface?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case virtualInterface = "virtualInterface"
         }
@@ -652,13 +648,6 @@ extension DirectConnect {
             self.vlan = vlan
         }
 
-        public func validate() throws {
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case awsDevice = "awsDevice"
             case awsDeviceV2 = "awsDeviceV2"
@@ -704,12 +693,6 @@ extension DirectConnect {
             self.connections = connections
         }
 
-        public func validate() throws {
-            try connections?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case connections = "connections"
         }
@@ -747,10 +730,6 @@ extension DirectConnect {
 
         public init(virtualInterface: VirtualInterface? = nil) {
             self.virtualInterface = virtualInterface
-        }
-
-        public func validate() throws {
-            try virtualInterface?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1135,10 +1114,6 @@ extension DirectConnect {
             self.virtualInterface = virtualInterface
         }
 
-        public func validate() throws {
-            try virtualInterface?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case virtualInterface = "virtualInterface"
         }
@@ -1186,10 +1161,6 @@ extension DirectConnect {
 
         public init(virtualInterface: VirtualInterface? = nil) {
             self.virtualInterface = virtualInterface
-        }
-
-        public func validate() throws {
-            try virtualInterface?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1866,12 +1837,6 @@ extension DirectConnect {
             self.resourceTags = resourceTags
         }
 
-        public func validate() throws {
-            try resourceTags?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case resourceTags = "resourceTags"
         }
@@ -2230,13 +2195,6 @@ extension DirectConnect {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case awsDevice = "awsDevice"
             case awsDeviceV2 = "awsDeviceV2"
@@ -2275,12 +2233,6 @@ extension DirectConnect {
 
         public init(interconnects: [Interconnect]? = nil) {
             self.interconnects = interconnects
-        }
-
-        public func validate() throws {
-            try interconnects?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2360,16 +2312,6 @@ extension DirectConnect {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try connections?.forEach {
-                try $0.validate()
-            }
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case allowsHostedConnections = "allowsHostedConnections"
             case awsDevice = "awsDevice"
@@ -2411,12 +2353,6 @@ extension DirectConnect {
 
         public init(lags: [Lag]? = nil) {
             self.lags = lags
-        }
-
-        public func validate() throws {
-            try lags?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2952,13 +2888,6 @@ extension DirectConnect {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "resourceArn"
             case tags = "tags"
@@ -3323,13 +3252,6 @@ extension DirectConnect {
             self.vlan = vlan
         }
 
-        public func validate() throws {
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case addressFamily = "addressFamily"
             case amazonAddress = "amazonAddress"
@@ -3381,12 +3303,6 @@ extension DirectConnect {
 
         public init(virtualInterfaces: [VirtualInterface]? = nil) {
             self.virtualInterfaces = virtualInterfaces
-        }
-
-        public func validate() throws {
-            try virtualInterfaces?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {

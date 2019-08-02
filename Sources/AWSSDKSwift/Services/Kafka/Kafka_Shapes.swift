@@ -263,10 +263,6 @@ extension Kafka {
             self.zookeeperConnectString = zookeeperConnectString
         }
 
-        public func validate() throws {
-            try brokerNodeGroupInfo?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case activeOperationArn = "activeOperationArn"
             case brokerNodeGroupInfo = "brokerNodeGroupInfo"
@@ -497,7 +493,8 @@ extension Kafka {
         ///             The version of Apache Kafka.
         ///          
         public let kafkaVersion: String
-        /// The number of Kafka broker nodes in the Amazon MSK cluster.
+        ///             The number of broker nodes in the cluster.
+        ///          
         public let numberOfBrokerNodes: Int32
         ///             Create tags when creating the cluster.
         ///          
@@ -742,10 +739,6 @@ extension Kafka {
 
         public init(clusterInfo: ClusterInfo? = nil) {
             self.clusterInfo = clusterInfo
-        }
-
-        public func validate() throws {
-            try clusterInfo?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1166,12 +1159,6 @@ extension Kafka {
         public init(clusterInfoList: [ClusterInfo]? = nil, nextToken: String? = nil) {
             self.clusterInfoList = clusterInfoList
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try clusterInfoList?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {

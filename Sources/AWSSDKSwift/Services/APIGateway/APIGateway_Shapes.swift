@@ -1702,10 +1702,6 @@ extension APIGateway {
             self.properties = properties
         }
 
-        public func validate() throws {
-            try location?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case id = "id"
             case location = "location"
@@ -1805,12 +1801,6 @@ extension APIGateway {
         public init(items: [DocumentationPart]? = nil, position: String? = nil) {
             self.items = items
             self.position = position
-        }
-
-        public func validate() throws {
-            try items?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2107,10 +2097,6 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
-        public func validate() throws {
-            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case defaultResponse = "defaultResponse"
             case responseParameters = "responseParameters"
@@ -2157,12 +2143,6 @@ extension APIGateway {
         public init(items: [GatewayResponse]? = nil, position: String? = nil) {
             self.items = items
             self.position = position
-        }
-
-        public func validate() throws {
-            try items?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3520,12 +3500,6 @@ extension APIGateway {
             self.uri = uri
         }
 
-        public func validate() throws {
-            try integrationResponses?.forEach {
-                try $0.value.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case cacheKeyParameters = "cacheKeyParameters"
             case cacheNamespace = "cacheNamespace"
@@ -3570,10 +3544,6 @@ extension APIGateway {
             self.responseTemplates = responseTemplates
             self.selectionPattern = selectionPattern
             self.statusCode = statusCode
-        }
-
-        public func validate() throws {
-            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3652,13 +3622,6 @@ extension APIGateway {
             self.requestValidatorId = requestValidatorId
         }
 
-        public func validate() throws {
-            try methodIntegration?.validate()
-            try methodResponses?.forEach {
-                try $0.value.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case apiKeyRequired = "apiKeyRequired"
             case authorizationScopes = "authorizationScopes"
@@ -3692,10 +3655,6 @@ extension APIGateway {
             self.responseModels = responseModels
             self.responseParameters = responseParameters
             self.statusCode = statusCode
-        }
-
-        public func validate() throws {
-            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4351,12 +4310,6 @@ extension APIGateway {
             self.resourceMethods = resourceMethods
         }
 
-        public func validate() throws {
-            try resourceMethods?.forEach {
-                try $0.value.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case id = "id"
             case parentId = "parentId"
@@ -4379,12 +4332,6 @@ extension APIGateway {
         public init(items: [Resource]? = nil, position: String? = nil) {
             self.items = items
             self.position = position
-        }
-
-        public func validate() throws {
-            try items?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {

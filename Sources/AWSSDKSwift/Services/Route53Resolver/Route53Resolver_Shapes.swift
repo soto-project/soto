@@ -45,10 +45,6 @@ extension Route53Resolver {
             self.resolverEndpoint = resolverEndpoint
         }
 
-        public func validate() throws {
-            try resolverEndpoint?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case resolverEndpoint = "ResolverEndpoint"
         }
@@ -100,10 +96,6 @@ extension Route53Resolver {
 
         public init(resolverRuleAssociation: ResolverRuleAssociation? = nil) {
             self.resolverRuleAssociation = resolverRuleAssociation
-        }
-
-        public func validate() throws {
-            try resolverRuleAssociation?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -179,10 +171,6 @@ extension Route53Resolver {
 
         public init(resolverEndpoint: ResolverEndpoint? = nil) {
             self.resolverEndpoint = resolverEndpoint
-        }
-
-        public func validate() throws {
-            try resolverEndpoint?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -264,10 +252,6 @@ extension Route53Resolver {
             self.resolverRule = resolverRule
         }
 
-        public func validate() throws {
-            try resolverRule?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case resolverRule = "ResolverRule"
         }
@@ -307,10 +291,6 @@ extension Route53Resolver {
             self.resolverEndpoint = resolverEndpoint
         }
 
-        public func validate() throws {
-            try resolverEndpoint?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case resolverEndpoint = "ResolverEndpoint"
         }
@@ -348,10 +328,6 @@ extension Route53Resolver {
 
         public init(resolverRule: ResolverRule? = nil) {
             self.resolverRule = resolverRule
-        }
-
-        public func validate() throws {
-            try resolverRule?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -399,10 +375,6 @@ extension Route53Resolver {
             self.resolverEndpoint = resolverEndpoint
         }
 
-        public func validate() throws {
-            try resolverEndpoint?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case resolverEndpoint = "ResolverEndpoint"
         }
@@ -447,10 +419,6 @@ extension Route53Resolver {
 
         public init(resolverRuleAssociation: ResolverRuleAssociation? = nil) {
             self.resolverRuleAssociation = resolverRuleAssociation
-        }
-
-        public func validate() throws {
-            try resolverRuleAssociation?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -523,10 +491,6 @@ extension Route53Resolver {
             self.resolverEndpoint = resolverEndpoint
         }
 
-        public func validate() throws {
-            try resolverEndpoint?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case resolverEndpoint = "ResolverEndpoint"
         }
@@ -564,10 +528,6 @@ extension Route53Resolver {
 
         public init(resolverRuleAssociation: ResolverRuleAssociation? = nil) {
             self.resolverRuleAssociation = resolverRuleAssociation
-        }
-
-        public func validate() throws {
-            try resolverRuleAssociation?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -609,10 +569,6 @@ extension Route53Resolver {
             self.resolverRulePolicy = resolverRulePolicy
         }
 
-        public func validate() throws {
-            try validate(resolverRulePolicy, name:"resolverRulePolicy", max: 5000)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case resolverRulePolicy = "ResolverRulePolicy"
         }
@@ -650,10 +606,6 @@ extension Route53Resolver {
 
         public init(resolverRule: ResolverRule? = nil) {
             self.resolverRule = resolverRule
-        }
-
-        public func validate() throws {
-            try resolverRule?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -724,20 +676,6 @@ extension Route53Resolver {
             self.status = status
             self.statusMessage = statusMessage
             self.subnetId = subnetId
-        }
-
-        public func validate() throws {
-            try validate(creationTime, name:"creationTime", max: 40)
-            try validate(creationTime, name:"creationTime", min: 20)
-            try validate(ip, name:"ip", max: 36)
-            try validate(ip, name:"ip", min: 7)
-            try validate(ipId, name:"ipId", max: 64)
-            try validate(ipId, name:"ipId", min: 1)
-            try validate(modificationTime, name:"modificationTime", max: 40)
-            try validate(modificationTime, name:"modificationTime", min: 20)
-            try validate(statusMessage, name:"statusMessage", max: 255)
-            try validate(subnetId, name:"subnetId", max: 32)
-            try validate(subnetId, name:"subnetId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -855,14 +793,6 @@ extension Route53Resolver {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try ipAddresses?.forEach {
-                try $0.validate()
-            }
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case ipAddresses = "IpAddresses"
             case maxResults = "MaxResults"
@@ -923,14 +853,6 @@ extension Route53Resolver {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resolverEndpoints = resolverEndpoints
-        }
-
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try resolverEndpoints?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -995,14 +917,6 @@ extension Route53Resolver {
             self.resolverRuleAssociations = resolverRuleAssociations
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try resolverRuleAssociations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -1063,14 +977,6 @@ extension Route53Resolver {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resolverRules = resolverRules
-        }
-
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try resolverRules?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1237,28 +1143,6 @@ extension Route53Resolver {
             self.statusMessage = statusMessage
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 255)
-            try validate(arn, name:"arn", min: 1)
-            try validate(creationTime, name:"creationTime", max: 40)
-            try validate(creationTime, name:"creationTime", min: 20)
-            try validate(creatorRequestId, name:"creatorRequestId", max: 255)
-            try validate(creatorRequestId, name:"creatorRequestId", min: 1)
-            try validate(hostVPCId, name:"hostVPCId", max: 64)
-            try validate(hostVPCId, name:"hostVPCId", min: 1)
-            try validate(id, name:"id", max: 64)
-            try validate(id, name:"id", min: 1)
-            try validate(modificationTime, name:"modificationTime", max: 40)
-            try validate(modificationTime, name:"modificationTime", min: 20)
-            try validate(name, name:"name", max: 64)
-            try validate(name, name:"name", pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)")
-            try securityGroupIds?.forEach {
-                try validate($0, name:"securityGroupIds[]", max: 64)
-                try validate($0, name:"securityGroupIds[]", min: 1)
-            }
-            try validate(statusMessage, name:"statusMessage", max: 255)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case creationTime = "CreationTime"
@@ -1347,28 +1231,6 @@ extension Route53Resolver {
             self.targetIps = targetIps
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 255)
-            try validate(arn, name:"arn", min: 1)
-            try validate(creatorRequestId, name:"creatorRequestId", max: 255)
-            try validate(creatorRequestId, name:"creatorRequestId", min: 1)
-            try validate(domainName, name:"domainName", max: 256)
-            try validate(domainName, name:"domainName", min: 1)
-            try validate(id, name:"id", max: 64)
-            try validate(id, name:"id", min: 1)
-            try validate(name, name:"name", max: 64)
-            try validate(name, name:"name", pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)")
-            try validate(ownerId, name:"ownerId", max: 32)
-            try validate(ownerId, name:"ownerId", min: 12)
-            try validate(resolverEndpointId, name:"resolverEndpointId", max: 64)
-            try validate(resolverEndpointId, name:"resolverEndpointId", min: 1)
-            try validate(statusMessage, name:"statusMessage", max: 255)
-            try targetIps?.forEach {
-                try $0.validate()
-            }
-            try validate(targetIps, name:"targetIps", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case creatorRequestId = "CreatorRequestId"
@@ -1415,18 +1277,6 @@ extension Route53Resolver {
             self.status = status
             self.statusMessage = statusMessage
             self.vPCId = vPCId
-        }
-
-        public func validate() throws {
-            try validate(id, name:"id", max: 64)
-            try validate(id, name:"id", min: 1)
-            try validate(name, name:"name", max: 64)
-            try validate(name, name:"name", pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)")
-            try validate(resolverRuleId, name:"resolverRuleId", max: 64)
-            try validate(resolverRuleId, name:"resolverRuleId", min: 1)
-            try validate(statusMessage, name:"statusMessage", max: 255)
-            try validate(vPCId, name:"vPCId", max: 64)
-            try validate(vPCId, name:"vPCId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1670,10 +1520,6 @@ extension Route53Resolver {
             self.resolverEndpoint = resolverEndpoint
         }
 
-        public func validate() throws {
-            try resolverEndpoint?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case resolverEndpoint = "ResolverEndpoint"
         }
@@ -1717,10 +1563,6 @@ extension Route53Resolver {
 
         public init(resolverRule: ResolverRule? = nil) {
             self.resolverRule = resolverRule
-        }
-
-        public func validate() throws {
-            try resolverRule?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

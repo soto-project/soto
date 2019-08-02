@@ -53,17 +53,6 @@ extension MarketplaceMetering {
             self.unprocessedRecords = unprocessedRecords
         }
 
-        public func validate() throws {
-            try results?.forEach {
-                try $0.validate()
-            }
-            try unprocessedRecords?.forEach {
-                try $0.validate()
-            }
-            try validate(unprocessedRecords, name:"unprocessedRecords", max: 25)
-            try validate(unprocessedRecords, name:"unprocessedRecords", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case results = "Results"
             case unprocessedRecords = "UnprocessedRecords"
@@ -183,10 +172,6 @@ extension MarketplaceMetering {
             self.signature = signature
         }
 
-        public func validate() throws {
-            try validate(signature, name:"signature", pattern: "\\S+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case publicKeyRotationTimestamp = "PublicKeyRotationTimestamp"
             case signature = "Signature"
@@ -228,13 +213,6 @@ extension MarketplaceMetering {
         public init(customerIdentifier: String? = nil, productCode: String? = nil) {
             self.customerIdentifier = customerIdentifier
             self.productCode = productCode
-        }
-
-        public func validate() throws {
-            try validate(customerIdentifier, name:"customerIdentifier", max: 255)
-            try validate(customerIdentifier, name:"customerIdentifier", min: 1)
-            try validate(productCode, name:"productCode", max: 255)
-            try validate(productCode, name:"productCode", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -302,10 +280,6 @@ extension MarketplaceMetering {
             self.meteringRecordId = meteringRecordId
             self.status = status
             self.usageRecord = usageRecord
-        }
-
-        public func validate() throws {
-            try usageRecord?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

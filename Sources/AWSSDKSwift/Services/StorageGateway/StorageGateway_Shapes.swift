@@ -89,11 +89,6 @@ extension StorageGateway {
             self.gatewayARN = gatewayARN
         }
 
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
         }
@@ -138,11 +133,6 @@ extension StorageGateway {
 
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
-        }
-
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -192,11 +182,6 @@ extension StorageGateway {
             self.resourceARN = resourceARN
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 500)
-            try validate(resourceARN, name:"resourceARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case resourceARN = "ResourceARN"
         }
@@ -241,11 +226,6 @@ extension StorageGateway {
 
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
-        }
-
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -294,11 +274,6 @@ extension StorageGateway {
             self.gatewayARN = gatewayARN
         }
 
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
         }
@@ -344,12 +319,6 @@ extension StorageGateway {
 
         public init(tapeARN: String? = nil) {
             self.tapeARN = tapeARN
-        }
-
-        public func validate() throws {
-            try validate(tapeARN, name:"tapeARN", max: 500)
-            try validate(tapeARN, name:"tapeARN", min: 50)
-            try validate(tapeARN, name:"tapeARN", pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -423,13 +392,6 @@ extension StorageGateway {
             self.volumeARN = volumeARN
         }
 
-        public func validate() throws {
-            try validate(targetARN, name:"targetARN", max: 800)
-            try validate(targetARN, name:"targetARN", min: 50)
-            try validate(volumeARN, name:"volumeARN", max: 500)
-            try validate(volumeARN, name:"volumeARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case targetARN = "TargetARN"
             case volumeARN = "VolumeARN"
@@ -495,26 +457,6 @@ extension StorageGateway {
             self.volumeUsedInBytes = volumeUsedInBytes
         }
 
-        public func validate() throws {
-            try validate(kMSKey, name:"kMSKey", max: 2048)
-            try validate(kMSKey, name:"kMSKey", min: 7)
-            try validate(sourceSnapshotId, name:"sourceSnapshotId", pattern: "\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z")
-            try validate(targetName, name:"targetName", max: 200)
-            try validate(targetName, name:"targetName", min: 1)
-            try validate(targetName, name:"targetName", pattern: "^[-\\.;a-z0-9]+$")
-            try validate(volumeARN, name:"volumeARN", max: 500)
-            try validate(volumeARN, name:"volumeARN", min: 50)
-            try validate(volumeAttachmentStatus, name:"volumeAttachmentStatus", max: 50)
-            try validate(volumeAttachmentStatus, name:"volumeAttachmentStatus", min: 3)
-            try validate(volumeId, name:"volumeId", max: 30)
-            try validate(volumeId, name:"volumeId", min: 12)
-            try volumeiSCSIAttributes?.validate()
-            try validate(volumeStatus, name:"volumeStatus", max: 50)
-            try validate(volumeStatus, name:"volumeStatus", min: 3)
-            try validate(volumeType, name:"volumeType", max: 100)
-            try validate(volumeType, name:"volumeType", min: 3)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case createdDate = "CreatedDate"
             case kMSKey = "KMSKey"
@@ -573,12 +515,6 @@ extension StorageGateway {
             self.tapeARN = tapeARN
         }
 
-        public func validate() throws {
-            try validate(tapeARN, name:"tapeARN", max: 500)
-            try validate(tapeARN, name:"tapeARN", min: 50)
-            try validate(tapeARN, name:"tapeARN", pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case tapeARN = "TapeARN"
         }
@@ -625,12 +561,6 @@ extension StorageGateway {
             self.tapeARN = tapeARN
         }
 
-        public func validate() throws {
-            try validate(tapeARN, name:"tapeARN", max: 500)
-            try validate(tapeARN, name:"tapeARN", min: 50)
-            try validate(tapeARN, name:"tapeARN", pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case tapeARN = "TapeARN"
         }
@@ -658,18 +588,6 @@ extension StorageGateway {
             self.secretToAuthenticateInitiator = secretToAuthenticateInitiator
             self.secretToAuthenticateTarget = secretToAuthenticateTarget
             self.targetARN = targetARN
-        }
-
-        public func validate() throws {
-            try validate(initiatorName, name:"initiatorName", max: 255)
-            try validate(initiatorName, name:"initiatorName", min: 1)
-            try validate(initiatorName, name:"initiatorName", pattern: "[0-9a-z:.-]+")
-            try validate(secretToAuthenticateInitiator, name:"secretToAuthenticateInitiator", max: 100)
-            try validate(secretToAuthenticateInitiator, name:"secretToAuthenticateInitiator", min: 1)
-            try validate(secretToAuthenticateTarget, name:"secretToAuthenticateTarget", max: 100)
-            try validate(secretToAuthenticateTarget, name:"secretToAuthenticateTarget", min: 1)
-            try validate(targetARN, name:"targetARN", max: 800)
-            try validate(targetARN, name:"targetARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -774,13 +692,6 @@ extension StorageGateway {
         public init(targetARN: String? = nil, volumeARN: String? = nil) {
             self.targetARN = targetARN
             self.volumeARN = volumeARN
-        }
-
-        public func validate() throws {
-            try validate(targetARN, name:"targetARN", max: 800)
-            try validate(targetARN, name:"targetARN", min: 50)
-            try validate(volumeARN, name:"volumeARN", max: 500)
-            try validate(volumeARN, name:"volumeARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -912,11 +823,6 @@ extension StorageGateway {
 
         public init(fileShareARN: String? = nil) {
             self.fileShareARN = fileShareARN
-        }
-
-        public func validate() throws {
-            try validate(fileShareARN, name:"fileShareARN", max: 500)
-            try validate(fileShareARN, name:"fileShareARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1071,11 +977,6 @@ extension StorageGateway {
             self.fileShareARN = fileShareARN
         }
 
-        public func validate() throws {
-            try validate(fileShareARN, name:"fileShareARN", max: 500)
-            try validate(fileShareARN, name:"fileShareARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case fileShareARN = "FileShareARN"
         }
@@ -1128,12 +1029,6 @@ extension StorageGateway {
             self.snapshotId = snapshotId
             self.volumeARN = volumeARN
             self.volumeRecoveryPointTime = volumeRecoveryPointTime
-        }
-
-        public func validate() throws {
-            try validate(snapshotId, name:"snapshotId", pattern: "\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z")
-            try validate(volumeARN, name:"volumeARN", max: 500)
-            try validate(volumeARN, name:"volumeARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1194,12 +1089,6 @@ extension StorageGateway {
         public init(snapshotId: String? = nil, volumeARN: String? = nil) {
             self.snapshotId = snapshotId
             self.volumeARN = volumeARN
-        }
-
-        public func validate() throws {
-            try validate(snapshotId, name:"snapshotId", pattern: "\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z")
-            try validate(volumeARN, name:"volumeARN", max: 500)
-            try validate(volumeARN, name:"volumeARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1301,13 +1190,6 @@ extension StorageGateway {
             self.volumeSizeInBytes = volumeSizeInBytes
         }
 
-        public func validate() throws {
-            try validate(targetARN, name:"targetARN", max: 800)
-            try validate(targetARN, name:"targetARN", min: 50)
-            try validate(volumeARN, name:"volumeARN", max: 500)
-            try validate(volumeARN, name:"volumeARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case targetARN = "TargetARN"
             case volumeARN = "VolumeARN"
@@ -1387,12 +1269,6 @@ extension StorageGateway {
 
         public init(tapeARN: String? = nil) {
             self.tapeARN = tapeARN
-        }
-
-        public func validate() throws {
-            try validate(tapeARN, name:"tapeARN", max: 500)
-            try validate(tapeARN, name:"tapeARN", min: 50)
-            try validate(tapeARN, name:"tapeARN", pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1488,14 +1364,6 @@ extension StorageGateway {
             self.tapeARNs = tapeARNs
         }
 
-        public func validate() throws {
-            try tapeARNs?.forEach {
-                try validate($0, name:"tapeARNs[]", max: 500)
-                try validate($0, name:"tapeARNs[]", min: 50)
-                try validate($0, name:"tapeARNs[]", pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case tapeARNs = "TapeARNs"
         }
@@ -1538,11 +1406,6 @@ extension StorageGateway {
 
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
-        }
-
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1596,14 +1459,6 @@ extension StorageGateway {
             self.targetARN = targetARN
         }
 
-        public func validate() throws {
-            try validate(initiatorName, name:"initiatorName", max: 255)
-            try validate(initiatorName, name:"initiatorName", min: 1)
-            try validate(initiatorName, name:"initiatorName", pattern: "[0-9a-z:.-]+")
-            try validate(targetARN, name:"targetARN", max: 800)
-            try validate(targetARN, name:"targetARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case initiatorName = "InitiatorName"
             case targetARN = "TargetARN"
@@ -1649,11 +1504,6 @@ extension StorageGateway {
             self.fileShareARN = fileShareARN
         }
 
-        public func validate() throws {
-            try validate(fileShareARN, name:"fileShareARN", max: 500)
-            try validate(fileShareARN, name:"fileShareARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case fileShareARN = "FileShareARN"
         }
@@ -1689,11 +1539,6 @@ extension StorageGateway {
 
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
-        }
-
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1735,11 +1580,6 @@ extension StorageGateway {
             self.volumeARN = volumeARN
         }
 
-        public func validate() throws {
-            try validate(volumeARN, name:"volumeARN", max: 500)
-            try validate(volumeARN, name:"volumeARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case volumeARN = "VolumeARN"
         }
@@ -1778,12 +1618,6 @@ extension StorageGateway {
 
         public init(tapeARN: String? = nil) {
             self.tapeARN = tapeARN
-        }
-
-        public func validate() throws {
-            try validate(tapeARN, name:"tapeARN", max: 500)
-            try validate(tapeARN, name:"tapeARN", min: 50)
-            try validate(tapeARN, name:"tapeARN", pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1833,12 +1667,6 @@ extension StorageGateway {
             self.tapeARN = tapeARN
         }
 
-        public func validate() throws {
-            try validate(tapeARN, name:"tapeARN", max: 500)
-            try validate(tapeARN, name:"tapeARN", min: 50)
-            try validate(tapeARN, name:"tapeARN", pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case tapeARN = "TapeARN"
         }
@@ -1876,11 +1704,6 @@ extension StorageGateway {
 
         public init(volumeARN: String? = nil) {
             self.volumeARN = volumeARN
-        }
-
-        public func validate() throws {
-            try validate(volumeARN, name:"volumeARN", max: 500)
-            try validate(volumeARN, name:"volumeARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1926,13 +1749,6 @@ extension StorageGateway {
             self.averageDownloadRateLimitInBitsPerSec = averageDownloadRateLimitInBitsPerSec
             self.averageUploadRateLimitInBitsPerSec = averageUploadRateLimitInBitsPerSec
             self.gatewayARN = gatewayARN
-        }
-
-        public func validate() throws {
-            try validate(averageDownloadRateLimitInBitsPerSec, name:"averageDownloadRateLimitInBitsPerSec", min: 102400)
-            try validate(averageUploadRateLimitInBitsPerSec, name:"averageUploadRateLimitInBitsPerSec", min: 51200)
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1998,15 +1814,6 @@ extension StorageGateway {
             self.gatewayARN = gatewayARN
         }
 
-        public func validate() throws {
-            try diskIds?.forEach {
-                try validate($0, name:"diskIds[]", max: 300)
-                try validate($0, name:"diskIds[]", min: 1)
-            }
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case cacheAllocatedInBytes = "CacheAllocatedInBytes"
             case cacheDirtyPercentage = "CacheDirtyPercentage"
@@ -2054,12 +1861,6 @@ extension StorageGateway {
             self.cachediSCSIVolumes = cachediSCSIVolumes
         }
 
-        public func validate() throws {
-            try cachediSCSIVolumes?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case cachediSCSIVolumes = "CachediSCSIVolumes"
         }
@@ -2097,12 +1898,6 @@ extension StorageGateway {
 
         public init(chapCredentials: [ChapInfo]? = nil) {
             self.chapCredentials = chapCredentials
-        }
-
-        public func validate() throws {
-            try chapCredentials?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2190,26 +1985,6 @@ extension StorageGateway {
             self.vPCEndpoint = vPCEndpoint
         }
 
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-            try validate(gatewayId, name:"gatewayId", max: 30)
-            try validate(gatewayId, name:"gatewayId", min: 12)
-            try validate(gatewayState, name:"gatewayState", max: 25)
-            try validate(gatewayState, name:"gatewayState", min: 2)
-            try validate(gatewayTimezone, name:"gatewayTimezone", max: 10)
-            try validate(gatewayTimezone, name:"gatewayTimezone", min: 3)
-            try validate(gatewayType, name:"gatewayType", max: 20)
-            try validate(gatewayType, name:"gatewayType", min: 2)
-            try validate(lastSoftwareUpdate, name:"lastSoftwareUpdate", max: 25)
-            try validate(lastSoftwareUpdate, name:"lastSoftwareUpdate", min: 1)
-            try validate(nextUpdateAvailabilityDate, name:"nextUpdateAvailabilityDate", max: 25)
-            try validate(nextUpdateAvailabilityDate, name:"nextUpdateAvailabilityDate", min: 1)
-            try tags?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case ec2InstanceId = "Ec2InstanceId"
             case ec2InstanceRegion = "Ec2InstanceRegion"
@@ -2279,21 +2054,6 @@ extension StorageGateway {
             self.timezone = timezone
         }
 
-        public func validate() throws {
-            try validate(dayOfMonth, name:"dayOfMonth", max: 28)
-            try validate(dayOfMonth, name:"dayOfMonth", min: 1)
-            try validate(dayOfWeek, name:"dayOfWeek", max: 6)
-            try validate(dayOfWeek, name:"dayOfWeek", min: 0)
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-            try validate(hourOfDay, name:"hourOfDay", max: 23)
-            try validate(hourOfDay, name:"hourOfDay", min: 0)
-            try validate(minuteOfHour, name:"minuteOfHour", max: 59)
-            try validate(minuteOfHour, name:"minuteOfHour", min: 0)
-            try validate(timezone, name:"timezone", max: 10)
-            try validate(timezone, name:"timezone", min: 3)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case dayOfMonth = "DayOfMonth"
             case dayOfWeek = "DayOfWeek"
@@ -2342,12 +2102,6 @@ extension StorageGateway {
             self.nFSFileShareInfoList = nFSFileShareInfoList
         }
 
-        public func validate() throws {
-            try nFSFileShareInfoList?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nFSFileShareInfoList = "NFSFileShareInfoList"
         }
@@ -2389,12 +2143,6 @@ extension StorageGateway {
 
         public init(sMBFileShareInfoList: [SMBFileShareInfo]? = nil) {
             self.sMBFileShareInfoList = sMBFileShareInfoList
-        }
-
-        public func validate() throws {
-            try sMBFileShareInfoList?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2444,14 +2192,6 @@ extension StorageGateway {
             self.gatewayARN = gatewayARN
             self.sMBGuestPasswordSet = sMBGuestPasswordSet
             self.sMBSecurityStrategy = sMBSecurityStrategy
-        }
-
-        public func validate() throws {
-            try validate(domainName, name:"domainName", max: 1024)
-            try validate(domainName, name:"domainName", min: 1)
-            try validate(domainName, name:"domainName", pattern: "^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z]{2,}$")
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2512,19 +2252,6 @@ extension StorageGateway {
             self.volumeARN = volumeARN
         }
 
-        public func validate() throws {
-            try validate(description, name:"description", max: 255)
-            try validate(description, name:"description", min: 1)
-            try validate(recurrenceInHours, name:"recurrenceInHours", max: 24)
-            try validate(recurrenceInHours, name:"recurrenceInHours", min: 1)
-            try validate(startAt, name:"startAt", max: 23)
-            try validate(startAt, name:"startAt", min: 0)
-            try validate(timezone, name:"timezone", max: 10)
-            try validate(timezone, name:"timezone", min: 3)
-            try validate(volumeARN, name:"volumeARN", max: 500)
-            try validate(volumeARN, name:"volumeARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case recurrenceInHours = "RecurrenceInHours"
@@ -2568,12 +2295,6 @@ extension StorageGateway {
 
         public init(storediSCSIVolumes: [StorediSCSIVolume]? = nil) {
             self.storediSCSIVolumes = storediSCSIVolumes
-        }
-
-        public func validate() throws {
-            try storediSCSIVolumes?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2635,14 +2356,6 @@ extension StorageGateway {
             self.tapeArchives = tapeArchives
         }
 
-        public func validate() throws {
-            try validate(marker, name:"marker", max: 1000)
-            try validate(marker, name:"marker", min: 1)
-            try tapeArchives?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case marker = "Marker"
             case tapeArchives = "TapeArchives"
@@ -2700,16 +2413,6 @@ extension StorageGateway {
             self.gatewayARN = gatewayARN
             self.marker = marker
             self.tapeRecoveryPointInfos = tapeRecoveryPointInfos
-        }
-
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-            try validate(marker, name:"marker", max: 1000)
-            try validate(marker, name:"marker", min: 1)
-            try tapeRecoveryPointInfos?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2779,14 +2482,6 @@ extension StorageGateway {
             self.tapes = tapes
         }
 
-        public func validate() throws {
-            try validate(marker, name:"marker", max: 1000)
-            try validate(marker, name:"marker", min: 1)
-            try tapes?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case marker = "Marker"
             case tapes = "Tapes"
@@ -2835,15 +2530,6 @@ extension StorageGateway {
             self.gatewayARN = gatewayARN
             self.uploadBufferAllocatedInBytes = uploadBufferAllocatedInBytes
             self.uploadBufferUsedInBytes = uploadBufferUsedInBytes
-        }
-
-        public func validate() throws {
-            try diskIds?.forEach {
-                try validate($0, name:"diskIds[]", max: 300)
-                try validate($0, name:"diskIds[]", min: 1)
-            }
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2916,16 +2602,6 @@ extension StorageGateway {
             self.vTLDevices = vTLDevices
         }
 
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-            try validate(marker, name:"marker", max: 1000)
-            try validate(marker, name:"marker", min: 1)
-            try vTLDevices?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
             case marker = "Marker"
@@ -2977,15 +2653,6 @@ extension StorageGateway {
             self.workingStorageUsedInBytes = workingStorageUsedInBytes
         }
 
-        public func validate() throws {
-            try diskIds?.forEach {
-                try validate($0, name:"diskIds[]", max: 300)
-                try validate($0, name:"diskIds[]", min: 1)
-            }
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case diskIds = "DiskIds"
             case gatewayARN = "GatewayARN"
@@ -3033,11 +2700,6 @@ extension StorageGateway {
             self.volumeARN = volumeARN
         }
 
-        public func validate() throws {
-            try validate(volumeARN, name:"volumeARN", max: 500)
-            try validate(volumeARN, name:"volumeARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case volumeARN = "VolumeARN"
         }
@@ -3065,12 +2727,6 @@ extension StorageGateway {
             self.networkInterfaceId = networkInterfaceId
             self.networkInterfacePort = networkInterfacePort
             self.targetARN = targetARN
-        }
-
-        public func validate() throws {
-            try validate(networkInterfaceId, name:"networkInterfaceId", pattern: "\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z")
-            try validate(targetARN, name:"targetARN", max: 800)
-            try validate(targetARN, name:"targetARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3114,11 +2770,6 @@ extension StorageGateway {
             self.gatewayARN = gatewayARN
         }
 
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
         }
@@ -3160,19 +2811,6 @@ extension StorageGateway {
             self.diskPath = diskPath
             self.diskSizeInBytes = diskSizeInBytes
             self.diskStatus = diskStatus
-        }
-
-        public func validate() throws {
-            try validate(diskAllocationType, name:"diskAllocationType", max: 100)
-            try validate(diskAllocationType, name:"diskAllocationType", min: 3)
-            try diskAttributeList?.forEach {
-                try validate($0, name:"diskAttributeList[]", max: 64)
-                try validate($0, name:"diskAttributeList[]", min: 1)
-            }
-            try validate(diskAttributeList, name:"diskAttributeList", max: 10)
-            try validate(diskAttributeList, name:"diskAttributeList", min: 0)
-            try validate(diskId, name:"diskId", max: 300)
-            try validate(diskId, name:"diskId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3275,17 +2913,6 @@ extension StorageGateway {
             self.gatewayARN = gatewayARN
         }
 
-        public func validate() throws {
-            try validate(fileShareARN, name:"fileShareARN", max: 500)
-            try validate(fileShareARN, name:"fileShareARN", min: 50)
-            try validate(fileShareId, name:"fileShareId", max: 30)
-            try validate(fileShareId, name:"fileShareId", min: 12)
-            try validate(fileShareStatus, name:"fileShareStatus", max: 50)
-            try validate(fileShareStatus, name:"fileShareStatus", min: 3)
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case fileShareARN = "FileShareARN"
             case fileShareId = "FileShareId"
@@ -3335,17 +2962,6 @@ extension StorageGateway {
             self.gatewayName = gatewayName
             self.gatewayOperationalState = gatewayOperationalState
             self.gatewayType = gatewayType
-        }
-
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-            try validate(gatewayId, name:"gatewayId", max: 30)
-            try validate(gatewayId, name:"gatewayId", min: 12)
-            try validate(gatewayOperationalState, name:"gatewayOperationalState", max: 25)
-            try validate(gatewayOperationalState, name:"gatewayOperationalState", min: 2)
-            try validate(gatewayType, name:"gatewayType", max: 20)
-            try validate(gatewayType, name:"gatewayType", min: 2)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3432,11 +3048,6 @@ extension StorageGateway {
             self.gatewayARN = gatewayARN
         }
 
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
         }
@@ -3497,16 +3108,6 @@ extension StorageGateway {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try fileShareInfoList?.forEach {
-                try $0.validate()
-            }
-            try validate(marker, name:"marker", max: 1000)
-            try validate(marker, name:"marker", min: 1)
-            try validate(nextMarker, name:"nextMarker", max: 1000)
-            try validate(nextMarker, name:"nextMarker", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case fileShareInfoList = "FileShareInfoList"
             case marker = "Marker"
@@ -3558,14 +3159,6 @@ extension StorageGateway {
             self.marker = marker
         }
 
-        public func validate() throws {
-            try gateways?.forEach {
-                try $0.validate()
-            }
-            try validate(marker, name:"marker", max: 1000)
-            try validate(marker, name:"marker", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case gateways = "Gateways"
             case marker = "Marker"
@@ -3606,14 +3199,6 @@ extension StorageGateway {
         public init(disks: [Disk]? = nil, gatewayARN: String? = nil) {
             self.disks = disks
             self.gatewayARN = gatewayARN
-        }
-
-        public func validate() throws {
-            try disks?.forEach {
-                try $0.validate()
-            }
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3677,16 +3262,6 @@ extension StorageGateway {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(marker, name:"marker", max: 1000)
-            try validate(marker, name:"marker", min: 1)
-            try validate(resourceARN, name:"resourceARN", max: 500)
-            try validate(resourceARN, name:"resourceARN", min: 50)
-            try tags?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case marker = "Marker"
             case resourceARN = "ResourceARN"
@@ -3746,14 +3321,6 @@ extension StorageGateway {
             self.tapeInfos = tapeInfos
         }
 
-        public func validate() throws {
-            try validate(marker, name:"marker", max: 1000)
-            try validate(marker, name:"marker", min: 1)
-            try tapeInfos?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case marker = "Marker"
             case tapeInfos = "TapeInfos"
@@ -3792,13 +3359,6 @@ extension StorageGateway {
 
         public init(initiators: [String]? = nil) {
             self.initiators = initiators
-        }
-
-        public func validate() throws {
-            try initiators?.forEach {
-                try validate($0, name:"initiators[]", max: 50)
-                try validate($0, name:"initiators[]", min: 1)
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3840,14 +3400,6 @@ extension StorageGateway {
         public init(gatewayARN: String? = nil, volumeRecoveryPointInfos: [VolumeRecoveryPointInfo]? = nil) {
             self.gatewayARN = gatewayARN
             self.volumeRecoveryPointInfos = volumeRecoveryPointInfos
-        }
-
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-            try volumeRecoveryPointInfos?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3907,16 +3459,6 @@ extension StorageGateway {
             self.gatewayARN = gatewayARN
             self.marker = marker
             self.volumeInfos = volumeInfos
-        }
-
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-            try validate(marker, name:"marker", max: 1000)
-            try validate(marker, name:"marker", min: 1)
-            try volumeInfos?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4039,36 +3581,6 @@ extension StorageGateway {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try clientList?.forEach {
-                try validate($0, name:"clientList[]", pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))?$")
-            }
-            try validate(clientList, name:"clientList", max: 100)
-            try validate(clientList, name:"clientList", min: 1)
-            try validate(defaultStorageClass, name:"defaultStorageClass", max: 20)
-            try validate(defaultStorageClass, name:"defaultStorageClass", min: 5)
-            try validate(fileShareARN, name:"fileShareARN", max: 500)
-            try validate(fileShareARN, name:"fileShareARN", min: 50)
-            try validate(fileShareId, name:"fileShareId", max: 30)
-            try validate(fileShareId, name:"fileShareId", min: 12)
-            try validate(fileShareStatus, name:"fileShareStatus", max: 50)
-            try validate(fileShareStatus, name:"fileShareStatus", min: 3)
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-            try validate(kMSKey, name:"kMSKey", max: 2048)
-            try validate(kMSKey, name:"kMSKey", min: 7)
-            try validate(locationARN, name:"locationARN", max: 310)
-            try validate(locationARN, name:"locationARN", min: 16)
-            try nFSFileShareDefaults?.validate()
-            try validate(role, name:"role", max: 2048)
-            try validate(role, name:"role", min: 20)
-            try validate(squash, name:"squash", max: 15)
-            try validate(squash, name:"squash", min: 5)
-            try tags?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case clientList = "ClientList"
             case defaultStorageClass = "DefaultStorageClass"
@@ -4153,13 +3665,6 @@ extension StorageGateway {
             self.notificationId = notificationId
         }
 
-        public func validate() throws {
-            try validate(fileShareARN, name:"fileShareARN", max: 500)
-            try validate(fileShareARN, name:"fileShareARN", min: 50)
-            try validate(notificationId, name:"notificationId", max: 2048)
-            try validate(notificationId, name:"notificationId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case fileShareARN = "FileShareARN"
             case notificationId = "NotificationId"
@@ -4229,13 +3734,6 @@ extension StorageGateway {
             self.notificationId = notificationId
         }
 
-        public func validate() throws {
-            try validate(fileShareARN, name:"fileShareARN", max: 500)
-            try validate(fileShareARN, name:"fileShareARN", min: 50)
-            try validate(notificationId, name:"notificationId", max: 2048)
-            try validate(notificationId, name:"notificationId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case fileShareARN = "FileShareARN"
             case notificationId = "NotificationId"
@@ -4286,11 +3784,6 @@ extension StorageGateway {
             self.resourceARN = resourceARN
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 500)
-            try validate(resourceARN, name:"resourceARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case resourceARN = "ResourceARN"
         }
@@ -4326,11 +3819,6 @@ extension StorageGateway {
 
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
-        }
-
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4380,12 +3868,6 @@ extension StorageGateway {
             self.tapeARN = tapeARN
         }
 
-        public func validate() throws {
-            try validate(tapeARN, name:"tapeARN", max: 500)
-            try validate(tapeARN, name:"tapeARN", min: 50)
-            try validate(tapeARN, name:"tapeARN", pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case tapeARN = "TapeARN"
         }
@@ -4430,12 +3912,6 @@ extension StorageGateway {
 
         public init(tapeARN: String? = nil) {
             self.tapeARN = tapeARN
-        }
-
-        public func validate() throws {
-            try validate(tapeARN, name:"tapeARN", max: 500)
-            try validate(tapeARN, name:"tapeARN", min: 50)
-            try validate(tapeARN, name:"tapeARN", pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4522,48 +3998,6 @@ extension StorageGateway {
             self.validUserList = validUserList
         }
 
-        public func validate() throws {
-            try adminUserList?.forEach {
-                try validate($0, name:"adminUserList[]", max: 64)
-                try validate($0, name:"adminUserList[]", min: 1)
-            }
-            try validate(adminUserList, name:"adminUserList", max: 100)
-            try validate(adminUserList, name:"adminUserList", min: 0)
-            try validate(authentication, name:"authentication", max: 15)
-            try validate(authentication, name:"authentication", min: 5)
-            try validate(defaultStorageClass, name:"defaultStorageClass", max: 20)
-            try validate(defaultStorageClass, name:"defaultStorageClass", min: 5)
-            try validate(fileShareARN, name:"fileShareARN", max: 500)
-            try validate(fileShareARN, name:"fileShareARN", min: 50)
-            try validate(fileShareId, name:"fileShareId", max: 30)
-            try validate(fileShareId, name:"fileShareId", min: 12)
-            try validate(fileShareStatus, name:"fileShareStatus", max: 50)
-            try validate(fileShareStatus, name:"fileShareStatus", min: 3)
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-            try invalidUserList?.forEach {
-                try validate($0, name:"invalidUserList[]", max: 64)
-                try validate($0, name:"invalidUserList[]", min: 1)
-            }
-            try validate(invalidUserList, name:"invalidUserList", max: 100)
-            try validate(invalidUserList, name:"invalidUserList", min: 0)
-            try validate(kMSKey, name:"kMSKey", max: 2048)
-            try validate(kMSKey, name:"kMSKey", min: 7)
-            try validate(locationARN, name:"locationARN", max: 310)
-            try validate(locationARN, name:"locationARN", min: 16)
-            try validate(role, name:"role", max: 2048)
-            try validate(role, name:"role", min: 20)
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validUserList?.forEach {
-                try validate($0, name:"validUserList[]", max: 64)
-                try validate($0, name:"validUserList[]", min: 1)
-            }
-            try validate(validUserList, name:"validUserList", max: 100)
-            try validate(validUserList, name:"validUserList", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case adminUserList = "AdminUserList"
             case authentication = "Authentication"
@@ -4635,11 +4069,6 @@ extension StorageGateway {
             self.gatewayARN = gatewayARN
         }
 
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
         }
@@ -4686,11 +4115,6 @@ extension StorageGateway {
             self.gatewayARN = gatewayARN
         }
 
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
         }
@@ -4728,11 +4152,6 @@ extension StorageGateway {
             self.gatewayARN = gatewayARN
         }
 
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
         }
@@ -4768,11 +4187,6 @@ extension StorageGateway {
 
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
-        }
-
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4867,28 +4281,6 @@ extension StorageGateway {
             self.volumeStatus = volumeStatus
             self.volumeType = volumeType
             self.volumeUsedInBytes = volumeUsedInBytes
-        }
-
-        public func validate() throws {
-            try validate(kMSKey, name:"kMSKey", max: 2048)
-            try validate(kMSKey, name:"kMSKey", min: 7)
-            try validate(sourceSnapshotId, name:"sourceSnapshotId", pattern: "\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z")
-            try validate(targetName, name:"targetName", max: 200)
-            try validate(targetName, name:"targetName", min: 1)
-            try validate(targetName, name:"targetName", pattern: "^[-\\.;a-z0-9]+$")
-            try validate(volumeARN, name:"volumeARN", max: 500)
-            try validate(volumeARN, name:"volumeARN", min: 50)
-            try validate(volumeAttachmentStatus, name:"volumeAttachmentStatus", max: 50)
-            try validate(volumeAttachmentStatus, name:"volumeAttachmentStatus", min: 3)
-            try validate(volumeDiskId, name:"volumeDiskId", max: 300)
-            try validate(volumeDiskId, name:"volumeDiskId", min: 1)
-            try validate(volumeId, name:"volumeId", max: 30)
-            try validate(volumeId, name:"volumeId", min: 12)
-            try volumeiSCSIAttributes?.validate()
-            try validate(volumeStatus, name:"volumeStatus", max: 50)
-            try validate(volumeStatus, name:"volumeStatus", min: 3)
-            try validate(volumeType, name:"volumeType", max: 100)
-            try validate(volumeType, name:"volumeType", min: 3)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4986,21 +4378,6 @@ extension StorageGateway {
             self.vTLDevice = vTLDevice
         }
 
-        public func validate() throws {
-            try validate(kMSKey, name:"kMSKey", max: 2048)
-            try validate(kMSKey, name:"kMSKey", min: 7)
-            try validate(poolId, name:"poolId", max: 100)
-            try validate(poolId, name:"poolId", min: 1)
-            try validate(tapeARN, name:"tapeARN", max: 500)
-            try validate(tapeARN, name:"tapeARN", min: 50)
-            try validate(tapeARN, name:"tapeARN", pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
-            try validate(tapeBarcode, name:"tapeBarcode", max: 16)
-            try validate(tapeBarcode, name:"tapeBarcode", min: 7)
-            try validate(tapeBarcode, name:"tapeBarcode", pattern: "^[A-Z0-9]*$")
-            try validate(vTLDevice, name:"vTLDevice", max: 500)
-            try validate(vTLDevice, name:"vTLDevice", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case kMSKey = "KMSKey"
             case poolId = "PoolId"
@@ -5062,21 +4439,6 @@ extension StorageGateway {
             self.tapeUsedInBytes = tapeUsedInBytes
         }
 
-        public func validate() throws {
-            try validate(kMSKey, name:"kMSKey", max: 2048)
-            try validate(kMSKey, name:"kMSKey", min: 7)
-            try validate(poolId, name:"poolId", max: 100)
-            try validate(poolId, name:"poolId", min: 1)
-            try validate(retrievedTo, name:"retrievedTo", max: 500)
-            try validate(retrievedTo, name:"retrievedTo", min: 50)
-            try validate(tapeARN, name:"tapeARN", max: 500)
-            try validate(tapeARN, name:"tapeARN", min: 50)
-            try validate(tapeARN, name:"tapeARN", pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
-            try validate(tapeBarcode, name:"tapeBarcode", max: 16)
-            try validate(tapeBarcode, name:"tapeBarcode", min: 7)
-            try validate(tapeBarcode, name:"tapeBarcode", pattern: "^[A-Z0-9]*$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case completionTime = "CompletionTime"
             case kMSKey = "KMSKey"
@@ -5123,19 +4485,6 @@ extension StorageGateway {
             self.tapeStatus = tapeStatus
         }
 
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-            try validate(poolId, name:"poolId", max: 100)
-            try validate(poolId, name:"poolId", min: 1)
-            try validate(tapeARN, name:"tapeARN", max: 500)
-            try validate(tapeARN, name:"tapeARN", min: 50)
-            try validate(tapeARN, name:"tapeARN", pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
-            try validate(tapeBarcode, name:"tapeBarcode", max: 16)
-            try validate(tapeBarcode, name:"tapeBarcode", min: 7)
-            try validate(tapeBarcode, name:"tapeBarcode", pattern: "^[A-Z0-9]*$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
             case poolId = "PoolId"
@@ -5168,12 +4517,6 @@ extension StorageGateway {
             self.tapeRecoveryPointTime = tapeRecoveryPointTime
             self.tapeSizeInBytes = tapeSizeInBytes
             self.tapeStatus = tapeStatus
-        }
-
-        public func validate() throws {
-            try validate(tapeARN, name:"tapeARN", max: 500)
-            try validate(tapeARN, name:"tapeARN", min: 50)
-            try validate(tapeARN, name:"tapeARN", pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5226,11 +4569,6 @@ extension StorageGateway {
 
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
-        }
-
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5298,14 +4636,6 @@ extension StorageGateway {
             self.targetARN = targetARN
         }
 
-        public func validate() throws {
-            try validate(initiatorName, name:"initiatorName", max: 255)
-            try validate(initiatorName, name:"initiatorName", min: 1)
-            try validate(initiatorName, name:"initiatorName", pattern: "[0-9a-z:.-]+")
-            try validate(targetARN, name:"targetARN", max: 800)
-            try validate(targetARN, name:"targetARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case initiatorName = "InitiatorName"
             case targetARN = "TargetARN"
@@ -5362,11 +4692,6 @@ extension StorageGateway {
             self.gatewayName = gatewayName
         }
 
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
             case gatewayName = "GatewayName"
@@ -5403,11 +4728,6 @@ extension StorageGateway {
 
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
-        }
-
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5473,11 +4793,6 @@ extension StorageGateway {
 
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
-        }
-
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5579,11 +4894,6 @@ extension StorageGateway {
 
         public init(fileShareARN: String? = nil) {
             self.fileShareARN = fileShareARN
-        }
-
-        public func validate() throws {
-            try validate(fileShareARN, name:"fileShareARN", max: 500)
-            try validate(fileShareARN, name:"fileShareARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5702,11 +5012,6 @@ extension StorageGateway {
             self.fileShareARN = fileShareARN
         }
 
-        public func validate() throws {
-            try validate(fileShareARN, name:"fileShareARN", max: 500)
-            try validate(fileShareARN, name:"fileShareARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case fileShareARN = "FileShareARN"
         }
@@ -5747,11 +5052,6 @@ extension StorageGateway {
 
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
-        }
-
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5822,11 +5122,6 @@ extension StorageGateway {
             self.volumeARN = volumeARN
         }
 
-        public func validate() throws {
-            try validate(volumeARN, name:"volumeARN", max: 500)
-            try validate(volumeARN, name:"volumeARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case volumeARN = "VolumeARN"
         }
@@ -5873,11 +5168,6 @@ extension StorageGateway {
             self.vTLDeviceARN = vTLDeviceARN
         }
 
-        public func validate() throws {
-            try validate(vTLDeviceARN, name:"vTLDeviceARN", max: 500)
-            try validate(vTLDeviceARN, name:"vTLDeviceARN", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case vTLDeviceARN = "VTLDeviceARN"
         }
@@ -5909,12 +5199,6 @@ extension StorageGateway {
             self.vTLDeviceProductIdentifier = vTLDeviceProductIdentifier
             self.vTLDeviceType = vTLDeviceType
             self.vTLDeviceVendor = vTLDeviceVendor
-        }
-
-        public func validate() throws {
-            try deviceiSCSIAttributes?.validate()
-            try validate(vTLDeviceARN, name:"vTLDeviceARN", max: 500)
-            try validate(vTLDeviceARN, name:"vTLDeviceARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5961,21 +5245,6 @@ extension StorageGateway {
             self.volumeType = volumeType
         }
 
-        public func validate() throws {
-            try validate(gatewayARN, name:"gatewayARN", max: 500)
-            try validate(gatewayARN, name:"gatewayARN", min: 50)
-            try validate(gatewayId, name:"gatewayId", max: 30)
-            try validate(gatewayId, name:"gatewayId", min: 12)
-            try validate(volumeARN, name:"volumeARN", max: 500)
-            try validate(volumeARN, name:"volumeARN", min: 50)
-            try validate(volumeAttachmentStatus, name:"volumeAttachmentStatus", max: 50)
-            try validate(volumeAttachmentStatus, name:"volumeAttachmentStatus", min: 3)
-            try validate(volumeId, name:"volumeId", max: 30)
-            try validate(volumeId, name:"volumeId", min: 12)
-            try validate(volumeType, name:"volumeType", max: 100)
-            try validate(volumeType, name:"volumeType", min: 3)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
             case gatewayId = "GatewayId"
@@ -6009,11 +5278,6 @@ extension StorageGateway {
             self.volumeRecoveryPointTime = volumeRecoveryPointTime
             self.volumeSizeInBytes = volumeSizeInBytes
             self.volumeUsageInBytes = volumeUsageInBytes
-        }
-
-        public func validate() throws {
-            try validate(volumeARN, name:"volumeARN", max: 500)
-            try validate(volumeARN, name:"volumeARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6050,13 +5314,6 @@ extension StorageGateway {
             self.networkInterfaceId = networkInterfaceId
             self.networkInterfacePort = networkInterfacePort
             self.targetARN = targetARN
-        }
-
-        public func validate() throws {
-            try validate(lunNumber, name:"lunNumber", min: 1)
-            try validate(networkInterfaceId, name:"networkInterfaceId", pattern: "\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z")
-            try validate(targetARN, name:"targetARN", max: 800)
-            try validate(targetARN, name:"targetARN", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {

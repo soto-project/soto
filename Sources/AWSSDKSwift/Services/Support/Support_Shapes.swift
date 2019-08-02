@@ -205,12 +205,6 @@ extension Support {
             self.timeCreated = timeCreated
         }
 
-        public func validate() throws {
-            try validate(ccEmailAddresses, name:"ccEmailAddresses", max: 10)
-            try validate(ccEmailAddresses, name:"ccEmailAddresses", min: 0)
-            try recentCommunications?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case caseId = "caseId"
             case categoryCode = "categoryCode"
@@ -275,11 +269,6 @@ extension Support {
             self.caseId = caseId
             self.submittedBy = submittedBy
             self.timeCreated = timeCreated
-        }
-
-        public func validate() throws {
-            try validate(body, name:"body", max: 8000)
-            try validate(body, name:"body", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -486,12 +475,6 @@ extension Support {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try cases?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case cases = "cases"
             case nextToken = "nextToken"
@@ -554,12 +537,6 @@ extension Support {
         public init(communications: [Communication]? = nil, nextToken: String? = nil) {
             self.communications = communications
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try communications?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -801,12 +778,6 @@ extension Support {
         public init(communications: [Communication]? = nil, nextToken: String? = nil) {
             self.communications = communications
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try communications?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {

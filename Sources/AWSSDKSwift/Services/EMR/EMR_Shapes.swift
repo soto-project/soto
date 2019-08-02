@@ -58,12 +58,6 @@ extension EMR {
             self.instanceFleetId = instanceFleetId
         }
 
-        public func validate() throws {
-            try validate(clusterId, name:"clusterId", max: 256)
-            try validate(clusterId, name:"clusterId", min: 0)
-            try validate(clusterId, name:"clusterId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case clusterId = "ClusterId"
             case instanceFleetId = "InstanceFleetId"
@@ -117,17 +111,6 @@ extension EMR {
             self.jobFlowId = jobFlowId
         }
 
-        public func validate() throws {
-            try instanceGroupIds?.forEach {
-                try validate($0, name:"instanceGroupIds[]", max: 256)
-                try validate($0, name:"instanceGroupIds[]", min: 0)
-                try validate($0, name:"instanceGroupIds[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            }
-            try validate(jobFlowId, name:"jobFlowId", max: 256)
-            try validate(jobFlowId, name:"jobFlowId", min: 0)
-            try validate(jobFlowId, name:"jobFlowId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case instanceGroupIds = "InstanceGroupIds"
             case jobFlowId = "JobFlowId"
@@ -175,14 +158,6 @@ extension EMR {
 
         public init(stepIds: [String]? = nil) {
             self.stepIds = stepIds
-        }
-
-        public func validate() throws {
-            try stepIds?.forEach {
-                try validate($0, name:"stepIds[]", max: 256)
-                try validate($0, name:"stepIds[]", min: 0)
-                try validate($0, name:"stepIds[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -307,12 +282,6 @@ extension EMR {
             self.status = status
         }
 
-        public func validate() throws {
-            try rules?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case constraints = "Constraints"
             case rules = "Rules"
@@ -420,10 +389,6 @@ extension EMR {
 
         public init(bootstrapActionConfig: BootstrapActionConfig? = nil) {
             self.bootstrapActionConfig = bootstrapActionConfig
-        }
-
-        public func validate() throws {
-            try bootstrapActionConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -681,20 +646,6 @@ extension EMR {
             self.tags = tags
             self.terminationProtected = terminationProtected
             self.visibleToAllUsers = visibleToAllUsers
-        }
-
-        public func validate() throws {
-            try validate(autoScalingRole, name:"autoScalingRole", max: 10280)
-            try validate(autoScalingRole, name:"autoScalingRole", min: 0)
-            try validate(autoScalingRole, name:"autoScalingRole", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(customAmiId, name:"customAmiId", max: 256)
-            try validate(customAmiId, name:"customAmiId", min: 0)
-            try validate(customAmiId, name:"customAmiId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try ec2InstanceAttributes?.validate()
-            try kerberosAttributes?.validate()
-            try validate(securityConfiguration, name:"securityConfiguration", max: 10280)
-            try validate(securityConfiguration, name:"securityConfiguration", min: 0)
-            try validate(securityConfiguration, name:"securityConfiguration", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -963,12 +914,6 @@ extension EMR {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 10280)
-            try validate(name, name:"name", min: 0)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationDateTime = "CreationDateTime"
             case name = "Name"
@@ -1035,10 +980,6 @@ extension EMR {
             self.cluster = cluster
         }
 
-        public func validate() throws {
-            try cluster?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case cluster = "Cluster"
         }
@@ -1096,12 +1037,6 @@ extension EMR {
             self.jobFlows = jobFlows
         }
 
-        public func validate() throws {
-            try jobFlows?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case jobFlows = "JobFlows"
         }
@@ -1148,12 +1083,6 @@ extension EMR {
             self.creationDateTime = creationDateTime
             self.name = name
             self.securityConfiguration = securityConfiguration
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 10280)
-            try validate(name, name:"name", min: 0)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1342,19 +1271,6 @@ extension EMR {
             self.serviceAccessSecurityGroup = serviceAccessSecurityGroup
         }
 
-        public func validate() throws {
-            try requestedEc2AvailabilityZones?.forEach {
-                try validate($0, name:"requestedEc2AvailabilityZones[]", max: 256)
-                try validate($0, name:"requestedEc2AvailabilityZones[]", min: 0)
-                try validate($0, name:"requestedEc2AvailabilityZones[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            }
-            try requestedEc2SubnetIds?.forEach {
-                try validate($0, name:"requestedEc2SubnetIds[]", max: 256)
-                try validate($0, name:"requestedEc2SubnetIds[]", min: 0)
-                try validate($0, name:"requestedEc2SubnetIds[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case additionalMasterSecurityGroups = "AdditionalMasterSecurityGroups"
             case additionalSlaveSecurityGroups = "AdditionalSlaveSecurityGroups"
@@ -1534,12 +1450,6 @@ extension EMR {
             self.status = status
         }
 
-        public func validate() throws {
-            try validate(instanceType, name:"instanceType", max: 256)
-            try validate(instanceType, name:"instanceType", min: 1)
-            try validate(instanceType, name:"instanceType", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case ebsVolumes = "EbsVolumes"
             case ec2InstanceId = "Ec2InstanceId"
@@ -1608,20 +1518,6 @@ extension EMR {
             self.status = status
             self.targetOnDemandCapacity = targetOnDemandCapacity
             self.targetSpotCapacity = targetSpotCapacity
-        }
-
-        public func validate() throws {
-            try instanceTypeSpecifications?.forEach {
-                try $0.validate()
-            }
-            try launchSpecifications?.validate()
-            try validate(name, name:"name", max: 256)
-            try validate(name, name:"name", min: 0)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(provisionedOnDemandCapacity, name:"provisionedOnDemandCapacity", min: 0)
-            try validate(provisionedSpotCapacity, name:"provisionedSpotCapacity", min: 0)
-            try validate(targetOnDemandCapacity, name:"targetOnDemandCapacity", min: 0)
-            try validate(targetSpotCapacity, name:"targetSpotCapacity", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1923,13 +1819,6 @@ extension EMR {
             self.status = status
         }
 
-        public func validate() throws {
-            try autoScalingPolicy?.validate()
-            try validate(instanceType, name:"instanceType", max: 256)
-            try validate(instanceType, name:"instanceType", min: 1)
-            try validate(instanceType, name:"instanceType", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case autoScalingPolicy = "AutoScalingPolicy"
             case bidPrice = "BidPrice"
@@ -2083,24 +1972,6 @@ extension EMR {
             self.readyDateTime = readyDateTime
             self.startDateTime = startDateTime
             self.state = state
-        }
-
-        public func validate() throws {
-            try validate(bidPrice, name:"bidPrice", max: 256)
-            try validate(bidPrice, name:"bidPrice", min: 0)
-            try validate(bidPrice, name:"bidPrice", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(instanceGroupId, name:"instanceGroupId", max: 256)
-            try validate(instanceGroupId, name:"instanceGroupId", min: 0)
-            try validate(instanceGroupId, name:"instanceGroupId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(instanceType, name:"instanceType", max: 256)
-            try validate(instanceType, name:"instanceType", min: 1)
-            try validate(instanceType, name:"instanceType", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(lastStateChangeReason, name:"lastStateChangeReason", max: 10280)
-            try validate(lastStateChangeReason, name:"lastStateChangeReason", min: 0)
-            try validate(lastStateChangeReason, name:"lastStateChangeReason", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(name, name:"name", max: 256)
-            try validate(name, name:"name", min: 0)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2487,17 +2358,6 @@ extension EMR {
             self.weightedCapacity = weightedCapacity
         }
 
-        public func validate() throws {
-            try validate(bidPrice, name:"bidPrice", max: 256)
-            try validate(bidPrice, name:"bidPrice", min: 0)
-            try validate(bidPrice, name:"bidPrice", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(bidPriceAsPercentageOfOnDemandPrice, name:"bidPriceAsPercentageOfOnDemandPrice", min: 0)
-            try validate(instanceType, name:"instanceType", max: 256)
-            try validate(instanceType, name:"instanceType", min: 1)
-            try validate(instanceType, name:"instanceType", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(weightedCapacity, name:"weightedCapacity", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bidPrice = "BidPrice"
             case bidPriceAsPercentageOfOnDemandPrice = "BidPriceAsPercentageOfOnDemandPrice"
@@ -2573,43 +2433,6 @@ extension EMR {
             self.visibleToAllUsers = visibleToAllUsers
         }
 
-        public func validate() throws {
-            try validate(amiVersion, name:"amiVersion", max: 256)
-            try validate(amiVersion, name:"amiVersion", min: 0)
-            try validate(amiVersion, name:"amiVersion", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(autoScalingRole, name:"autoScalingRole", max: 10280)
-            try validate(autoScalingRole, name:"autoScalingRole", min: 0)
-            try validate(autoScalingRole, name:"autoScalingRole", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try bootstrapActions?.forEach {
-                try $0.validate()
-            }
-            try executionStatusDetail.validate()
-            try instances.validate()
-            try validate(jobFlowId, name:"jobFlowId", max: 256)
-            try validate(jobFlowId, name:"jobFlowId", min: 0)
-            try validate(jobFlowId, name:"jobFlowId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(jobFlowRole, name:"jobFlowRole", max: 10280)
-            try validate(jobFlowRole, name:"jobFlowRole", min: 0)
-            try validate(jobFlowRole, name:"jobFlowRole", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(logUri, name:"logUri", max: 10280)
-            try validate(logUri, name:"logUri", min: 0)
-            try validate(logUri, name:"logUri", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(name, name:"name", max: 256)
-            try validate(name, name:"name", min: 0)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(serviceRole, name:"serviceRole", max: 10280)
-            try validate(serviceRole, name:"serviceRole", min: 0)
-            try validate(serviceRole, name:"serviceRole", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try steps?.forEach {
-                try $0.validate()
-            }
-            try supportedProducts?.forEach {
-                try validate($0, name:"supportedProducts[]", max: 256)
-                try validate($0, name:"supportedProducts[]", min: 0)
-                try validate($0, name:"supportedProducts[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case amiVersion = "AmiVersion"
             case autoScalingRole = "AutoScalingRole"
@@ -2670,12 +2493,6 @@ extension EMR {
             self.readyDateTime = readyDateTime
             self.startDateTime = startDateTime
             self.state = state
-        }
-
-        public func validate() throws {
-            try validate(lastStateChangeReason, name:"lastStateChangeReason", max: 10280)
-            try validate(lastStateChangeReason, name:"lastStateChangeReason", min: 0)
-            try validate(lastStateChangeReason, name:"lastStateChangeReason", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2892,34 +2709,6 @@ extension EMR {
             self.placement = placement
             self.slaveInstanceType = slaveInstanceType
             self.terminationProtected = terminationProtected
-        }
-
-        public func validate() throws {
-            try validate(ec2KeyName, name:"ec2KeyName", max: 256)
-            try validate(ec2KeyName, name:"ec2KeyName", min: 0)
-            try validate(ec2KeyName, name:"ec2KeyName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(ec2SubnetId, name:"ec2SubnetId", max: 256)
-            try validate(ec2SubnetId, name:"ec2SubnetId", min: 0)
-            try validate(ec2SubnetId, name:"ec2SubnetId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(hadoopVersion, name:"hadoopVersion", max: 256)
-            try validate(hadoopVersion, name:"hadoopVersion", min: 0)
-            try validate(hadoopVersion, name:"hadoopVersion", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try instanceGroups?.forEach {
-                try $0.validate()
-            }
-            try validate(masterInstanceId, name:"masterInstanceId", max: 10280)
-            try validate(masterInstanceId, name:"masterInstanceId", min: 0)
-            try validate(masterInstanceId, name:"masterInstanceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(masterInstanceType, name:"masterInstanceType", max: 256)
-            try validate(masterInstanceType, name:"masterInstanceType", min: 1)
-            try validate(masterInstanceType, name:"masterInstanceType", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(masterPublicDnsName, name:"masterPublicDnsName", max: 10280)
-            try validate(masterPublicDnsName, name:"masterPublicDnsName", min: 0)
-            try validate(masterPublicDnsName, name:"masterPublicDnsName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try placement?.validate()
-            try validate(slaveInstanceType, name:"slaveInstanceType", max: 256)
-            try validate(slaveInstanceType, name:"slaveInstanceType", min: 1)
-            try validate(slaveInstanceType, name:"slaveInstanceType", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3161,12 +2950,6 @@ extension EMR {
             self.marker = marker
         }
 
-        public func validate() throws {
-            try instanceFleets?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case instanceFleets = "InstanceFleets"
             case marker = "Marker"
@@ -3209,12 +2992,6 @@ extension EMR {
         public init(instanceGroups: [InstanceGroup]? = nil, marker: String? = nil) {
             self.instanceGroups = instanceGroups
             self.marker = marker
-        }
-
-        public func validate() throws {
-            try instanceGroups?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3286,12 +3063,6 @@ extension EMR {
             self.marker = marker
         }
 
-        public func validate() throws {
-            try instances?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case instances = "Instances"
             case marker = "Marker"
@@ -3329,12 +3100,6 @@ extension EMR {
         public init(marker: String? = nil, securityConfigurations: [SecurityConfigurationSummary]? = nil) {
             self.marker = marker
             self.securityConfigurations = securityConfigurations
-        }
-
-        public func validate() throws {
-            try securityConfigurations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3569,10 +3334,6 @@ extension EMR {
             self.autoScalingPolicy = autoScalingPolicy
             self.clusterId = clusterId
             self.instanceGroupId = instanceGroupId
-        }
-
-        public func validate() throws {
-            try autoScalingPolicy?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3836,12 +3597,6 @@ extension EMR {
             self.jobFlowId = jobFlowId
         }
 
-        public func validate() throws {
-            try validate(jobFlowId, name:"jobFlowId", max: 256)
-            try validate(jobFlowId, name:"jobFlowId", min: 0)
-            try validate(jobFlowId, name:"jobFlowId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case jobFlowId = "JobFlowId"
         }
@@ -4001,12 +3756,6 @@ extension EMR {
         public init(creationDateTime: TimeStamp? = nil, name: String? = nil) {
             self.creationDateTime = creationDateTime
             self.name = name
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 10280)
-            try validate(name, name:"name", min: 0)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4258,11 +4007,6 @@ extension EMR {
             self.stepConfig = stepConfig
         }
 
-        public func validate() throws {
-            try executionStatusDetail.validate()
-            try stepConfig.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case executionStatusDetail = "ExecutionStatusDetail"
             case stepConfig = "StepConfig"
@@ -4306,12 +4050,6 @@ extension EMR {
             self.lastStateChangeReason = lastStateChangeReason
             self.startDateTime = startDateTime
             self.state = state
-        }
-
-        public func validate() throws {
-            try validate(lastStateChangeReason, name:"lastStateChangeReason", max: 10280)
-            try validate(lastStateChangeReason, name:"lastStateChangeReason", min: 0)
-            try validate(lastStateChangeReason, name:"lastStateChangeReason", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {

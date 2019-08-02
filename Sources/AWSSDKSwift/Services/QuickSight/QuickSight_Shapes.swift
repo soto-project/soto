@@ -69,10 +69,6 @@ extension QuickSight {
             self.status = status
         }
 
-        public func validate() throws {
-            try groupMember?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case groupMember = "GroupMember"
             case requestId = "RequestId"
@@ -141,10 +137,6 @@ extension QuickSight {
             self.group = group
             self.requestId = requestId
             self.status = status
-        }
-
-        public func validate() throws {
-            try group?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -448,10 +440,6 @@ extension QuickSight {
             self.status = status
         }
 
-        public func validate() throws {
-            try group?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case group = "Group"
             case requestId = "RequestId"
@@ -513,10 +501,6 @@ extension QuickSight {
             self.requestId = requestId
             self.status = status
             self.user = user
-        }
-
-        public func validate() throws {
-            try user?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -638,13 +622,6 @@ extension QuickSight {
             self.principalId = principalId
         }
 
-        public func validate() throws {
-            try validate(description, name:"description", max: 512)
-            try validate(description, name:"description", min: 1)
-            try validate(groupName, name:"groupName", min: 1)
-            try validate(groupName, name:"groupName", pattern: "[\\u0020-\\u00FF]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case description = "Description"
@@ -667,12 +644,6 @@ extension QuickSight {
         public init(arn: String? = nil, memberName: String? = nil) {
             self.arn = arn
             self.memberName = memberName
-        }
-
-        public func validate() throws {
-            try validate(memberName, name:"memberName", max: 256)
-            try validate(memberName, name:"memberName", min: 1)
-            try validate(memberName, name:"memberName", pattern: "[\\u0020-\\u00FF]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -759,12 +730,6 @@ extension QuickSight {
             self.status = status
         }
 
-        public func validate() throws {
-            try groupMemberList?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case groupMemberList = "GroupMemberList"
             case nextToken = "NextToken"
@@ -836,12 +801,6 @@ extension QuickSight {
             self.nextToken = nextToken
             self.requestId = requestId
             self.status = status
-        }
-
-        public func validate() throws {
-            try groupList?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -924,12 +883,6 @@ extension QuickSight {
             self.status = status
         }
 
-        public func validate() throws {
-            try groupList?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case groupList = "GroupList"
             case nextToken = "NextToken"
@@ -1001,12 +954,6 @@ extension QuickSight {
             self.requestId = requestId
             self.status = status
             self.userList = userList
-        }
-
-        public func validate() throws {
-            try userList?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1105,10 +1052,6 @@ extension QuickSight {
             self.userInvitationUrl = userInvitationUrl
         }
 
-        public func validate() throws {
-            try user?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
             case status = "Status"
@@ -1178,10 +1121,6 @@ extension QuickSight {
             self.group = group
             self.requestId = requestId
             self.status = status
-        }
-
-        public func validate() throws {
-            try group?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1257,10 +1196,6 @@ extension QuickSight {
             self.user = user
         }
 
-        public func validate() throws {
-            try user?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
             case status = "Status"
@@ -1302,11 +1237,6 @@ extension QuickSight {
             self.principalId = principalId
             self.role = role
             self.userName = userName
-        }
-
-        public func validate() throws {
-            try validate(userName, name:"userName", min: 1)
-            try validate(userName, name:"userName", pattern: "[\\u0020-\\u00FF]+")
         }
 
         private enum CodingKeys: String, CodingKey {

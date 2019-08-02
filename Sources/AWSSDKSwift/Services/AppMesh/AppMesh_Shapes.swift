@@ -177,10 +177,6 @@ extension AppMesh {
             self.mesh = mesh
         }
 
-        public func validate() throws {
-            try mesh.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case mesh = "mesh"
         }
@@ -261,10 +257,6 @@ extension AppMesh {
             self.route = route
         }
 
-        public func validate() throws {
-            try route.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case route = "route"
         }
@@ -336,10 +328,6 @@ extension AppMesh {
 
         public init(virtualNode: VirtualNodeData) {
             self.virtualNode = virtualNode
-        }
-
-        public func validate() throws {
-            try virtualNode.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -415,10 +403,6 @@ extension AppMesh {
             self.virtualRouter = virtualRouter
         }
 
-        public func validate() throws {
-            try virtualRouter.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case virtualRouter = "virtualRouter"
         }
@@ -490,10 +474,6 @@ extension AppMesh {
             self.virtualService = virtualService
         }
 
-        public func validate() throws {
-            try virtualService.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case virtualService = "virtualService"
         }
@@ -533,10 +513,6 @@ extension AppMesh {
 
         public init(mesh: MeshData) {
             self.mesh = mesh
-        }
-
-        public func validate() throws {
-            try mesh.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -594,10 +570,6 @@ extension AppMesh {
             self.route = route
         }
 
-        public func validate() throws {
-            try route.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case route = "route"
         }
@@ -644,10 +616,6 @@ extension AppMesh {
 
         public init(virtualNode: VirtualNodeData) {
             self.virtualNode = virtualNode
-        }
-
-        public func validate() throws {
-            try virtualNode.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -698,10 +666,6 @@ extension AppMesh {
             self.virtualRouter = virtualRouter
         }
 
-        public func validate() throws {
-            try virtualRouter.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case virtualRouter = "virtualRouter"
         }
@@ -748,10 +712,6 @@ extension AppMesh {
             self.virtualService = virtualService
         }
 
-        public func validate() throws {
-            try virtualService.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case virtualService = "virtualService"
         }
@@ -791,10 +751,6 @@ extension AppMesh {
 
         public init(mesh: MeshData) {
             self.mesh = mesh
-        }
-
-        public func validate() throws {
-            try mesh.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -852,10 +808,6 @@ extension AppMesh {
             self.route = route
         }
 
-        public func validate() throws {
-            try route.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case route = "route"
         }
@@ -902,10 +854,6 @@ extension AppMesh {
 
         public init(virtualNode: VirtualNodeData) {
             self.virtualNode = virtualNode
-        }
-
-        public func validate() throws {
-            try virtualNode.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -956,10 +904,6 @@ extension AppMesh {
             self.virtualRouter = virtualRouter
         }
 
-        public func validate() throws {
-            try virtualRouter.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case virtualRouter = "virtualRouter"
         }
@@ -1004,10 +948,6 @@ extension AppMesh {
 
         public init(virtualService: VirtualServiceData) {
             self.virtualService = virtualService
-        }
-
-        public func validate() throws {
-            try virtualService.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1288,12 +1228,6 @@ extension AppMesh {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try meshes.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case meshes = "meshes"
             case nextToken = "nextToken"
@@ -1370,12 +1304,6 @@ extension AppMesh {
             self.routes = routes
         }
 
-        public func validate() throws {
-            try routes.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case routes = "routes"
@@ -1441,14 +1369,6 @@ extension AppMesh {
         public init(nextToken: String? = nil, tags: [TagRef]) {
             self.nextToken = nextToken
             self.tags = tags
-        }
-
-        public func validate() throws {
-            try tags.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1520,12 +1440,6 @@ extension AppMesh {
             self.virtualNodes = virtualNodes
         }
 
-        public func validate() throws {
-            try virtualNodes.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case virtualNodes = "virtualNodes"
@@ -1595,12 +1509,6 @@ extension AppMesh {
             self.virtualRouters = virtualRouters
         }
 
-        public func validate() throws {
-            try virtualRouters.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case virtualRouters = "virtualRouters"
@@ -1668,12 +1576,6 @@ extension AppMesh {
         public init(nextToken: String? = nil, virtualServices: [VirtualServiceRef]) {
             self.nextToken = nextToken
             self.virtualServices = virtualServices
-        }
-
-        public func validate() throws {
-            try virtualServices.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1754,11 +1656,6 @@ extension AppMesh {
             self.status = status
         }
 
-        public func validate() throws {
-            try validate(meshName, name:"meshName", max: 255)
-            try validate(meshName, name:"meshName", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case meshName = "meshName"
             case metadata = "metadata"
@@ -1781,11 +1678,6 @@ extension AppMesh {
         public init(arn: String, meshName: String) {
             self.arn = arn
             self.meshName = meshName
-        }
-
-        public func validate() throws {
-            try validate(meshName, name:"meshName", max: 255)
-            try validate(meshName, name:"meshName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1938,16 +1830,6 @@ extension AppMesh {
             self.virtualRouterName = virtualRouterName
         }
 
-        public func validate() throws {
-            try validate(meshName, name:"meshName", max: 255)
-            try validate(meshName, name:"meshName", min: 1)
-            try validate(routeName, name:"routeName", max: 255)
-            try validate(routeName, name:"routeName", min: 1)
-            try spec.validate()
-            try validate(virtualRouterName, name:"virtualRouterName", max: 255)
-            try validate(virtualRouterName, name:"virtualRouterName", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case meshName = "meshName"
             case metadata = "metadata"
@@ -1980,15 +1862,6 @@ extension AppMesh {
             self.meshName = meshName
             self.routeName = routeName
             self.virtualRouterName = virtualRouterName
-        }
-
-        public func validate() throws {
-            try validate(meshName, name:"meshName", max: 255)
-            try validate(meshName, name:"meshName", min: 1)
-            try validate(routeName, name:"routeName", max: 255)
-            try validate(routeName, name:"routeName", min: 1)
-            try validate(virtualRouterName, name:"virtualRouterName", max: 255)
-            try validate(virtualRouterName, name:"virtualRouterName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2279,10 +2152,6 @@ extension AppMesh {
             self.mesh = mesh
         }
 
-        public func validate() throws {
-            try mesh.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case mesh = "mesh"
         }
@@ -2350,10 +2219,6 @@ extension AppMesh {
             self.route = route
         }
 
-        public func validate() throws {
-            try route.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case route = "route"
         }
@@ -2412,10 +2277,6 @@ extension AppMesh {
 
         public init(virtualNode: VirtualNodeData) {
             self.virtualNode = virtualNode
-        }
-
-        public func validate() throws {
-            try virtualNode.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2478,10 +2339,6 @@ extension AppMesh {
             self.virtualRouter = virtualRouter
         }
 
-        public func validate() throws {
-            try virtualRouter.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case virtualRouter = "virtualRouter"
         }
@@ -2541,10 +2398,6 @@ extension AppMesh {
             self.virtualService = virtualService
         }
 
-        public func validate() throws {
-            try virtualService.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case virtualService = "virtualService"
         }
@@ -2578,14 +2431,6 @@ extension AppMesh {
             self.virtualNodeName = virtualNodeName
         }
 
-        public func validate() throws {
-            try validate(meshName, name:"meshName", max: 255)
-            try validate(meshName, name:"meshName", min: 1)
-            try spec.validate()
-            try validate(virtualNodeName, name:"virtualNodeName", max: 255)
-            try validate(virtualNodeName, name:"virtualNodeName", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case meshName = "meshName"
             case metadata = "metadata"
@@ -2613,13 +2458,6 @@ extension AppMesh {
             self.arn = arn
             self.meshName = meshName
             self.virtualNodeName = virtualNodeName
-        }
-
-        public func validate() throws {
-            try validate(meshName, name:"meshName", max: 255)
-            try validate(meshName, name:"meshName", min: 1)
-            try validate(virtualNodeName, name:"virtualNodeName", max: 255)
-            try validate(virtualNodeName, name:"virtualNodeName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2749,14 +2587,6 @@ extension AppMesh {
             self.virtualRouterName = virtualRouterName
         }
 
-        public func validate() throws {
-            try validate(meshName, name:"meshName", max: 255)
-            try validate(meshName, name:"meshName", min: 1)
-            try spec.validate()
-            try validate(virtualRouterName, name:"virtualRouterName", max: 255)
-            try validate(virtualRouterName, name:"virtualRouterName", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case meshName = "meshName"
             case metadata = "metadata"
@@ -2804,13 +2634,6 @@ extension AppMesh {
             self.arn = arn
             self.meshName = meshName
             self.virtualRouterName = virtualRouterName
-        }
-
-        public func validate() throws {
-            try validate(meshName, name:"meshName", max: 255)
-            try validate(meshName, name:"meshName", min: 1)
-            try validate(virtualRouterName, name:"virtualRouterName", max: 255)
-            try validate(virtualRouterName, name:"virtualRouterName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2936,12 +2759,6 @@ extension AppMesh {
             self.virtualServiceName = virtualServiceName
         }
 
-        public func validate() throws {
-            try validate(meshName, name:"meshName", max: 255)
-            try validate(meshName, name:"meshName", min: 1)
-            try spec.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case meshName = "meshName"
             case metadata = "metadata"
@@ -2996,11 +2813,6 @@ extension AppMesh {
             self.arn = arn
             self.meshName = meshName
             self.virtualServiceName = virtualServiceName
-        }
-
-        public func validate() throws {
-            try validate(meshName, name:"meshName", max: 255)
-            try validate(meshName, name:"meshName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

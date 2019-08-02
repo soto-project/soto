@@ -19,10 +19,6 @@ extension CloudSearch {
             self.status = status
         }
 
-        public func validate() throws {
-            try status.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case options = "Options"
             case status = "Status"
@@ -157,11 +153,6 @@ extension CloudSearch {
             self.status = status
         }
 
-        public func validate() throws {
-            try options.validate()
-            try status.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case options = "Options"
             case status = "Status"
@@ -181,10 +172,6 @@ extension CloudSearch {
         public init(options: Bool, status: OptionStatus) {
             self.options = options
             self.status = status
-        }
-
-        public func validate() throws {
-            try status.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -226,14 +213,6 @@ extension CloudSearch {
             self.fieldNames = fieldNames
         }
 
-        public func validate() throws {
-            try fieldNames?.forEach {
-                try validate($0, name:"fieldNames[]", max: 64)
-                try validate($0, name:"fieldNames[]", min: 1)
-                try validate($0, name:"fieldNames[]", pattern: "[a-z][a-z0-9_]*")
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case fieldNames = "FieldNames"
         }
@@ -271,10 +250,6 @@ extension CloudSearch {
 
         public init(domainStatus: DomainStatus? = nil) {
             self.domainStatus = domainStatus
-        }
-
-        public func validate() throws {
-            try domainStatus?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -412,10 +387,6 @@ extension CloudSearch {
             self.analysisScheme = analysisScheme
         }
 
-        public func validate() throws {
-            try analysisScheme.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case analysisScheme = "AnalysisScheme"
         }
@@ -457,10 +428,6 @@ extension CloudSearch {
 
         public init(expression: ExpressionStatus) {
             self.expression = expression
-        }
-
-        public func validate() throws {
-            try expression.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -507,10 +474,6 @@ extension CloudSearch {
             self.indexField = indexField
         }
 
-        public func validate() throws {
-            try indexField.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case indexField = "IndexField"
         }
@@ -552,10 +515,6 @@ extension CloudSearch {
 
         public init(suggester: SuggesterStatus) {
             self.suggester = suggester
-        }
-
-        public func validate() throws {
-            try suggester.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -605,10 +564,6 @@ extension CloudSearch {
             self.analysisScheme = analysisScheme
         }
 
-        public func validate() throws {
-            try analysisScheme.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case analysisScheme = "AnalysisScheme"
         }
@@ -646,10 +601,6 @@ extension CloudSearch {
 
         public init(domainStatus: DomainStatus? = nil) {
             self.domainStatus = domainStatus
-        }
-
-        public func validate() throws {
-            try domainStatus?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -699,10 +650,6 @@ extension CloudSearch {
             self.expression = expression
         }
 
-        public func validate() throws {
-            try expression.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case expression = "Expression"
         }
@@ -750,10 +697,6 @@ extension CloudSearch {
             self.indexField = indexField
         }
 
-        public func validate() throws {
-            try indexField.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case indexField = "IndexField"
         }
@@ -799,10 +742,6 @@ extension CloudSearch {
 
         public init(suggester: SuggesterStatus) {
             self.suggester = suggester
-        }
-
-        public func validate() throws {
-            try suggester.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -860,12 +799,6 @@ extension CloudSearch {
             self.analysisSchemes = analysisSchemes
         }
 
-        public func validate() throws {
-            try analysisSchemes.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case analysisSchemes = "AnalysisSchemes"
         }
@@ -911,10 +844,6 @@ extension CloudSearch {
             self.availabilityOptions = availabilityOptions
         }
 
-        public func validate() throws {
-            try availabilityOptions?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case availabilityOptions = "AvailabilityOptions"
         }
@@ -954,12 +883,6 @@ extension CloudSearch {
 
         public init(domainStatusList: [DomainStatus]) {
             self.domainStatusList = domainStatusList
-        }
-
-        public func validate() throws {
-            try domainStatusList.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1017,12 +940,6 @@ extension CloudSearch {
             self.expressions = expressions
         }
 
-        public func validate() throws {
-            try expressions.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case expressions = "Expressions"
         }
@@ -1078,12 +995,6 @@ extension CloudSearch {
             self.indexFields = indexFields
         }
 
-        public func validate() throws {
-            try indexFields.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case indexFields = "IndexFields"
         }
@@ -1120,10 +1031,6 @@ extension CloudSearch {
 
         public init(scalingParameters: ScalingParametersStatus) {
             self.scalingParameters = scalingParameters
-        }
-
-        public func validate() throws {
-            try scalingParameters.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1169,10 +1076,6 @@ extension CloudSearch {
 
         public init(accessPolicies: AccessPoliciesStatus) {
             self.accessPolicies = accessPolicies
-        }
-
-        public func validate() throws {
-            try accessPolicies.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1228,12 +1131,6 @@ extension CloudSearch {
 
         public init(suggesters: [SuggesterStatus]) {
             self.suggesters = suggesters
-        }
-
-        public func validate() throws {
-            try suggesters.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1328,17 +1225,6 @@ extension CloudSearch {
             self.searchInstanceType = searchInstanceType
             self.searchPartitionCount = searchPartitionCount
             self.searchService = searchService
-        }
-
-        public func validate() throws {
-            try validate(domainId, name:"domainId", max: 64)
-            try validate(domainId, name:"domainId", min: 1)
-            try validate(domainName, name:"domainName", max: 28)
-            try validate(domainName, name:"domainName", min: 3)
-            try validate(domainName, name:"domainName", pattern: "[a-z][a-z0-9\\-]+")
-            try limits?.validate()
-            try validate(searchInstanceCount, name:"searchInstanceCount", min: 1)
-            try validate(searchPartitionCount, name:"searchPartitionCount", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1490,11 +1376,6 @@ extension CloudSearch {
             self.status = status
         }
 
-        public func validate() throws {
-            try options.validate()
-            try status.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case options = "Options"
             case status = "Status"
@@ -1533,14 +1414,6 @@ extension CloudSearch {
 
         public init(fieldNames: [String]? = nil) {
             self.fieldNames = fieldNames
-        }
-
-        public func validate() throws {
-            try fieldNames?.forEach {
-                try validate($0, name:"fieldNames[]", max: 64)
-                try validate($0, name:"fieldNames[]", min: 1)
-                try validate($0, name:"fieldNames[]", pattern: "[a-z][a-z0-9_]*")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1642,11 +1515,6 @@ extension CloudSearch {
         public init(options: IndexField, status: OptionStatus) {
             self.options = options
             self.status = status
-        }
-
-        public func validate() throws {
-            try options.validate()
-            try status.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1822,11 +1690,6 @@ extension CloudSearch {
             self.maximumReplicationCount = maximumReplicationCount
         }
 
-        public func validate() throws {
-            try validate(maximumPartitionCount, name:"maximumPartitionCount", min: 1)
-            try validate(maximumReplicationCount, name:"maximumReplicationCount", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case maximumPartitionCount = "MaximumPartitionCount"
             case maximumReplicationCount = "MaximumReplicationCount"
@@ -1843,14 +1706,6 @@ extension CloudSearch {
 
         public init(domainNames: [String: String]? = nil) {
             self.domainNames = domainNames
-        }
-
-        public func validate() throws {
-            try domainNames?.forEach {
-                try validate($0.key, name:"domainNames[key:]", max: 28)
-                try validate($0.key, name:"domainNames[key:]", min: 3)
-                try validate($0.key, name:"domainNames[key:]", pattern: "[a-z][a-z0-9\\-]+")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1986,10 +1841,6 @@ extension CloudSearch {
             self.updateVersion = updateVersion
         }
 
-        public func validate() throws {
-            try validate(updateVersion, name:"updateVersion", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationDate = "CreationDate"
             case pendingDeletion = "PendingDeletion"
@@ -2055,11 +1906,6 @@ extension CloudSearch {
         public init(options: ScalingParameters, status: OptionStatus) {
             self.options = options
             self.status = status
-        }
-
-        public func validate() throws {
-            try options.validate()
-            try status.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2130,11 +1976,6 @@ extension CloudSearch {
         public init(options: Suggester, status: OptionStatus) {
             self.options = options
             self.status = status
-        }
-
-        public func validate() throws {
-            try options.validate()
-            try status.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2276,10 +2117,6 @@ extension CloudSearch {
             self.availabilityOptions = availabilityOptions
         }
 
-        public func validate() throws {
-            try availabilityOptions?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case availabilityOptions = "AvailabilityOptions"
         }
@@ -2321,10 +2158,6 @@ extension CloudSearch {
 
         public init(scalingParameters: ScalingParametersStatus) {
             self.scalingParameters = scalingParameters
-        }
-
-        public func validate() throws {
-            try scalingParameters.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2369,10 +2202,6 @@ extension CloudSearch {
 
         public init(accessPolicies: AccessPoliciesStatus) {
             self.accessPolicies = accessPolicies
-        }
-
-        public func validate() throws {
-            try accessPolicies.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

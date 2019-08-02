@@ -46,11 +46,6 @@ extension IoT1ClickDevicesService {
             self.total = total
         }
 
-        public func validate() throws {
-            try validate(claimCode, name:"claimCode", max: 40)
-            try validate(claimCode, name:"claimCode", min: 12)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case claimCode = "claimCode"
             case total = "total"

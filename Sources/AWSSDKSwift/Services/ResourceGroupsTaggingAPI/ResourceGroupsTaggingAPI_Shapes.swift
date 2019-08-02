@@ -105,14 +105,6 @@ extension ResourceGroupsTaggingAPI {
             self.resourceTagMappingList = resourceTagMappingList
         }
 
-        public func validate() throws {
-            try validate(paginationToken, name:"paginationToken", max: 2048)
-            try validate(paginationToken, name:"paginationToken", min: 0)
-            try resourceTagMappingList?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case paginationToken = "PaginationToken"
             case resourceTagMappingList = "ResourceTagMappingList"
@@ -155,15 +147,6 @@ extension ResourceGroupsTaggingAPI {
         public init(paginationToken: String? = nil, tagKeys: [String]? = nil) {
             self.paginationToken = paginationToken
             self.tagKeys = tagKeys
-        }
-
-        public func validate() throws {
-            try validate(paginationToken, name:"paginationToken", max: 2048)
-            try validate(paginationToken, name:"paginationToken", min: 0)
-            try tagKeys?.forEach {
-                try validate($0, name:"tagKeys[]", max: 128)
-                try validate($0, name:"tagKeys[]", min: 1)
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -217,15 +200,6 @@ extension ResourceGroupsTaggingAPI {
             self.tagValues = tagValues
         }
 
-        public func validate() throws {
-            try validate(paginationToken, name:"paginationToken", max: 2048)
-            try validate(paginationToken, name:"paginationToken", min: 0)
-            try tagValues?.forEach {
-                try validate($0, name:"tagValues[]", max: 256)
-                try validate($0, name:"tagValues[]", min: 0)
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case paginationToken = "PaginationToken"
             case tagValues = "TagValues"
@@ -248,14 +222,6 @@ extension ResourceGroupsTaggingAPI {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 1600)
-            try validate(resourceARN, name:"resourceARN", min: 1)
-            try tags?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case resourceARN = "ResourceARN"
             case tags = "Tags"
@@ -276,13 +242,6 @@ extension ResourceGroupsTaggingAPI {
         public init(key: String, value: String) {
             self.key = key
             self.value = value
-        }
-
-        public func validate() throws {
-            try validate(key, name:"key", max: 128)
-            try validate(key, name:"key", min: 1)
-            try validate(value, name:"value", max: 256)
-            try validate(value, name:"value", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -373,13 +332,6 @@ extension ResourceGroupsTaggingAPI {
             self.failedResourcesMap = failedResourcesMap
         }
 
-        public func validate() throws {
-            try failedResourcesMap?.forEach {
-                try validate($0.key, name:"failedResourcesMap[key:]", max: 1600)
-                try validate($0.key, name:"failedResourcesMap[key:]", min: 1)
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case failedResourcesMap = "FailedResourcesMap"
         }
@@ -432,13 +384,6 @@ extension ResourceGroupsTaggingAPI {
 
         public init(failedResourcesMap: [String: FailureInfo]? = nil) {
             self.failedResourcesMap = failedResourcesMap
-        }
-
-        public func validate() throws {
-            try failedResourcesMap?.forEach {
-                try validate($0.key, name:"failedResourcesMap[key:]", max: 1600)
-                try validate($0.key, name:"failedResourcesMap[key:]", min: 1)
-            }
         }
 
         private enum CodingKeys: String, CodingKey {

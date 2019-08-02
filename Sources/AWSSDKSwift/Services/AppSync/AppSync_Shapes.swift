@@ -265,10 +265,6 @@ extension AppSync {
             self.dataSource = dataSource
         }
 
-        public func validate() throws {
-            try dataSource?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case dataSource = "dataSource"
         }
@@ -342,10 +338,6 @@ extension AppSync {
             self.functionConfiguration = functionConfiguration
         }
 
-        public func validate() throws {
-            try functionConfiguration?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case functionConfiguration = "functionConfiguration"
         }
@@ -417,10 +409,6 @@ extension AppSync {
 
         public init(graphqlApi: GraphqlApi? = nil) {
             self.graphqlApi = graphqlApi
-        }
-
-        public func validate() throws {
-            try graphqlApi?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -502,10 +490,6 @@ extension AppSync {
             self.resolver = resolver
         }
 
-        public func validate() throws {
-            try resolver?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case resolver = "resolver"
         }
@@ -548,10 +532,6 @@ extension AppSync {
 
         public init(type: `Type`? = nil) {
             self.`type` = `type`
-        }
-
-        public func validate() throws {
-            try `type`?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -605,10 +585,6 @@ extension AppSync {
             self.relationalDatabaseConfig = relationalDatabaseConfig
             self.serviceRoleArn = serviceRoleArn
             self.`type` = `type`
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -934,15 +910,6 @@ extension AppSync {
             self.responseMappingTemplate = responseMappingTemplate
         }
 
-        public func validate() throws {
-            try validate(dataSourceName, name:"dataSourceName", pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try validate(name, name:"name", pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try validate(requestMappingTemplate, name:"requestMappingTemplate", max: 65536)
-            try validate(requestMappingTemplate, name:"requestMappingTemplate", min: 1)
-            try validate(responseMappingTemplate, name:"responseMappingTemplate", max: 65536)
-            try validate(responseMappingTemplate, name:"responseMappingTemplate", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case dataSourceName = "dataSourceName"
             case description = "description"
@@ -993,10 +960,6 @@ extension AppSync {
             self.dataSource = dataSource
         }
 
-        public func validate() throws {
-            try dataSource?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case dataSource = "dataSource"
         }
@@ -1040,10 +1003,6 @@ extension AppSync {
             self.functionConfiguration = functionConfiguration
         }
 
-        public func validate() throws {
-            try functionConfiguration?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case functionConfiguration = "functionConfiguration"
         }
@@ -1076,10 +1035,6 @@ extension AppSync {
 
         public init(graphqlApi: GraphqlApi? = nil) {
             self.graphqlApi = graphqlApi
-        }
-
-        public func validate() throws {
-            try graphqlApi?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1177,10 +1132,6 @@ extension AppSync {
             self.resolver = resolver
         }
 
-        public func validate() throws {
-            try resolver?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case resolver = "resolver"
         }
@@ -1268,10 +1219,6 @@ extension AppSync {
             self.`type` = `type`
         }
 
-        public func validate() throws {
-            try `type`?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case `type` = "type"
         }
@@ -1323,16 +1270,6 @@ extension AppSync {
             self.tags = tags
             self.uris = uris
             self.userPoolConfig = userPoolConfig
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try tags?.forEach {
-                try validate($0.key, name:"tags[key:]", max: 128)
-                try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
-                try validate($0.value, name:"tags[:Value]", max: 256)
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1437,10 +1374,6 @@ extension AppSync {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", pattern: "[\\\\S]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case apiKeys = "apiKeys"
             case nextToken = "nextToken"
@@ -1494,13 +1427,6 @@ extension AppSync {
         public init(dataSources: [DataSource]? = nil, nextToken: String? = nil) {
             self.dataSources = dataSources
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try dataSources?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", pattern: "[\\\\S]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1558,13 +1484,6 @@ extension AppSync {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try functions?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", pattern: "[\\\\S]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case functions = "functions"
             case nextToken = "nextToken"
@@ -1613,13 +1532,6 @@ extension AppSync {
         public init(graphqlApis: [GraphqlApi]? = nil, nextToken: String? = nil) {
             self.graphqlApis = graphqlApis
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try graphqlApis?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", pattern: "[\\\\S]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1682,13 +1594,6 @@ extension AppSync {
             self.resolvers = resolvers
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", pattern: "[\\\\S]+")
-            try resolvers?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case resolvers = "resolvers"
@@ -1749,13 +1654,6 @@ extension AppSync {
             self.resolvers = resolvers
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", pattern: "[\\\\S]+")
-            try resolvers?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case resolvers = "resolvers"
@@ -1795,15 +1693,6 @@ extension AppSync {
 
         public init(tags: [String: String]? = nil) {
             self.tags = tags
-        }
-
-        public func validate() throws {
-            try tags?.forEach {
-                try validate($0.key, name:"tags[key:]", max: 128)
-                try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
-                try validate($0.value, name:"tags[:Value]", max: 256)
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1863,13 +1752,6 @@ extension AppSync {
         public init(nextToken: String? = nil, types: [`Type`]? = nil) {
             self.nextToken = nextToken
             self.types = types
-        }
-
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", pattern: "[\\\\S]+")
-            try types?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2059,16 +1941,6 @@ extension AppSync {
             self.typeName = typeName
         }
 
-        public func validate() throws {
-            try validate(dataSourceName, name:"dataSourceName", pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try validate(fieldName, name:"fieldName", pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try validate(requestMappingTemplate, name:"requestMappingTemplate", max: 65536)
-            try validate(requestMappingTemplate, name:"requestMappingTemplate", min: 1)
-            try validate(responseMappingTemplate, name:"responseMappingTemplate", max: 65536)
-            try validate(responseMappingTemplate, name:"responseMappingTemplate", min: 1)
-            try validate(typeName, name:"typeName", pattern: "[_A-Za-z][_0-9A-Za-z]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case dataSourceName = "dataSourceName"
             case fieldName = "fieldName"
@@ -2204,10 +2076,6 @@ extension AppSync {
             self.description = description
             self.format = format
             self.name = name
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2395,10 +2263,6 @@ extension AppSync {
             self.dataSource = dataSource
         }
 
-        public func validate() throws {
-            try dataSource?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case dataSource = "dataSource"
         }
@@ -2478,10 +2342,6 @@ extension AppSync {
             self.functionConfiguration = functionConfiguration
         }
 
-        public func validate() throws {
-            try functionConfiguration?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case functionConfiguration = "functionConfiguration"
         }
@@ -2544,10 +2404,6 @@ extension AppSync {
 
         public init(graphqlApi: GraphqlApi? = nil) {
             self.graphqlApi = graphqlApi
-        }
-
-        public func validate() throws {
-            try graphqlApi?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2629,10 +2485,6 @@ extension AppSync {
             self.resolver = resolver
         }
 
-        public func validate() throws {
-            try resolver?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case resolver = "resolver"
         }
@@ -2684,10 +2536,6 @@ extension AppSync {
 
         public init(type: `Type`? = nil) {
             self.`type` = `type`
-        }
-
-        public func validate() throws {
-            try `type`?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -150,31 +150,6 @@ extension ACM {
             self.`type` = `type`
         }
 
-        public func validate() throws {
-            try validate(certificateArn, name:"certificateArn", max: 2048)
-            try validate(certificateArn, name:"certificateArn", min: 20)
-            try validate(certificateArn, name:"certificateArn", pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
-            try validate(certificateAuthorityArn, name:"certificateAuthorityArn", max: 2048)
-            try validate(certificateAuthorityArn, name:"certificateAuthorityArn", min: 20)
-            try validate(certificateAuthorityArn, name:"certificateAuthorityArn", pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
-            try validate(domainName, name:"domainName", max: 253)
-            try validate(domainName, name:"domainName", min: 1)
-            try validate(domainName, name:"domainName", pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
-            try domainValidationOptions?.forEach {
-                try $0.validate()
-            }
-            try validate(domainValidationOptions, name:"domainValidationOptions", max: 1000)
-            try validate(domainValidationOptions, name:"domainValidationOptions", min: 1)
-            try renewalSummary?.validate()
-            try subjectAlternativeNames?.forEach {
-                try validate($0, name:"subjectAlternativeNames[]", max: 253)
-                try validate($0, name:"subjectAlternativeNames[]", min: 1)
-                try validate($0, name:"subjectAlternativeNames[]", pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
-            }
-            try validate(subjectAlternativeNames, name:"subjectAlternativeNames", max: 100)
-            try validate(subjectAlternativeNames, name:"subjectAlternativeNames", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "CertificateArn"
             case certificateAuthorityArn = "CertificateAuthorityArn"
@@ -247,15 +222,6 @@ extension ACM {
         public init(certificateArn: String? = nil, domainName: String? = nil) {
             self.certificateArn = certificateArn
             self.domainName = domainName
-        }
-
-        public func validate() throws {
-            try validate(certificateArn, name:"certificateArn", max: 2048)
-            try validate(certificateArn, name:"certificateArn", min: 20)
-            try validate(certificateArn, name:"certificateArn", pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
-            try validate(domainName, name:"domainName", max: 253)
-            try validate(domainName, name:"domainName", min: 1)
-            try validate(domainName, name:"domainName", pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -335,10 +301,6 @@ extension ACM {
             self.certificate = certificate
         }
 
-        public func validate() throws {
-            try certificate?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case certificate = "Certificate"
         }
@@ -381,15 +343,6 @@ extension ACM {
             self.validationEmails = validationEmails
             self.validationMethod = validationMethod
             self.validationStatus = validationStatus
-        }
-
-        public func validate() throws {
-            try validate(domainName, name:"domainName", max: 253)
-            try validate(domainName, name:"domainName", min: 1)
-            try validate(domainName, name:"domainName", pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
-            try validate(validationDomain, name:"validationDomain", max: 253)
-            try validate(validationDomain, name:"validationDomain", min: 1)
-            try validate(validationDomain, name:"validationDomain", pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -481,18 +434,6 @@ extension ACM {
             self.certificate = certificate
             self.certificateChain = certificateChain
             self.privateKey = privateKey
-        }
-
-        public func validate() throws {
-            try validate(certificate, name:"certificate", max: 32768)
-            try validate(certificate, name:"certificate", min: 1)
-            try validate(certificate, name:"certificate", pattern: "-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?")
-            try validate(certificateChain, name:"certificateChain", max: 2097152)
-            try validate(certificateChain, name:"certificateChain", min: 1)
-            try validate(certificateChain, name:"certificateChain", pattern: "(-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}\\u000D?\\u000A)*-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?")
-            try validate(privateKey, name:"privateKey", max: 524288)
-            try validate(privateKey, name:"privateKey", min: 1)
-            try validate(privateKey, name:"privateKey", pattern: "-{5}BEGIN PRIVATE KEY-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END PRIVATE KEY-{5}(\\u000D?\\u000A)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -625,15 +566,6 @@ extension ACM {
             self.certificateChain = certificateChain
         }
 
-        public func validate() throws {
-            try validate(certificate, name:"certificate", max: 32768)
-            try validate(certificate, name:"certificate", min: 1)
-            try validate(certificate, name:"certificate", pattern: "-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?")
-            try validate(certificateChain, name:"certificateChain", max: 2097152)
-            try validate(certificateChain, name:"certificateChain", min: 1)
-            try validate(certificateChain, name:"certificateChain", pattern: "(-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}\\u000D?\\u000A)*-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case certificate = "Certificate"
             case certificateChain = "CertificateChain"
@@ -694,12 +626,6 @@ extension ACM {
 
         public init(certificateArn: String? = nil) {
             self.certificateArn = certificateArn
-        }
-
-        public func validate() throws {
-            try validate(certificateArn, name:"certificateArn", max: 2048)
-            try validate(certificateArn, name:"certificateArn", min: 20)
-            try validate(certificateArn, name:"certificateArn", pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -805,15 +731,6 @@ extension ACM {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try certificateSummaryList?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 320)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(nextToken, name:"nextToken", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case certificateSummaryList = "CertificateSummaryList"
             case nextToken = "NextToken"
@@ -853,14 +770,6 @@ extension ACM {
 
         public init(tags: [Tag]? = nil) {
             self.tags = tags
-        }
-
-        public func validate() throws {
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -967,14 +876,6 @@ extension ACM {
             self.updatedAt = updatedAt
         }
 
-        public func validate() throws {
-            try domainValidationOptions.forEach {
-                try $0.validate()
-            }
-            try validate(domainValidationOptions, name:"domainValidationOptions", max: 1000)
-            try validate(domainValidationOptions, name:"domainValidationOptions", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case domainValidationOptions = "DomainValidationOptions"
             case renewalStatus = "RenewalStatus"
@@ -1064,12 +965,6 @@ extension ACM {
 
         public init(certificateArn: String? = nil) {
             self.certificateArn = certificateArn
-        }
-
-        public func validate() throws {
-            try validate(certificateArn, name:"certificateArn", max: 2048)
-            try validate(certificateArn, name:"certificateArn", min: 20)
-            try validate(certificateArn, name:"certificateArn", pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {

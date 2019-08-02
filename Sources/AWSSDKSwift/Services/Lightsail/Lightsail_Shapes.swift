@@ -44,12 +44,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -100,12 +94,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -152,12 +140,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -200,12 +182,6 @@ extension Lightsail {
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
-        }
-
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -252,12 +228,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -277,11 +247,6 @@ extension Lightsail {
         public init(state: String? = nil, zoneName: String? = nil) {
             self.state = state
             self.zoneName = zoneName
-        }
-
-        public func validate() throws {
-            try validate(state, name:"state", pattern: ".*\\S.*")
-            try validate(zoneName, name:"zoneName", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -344,12 +309,6 @@ extension Lightsail {
             self.`type` = `type`
             self.version = version
             self.versionCode = versionCode
-        }
-
-        public func validate() throws {
-            try validate(blueprintId, name:"blueprintId", pattern: ".*\\S.*")
-            try validate(group, name:"group", pattern: ".*\\S.*")
-            try validate(name, name:"name", pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -426,10 +385,6 @@ extension Lightsail {
             self.transferPerMonthInGb = transferPerMonthInGb
         }
 
-        public func validate() throws {
-            try validate(bundleId, name:"bundleId", pattern: ".*\\S.*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bundleId = "bundleId"
             case cpuCount = "cpuCount"
@@ -484,10 +439,6 @@ extension Lightsail {
             self.operation = operation
         }
 
-        public func validate() throws {
-            try operation?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operation = "operation"
         }
@@ -533,15 +484,6 @@ extension Lightsail {
             self.state = state
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: ".*\\S.*")
-            try destinationInfo?.validate()
-            try validate(name, name:"name", pattern: "\\w[\\w\\-]*\\w")
-            try sourceInfo?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdAt = "createdAt"
@@ -572,11 +514,6 @@ extension Lightsail {
             self.arn = arn
             self.name = name
             self.resourceType = resourceType
-        }
-
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: ".*\\S.*")
-            try validate(name, name:"name", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -635,12 +572,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -679,12 +610,6 @@ extension Lightsail {
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
-        }
-
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -747,12 +672,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -805,12 +724,6 @@ extension Lightsail {
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
-        }
-
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -868,12 +781,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -917,10 +824,6 @@ extension Lightsail {
             self.operation = operation
         }
 
-        public func validate() throws {
-            try operation?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operation = "operation"
         }
@@ -958,10 +861,6 @@ extension Lightsail {
 
         public init(operation: Operation? = nil) {
             self.operation = operation
-        }
-
-        public func validate() throws {
-            try operation?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1011,12 +910,6 @@ extension Lightsail {
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
-        }
-
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1097,12 +990,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -1173,12 +1060,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -1232,11 +1113,6 @@ extension Lightsail {
             self.operation = operation
             self.privateKeyBase64 = privateKeyBase64
             self.publicKeyBase64 = publicKeyBase64
-        }
-
-        public func validate() throws {
-            try keyPair?.validate()
-            try operation?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1313,12 +1189,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -1376,12 +1246,6 @@ extension Lightsail {
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
-        }
-
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1462,12 +1326,6 @@ extension Lightsail {
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
-        }
-
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1558,12 +1416,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -1613,12 +1465,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -1657,12 +1503,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -1699,12 +1539,6 @@ extension Lightsail {
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
-        }
-
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1750,10 +1584,6 @@ extension Lightsail {
             self.operation = operation
         }
 
-        public func validate() throws {
-            try operation?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operation = "operation"
         }
@@ -1786,10 +1616,6 @@ extension Lightsail {
 
         public init(operation: Operation? = nil) {
             self.operation = operation
-        }
-
-        public func validate() throws {
-            try operation?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1830,12 +1656,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -1872,12 +1692,6 @@ extension Lightsail {
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
-        }
-
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1918,10 +1732,6 @@ extension Lightsail {
             self.operation = operation
         }
 
-        public func validate() throws {
-            try operation?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operation = "operation"
         }
@@ -1960,12 +1770,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -2002,12 +1806,6 @@ extension Lightsail {
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
-        }
-
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2059,12 +1857,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -2114,12 +1906,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -2158,12 +1944,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -2183,11 +1963,6 @@ extension Lightsail {
         public init(id: String? = nil, service: String? = nil) {
             self.id = id
             self.service = service
-        }
-
-        public func validate() throws {
-            try validate(id, name:"id", pattern: ".*\\S.*")
-            try validate(service, name:"service", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2227,12 +2002,6 @@ extension Lightsail {
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
-        }
-
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2281,12 +2050,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -2323,12 +2086,6 @@ extension Lightsail {
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
-        }
-
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2400,12 +2157,6 @@ extension Lightsail {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: ".*\\S.*")
-            try validate(attachedTo, name:"attachedTo", pattern: "\\w[\\w\\-]*\\w")
-            try validate(name, name:"name", pattern: "\\w[\\w\\-]*\\w")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case attachedTo = "attachedTo"
@@ -2446,10 +2197,6 @@ extension Lightsail {
             self.name = name
             self.path = path
             self.sizeInGb = sizeInGb
-        }
-
-        public func validate() throws {
-            try validate(path, name:"path", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2551,15 +2298,6 @@ extension Lightsail {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: ".*\\S.*")
-            try validate(fromDiskArn, name:"fromDiskArn", pattern: ".*\\S.*")
-            try validate(fromDiskName, name:"fromDiskName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(fromInstanceArn, name:"fromInstanceArn", pattern: ".*\\S.*")
-            try validate(fromInstanceName, name:"fromInstanceName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(name, name:"name", pattern: "\\w[\\w\\-]*\\w")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdAt = "createdAt"
@@ -2650,14 +2388,6 @@ extension Lightsail {
             self.resourceType = resourceType
             self.supportCode = supportCode
             self.tags = tags
-        }
-
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: ".*\\S.*")
-            try domainEntries?.forEach {
-                try $0.validate()
-            }
-            try validate(name, name:"name", pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2783,13 +2513,6 @@ extension Lightsail {
             self.state = state
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: ".*\\S.*")
-            try destinationInfo?.validate()
-            try validate(name, name:"name", pattern: "\\w[\\w\\-]*\\w")
-            try sourceInfo?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdAt = "createdAt"
@@ -2842,14 +2565,6 @@ extension Lightsail {
             self.resourceType = resourceType
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: ".*\\S.*")
-            try validate(fromResourceArn, name:"fromResourceArn", pattern: ".*\\S.*")
-            try validate(fromResourceName, name:"fromResourceName", pattern: ".*\\S.*")
-            try instanceSnapshotInfo?.validate()
-            try validate(name, name:"name", pattern: ".*\\S.*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdAt = "createdAt"
@@ -2899,12 +2614,6 @@ extension Lightsail {
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
-        }
-
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2989,12 +2698,6 @@ extension Lightsail {
             self.nextPageToken = nextPageToken
         }
 
-        public func validate() throws {
-            try blueprints?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case blueprints = "blueprints"
             case nextPageToken = "nextPageToken"
@@ -3039,12 +2742,6 @@ extension Lightsail {
             self.nextPageToken = nextPageToken
         }
 
-        public func validate() throws {
-            try bundles?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bundles = "bundles"
             case nextPageToken = "nextPageToken"
@@ -3082,12 +2779,6 @@ extension Lightsail {
         public init(cloudFormationStackRecords: [CloudFormationStackRecord]? = nil, nextPageToken: String? = nil) {
             self.cloudFormationStackRecords = cloudFormationStackRecords
             self.nextPageToken = nextPageToken
-        }
-
-        public func validate() throws {
-            try cloudFormationStackRecords?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3129,10 +2820,6 @@ extension Lightsail {
             self.disk = disk
         }
 
-        public func validate() throws {
-            try disk?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case disk = "disk"
         }
@@ -3171,10 +2858,6 @@ extension Lightsail {
             self.diskSnapshot = diskSnapshot
         }
 
-        public func validate() throws {
-            try diskSnapshot?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case diskSnapshot = "diskSnapshot"
         }
@@ -3211,12 +2894,6 @@ extension Lightsail {
         public init(diskSnapshots: [DiskSnapshot]? = nil, nextPageToken: String? = nil) {
             self.diskSnapshots = diskSnapshots
             self.nextPageToken = nextPageToken
-        }
-
-        public func validate() throws {
-            try diskSnapshots?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3258,12 +2935,6 @@ extension Lightsail {
             self.nextPageToken = nextPageToken
         }
 
-        public func validate() throws {
-            try disks?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case disks = "disks"
             case nextPageToken = "nextPageToken"
@@ -3297,10 +2968,6 @@ extension Lightsail {
 
         public init(domain: Domain? = nil) {
             self.domain = domain
-        }
-
-        public func validate() throws {
-            try domain?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3341,12 +3008,6 @@ extension Lightsail {
             self.nextPageToken = nextPageToken
         }
 
-        public func validate() throws {
-            try domains?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case domains = "domains"
             case nextPageToken = "nextPageToken"
@@ -3384,12 +3045,6 @@ extension Lightsail {
         public init(exportSnapshotRecords: [ExportSnapshotRecord]? = nil, nextPageToken: String? = nil) {
             self.exportSnapshotRecords = exportSnapshotRecords
             self.nextPageToken = nextPageToken
-        }
-
-        public func validate() throws {
-            try exportSnapshotRecords?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3434,10 +3089,6 @@ extension Lightsail {
 
         public init(accessDetails: InstanceAccessDetails? = nil) {
             self.accessDetails = accessDetails
-        }
-
-        public func validate() throws {
-            try accessDetails?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3553,12 +3204,6 @@ extension Lightsail {
             self.portStates = portStates
         }
 
-        public func validate() throws {
-            try portStates?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case portStates = "portStates"
         }
@@ -3595,10 +3240,6 @@ extension Lightsail {
 
         public init(instance: Instance? = nil) {
             self.instance = instance
-        }
-
-        public func validate() throws {
-            try instance?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3639,10 +3280,6 @@ extension Lightsail {
             self.instanceSnapshot = instanceSnapshot
         }
 
-        public func validate() throws {
-            try instanceSnapshot?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case instanceSnapshot = "instanceSnapshot"
         }
@@ -3679,12 +3316,6 @@ extension Lightsail {
         public init(instanceSnapshots: [InstanceSnapshot]? = nil, nextPageToken: String? = nil) {
             self.instanceSnapshots = instanceSnapshots
             self.nextPageToken = nextPageToken
-        }
-
-        public func validate() throws {
-            try instanceSnapshots?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3764,12 +3395,6 @@ extension Lightsail {
             self.nextPageToken = nextPageToken
         }
 
-        public func validate() throws {
-            try instances?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case instances = "instances"
             case nextPageToken = "nextPageToken"
@@ -3809,10 +3434,6 @@ extension Lightsail {
             self.keyPair = keyPair
         }
 
-        public func validate() throws {
-            try keyPair?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case keyPair = "keyPair"
         }
@@ -3849,12 +3470,6 @@ extension Lightsail {
         public init(keyPairs: [KeyPair]? = nil, nextPageToken: String? = nil) {
             self.keyPairs = keyPairs
             self.nextPageToken = nextPageToken
-        }
-
-        public func validate() throws {
-            try keyPairs?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3971,10 +3586,6 @@ extension Lightsail {
             self.loadBalancer = loadBalancer
         }
 
-        public func validate() throws {
-            try loadBalancer?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case loadBalancer = "loadBalancer"
         }
@@ -4011,12 +3622,6 @@ extension Lightsail {
 
         public init(tlsCertificates: [LoadBalancerTlsCertificate]? = nil) {
             self.tlsCertificates = tlsCertificates
-        }
-
-        public func validate() throws {
-            try tlsCertificates?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4057,12 +3662,6 @@ extension Lightsail {
             self.nextPageToken = nextPageToken
         }
 
-        public func validate() throws {
-            try loadBalancers?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case loadBalancers = "loadBalancers"
             case nextPageToken = "nextPageToken"
@@ -4100,10 +3699,6 @@ extension Lightsail {
 
         public init(operation: Operation? = nil) {
             self.operation = operation
-        }
-
-        public func validate() throws {
-            try operation?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4153,12 +3748,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextPageToken = "nextPageToken"
             case operations = "operations"
@@ -4196,12 +3785,6 @@ extension Lightsail {
         public init(nextPageToken: String? = nil, operations: [Operation]? = nil) {
             self.nextPageToken = nextPageToken
             self.operations = operations
-        }
-
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4242,12 +3825,6 @@ extension Lightsail {
 
         public init(regions: [Region]? = nil) {
             self.regions = regions
-        }
-
-        public func validate() throws {
-            try regions?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4378,12 +3955,6 @@ extension Lightsail {
         public init(nextPageToken: String? = nil, relationalDatabaseEvents: [RelationalDatabaseEvent]? = nil) {
             self.nextPageToken = nextPageToken
             self.relationalDatabaseEvents = relationalDatabaseEvents
-        }
-
-        public func validate() throws {
-            try relationalDatabaseEvents?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4707,10 +4278,6 @@ extension Lightsail {
             self.relationalDatabase = relationalDatabase
         }
 
-        public func validate() throws {
-            try relationalDatabase?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case relationalDatabase = "relationalDatabase"
         }
@@ -4749,10 +4316,6 @@ extension Lightsail {
             self.relationalDatabaseSnapshot = relationalDatabaseSnapshot
         }
 
-        public func validate() throws {
-            try relationalDatabaseSnapshot?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case relationalDatabaseSnapshot = "relationalDatabaseSnapshot"
         }
@@ -4789,12 +4352,6 @@ extension Lightsail {
         public init(nextPageToken: String? = nil, relationalDatabaseSnapshots: [RelationalDatabaseSnapshot]? = nil) {
             self.nextPageToken = nextPageToken
             self.relationalDatabaseSnapshots = relationalDatabaseSnapshots
-        }
-
-        public func validate() throws {
-            try relationalDatabaseSnapshots?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4836,12 +4393,6 @@ extension Lightsail {
             self.relationalDatabases = relationalDatabases
         }
 
-        public func validate() throws {
-            try relationalDatabases?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextPageToken = "nextPageToken"
             case relationalDatabases = "relationalDatabases"
@@ -4881,10 +4432,6 @@ extension Lightsail {
             self.staticIp = staticIp
         }
 
-        public func validate() throws {
-            try staticIp?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case staticIp = "staticIp"
         }
@@ -4921,12 +4468,6 @@ extension Lightsail {
         public init(nextPageToken: String? = nil, staticIps: [StaticIp]? = nil) {
             self.nextPageToken = nextPageToken
             self.staticIps = staticIps
-        }
-
-        public func validate() throws {
-            try staticIps?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5020,10 +4561,6 @@ extension Lightsail {
             self.operation = operation
         }
 
-        public func validate() throws {
-            try operation?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operation = "operation"
         }
@@ -5113,21 +4650,6 @@ extension Lightsail {
             self.username = username
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: ".*\\S.*")
-            try validate(blueprintId, name:"blueprintId", pattern: ".*\\S.*")
-            try validate(blueprintName, name:"blueprintName", pattern: ".*\\S.*")
-            try validate(bundleId, name:"bundleId", pattern: ".*\\S.*")
-            try hardware?.validate()
-            try validate(ipv6Address, name:"ipv6Address", pattern: "([A-F0-9]{1,4}:){7}[A-F0-9]{1,4}")
-            try validate(name, name:"name", pattern: "\\w[\\w\\-]*\\w")
-            try networking?.validate()
-            try validate(privateIpAddress, name:"privateIpAddress", pattern: "([0-9]{1,3}\\.){3}[0-9]{1,3}")
-            try validate(publicIpAddress, name:"publicIpAddress", pattern: "([0-9]{1,3}\\.){3}[0-9]{1,3}")
-            try validate(sshKeyName, name:"sshKeyName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(username, name:"username", pattern: ".*\\S.*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case blueprintId = "blueprintId"
@@ -5197,12 +4719,6 @@ extension Lightsail {
             self.privateKey = privateKey
             self.`protocol` = `protocol`
             self.username = username
-        }
-
-        public func validate() throws {
-            try validate(instanceName, name:"instanceName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(ipAddress, name:"ipAddress", pattern: "([0-9]{1,3}\\.){3}[0-9]{1,3}")
-            try passwordData?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5287,12 +4803,6 @@ extension Lightsail {
             self.ramSizeInGb = ramSizeInGb
         }
 
-        public func validate() throws {
-            try disks?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case cpuCount = "cpuCount"
             case disks = "disks"
@@ -5345,10 +4855,6 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
-        public func validate() throws {
-            try validate(instanceName, name:"instanceName", pattern: "\\w[\\w\\-]*\\w")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case instanceHealth = "instanceHealth"
             case instanceHealthReason = "instanceHealthReason"
@@ -5380,12 +4886,6 @@ extension Lightsail {
         public init(monthlyTransfer: MonthlyTransfer? = nil, ports: [InstancePortInfo]? = nil) {
             self.monthlyTransfer = monthlyTransfer
             self.ports = ports
-        }
-
-        public func validate() throws {
-            try ports?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5436,13 +4936,6 @@ extension Lightsail {
             self.toPort = toPort
         }
 
-        public func validate() throws {
-            try validate(fromPort, name:"fromPort", max: 65535)
-            try validate(fromPort, name:"fromPort", min: 0)
-            try validate(toPort, name:"toPort", max: 65535)
-            try validate(toPort, name:"toPort", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case accessDirection = "accessDirection"
             case accessFrom = "accessFrom"
@@ -5476,13 +4969,6 @@ extension Lightsail {
             self.`protocol` = `protocol`
             self.state = state
             self.toPort = toPort
-        }
-
-        public func validate() throws {
-            try validate(fromPort, name:"fromPort", max: 65535)
-            try validate(fromPort, name:"fromPort", min: 0)
-            try validate(toPort, name:"toPort", max: 65535)
-            try validate(toPort, name:"toPort", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5561,16 +5047,6 @@ extension Lightsail {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: ".*\\S.*")
-            try fromAttachedDisks?.forEach {
-                try $0.validate()
-            }
-            try validate(fromInstanceArn, name:"fromInstanceArn", pattern: ".*\\S.*")
-            try validate(fromInstanceName, name:"fromInstanceName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(name, name:"name", pattern: "\\w[\\w\\-]*\\w")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdAt = "createdAt"
@@ -5608,14 +5084,6 @@ extension Lightsail {
             self.fromBlueprintId = fromBlueprintId
             self.fromBundleId = fromBundleId
             self.fromDiskInfo = fromDiskInfo
-        }
-
-        public func validate() throws {
-            try validate(fromBlueprintId, name:"fromBlueprintId", pattern: ".*\\S.*")
-            try validate(fromBundleId, name:"fromBundleId", pattern: ".*\\S.*")
-            try fromDiskInfo?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5719,11 +5187,6 @@ extension Lightsail {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: ".*\\S.*")
-            try validate(name, name:"name", pattern: "\\w[\\w\\-]*\\w")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdAt = "createdAt"
@@ -5806,23 +5269,6 @@ extension Lightsail {
             self.supportCode = supportCode
             self.tags = tags
             self.tlsCertificateSummaries = tlsCertificateSummaries
-        }
-
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: ".*\\S.*")
-            try validate(dnsName, name:"dnsName", pattern: ".*\\S.*")
-            try validate(healthCheckPath, name:"healthCheckPath", pattern: ".*\\S.*")
-            try instanceHealthSummary?.forEach {
-                try $0.validate()
-            }
-            try validate(name, name:"name", pattern: "\\w[\\w\\-]*\\w")
-            try publicPorts?.forEach {
-                try validate($0, name:"publicPorts[]", max: 65535)
-                try validate($0, name:"publicPorts[]", min: 0)
-            }
-            try tlsCertificateSummaries?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5991,20 +5437,6 @@ extension Lightsail {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: ".*\\S.*")
-            try domainValidationRecords?.forEach {
-                try $0.validate()
-            }
-            try validate(issuer, name:"issuer", pattern: ".*\\S.*")
-            try validate(keyAlgorithm, name:"keyAlgorithm", pattern: ".*\\S.*")
-            try validate(loadBalancerName, name:"loadBalancerName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(name, name:"name", pattern: "\\w[\\w\\-]*\\w")
-            try validate(serial, name:"serial", pattern: ".*\\S.*")
-            try validate(signatureAlgorithm, name:"signatureAlgorithm", pattern: ".*\\S.*")
-            try validate(subject, name:"subject", pattern: ".*\\S.*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdAt = "createdAt"
@@ -6089,12 +5521,6 @@ extension Lightsail {
             self.`type` = `type`
             self.validationStatus = validationStatus
             self.value = value
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", pattern: ".*\\S.*")
-            try validate(`type`, name:"`type`", pattern: ".*\\S.*")
-            try validate(value, name:"value", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6185,10 +5611,6 @@ extension Lightsail {
         public init(isAttached: Bool? = nil, name: String? = nil) {
             self.isAttached = isAttached
             self.name = name
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6369,10 +5791,6 @@ extension Lightsail {
             self.operation = operation
         }
 
-        public func validate() throws {
-            try operation?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operation = "operation"
         }
@@ -6432,11 +5850,6 @@ extension Lightsail {
             self.resourceType = resourceType
             self.status = status
             self.statusChangedAt = statusChangedAt
-        }
-
-        public func validate() throws {
-            try validate(id, name:"id", pattern: ".*\\S.*")
-            try validate(resourceName, name:"resourceName", pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6529,10 +5942,6 @@ extension Lightsail {
             self.keyPairName = keyPairName
         }
 
-        public func validate() throws {
-            try validate(keyPairName, name:"keyPairName", pattern: "\\w[\\w\\-]*\\w")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case ciphertext = "ciphertext"
             case keyPairName = "keyPairName"
@@ -6559,10 +5968,6 @@ extension Lightsail {
             self.operation = operation
         }
 
-        public func validate() throws {
-            try operation?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operation = "operation"
         }
@@ -6586,11 +5991,6 @@ extension Lightsail {
             self.action = action
             self.currentApplyDate = currentApplyDate
             self.description = description
-        }
-
-        public func validate() throws {
-            try validate(action, name:"action", pattern: ".*\\S.*")
-            try validate(description, name:"description", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6722,10 +6122,6 @@ extension Lightsail {
             self.operation = operation
         }
 
-        public func validate() throws {
-            try operation?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operation = "operation"
         }
@@ -6764,12 +6160,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -6806,12 +6196,6 @@ extension Lightsail {
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
-        }
-
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6856,15 +6240,6 @@ extension Lightsail {
             self.displayName = displayName
             self.name = name
             self.relationalDatabaseAvailabilityZones = relationalDatabaseAvailabilityZones
-        }
-
-        public func validate() throws {
-            try availabilityZones?.forEach {
-                try $0.validate()
-            }
-            try relationalDatabaseAvailabilityZones?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7001,24 +6376,6 @@ extension Lightsail {
             self.state = state
             self.supportCode = supportCode
             self.tags = tags
-        }
-
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: ".*\\S.*")
-            try validate(engine, name:"engine", pattern: ".*\\S.*")
-            try validate(engineVersion, name:"engineVersion", pattern: ".*\\S.*")
-            try masterEndpoint?.validate()
-            try validate(masterUsername, name:"masterUsername", pattern: ".*\\S.*")
-            try validate(name, name:"name", pattern: "\\w[\\w\\-]*\\w")
-            try validate(parameterApplyStatus, name:"parameterApplyStatus", pattern: ".*\\S.*")
-            try pendingMaintenanceActions?.forEach {
-                try $0.validate()
-            }
-            try validate(preferredBackupWindow, name:"preferredBackupWindow", pattern: ".*\\S.*")
-            try validate(preferredMaintenanceWindow, name:"preferredMaintenanceWindow", pattern: ".*\\S.*")
-            try validate(relationalDatabaseBlueprintId, name:"relationalDatabaseBlueprintId", pattern: ".*\\S.*")
-            try validate(relationalDatabaseBundleId, name:"relationalDatabaseBundleId", pattern: ".*\\S.*")
-            try validate(state, name:"state", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7165,10 +6522,6 @@ extension Lightsail {
             self.port = port
         }
 
-        public func validate() throws {
-            try validate(address, name:"address", pattern: ".*\\S.*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case address = "address"
             case port = "port"
@@ -7202,10 +6555,6 @@ extension Lightsail {
             self.eventCategories = eventCategories
             self.message = message
             self.resource = resource
-        }
-
-        public func validate() throws {
-            try validate(resource, name:"resource", pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7380,16 +6729,6 @@ extension Lightsail {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: ".*\\S.*")
-            try validate(engine, name:"engine", pattern: ".*\\S.*")
-            try validate(engineVersion, name:"engineVersion", pattern: ".*\\S.*")
-            try validate(fromRelationalDatabaseArn, name:"fromRelationalDatabaseArn", pattern: ".*\\S.*")
-            try validate(fromRelationalDatabaseName, name:"fromRelationalDatabaseName", pattern: ".*\\S.*")
-            try validate(name, name:"name", pattern: "\\w[\\w\\-]*\\w")
-            try validate(state, name:"state", pattern: ".*\\S.*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdAt = "createdAt"
@@ -7440,12 +6779,6 @@ extension Lightsail {
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
-        }
-
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7526,12 +6859,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -7568,12 +6895,6 @@ extension Lightsail {
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
-        }
-
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7623,13 +6944,6 @@ extension Lightsail {
             self.name = name
             self.resourceType = resourceType
             self.supportCode = supportCode
-        }
-
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: ".*\\S.*")
-            try validate(attachedTo, name:"attachedTo", pattern: "\\w[\\w\\-]*\\w")
-            try validate(ipAddress, name:"ipAddress", pattern: "([0-9]{1,3}\\.){3}[0-9]{1,3}")
-            try validate(name, name:"name", pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7683,12 +6997,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -7731,12 +7039,6 @@ extension Lightsail {
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
-        }
-
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7804,12 +7106,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -7833,10 +7129,6 @@ extension Lightsail {
 
         public init(operation: Operation? = nil) {
             self.operation = operation
-        }
-
-        public func validate() throws {
-            try operation?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7882,12 +7174,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -7929,12 +7215,6 @@ extension Lightsail {
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
-        }
-
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7987,12 +7267,6 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
@@ -8034,12 +7308,6 @@ extension Lightsail {
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
-        }
-
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8118,12 +7386,6 @@ extension Lightsail {
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
-        }
-
-        public func validate() throws {
-            try operations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {

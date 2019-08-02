@@ -130,11 +130,6 @@ extension CloudWatchLogs {
             self.taskId = taskId
         }
 
-        public func validate() throws {
-            try validate(taskId, name:"taskId", max: 512)
-            try validate(taskId, name:"taskId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case taskId = "taskId"
         }
@@ -442,13 +437,6 @@ extension CloudWatchLogs {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try destinations?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case destinations = "destinations"
             case nextToken = "nextToken"
@@ -510,13 +498,6 @@ extension CloudWatchLogs {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try exportTasks?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case exportTasks = "exportTasks"
             case nextToken = "nextToken"
@@ -572,13 +553,6 @@ extension CloudWatchLogs {
         public init(logGroups: [LogGroup]? = nil, nextToken: String? = nil) {
             self.logGroups = logGroups
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try logGroups?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -654,13 +628,6 @@ extension CloudWatchLogs {
         public init(logStreams: [LogStream]? = nil, nextToken: String? = nil) {
             self.logStreams = logStreams
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try logStreams?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -742,13 +709,6 @@ extension CloudWatchLogs {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try metricFilters?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case metricFilters = "metricFilters"
             case nextToken = "nextToken"
@@ -810,13 +770,6 @@ extension CloudWatchLogs {
             self.queries = queries
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", min: 1)
-            try queries?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case queries = "queries"
@@ -863,13 +816,6 @@ extension CloudWatchLogs {
         public init(nextToken: String? = nil, resourcePolicies: [ResourcePolicy]? = nil) {
             self.nextToken = nextToken
             self.resourcePolicies = resourcePolicies
-        }
-
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", min: 1)
-            try resourcePolicies?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -937,13 +883,6 @@ extension CloudWatchLogs {
             self.subscriptionFilters = subscriptionFilters
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", min: 1)
-            try subscriptionFilters?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case subscriptionFilters = "subscriptionFilters"
@@ -980,16 +919,6 @@ extension CloudWatchLogs {
             self.destinationName = destinationName
             self.roleArn = roleArn
             self.targetArn = targetArn
-        }
-
-        public func validate() throws {
-            try validate(accessPolicy, name:"accessPolicy", min: 1)
-            try validate(creationTime, name:"creationTime", min: 0)
-            try validate(destinationName, name:"destinationName", max: 512)
-            try validate(destinationName, name:"destinationName", min: 1)
-            try validate(destinationName, name:"destinationName", pattern: "[^:*]*")
-            try validate(roleArn, name:"roleArn", min: 1)
-            try validate(targetArn, name:"targetArn", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1075,21 +1004,6 @@ extension CloudWatchLogs {
             self.to = to
         }
 
-        public func validate() throws {
-            try validate(destination, name:"destination", max: 512)
-            try validate(destination, name:"destination", min: 1)
-            try executionInfo?.validate()
-            try validate(from, name:"from", min: 0)
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try validate(taskId, name:"taskId", max: 512)
-            try validate(taskId, name:"taskId", min: 1)
-            try validate(taskName, name:"taskName", max: 512)
-            try validate(taskName, name:"taskName", min: 1)
-            try validate(to, name:"to", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case destination = "destination"
             case destinationPrefix = "destinationPrefix"
@@ -1117,11 +1031,6 @@ extension CloudWatchLogs {
         public init(completionTime: Int64? = nil, creationTime: Int64? = nil) {
             self.completionTime = completionTime
             self.creationTime = creationTime
-        }
-
-        public func validate() throws {
-            try validate(completionTime, name:"completionTime", min: 0)
-            try validate(creationTime, name:"creationTime", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1262,16 +1171,6 @@ extension CloudWatchLogs {
             self.searchedLogStreams = searchedLogStreams
         }
 
-        public func validate() throws {
-            try events?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", min: 1)
-            try searchedLogStreams?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case events = "events"
             case nextToken = "nextToken"
@@ -1305,15 +1204,6 @@ extension CloudWatchLogs {
             self.logStreamName = logStreamName
             self.message = message
             self.timestamp = timestamp
-        }
-
-        public func validate() throws {
-            try validate(ingestionTime, name:"ingestionTime", min: 0)
-            try validate(logStreamName, name:"logStreamName", max: 512)
-            try validate(logStreamName, name:"logStreamName", min: 1)
-            try validate(logStreamName, name:"logStreamName", pattern: "[^:*]*")
-            try validate(message, name:"message", min: 1)
-            try validate(timestamp, name:"timestamp", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1406,14 +1296,6 @@ extension CloudWatchLogs {
             self.nextForwardToken = nextForwardToken
         }
 
-        public func validate() throws {
-            try events?.forEach {
-                try $0.validate()
-            }
-            try validate(nextBackwardToken, name:"nextBackwardToken", min: 1)
-            try validate(nextForwardToken, name:"nextForwardToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case events = "events"
             case nextBackwardToken = "nextBackwardToken"
@@ -1460,12 +1342,6 @@ extension CloudWatchLogs {
 
         public init(logGroupFields: [LogGroupField]? = nil) {
             self.logGroupFields = logGroupFields
-        }
-
-        public func validate() throws {
-            try logGroupFields?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1618,16 +1494,6 @@ extension CloudWatchLogs {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try tags?.forEach {
-                try validate($0.key, name:"tags[key:]", max: 128)
-                try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.key, name:"tags[key:]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
         }
@@ -1668,15 +1534,6 @@ extension CloudWatchLogs {
             self.storedBytes = storedBytes
         }
 
-        public func validate() throws {
-            try validate(creationTime, name:"creationTime", min: 0)
-            try validate(kmsKeyId, name:"kmsKeyId", max: 256)
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try validate(storedBytes, name:"storedBytes", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case creationTime = "creationTime"
@@ -1702,11 +1559,6 @@ extension CloudWatchLogs {
         public init(name: String? = nil, percent: Int32? = nil) {
             self.name = name
             self.percent = percent
-        }
-
-        public func validate() throws {
-            try validate(percent, name:"percent", max: 100)
-            try validate(percent, name:"percent", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1755,18 +1607,6 @@ extension CloudWatchLogs {
             self.uploadSequenceToken = uploadSequenceToken
         }
 
-        public func validate() throws {
-            try validate(creationTime, name:"creationTime", min: 0)
-            try validate(firstEventTimestamp, name:"firstEventTimestamp", min: 0)
-            try validate(lastEventTimestamp, name:"lastEventTimestamp", min: 0)
-            try validate(lastIngestionTime, name:"lastIngestionTime", min: 0)
-            try validate(logStreamName, name:"logStreamName", max: 512)
-            try validate(logStreamName, name:"logStreamName", min: 1)
-            try validate(logStreamName, name:"logStreamName", pattern: "[^:*]*")
-            try validate(storedBytes, name:"storedBytes", min: 0)
-            try validate(uploadSequenceToken, name:"uploadSequenceToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case creationTime = "creationTime"
@@ -1806,23 +1646,6 @@ extension CloudWatchLogs {
             self.metricTransformations = metricTransformations
         }
 
-        public func validate() throws {
-            try validate(creationTime, name:"creationTime", min: 0)
-            try validate(filterName, name:"filterName", max: 512)
-            try validate(filterName, name:"filterName", min: 1)
-            try validate(filterName, name:"filterName", pattern: "[^:*]*")
-            try validate(filterPattern, name:"filterPattern", max: 1024)
-            try validate(filterPattern, name:"filterPattern", min: 0)
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try metricTransformations?.forEach {
-                try $0.validate()
-            }
-            try validate(metricTransformations, name:"metricTransformations", max: 1)
-            try validate(metricTransformations, name:"metricTransformations", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationTime = "creationTime"
             case filterName = "filterName"
@@ -1850,10 +1673,6 @@ extension CloudWatchLogs {
             self.eventMessage = eventMessage
             self.eventNumber = eventNumber
             self.extractedValues = extractedValues
-        }
-
-        public func validate() throws {
-            try validate(eventMessage, name:"eventMessage", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1927,12 +1746,6 @@ extension CloudWatchLogs {
             self.ingestionTime = ingestionTime
             self.message = message
             self.timestamp = timestamp
-        }
-
-        public func validate() throws {
-            try validate(ingestionTime, name:"ingestionTime", min: 0)
-            try validate(message, name:"message", min: 1)
-            try validate(timestamp, name:"timestamp", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2018,10 +1831,6 @@ extension CloudWatchLogs {
             self.destination = destination
         }
 
-        public func validate() throws {
-            try destination?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case destination = "destination"
         }
@@ -2088,10 +1897,6 @@ extension CloudWatchLogs {
         public init(nextSequenceToken: String? = nil, rejectedLogEventsInfo: RejectedLogEventsInfo? = nil) {
             self.nextSequenceToken = nextSequenceToken
             self.rejectedLogEventsInfo = rejectedLogEventsInfo
-        }
-
-        public func validate() throws {
-            try validate(nextSequenceToken, name:"nextSequenceToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2185,10 +1990,6 @@ extension CloudWatchLogs {
 
         public init(resourcePolicy: ResourcePolicy? = nil) {
             self.resourcePolicy = resourcePolicy
-        }
-
-        public func validate() throws {
-            try resourcePolicy?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2350,17 +2151,6 @@ extension CloudWatchLogs {
             self.status = status
         }
 
-        public func validate() throws {
-            try validate(createTime, name:"createTime", min: 0)
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try validate(queryId, name:"queryId", max: 256)
-            try validate(queryId, name:"queryId", min: 0)
-            try validate(queryString, name:"queryString", max: 2048)
-            try validate(queryString, name:"queryString", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case createTime = "createTime"
             case logGroupName = "logGroupName"
@@ -2453,12 +2243,6 @@ extension CloudWatchLogs {
             self.policyName = policyName
         }
 
-        public func validate() throws {
-            try validate(lastUpdatedTime, name:"lastUpdatedTime", min: 0)
-            try validate(policyDocument, name:"policyDocument", max: 5120)
-            try validate(policyDocument, name:"policyDocument", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case lastUpdatedTime = "lastUpdatedTime"
             case policyDocument = "policyDocument"
@@ -2502,12 +2286,6 @@ extension CloudWatchLogs {
         public init(logStreamName: String? = nil, searchedCompletely: Bool? = nil) {
             self.logStreamName = logStreamName
             self.searchedCompletely = searchedCompletely
-        }
-
-        public func validate() throws {
-            try validate(logStreamName, name:"logStreamName", max: 512)
-            try validate(logStreamName, name:"logStreamName", min: 1)
-            try validate(logStreamName, name:"logStreamName", pattern: "[^:*]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2575,11 +2353,6 @@ extension CloudWatchLogs {
 
         public init(queryId: String? = nil) {
             self.queryId = queryId
-        }
-
-        public func validate() throws {
-            try validate(queryId, name:"queryId", max: 256)
-            try validate(queryId, name:"queryId", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2657,20 +2430,6 @@ extension CloudWatchLogs {
             self.filterPattern = filterPattern
             self.logGroupName = logGroupName
             self.roleArn = roleArn
-        }
-
-        public func validate() throws {
-            try validate(creationTime, name:"creationTime", min: 0)
-            try validate(destinationArn, name:"destinationArn", min: 1)
-            try validate(filterName, name:"filterName", max: 512)
-            try validate(filterName, name:"filterName", min: 1)
-            try validate(filterName, name:"filterName", pattern: "[^:*]*")
-            try validate(filterPattern, name:"filterPattern", max: 1024)
-            try validate(filterPattern, name:"filterPattern", min: 0)
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try validate(roleArn, name:"roleArn", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2760,12 +2519,6 @@ extension CloudWatchLogs {
 
         public init(matches: [MetricFilterMatchRecord]? = nil) {
             self.matches = matches
-        }
-
-        public func validate() throws {
-            try matches?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {

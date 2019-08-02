@@ -108,10 +108,6 @@ extension KinesisVideoArchivedMedia {
             self.serverTimestamp = serverTimestamp
         }
 
-        public func validate() throws {
-            try validate(fragmentNumber, name:"fragmentNumber", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case fragmentLengthInMilliseconds = "FragmentLengthInMilliseconds"
             case fragmentNumber = "FragmentNumber"
@@ -371,12 +367,6 @@ extension KinesisVideoArchivedMedia {
             self.payload = payload
         }
 
-        public func validate() throws {
-            try validate(contentType, name:"contentType", max: 128)
-            try validate(contentType, name:"contentType", min: 1)
-            try validate(contentType, name:"contentType", pattern: "^[a-zA-Z0-9_\\.\\-]+$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case contentType = "Content-Type"
             case payload = "Payload"
@@ -507,13 +497,6 @@ extension KinesisVideoArchivedMedia {
         public init(fragments: [Fragment]? = nil, nextToken: String? = nil) {
             self.fragments = fragments
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try fragments?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

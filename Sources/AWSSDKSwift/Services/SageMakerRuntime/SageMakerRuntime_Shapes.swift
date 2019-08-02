@@ -77,13 +77,6 @@ extension SageMakerRuntime {
             self.invokedProductionVariant = invokedProductionVariant
         }
 
-        public func validate() throws {
-            try validate(body, name:"body", max: 5242880)
-            try validate(contentType, name:"contentType", max: 1024)
-            try validate(customAttributes, name:"customAttributes", max: 1024)
-            try validate(invokedProductionVariant, name:"invokedProductionVariant", max: 1024)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case body = "Body"
             case contentType = "Content-Type"

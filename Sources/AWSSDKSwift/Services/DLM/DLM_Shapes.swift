@@ -178,12 +178,6 @@ extension DLM {
             self.policies = policies
         }
 
-        public func validate() throws {
-            try policies?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case policies = "Policies"
         }
@@ -216,10 +210,6 @@ extension DLM {
 
         public init(policy: LifecyclePolicy? = nil) {
             self.policy = policy
-        }
-
-        public func validate() throws {
-            try policy?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -275,12 +265,6 @@ extension DLM {
             self.state = state
         }
 
-        public func validate() throws {
-            try validate(description, name:"description", max: 500)
-            try validate(description, name:"description", min: 0)
-            try policyDetails?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case dateCreated = "DateCreated"
             case dateModified = "DateModified"
@@ -310,11 +294,6 @@ extension DLM {
             self.description = description
             self.policyId = policyId
             self.state = state
-        }
-
-        public func validate() throws {
-            try validate(description, name:"description", max: 500)
-            try validate(description, name:"description", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

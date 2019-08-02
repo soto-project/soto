@@ -368,10 +368,6 @@ extension Connect {
             self.user = user
         }
 
-        public func validate() throws {
-            try user?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case user = "User"
         }
@@ -466,15 +462,6 @@ extension Connect {
 
         public init(attributes: [String: String]? = nil) {
             self.attributes = attributes
-        }
-
-        public func validate() throws {
-            try attributes?.forEach {
-                try validate($0.key, name:"attributes[key:]", max: 32767)
-                try validate($0.key, name:"attributes[key:]", min: 1)
-                try validate($0.value, name:"attributes[:Value]", max: 32767)
-                try validate($0.value, name:"attributes[:Value]", min: 0)
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1008,12 +995,6 @@ extension Connect {
             self.routingProfileSummaryList = routingProfileSummaryList
         }
 
-        public func validate() throws {
-            try routingProfileSummaryList?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case routingProfileSummaryList = "RoutingProfileSummaryList"
@@ -1182,12 +1163,6 @@ extension Connect {
             self.userSummaryList = userSummaryList
         }
 
-        public func validate() throws {
-            try userSummaryList?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case userSummaryList = "UserSummaryList"
@@ -1240,11 +1215,6 @@ extension Connect {
             self.arn = arn
             self.id = id
             self.name = name
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 100)
-            try validate(name, name:"name", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1351,11 +1321,6 @@ extension Connect {
 
         public init(contactId: String? = nil) {
             self.contactId = contactId
-        }
-
-        public func validate() throws {
-            try validate(contactId, name:"contactId", max: 256)
-            try validate(contactId, name:"contactId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1692,16 +1657,6 @@ extension Connect {
             self.username = username
         }
 
-        public func validate() throws {
-            try identityInfo?.validate()
-            try phoneConfig?.validate()
-            try validate(securityProfileIds, name:"securityProfileIds", max: 10)
-            try validate(securityProfileIds, name:"securityProfileIds", min: 1)
-            try validate(username, name:"username", max: 20)
-            try validate(username, name:"username", min: 1)
-            try validate(username, name:"username", pattern: "[a-zA-Z0-9\\_\\-\\.]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case directoryUserId = "DirectoryUserId"
@@ -1803,12 +1758,6 @@ extension Connect {
             self.arn = arn
             self.id = id
             self.username = username
-        }
-
-        public func validate() throws {
-            try validate(username, name:"username", max: 20)
-            try validate(username, name:"username", min: 1)
-            try validate(username, name:"username", pattern: "[a-zA-Z0-9\\_\\-\\.]+")
         }
 
         private enum CodingKeys: String, CodingKey {

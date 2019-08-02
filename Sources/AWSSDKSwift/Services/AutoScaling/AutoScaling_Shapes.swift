@@ -21,13 +21,6 @@ extension AutoScaling {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try activities.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case activities = "Activities"
             case nextToken = "NextToken"
@@ -82,21 +75,6 @@ extension AutoScaling {
             self.statusMessage = statusMessage
         }
 
-        public func validate() throws {
-            try validate(activityId, name:"activityId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 255)
-            try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
-            try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(cause, name:"cause", max: 1023)
-            try validate(cause, name:"cause", min: 1)
-            try validate(cause, name:"cause", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(description, name:"description", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(details, name:"details", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(statusMessage, name:"statusMessage", max: 255)
-            try validate(statusMessage, name:"statusMessage", min: 1)
-            try validate(statusMessage, name:"statusMessage", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case activityId = "ActivityId"
             case autoScalingGroupName = "AutoScalingGroupName"
@@ -123,10 +101,6 @@ extension AutoScaling {
             self.activity = activity
         }
 
-        public func validate() throws {
-            try activity?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case activity = "Activity"
         }
@@ -142,12 +116,6 @@ extension AutoScaling {
 
         public init(adjustmentType: String? = nil) {
             self.adjustmentType = adjustmentType
-        }
-
-        public func validate() throws {
-            try validate(adjustmentType, name:"adjustmentType", max: 255)
-            try validate(adjustmentType, name:"adjustmentType", min: 1)
-            try validate(adjustmentType, name:"adjustmentType", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -169,15 +137,6 @@ extension AutoScaling {
         public init(alarmARN: String? = nil, alarmName: String? = nil) {
             self.alarmARN = alarmARN
             self.alarmName = alarmName
-        }
-
-        public func validate() throws {
-            try validate(alarmARN, name:"alarmARN", max: 1600)
-            try validate(alarmARN, name:"alarmARN", min: 1)
-            try validate(alarmARN, name:"alarmARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(alarmName, name:"alarmName", max: 255)
-            try validate(alarmName, name:"alarmName", min: 1)
-            try validate(alarmName, name:"alarmName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -409,68 +368,6 @@ extension AutoScaling {
             self.vPCZoneIdentifier = vPCZoneIdentifier
         }
 
-        public func validate() throws {
-            try validate(autoScalingGroupARN, name:"autoScalingGroupARN", max: 1600)
-            try validate(autoScalingGroupARN, name:"autoScalingGroupARN", min: 1)
-            try validate(autoScalingGroupARN, name:"autoScalingGroupARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 255)
-            try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
-            try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try availabilityZones.forEach {
-                try validate($0, name:"availabilityZones[]", max: 255)
-                try validate($0, name:"availabilityZones[]", min: 1)
-                try validate($0, name:"availabilityZones[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            }
-            try validate(availabilityZones, name:"availabilityZones", min: 1)
-            try enabledMetrics?.forEach {
-                try $0.validate()
-            }
-            try validate(healthCheckType, name:"healthCheckType", max: 32)
-            try validate(healthCheckType, name:"healthCheckType", min: 1)
-            try validate(healthCheckType, name:"healthCheckType", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try instances?.forEach {
-                try $0.validate()
-            }
-            try validate(launchConfigurationName, name:"launchConfigurationName", max: 255)
-            try validate(launchConfigurationName, name:"launchConfigurationName", min: 1)
-            try validate(launchConfigurationName, name:"launchConfigurationName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try launchTemplate?.validate()
-            try loadBalancerNames?.forEach {
-                try validate($0, name:"loadBalancerNames[]", max: 255)
-                try validate($0, name:"loadBalancerNames[]", min: 1)
-                try validate($0, name:"loadBalancerNames[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            }
-            try mixedInstancesPolicy?.validate()
-            try validate(placementGroup, name:"placementGroup", max: 255)
-            try validate(placementGroup, name:"placementGroup", min: 1)
-            try validate(placementGroup, name:"placementGroup", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(serviceLinkedRoleARN, name:"serviceLinkedRoleARN", max: 1600)
-            try validate(serviceLinkedRoleARN, name:"serviceLinkedRoleARN", min: 1)
-            try validate(serviceLinkedRoleARN, name:"serviceLinkedRoleARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(status, name:"status", max: 255)
-            try validate(status, name:"status", min: 1)
-            try validate(status, name:"status", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try suspendedProcesses?.forEach {
-                try $0.validate()
-            }
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try targetGroupARNs?.forEach {
-                try validate($0, name:"targetGroupARNs[]", max: 511)
-                try validate($0, name:"targetGroupARNs[]", min: 1)
-                try validate($0, name:"targetGroupARNs[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            }
-            try terminationPolicies?.forEach {
-                try validate($0, name:"terminationPolicies[]", max: 1600)
-                try validate($0, name:"terminationPolicies[]", min: 1)
-                try validate($0, name:"terminationPolicies[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            }
-            try validate(vPCZoneIdentifier, name:"vPCZoneIdentifier", max: 2047)
-            try validate(vPCZoneIdentifier, name:"vPCZoneIdentifier", min: 1)
-            try validate(vPCZoneIdentifier, name:"vPCZoneIdentifier", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupARN = "AutoScalingGroupARN"
             case autoScalingGroupName = "AutoScalingGroupName"
@@ -552,13 +449,6 @@ extension AutoScaling {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try autoScalingGroups.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroups = "AutoScalingGroups"
             case nextToken = "NextToken"
@@ -605,28 +495,6 @@ extension AutoScaling {
             self.protectedFromScaleIn = protectedFromScaleIn
         }
 
-        public func validate() throws {
-            try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 255)
-            try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
-            try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(availabilityZone, name:"availabilityZone", max: 255)
-            try validate(availabilityZone, name:"availabilityZone", min: 1)
-            try validate(availabilityZone, name:"availabilityZone", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(healthStatus, name:"healthStatus", max: 32)
-            try validate(healthStatus, name:"healthStatus", min: 1)
-            try validate(healthStatus, name:"healthStatus", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(instanceId, name:"instanceId", max: 19)
-            try validate(instanceId, name:"instanceId", min: 1)
-            try validate(instanceId, name:"instanceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(launchConfigurationName, name:"launchConfigurationName", max: 255)
-            try validate(launchConfigurationName, name:"launchConfigurationName", min: 1)
-            try validate(launchConfigurationName, name:"launchConfigurationName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try launchTemplate?.validate()
-            try validate(lifecycleState, name:"lifecycleState", max: 32)
-            try validate(lifecycleState, name:"lifecycleState", min: 1)
-            try validate(lifecycleState, name:"lifecycleState", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupName = "AutoScalingGroupName"
             case availabilityZone = "AvailabilityZone"
@@ -655,13 +523,6 @@ extension AutoScaling {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try autoScalingInstances?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case autoScalingInstances = "AutoScalingInstances"
             case nextToken = "NextToken"
@@ -678,12 +539,6 @@ extension AutoScaling {
 
         public init(failedScheduledActions: [FailedScheduledUpdateGroupActionRequest]? = nil) {
             self.failedScheduledActions = failedScheduledActions
-        }
-
-        public func validate() throws {
-            try failedScheduledActions?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -734,12 +589,6 @@ extension AutoScaling {
 
         public init(failedScheduledUpdateGroupActions: [FailedScheduledUpdateGroupActionRequest]? = nil) {
             self.failedScheduledUpdateGroupActions = failedScheduledUpdateGroupActions
-        }
-
-        public func validate() throws {
-            try failedScheduledUpdateGroupActions?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1486,12 +1335,6 @@ extension AutoScaling {
             self.adjustmentTypes = adjustmentTypes
         }
 
-        public func validate() throws {
-            try adjustmentTypes?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case adjustmentTypes = "AdjustmentTypes"
         }
@@ -1545,14 +1388,6 @@ extension AutoScaling {
             self.autoScalingNotificationTypes = autoScalingNotificationTypes
         }
 
-        public func validate() throws {
-            try autoScalingNotificationTypes?.forEach {
-                try validate($0, name:"autoScalingNotificationTypes[]", max: 255)
-                try validate($0, name:"autoScalingNotificationTypes[]", min: 1)
-                try validate($0, name:"autoScalingNotificationTypes[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case autoScalingNotificationTypes = "AutoScalingNotificationTypes"
         }
@@ -1570,14 +1405,6 @@ extension AutoScaling {
             self.lifecycleHookTypes = lifecycleHookTypes
         }
 
-        public func validate() throws {
-            try lifecycleHookTypes?.forEach {
-                try validate($0, name:"lifecycleHookTypes[]", max: 255)
-                try validate($0, name:"lifecycleHookTypes[]", min: 1)
-                try validate($0, name:"lifecycleHookTypes[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case lifecycleHookTypes = "LifecycleHookTypes"
         }
@@ -1593,12 +1420,6 @@ extension AutoScaling {
 
         public init(lifecycleHooks: [LifecycleHook]? = nil) {
             self.lifecycleHooks = lifecycleHooks
-        }
-
-        public func validate() throws {
-            try lifecycleHooks?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1690,13 +1511,6 @@ extension AutoScaling {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try loadBalancerTargetGroups?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case loadBalancerTargetGroups = "LoadBalancerTargetGroups"
             case nextToken = "NextToken"
@@ -1753,13 +1567,6 @@ extension AutoScaling {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try loadBalancers?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case loadBalancers = "LoadBalancers"
             case nextToken = "NextToken"
@@ -1782,15 +1589,6 @@ extension AutoScaling {
             self.metrics = metrics
         }
 
-        public func validate() throws {
-            try granularities?.forEach {
-                try $0.validate()
-            }
-            try metrics?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case granularities = "Granularities"
             case metrics = "Metrics"
@@ -1811,13 +1609,6 @@ extension AutoScaling {
         public init(nextToken: String? = nil, notificationConfigurations: [NotificationConfiguration]) {
             self.nextToken = nextToken
             self.notificationConfigurations = notificationConfigurations
-        }
-
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try notificationConfigurations.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2058,14 +1849,6 @@ extension AutoScaling {
             self.terminationPolicyTypes = terminationPolicyTypes
         }
 
-        public func validate() throws {
-            try terminationPolicyTypes?.forEach {
-                try validate($0, name:"terminationPolicyTypes[]", max: 1600)
-                try validate($0, name:"terminationPolicyTypes[]", min: 1)
-                try validate($0, name:"terminationPolicyTypes[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case terminationPolicyTypes = "TerminationPolicyTypes"
         }
@@ -2081,12 +1864,6 @@ extension AutoScaling {
 
         public init(activities: [Activity]? = nil) {
             self.activities = activities
-        }
-
-        public func validate() throws {
-            try activities?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2358,15 +2135,6 @@ extension AutoScaling {
             self.metric = metric
         }
 
-        public func validate() throws {
-            try validate(granularity, name:"granularity", max: 255)
-            try validate(granularity, name:"granularity", min: 1)
-            try validate(granularity, name:"granularity", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(metric, name:"metric", max: 255)
-            try validate(metric, name:"metric", min: 1)
-            try validate(metric, name:"metric", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case granularity = "Granularity"
             case metric = "Metric"
@@ -2383,12 +2151,6 @@ extension AutoScaling {
 
         public init(activities: [Activity]? = nil) {
             self.activities = activities
-        }
-
-        public func validate() throws {
-            try activities?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2492,12 +2254,6 @@ extension AutoScaling {
             self.activities = activities
         }
 
-        public func validate() throws {
-            try activities?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case activities = "Activities"
         }
@@ -2554,16 +2310,6 @@ extension AutoScaling {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.scheduledActionName = scheduledActionName
-        }
-
-        public func validate() throws {
-            try validate(errorCode, name:"errorCode", max: 64)
-            try validate(errorCode, name:"errorCode", min: 1)
-            try validate(errorCode, name:"errorCode", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(errorMessage, name:"errorMessage", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(scheduledActionName, name:"scheduledActionName", max: 255)
-            try validate(scheduledActionName, name:"scheduledActionName", min: 1)
-            try validate(scheduledActionName, name:"scheduledActionName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2636,22 +2382,6 @@ extension AutoScaling {
             self.launchTemplate = launchTemplate
             self.lifecycleState = lifecycleState
             self.protectedFromScaleIn = protectedFromScaleIn
-        }
-
-        public func validate() throws {
-            try validate(availabilityZone, name:"availabilityZone", max: 255)
-            try validate(availabilityZone, name:"availabilityZone", min: 1)
-            try validate(availabilityZone, name:"availabilityZone", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(healthStatus, name:"healthStatus", max: 32)
-            try validate(healthStatus, name:"healthStatus", min: 1)
-            try validate(healthStatus, name:"healthStatus", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(instanceId, name:"instanceId", max: 19)
-            try validate(instanceId, name:"instanceId", min: 1)
-            try validate(instanceId, name:"instanceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(launchConfigurationName, name:"launchConfigurationName", max: 255)
-            try validate(launchConfigurationName, name:"launchConfigurationName", min: 1)
-            try validate(launchConfigurationName, name:"launchConfigurationName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try launchTemplate?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2815,54 +2545,6 @@ extension AutoScaling {
             self.userData = userData
         }
 
-        public func validate() throws {
-            try blockDeviceMappings?.forEach {
-                try $0.validate()
-            }
-            try validate(classicLinkVPCId, name:"classicLinkVPCId", max: 255)
-            try validate(classicLinkVPCId, name:"classicLinkVPCId", min: 1)
-            try validate(classicLinkVPCId, name:"classicLinkVPCId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try classicLinkVPCSecurityGroups?.forEach {
-                try validate($0, name:"classicLinkVPCSecurityGroups[]", max: 255)
-                try validate($0, name:"classicLinkVPCSecurityGroups[]", min: 1)
-                try validate($0, name:"classicLinkVPCSecurityGroups[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            }
-            try validate(iamInstanceProfile, name:"iamInstanceProfile", max: 1600)
-            try validate(iamInstanceProfile, name:"iamInstanceProfile", min: 1)
-            try validate(iamInstanceProfile, name:"iamInstanceProfile", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(imageId, name:"imageId", max: 255)
-            try validate(imageId, name:"imageId", min: 1)
-            try validate(imageId, name:"imageId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(instanceType, name:"instanceType", max: 255)
-            try validate(instanceType, name:"instanceType", min: 1)
-            try validate(instanceType, name:"instanceType", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(kernelId, name:"kernelId", max: 255)
-            try validate(kernelId, name:"kernelId", min: 1)
-            try validate(kernelId, name:"kernelId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(keyName, name:"keyName", max: 255)
-            try validate(keyName, name:"keyName", min: 1)
-            try validate(keyName, name:"keyName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(launchConfigurationARN, name:"launchConfigurationARN", max: 1600)
-            try validate(launchConfigurationARN, name:"launchConfigurationARN", min: 1)
-            try validate(launchConfigurationARN, name:"launchConfigurationARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(launchConfigurationName, name:"launchConfigurationName", max: 255)
-            try validate(launchConfigurationName, name:"launchConfigurationName", min: 1)
-            try validate(launchConfigurationName, name:"launchConfigurationName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(placementTenancy, name:"placementTenancy", max: 64)
-            try validate(placementTenancy, name:"placementTenancy", min: 1)
-            try validate(placementTenancy, name:"placementTenancy", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(ramdiskId, name:"ramdiskId", max: 255)
-            try validate(ramdiskId, name:"ramdiskId", min: 1)
-            try validate(ramdiskId, name:"ramdiskId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try securityGroups?.forEach {
-                try validate($0, name:"securityGroups[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            }
-            try validate(spotPrice, name:"spotPrice", max: 255)
-            try validate(spotPrice, name:"spotPrice", min: 1)
-            try validate(userData, name:"userData", max: 21847)
-            try validate(userData, name:"userData", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case associatePublicIpAddress = "AssociatePublicIpAddress"
             case blockDeviceMappings = "BlockDeviceMappings"
@@ -2959,13 +2641,6 @@ extension AutoScaling {
         public init(launchConfigurations: [LaunchConfiguration], nextToken: String? = nil) {
             self.launchConfigurations = launchConfigurations
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try launchConfigurations.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3109,24 +2784,6 @@ extension AutoScaling {
             self.roleARN = roleARN
         }
 
-        public func validate() throws {
-            try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 1600)
-            try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
-            try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(lifecycleHookName, name:"lifecycleHookName", max: 255)
-            try validate(lifecycleHookName, name:"lifecycleHookName", min: 1)
-            try validate(lifecycleHookName, name:"lifecycleHookName", pattern: "[A-Za-z0-9\\-_\\/]+")
-            try validate(notificationMetadata, name:"notificationMetadata", max: 1023)
-            try validate(notificationMetadata, name:"notificationMetadata", min: 1)
-            try validate(notificationMetadata, name:"notificationMetadata", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(notificationTargetARN, name:"notificationTargetARN", max: 1600)
-            try validate(notificationTargetARN, name:"notificationTargetARN", min: 1)
-            try validate(notificationTargetARN, name:"notificationTargetARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(roleARN, name:"roleARN", max: 1600)
-            try validate(roleARN, name:"roleARN", min: 1)
-            try validate(roleARN, name:"roleARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupName = "AutoScalingGroupName"
             case defaultResult = "DefaultResult"
@@ -3235,15 +2892,6 @@ extension AutoScaling {
             self.state = state
         }
 
-        public func validate() throws {
-            try validate(loadBalancerName, name:"loadBalancerName", max: 255)
-            try validate(loadBalancerName, name:"loadBalancerName", min: 1)
-            try validate(loadBalancerName, name:"loadBalancerName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(state, name:"state", max: 255)
-            try validate(state, name:"state", min: 1)
-            try validate(state, name:"state", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case loadBalancerName = "LoadBalancerName"
             case state = "State"
@@ -3266,15 +2914,6 @@ extension AutoScaling {
             self.state = state
         }
 
-        public func validate() throws {
-            try validate(loadBalancerTargetGroupARN, name:"loadBalancerTargetGroupARN", max: 511)
-            try validate(loadBalancerTargetGroupARN, name:"loadBalancerTargetGroupARN", min: 1)
-            try validate(loadBalancerTargetGroupARN, name:"loadBalancerTargetGroupARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(state, name:"state", max: 255)
-            try validate(state, name:"state", min: 1)
-            try validate(state, name:"state", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case loadBalancerTargetGroupARN = "LoadBalancerTargetGroupARN"
             case state = "State"
@@ -3291,12 +2930,6 @@ extension AutoScaling {
 
         public init(metric: String? = nil) {
             self.metric = metric
-        }
-
-        public func validate() throws {
-            try validate(metric, name:"metric", max: 255)
-            try validate(metric, name:"metric", min: 1)
-            try validate(metric, name:"metric", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3336,12 +2969,6 @@ extension AutoScaling {
 
         public init(granularity: String? = nil) {
             self.granularity = granularity
-        }
-
-        public func validate() throws {
-            try validate(granularity, name:"granularity", max: 255)
-            try validate(granularity, name:"granularity", min: 1)
-            try validate(granularity, name:"granularity", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3413,18 +3040,6 @@ extension AutoScaling {
             self.topicARN = topicARN
         }
 
-        public func validate() throws {
-            try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 1600)
-            try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
-            try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(notificationType, name:"notificationType", max: 255)
-            try validate(notificationType, name:"notificationType", min: 1)
-            try validate(notificationType, name:"notificationType", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(topicARN, name:"topicARN", max: 1600)
-            try validate(topicARN, name:"topicARN", min: 1)
-            try validate(topicARN, name:"topicARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupName = "AutoScalingGroupName"
             case notificationType = "NotificationType"
@@ -3448,13 +3063,6 @@ extension AutoScaling {
             self.scalingPolicies = scalingPolicies
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try scalingPolicies?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case scalingPolicies = "ScalingPolicies"
@@ -3475,15 +3083,6 @@ extension AutoScaling {
         public init(alarms: [Alarm]? = nil, policyARN: String? = nil) {
             self.alarms = alarms
             self.policyARN = policyARN
-        }
-
-        public func validate() throws {
-            try alarms?.forEach {
-                try $0.validate()
-            }
-            try validate(policyARN, name:"policyARN", max: 1600)
-            try validate(policyARN, name:"policyARN", min: 1)
-            try validate(policyARN, name:"policyARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3532,12 +3131,6 @@ extension AutoScaling {
             self.processName = processName
         }
 
-        public func validate() throws {
-            try validate(processName, name:"processName", max: 255)
-            try validate(processName, name:"processName", min: 1)
-            try validate(processName, name:"processName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case processName = "ProcessName"
         }
@@ -3553,12 +3146,6 @@ extension AutoScaling {
 
         public init(processes: [ProcessType]? = nil) {
             self.processes = processes
-        }
-
-        public func validate() throws {
-            try processes?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3979,31 +3566,6 @@ extension AutoScaling {
             self.targetTrackingConfiguration = targetTrackingConfiguration
         }
 
-        public func validate() throws {
-            try validate(adjustmentType, name:"adjustmentType", max: 255)
-            try validate(adjustmentType, name:"adjustmentType", min: 1)
-            try validate(adjustmentType, name:"adjustmentType", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try alarms?.forEach {
-                try $0.validate()
-            }
-            try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 255)
-            try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
-            try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(metricAggregationType, name:"metricAggregationType", max: 32)
-            try validate(metricAggregationType, name:"metricAggregationType", min: 1)
-            try validate(metricAggregationType, name:"metricAggregationType", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(policyARN, name:"policyARN", max: 1600)
-            try validate(policyARN, name:"policyARN", min: 1)
-            try validate(policyARN, name:"policyARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(policyName, name:"policyName", max: 255)
-            try validate(policyName, name:"policyName", min: 1)
-            try validate(policyName, name:"policyName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(policyType, name:"policyType", max: 64)
-            try validate(policyType, name:"policyType", min: 1)
-            try validate(policyType, name:"policyType", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try targetTrackingConfiguration?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case adjustmentType = "AdjustmentType"
             case alarms = "Alarms"
@@ -4071,13 +3633,6 @@ extension AutoScaling {
             self.scheduledUpdateGroupActions = scheduledUpdateGroupActions
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try scheduledUpdateGroupActions?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case scheduledUpdateGroupActions = "ScheduledUpdateGroupActions"
@@ -4130,21 +3685,6 @@ extension AutoScaling {
             self.scheduledActionName = scheduledActionName
             self.startTime = startTime
             self.time = time
-        }
-
-        public func validate() throws {
-            try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 255)
-            try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
-            try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(recurrence, name:"recurrence", max: 255)
-            try validate(recurrence, name:"recurrence", min: 1)
-            try validate(recurrence, name:"recurrence", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(scheduledActionARN, name:"scheduledActionARN", max: 1600)
-            try validate(scheduledActionARN, name:"scheduledActionARN", min: 1)
-            try validate(scheduledActionARN, name:"scheduledActionARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(scheduledActionName, name:"scheduledActionName", max: 255)
-            try validate(scheduledActionName, name:"scheduledActionName", min: 1)
-            try validate(scheduledActionName, name:"scheduledActionName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4375,15 +3915,6 @@ extension AutoScaling {
             self.suspensionReason = suspensionReason
         }
 
-        public func validate() throws {
-            try validate(processName, name:"processName", max: 255)
-            try validate(processName, name:"processName", min: 1)
-            try validate(processName, name:"processName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(suspensionReason, name:"suspensionReason", max: 255)
-            try validate(suspensionReason, name:"suspensionReason", min: 1)
-            try validate(suspensionReason, name:"suspensionReason", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case processName = "ProcessName"
             case suspensionReason = "SuspensionReason"
@@ -4466,17 +3997,6 @@ extension AutoScaling {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 128)
-            try validate(key, name:"key", min: 1)
-            try validate(key, name:"key", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(resourceId, name:"resourceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(resourceType, name:"resourceType", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(value, name:"value", max: 256)
-            try validate(value, name:"value", min: 0)
-            try validate(value, name:"value", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case propagateAtLaunch = "PropagateAtLaunch"
@@ -4500,13 +4020,6 @@ extension AutoScaling {
         public init(nextToken: String? = nil, tags: [TagDescription]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
-        }
-
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try tags?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {

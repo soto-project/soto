@@ -122,12 +122,6 @@ extension Glue {
             self.errors = errors
         }
 
-        public func validate() throws {
-            try errors?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case errors = "Errors"
         }
@@ -182,20 +176,6 @@ extension Glue {
         public init(errors: [String: ErrorDetail]? = nil, succeeded: [String]? = nil) {
             self.errors = errors
             self.succeeded = succeeded
-        }
-
-        public func validate() throws {
-            try errors?.forEach {
-                try validate($0.key, name:"errors[key:]", max: 255)
-                try validate($0.key, name:"errors[key:]", min: 1)
-                try validate($0.key, name:"errors[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-                try $0.value.validate()
-            }
-            try succeeded?.forEach {
-                try validate($0, name:"succeeded[]", max: 255)
-                try validate($0, name:"succeeded[]", min: 1)
-                try validate($0, name:"succeeded[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -265,12 +245,6 @@ extension Glue {
             self.errors = errors
         }
 
-        public func validate() throws {
-            try errors?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case errors = "Errors"
         }
@@ -329,12 +303,6 @@ extension Glue {
 
         public init(errors: [TableError]? = nil) {
             self.errors = errors
-        }
-
-        public func validate() throws {
-            try errors?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -405,12 +373,6 @@ extension Glue {
             self.errors = errors
         }
 
-        public func validate() throws {
-            try errors?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case errors = "Errors"
         }
@@ -459,19 +421,6 @@ extension Glue {
             self.crawlersNotFound = crawlersNotFound
         }
 
-        public func validate() throws {
-            try crawlers?.forEach {
-                try $0.validate()
-            }
-            try crawlersNotFound?.forEach {
-                try validate($0, name:"crawlersNotFound[]", max: 255)
-                try validate($0, name:"crawlersNotFound[]", min: 1)
-                try validate($0, name:"crawlersNotFound[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            }
-            try validate(crawlersNotFound, name:"crawlersNotFound", max: 100)
-            try validate(crawlersNotFound, name:"crawlersNotFound", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case crawlers = "Crawlers"
             case crawlersNotFound = "CrawlersNotFound"
@@ -514,14 +463,6 @@ extension Glue {
         public init(devEndpoints: [DevEndpoint]? = nil, devEndpointsNotFound: [String]? = nil) {
             self.devEndpoints = devEndpoints
             self.devEndpointsNotFound = devEndpointsNotFound
-        }
-
-        public func validate() throws {
-            try devEndpoints?.forEach {
-                try $0.validate()
-            }
-            try validate(devEndpointsNotFound, name:"devEndpointsNotFound", max: 25)
-            try validate(devEndpointsNotFound, name:"devEndpointsNotFound", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -569,17 +510,6 @@ extension Glue {
         public init(jobs: [Job]? = nil, jobsNotFound: [String]? = nil) {
             self.jobs = jobs
             self.jobsNotFound = jobsNotFound
-        }
-
-        public func validate() throws {
-            try jobs?.forEach {
-                try $0.validate()
-            }
-            try jobsNotFound?.forEach {
-                try validate($0, name:"jobsNotFound[]", max: 255)
-                try validate($0, name:"jobsNotFound[]", min: 1)
-                try validate($0, name:"jobsNotFound[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -653,17 +583,6 @@ extension Glue {
             self.unprocessedKeys = unprocessedKeys
         }
 
-        public func validate() throws {
-            try partitions?.forEach {
-                try $0.validate()
-            }
-            try unprocessedKeys?.forEach {
-                try $0.validate()
-            }
-            try validate(unprocessedKeys, name:"unprocessedKeys", max: 1000)
-            try validate(unprocessedKeys, name:"unprocessedKeys", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case partitions = "Partitions"
             case unprocessedKeys = "UnprocessedKeys"
@@ -709,17 +628,6 @@ extension Glue {
         public init(triggers: [Trigger]? = nil, triggersNotFound: [String]? = nil) {
             self.triggers = triggers
             self.triggersNotFound = triggersNotFound
-        }
-
-        public func validate() throws {
-            try triggers?.forEach {
-                try $0.validate()
-            }
-            try triggersNotFound?.forEach {
-                try validate($0, name:"triggersNotFound[]", max: 255)
-                try validate($0, name:"triggersNotFound[]", min: 1)
-                try validate($0, name:"triggersNotFound[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -776,21 +684,6 @@ extension Glue {
             self.workflows = workflows
         }
 
-        public func validate() throws {
-            try missingWorkflows?.forEach {
-                try validate($0, name:"missingWorkflows[]", max: 255)
-                try validate($0, name:"missingWorkflows[]", min: 1)
-                try validate($0, name:"missingWorkflows[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            }
-            try validate(missingWorkflows, name:"missingWorkflows", max: 25)
-            try validate(missingWorkflows, name:"missingWorkflows", min: 1)
-            try workflows?.forEach {
-                try $0.validate()
-            }
-            try validate(workflows, name:"workflows", max: 25)
-            try validate(workflows, name:"workflows", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case missingWorkflows = "MissingWorkflows"
             case workflows = "Workflows"
@@ -815,16 +708,6 @@ extension Glue {
             self.errorDetail = errorDetail
             self.jobName = jobName
             self.jobRunId = jobRunId
-        }
-
-        public func validate() throws {
-            try errorDetail?.validate()
-            try validate(jobName, name:"jobName", max: 255)
-            try validate(jobName, name:"jobName", min: 1)
-            try validate(jobName, name:"jobName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(jobRunId, name:"jobRunId", max: 255)
-            try validate(jobRunId, name:"jobRunId", min: 1)
-            try validate(jobRunId, name:"jobRunId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -885,15 +768,6 @@ extension Glue {
             self.successfulSubmissions = successfulSubmissions
         }
 
-        public func validate() throws {
-            try errors?.forEach {
-                try $0.validate()
-            }
-            try successfulSubmissions?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case errors = "Errors"
             case successfulSubmissions = "SuccessfulSubmissions"
@@ -914,15 +788,6 @@ extension Glue {
         public init(jobName: String? = nil, jobRunId: String? = nil) {
             self.jobName = jobName
             self.jobRunId = jobRunId
-        }
-
-        public func validate() throws {
-            try validate(jobName, name:"jobName", max: 255)
-            try validate(jobName, name:"jobName", min: 1)
-            try validate(jobName, name:"jobName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(jobRunId, name:"jobRunId", max: 255)
-            try validate(jobRunId, name:"jobRunId", min: 1)
-            try validate(jobRunId, name:"jobRunId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -988,12 +853,6 @@ extension Glue {
             self.importTime = importTime
         }
 
-        public func validate() throws {
-            try validate(importedBy, name:"importedBy", max: 255)
-            try validate(importedBy, name:"importedBy", min: 1)
-            try validate(importedBy, name:"importedBy", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case importCompleted = "ImportCompleted"
             case importedBy = "ImportedBy"
@@ -1057,13 +916,6 @@ extension Glue {
             self.grokClassifier = grokClassifier
             self.jsonClassifier = jsonClassifier
             self.xMLClassifier = xMLClassifier
-        }
-
-        public func validate() throws {
-            try csvClassifier?.validate()
-            try grokClassifier?.validate()
-            try jsonClassifier?.validate()
-            try xMLClassifier?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1338,29 +1190,6 @@ extension Glue {
             self.physicalConnectionRequirements = physicalConnectionRequirements
         }
 
-        public func validate() throws {
-            try connectionProperties?.forEach {
-                try validate($0.value, name:"connectionProperties[:Value]", max: 1024)
-            }
-            try validate(description, name:"description", max: 2048)
-            try validate(description, name:"description", min: 0)
-            try validate(description, name:"description", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(lastUpdatedBy, name:"lastUpdatedBy", max: 255)
-            try validate(lastUpdatedBy, name:"lastUpdatedBy", min: 1)
-            try validate(lastUpdatedBy, name:"lastUpdatedBy", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try matchCriteria?.forEach {
-                try validate($0, name:"matchCriteria[]", max: 255)
-                try validate($0, name:"matchCriteria[]", min: 1)
-                try validate($0, name:"matchCriteria[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            }
-            try validate(matchCriteria, name:"matchCriteria", max: 10)
-            try validate(matchCriteria, name:"matchCriteria", min: 0)
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try physicalConnectionRequirements?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case connectionProperties = "ConnectionProperties"
             case connectionType = "ConnectionType"
@@ -1536,18 +1365,6 @@ extension Glue {
             self.state = state
         }
 
-        public func validate() throws {
-            try validate(errorMessage, name:"errorMessage", max: 2048)
-            try validate(errorMessage, name:"errorMessage", min: 0)
-            try validate(errorMessage, name:"errorMessage", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(logGroup, name:"logGroup", max: 512)
-            try validate(logGroup, name:"logGroup", min: 1)
-            try validate(logGroup, name:"logGroup", pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try validate(logStream, name:"logStream", max: 512)
-            try validate(logStream, name:"logStream", min: 1)
-            try validate(logStream, name:"logStream", pattern: "[^:*]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case completedOn = "CompletedOn"
             case errorMessage = "ErrorMessage"
@@ -1642,26 +1459,6 @@ extension Glue {
             self.version = version
         }
 
-        public func validate() throws {
-            try classifiers?.forEach {
-                try validate($0, name:"classifiers[]", max: 255)
-                try validate($0, name:"classifiers[]", min: 1)
-                try validate($0, name:"classifiers[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            }
-            try validate(crawlerSecurityConfiguration, name:"crawlerSecurityConfiguration", max: 128)
-            try validate(crawlerSecurityConfiguration, name:"crawlerSecurityConfiguration", min: 0)
-            try validate(description, name:"description", max: 2048)
-            try validate(description, name:"description", min: 0)
-            try validate(description, name:"description", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try lastCrawl?.validate()
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(tablePrefix, name:"tablePrefix", max: 128)
-            try validate(tablePrefix, name:"tablePrefix", min: 0)
-            try targets?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case classifiers = "Classifiers"
             case configuration = "Configuration"
@@ -1723,18 +1520,6 @@ extension Glue {
             self.timeLeftSeconds = timeLeftSeconds
         }
 
-        public func validate() throws {
-            try validate(crawlerName, name:"crawlerName", max: 255)
-            try validate(crawlerName, name:"crawlerName", min: 1)
-            try validate(crawlerName, name:"crawlerName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(lastRuntimeSeconds, name:"lastRuntimeSeconds", min: 0)
-            try validate(medianRuntimeSeconds, name:"medianRuntimeSeconds", min: 0)
-            try validate(tablesCreated, name:"tablesCreated", min: 0)
-            try validate(tablesDeleted, name:"tablesDeleted", min: 0)
-            try validate(tablesUpdated, name:"tablesUpdated", min: 0)
-            try validate(timeLeftSeconds, name:"timeLeftSeconds", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case crawlerName = "CrawlerName"
             case lastRuntimeSeconds = "LastRuntimeSeconds"
@@ -1757,12 +1542,6 @@ extension Glue {
 
         public init(crawls: [Crawl]? = nil) {
             self.crawls = crawls
-        }
-
-        public func validate() throws {
-            try crawls?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2263,13 +2042,6 @@ extension Glue {
             self.zeppelinRemoteSparkInterpreterPort = zeppelinRemoteSparkInterpreterPort
         }
 
-        public func validate() throws {
-            try validate(roleArn, name:"roleArn", pattern: "arn:aws:iam::\\d{12}:role/.*")
-            try validate(securityConfiguration, name:"securityConfiguration", max: 255)
-            try validate(securityConfiguration, name:"securityConfiguration", min: 1)
-            try validate(securityConfiguration, name:"securityConfiguration", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arguments = "Arguments"
             case availabilityZone = "AvailabilityZone"
@@ -2462,12 +2234,6 @@ extension Glue {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
         }
@@ -2657,12 +2423,6 @@ extension Glue {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case createdTimestamp = "CreatedTimestamp"
             case name = "Name"
@@ -2805,12 +2565,6 @@ extension Glue {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
         }
@@ -2922,12 +2676,6 @@ extension Glue {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
         }
@@ -3014,23 +2762,6 @@ extension Glue {
             self.version = version
         }
 
-        public func validate() throws {
-            try validate(delimiter, name:"delimiter", max: 1)
-            try validate(delimiter, name:"delimiter", min: 1)
-            try validate(delimiter, name:"delimiter", pattern: "[^\\r\\n]")
-            try header?.forEach {
-                try validate($0, name:"header[]", max: 255)
-                try validate($0, name:"header[]", min: 1)
-                try validate($0, name:"header[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            }
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(quoteSymbol, name:"quoteSymbol", max: 1)
-            try validate(quoteSymbol, name:"quoteSymbol", min: 1)
-            try validate(quoteSymbol, name:"quoteSymbol", pattern: "[^\\r\\n]")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case allowSingleColumn = "AllowSingleColumn"
             case containsHeader = "ContainsHeader"
@@ -3105,24 +2836,6 @@ extension Glue {
             self.locationUri = locationUri
             self.name = name
             self.parameters = parameters
-        }
-
-        public func validate() throws {
-            try validate(description, name:"description", max: 2048)
-            try validate(description, name:"description", min: 0)
-            try validate(description, name:"description", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(locationUri, name:"locationUri", max: 1024)
-            try validate(locationUri, name:"locationUri", min: 1)
-            try validate(locationUri, name:"locationUri", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try parameters?.forEach {
-                try validate($0.key, name:"parameters[key:]", max: 255)
-                try validate($0.key, name:"parameters[key:]", min: 1)
-                try validate($0.key, name:"parameters[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-                try validate($0.value, name:"parameters[:Value]", max: 512000)
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3391,12 +3104,6 @@ extension Glue {
             self.jobName = jobName
         }
 
-        public func validate() throws {
-            try validate(jobName, name:"jobName", max: 255)
-            try validate(jobName, name:"jobName", min: 1)
-            try validate(jobName, name:"jobName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case jobName = "JobName"
         }
@@ -3656,12 +3363,6 @@ extension Glue {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
         }
@@ -3747,12 +3448,6 @@ extension Glue {
 
         public init(name: String? = nil) {
             self.name = name
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3856,14 +3551,6 @@ extension Glue {
             self.zeppelinRemoteSparkInterpreterPort = zeppelinRemoteSparkInterpreterPort
         }
 
-        public func validate() throws {
-            try validate(publicKeys, name:"publicKeys", max: 5)
-            try validate(roleArn, name:"roleArn", pattern: "arn:aws:iam::\\d{12}:role/.*")
-            try validate(securityConfiguration, name:"securityConfiguration", max: 255)
-            try validate(securityConfiguration, name:"securityConfiguration", min: 1)
-            try validate(securityConfiguration, name:"securityConfiguration", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arguments = "Arguments"
             case availabilityZone = "AvailabilityZone"
@@ -3943,15 +3630,6 @@ extension Glue {
         public init(destinationId: String? = nil, sourceId: String? = nil) {
             self.destinationId = destinationId
             self.sourceId = sourceId
-        }
-
-        public func validate() throws {
-            try validate(destinationId, name:"destinationId", max: 255)
-            try validate(destinationId, name:"destinationId", min: 1)
-            try validate(destinationId, name:"destinationId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(sourceId, name:"sourceId", max: 255)
-            try validate(sourceId, name:"sourceId", min: 1)
-            try validate(sourceId, name:"sourceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4039,15 +3717,6 @@ extension Glue {
             self.errorMessage = errorMessage
         }
 
-        public func validate() throws {
-            try validate(errorCode, name:"errorCode", max: 255)
-            try validate(errorCode, name:"errorCode", min: 1)
-            try validate(errorCode, name:"errorCode", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(errorMessage, name:"errorMessage", max: 2048)
-            try validate(errorMessage, name:"errorMessage", min: 0)
-            try validate(errorMessage, name:"errorMessage", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
@@ -4113,10 +3782,6 @@ extension Glue {
             self.importStatus = importStatus
         }
 
-        public func validate() throws {
-            try importStatus?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case importStatus = "ImportStatus"
         }
@@ -4155,10 +3820,6 @@ extension Glue {
 
         public init(classifier: Classifier? = nil) {
             self.classifier = classifier
-        }
-
-        public func validate() throws {
-            try classifier?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4207,12 +3868,6 @@ extension Glue {
         public init(classifiers: [Classifier]? = nil, nextToken: String? = nil) {
             self.classifiers = classifiers
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try classifiers?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4267,10 +3922,6 @@ extension Glue {
 
         public init(connection: Connection? = nil) {
             self.connection = connection
-        }
-
-        public func validate() throws {
-            try connection?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4372,12 +4023,6 @@ extension Glue {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try connectionList?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case connectionList = "ConnectionList"
             case nextToken = "NextToken"
@@ -4439,12 +4084,6 @@ extension Glue {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try crawlerMetricsList?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case crawlerMetricsList = "CrawlerMetricsList"
             case nextToken = "NextToken"
@@ -4484,10 +4123,6 @@ extension Glue {
 
         public init(crawler: Crawler? = nil) {
             self.crawler = crawler
-        }
-
-        public func validate() throws {
-            try crawler?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4538,12 +4173,6 @@ extension Glue {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try crawlers?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case crawlers = "Crawlers"
             case nextToken = "NextToken"
@@ -4583,10 +4212,6 @@ extension Glue {
 
         public init(dataCatalogEncryptionSettings: DataCatalogEncryptionSettings? = nil) {
             self.dataCatalogEncryptionSettings = dataCatalogEncryptionSettings
-        }
-
-        public func validate() throws {
-            try dataCatalogEncryptionSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4635,10 +4260,6 @@ extension Glue {
 
         public init(database: Database? = nil) {
             self.database = database
-        }
-
-        public func validate() throws {
-            try database?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4697,12 +4318,6 @@ extension Glue {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try databaseList.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case databaseList = "DatabaseList"
             case nextToken = "NextToken"
@@ -4742,15 +4357,6 @@ extension Glue {
             self.dagNodes = dagNodes
         }
 
-        public func validate() throws {
-            try dagEdges?.forEach {
-                try $0.validate()
-            }
-            try dagNodes?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case dagEdges = "DagEdges"
             case dagNodes = "DagNodes"
@@ -4784,10 +4390,6 @@ extension Glue {
 
         public init(devEndpoint: DevEndpoint? = nil) {
             self.devEndpoint = devEndpoint
-        }
-
-        public func validate() throws {
-            try devEndpoint?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4838,12 +4440,6 @@ extension Glue {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try devEndpoints?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case devEndpoints = "DevEndpoints"
             case nextToken = "NextToken"
@@ -4883,10 +4479,6 @@ extension Glue {
 
         public init(job: Job? = nil) {
             self.job = job
-        }
-
-        public func validate() throws {
-            try job?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4940,10 +4532,6 @@ extension Glue {
 
         public init(jobRun: JobRun? = nil) {
             self.jobRun = jobRun
-        }
-
-        public func validate() throws {
-            try jobRun?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5002,12 +4590,6 @@ extension Glue {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try jobRuns?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case jobRuns = "JobRuns"
             case nextToken = "NextToken"
@@ -5055,12 +4637,6 @@ extension Glue {
         public init(jobs: [Job]? = nil, nextToken: String? = nil) {
             self.jobs = jobs
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try jobs?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5180,10 +4756,6 @@ extension Glue {
             self.partition = partition
         }
 
-        public func validate() throws {
-            try partition?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case partition = "Partition"
         }
@@ -5268,12 +4840,6 @@ extension Glue {
         public init(nextToken: String? = nil, partitions: [Partition]? = nil) {
             self.nextToken = nextToken
             self.partitions = partitions
-        }
-
-        public func validate() throws {
-            try partitions?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5381,14 +4947,6 @@ extension Glue {
             self.updateTime = updateTime
         }
 
-        public func validate() throws {
-            try validate(policyHash, name:"policyHash", max: 255)
-            try validate(policyHash, name:"policyHash", min: 1)
-            try validate(policyHash, name:"policyHash", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(policyInJson, name:"policyInJson", max: 10240)
-            try validate(policyInJson, name:"policyInJson", min: 2)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case createTime = "CreateTime"
             case policyHash = "PolicyHash"
@@ -5430,10 +4988,6 @@ extension Glue {
 
         public init(securityConfiguration: SecurityConfiguration? = nil) {
             self.securityConfiguration = securityConfiguration
-        }
-
-        public func validate() throws {
-            try securityConfiguration?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5482,12 +5036,6 @@ extension Glue {
         public init(nextToken: String? = nil, securityConfigurations: [SecurityConfiguration]? = nil) {
             self.nextToken = nextToken
             self.securityConfigurations = securityConfigurations
-        }
-
-        public func validate() throws {
-            try securityConfigurations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5545,10 +5093,6 @@ extension Glue {
 
         public init(table: Table? = nil) {
             self.table = table
-        }
-
-        public func validate() throws {
-            try table?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5613,10 +5157,6 @@ extension Glue {
 
         public init(tableVersion: TableVersion? = nil) {
             self.tableVersion = tableVersion
-        }
-
-        public func validate() throws {
-            try tableVersion?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5689,12 +5229,6 @@ extension Glue {
         public init(nextToken: String? = nil, tableVersions: [TableVersion]? = nil) {
             self.nextToken = nextToken
             self.tableVersions = tableVersions
-        }
-
-        public func validate() throws {
-            try tableVersions?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5770,12 +5304,6 @@ extension Glue {
             self.tableList = tableList
         }
 
-        public func validate() throws {
-            try tableList?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case tableList = "TableList"
@@ -5817,15 +5345,6 @@ extension Glue {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try tags?.forEach {
-                try validate($0.key, name:"tags[key:]", max: 128)
-                try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
         }
@@ -5864,10 +5383,6 @@ extension Glue {
 
         public init(trigger: Trigger? = nil) {
             self.trigger = trigger
-        }
-
-        public func validate() throws {
-            try trigger?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5926,12 +5441,6 @@ extension Glue {
             self.triggers = triggers
         }
 
-        public func validate() throws {
-            try triggers?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case triggers = "Triggers"
@@ -5987,10 +5496,6 @@ extension Glue {
 
         public init(userDefinedFunction: UserDefinedFunction? = nil) {
             self.userDefinedFunction = userDefinedFunction
-        }
-
-        public func validate() throws {
-            try userDefinedFunction?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6065,12 +5570,6 @@ extension Glue {
             self.userDefinedFunctions = userDefinedFunctions
         }
 
-        public func validate() throws {
-            try userDefinedFunctions?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case userDefinedFunctions = "UserDefinedFunctions"
@@ -6115,10 +5614,6 @@ extension Glue {
 
         public init(workflow: Workflow? = nil) {
             self.workflow = workflow
-        }
-
-        public func validate() throws {
-            try workflow?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6167,14 +5662,6 @@ extension Glue {
 
         public init(runProperties: [String: String]? = nil) {
             self.runProperties = runProperties
-        }
-
-        public func validate() throws {
-            try runProperties?.forEach {
-                try validate($0.key, name:"runProperties[key:]", max: 255)
-                try validate($0.key, name:"runProperties[key:]", min: 1)
-                try validate($0.key, name:"runProperties[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6228,10 +5715,6 @@ extension Glue {
 
         public init(run: WorkflowRun? = nil) {
             self.run = run
-        }
-
-        public func validate() throws {
-            try run?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6295,14 +5778,6 @@ extension Glue {
             self.runs = runs
         }
 
-        public func validate() throws {
-            try runs?.forEach {
-                try $0.validate()
-            }
-            try validate(runs, name:"runs", max: 1000)
-            try validate(runs, name:"runs", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case runs = "Runs"
@@ -6343,18 +5818,6 @@ extension Glue {
             self.lastUpdated = lastUpdated
             self.name = name
             self.version = version
-        }
-
-        public func validate() throws {
-            try validate(customPatterns, name:"customPatterns", max: 16000)
-            try validate(customPatterns, name:"customPatterns", min: 0)
-            try validate(customPatterns, name:"customPatterns", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(grokPattern, name:"grokPattern", max: 2048)
-            try validate(grokPattern, name:"grokPattern", min: 1)
-            try validate(grokPattern, name:"grokPattern", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\t]*")
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6502,21 +5965,6 @@ extension Glue {
             self.workerType = workerType
         }
 
-        public func validate() throws {
-            try command?.validate()
-            try validate(description, name:"description", max: 2048)
-            try validate(description, name:"description", min: 0)
-            try validate(description, name:"description", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try notificationProperty?.validate()
-            try validate(securityConfiguration, name:"securityConfiguration", max: 255)
-            try validate(securityConfiguration, name:"securityConfiguration", min: 1)
-            try validate(securityConfiguration, name:"securityConfiguration", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(timeout, name:"timeout", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case command = "Command"
             case connections = "Connections"
@@ -6650,12 +6098,6 @@ extension Glue {
             self.jobRuns = jobRuns
         }
 
-        public func validate() throws {
-            try jobRuns?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case jobRuns = "JobRuns"
         }
@@ -6747,29 +6189,6 @@ extension Glue {
             self.timeout = timeout
             self.triggerName = triggerName
             self.workerType = workerType
-        }
-
-        public func validate() throws {
-            try validate(id, name:"id", max: 255)
-            try validate(id, name:"id", min: 1)
-            try validate(id, name:"id", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(jobName, name:"jobName", max: 255)
-            try validate(jobName, name:"jobName", min: 1)
-            try validate(jobName, name:"jobName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try notificationProperty?.validate()
-            try predecessorRuns?.forEach {
-                try $0.validate()
-            }
-            try validate(previousRunId, name:"previousRunId", max: 255)
-            try validate(previousRunId, name:"previousRunId", min: 1)
-            try validate(previousRunId, name:"previousRunId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(securityConfiguration, name:"securityConfiguration", max: 255)
-            try validate(securityConfiguration, name:"securityConfiguration", min: 1)
-            try validate(securityConfiguration, name:"securityConfiguration", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(timeout, name:"timeout", min: 1)
-            try validate(triggerName, name:"triggerName", max: 255)
-            try validate(triggerName, name:"triggerName", min: 1)
-            try validate(triggerName, name:"triggerName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6929,12 +6348,6 @@ extension Glue {
             self.version = version
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case jsonPath = "JsonPath"
@@ -6980,21 +6393,6 @@ extension Glue {
             self.messagePrefix = messagePrefix
             self.startTime = startTime
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(errorMessage, name:"errorMessage", max: 2048)
-            try validate(errorMessage, name:"errorMessage", min: 0)
-            try validate(errorMessage, name:"errorMessage", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(logGroup, name:"logGroup", max: 512)
-            try validate(logGroup, name:"logGroup", min: 1)
-            try validate(logGroup, name:"logGroup", pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try validate(logStream, name:"logStream", max: 512)
-            try validate(logStream, name:"logStream", min: 1)
-            try validate(logStream, name:"logStream", pattern: "[^:*]*")
-            try validate(messagePrefix, name:"messagePrefix", max: 255)
-            try validate(messagePrefix, name:"messagePrefix", min: 1)
-            try validate(messagePrefix, name:"messagePrefix", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7068,16 +6466,6 @@ extension Glue {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try crawlerNames?.forEach {
-                try validate($0, name:"crawlerNames[]", max: 255)
-                try validate($0, name:"crawlerNames[]", min: 1)
-                try validate($0, name:"crawlerNames[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            }
-            try validate(crawlerNames, name:"crawlerNames", max: 100)
-            try validate(crawlerNames, name:"crawlerNames", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case crawlerNames = "CrawlerNames"
             case nextToken = "NextToken"
@@ -7138,14 +6526,6 @@ extension Glue {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try devEndpointNames?.forEach {
-                try validate($0, name:"devEndpointNames[]", max: 255)
-                try validate($0, name:"devEndpointNames[]", min: 1)
-                try validate($0, name:"devEndpointNames[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case devEndpointNames = "DevEndpointNames"
             case nextToken = "NextToken"
@@ -7204,14 +6584,6 @@ extension Glue {
         public init(jobNames: [String]? = nil, nextToken: String? = nil) {
             self.jobNames = jobNames
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try jobNames?.forEach {
-                try validate($0, name:"jobNames[]", max: 255)
-                try validate($0, name:"jobNames[]", min: 1)
-                try validate($0, name:"jobNames[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7282,14 +6654,6 @@ extension Glue {
             self.triggerNames = triggerNames
         }
 
-        public func validate() throws {
-            try triggerNames?.forEach {
-                try validate($0, name:"triggerNames[]", max: 255)
-                try validate($0, name:"triggerNames[]", min: 1)
-                try validate($0, name:"triggerNames[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case triggerNames = "TriggerNames"
@@ -7337,16 +6701,6 @@ extension Glue {
         public init(nextToken: String? = nil, workflows: [String]? = nil) {
             self.nextToken = nextToken
             self.workflows = workflows
-        }
-
-        public func validate() throws {
-            try workflows?.forEach {
-                try validate($0, name:"workflows[]", max: 255)
-                try validate($0, name:"workflows[]", min: 1)
-                try validate($0, name:"workflows[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            }
-            try validate(workflows, name:"workflows", max: 25)
-            try validate(workflows, name:"workflows", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7476,18 +6830,6 @@ extension Glue {
             self.uniqueId = uniqueId
         }
 
-        public func validate() throws {
-            try crawlerDetails?.validate()
-            try jobDetails?.validate()
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try triggerDetails?.validate()
-            try validate(uniqueId, name:"uniqueId", max: 255)
-            try validate(uniqueId, name:"uniqueId", min: 1)
-            try validate(uniqueId, name:"uniqueId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case crawlerDetails = "CrawlerDetails"
             case jobDetails = "JobDetails"
@@ -7596,25 +6938,6 @@ extension Glue {
             self.values = values
         }
 
-        public func validate() throws {
-            try validate(databaseName, name:"databaseName", max: 255)
-            try validate(databaseName, name:"databaseName", min: 1)
-            try validate(databaseName, name:"databaseName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try parameters?.forEach {
-                try validate($0.key, name:"parameters[key:]", max: 255)
-                try validate($0.key, name:"parameters[key:]", min: 1)
-                try validate($0.key, name:"parameters[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-                try validate($0.value, name:"parameters[:Value]", max: 512000)
-            }
-            try storageDescriptor?.validate()
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 1)
-            try validate(tableName, name:"tableName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try values?.forEach {
-                try validate($0, name:"values[]", max: 1024)
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case databaseName = "DatabaseName"
@@ -7641,13 +6964,6 @@ extension Glue {
         public init(errorDetail: ErrorDetail? = nil, partitionValues: [String]? = nil) {
             self.errorDetail = errorDetail
             self.partitionValues = partitionValues
-        }
-
-        public func validate() throws {
-            try errorDetail?.validate()
-            try partitionValues?.forEach {
-                try validate($0, name:"partitionValues[]", max: 1024)
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7788,15 +7104,6 @@ extension Glue {
             self.runId = runId
         }
 
-        public func validate() throws {
-            try validate(jobName, name:"jobName", max: 255)
-            try validate(jobName, name:"jobName", min: 1)
-            try validate(jobName, name:"jobName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(runId, name:"runId", max: 255)
-            try validate(runId, name:"runId", min: 1)
-            try validate(runId, name:"runId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case jobName = "JobName"
             case runId = "RunId"
@@ -7920,12 +7227,6 @@ extension Glue {
 
         public init(policyHash: String? = nil) {
             self.policyHash = policyHash
-        }
-
-        public func validate() throws {
-            try validate(policyHash, name:"policyHash", max: 255)
-            try validate(policyHash, name:"policyHash", min: 1)
-            try validate(policyHash, name:"policyHash", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8175,13 +7476,6 @@ extension Glue {
             self.createdTimeStamp = createdTimeStamp
             self.encryptionConfiguration = encryptionConfiguration
             self.name = name
-        }
-
-        public func validate() throws {
-            try encryptionConfiguration?.validate()
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8444,12 +7738,6 @@ extension Glue {
             self.jobRunId = jobRunId
         }
 
-        public func validate() throws {
-            try validate(jobRunId, name:"jobRunId", max: 255)
-            try validate(jobRunId, name:"jobRunId", min: 1)
-            try validate(jobRunId, name:"jobRunId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case jobRunId = "JobRunId"
         }
@@ -8490,12 +7778,6 @@ extension Glue {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
         }
@@ -8534,12 +7816,6 @@ extension Glue {
 
         public init(runId: String? = nil) {
             self.runId = runId
-        }
-
-        public func validate() throws {
-            try validate(runId, name:"runId", max: 255)
-            try validate(runId, name:"runId", min: 1)
-            try validate(runId, name:"runId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8642,12 +7918,6 @@ extension Glue {
 
         public init(name: String? = nil) {
             self.name = name
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8827,38 +8097,6 @@ extension Glue {
             self.viewOriginalText = viewOriginalText
         }
 
-        public func validate() throws {
-            try validate(createdBy, name:"createdBy", max: 255)
-            try validate(createdBy, name:"createdBy", min: 1)
-            try validate(createdBy, name:"createdBy", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(databaseName, name:"databaseName", max: 255)
-            try validate(databaseName, name:"databaseName", min: 1)
-            try validate(databaseName, name:"databaseName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(description, name:"description", max: 2048)
-            try validate(description, name:"description", min: 0)
-            try validate(description, name:"description", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(owner, name:"owner", max: 255)
-            try validate(owner, name:"owner", min: 1)
-            try validate(owner, name:"owner", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try parameters?.forEach {
-                try validate($0.key, name:"parameters[key:]", max: 255)
-                try validate($0.key, name:"parameters[key:]", min: 1)
-                try validate($0.key, name:"parameters[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-                try validate($0.value, name:"parameters[:Value]", max: 512000)
-            }
-            try partitionKeys?.forEach {
-                try $0.validate()
-            }
-            try validate(retention, name:"retention", min: 0)
-            try storageDescriptor?.validate()
-            try validate(tableType, name:"tableType", max: 255)
-            try validate(viewExpandedText, name:"viewExpandedText", max: 409600)
-            try validate(viewOriginalText, name:"viewOriginalText", max: 409600)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case createdBy = "CreatedBy"
             case createTime = "CreateTime"
@@ -8893,13 +8131,6 @@ extension Glue {
         public init(errorDetail: ErrorDetail? = nil, tableName: String? = nil) {
             self.errorDetail = errorDetail
             self.tableName = tableName
-        }
-
-        public func validate() throws {
-            try errorDetail?.validate()
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 1)
-            try validate(tableName, name:"tableName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9022,13 +8253,6 @@ extension Glue {
             self.versionId = versionId
         }
 
-        public func validate() throws {
-            try table?.validate()
-            try validate(versionId, name:"versionId", max: 255)
-            try validate(versionId, name:"versionId", min: 1)
-            try validate(versionId, name:"versionId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case table = "Table"
             case versionId = "VersionId"
@@ -9053,16 +8277,6 @@ extension Glue {
             self.errorDetail = errorDetail
             self.tableName = tableName
             self.versionId = versionId
-        }
-
-        public func validate() throws {
-            try errorDetail?.validate()
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 1)
-            try validate(tableName, name:"tableName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(versionId, name:"versionId", max: 255)
-            try validate(versionId, name:"versionId", min: 1)
-            try validate(versionId, name:"versionId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9158,25 +8372,6 @@ extension Glue {
             self.workflowName = workflowName
         }
 
-        public func validate() throws {
-            try actions?.forEach {
-                try $0.validate()
-            }
-            try validate(description, name:"description", max: 2048)
-            try validate(description, name:"description", min: 0)
-            try validate(description, name:"description", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(id, name:"id", max: 255)
-            try validate(id, name:"id", min: 1)
-            try validate(id, name:"id", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try predicate?.validate()
-            try validate(workflowName, name:"workflowName", max: 255)
-            try validate(workflowName, name:"workflowName", min: 1)
-            try validate(workflowName, name:"workflowName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case actions = "Actions"
             case description = "Description"
@@ -9200,10 +8395,6 @@ extension Glue {
 
         public init(trigger: Trigger? = nil) {
             self.trigger = trigger
-        }
-
-        public func validate() throws {
-            try trigger?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9809,12 +9000,6 @@ extension Glue {
             self.jobName = jobName
         }
 
-        public func validate() throws {
-            try validate(jobName, name:"jobName", max: 255)
-            try validate(jobName, name:"jobName", min: 1)
-            try validate(jobName, name:"jobName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case jobName = "JobName"
         }
@@ -10002,10 +9187,6 @@ extension Glue {
             self.trigger = trigger
         }
 
-        public func validate() throws {
-            try trigger?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case trigger = "Trigger"
         }
@@ -10114,12 +9295,6 @@ extension Glue {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
         }
@@ -10188,23 +9363,6 @@ extension Glue {
             self.ownerName = ownerName
             self.ownerType = ownerType
             self.resourceUris = resourceUris
-        }
-
-        public func validate() throws {
-            try validate(className, name:"className", max: 255)
-            try validate(className, name:"className", min: 1)
-            try validate(className, name:"className", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(functionName, name:"functionName", max: 255)
-            try validate(functionName, name:"functionName", min: 1)
-            try validate(functionName, name:"functionName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(ownerName, name:"ownerName", max: 255)
-            try validate(ownerName, name:"ownerName", min: 1)
-            try validate(ownerName, name:"ownerName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try resourceUris?.forEach {
-                try $0.validate()
-            }
-            try validate(resourceUris, name:"resourceUris", max: 1000)
-            try validate(resourceUris, name:"resourceUris", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10314,19 +9472,6 @@ extension Glue {
             self.name = name
         }
 
-        public func validate() throws {
-            try defaultRunProperties?.forEach {
-                try validate($0.key, name:"defaultRunProperties[key:]", max: 255)
-                try validate($0.key, name:"defaultRunProperties[key:]", min: 1)
-                try validate($0.key, name:"defaultRunProperties[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            }
-            try graph?.validate()
-            try lastRun?.validate()
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case createdOn = "CreatedOn"
             case defaultRunProperties = "DefaultRunProperties"
@@ -10352,15 +9497,6 @@ extension Glue {
         public init(edges: [Edge]? = nil, nodes: [Node]? = nil) {
             self.edges = edges
             self.nodes = nodes
-        }
-
-        public func validate() throws {
-            try edges?.forEach {
-                try $0.validate()
-            }
-            try nodes?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10407,21 +9543,6 @@ extension Glue {
             self.status = status
             self.workflowRunId = workflowRunId
             self.workflowRunProperties = workflowRunProperties
-        }
-
-        public func validate() throws {
-            try graph?.validate()
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(workflowRunId, name:"workflowRunId", max: 255)
-            try validate(workflowRunId, name:"workflowRunId", min: 1)
-            try validate(workflowRunId, name:"workflowRunId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try workflowRunProperties?.forEach {
-                try validate($0.key, name:"workflowRunProperties[key:]", max: 255)
-                try validate($0.key, name:"workflowRunProperties[key:]", min: 1)
-                try validate($0.key, name:"workflowRunProperties[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10514,12 +9635,6 @@ extension Glue {
             self.name = name
             self.rowTag = rowTag
             self.version = version
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {

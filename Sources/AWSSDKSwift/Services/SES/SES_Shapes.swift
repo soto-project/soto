@@ -1411,14 +1411,6 @@ extension SES {
             self.policies = policies
         }
 
-        public func validate() throws {
-            try policies.forEach {
-                try validate($0.key, name:"policies[key:]", max: 64)
-                try validate($0.key, name:"policies[key:]", min: 1)
-                try validate($0.value, name:"policies[:Value]", min: 1)
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case policies = "Policies"
         }
@@ -1888,13 +1880,6 @@ extension SES {
 
         public init(policyNames: [String]) {
             self.policyNames = policyNames
-        }
-
-        public func validate() throws {
-            try policyNames.forEach {
-                try validate($0, name:"policyNames[]", max: 64)
-                try validate($0, name:"policyNames[]", min: 1)
-            }
         }
 
         private enum CodingKeys: String, CodingKey {

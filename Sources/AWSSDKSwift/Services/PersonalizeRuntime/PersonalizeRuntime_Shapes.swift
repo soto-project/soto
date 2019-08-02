@@ -54,13 +54,6 @@ extension PersonalizeRuntime {
             self.personalizedRanking = personalizedRanking
         }
 
-        public func validate() throws {
-            try personalizedRanking?.forEach {
-                try $0.validate()
-            }
-            try validate(personalizedRanking, name:"personalizedRanking", max: 100)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case personalizedRanking = "personalizedRanking"
         }
@@ -119,13 +112,6 @@ extension PersonalizeRuntime {
             self.itemList = itemList
         }
 
-        public func validate() throws {
-            try itemList?.forEach {
-                try $0.validate()
-            }
-            try validate(itemList, name:"itemList", max: 100)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case itemList = "itemList"
         }
@@ -141,10 +127,6 @@ extension PersonalizeRuntime {
 
         public init(itemId: String? = nil) {
             self.itemId = itemId
-        }
-
-        public func validate() throws {
-            try validate(itemId, name:"itemId", max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {

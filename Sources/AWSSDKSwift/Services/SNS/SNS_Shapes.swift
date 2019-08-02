@@ -740,12 +740,6 @@ extension SNS {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try tags?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
         }

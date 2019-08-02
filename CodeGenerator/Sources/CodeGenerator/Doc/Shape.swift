@@ -12,35 +12,19 @@ public enum ShapeTypeError: Error {
     case unsupported(String)
 }
 
-public struct Shape {
+public class Shape {
     public let name: String
     public let type: ShapeType
-    
+    public var usedInInput : Bool = false
+    public var usedInOutput : Bool = false
+
     public init(name: String, type: ShapeType){
         self.name = name
         self.type = type
     }
-    
-    public var isStruct: Bool {
-        switch type {
-        case .structure(_):
-            return true
-        default:
-            return false
-        }
-    }
-    
-    public var isOutputType: Bool {
-        if name.count <= 6 {
-            return false
-        }
-        
-        let suffix = String(name[name.index(name.endIndex, offsetBy: -6)...])
-        return suffix.lowercased() == "output"
-    }
 }
 
-public struct StructureShape {
+public class StructureShape {
     public let members: [Member]
     public let payload: String?
     public let xmlNamespace: String?

@@ -78,10 +78,6 @@ extension Cloud9 {
             self.environmentId = environmentId
         }
 
-        public func validate() throws {
-            try validate(environmentId, name:"environmentId", pattern: "^[a-zA-Z0-9]{8,32}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case environmentId = "environmentId"
         }
@@ -129,10 +125,6 @@ extension Cloud9 {
 
         public init(membership: EnvironmentMember? = nil) {
             self.membership = membership
-        }
-
-        public func validate() throws {
-            try membership?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -264,12 +256,6 @@ extension Cloud9 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try memberships?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case memberships = "memberships"
             case nextToken = "nextToken"
@@ -356,12 +342,6 @@ extension Cloud9 {
             self.environments = environments
         }
 
-        public func validate() throws {
-            try environments?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case environments = "environments"
         }
@@ -401,13 +381,6 @@ extension Cloud9 {
             self.name = name
             self.ownerArn = ownerArn
             self.`type` = `type`
-        }
-
-        public func validate() throws {
-            try validate(description, name:"description", max: 200)
-            try validate(id, name:"id", pattern: "^[a-zA-Z0-9]{8,32}$")
-            try validate(name, name:"name", max: 60)
-            try validate(name, name:"name", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -483,11 +456,6 @@ extension Cloud9 {
             self.userId = userId
         }
 
-        public func validate() throws {
-            try validate(environmentId, name:"environmentId", pattern: "^[a-zA-Z0-9]{8,32}$")
-            try validate(userArn, name:"userArn", pattern: "arn:aws:(iam|sts)::\\d+:(root|user|federated-user|assumed-role)\\/?\\S*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case environmentId = "environmentId"
             case lastAccess = "lastAccess"
@@ -557,12 +525,6 @@ extension Cloud9 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try environmentIds?.forEach {
-                try validate($0, name:"environmentIds[]", pattern: "^[a-zA-Z0-9]{8,32}$")
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case environmentIds = "environmentIds"
             case nextToken = "nextToken"
@@ -624,10 +586,6 @@ extension Cloud9 {
 
         public init(membership: EnvironmentMember? = nil) {
             self.membership = membership
-        }
-
-        public func validate() throws {
-            try membership?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

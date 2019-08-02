@@ -67,12 +67,6 @@ extension Macie {
             self.failedS3Resources = failedS3Resources
         }
 
-        public func validate() throws {
-            try failedS3Resources?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case failedS3Resources = "failedS3Resources"
         }
@@ -184,12 +178,6 @@ extension Macie {
             self.failedS3Resources = failedS3Resources
         }
 
-        public func validate() throws {
-            try failedS3Resources?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case failedS3Resources = "failedS3Resources"
         }
@@ -213,12 +201,6 @@ extension Macie {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.failedItem = failedItem
-        }
-
-        public func validate() throws {
-            try validate(errorCode, name:"errorCode", max: 10)
-            try validate(errorMessage, name:"errorMessage", max: 10000)
-            try failedItem?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -269,13 +251,6 @@ extension Macie {
         public init(memberAccounts: [MemberAccount]? = nil, nextToken: String? = nil) {
             self.memberAccounts = memberAccounts
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try memberAccounts?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 500)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -333,13 +308,6 @@ extension Macie {
             self.s3Resources = s3Resources
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 500)
-            try s3Resources?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case s3Resources = "s3Resources"
@@ -356,10 +324,6 @@ extension Macie {
 
         public init(accountId: String? = nil) {
             self.accountId = accountId
-        }
-
-        public func validate() throws {
-            try validate(accountId, name:"accountId", pattern: "[0-9]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -508,12 +472,6 @@ extension Macie {
 
         public init(failedS3Resources: [FailedS3Resource]? = nil) {
             self.failedS3Resources = failedS3Resources
-        }
-
-        public func validate() throws {
-            try failedS3Resources?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {

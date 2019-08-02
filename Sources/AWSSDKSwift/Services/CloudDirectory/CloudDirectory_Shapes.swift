@@ -286,10 +286,6 @@ extension CloudDirectory {
             self.typedLinkSpecifier = typedLinkSpecifier
         }
 
-        public func validate() throws {
-            try typedLinkSpecifier?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case typedLinkSpecifier = "TypedLinkSpecifier"
         }
@@ -595,10 +591,6 @@ extension CloudDirectory {
 
         public init(typedLinkSpecifier: TypedLinkSpecifier? = nil) {
             self.typedLinkSpecifier = typedLinkSpecifier
-        }
-
-        public func validate() throws {
-            try typedLinkSpecifier?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -951,12 +943,6 @@ extension CloudDirectory {
             self.attributes = attributes
         }
 
-        public func validate() throws {
-            try attributes?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case attributes = "Attributes"
         }
@@ -1010,12 +996,6 @@ extension CloudDirectory {
             self.attributes = attributes
         }
 
-        public func validate() throws {
-            try attributes?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case attributes = "Attributes"
         }
@@ -1052,12 +1032,6 @@ extension CloudDirectory {
         public init(objectIdentifier: String? = nil, schemaFacets: [SchemaFacet]? = nil) {
             self.objectIdentifier = objectIdentifier
             self.schemaFacets = schemaFacets
-        }
-
-        public func validate() throws {
-            try schemaFacets?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1111,12 +1085,6 @@ extension CloudDirectory {
         public init(indexAttachments: [IndexAttachment]? = nil, nextToken: String? = nil) {
             self.indexAttachments = indexAttachments
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try indexAttachments?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1186,12 +1154,6 @@ extension CloudDirectory {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try linkSpecifiers?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case linkSpecifiers = "LinkSpecifiers"
             case nextToken = "NextToken"
@@ -1253,12 +1215,6 @@ extension CloudDirectory {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try indexAttachments?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case indexAttachments = "IndexAttachments"
             case nextToken = "NextToken"
@@ -1318,12 +1274,6 @@ extension CloudDirectory {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try attributes?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case attributes = "Attributes"
             case nextToken = "NextToken"
@@ -1375,14 +1325,6 @@ extension CloudDirectory {
         public init(children: [String: String]? = nil, nextToken: String? = nil) {
             self.children = children
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try children?.forEach {
-                try validate($0.key, name:"children[key:]", max: 64)
-                try validate($0.key, name:"children[key:]", min: 1)
-                try validate($0.key, name:"children[key:]", pattern: "[^\\/\\[\\]\\(\\):\\{\\}#@!?\\s\\\\;]+")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1484,12 +1426,6 @@ extension CloudDirectory {
         public init(nextToken: String? = nil, parentLinks: [ObjectIdentifierAndLinkNameTuple]? = nil) {
             self.nextToken = nextToken
             self.parentLinks = parentLinks
-        }
-
-        public func validate() throws {
-            try parentLinks?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1610,12 +1546,6 @@ extension CloudDirectory {
         public init(nextToken: String? = nil, typedLinkSpecifiers: [TypedLinkSpecifier]? = nil) {
             self.nextToken = nextToken
             self.typedLinkSpecifiers = typedLinkSpecifiers
-        }
-
-        public func validate() throws {
-            try typedLinkSpecifiers?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1882,10 +1812,6 @@ extension CloudDirectory {
             self.successfulResponse = successfulResponse
         }
 
-        public func validate() throws {
-            try successfulResponse?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case exceptionResponse = "ExceptionResponse"
             case successfulResponse = "SuccessfulResponse"
@@ -1935,12 +1861,6 @@ extension CloudDirectory {
 
         public init(responses: [BatchReadOperationResponse]? = nil) {
             self.responses = responses
-        }
-
-        public func validate() throws {
-            try responses?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2009,19 +1929,6 @@ extension CloudDirectory {
             self.listOutgoingTypedLinks = listOutgoingTypedLinks
             self.listPolicyAttachments = listPolicyAttachments
             self.lookupPolicy = lookupPolicy
-        }
-
-        public func validate() throws {
-            try getLinkAttributes?.validate()
-            try getObjectAttributes?.validate()
-            try getObjectInformation?.validate()
-            try listAttachedIndices?.validate()
-            try listIncomingTypedLinks?.validate()
-            try listIndex?.validate()
-            try listObjectAttributes?.validate()
-            try listObjectChildren?.validate()
-            try listObjectParents?.validate()
-            try listOutgoingTypedLinks?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2348,10 +2255,6 @@ extension CloudDirectory {
             self.updateObjectAttributes = updateObjectAttributes
         }
 
-        public func validate() throws {
-            try attachTypedLink?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case addFacetToObject = "AddFacetToObject"
             case attachObject = "AttachObject"
@@ -2409,12 +2312,6 @@ extension CloudDirectory {
 
         public init(responses: [BatchWriteOperationResponse]? = nil) {
             self.responses = responses
-        }
-
-        public func validate() throws {
-            try responses?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2478,12 +2375,6 @@ extension CloudDirectory {
             self.directoryArn = directoryArn
             self.name = name
             self.objectIdentifier = objectIdentifier
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 64)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3098,12 +2989,6 @@ extension CloudDirectory {
             self.state = state
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 64)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9._-]*$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationDateTime = "CreationDateTime"
             case directoryArn = "DirectoryArn"
@@ -3205,12 +3090,6 @@ extension CloudDirectory {
             self.facetStyle = facetStyle
             self.name = name
             self.objectType = objectType
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 64)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3436,10 +3315,6 @@ extension CloudDirectory {
             self.directory = directory
         }
 
-        public func validate() throws {
-            try directory.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case directory = "Directory"
         }
@@ -3483,10 +3358,6 @@ extension CloudDirectory {
 
         public init(facet: Facet? = nil) {
             self.facet = facet
-        }
-
-        public func validate() throws {
-            try facet?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3545,12 +3416,6 @@ extension CloudDirectory {
 
         public init(attributes: [AttributeKeyAndValue]? = nil) {
             self.attributes = attributes
-        }
-
-        public func validate() throws {
-            try attributes?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3616,12 +3481,6 @@ extension CloudDirectory {
             self.attributes = attributes
         }
 
-        public func validate() throws {
-            try attributes?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case attributes = "Attributes"
         }
@@ -3670,12 +3529,6 @@ extension CloudDirectory {
             self.schemaFacets = schemaFacets
         }
 
-        public func validate() throws {
-            try schemaFacets?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case objectIdentifier = "ObjectIdentifier"
             case schemaFacets = "SchemaFacets"
@@ -3713,12 +3566,6 @@ extension CloudDirectory {
         public init(document: String? = nil, name: String? = nil) {
             self.document = document
             self.name = name
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 32)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3765,14 +3612,6 @@ extension CloudDirectory {
             self.identityAttributeOrder = identityAttributeOrder
         }
 
-        public func validate() throws {
-            try identityAttributeOrder?.forEach {
-                try validate($0, name:"identityAttributeOrder[]", max: 230)
-                try validate($0, name:"identityAttributeOrder[]", min: 1)
-                try validate($0, name:"identityAttributeOrder[]", pattern: "^[a-zA-Z0-9._:-]*$")
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case identityAttributeOrder = "IdentityAttributeOrder"
         }
@@ -3792,12 +3631,6 @@ extension CloudDirectory {
         public init(indexedAttributes: [AttributeKeyAndValue]? = nil, objectIdentifier: String? = nil) {
             self.indexedAttributes = indexedAttributes
             self.objectIdentifier = objectIdentifier
-        }
-
-        public func validate() throws {
-            try indexedAttributes?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3969,12 +3802,6 @@ extension CloudDirectory {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try indexAttachments?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case indexAttachments = "IndexAttachments"
             case nextToken = "NextToken"
@@ -4076,12 +3903,6 @@ extension CloudDirectory {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try directories.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case directories = "Directories"
             case nextToken = "NextToken"
@@ -4143,12 +3964,6 @@ extension CloudDirectory {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try attributes?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case attributes = "Attributes"
             case nextToken = "NextToken"
@@ -4200,14 +4015,6 @@ extension CloudDirectory {
         public init(facetNames: [String]? = nil, nextToken: String? = nil) {
             self.facetNames = facetNames
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try facetNames?.forEach {
-                try validate($0, name:"facetNames[]", max: 64)
-                try validate($0, name:"facetNames[]", min: 1)
-                try validate($0, name:"facetNames[]", pattern: "^[a-zA-Z0-9._-]*$")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4287,12 +4094,6 @@ extension CloudDirectory {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try linkSpecifiers?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case linkSpecifiers = "LinkSpecifiers"
             case nextToken = "NextToken"
@@ -4362,12 +4163,6 @@ extension CloudDirectory {
         public init(indexAttachments: [IndexAttachment]? = nil, nextToken: String? = nil) {
             self.indexAttachments = indexAttachments
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try indexAttachments?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4492,12 +4287,6 @@ extension CloudDirectory {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try attributes?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case attributes = "Attributes"
             case nextToken = "NextToken"
@@ -4559,14 +4348,6 @@ extension CloudDirectory {
         public init(children: [String: String]? = nil, nextToken: String? = nil) {
             self.children = children
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try children?.forEach {
-                try validate($0.key, name:"children[key:]", max: 64)
-                try validate($0.key, name:"children[key:]", min: 1)
-                try validate($0.key, name:"children[key:]", pattern: "[^\\/\\[\\]\\(\\):\\{\\}#@!?\\s\\\\;]+")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4697,17 +4478,6 @@ extension CloudDirectory {
             self.nextToken = nextToken
             self.parentLinks = parentLinks
             self.parents = parents
-        }
-
-        public func validate() throws {
-            try parentLinks?.forEach {
-                try $0.validate()
-            }
-            try parents?.forEach {
-                try validate($0.value, name:"parents[:Value]", max: 64)
-                try validate($0.value, name:"parents[:Value]", min: 1)
-                try validate($0.value, name:"parents[:Value]", pattern: "[^\\/\\[\\]\\(\\):\\{\\}#@!?\\s\\\\;]+")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4849,12 +4619,6 @@ extension CloudDirectory {
         public init(nextToken: String? = nil, typedLinkSpecifiers: [TypedLinkSpecifier]? = nil) {
             self.nextToken = nextToken
             self.typedLinkSpecifiers = typedLinkSpecifiers
-        }
-
-        public func validate() throws {
-            try typedLinkSpecifiers?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5085,12 +4849,6 @@ extension CloudDirectory {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try attributes?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case attributes = "Attributes"
             case nextToken = "NextToken"
@@ -5142,12 +4900,6 @@ extension CloudDirectory {
         public init(facetNames: [String]? = nil, nextToken: String? = nil) {
             self.facetNames = facetNames
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try facetNames?.forEach {
-                try validate($0, name:"facetNames[]", pattern: "^[a-zA-Z0-9._-]*$")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5302,12 +5054,6 @@ extension CloudDirectory {
         public init(linkName: String? = nil, objectIdentifier: String? = nil) {
             self.linkName = linkName
             self.objectIdentifier = objectIdentifier
-        }
-
-        public func validate() throws {
-            try validate(linkName, name:"linkName", max: 64)
-            try validate(linkName, name:"linkName", min: 1)
-            try validate(linkName, name:"linkName", pattern: "[^\\/\\[\\]\\(\\):\\{\\}#@!?\\s\\\\;]+")
         }
 
         private enum CodingKeys: String, CodingKey {

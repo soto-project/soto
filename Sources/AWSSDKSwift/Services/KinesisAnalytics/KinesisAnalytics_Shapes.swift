@@ -289,33 +289,6 @@ extension KinesisAnalytics {
             self.referenceDataSourceDescriptions = referenceDataSourceDescriptions
         }
 
-        public func validate() throws {
-            try validate(applicationARN, name:"applicationARN", max: 2048)
-            try validate(applicationARN, name:"applicationARN", min: 1)
-            try validate(applicationARN, name:"applicationARN", pattern: "arn:.*")
-            try validate(applicationCode, name:"applicationCode", max: 102400)
-            try validate(applicationCode, name:"applicationCode", min: 0)
-            try validate(applicationDescription, name:"applicationDescription", max: 1024)
-            try validate(applicationDescription, name:"applicationDescription", min: 0)
-            try validate(applicationName, name:"applicationName", max: 128)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(applicationVersionId, name:"applicationVersionId", max: 999999999)
-            try validate(applicationVersionId, name:"applicationVersionId", min: 1)
-            try cloudWatchLoggingOptionDescriptions?.forEach {
-                try $0.validate()
-            }
-            try inputDescriptions?.forEach {
-                try $0.validate()
-            }
-            try outputDescriptions?.forEach {
-                try $0.validate()
-            }
-            try referenceDataSourceDescriptions?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case applicationARN = "ApplicationARN"
             case applicationCode = "ApplicationCode"
@@ -360,15 +333,6 @@ extension KinesisAnalytics {
             self.applicationARN = applicationARN
             self.applicationName = applicationName
             self.applicationStatus = applicationStatus
-        }
-
-        public func validate() throws {
-            try validate(applicationARN, name:"applicationARN", max: 2048)
-            try validate(applicationARN, name:"applicationARN", min: 1)
-            try validate(applicationARN, name:"applicationARN", pattern: "arn:.*")
-            try validate(applicationName, name:"applicationName", max: 128)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -510,18 +474,6 @@ extension KinesisAnalytics {
             self.roleARN = roleARN
         }
 
-        public func validate() throws {
-            try validate(cloudWatchLoggingOptionId, name:"cloudWatchLoggingOptionId", max: 50)
-            try validate(cloudWatchLoggingOptionId, name:"cloudWatchLoggingOptionId", min: 1)
-            try validate(cloudWatchLoggingOptionId, name:"cloudWatchLoggingOptionId", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(logStreamARN, name:"logStreamARN", max: 2048)
-            try validate(logStreamARN, name:"logStreamARN", min: 1)
-            try validate(logStreamARN, name:"logStreamARN", pattern: "arn:.*")
-            try validate(roleARN, name:"roleARN", max: 2048)
-            try validate(roleARN, name:"roleARN", min: 1)
-            try validate(roleARN, name:"roleARN", pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLoggingOptionId = "CloudWatchLoggingOptionId"
             case logStreamARN = "LogStreamARN"
@@ -649,10 +601,6 @@ extension KinesisAnalytics {
 
         public init(applicationSummary: ApplicationSummary) {
             self.applicationSummary = applicationSummary
-        }
-
-        public func validate() throws {
-            try applicationSummary.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -915,10 +863,6 @@ extension KinesisAnalytics {
             self.applicationDetail = applicationDetail
         }
 
-        public func validate() throws {
-            try applicationDetail.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case applicationDetail = "ApplicationDetail"
         }
@@ -1011,10 +955,6 @@ extension KinesisAnalytics {
             self.parsedInputRecords = parsedInputRecords
             self.processedInputRecords = processedInputRecords
             self.rawInputRecords = rawInputRecords
-        }
-
-        public func validate() throws {
-            try inputSchema?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1149,23 +1089,6 @@ extension KinesisAnalytics {
             self.namePrefix = namePrefix
         }
 
-        public func validate() throws {
-            try inAppStreamNames?.forEach {
-                try validate($0, name:"inAppStreamNames[]", max: 32)
-                try validate($0, name:"inAppStreamNames[]", min: 1)
-            }
-            try validate(inputId, name:"inputId", max: 50)
-            try validate(inputId, name:"inputId", min: 1)
-            try validate(inputId, name:"inputId", pattern: "[a-zA-Z0-9_.-]+")
-            try inputParallelism?.validate()
-            try inputProcessingConfigurationDescription?.validate()
-            try inputSchema?.validate()
-            try kinesisFirehoseInputDescription?.validate()
-            try kinesisStreamsInputDescription?.validate()
-            try validate(namePrefix, name:"namePrefix", max: 32)
-            try validate(namePrefix, name:"namePrefix", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case inAppStreamNames = "InAppStreamNames"
             case inputId = "InputId"
@@ -1224,15 +1147,6 @@ extension KinesisAnalytics {
         public init(resourceARN: String? = nil, roleARN: String? = nil) {
             self.resourceARN = resourceARN
             self.roleARN = roleARN
-        }
-
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 2048)
-            try validate(resourceARN, name:"resourceARN", min: 1)
-            try validate(resourceARN, name:"resourceARN", pattern: "arn:.*")
-            try validate(roleARN, name:"roleARN", max: 2048)
-            try validate(roleARN, name:"roleARN", min: 1)
-            try validate(roleARN, name:"roleARN", pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1347,10 +1261,6 @@ extension KinesisAnalytics {
 
         public init(inputLambdaProcessorDescription: InputLambdaProcessorDescription? = nil) {
             self.inputLambdaProcessorDescription = inputLambdaProcessorDescription
-        }
-
-        public func validate() throws {
-            try inputLambdaProcessorDescription?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1568,15 +1478,6 @@ extension KinesisAnalytics {
             self.roleARN = roleARN
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 2048)
-            try validate(resourceARN, name:"resourceARN", min: 1)
-            try validate(resourceARN, name:"resourceARN", pattern: "arn:.*")
-            try validate(roleARN, name:"roleARN", max: 2048)
-            try validate(roleARN, name:"roleARN", min: 1)
-            try validate(roleARN, name:"roleARN", pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case resourceARN = "ResourceARN"
             case roleARN = "RoleARN"
@@ -1659,15 +1560,6 @@ extension KinesisAnalytics {
         public init(resourceARN: String? = nil, roleARN: String? = nil) {
             self.resourceARN = resourceARN
             self.roleARN = roleARN
-        }
-
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 2048)
-            try validate(resourceARN, name:"resourceARN", min: 1)
-            try validate(resourceARN, name:"resourceARN", pattern: "arn:.*")
-            try validate(roleARN, name:"roleARN", max: 2048)
-            try validate(roleARN, name:"roleARN", min: 1)
-            try validate(roleARN, name:"roleARN", pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1754,15 +1646,6 @@ extension KinesisAnalytics {
             self.roleARN = roleARN
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 2048)
-            try validate(resourceARN, name:"resourceARN", min: 1)
-            try validate(resourceARN, name:"resourceARN", pattern: "arn:.*")
-            try validate(roleARN, name:"roleARN", max: 2048)
-            try validate(roleARN, name:"roleARN", min: 1)
-            try validate(roleARN, name:"roleARN", pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case resourceARN = "ResourceARN"
             case roleARN = "RoleARN"
@@ -1845,15 +1728,6 @@ extension KinesisAnalytics {
         public init(resourceARN: String? = nil, roleARN: String? = nil) {
             self.resourceARN = resourceARN
             self.roleARN = roleARN
-        }
-
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 2048)
-            try validate(resourceARN, name:"resourceARN", min: 1)
-            try validate(resourceARN, name:"resourceARN", pattern: "arn:.*")
-            try validate(roleARN, name:"roleARN", max: 2048)
-            try validate(roleARN, name:"roleARN", min: 1)
-            try validate(roleARN, name:"roleARN", pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1940,15 +1814,6 @@ extension KinesisAnalytics {
             self.roleARN = roleARN
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 2048)
-            try validate(resourceARN, name:"resourceARN", min: 1)
-            try validate(resourceARN, name:"resourceARN", pattern: "arn:.*")
-            try validate(roleARN, name:"roleARN", max: 2048)
-            try validate(roleARN, name:"roleARN", min: 1)
-            try validate(roleARN, name:"roleARN", pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case resourceARN = "ResourceARN"
             case roleARN = "RoleARN"
@@ -2032,12 +1897,6 @@ extension KinesisAnalytics {
             self.hasMoreApplications = hasMoreApplications
         }
 
-        public func validate() throws {
-            try applicationSummaries.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case applicationSummaries = "ApplicationSummaries"
             case hasMoreApplications = "HasMoreApplications"
@@ -2077,14 +1936,6 @@ extension KinesisAnalytics {
 
         public init(tags: [Tag]? = nil) {
             self.tags = tags
-        }
-
-        public func validate() throws {
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", max: 200)
-            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2194,17 +2045,6 @@ extension KinesisAnalytics {
             self.lambdaOutputDescription = lambdaOutputDescription
             self.name = name
             self.outputId = outputId
-        }
-
-        public func validate() throws {
-            try kinesisFirehoseOutputDescription?.validate()
-            try kinesisStreamsOutputDescription?.validate()
-            try lambdaOutputDescription?.validate()
-            try validate(name, name:"name", max: 32)
-            try validate(name, name:"name", min: 1)
-            try validate(outputId, name:"outputId", max: 50)
-            try validate(outputId, name:"outputId", min: 1)
-            try validate(outputId, name:"outputId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2391,16 +2231,6 @@ extension KinesisAnalytics {
             self.tableName = tableName
         }
 
-        public func validate() throws {
-            try validate(referenceId, name:"referenceId", max: 50)
-            try validate(referenceId, name:"referenceId", min: 1)
-            try validate(referenceId, name:"referenceId", pattern: "[a-zA-Z0-9_.-]+")
-            try referenceSchema?.validate()
-            try s3ReferenceDataSourceDescription.validate()
-            try validate(tableName, name:"tableName", max: 32)
-            try validate(tableName, name:"tableName", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case referenceId = "ReferenceId"
             case referenceSchema = "ReferenceSchema"
@@ -2545,17 +2375,6 @@ extension KinesisAnalytics {
             self.bucketARN = bucketARN
             self.fileKey = fileKey
             self.referenceRoleARN = referenceRoleARN
-        }
-
-        public func validate() throws {
-            try validate(bucketARN, name:"bucketARN", max: 2048)
-            try validate(bucketARN, name:"bucketARN", min: 1)
-            try validate(bucketARN, name:"bucketARN", pattern: "arn:.*")
-            try validate(fileKey, name:"fileKey", max: 1024)
-            try validate(fileKey, name:"fileKey", min: 1)
-            try validate(referenceRoleARN, name:"referenceRoleARN", max: 2048)
-            try validate(referenceRoleARN, name:"referenceRoleARN", min: 1)
-            try validate(referenceRoleARN, name:"referenceRoleARN", pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -242,20 +242,6 @@ extension IoT {
             self.violationStartTime = violationStartTime
         }
 
-        public func validate() throws {
-            try behavior?.validate()
-            try lastViolationValue?.validate()
-            try validate(securityProfileName, name:"securityProfileName", max: 128)
-            try validate(securityProfileName, name:"securityProfileName", min: 1)
-            try validate(securityProfileName, name:"securityProfileName", pattern: "[a-zA-Z0-9:_-]+")
-            try validate(thingName, name:"thingName", max: 128)
-            try validate(thingName, name:"thingName", min: 1)
-            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
-            try validate(violationId, name:"violationId", max: 128)
-            try validate(violationId, name:"violationId", min: 1)
-            try validate(violationId, name:"violationId", pattern: "[a-zA-Z0-9\\-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case behavior = "behavior"
             case lastViolationTime = "lastViolationTime"
@@ -414,12 +400,6 @@ extension IoT {
             self.policies = policies
         }
 
-        public func validate() throws {
-            try policies?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case policies = "policies"
         }
@@ -479,14 +459,6 @@ extension IoT {
             self.description = description
             self.jobArn = jobArn
             self.jobId = jobId
-        }
-
-        public func validate() throws {
-            try validate(description, name:"description", max: 2028)
-            try validate(description, name:"description", pattern: "[^\\p{C}]+")
-            try validate(jobId, name:"jobId", max: 64)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "[a-zA-Z0-9_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -704,10 +676,6 @@ extension IoT {
             self.totalResourcesCount = totalResourcesCount
         }
 
-        public func validate() throws {
-            try validate(message, name:"message", max: 2048)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case checkCompliant = "checkCompliant"
             case checkRunStatus = "checkRunStatus"
@@ -770,16 +738,6 @@ extension IoT {
             self.severity = severity
             self.taskId = taskId
             self.taskStartTime = taskStartTime
-        }
-
-        public func validate() throws {
-            try nonCompliantResource?.validate()
-            try relatedResources?.forEach {
-                try $0.validate()
-            }
-            try validate(taskId, name:"taskId", max: 40)
-            try validate(taskId, name:"taskId", min: 1)
-            try validate(taskId, name:"taskId", pattern: "[a-zA-Z0-9\\-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -868,12 +826,6 @@ extension IoT {
             self.taskType = taskType
         }
 
-        public func validate() throws {
-            try validate(taskId, name:"taskId", max: 40)
-            try validate(taskId, name:"taskId", min: 1)
-            try validate(taskId, name:"taskId", pattern: "[a-zA-Z0-9\\-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case taskId = "taskId"
             case taskStatus = "taskStatus"
@@ -952,11 +904,6 @@ extension IoT {
             self.missingContextValues = missingContextValues
         }
 
-        public func validate() throws {
-            try allowed?.validate()
-            try denied?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case allowed = "allowed"
             case authDecision = "authDecision"
@@ -1006,21 +953,6 @@ extension IoT {
             self.tokenSigningPublicKeys = tokenSigningPublicKeys
         }
 
-        public func validate() throws {
-            try validate(authorizerName, name:"authorizerName", max: 128)
-            try validate(authorizerName, name:"authorizerName", min: 1)
-            try validate(authorizerName, name:"authorizerName", pattern: "[\\w=,@-]+")
-            try validate(tokenKeyName, name:"tokenKeyName", max: 128)
-            try validate(tokenKeyName, name:"tokenKeyName", min: 1)
-            try validate(tokenKeyName, name:"tokenKeyName", pattern: "[a-zA-Z0-9_-]+")
-            try tokenSigningPublicKeys?.forEach {
-                try validate($0.key, name:"tokenSigningPublicKeys[key:]", max: 128)
-                try validate($0.key, name:"tokenSigningPublicKeys[key:]", min: 1)
-                try validate($0.key, name:"tokenSigningPublicKeys[key:]", pattern: "[a-zA-Z0-9:_-]+")
-                try validate($0.value, name:"tokenSigningPublicKeys[:Value]", max: 5120)
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case authorizerArn = "authorizerArn"
             case authorizerFunctionArn = "authorizerFunctionArn"
@@ -1053,12 +985,6 @@ extension IoT {
         public init(authorizerArn: String? = nil, authorizerName: String? = nil) {
             self.authorizerArn = authorizerArn
             self.authorizerName = authorizerName
-        }
-
-        public func validate() throws {
-            try validate(authorizerName, name:"authorizerName", max: 128)
-            try validate(authorizerName, name:"authorizerName", min: 1)
-            try validate(authorizerName, name:"authorizerName", pattern: "[\\w=,@-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1243,12 +1169,6 @@ extension IoT {
             self.status = status
         }
 
-        public func validate() throws {
-            try validate(certificateId, name:"certificateId", max: 64)
-            try validate(certificateId, name:"certificateId", min: 64)
-            try validate(certificateId, name:"certificateId", pattern: "(0x)?[a-fA-F0-9]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "certificateArn"
             case certificateId = "certificateId"
@@ -1307,18 +1227,6 @@ extension IoT {
             self.ownedBy = ownedBy
             self.status = status
             self.validity = validity
-        }
-
-        public func validate() throws {
-            try validate(certificateId, name:"certificateId", max: 64)
-            try validate(certificateId, name:"certificateId", min: 64)
-            try validate(certificateId, name:"certificateId", pattern: "(0x)?[a-fA-F0-9]+")
-            try validate(certificatePem, name:"certificatePem", max: 65536)
-            try validate(certificatePem, name:"certificatePem", min: 1)
-            try validate(customerVersion, name:"customerVersion", min: 1)
-            try validate(ownedBy, name:"ownedBy", max: 12)
-            try validate(ownedBy, name:"ownedBy", min: 12)
-            try validate(ownedBy, name:"ownedBy", pattern: "[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1512,14 +1420,6 @@ extension IoT {
             self.jobId = jobId
         }
 
-        public func validate() throws {
-            try validate(description, name:"description", max: 2028)
-            try validate(description, name:"description", pattern: "[^\\p{C}]+")
-            try validate(jobId, name:"jobId", max: 64)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "[a-zA-Z0-9_-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case jobArn = "jobArn"
@@ -1561,12 +1461,6 @@ extension IoT {
             self.certificateId = certificateId
             self.creationDate = creationDate
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(certificateId, name:"certificateId", max: 64)
-            try validate(certificateId, name:"certificateId", min: 64)
-            try validate(certificateId, name:"certificateId", pattern: "(0x)?[a-fA-F0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1635,25 +1529,6 @@ extension IoT {
             self.status = status
             self.transferData = transferData
             self.validity = validity
-        }
-
-        public func validate() throws {
-            try validate(caCertificateId, name:"caCertificateId", max: 64)
-            try validate(caCertificateId, name:"caCertificateId", min: 64)
-            try validate(caCertificateId, name:"caCertificateId", pattern: "(0x)?[a-fA-F0-9]+")
-            try validate(certificateId, name:"certificateId", max: 64)
-            try validate(certificateId, name:"certificateId", min: 64)
-            try validate(certificateId, name:"certificateId", pattern: "(0x)?[a-fA-F0-9]+")
-            try validate(certificatePem, name:"certificatePem", max: 65536)
-            try validate(certificatePem, name:"certificatePem", min: 1)
-            try validate(customerVersion, name:"customerVersion", min: 1)
-            try validate(ownedBy, name:"ownedBy", max: 12)
-            try validate(ownedBy, name:"ownedBy", min: 12)
-            try validate(ownedBy, name:"ownedBy", pattern: "[0-9]+")
-            try validate(previousOwnedBy, name:"previousOwnedBy", max: 12)
-            try validate(previousOwnedBy, name:"previousOwnedBy", min: 12)
-            try validate(previousOwnedBy, name:"previousOwnedBy", pattern: "[0-9]+")
-            try transferData?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1962,12 +1837,6 @@ extension IoT {
             self.authorizerName = authorizerName
         }
 
-        public func validate() throws {
-            try validate(authorizerName, name:"authorizerName", max: 128)
-            try validate(authorizerName, name:"authorizerName", min: 1)
-            try validate(authorizerName, name:"authorizerName", pattern: "[\\w=,@-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case authorizerArn = "authorizerArn"
             case authorizerName = "authorizerName"
@@ -2028,15 +1897,6 @@ extension IoT {
             self.billingGroupName = billingGroupName
         }
 
-        public func validate() throws {
-            try validate(billingGroupId, name:"billingGroupId", max: 128)
-            try validate(billingGroupId, name:"billingGroupId", min: 1)
-            try validate(billingGroupId, name:"billingGroupId", pattern: "[a-zA-Z0-9\\-]+")
-            try validate(billingGroupName, name:"billingGroupName", max: 128)
-            try validate(billingGroupName, name:"billingGroupName", min: 1)
-            try validate(billingGroupName, name:"billingGroupName", pattern: "[a-zA-Z0-9:_-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case billingGroupArn = "billingGroupArn"
             case billingGroupId = "billingGroupId"
@@ -2088,14 +1948,6 @@ extension IoT {
             self.certificateArn = certificateArn
             self.certificateId = certificateId
             self.certificatePem = certificatePem
-        }
-
-        public func validate() throws {
-            try validate(certificateId, name:"certificateId", max: 64)
-            try validate(certificateId, name:"certificateId", min: 64)
-            try validate(certificateId, name:"certificateId", pattern: "(0x)?[a-fA-F0-9]+")
-            try validate(certificatePem, name:"certificatePem", max: 65536)
-            try validate(certificatePem, name:"certificatePem", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2188,19 +2040,6 @@ extension IoT {
             self.thingGroupArn = thingGroupArn
             self.thingGroupId = thingGroupId
             self.thingGroupName = thingGroupName
-        }
-
-        public func validate() throws {
-            try validate(indexName, name:"indexName", max: 128)
-            try validate(indexName, name:"indexName", min: 1)
-            try validate(indexName, name:"indexName", pattern: "[a-zA-Z0-9:_-]+")
-            try validate(queryString, name:"queryString", min: 1)
-            try validate(thingGroupId, name:"thingGroupId", max: 128)
-            try validate(thingGroupId, name:"thingGroupId", min: 1)
-            try validate(thingGroupId, name:"thingGroupId", pattern: "[a-zA-Z0-9\\-]+")
-            try validate(thingGroupName, name:"thingGroupName", max: 128)
-            try validate(thingGroupName, name:"thingGroupName", min: 1)
-            try validate(thingGroupName, name:"thingGroupName", pattern: "[a-zA-Z0-9:_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2315,14 +2154,6 @@ extension IoT {
             self.jobId = jobId
         }
 
-        public func validate() throws {
-            try validate(description, name:"description", max: 2028)
-            try validate(description, name:"description", pattern: "[^\\p{C}]+")
-            try validate(jobId, name:"jobId", max: 64)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "[a-zA-Z0-9_-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case jobArn = "jobArn"
@@ -2369,15 +2200,6 @@ extension IoT {
             self.certificateId = certificateId
             self.certificatePem = certificatePem
             self.keyPair = keyPair
-        }
-
-        public func validate() throws {
-            try validate(certificateId, name:"certificateId", max: 64)
-            try validate(certificateId, name:"certificateId", min: 64)
-            try validate(certificateId, name:"certificateId", pattern: "(0x)?[a-fA-F0-9]+")
-            try validate(certificatePem, name:"certificatePem", max: 65536)
-            try validate(certificatePem, name:"certificatePem", min: 1)
-            try keyPair?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2490,12 +2312,6 @@ extension IoT {
             self.otaUpdateStatus = otaUpdateStatus
         }
 
-        public func validate() throws {
-            try validate(otaUpdateId, name:"otaUpdateId", max: 128)
-            try validate(otaUpdateId, name:"otaUpdateId", min: 1)
-            try validate(otaUpdateId, name:"otaUpdateId", pattern: "[a-zA-Z0-9_-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case awsIotJobArn = "awsIotJobArn"
             case awsIotJobId = "awsIotJobId"
@@ -2555,13 +2371,6 @@ extension IoT {
             self.policyDocument = policyDocument
             self.policyName = policyName
             self.policyVersionId = policyVersionId
-        }
-
-        public func validate() throws {
-            try validate(policyName, name:"policyName", max: 128)
-            try validate(policyName, name:"policyName", min: 1)
-            try validate(policyName, name:"policyName", pattern: "[\\w+=,.@-]+")
-            try validate(policyVersionId, name:"policyVersionId", pattern: "[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2629,10 +2438,6 @@ extension IoT {
             self.policyVersionId = policyVersionId
         }
 
-        public func validate() throws {
-            try validate(policyVersionId, name:"policyVersionId", pattern: "[0-9]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case isDefaultVersion = "isDefaultVersion"
             case policyArn = "policyArn"
@@ -2692,12 +2497,6 @@ extension IoT {
         public init(roleAlias: String? = nil, roleAliasArn: String? = nil) {
             self.roleAlias = roleAlias
             self.roleAliasArn = roleAliasArn
-        }
-
-        public func validate() throws {
-            try validate(roleAlias, name:"roleAlias", max: 128)
-            try validate(roleAlias, name:"roleAlias", min: 1)
-            try validate(roleAlias, name:"roleAlias", pattern: "[\\w=,@-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2845,12 +2644,6 @@ extension IoT {
             self.securityProfileName = securityProfileName
         }
 
-        public func validate() throws {
-            try validate(securityProfileName, name:"securityProfileName", max: 128)
-            try validate(securityProfileName, name:"securityProfileName", min: 1)
-            try validate(securityProfileName, name:"securityProfileName", pattern: "[a-zA-Z0-9:_-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case securityProfileArn = "securityProfileArn"
             case securityProfileName = "securityProfileName"
@@ -2933,16 +2726,6 @@ extension IoT {
             self.streamVersion = streamVersion
         }
 
-        public func validate() throws {
-            try validate(description, name:"description", max: 2028)
-            try validate(description, name:"description", pattern: "[^\\p{C}]+")
-            try validate(streamId, name:"streamId", max: 128)
-            try validate(streamId, name:"streamId", min: 1)
-            try validate(streamId, name:"streamId", pattern: "[a-zA-Z0-9_-]+")
-            try validate(streamVersion, name:"streamVersion", max: 65535)
-            try validate(streamVersion, name:"streamVersion", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case streamArn = "streamArn"
@@ -3011,15 +2794,6 @@ extension IoT {
             self.thingGroupArn = thingGroupArn
             self.thingGroupId = thingGroupId
             self.thingGroupName = thingGroupName
-        }
-
-        public func validate() throws {
-            try validate(thingGroupId, name:"thingGroupId", max: 128)
-            try validate(thingGroupId, name:"thingGroupId", min: 1)
-            try validate(thingGroupId, name:"thingGroupId", pattern: "[a-zA-Z0-9\\-]+")
-            try validate(thingGroupName, name:"thingGroupName", max: 128)
-            try validate(thingGroupName, name:"thingGroupName", min: 1)
-            try validate(thingGroupName, name:"thingGroupName", pattern: "[a-zA-Z0-9:_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3094,12 +2868,6 @@ extension IoT {
             self.thingName = thingName
         }
 
-        public func validate() throws {
-            try validate(thingName, name:"thingName", max: 128)
-            try validate(thingName, name:"thingName", min: 1)
-            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case thingArn = "thingArn"
             case thingId = "thingId"
@@ -3159,12 +2927,6 @@ extension IoT {
             self.thingTypeArn = thingTypeArn
             self.thingTypeId = thingTypeId
             self.thingTypeName = thingTypeName
-        }
-
-        public func validate() throws {
-            try validate(thingTypeName, name:"thingTypeName", max: 128)
-            try validate(thingTypeName, name:"thingTypeName", min: 1)
-            try validate(thingTypeName, name:"thingTypeName", pattern: "[a-zA-Z0-9:_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3911,11 +3673,6 @@ extension IoT {
             self.implicitDeny = implicitDeny
         }
 
-        public func validate() throws {
-            try explicitDeny?.validate()
-            try implicitDeny?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case explicitDeny = "explicitDeny"
             case implicitDeny = "implicitDeny"
@@ -3986,14 +3743,6 @@ extension IoT {
             self.roleArn = roleArn
         }
 
-        public func validate() throws {
-            try auditNotificationTargetConfigurations?.forEach {
-                try $0.value.validate()
-            }
-            try validate(roleArn, name:"roleArn", max: 2048)
-            try validate(roleArn, name:"roleArn", min: 20)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case auditCheckConfigurations = "auditCheckConfigurations"
             case auditNotificationTargetConfigurations = "auditNotificationTargetConfigurations"
@@ -4056,15 +3805,6 @@ extension IoT {
             self.taskType = taskType
         }
 
-        public func validate() throws {
-            try auditDetails?.forEach {
-                try $0.value.validate()
-            }
-            try validate(scheduledAuditName, name:"scheduledAuditName", max: 128)
-            try validate(scheduledAuditName, name:"scheduledAuditName", min: 1)
-            try validate(scheduledAuditName, name:"scheduledAuditName", pattern: "[a-zA-Z0-9_-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case auditDetails = "auditDetails"
             case scheduledAuditName = "scheduledAuditName"
@@ -4108,10 +3848,6 @@ extension IoT {
 
         public init(authorizerDescription: AuthorizerDescription? = nil) {
             self.authorizerDescription = authorizerDescription
-        }
-
-        public func validate() throws {
-            try authorizerDescription?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4174,16 +3910,6 @@ extension IoT {
             self.version = version
         }
 
-        public func validate() throws {
-            try validate(billingGroupId, name:"billingGroupId", max: 128)
-            try validate(billingGroupId, name:"billingGroupId", min: 1)
-            try validate(billingGroupId, name:"billingGroupId", pattern: "[a-zA-Z0-9\\-]+")
-            try validate(billingGroupName, name:"billingGroupName", max: 128)
-            try validate(billingGroupName, name:"billingGroupName", min: 1)
-            try validate(billingGroupName, name:"billingGroupName", pattern: "[a-zA-Z0-9:_-]+")
-            try billingGroupProperties?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case billingGroupArn = "billingGroupArn"
             case billingGroupId = "billingGroupId"
@@ -4233,11 +3959,6 @@ extension IoT {
             self.registrationConfig = registrationConfig
         }
 
-        public func validate() throws {
-            try certificateDescription?.validate()
-            try registrationConfig?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case certificateDescription = "certificateDescription"
             case registrationConfig = "registrationConfig"
@@ -4279,10 +4000,6 @@ extension IoT {
             self.certificateDescription = certificateDescription
         }
 
-        public func validate() throws {
-            try certificateDescription?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case certificateDescription = "certificateDescription"
         }
@@ -4306,10 +4023,6 @@ extension IoT {
 
         public init(authorizerDescription: AuthorizerDescription? = nil) {
             self.authorizerDescription = authorizerDescription
-        }
-
-        public func validate() throws {
-            try authorizerDescription?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4429,12 +4142,6 @@ extension IoT {
             self.schema = schema
         }
 
-        public func validate() throws {
-            try validate(indexName, name:"indexName", max: 128)
-            try validate(indexName, name:"indexName", min: 1)
-            try validate(indexName, name:"indexName", pattern: "[a-zA-Z0-9:_-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case indexName = "indexName"
             case indexStatus = "indexStatus"
@@ -4490,10 +4197,6 @@ extension IoT {
             self.execution = execution
         }
 
-        public func validate() throws {
-            try execution?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case execution = "execution"
         }
@@ -4538,12 +4241,6 @@ extension IoT {
             self.job = job
         }
 
-        public func validate() throws {
-            try validate(documentSource, name:"documentSource", max: 1350)
-            try validate(documentSource, name:"documentSource", min: 1)
-            try job?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case documentSource = "documentSource"
             case job = "job"
@@ -4583,10 +4280,6 @@ extension IoT {
 
         public init(roleAliasDescription: RoleAliasDescription? = nil) {
             self.roleAliasDescription = roleAliasDescription
-        }
-
-        public func validate() throws {
-            try roleAliasDescription?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4647,13 +4340,6 @@ extension IoT {
             self.scheduledAuditArn = scheduledAuditArn
             self.scheduledAuditName = scheduledAuditName
             self.targetCheckNames = targetCheckNames
-        }
-
-        public func validate() throws {
-            try validate(dayOfMonth, name:"dayOfMonth", pattern: "^([1-9]|[12][0-9]|3[01])$|^LAST$")
-            try validate(scheduledAuditName, name:"scheduledAuditName", max: 128)
-            try validate(scheduledAuditName, name:"scheduledAuditName", min: 1)
-            try validate(scheduledAuditName, name:"scheduledAuditName", pattern: "[a-zA-Z0-9_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4733,21 +4419,6 @@ extension IoT {
             self.version = version
         }
 
-        public func validate() throws {
-            try alertTargets?.forEach {
-                try $0.value.validate()
-            }
-            try behaviors?.forEach {
-                try $0.validate()
-            }
-            try validate(behaviors, name:"behaviors", max: 100)
-            try validate(securityProfileDescription, name:"securityProfileDescription", max: 1000)
-            try validate(securityProfileDescription, name:"securityProfileDescription", pattern: "[\\p{Graph}\\x20]*")
-            try validate(securityProfileName, name:"securityProfileName", max: 128)
-            try validate(securityProfileName, name:"securityProfileName", min: 1)
-            try validate(securityProfileName, name:"securityProfileName", pattern: "[a-zA-Z0-9:_-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case additionalMetricsToRetain = "additionalMetricsToRetain"
             case alertTargets = "alertTargets"
@@ -4794,10 +4465,6 @@ extension IoT {
 
         public init(streamInfo: StreamInfo? = nil) {
             self.streamInfo = streamInfo
-        }
-
-        public func validate() throws {
-            try streamInfo?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4874,21 +4541,6 @@ extension IoT {
             self.thingGroupName = thingGroupName
             self.thingGroupProperties = thingGroupProperties
             self.version = version
-        }
-
-        public func validate() throws {
-            try validate(indexName, name:"indexName", max: 128)
-            try validate(indexName, name:"indexName", min: 1)
-            try validate(indexName, name:"indexName", pattern: "[a-zA-Z0-9:_-]+")
-            try validate(queryString, name:"queryString", min: 1)
-            try validate(thingGroupId, name:"thingGroupId", max: 128)
-            try validate(thingGroupId, name:"thingGroupId", min: 1)
-            try validate(thingGroupId, name:"thingGroupId", pattern: "[a-zA-Z0-9\\-]+")
-            try thingGroupMetadata?.validate()
-            try validate(thingGroupName, name:"thingGroupName", max: 128)
-            try validate(thingGroupName, name:"thingGroupName", min: 1)
-            try validate(thingGroupName, name:"thingGroupName", pattern: "[a-zA-Z0-9:_-]+")
-            try thingGroupProperties?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4982,21 +4634,6 @@ extension IoT {
             self.templateBody = templateBody
         }
 
-        public func validate() throws {
-            try validate(inputFileBucket, name:"inputFileBucket", max: 256)
-            try validate(inputFileBucket, name:"inputFileBucket", min: 3)
-            try validate(inputFileBucket, name:"inputFileBucket", pattern: "[a-zA-Z0-9._-]+")
-            try validate(inputFileKey, name:"inputFileKey", max: 1024)
-            try validate(inputFileKey, name:"inputFileKey", min: 1)
-            try validate(inputFileKey, name:"inputFileKey", pattern: "[a-zA-Z0-9!_.*'()-\\/]+")
-            try validate(message, name:"message", max: 2048)
-            try validate(percentageProgress, name:"percentageProgress", max: 100)
-            try validate(percentageProgress, name:"percentageProgress", min: 0)
-            try validate(roleArn, name:"roleArn", max: 2048)
-            try validate(roleArn, name:"roleArn", min: 20)
-            try validate(taskId, name:"taskId", max: 40)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationDate = "creationDate"
             case failureCount = "failureCount"
@@ -5076,24 +4713,6 @@ extension IoT {
             self.version = version
         }
 
-        public func validate() throws {
-            try attributes?.forEach {
-                try validate($0.key, name:"attributes[key:]", max: 128)
-                try validate($0.key, name:"attributes[key:]", pattern: "[a-zA-Z0-9_.,@/:#-]+")
-                try validate($0.value, name:"attributes[:Value]", max: 800)
-                try validate($0.value, name:"attributes[:Value]", pattern: "[a-zA-Z0-9_.,@/:#-]*")
-            }
-            try validate(billingGroupName, name:"billingGroupName", max: 128)
-            try validate(billingGroupName, name:"billingGroupName", min: 1)
-            try validate(billingGroupName, name:"billingGroupName", pattern: "[a-zA-Z0-9:_-]+")
-            try validate(thingName, name:"thingName", max: 128)
-            try validate(thingName, name:"thingName", min: 1)
-            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
-            try validate(thingTypeName, name:"thingTypeName", max: 128)
-            try validate(thingTypeName, name:"thingTypeName", min: 1)
-            try validate(thingTypeName, name:"thingTypeName", pattern: "[a-zA-Z0-9:_-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
             case billingGroupName = "billingGroupName"
@@ -5155,13 +4774,6 @@ extension IoT {
             self.thingTypeMetadata = thingTypeMetadata
             self.thingTypeName = thingTypeName
             self.thingTypeProperties = thingTypeProperties
-        }
-
-        public func validate() throws {
-            try validate(thingTypeName, name:"thingTypeName", max: 128)
-            try validate(thingTypeName, name:"thingTypeName", min: 1)
-            try validate(thingTypeName, name:"thingTypeName", pattern: "[a-zA-Z0-9:_-]+")
-            try thingTypeProperties?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5462,12 +5074,6 @@ extension IoT {
             self.policyName = policyName
         }
 
-        public func validate() throws {
-            try validate(policyName, name:"policyName", max: 128)
-            try validate(policyName, name:"policyName", min: 1)
-            try validate(policyName, name:"policyName", pattern: "[\\w+=,.@-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case policyArn = "policyArn"
             case policyDocument = "policyDocument"
@@ -5586,12 +5192,6 @@ extension IoT {
 
         public init(policies: [Policy]? = nil) {
             self.policies = policies
-        }
-
-        public func validate() throws {
-            try policies?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5737,12 +5337,6 @@ extension IoT {
             self.effectivePolicies = effectivePolicies
         }
 
-        public func validate() throws {
-            try effectivePolicies?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case effectivePolicies = "effectivePolicies"
         }
@@ -5811,10 +5405,6 @@ extension IoT {
 
         public init(document: String? = nil) {
             self.document = document
-        }
-
-        public func validate() throws {
-            try validate(document, name:"document", max: 32768)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5887,10 +5477,6 @@ extension IoT {
             self.otaUpdateInfo = otaUpdateInfo
         }
 
-        public func validate() throws {
-            try otaUpdateInfo?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case otaUpdateInfo = "otaUpdateInfo"
         }
@@ -5953,13 +5539,6 @@ extension IoT {
             self.policyArn = policyArn
             self.policyDocument = policyDocument
             self.policyName = policyName
-        }
-
-        public func validate() throws {
-            try validate(defaultVersionId, name:"defaultVersionId", pattern: "[0-9]+")
-            try validate(policyName, name:"policyName", max: 128)
-            try validate(policyName, name:"policyName", min: 1)
-            try validate(policyName, name:"policyName", pattern: "[\\w+=,.@-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6042,13 +5621,6 @@ extension IoT {
             self.policyVersionId = policyVersionId
         }
 
-        public func validate() throws {
-            try validate(policyName, name:"policyName", max: 128)
-            try validate(policyName, name:"policyName", min: 1)
-            try validate(policyName, name:"policyName", pattern: "[\\w+=,.@-]+")
-            try validate(policyVersionId, name:"policyVersionId", pattern: "[0-9]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationDate = "creationDate"
             case generationId = "generationId"
@@ -6079,12 +5651,6 @@ extension IoT {
 
         public init(registrationCode: String? = nil) {
             self.registrationCode = registrationCode
-        }
-
-        public func validate() throws {
-            try validate(registrationCode, name:"registrationCode", max: 64)
-            try validate(registrationCode, name:"registrationCode", min: 64)
-            try validate(registrationCode, name:"registrationCode", pattern: "(0x)?[a-fA-F0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6188,10 +5754,6 @@ extension IoT {
             self.ruleArn = ruleArn
         }
 
-        public func validate() throws {
-            try rule?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case rule = "rule"
             case ruleArn = "ruleArn"
@@ -6249,12 +5811,6 @@ extension IoT {
             self.groupName = groupName
         }
 
-        public func validate() throws {
-            try validate(groupName, name:"groupName", max: 128)
-            try validate(groupName, name:"groupName", min: 1)
-            try validate(groupName, name:"groupName", pattern: "[a-zA-Z0-9:_-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case groupArn = "groupArn"
             case groupName = "groupName"
@@ -6271,12 +5827,6 @@ extension IoT {
 
         public init(policies: [Policy]? = nil) {
             self.policies = policies
-        }
-
-        public func validate() throws {
-            try policies?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6427,22 +5977,6 @@ extension IoT {
             self.timeoutConfig = timeoutConfig
         }
 
-        public func validate() throws {
-            try abortConfig?.validate()
-            try validate(comment, name:"comment", max: 2028)
-            try validate(comment, name:"comment", pattern: "[^\\p{C}]+")
-            try validate(description, name:"description", max: 2028)
-            try validate(description, name:"description", pattern: "[^\\p{C}]+")
-            try jobExecutionsRolloutConfig?.validate()
-            try validate(jobId, name:"jobId", max: 64)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "[a-zA-Z0-9_-]+")
-            try presignedUrlConfig?.validate()
-            try validate(reasonCode, name:"reasonCode", max: 128)
-            try validate(reasonCode, name:"reasonCode", pattern: "[\\p{Upper}\\p{Digit}_]+")
-            try validate(targets, name:"targets", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case abortConfig = "abortConfig"
             case comment = "comment"
@@ -6516,13 +6050,6 @@ extension IoT {
             self.versionNumber = versionNumber
         }
 
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 64)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "[a-zA-Z0-9_-]+")
-            try statusDetails?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case approximateSecondsBeforeTimedOut = "approximateSecondsBeforeTimedOut"
             case executionNumber = "executionNumber"
@@ -6568,17 +6095,6 @@ extension IoT {
 
         public init(detailsMap: [String: String]? = nil) {
             self.detailsMap = detailsMap
-        }
-
-        public func validate() throws {
-            try detailsMap?.forEach {
-                try validate($0.key, name:"detailsMap[key:]", max: 128)
-                try validate($0.key, name:"detailsMap[key:]", min: 1)
-                try validate($0.key, name:"detailsMap[key:]", pattern: "[a-zA-Z0-9:_-]+")
-                try validate($0.value, name:"detailsMap[:Value]", max: 1024)
-                try validate($0.value, name:"detailsMap[:Value]", min: 1)
-                try validate($0.value, name:"detailsMap[:Value]", pattern: "[^\\p{C}]*+")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6659,12 +6175,6 @@ extension IoT {
         public init(jobExecutionSummary: JobExecutionSummary? = nil, jobId: String? = nil) {
             self.jobExecutionSummary = jobExecutionSummary
             self.jobId = jobId
-        }
-
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 64)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "[a-zA-Z0-9_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6805,15 +6315,6 @@ extension IoT {
             self.thingGroupId = thingGroupId
         }
 
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 64)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "[a-zA-Z0-9_-]+")
-            try validate(thingGroupId, name:"thingGroupId", max: 128)
-            try validate(thingGroupId, name:"thingGroupId", min: 1)
-            try validate(thingGroupId, name:"thingGroupId", pattern: "[a-zA-Z0-9\\-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case completedAt = "completedAt"
             case createdAt = "createdAt"
@@ -6840,11 +6341,6 @@ extension IoT {
         public init(privateKey: String? = nil, publicKey: String? = nil) {
             self.privateKey = privateKey
             self.publicKey = publicKey
-        }
-
-        public func validate() throws {
-            try validate(privateKey, name:"privateKey", min: 1)
-            try validate(publicKey, name:"publicKey", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6956,12 +6452,6 @@ extension IoT {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try activeViolations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case activeViolations = "activeViolations"
             case nextToken = "nextToken"
@@ -7020,13 +6510,6 @@ extension IoT {
         public init(nextMarker: String? = nil, policies: [Policy]? = nil) {
             self.nextMarker = nextMarker
             self.policies = policies
-        }
-
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", pattern: "[A-Za-z0-9+/]+={0,2}")
-            try policies?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7107,12 +6590,6 @@ extension IoT {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try findings?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case findings = "findings"
             case nextToken = "nextToken"
@@ -7182,12 +6659,6 @@ extension IoT {
             self.tasks = tasks
         }
 
-        public func validate() throws {
-            try tasks?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case tasks = "tasks"
@@ -7248,13 +6719,6 @@ extension IoT {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try authorizers?.forEach {
-                try $0.validate()
-            }
-            try validate(nextMarker, name:"nextMarker", pattern: "[A-Za-z0-9+/]+={0,2}")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case authorizers = "authorizers"
             case nextMarker = "nextMarker"
@@ -7312,12 +6776,6 @@ extension IoT {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try billingGroups?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case billingGroups = "billingGroups"
             case nextToken = "nextToken"
@@ -7371,13 +6829,6 @@ extension IoT {
         public init(certificates: [CACertificate]? = nil, nextMarker: String? = nil) {
             self.certificates = certificates
             self.nextMarker = nextMarker
-        }
-
-        public func validate() throws {
-            try certificates?.forEach {
-                try $0.validate()
-            }
-            try validate(nextMarker, name:"nextMarker", pattern: "[A-Za-z0-9+/]+={0,2}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7443,13 +6894,6 @@ extension IoT {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try certificates?.forEach {
-                try $0.validate()
-            }
-            try validate(nextMarker, name:"nextMarker", pattern: "[A-Za-z0-9+/]+={0,2}")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case certificates = "certificates"
             case nextMarker = "nextMarker"
@@ -7505,13 +6949,6 @@ extension IoT {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try certificates?.forEach {
-                try $0.validate()
-            }
-            try validate(nextMarker, name:"nextMarker", pattern: "[A-Za-z0-9+/]+={0,2}")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case certificates = "certificates"
             case nextMarker = "nextMarker"
@@ -7559,14 +6996,6 @@ extension IoT {
         public init(indexNames: [String]? = nil, nextToken: String? = nil) {
             self.indexNames = indexNames
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try indexNames?.forEach {
-                try validate($0, name:"indexNames[]", max: 128)
-                try validate($0, name:"indexNames[]", min: 1)
-                try validate($0, name:"indexNames[]", pattern: "[a-zA-Z0-9:_-]+")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7693,12 +7122,6 @@ extension IoT {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try executionSummaries?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case executionSummaries = "executionSummaries"
             case nextToken = "nextToken"
@@ -7774,12 +7197,6 @@ extension IoT {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try jobs?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case jobs = "jobs"
             case nextToken = "nextToken"
@@ -7832,12 +7249,6 @@ extension IoT {
         public init(nextToken: String? = nil, otaUpdates: [OTAUpdateSummary]? = nil) {
             self.nextToken = nextToken
             self.otaUpdates = otaUpdates
-        }
-
-        public func validate() throws {
-            try otaUpdates?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7895,13 +7306,6 @@ extension IoT {
             self.outgoingCertificates = outgoingCertificates
         }
 
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", pattern: "[A-Za-z0-9+/]+={0,2}")
-            try outgoingCertificates?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextMarker = "nextMarker"
             case outgoingCertificates = "outgoingCertificates"
@@ -7955,13 +7359,6 @@ extension IoT {
         public init(nextMarker: String? = nil, policies: [Policy]? = nil) {
             self.nextMarker = nextMarker
             self.policies = policies
-        }
-
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", pattern: "[A-Za-z0-9+/]+={0,2}")
-            try policies?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8027,10 +7424,6 @@ extension IoT {
             self.principals = principals
         }
 
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", pattern: "[A-Za-z0-9+/]+={0,2}")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextMarker = "nextMarker"
             case principals = "principals"
@@ -8070,12 +7463,6 @@ extension IoT {
 
         public init(policyVersions: [PolicyVersion]? = nil) {
             self.policyVersions = policyVersions
-        }
-
-        public func validate() throws {
-            try policyVersions?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8137,13 +7524,6 @@ extension IoT {
             self.policies = policies
         }
 
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", pattern: "[A-Za-z0-9+/]+={0,2}")
-            try policies?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextMarker = "nextMarker"
             case policies = "policies"
@@ -8196,14 +7576,6 @@ extension IoT {
         public init(nextToken: String? = nil, things: [String]? = nil) {
             self.nextToken = nextToken
             self.things = things
-        }
-
-        public func validate() throws {
-            try things?.forEach {
-                try validate($0, name:"things[]", max: 128)
-                try validate($0, name:"things[]", min: 1)
-                try validate($0, name:"things[]", pattern: "[a-zA-Z0-9:_-]+")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8261,15 +7633,6 @@ extension IoT {
             self.roleAliases = roleAliases
         }
 
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", pattern: "[A-Za-z0-9+/]+={0,2}")
-            try roleAliases?.forEach {
-                try validate($0, name:"roleAliases[]", max: 128)
-                try validate($0, name:"roleAliases[]", min: 1)
-                try validate($0, name:"roleAliases[]", pattern: "[\\w=,@-]+")
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextMarker = "nextMarker"
             case roleAliases = "roleAliases"
@@ -8317,12 +7680,6 @@ extension IoT {
         public init(nextToken: String? = nil, scheduledAudits: [ScheduledAuditMetadata]? = nil) {
             self.nextToken = nextToken
             self.scheduledAudits = scheduledAudits
-        }
-
-        public func validate() throws {
-            try scheduledAudits?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8384,12 +7741,6 @@ extension IoT {
             self.securityProfileTargetMappings = securityProfileTargetMappings
         }
 
-        public func validate() throws {
-            try securityProfileTargetMappings?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case securityProfileTargetMappings = "securityProfileTargetMappings"
@@ -8437,12 +7788,6 @@ extension IoT {
         public init(nextToken: String? = nil, securityProfileIdentifiers: [SecurityProfileIdentifier]? = nil) {
             self.nextToken = nextToken
             self.securityProfileIdentifiers = securityProfileIdentifiers
-        }
-
-        public func validate() throws {
-            try securityProfileIdentifiers?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8497,12 +7842,6 @@ extension IoT {
         public init(nextToken: String? = nil, streams: [StreamSummary]? = nil) {
             self.nextToken = nextToken
             self.streams = streams
-        }
-
-        public func validate() throws {
-            try streams?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8605,10 +7944,6 @@ extension IoT {
         public init(nextMarker: String? = nil, targets: [String]? = nil) {
             self.nextMarker = nextMarker
             self.targets = targets
-        }
-
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", pattern: "[A-Za-z0-9+/]+={0,2}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8725,12 +8060,6 @@ extension IoT {
             self.thingGroups = thingGroups
         }
 
-        public func validate() throws {
-            try thingGroups?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case thingGroups = "thingGroups"
@@ -8799,12 +8128,6 @@ extension IoT {
         public init(nextToken: String? = nil, thingGroups: [GroupNameAndArn]? = nil) {
             self.nextToken = nextToken
             self.thingGroups = thingGroups
-        }
-
-        public func validate() throws {
-            try thingGroups?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8911,12 +8234,6 @@ extension IoT {
             self.resourceLinks = resourceLinks
         }
 
-        public func validate() throws {
-            try resourceLinks?.forEach {
-                try validate($0, name:"resourceLinks[]", max: 65535)
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case reportType = "reportType"
@@ -8970,12 +8287,6 @@ extension IoT {
         public init(nextToken: String? = nil, taskIds: [String]? = nil) {
             self.nextToken = nextToken
             self.taskIds = taskIds
-        }
-
-        public func validate() throws {
-            try taskIds?.forEach {
-                try validate($0, name:"taskIds[]", max: 40)
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9035,12 +8346,6 @@ extension IoT {
             self.thingTypes = thingTypes
         }
 
-        public func validate() throws {
-            try thingTypes?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case thingTypes = "thingTypes"
@@ -9096,14 +8401,6 @@ extension IoT {
         public init(nextToken: String? = nil, things: [String]? = nil) {
             self.nextToken = nextToken
             self.things = things
-        }
-
-        public func validate() throws {
-            try things?.forEach {
-                try validate($0, name:"things[]", max: 128)
-                try validate($0, name:"things[]", min: 1)
-                try validate($0, name:"things[]", pattern: "[a-zA-Z0-9:_-]+")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9166,14 +8463,6 @@ extension IoT {
         public init(nextToken: String? = nil, things: [String]? = nil) {
             self.nextToken = nextToken
             self.things = things
-        }
-
-        public func validate() throws {
-            try things?.forEach {
-                try validate($0, name:"things[]", max: 128)
-                try validate($0, name:"things[]", min: 1)
-                try validate($0, name:"things[]", pattern: "[a-zA-Z0-9:_-]+")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9247,12 +8536,6 @@ extension IoT {
             self.things = things
         }
 
-        public func validate() throws {
-            try things?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case things = "things"
@@ -9310,12 +8593,6 @@ extension IoT {
         public init(nextToken: String? = nil, rules: [TopicRuleListItem]? = nil) {
             self.nextToken = nextToken
             self.rules = rules
-        }
-
-        public func validate() throws {
-            try rules?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9445,12 +8722,6 @@ extension IoT {
         public init(nextToken: String? = nil, violationEvents: [ViolationEvent]? = nil) {
             self.nextToken = nextToken
             self.violationEvents = violationEvents
-        }
-
-        public func validate() throws {
-            try violationEvents?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9606,10 +8877,6 @@ extension IoT {
             self.resourceType = resourceType
         }
 
-        public func validate() throws {
-            try resourceIdentifier?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case additionalInfo = "additionalInfo"
             case resourceIdentifier = "resourceIdentifier"
@@ -9723,21 +8990,6 @@ extension IoT {
             self.targetSelection = targetSelection
         }
 
-        public func validate() throws {
-            try awsJobExecutionsRolloutConfig?.validate()
-            try validate(description, name:"description", max: 2028)
-            try validate(description, name:"description", pattern: "[^\\p{C}]+")
-            try otaUpdateFiles?.forEach {
-                try $0.validate()
-            }
-            try validate(otaUpdateFiles, name:"otaUpdateFiles", max: 50)
-            try validate(otaUpdateFiles, name:"otaUpdateFiles", min: 1)
-            try validate(otaUpdateId, name:"otaUpdateId", max: 128)
-            try validate(otaUpdateId, name:"otaUpdateId", min: 1)
-            try validate(otaUpdateId, name:"otaUpdateId", pattern: "[a-zA-Z0-9_-]+")
-            try validate(targets, name:"targets", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case additionalParameters = "additionalParameters"
             case awsIotJobArn = "awsIotJobArn"
@@ -9784,12 +9036,6 @@ extension IoT {
             self.otaUpdateId = otaUpdateId
         }
 
-        public func validate() throws {
-            try validate(otaUpdateId, name:"otaUpdateId", max: 128)
-            try validate(otaUpdateId, name:"otaUpdateId", min: 1)
-            try validate(otaUpdateId, name:"otaUpdateId", pattern: "[a-zA-Z0-9_-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationDate = "creationDate"
             case otaUpdateArn = "otaUpdateArn"
@@ -9829,16 +9075,6 @@ extension IoT {
             self.transferredTo = transferredTo
         }
 
-        public func validate() throws {
-            try validate(certificateId, name:"certificateId", max: 64)
-            try validate(certificateId, name:"certificateId", min: 64)
-            try validate(certificateId, name:"certificateId", pattern: "(0x)?[a-fA-F0-9]+")
-            try validate(transferMessage, name:"transferMessage", max: 128)
-            try validate(transferredTo, name:"transferredTo", max: 12)
-            try validate(transferredTo, name:"transferredTo", min: 12)
-            try validate(transferredTo, name:"transferredTo", pattern: "[0-9]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "certificateArn"
             case certificateId = "certificateId"
@@ -9865,12 +9101,6 @@ extension IoT {
             self.policyName = policyName
         }
 
-        public func validate() throws {
-            try validate(policyName, name:"policyName", max: 128)
-            try validate(policyName, name:"policyName", min: 1)
-            try validate(policyName, name:"policyName", pattern: "[\\w+=,.@-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case policyArn = "policyArn"
             case policyName = "policyName"
@@ -9895,10 +9125,6 @@ extension IoT {
             self.createDate = createDate
             self.isDefaultVersion = isDefaultVersion
             self.versionId = versionId
-        }
-
-        public func validate() throws {
-            try validate(versionId, name:"versionId", pattern: "[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10071,12 +9297,6 @@ extension IoT {
             self.certificateId = certificateId
         }
 
-        public func validate() throws {
-            try validate(certificateId, name:"certificateId", max: 64)
-            try validate(certificateId, name:"certificateId", min: 64)
-            try validate(certificateId, name:"certificateId", pattern: "(0x)?[a-fA-F0-9]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "certificateArn"
             case certificateId = "certificateId"
@@ -10133,12 +9353,6 @@ extension IoT {
             self.certificateId = certificateId
         }
 
-        public func validate() throws {
-            try validate(certificateId, name:"certificateId", max: 64)
-            try validate(certificateId, name:"certificateId", min: 64)
-            try validate(certificateId, name:"certificateId", pattern: "(0x)?[a-fA-F0-9]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "certificateArn"
             case certificateId = "certificateId"
@@ -10181,11 +9395,6 @@ extension IoT {
         public init(certificatePem: String? = nil, resourceArns: [String: String]? = nil) {
             self.certificatePem = certificatePem
             self.resourceArns = resourceArns
-        }
-
-        public func validate() throws {
-            try validate(certificatePem, name:"certificatePem", max: 65536)
-            try validate(certificatePem, name:"certificatePem", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10268,10 +9477,6 @@ extension IoT {
             self.additionalInfo = additionalInfo
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
-        }
-
-        public func validate() throws {
-            try resourceIdentifier?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10539,19 +9744,6 @@ extension IoT {
             self.roleArn = roleArn
         }
 
-        public func validate() throws {
-            try validate(credentialDurationSeconds, name:"credentialDurationSeconds", max: 3600)
-            try validate(credentialDurationSeconds, name:"credentialDurationSeconds", min: 900)
-            try validate(owner, name:"owner", max: 12)
-            try validate(owner, name:"owner", min: 12)
-            try validate(owner, name:"owner", pattern: "[0-9]+")
-            try validate(roleAlias, name:"roleAlias", max: 128)
-            try validate(roleAlias, name:"roleAlias", min: 1)
-            try validate(roleAlias, name:"roleAlias", pattern: "[\\w=,@-]+")
-            try validate(roleArn, name:"roleArn", max: 2048)
-            try validate(roleArn, name:"roleArn", min: 20)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationDate = "creationDate"
             case credentialDurationSeconds = "credentialDurationSeconds"
@@ -10709,13 +9901,6 @@ extension IoT {
             self.scheduledAuditName = scheduledAuditName
         }
 
-        public func validate() throws {
-            try validate(dayOfMonth, name:"dayOfMonth", pattern: "^([1-9]|[12][0-9]|3[01])$|^LAST$")
-            try validate(scheduledAuditName, name:"scheduledAuditName", max: 128)
-            try validate(scheduledAuditName, name:"scheduledAuditName", min: 1)
-            try validate(scheduledAuditName, name:"scheduledAuditName", pattern: "[a-zA-Z0-9_-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case dayOfMonth = "dayOfMonth"
             case dayOfWeek = "dayOfWeek"
@@ -10791,15 +9976,6 @@ extension IoT {
             self.things = things
         }
 
-        public func validate() throws {
-            try thingGroups?.forEach {
-                try $0.validate()
-            }
-            try things?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case thingGroups = "thingGroups"
@@ -10821,12 +9997,6 @@ extension IoT {
         public init(arn: String, name: String) {
             self.arn = arn
             self.name = name
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[a-zA-Z0-9:_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10866,10 +10036,6 @@ extension IoT {
         public init(securityProfileIdentifier: SecurityProfileIdentifier? = nil, target: SecurityProfileTarget? = nil) {
             self.securityProfileIdentifier = securityProfileIdentifier
             self.target = target
-        }
-
-        public func validate() throws {
-            try securityProfileIdentifier?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10915,12 +10081,6 @@ extension IoT {
         public init(authorizerArn: String? = nil, authorizerName: String? = nil) {
             self.authorizerArn = authorizerArn
             self.authorizerName = authorizerName
-        }
-
-        public func validate() throws {
-            try validate(authorizerName, name:"authorizerName", max: 128)
-            try validate(authorizerName, name:"authorizerName", min: 1)
-            try validate(authorizerName, name:"authorizerName", pattern: "[\\w=,@-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11136,12 +10296,6 @@ extension IoT {
             self.taskId = taskId
         }
 
-        public func validate() throws {
-            try validate(taskId, name:"taskId", max: 40)
-            try validate(taskId, name:"taskId", min: 1)
-            try validate(taskId, name:"taskId", pattern: "[a-zA-Z0-9\\-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case taskId = "taskId"
         }
@@ -11231,10 +10385,6 @@ extension IoT {
 
         public init(taskId: String? = nil) {
             self.taskId = taskId
-        }
-
-        public func validate() throws {
-            try validate(taskId, name:"taskId", max: 40)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11443,23 +10593,6 @@ extension IoT {
             self.streamVersion = streamVersion
         }
 
-        public func validate() throws {
-            try validate(description, name:"description", max: 2028)
-            try validate(description, name:"description", pattern: "[^\\p{C}]+")
-            try files?.forEach {
-                try $0.validate()
-            }
-            try validate(files, name:"files", max: 50)
-            try validate(files, name:"files", min: 1)
-            try validate(roleArn, name:"roleArn", max: 2048)
-            try validate(roleArn, name:"roleArn", min: 20)
-            try validate(streamId, name:"streamId", max: 128)
-            try validate(streamId, name:"streamId", min: 1)
-            try validate(streamId, name:"streamId", pattern: "[a-zA-Z0-9_-]+")
-            try validate(streamVersion, name:"streamVersion", max: 65535)
-            try validate(streamVersion, name:"streamVersion", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
             case description = "description"
@@ -11494,16 +10627,6 @@ extension IoT {
             self.streamArn = streamArn
             self.streamId = streamId
             self.streamVersion = streamVersion
-        }
-
-        public func validate() throws {
-            try validate(description, name:"description", max: 2028)
-            try validate(description, name:"description", pattern: "[^\\p{C}]+")
-            try validate(streamId, name:"streamId", max: 128)
-            try validate(streamId, name:"streamId", min: 1)
-            try validate(streamId, name:"streamId", pattern: "[a-zA-Z0-9_-]+")
-            try validate(streamVersion, name:"streamVersion", max: 65535)
-            try validate(streamVersion, name:"streamVersion", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11688,12 +10811,6 @@ extension IoT {
             self.authResults = authResults
         }
 
-        public func validate() throws {
-            try authResults?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case authResults = "authResults"
         }
@@ -11765,12 +10882,6 @@ extension IoT {
             self.refreshAfterInSeconds = refreshAfterInSeconds
         }
 
-        public func validate() throws {
-            try validate(principalId, name:"principalId", max: 128)
-            try validate(principalId, name:"principalId", min: 1)
-            try validate(principalId, name:"principalId", pattern: "[a-zA-Z0-9]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case disconnectAfterInSeconds = "disconnectAfterInSeconds"
             case isAuthenticated = "isAuthenticated"
@@ -11806,21 +10917,6 @@ extension IoT {
             self.thingName = thingName
             self.thingTypeName = thingTypeName
             self.version = version
-        }
-
-        public func validate() throws {
-            try attributes?.forEach {
-                try validate($0.key, name:"attributes[key:]", max: 128)
-                try validate($0.key, name:"attributes[key:]", pattern: "[a-zA-Z0-9_.,@/:#-]+")
-                try validate($0.value, name:"attributes[:Value]", max: 800)
-                try validate($0.value, name:"attributes[:Value]", pattern: "[a-zA-Z0-9_.,@/:#-]*")
-            }
-            try validate(thingName, name:"thingName", max: 128)
-            try validate(thingName, name:"thingName", min: 1)
-            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
-            try validate(thingTypeName, name:"thingTypeName", max: 128)
-            try validate(thingTypeName, name:"thingTypeName", min: 1)
-            try validate(thingTypeName, name:"thingTypeName", pattern: "[a-zA-Z0-9:_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11896,26 +10992,6 @@ extension IoT {
             self.thingTypeName = thingTypeName
         }
 
-        public func validate() throws {
-            try attributes?.forEach {
-                try validate($0.key, name:"attributes[key:]", max: 128)
-                try validate($0.key, name:"attributes[key:]", pattern: "[a-zA-Z0-9_.,@/:#-]+")
-                try validate($0.value, name:"attributes[:Value]", max: 800)
-                try validate($0.value, name:"attributes[:Value]", pattern: "[a-zA-Z0-9_.,@/:#-]*")
-            }
-            try thingGroupNames?.forEach {
-                try validate($0, name:"thingGroupNames[]", max: 128)
-                try validate($0, name:"thingGroupNames[]", min: 1)
-                try validate($0, name:"thingGroupNames[]", pattern: "[a-zA-Z0-9:_-]+")
-            }
-            try validate(thingName, name:"thingName", max: 128)
-            try validate(thingName, name:"thingName", min: 1)
-            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
-            try validate(thingTypeName, name:"thingTypeName", max: 128)
-            try validate(thingTypeName, name:"thingTypeName", min: 1)
-            try validate(thingTypeName, name:"thingTypeName", pattern: "[a-zA-Z0-9:_-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
             case connectivity = "connectivity"
@@ -11953,28 +11029,6 @@ extension IoT {
             self.thingGroupDescription = thingGroupDescription
             self.thingGroupId = thingGroupId
             self.thingGroupName = thingGroupName
-        }
-
-        public func validate() throws {
-            try attributes?.forEach {
-                try validate($0.key, name:"attributes[key:]", max: 128)
-                try validate($0.key, name:"attributes[key:]", pattern: "[a-zA-Z0-9_.,@/:#-]+")
-                try validate($0.value, name:"attributes[:Value]", max: 800)
-                try validate($0.value, name:"attributes[:Value]", pattern: "[a-zA-Z0-9_.,@/:#-]*")
-            }
-            try parentGroupNames?.forEach {
-                try validate($0, name:"parentGroupNames[]", max: 128)
-                try validate($0, name:"parentGroupNames[]", min: 1)
-                try validate($0, name:"parentGroupNames[]", pattern: "[a-zA-Z0-9:_-]+")
-            }
-            try validate(thingGroupDescription, name:"thingGroupDescription", max: 2028)
-            try validate(thingGroupDescription, name:"thingGroupDescription", pattern: "[\\p{Graph}\\x20]*")
-            try validate(thingGroupId, name:"thingGroupId", max: 128)
-            try validate(thingGroupId, name:"thingGroupId", min: 1)
-            try validate(thingGroupId, name:"thingGroupId", pattern: "[a-zA-Z0-9\\-]+")
-            try validate(thingGroupName, name:"thingGroupName", max: 128)
-            try validate(thingGroupName, name:"thingGroupName", min: 1)
-            try validate(thingGroupName, name:"thingGroupName", pattern: "[a-zA-Z0-9:_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12027,15 +11081,6 @@ extension IoT {
             self.creationDate = creationDate
             self.parentGroupName = parentGroupName
             self.rootToParentThingGroups = rootToParentThingGroups
-        }
-
-        public func validate() throws {
-            try validate(parentGroupName, name:"parentGroupName", max: 128)
-            try validate(parentGroupName, name:"parentGroupName", min: 1)
-            try validate(parentGroupName, name:"parentGroupName", pattern: "[a-zA-Z0-9:_-]+")
-            try rootToParentThingGroups?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12124,13 +11169,6 @@ extension IoT {
             self.thingTypeMetadata = thingTypeMetadata
             self.thingTypeName = thingTypeName
             self.thingTypeProperties = thingTypeProperties
-        }
-
-        public func validate() throws {
-            try validate(thingTypeName, name:"thingTypeName", max: 128)
-            try validate(thingTypeName, name:"thingTypeName", min: 1)
-            try validate(thingTypeName, name:"thingTypeName", pattern: "[a-zA-Z0-9:_-]+")
-            try thingTypeProperties?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12256,18 +11294,6 @@ extension IoT {
             self.sql = sql
         }
 
-        public func validate() throws {
-            try actions?.forEach {
-                try $0.validate()
-            }
-            try validate(actions, name:"actions", max: 10)
-            try validate(actions, name:"actions", min: 0)
-            try errorAction?.validate()
-            try validate(ruleName, name:"ruleName", max: 128)
-            try validate(ruleName, name:"ruleName", min: 1)
-            try validate(ruleName, name:"ruleName", pattern: "^[a-zA-Z0-9_]+$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case actions = "actions"
             case awsIotSqlVersion = "awsIotSqlVersion"
@@ -12306,12 +11332,6 @@ extension IoT {
             self.ruleDisabled = ruleDisabled
             self.ruleName = ruleName
             self.topicPattern = topicPattern
-        }
-
-        public func validate() throws {
-            try validate(ruleName, name:"ruleName", max: 128)
-            try validate(ruleName, name:"ruleName", min: 1)
-            try validate(ruleName, name:"ruleName", pattern: "^[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12454,11 +11474,6 @@ extension IoT {
             self.rejectReason = rejectReason
             self.transferDate = transferDate
             self.transferMessage = transferMessage
-        }
-
-        public func validate() throws {
-            try validate(rejectReason, name:"rejectReason", max: 128)
-            try validate(transferMessage, name:"transferMessage", max: 128)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12609,12 +11624,6 @@ extension IoT {
         public init(authorizerArn: String? = nil, authorizerName: String? = nil) {
             self.authorizerArn = authorizerArn
             self.authorizerName = authorizerName
-        }
-
-        public func validate() throws {
-            try validate(authorizerName, name:"authorizerName", max: 128)
-            try validate(authorizerName, name:"authorizerName", min: 1)
-            try validate(authorizerName, name:"authorizerName", pattern: "[\\w=,@-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12977,12 +11986,6 @@ extension IoT {
             self.roleAliasArn = roleAliasArn
         }
 
-        public func validate() throws {
-            try validate(roleAlias, name:"roleAlias", max: 128)
-            try validate(roleAlias, name:"roleAlias", min: 1)
-            try validate(roleAlias, name:"roleAlias", pattern: "[\\w=,@-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case roleAlias = "roleAlias"
             case roleAliasArn = "roleAliasArn"
@@ -13166,21 +12169,6 @@ extension IoT {
             self.version = version
         }
 
-        public func validate() throws {
-            try alertTargets?.forEach {
-                try $0.value.validate()
-            }
-            try behaviors?.forEach {
-                try $0.validate()
-            }
-            try validate(behaviors, name:"behaviors", max: 100)
-            try validate(securityProfileDescription, name:"securityProfileDescription", max: 1000)
-            try validate(securityProfileDescription, name:"securityProfileDescription", pattern: "[\\p{Graph}\\x20]*")
-            try validate(securityProfileName, name:"securityProfileName", max: 128)
-            try validate(securityProfileName, name:"securityProfileName", min: 1)
-            try validate(securityProfileName, name:"securityProfileName", pattern: "[a-zA-Z0-9:_-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case additionalMetricsToRetain = "additionalMetricsToRetain"
             case alertTargets = "alertTargets"
@@ -13263,16 +12251,6 @@ extension IoT {
             self.streamArn = streamArn
             self.streamId = streamId
             self.streamVersion = streamVersion
-        }
-
-        public func validate() throws {
-            try validate(description, name:"description", max: 2028)
-            try validate(description, name:"description", pattern: "[^\\p{C}]+")
-            try validate(streamId, name:"streamId", max: 128)
-            try validate(streamId, name:"streamId", min: 1)
-            try validate(streamId, name:"streamId", pattern: "[a-zA-Z0-9_-]+")
-            try validate(streamVersion, name:"streamVersion", max: 65535)
-            try validate(streamVersion, name:"streamVersion", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13485,12 +12463,6 @@ extension IoT {
             self.validationErrors = validationErrors
         }
 
-        public func validate() throws {
-            try validationErrors?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case valid = "valid"
             case validationErrors = "validationErrors"
@@ -13507,10 +12479,6 @@ extension IoT {
 
         public init(errorMessage: String? = nil) {
             self.errorMessage = errorMessage
-        }
-
-        public func validate() throws {
-            try validate(errorMessage, name:"errorMessage", max: 2048)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13552,20 +12520,6 @@ extension IoT {
             self.violationEventTime = violationEventTime
             self.violationEventType = violationEventType
             self.violationId = violationId
-        }
-
-        public func validate() throws {
-            try behavior?.validate()
-            try metricValue?.validate()
-            try validate(securityProfileName, name:"securityProfileName", max: 128)
-            try validate(securityProfileName, name:"securityProfileName", min: 1)
-            try validate(securityProfileName, name:"securityProfileName", pattern: "[a-zA-Z0-9:_-]+")
-            try validate(thingName, name:"thingName", max: 128)
-            try validate(thingName, name:"thingName", min: 1)
-            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
-            try validate(violationId, name:"violationId", max: 128)
-            try validate(violationId, name:"violationId", min: 1)
-            try validate(violationId, name:"violationId", pattern: "[a-zA-Z0-9\\-]+")
         }
 
         private enum CodingKeys: String, CodingKey {

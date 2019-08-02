@@ -64,10 +64,6 @@ extension CostExplorer {
             self.total = total
         }
 
-        public func validate() throws {
-            try timePeriod?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case groups = "Groups"
             case timePeriod = "TimePeriod"
@@ -462,10 +458,6 @@ extension CostExplorer {
             self.timePeriod = timePeriod
         }
 
-        public func validate() throws {
-            try timePeriod?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case meanValue = "MeanValue"
             case predictionIntervalLowerBound = "PredictionIntervalLowerBound"
@@ -540,12 +532,6 @@ extension CostExplorer {
             self.resultsByTime = resultsByTime
         }
 
-        public func validate() throws {
-            try resultsByTime?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case groupDefinitions = "GroupDefinitions"
             case nextPageToken = "NextPageToken"
@@ -610,12 +596,6 @@ extension CostExplorer {
         public init(forecastResultsByTime: [ForecastResult]? = nil, total: MetricValue? = nil) {
             self.forecastResultsByTime = forecastResultsByTime
             self.total = total
-        }
-
-        public func validate() throws {
-            try forecastResultsByTime?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -761,12 +741,6 @@ extension CostExplorer {
             self.coveragesByTime = coveragesByTime
             self.nextPageToken = nextPageToken
             self.total = total
-        }
-
-        public func validate() throws {
-            try coveragesByTime.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -925,12 +899,6 @@ extension CostExplorer {
             self.utilizationsByTime = utilizationsByTime
         }
 
-        public func validate() throws {
-            try utilizationsByTime.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextPageToken = "NextPageToken"
             case total = "Total"
@@ -1063,12 +1031,6 @@ extension CostExplorer {
         public init(forecastResultsByTime: [ForecastResult]? = nil, total: MetricValue? = nil) {
             self.forecastResultsByTime = forecastResultsByTime
             self.total = total
-        }
-
-        public func validate() throws {
-            try forecastResultsByTime?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1684,10 +1646,6 @@ extension CostExplorer {
             self.total = total
         }
 
-        public func validate() throws {
-            try timePeriod?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case estimated = "Estimated"
             case groups = "Groups"
@@ -1759,10 +1717,6 @@ extension CostExplorer {
             self.groups = groups
             self.timePeriod = timePeriod
             self.total = total
-        }
-
-        public func validate() throws {
-            try timePeriod?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

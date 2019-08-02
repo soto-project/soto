@@ -133,10 +133,6 @@ extension RDSDataService {
             self.transactionId = transactionId
         }
 
-        public func validate() throws {
-            try validate(transactionId, name:"transactionId", max: 192)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case transactionId = "transactionId"
         }
@@ -267,10 +263,6 @@ extension RDSDataService {
 
         public init(transactionStatus: String? = nil) {
             self.transactionStatus = transactionStatus
-        }
-
-        public func validate() throws {
-            try validate(transactionStatus, name:"transactionStatus", max: 128)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -597,10 +589,6 @@ extension RDSDataService {
 
         public init(transactionStatus: String? = nil) {
             self.transactionStatus = transactionStatus
-        }
-
-        public func validate() throws {
-            try validate(transactionStatus, name:"transactionStatus", max: 128)
         }
 
         private enum CodingKeys: String, CodingKey {

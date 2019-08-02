@@ -157,10 +157,6 @@ extension ServiceQuotas {
             self.quota = quota
         }
 
-        public func validate() throws {
-            try quota?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case quota = "Quota"
         }
@@ -226,10 +222,6 @@ extension ServiceQuotas {
             self.requestedQuota = requestedQuota
         }
 
-        public func validate() throws {
-            try requestedQuota?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case requestedQuota = "RequestedQuota"
         }
@@ -286,10 +278,6 @@ extension ServiceQuotas {
             self.serviceQuotaIncreaseRequestInTemplate = serviceQuotaIncreaseRequestInTemplate
         }
 
-        public func validate() throws {
-            try serviceQuotaIncreaseRequestInTemplate?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case serviceQuotaIncreaseRequestInTemplate = "ServiceQuotaIncreaseRequestInTemplate"
         }
@@ -336,10 +324,6 @@ extension ServiceQuotas {
 
         public init(quota: ServiceQuota? = nil) {
             self.quota = quota
-        }
-
-        public func validate() throws {
-            try quota?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -398,14 +382,6 @@ extension ServiceQuotas {
         public init(nextToken: String? = nil, quotas: [ServiceQuota]? = nil) {
             self.nextToken = nextToken
             self.quotas = quotas
-        }
-
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 2048)
-            try validate(nextToken, name:"nextToken", pattern: "^[a-zA-Z0-9/+]*={0,2}$")
-            try quotas?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -480,14 +456,6 @@ extension ServiceQuotas {
             self.requestedQuotas = requestedQuotas
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 2048)
-            try validate(nextToken, name:"nextToken", pattern: "^[a-zA-Z0-9/+]*={0,2}$")
-            try requestedQuotas?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case requestedQuotas = "RequestedQuotas"
@@ -550,14 +518,6 @@ extension ServiceQuotas {
         public init(nextToken: String? = nil, requestedQuotas: [RequestedServiceQuotaChange]? = nil) {
             self.nextToken = nextToken
             self.requestedQuotas = requestedQuotas
-        }
-
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 2048)
-            try validate(nextToken, name:"nextToken", pattern: "^[a-zA-Z0-9/+]*={0,2}$")
-            try requestedQuotas?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -627,14 +587,6 @@ extension ServiceQuotas {
             self.serviceQuotaIncreaseRequestInTemplateList = serviceQuotaIncreaseRequestInTemplateList
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 2048)
-            try validate(nextToken, name:"nextToken", pattern: "^[a-zA-Z0-9/+]*={0,2}$")
-            try serviceQuotaIncreaseRequestInTemplateList?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case serviceQuotaIncreaseRequestInTemplateList = "ServiceQuotaIncreaseRequestInTemplateList"
@@ -694,14 +646,6 @@ extension ServiceQuotas {
             self.quotas = quotas
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 2048)
-            try validate(nextToken, name:"nextToken", pattern: "^[a-zA-Z0-9/+]*={0,2}$")
-            try quotas?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case quotas = "Quotas"
@@ -753,14 +697,6 @@ extension ServiceQuotas {
             self.services = services
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 2048)
-            try validate(nextToken, name:"nextToken", pattern: "^[a-zA-Z0-9/+]*={0,2}$")
-            try services?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case services = "Services"
@@ -789,12 +725,6 @@ extension ServiceQuotas {
             self.metricName = metricName
             self.metricNamespace = metricNamespace
             self.metricStatisticRecommendation = metricStatisticRecommendation
-        }
-
-        public func validate() throws {
-            try validate(metricStatisticRecommendation, name:"metricStatisticRecommendation", max: 256)
-            try validate(metricStatisticRecommendation, name:"metricStatisticRecommendation", min: 1)
-            try validate(metricStatisticRecommendation, name:"metricStatisticRecommendation", pattern: "(Sum|Maximum)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -874,10 +804,6 @@ extension ServiceQuotas {
             self.serviceQuotaIncreaseRequestInTemplate = serviceQuotaIncreaseRequestInTemplate
         }
 
-        public func validate() throws {
-            try serviceQuotaIncreaseRequestInTemplate?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case serviceQuotaIncreaseRequestInTemplate = "ServiceQuotaIncreaseRequestInTemplate"
         }
@@ -953,10 +879,6 @@ extension ServiceQuotas {
 
         public init(requestedQuota: RequestedServiceQuotaChange? = nil) {
             self.requestedQuota = requestedQuota
-        }
-
-        public func validate() throws {
-            try requestedQuota?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1037,20 +959,6 @@ extension ServiceQuotas {
             self.unit = unit
         }
 
-        public func validate() throws {
-            try validate(desiredValue, name:"desiredValue", max: 10000000000)
-            try validate(desiredValue, name:"desiredValue", min: 0)
-            try validate(id, name:"id", max: 128)
-            try validate(id, name:"id", min: 1)
-            try validate(id, name:"id", pattern: "[0-9a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try validate(quotaCode, name:"quotaCode", max: 128)
-            try validate(quotaCode, name:"quotaCode", min: 1)
-            try validate(quotaCode, name:"quotaCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try validate(serviceCode, name:"serviceCode", max: 63)
-            try validate(serviceCode, name:"serviceCode", min: 1)
-            try validate(serviceCode, name:"serviceCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case caseId = "CaseId"
             case created = "Created"
@@ -1083,12 +991,6 @@ extension ServiceQuotas {
         public init(serviceCode: String? = nil, serviceName: String? = nil) {
             self.serviceCode = serviceCode
             self.serviceName = serviceName
-        }
-
-        public func validate() throws {
-            try validate(serviceCode, name:"serviceCode", max: 63)
-            try validate(serviceCode, name:"serviceCode", min: 1)
-            try validate(serviceCode, name:"serviceCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1153,18 +1055,6 @@ extension ServiceQuotas {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(quotaCode, name:"quotaCode", max: 128)
-            try validate(quotaCode, name:"quotaCode", min: 1)
-            try validate(quotaCode, name:"quotaCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try validate(serviceCode, name:"serviceCode", max: 63)
-            try validate(serviceCode, name:"serviceCode", min: 1)
-            try validate(serviceCode, name:"serviceCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
-            try usageMetric?.validate()
-            try validate(value, name:"value", max: 10000000000)
-            try validate(value, name:"value", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case adjustable = "Adjustable"
             case errorReason = "ErrorReason"
@@ -1219,20 +1109,6 @@ extension ServiceQuotas {
             self.serviceCode = serviceCode
             self.serviceName = serviceName
             self.unit = unit
-        }
-
-        public func validate() throws {
-            try validate(awsRegion, name:"awsRegion", max: 64)
-            try validate(awsRegion, name:"awsRegion", min: 1)
-            try validate(awsRegion, name:"awsRegion", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try validate(desiredValue, name:"desiredValue", max: 10000000000)
-            try validate(desiredValue, name:"desiredValue", min: 0)
-            try validate(quotaCode, name:"quotaCode", max: 128)
-            try validate(quotaCode, name:"quotaCode", min: 1)
-            try validate(quotaCode, name:"quotaCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try validate(serviceCode, name:"serviceCode", max: 63)
-            try validate(serviceCode, name:"serviceCode", min: 1)
-            try validate(serviceCode, name:"serviceCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
         }
 
         private enum CodingKeys: String, CodingKey {

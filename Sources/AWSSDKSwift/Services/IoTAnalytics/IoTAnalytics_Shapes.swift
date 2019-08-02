@@ -65,11 +65,6 @@ extension IoTAnalytics {
             self.messageId = messageId
         }
 
-        public func validate() throws {
-            try validate(messageId, name:"messageId", max: 128)
-            try validate(messageId, name:"messageId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case errorCode = "errorCode"
             case errorMessage = "errorMessage"
@@ -118,12 +113,6 @@ extension IoTAnalytics {
 
         public init(batchPutMessageErrorEntries: [BatchPutMessageErrorEntry]? = nil) {
             self.batchPutMessageErrorEntries = batchPutMessageErrorEntries
-        }
-
-        public func validate() throws {
-            try batchPutMessageErrorEntries?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -201,14 +190,6 @@ extension IoTAnalytics {
             self.retentionPeriod = retentionPeriod
             self.status = status
             self.storage = storage
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_]+$")
-            try retentionPeriod?.validate()
-            try storage?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -325,10 +306,6 @@ extension IoTAnalytics {
             self.serviceManagedS3 = serviceManagedS3
         }
 
-        public func validate() throws {
-            try customerManagedS3?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case customerManagedS3 = "customerManagedS3"
             case serviceManagedS3 = "serviceManagedS3"
@@ -361,13 +338,6 @@ extension IoTAnalytics {
             self.creationTime = creationTime
             self.lastUpdateTime = lastUpdateTime
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(channelName, name:"channelName", max: 128)
-            try validate(channelName, name:"channelName", min: 1)
-            try validate(channelName, name:"channelName", pattern: "^[a-zA-Z0-9_]+$")
-            try channelStorage?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -494,13 +464,6 @@ extension IoTAnalytics {
             self.retentionPeriod = retentionPeriod
         }
 
-        public func validate() throws {
-            try validate(channelName, name:"channelName", max: 128)
-            try validate(channelName, name:"channelName", min: 1)
-            try validate(channelName, name:"channelName", pattern: "^[a-zA-Z0-9_]+$")
-            try retentionPeriod?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case channelArn = "channelArn"
             case channelName = "channelName"
@@ -541,11 +504,6 @@ extension IoTAnalytics {
 
         public init(versionId: String? = nil) {
             self.versionId = versionId
-        }
-
-        public func validate() throws {
-            try validate(versionId, name:"versionId", max: 36)
-            try validate(versionId, name:"versionId", min: 7)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -648,13 +606,6 @@ extension IoTAnalytics {
             self.retentionPeriod = retentionPeriod
         }
 
-        public func validate() throws {
-            try validate(datasetName, name:"datasetName", max: 128)
-            try validate(datasetName, name:"datasetName", min: 1)
-            try validate(datasetName, name:"datasetName", pattern: "^[a-zA-Z0-9_]+$")
-            try retentionPeriod?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case datasetArn = "datasetArn"
             case datasetName = "datasetName"
@@ -727,13 +678,6 @@ extension IoTAnalytics {
             self.retentionPeriod = retentionPeriod
         }
 
-        public func validate() throws {
-            try validate(datastoreName, name:"datastoreName", max: 128)
-            try validate(datastoreName, name:"datastoreName", min: 1)
-            try validate(datastoreName, name:"datastoreName", pattern: "^[a-zA-Z0-9_]+$")
-            try retentionPeriod?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case datastoreArn = "datastoreArn"
             case datastoreName = "datastoreName"
@@ -800,12 +744,6 @@ extension IoTAnalytics {
             self.pipelineName = pipelineName
         }
 
-        public func validate() throws {
-            try validate(pipelineName, name:"pipelineName", max: 128)
-            try validate(pipelineName, name:"pipelineName", min: 1)
-            try validate(pipelineName, name:"pipelineName", pattern: "^[a-zA-Z0-9_]+$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case pipelineArn = "pipelineArn"
             case pipelineName = "pipelineName"
@@ -868,17 +806,6 @@ extension IoTAnalytics {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
             self.roleArn = roleArn
-        }
-
-        public func validate() throws {
-            try validate(bucket, name:"bucket", max: 255)
-            try validate(bucket, name:"bucket", min: 3)
-            try validate(bucket, name:"bucket", pattern: "^[a-zA-Z0-9.\\-_]*$")
-            try validate(keyPrefix, name:"keyPrefix", max: 255)
-            try validate(keyPrefix, name:"keyPrefix", min: 1)
-            try validate(keyPrefix, name:"keyPrefix", pattern: "^[a-zA-Z0-9!_.*'()/{}:-]*/$")
-            try validate(roleArn, name:"roleArn", max: 2048)
-            try validate(roleArn, name:"roleArn", min: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -946,17 +873,6 @@ extension IoTAnalytics {
             self.roleArn = roleArn
         }
 
-        public func validate() throws {
-            try validate(bucket, name:"bucket", max: 255)
-            try validate(bucket, name:"bucket", min: 3)
-            try validate(bucket, name:"bucket", pattern: "^[a-zA-Z0-9.\\-_]*$")
-            try validate(keyPrefix, name:"keyPrefix", max: 255)
-            try validate(keyPrefix, name:"keyPrefix", min: 1)
-            try validate(keyPrefix, name:"keyPrefix", pattern: "^[a-zA-Z0-9!_.*'()/{}:-]*/$")
-            try validate(roleArn, name:"roleArn", max: 2048)
-            try validate(roleArn, name:"roleArn", min: 20)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "bucket"
             case keyPrefix = "keyPrefix"
@@ -1010,29 +926,6 @@ extension IoTAnalytics {
             self.status = status
             self.triggers = triggers
             self.versioningConfiguration = versioningConfiguration
-        }
-
-        public func validate() throws {
-            try actions?.forEach {
-                try $0.validate()
-            }
-            try validate(actions, name:"actions", max: 1)
-            try validate(actions, name:"actions", min: 1)
-            try contentDeliveryRules?.forEach {
-                try $0.validate()
-            }
-            try validate(contentDeliveryRules, name:"contentDeliveryRules", max: 20)
-            try validate(contentDeliveryRules, name:"contentDeliveryRules", min: 0)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_]+$")
-            try retentionPeriod?.validate()
-            try triggers?.forEach {
-                try $0.validate()
-            }
-            try validate(triggers, name:"triggers", max: 5)
-            try validate(triggers, name:"triggers", min: 0)
-            try versioningConfiguration?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1098,12 +991,6 @@ extension IoTAnalytics {
         public init(actionName: String? = nil, actionType: DatasetActionType? = nil) {
             self.actionName = actionName
             self.actionType = actionType
-        }
-
-        public func validate() throws {
-            try validate(actionName, name:"actionName", max: 128)
-            try validate(actionName, name:"actionName", min: 1)
-            try validate(actionName, name:"actionName", pattern: "^[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1224,11 +1111,6 @@ extension IoTAnalytics {
             self.version = version
         }
 
-        public func validate() throws {
-            try validate(version, name:"version", max: 36)
-            try validate(version, name:"version", min: 7)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationTime = "creationTime"
             case scheduleTime = "scheduleTime"
@@ -1321,22 +1203,6 @@ extension IoTAnalytics {
             self.triggers = triggers
         }
 
-        public func validate() throws {
-            try actions?.forEach {
-                try $0.validate()
-            }
-            try validate(actions, name:"actions", max: 1)
-            try validate(actions, name:"actions", min: 1)
-            try validate(datasetName, name:"datasetName", max: 128)
-            try validate(datasetName, name:"datasetName", min: 1)
-            try validate(datasetName, name:"datasetName", pattern: "^[a-zA-Z0-9_]+$")
-            try triggers?.forEach {
-                try $0.validate()
-            }
-            try validate(triggers, name:"triggers", max: 5)
-            try validate(triggers, name:"triggers", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case actions = "actions"
             case creationTime = "creationTime"
@@ -1407,14 +1273,6 @@ extension IoTAnalytics {
             self.retentionPeriod = retentionPeriod
             self.status = status
             self.storage = storage
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_]+$")
-            try retentionPeriod?.validate()
-            try storage?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1524,10 +1382,6 @@ extension IoTAnalytics {
             self.serviceManagedS3 = serviceManagedS3
         }
 
-        public func validate() throws {
-            try customerManagedS3?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case customerManagedS3 = "customerManagedS3"
             case serviceManagedS3 = "serviceManagedS3"
@@ -1560,13 +1414,6 @@ extension IoTAnalytics {
             self.datastoreStorage = datastoreStorage
             self.lastUpdateTime = lastUpdateTime
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(datastoreName, name:"datastoreName", max: 128)
-            try validate(datastoreName, name:"datastoreName", min: 1)
-            try validate(datastoreName, name:"datastoreName", pattern: "^[a-zA-Z0-9_]+$")
-            try datastoreStorage?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1766,10 +1613,6 @@ extension IoTAnalytics {
             self.statistics = statistics
         }
 
-        public func validate() throws {
-            try channel?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case channel = "channel"
             case statistics = "statistics"
@@ -1809,10 +1652,6 @@ extension IoTAnalytics {
 
         public init(dataset: Dataset? = nil) {
             self.dataset = dataset
-        }
-
-        public func validate() throws {
-            try dataset?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1864,10 +1703,6 @@ extension IoTAnalytics {
             self.statistics = statistics
         }
 
-        public func validate() throws {
-            try datastore?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case datastore = "datastore"
             case statistics = "statistics"
@@ -1892,10 +1727,6 @@ extension IoTAnalytics {
 
         public init(loggingOptions: LoggingOptions? = nil) {
             self.loggingOptions = loggingOptions
-        }
-
-        public func validate() throws {
-            try loggingOptions?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1936,10 +1767,6 @@ extension IoTAnalytics {
 
         public init(pipeline: Pipeline? = nil) {
             self.pipeline = pipeline
-        }
-
-        public func validate() throws {
-            try pipeline?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2310,12 +2137,6 @@ extension IoTAnalytics {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try channelSummaries?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case channelSummaries = "channelSummaries"
             case nextToken = "nextToken"
@@ -2383,12 +2204,6 @@ extension IoTAnalytics {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try datasetContentSummaries?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case datasetContentSummaries = "datasetContentSummaries"
             case nextToken = "nextToken"
@@ -2436,12 +2251,6 @@ extension IoTAnalytics {
         public init(datasetSummaries: [DatasetSummary]? = nil, nextToken: String? = nil) {
             self.datasetSummaries = datasetSummaries
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try datasetSummaries?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2493,12 +2302,6 @@ extension IoTAnalytics {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try datastoreSummaries?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case datastoreSummaries = "datastoreSummaries"
             case nextToken = "nextToken"
@@ -2548,12 +2351,6 @@ extension IoTAnalytics {
             self.pipelineSummaries = pipelineSummaries
         }
 
-        public func validate() throws {
-            try pipelineSummaries?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case pipelineSummaries = "pipelineSummaries"
@@ -2592,14 +2389,6 @@ extension IoTAnalytics {
 
         public init(tags: [Tag]? = nil) {
             self.tags = tags
-        }
-
-        public func validate() throws {
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2767,17 +2556,6 @@ extension IoTAnalytics {
             self.reprocessingSummaries = reprocessingSummaries
         }
 
-        public func validate() throws {
-            try activities?.forEach {
-                try $0.validate()
-            }
-            try validate(activities, name:"activities", max: 25)
-            try validate(activities, name:"activities", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_]+$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case activities = "activities"
             case arn = "arn"
@@ -2885,12 +2663,6 @@ extension IoTAnalytics {
             self.lastUpdateTime = lastUpdateTime
             self.pipelineName = pipelineName
             self.reprocessingSummaries = reprocessingSummaries
-        }
-
-        public func validate() throws {
-            try validate(pipelineName, name:"pipelineName", max: 128)
-            try validate(pipelineName, name:"pipelineName", min: 1)
-            try validate(pipelineName, name:"pipelineName", pattern: "^[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3111,11 +2883,6 @@ extension IoTAnalytics {
             self.payloads = payloads
         }
 
-        public func validate() throws {
-            try validate(payloads, name:"payloads", max: 10)
-            try validate(payloads, name:"payloads", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case logResult = "logResult"
             case payloads = "payloads"
@@ -3216,11 +2983,6 @@ extension IoTAnalytics {
 
         public init(payloads: [Data]? = nil) {
             self.payloads = payloads
-        }
-
-        public func validate() throws {
-            try validate(payloads, name:"payloads", max: 10)
-            try validate(payloads, name:"payloads", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

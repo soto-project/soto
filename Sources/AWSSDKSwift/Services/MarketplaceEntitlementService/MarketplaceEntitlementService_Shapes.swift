@@ -33,13 +33,6 @@ extension MarketplaceEntitlementService {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(customerIdentifier, name:"customerIdentifier", pattern: "\\S+")
-            try validate(dimension, name:"dimension", pattern: "\\S+")
-            try validate(productCode, name:"productCode", max: 255)
-            try validate(productCode, name:"productCode", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case customerIdentifier = "CustomerIdentifier"
             case dimension = "Dimension"
@@ -142,14 +135,6 @@ extension MarketplaceEntitlementService {
         public init(entitlements: [Entitlement]? = nil, nextToken: String? = nil) {
             self.entitlements = entitlements
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try entitlements?.forEach {
-                try $0.validate()
-            }
-            try validate(entitlements, name:"entitlements", min: 0)
-            try validate(nextToken, name:"nextToken", pattern: "\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {

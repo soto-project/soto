@@ -265,11 +265,6 @@ extension ApiGatewayV2 {
             self.providerArns = providerArns
         }
 
-        public func validate() throws {
-            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", max: 3600)
-            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case authorizerCredentialsArn = "authorizerCredentialsArn"
             case authorizerId = "authorizerId"
@@ -303,12 +298,6 @@ extension ApiGatewayV2 {
         public init(items: [Authorizer]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try items?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -632,11 +621,6 @@ extension ApiGatewayV2 {
             self.providerArns = providerArns
         }
 
-        public func validate() throws {
-            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", max: 3600)
-            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case authorizerCredentialsArn = "authorizerCredentialsArn"
             case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
@@ -735,11 +719,6 @@ extension ApiGatewayV2 {
             self.identityValidationExpression = identityValidationExpression
             self.name = name
             self.providerArns = providerArns
-        }
-
-        public func validate() throws {
-            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", max: 3600)
-            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1030,11 +1009,6 @@ extension ApiGatewayV2 {
             self.timeoutInMillis = timeoutInMillis
         }
 
-        public func validate() throws {
-            try validate(timeoutInMillis, name:"timeoutInMillis", max: 29000)
-            try validate(timeoutInMillis, name:"timeoutInMillis", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case connectionId = "connectionId"
             case connectionType = "connectionType"
@@ -1309,11 +1283,6 @@ extension ApiGatewayV2 {
             self.requestTemplates = requestTemplates
             self.templateSelectionExpression = templateSelectionExpression
             self.timeoutInMillis = timeoutInMillis
-        }
-
-        public func validate() throws {
-            try validate(timeoutInMillis, name:"timeoutInMillis", max: 29000)
-            try validate(timeoutInMillis, name:"timeoutInMillis", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2571,11 +2540,6 @@ extension ApiGatewayV2 {
             self.providerArns = providerArns
         }
 
-        public func validate() throws {
-            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", max: 3600)
-            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case authorizerCredentialsArn = "authorizerCredentialsArn"
             case authorizerId = "authorizerId"
@@ -2625,12 +2589,6 @@ extension ApiGatewayV2 {
         public init(items: [Authorizer]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try items?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3000,11 +2958,6 @@ extension ApiGatewayV2 {
             self.timeoutInMillis = timeoutInMillis
         }
 
-        public func validate() throws {
-            try validate(timeoutInMillis, name:"timeoutInMillis", max: 29000)
-            try validate(timeoutInMillis, name:"timeoutInMillis", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case connectionId = "connectionId"
             case connectionType = "connectionType"
@@ -3060,12 +3013,6 @@ extension ApiGatewayV2 {
         public init(items: [Integration]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try items?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3711,11 +3658,6 @@ extension ApiGatewayV2 {
             self.timeoutInMillis = timeoutInMillis
         }
 
-        public func validate() throws {
-            try validate(timeoutInMillis, name:"timeoutInMillis", max: 29000)
-            try validate(timeoutInMillis, name:"timeoutInMillis", min: 50)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case connectionId = "connectionId"
             case connectionType = "connectionType"
@@ -3842,12 +3784,6 @@ extension ApiGatewayV2 {
         public init(items: [Integration]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try items?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4661,11 +4597,6 @@ extension ApiGatewayV2 {
             self.providerArns = providerArns
         }
 
-        public func validate() throws {
-            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", max: 3600)
-            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case authorizerCredentialsArn = "authorizerCredentialsArn"
             case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
@@ -4768,11 +4699,6 @@ extension ApiGatewayV2 {
             self.identityValidationExpression = identityValidationExpression
             self.name = name
             self.providerArns = providerArns
-        }
-
-        public func validate() throws {
-            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", max: 3600)
-            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5037,11 +4963,6 @@ extension ApiGatewayV2 {
             self.requestTemplates = requestTemplates
             self.templateSelectionExpression = templateSelectionExpression
             self.timeoutInMillis = timeoutInMillis
-        }
-
-        public func validate() throws {
-            try validate(timeoutInMillis, name:"timeoutInMillis", max: 29000)
-            try validate(timeoutInMillis, name:"timeoutInMillis", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5331,11 +5252,6 @@ extension ApiGatewayV2 {
             self.requestTemplates = requestTemplates
             self.templateSelectionExpression = templateSelectionExpression
             self.timeoutInMillis = timeoutInMillis
-        }
-
-        public func validate() throws {
-            try validate(timeoutInMillis, name:"timeoutInMillis", max: 29000)
-            try validate(timeoutInMillis, name:"timeoutInMillis", min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {

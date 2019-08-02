@@ -21,11 +21,6 @@ extension Rekognition {
             self.low = low
         }
 
-        public func validate() throws {
-            try validate(high, name:"high", min: 0)
-            try validate(low, name:"low", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case high = "High"
             case low = "Low"
@@ -52,11 +47,6 @@ extension Rekognition {
         public init(confidence: Float? = nil, value: Bool? = nil) {
             self.confidence = confidence
             self.value = value
-        }
-
-        public func validate() throws {
-            try validate(confidence, name:"confidence", max: 100)
-            try validate(confidence, name:"confidence", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -125,13 +115,6 @@ extension Rekognition {
             self.urls = urls
         }
 
-        public func validate() throws {
-            try face?.validate()
-            try validate(id, name:"id", pattern: "[0-9A-Za-z]*")
-            try validate(matchConfidence, name:"matchConfidence", max: 100)
-            try validate(matchConfidence, name:"matchConfidence", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case face = "Face"
             case id = "Id"
@@ -173,13 +156,6 @@ extension Rekognition {
             self.urls = urls
         }
 
-        public func validate() throws {
-            try validate(confidence, name:"confidence", max: 100)
-            try validate(confidence, name:"confidence", min: 0)
-            try face?.validate()
-            try validate(id, name:"id", pattern: "[0-9A-Za-z]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case boundingBox = "BoundingBox"
             case confidence = "Confidence"
@@ -204,10 +180,6 @@ extension Rekognition {
         public init(celebrity: CelebrityDetail? = nil, timestamp: Int64? = nil) {
             self.celebrity = celebrity
             self.timestamp = timestamp
-        }
-
-        public func validate() throws {
-            try celebrity?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -236,12 +208,6 @@ extension Rekognition {
         public init(face: ComparedFace? = nil, similarity: Float? = nil) {
             self.face = face
             self.similarity = similarity
-        }
-
-        public func validate() throws {
-            try face?.validate()
-            try validate(similarity, name:"similarity", max: 100)
-            try validate(similarity, name:"similarity", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -312,16 +278,6 @@ extension Rekognition {
             self.unmatchedFaces = unmatchedFaces
         }
 
-        public func validate() throws {
-            try faceMatches?.forEach {
-                try $0.validate()
-            }
-            try sourceImageFace?.validate()
-            try unmatchedFaces?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case faceMatches = "FaceMatches"
             case sourceImageFace = "SourceImageFace"
@@ -359,12 +315,6 @@ extension Rekognition {
             self.quality = quality
         }
 
-        public func validate() throws {
-            try validate(confidence, name:"confidence", max: 100)
-            try validate(confidence, name:"confidence", min: 0)
-            try pose?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case boundingBox = "BoundingBox"
             case confidence = "Confidence"
@@ -390,11 +340,6 @@ extension Rekognition {
             self.confidence = confidence
         }
 
-        public func validate() throws {
-            try validate(confidence, name:"confidence", max: 100)
-            try validate(confidence, name:"confidence", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case boundingBox = "BoundingBox"
             case confidence = "Confidence"
@@ -415,10 +360,6 @@ extension Rekognition {
         public init(moderationLabel: ModerationLabel? = nil, timestamp: Int64? = nil) {
             self.moderationLabel = moderationLabel
             self.timestamp = timestamp
-        }
-
-        public func validate() throws {
-            try moderationLabel?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -474,10 +415,6 @@ extension Rekognition {
             self.collectionArn = collectionArn
             self.faceModelVersion = faceModelVersion
             self.statusCode = statusCode
-        }
-
-        public func validate() throws {
-            try validate(statusCode, name:"statusCode", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -546,10 +483,6 @@ extension Rekognition {
             self.streamProcessorArn = streamProcessorArn
         }
 
-        public func validate() throws {
-            try validate(streamProcessorArn, name:"streamProcessorArn", pattern: "(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:streamprocessor\\/.+$)")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case streamProcessorArn = "StreamProcessorArn"
         }
@@ -588,10 +521,6 @@ extension Rekognition {
 
         public init(statusCode: Int32? = nil) {
             self.statusCode = statusCode
-        }
-
-        public func validate() throws {
-            try validate(statusCode, name:"statusCode", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -642,14 +571,6 @@ extension Rekognition {
 
         public init(deletedFaces: [String]? = nil) {
             self.deletedFaces = deletedFaces
-        }
-
-        public func validate() throws {
-            try deletedFaces?.forEach {
-                try validate($0, name:"deletedFaces[]", pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
-            }
-            try validate(deletedFaces, name:"deletedFaces", max: 4096)
-            try validate(deletedFaces, name:"deletedFaces", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -735,10 +656,6 @@ extension Rekognition {
             self.faceModelVersion = faceModelVersion
         }
 
-        public func validate() throws {
-            try validate(faceCount, name:"faceCount", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case collectionARN = "CollectionARN"
             case creationTimestamp = "CreationTimestamp"
@@ -818,17 +735,6 @@ extension Rekognition {
             self.streamProcessorArn = streamProcessorArn
         }
 
-        public func validate() throws {
-            try input?.validate()
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[a-zA-Z0-9_.\\-]+")
-            try output?.validate()
-            try validate(roleArn, name:"roleArn", pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
-            try settings?.validate()
-            try validate(streamProcessorArn, name:"streamProcessorArn", pattern: "(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:streamprocessor\\/.+$)")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationTimestamp = "CreationTimestamp"
             case input = "Input"
@@ -883,12 +789,6 @@ extension Rekognition {
         public init(faceDetails: [FaceDetail]? = nil, orientationCorrection: OrientationCorrection? = nil) {
             self.faceDetails = faceDetails
             self.orientationCorrection = orientationCorrection
-        }
-
-        public func validate() throws {
-            try faceDetails?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -951,12 +851,6 @@ extension Rekognition {
             self.orientationCorrection = orientationCorrection
         }
 
-        public func validate() throws {
-            try labels?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case labelModelVersion = "LabelModelVersion"
             case labels = "Labels"
@@ -1008,12 +902,6 @@ extension Rekognition {
             self.moderationModelVersion = moderationModelVersion
         }
 
-        public func validate() throws {
-            try moderationLabels?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case moderationLabels = "ModerationLabels"
             case moderationModelVersion = "ModerationModelVersion"
@@ -1053,12 +941,6 @@ extension Rekognition {
             self.textDetections = textDetections
         }
 
-        public func validate() throws {
-            try textDetections?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case textDetections = "TextDetections"
         }
@@ -1078,11 +960,6 @@ extension Rekognition {
         public init(confidence: Float? = nil, type: EmotionName? = nil) {
             self.confidence = confidence
             self.`type` = `type`
-        }
-
-        public func validate() throws {
-            try validate(confidence, name:"confidence", max: 100)
-            try validate(confidence, name:"confidence", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1119,11 +996,6 @@ extension Rekognition {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(confidence, name:"confidence", max: 100)
-            try validate(confidence, name:"confidence", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case confidence = "Confidence"
             case value = "Value"
@@ -1144,11 +1016,6 @@ extension Rekognition {
         public init(confidence: Float? = nil, value: Bool? = nil) {
             self.confidence = confidence
             self.value = value
-        }
-
-        public func validate() throws {
-            try validate(confidence, name:"confidence", max: 100)
-            try validate(confidence, name:"confidence", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1183,16 +1050,6 @@ extension Rekognition {
             self.externalImageId = externalImageId
             self.faceId = faceId
             self.imageId = imageId
-        }
-
-        public func validate() throws {
-            try validate(confidence, name:"confidence", max: 100)
-            try validate(confidence, name:"confidence", min: 0)
-            try validate(externalImageId, name:"externalImageId", max: 255)
-            try validate(externalImageId, name:"externalImageId", min: 1)
-            try validate(externalImageId, name:"externalImageId", pattern: "[a-zA-Z0-9_.\\-:]+")
-            try validate(faceId, name:"faceId", pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
-            try validate(imageId, name:"imageId", pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1278,24 +1135,6 @@ extension Rekognition {
             self.sunglasses = sunglasses
         }
 
-        public func validate() throws {
-            try ageRange?.validate()
-            try beard?.validate()
-            try validate(confidence, name:"confidence", max: 100)
-            try validate(confidence, name:"confidence", min: 0)
-            try emotions?.forEach {
-                try $0.validate()
-            }
-            try eyeglasses?.validate()
-            try eyesOpen?.validate()
-            try gender?.validate()
-            try mouthOpen?.validate()
-            try mustache?.validate()
-            try pose?.validate()
-            try smile?.validate()
-            try sunglasses?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case ageRange = "AgeRange"
             case beard = "Beard"
@@ -1331,10 +1170,6 @@ extension Rekognition {
             self.timestamp = timestamp
         }
 
-        public func validate() throws {
-            try face?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case face = "Face"
             case timestamp = "Timestamp"
@@ -1357,12 +1192,6 @@ extension Rekognition {
             self.similarity = similarity
         }
 
-        public func validate() throws {
-            try face?.validate()
-            try validate(similarity, name:"similarity", max: 100)
-            try validate(similarity, name:"similarity", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case face = "Face"
             case similarity = "Similarity"
@@ -1383,11 +1212,6 @@ extension Rekognition {
         public init(face: Face? = nil, faceDetail: FaceDetail? = nil) {
             self.face = face
             self.faceDetail = faceDetail
-        }
-
-        public func validate() throws {
-            try face?.validate()
-            try faceDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1446,11 +1270,6 @@ extension Rekognition {
         public init(confidence: Float? = nil, value: GenderType? = nil) {
             self.confidence = confidence
             self.value = value
-        }
-
-        public func validate() throws {
-            try validate(confidence, name:"confidence", max: 100)
-            try validate(confidence, name:"confidence", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1598,14 +1417,6 @@ extension Rekognition {
             self.videoMetadata = videoMetadata
         }
 
-        public func validate() throws {
-            try celebrities?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 255)
-            try videoMetadata?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case celebrities = "Celebrities"
             case jobStatus = "JobStatus"
@@ -1687,14 +1498,6 @@ extension Rekognition {
             self.videoMetadata = videoMetadata
         }
 
-        public func validate() throws {
-            try moderationLabels?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 255)
-            try videoMetadata?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case jobStatus = "JobStatus"
             case moderationLabels = "ModerationLabels"
@@ -1766,14 +1569,6 @@ extension Rekognition {
             self.nextToken = nextToken
             self.statusMessage = statusMessage
             self.videoMetadata = videoMetadata
-        }
-
-        public func validate() throws {
-            try faces?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 255)
-            try videoMetadata?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1851,14 +1646,6 @@ extension Rekognition {
             self.persons = persons
             self.statusMessage = statusMessage
             self.videoMetadata = videoMetadata
-        }
-
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 255)
-            try persons?.forEach {
-                try $0.validate()
-            }
-            try videoMetadata?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1942,14 +1729,6 @@ extension Rekognition {
             self.videoMetadata = videoMetadata
         }
 
-        public func validate() throws {
-            try labels?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 255)
-            try videoMetadata?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case jobStatus = "JobStatus"
             case labelModelVersion = "LabelModelVersion"
@@ -2026,14 +1805,6 @@ extension Rekognition {
             self.persons = persons
             self.statusMessage = statusMessage
             self.videoMetadata = videoMetadata
-        }
-
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 255)
-            try persons?.forEach {
-                try $0.validate()
-            }
-            try videoMetadata?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2172,15 +1943,6 @@ extension Rekognition {
             self.unindexedFaces = unindexedFaces
         }
 
-        public func validate() throws {
-            try faceRecords?.forEach {
-                try $0.validate()
-            }
-            try unindexedFaces?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case faceModelVersion = "FaceModelVersion"
             case faceRecords = "FaceRecords"
@@ -2203,11 +1965,6 @@ extension Rekognition {
         public init(boundingBox: BoundingBox? = nil, confidence: Float? = nil) {
             self.boundingBox = boundingBox
             self.confidence = confidence
-        }
-
-        public func validate() throws {
-            try validate(confidence, name:"confidence", max: 100)
-            try validate(confidence, name:"confidence", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2282,14 +2039,6 @@ extension Rekognition {
             self.parents = parents
         }
 
-        public func validate() throws {
-            try validate(confidence, name:"confidence", max: 100)
-            try validate(confidence, name:"confidence", min: 0)
-            try instances?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case confidence = "Confidence"
             case instances = "Instances"
@@ -2312,10 +2061,6 @@ extension Rekognition {
         public init(label: Label? = nil, timestamp: Int64? = nil) {
             self.label = label
             self.timestamp = timestamp
-        }
-
-        public func validate() throws {
-            try label?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2439,15 +2184,6 @@ extension Rekognition {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try collectionIds?.forEach {
-                try validate($0, name:"collectionIds[]", max: 255)
-                try validate($0, name:"collectionIds[]", min: 1)
-                try validate($0, name:"collectionIds[]", pattern: "[a-zA-Z0-9_.\\-]+")
-            }
-            try validate(nextToken, name:"nextToken", max: 255)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case collectionIds = "CollectionIds"
             case faceModelVersions = "FaceModelVersions"
@@ -2511,12 +2247,6 @@ extension Rekognition {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try faces?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case faceModelVersion = "FaceModelVersion"
             case faces = "Faces"
@@ -2567,13 +2297,6 @@ extension Rekognition {
             self.streamProcessors = streamProcessors
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 255)
-            try streamProcessors?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case streamProcessors = "StreamProcessors"
@@ -2600,11 +2323,6 @@ extension Rekognition {
             self.parentName = parentName
         }
 
-        public func validate() throws {
-            try validate(confidence, name:"confidence", max: 100)
-            try validate(confidence, name:"confidence", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case confidence = "Confidence"
             case name = "Name"
@@ -2628,11 +2346,6 @@ extension Rekognition {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(confidence, name:"confidence", max: 100)
-            try validate(confidence, name:"confidence", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case confidence = "Confidence"
             case value = "Value"
@@ -2653,11 +2366,6 @@ extension Rekognition {
         public init(confidence: Float? = nil, value: Bool? = nil) {
             self.confidence = confidence
             self.value = value
-        }
-
-        public func validate() throws {
-            try validate(confidence, name:"confidence", max: 100)
-            try validate(confidence, name:"confidence", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2738,10 +2446,6 @@ extension Rekognition {
             self.index = index
         }
 
-        public func validate() throws {
-            try face?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case boundingBox = "BoundingBox"
             case face = "Face"
@@ -2763,10 +2467,6 @@ extension Rekognition {
         public init(person: PersonDetail? = nil, timestamp: Int64? = nil) {
             self.person = person
             self.timestamp = timestamp
-        }
-
-        public func validate() throws {
-            try person?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2793,13 +2493,6 @@ extension Rekognition {
             self.faceMatches = faceMatches
             self.person = person
             self.timestamp = timestamp
-        }
-
-        public func validate() throws {
-            try faceMatches?.forEach {
-                try $0.validate()
-            }
-            try person?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2855,15 +2548,6 @@ extension Rekognition {
             self.pitch = pitch
             self.roll = roll
             self.yaw = yaw
-        }
-
-        public func validate() throws {
-            try validate(pitch, name:"pitch", max: 180)
-            try validate(pitch, name:"pitch", min: -180)
-            try validate(roll, name:"roll", max: 180)
-            try validate(roll, name:"roll", min: -180)
-            try validate(yaw, name:"yaw", max: 180)
-            try validate(yaw, name:"yaw", min: -180)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2928,15 +2612,6 @@ extension Rekognition {
             self.celebrityFaces = celebrityFaces
             self.orientationCorrection = orientationCorrection
             self.unrecognizedFaces = unrecognizedFaces
-        }
-
-        public func validate() throws {
-            try celebrityFaces?.forEach {
-                try $0.validate()
-            }
-            try unrecognizedFaces?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3050,14 +2725,6 @@ extension Rekognition {
             self.searchedFaceConfidence = searchedFaceConfidence
         }
 
-        public func validate() throws {
-            try faceMatches?.forEach {
-                try $0.validate()
-            }
-            try validate(searchedFaceConfidence, name:"searchedFaceConfidence", max: 100)
-            try validate(searchedFaceConfidence, name:"searchedFaceConfidence", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case faceMatches = "FaceMatches"
             case faceModelVersion = "FaceModelVersion"
@@ -3129,13 +2796,6 @@ extension Rekognition {
             self.searchedFaceId = searchedFaceId
         }
 
-        public func validate() throws {
-            try faceMatches?.forEach {
-                try $0.validate()
-            }
-            try validate(searchedFaceId, name:"searchedFaceId", pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case faceMatches = "FaceMatches"
             case faceModelVersion = "FaceModelVersion"
@@ -3157,11 +2817,6 @@ extension Rekognition {
         public init(confidence: Float? = nil, value: Bool? = nil) {
             self.confidence = confidence
             self.value = value
-        }
-
-        public func validate() throws {
-            try validate(confidence, name:"confidence", max: 100)
-            try validate(confidence, name:"confidence", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3223,12 +2878,6 @@ extension Rekognition {
 
         public init(jobId: String? = nil) {
             self.jobId = jobId
-        }
-
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 64)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "^[a-zA-Z0-9-_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3298,12 +2947,6 @@ extension Rekognition {
             self.jobId = jobId
         }
 
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 64)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "^[a-zA-Z0-9-_]+$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case jobId = "JobId"
         }
@@ -3367,12 +3010,6 @@ extension Rekognition {
 
         public init(jobId: String? = nil) {
             self.jobId = jobId
-        }
-
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 64)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "^[a-zA-Z0-9-_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3450,12 +3087,6 @@ extension Rekognition {
             self.jobId = jobId
         }
 
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 64)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "^[a-zA-Z0-9-_]+$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case jobId = "JobId"
         }
@@ -3523,12 +3154,6 @@ extension Rekognition {
             self.jobId = jobId
         }
 
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 64)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "^[a-zA-Z0-9-_]+$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case jobId = "JobId"
         }
@@ -3587,12 +3212,6 @@ extension Rekognition {
 
         public init(jobId: String? = nil) {
             self.jobId = jobId
-        }
-
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 64)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "^[a-zA-Z0-9-_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3676,12 +3295,6 @@ extension Rekognition {
         public init(name: String? = nil, status: StreamProcessorStatus? = nil) {
             self.name = name
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[a-zA-Z0-9_.\\-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3778,11 +3391,6 @@ extension Rekognition {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(confidence, name:"confidence", max: 100)
-            try validate(confidence, name:"confidence", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case confidence = "Confidence"
             case value = "Value"
@@ -3821,13 +3429,6 @@ extension Rekognition {
             self.`type` = `type`
         }
 
-        public func validate() throws {
-            try validate(confidence, name:"confidence", max: 100)
-            try validate(confidence, name:"confidence", min: 0)
-            try validate(id, name:"id", min: 0)
-            try validate(parentId, name:"parentId", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case confidence = "Confidence"
             case detectedText = "DetectedText"
@@ -3858,10 +3459,6 @@ extension Rekognition {
         public init(faceDetail: FaceDetail? = nil, reasons: [Reason]? = nil) {
             self.faceDetail = faceDetail
             self.reasons = reasons
-        }
-
-        public func validate() throws {
-            try faceDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3928,12 +3525,6 @@ extension Rekognition {
             self.frameHeight = frameHeight
             self.frameRate = frameRate
             self.frameWidth = frameWidth
-        }
-
-        public func validate() throws {
-            try validate(durationMillis, name:"durationMillis", min: 0)
-            try validate(frameHeight, name:"frameHeight", min: 0)
-            try validate(frameWidth, name:"frameWidth", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

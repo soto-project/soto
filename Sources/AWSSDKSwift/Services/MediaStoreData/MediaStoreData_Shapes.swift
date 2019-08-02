@@ -87,14 +87,6 @@ extension MediaStoreData {
             self.lastModified = lastModified
         }
 
-        public func validate() throws {
-            try validate(contentLength, name:"contentLength", min: 0)
-            try validate(contentType, name:"contentType", pattern: "^[\\w\\-\\/\\.\\+]{1,255}$")
-            try validate(eTag, name:"eTag", max: 64)
-            try validate(eTag, name:"eTag", min: 1)
-            try validate(eTag, name:"eTag", pattern: "[0-9A-Fa-f]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case cacheControl = "Cache-Control"
             case contentLength = "Content-Length"
@@ -175,15 +167,6 @@ extension MediaStoreData {
             self.statusCode = statusCode
         }
 
-        public func validate() throws {
-            try validate(contentLength, name:"contentLength", min: 0)
-            try validate(contentRange, name:"contentRange", pattern: "^bytes=\\d+\\-\\d+/\\d+$")
-            try validate(contentType, name:"contentType", pattern: "^[\\w\\-\\/\\.\\+]{1,255}$")
-            try validate(eTag, name:"eTag", max: 64)
-            try validate(eTag, name:"eTag", min: 1)
-            try validate(eTag, name:"eTag", pattern: "[0-9A-Fa-f]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case body = "Body"
             case cacheControl = "Cache-Control"
@@ -226,15 +209,6 @@ extension MediaStoreData {
             self.lastModified = lastModified
             self.name = name
             self.`type` = `type`
-        }
-
-        public func validate() throws {
-            try validate(contentLength, name:"contentLength", min: 0)
-            try validate(contentType, name:"contentType", pattern: "^[\\w\\-\\/\\.\\+]{1,255}$")
-            try validate(eTag, name:"eTag", max: 64)
-            try validate(eTag, name:"eTag", min: 1)
-            try validate(eTag, name:"eTag", pattern: "[0-9A-Fa-f]+")
-            try validate(name, name:"name", pattern: "[A-Za-z0-9_\\.\\-\\~]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -302,12 +276,6 @@ extension MediaStoreData {
         public init(items: [Item]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try items?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -385,15 +353,6 @@ extension MediaStoreData {
             self.contentSHA256 = contentSHA256
             self.eTag = eTag
             self.storageClass = storageClass
-        }
-
-        public func validate() throws {
-            try validate(contentSHA256, name:"contentSHA256", max: 64)
-            try validate(contentSHA256, name:"contentSHA256", min: 64)
-            try validate(contentSHA256, name:"contentSHA256", pattern: "[0-9A-Fa-f]{64}")
-            try validate(eTag, name:"eTag", max: 64)
-            try validate(eTag, name:"eTag", min: 1)
-            try validate(eTag, name:"eTag", pattern: "[0-9A-Fa-f]+")
         }
 
         private enum CodingKeys: String, CodingKey {

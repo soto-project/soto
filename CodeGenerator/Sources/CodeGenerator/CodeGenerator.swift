@@ -431,8 +431,11 @@ extension AWSService {
 
             memberContexts.append(memberContext)
             
-            if let validationContext = generateValidationContext(name:member.name, shape: member.shape, required: member.required) {
-                validationContexts.append(validationContext)
+            // only output validation for shapes used in inputs to service apis
+            if shape.usedInInput {
+                if let validationContext = generateValidationContext(name:member.name, shape: member.shape, required: member.required) {
+                    validationContexts.append(validationContext)
+                }
             }
         }
 

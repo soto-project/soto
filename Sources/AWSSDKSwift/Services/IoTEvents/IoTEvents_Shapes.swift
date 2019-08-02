@@ -171,10 +171,6 @@ extension IoTEvents {
             self.detectorModelConfiguration = detectorModelConfiguration
         }
 
-        public func validate() throws {
-            try detectorModelConfiguration?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case detectorModelConfiguration = "detectorModelConfiguration"
         }
@@ -233,10 +229,6 @@ extension IoTEvents {
 
         public init(inputConfiguration: InputConfiguration? = nil) {
             self.inputConfiguration = inputConfiguration
-        }
-
-        public func validate() throws {
-            try inputConfiguration?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -348,10 +340,6 @@ extension IoTEvents {
             self.detectorModel = detectorModel
         }
 
-        public func validate() throws {
-            try detectorModel?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case detectorModel = "detectorModel"
         }
@@ -392,10 +380,6 @@ extension IoTEvents {
             self.input = input
         }
 
-        public func validate() throws {
-            try input?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case input = "input"
         }
@@ -419,10 +403,6 @@ extension IoTEvents {
 
         public init(loggingOptions: LoggingOptions? = nil) {
             self.loggingOptions = loggingOptions
-        }
-
-        public func validate() throws {
-            try loggingOptions?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -477,11 +457,6 @@ extension IoTEvents {
             self.detectorModelDefinition = detectorModelDefinition
         }
 
-        public func validate() throws {
-            try detectorModelConfiguration?.validate()
-            try detectorModelDefinition?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case detectorModelConfiguration = "detectorModelConfiguration"
             case detectorModelDefinition = "detectorModelDefinition"
@@ -530,20 +505,6 @@ extension IoTEvents {
             self.lastUpdateTime = lastUpdateTime
             self.roleArn = roleArn
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(detectorModelDescription, name:"detectorModelDescription", max: 128)
-            try validate(detectorModelName, name:"detectorModelName", max: 128)
-            try validate(detectorModelName, name:"detectorModelName", min: 1)
-            try validate(detectorModelName, name:"detectorModelName", pattern: "^[a-zA-Z0-9_-]+$")
-            try validate(detectorModelVersion, name:"detectorModelVersion", max: 128)
-            try validate(detectorModelVersion, name:"detectorModelVersion", min: 1)
-            try validate(key, name:"key", max: 128)
-            try validate(key, name:"key", min: 1)
-            try validate(key, name:"key", pattern: "^((`[\\w\\- ]+`)|([\\w\\-]+))(\\.((`[\\w- ]+`)|([\\w\\-]+)))*$")
-            try validate(roleArn, name:"roleArn", max: 2048)
-            try validate(roleArn, name:"roleArn", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -610,13 +571,6 @@ extension IoTEvents {
             self.detectorModelName = detectorModelName
         }
 
-        public func validate() throws {
-            try validate(detectorModelDescription, name:"detectorModelDescription", max: 128)
-            try validate(detectorModelName, name:"detectorModelName", max: 128)
-            try validate(detectorModelName, name:"detectorModelName", min: 1)
-            try validate(detectorModelName, name:"detectorModelName", pattern: "^[a-zA-Z0-9_-]+$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationTime = "creationTime"
             case detectorModelDescription = "detectorModelDescription"
@@ -669,16 +623,6 @@ extension IoTEvents {
             self.lastUpdateTime = lastUpdateTime
             self.roleArn = roleArn
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(detectorModelName, name:"detectorModelName", max: 128)
-            try validate(detectorModelName, name:"detectorModelName", min: 1)
-            try validate(detectorModelName, name:"detectorModelName", pattern: "^[a-zA-Z0-9_-]+$")
-            try validate(detectorModelVersion, name:"detectorModelVersion", max: 128)
-            try validate(detectorModelVersion, name:"detectorModelVersion", min: 1)
-            try validate(roleArn, name:"roleArn", max: 2048)
-            try validate(roleArn, name:"roleArn", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -743,11 +687,6 @@ extension IoTEvents {
             self.inputDefinition = inputDefinition
         }
 
-        public func validate() throws {
-            try inputConfiguration?.validate()
-            try inputDefinition?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case inputConfiguration = "inputConfiguration"
             case inputDefinition = "inputDefinition"
@@ -784,13 +723,6 @@ extension IoTEvents {
             self.inputName = inputName
             self.lastUpdateTime = lastUpdateTime
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(inputDescription, name:"inputDescription", max: 128)
-            try validate(inputName, name:"inputName", max: 128)
-            try validate(inputName, name:"inputName", min: 1)
-            try validate(inputName, name:"inputName", pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -866,13 +798,6 @@ extension IoTEvents {
             self.inputName = inputName
             self.lastUpdateTime = lastUpdateTime
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(inputDescription, name:"inputDescription", max: 128)
-            try validate(inputName, name:"inputName", max: 128)
-            try validate(inputName, name:"inputName", min: 1)
-            try validate(inputName, name:"inputName", pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -958,12 +883,6 @@ extension IoTEvents {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try detectorModelVersionSummaries?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case detectorModelVersionSummaries = "detectorModelVersionSummaries"
             case nextToken = "nextToken"
@@ -1011,12 +930,6 @@ extension IoTEvents {
         public init(detectorModelSummaries: [DetectorModelSummary]? = nil, nextToken: String? = nil) {
             self.detectorModelSummaries = detectorModelSummaries
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try detectorModelSummaries?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1068,12 +981,6 @@ extension IoTEvents {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try inputSummaries?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case inputSummaries = "inputSummaries"
             case nextToken = "nextToken"
@@ -1112,12 +1019,6 @@ extension IoTEvents {
 
         public init(tags: [Tag]? = nil) {
             self.tags = tags
-        }
-
-        public func validate() throws {
-            try tags?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1614,10 +1515,6 @@ extension IoTEvents {
             self.detectorModelConfiguration = detectorModelConfiguration
         }
 
-        public func validate() throws {
-            try detectorModelConfiguration?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case detectorModelConfiguration = "detectorModelConfiguration"
         }
@@ -1668,10 +1565,6 @@ extension IoTEvents {
 
         public init(inputConfiguration: InputConfiguration? = nil) {
             self.inputConfiguration = inputConfiguration
-        }
-
-        public func validate() throws {
-            try inputConfiguration?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

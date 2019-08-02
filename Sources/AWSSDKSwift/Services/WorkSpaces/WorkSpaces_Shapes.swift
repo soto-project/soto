@@ -37,10 +37,6 @@ extension WorkSpaces {
             self.startTime = startTime
         }
 
-        public func validate() throws {
-            try validate(dedicatedTenancyManagementCidrRange, name:"dedicatedTenancyManagementCidrRange", pattern: "(^([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.0\\.0)(\\/(16$))$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case dedicatedTenancyManagementCidrRange = "DedicatedTenancyManagementCidrRange"
             case dedicatedTenancySupport = "DedicatedTenancySupport"
@@ -155,10 +151,6 @@ extension WorkSpaces {
             self.resourceId = resourceId
         }
 
-        public func validate() throws {
-            try validate(resourceId, name:"resourceId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case clientProperties = "ClientProperties"
             case resourceId = "ResourceId"
@@ -265,10 +257,6 @@ extension WorkSpaces {
             self.imageId = imageId
         }
 
-        public func validate() throws {
-            try validate(imageId, name:"imageId", pattern: "wsi-[0-9a-z]{9,63}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case imageId = "ImageId"
         }
@@ -322,10 +310,6 @@ extension WorkSpaces {
 
         public init(groupId: String? = nil) {
             self.groupId = groupId
-        }
-
-        public func validate() throws {
-            try validate(groupId, name:"groupId", pattern: "wsipg-[0-9a-z]{8,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -411,15 +395,6 @@ extension WorkSpaces {
             self.pendingRequests = pendingRequests
         }
 
-        public func validate() throws {
-            try failedRequests?.forEach {
-                try $0.validate()
-            }
-            try pendingRequests?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case failedRequests = "FailedRequests"
             case pendingRequests = "PendingRequests"
@@ -470,10 +445,6 @@ extension WorkSpaces {
             self.enableInternetAccess = enableInternetAccess
             self.enableWorkDocs = enableWorkDocs
             self.userEnabledAsLocalAdministrator = userEnabledAsLocalAdministrator
-        }
-
-        public func validate() throws {
-            try validate(customSecurityGroupId, name:"customSecurityGroupId", pattern: "^(sg-[0-9a-f]{8})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -618,14 +589,6 @@ extension WorkSpaces {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try accountModifications?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 63)
-            try validate(nextToken, name:"nextToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case accountModifications = "AccountModifications"
             case nextToken = "NextToken"
@@ -654,10 +617,6 @@ extension WorkSpaces {
         public init(dedicatedTenancyManagementCidrRange: String? = nil, dedicatedTenancySupport: DedicatedTenancySupportResultEnum? = nil) {
             self.dedicatedTenancyManagementCidrRange = dedicatedTenancyManagementCidrRange
             self.dedicatedTenancySupport = dedicatedTenancySupport
-        }
-
-        public func validate() throws {
-            try validate(dedicatedTenancyManagementCidrRange, name:"dedicatedTenancyManagementCidrRange", pattern: "(^([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.0\\.0)(\\/(16$))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -701,12 +660,6 @@ extension WorkSpaces {
 
         public init(clientPropertiesList: [ClientPropertiesResult]? = nil) {
             self.clientPropertiesList = clientPropertiesList
-        }
-
-        public func validate() throws {
-            try clientPropertiesList?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -767,14 +720,6 @@ extension WorkSpaces {
             self.result = result
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 63)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try result?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case result = "Result"
@@ -812,12 +757,6 @@ extension WorkSpaces {
 
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
-        }
-
-        public func validate() throws {
-            try tagList?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -878,14 +817,6 @@ extension WorkSpaces {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try bundles?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 63)
-            try validate(nextToken, name:"nextToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bundles = "Bundles"
             case nextToken = "NextToken"
@@ -938,14 +869,6 @@ extension WorkSpaces {
         public init(directories: [WorkspaceDirectory]? = nil, nextToken: String? = nil) {
             self.directories = directories
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try directories?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 63)
-            try validate(nextToken, name:"nextToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1009,14 +932,6 @@ extension WorkSpaces {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try images?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 63)
-            try validate(nextToken, name:"nextToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case images = "Images"
             case nextToken = "NextToken"
@@ -1069,14 +984,6 @@ extension WorkSpaces {
         public init(nextToken: String? = nil, workspacesConnectionStatus: [WorkspaceConnectionStatus]? = nil) {
             self.nextToken = nextToken
             self.workspacesConnectionStatus = workspacesConnectionStatus
-        }
-
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 63)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try workspacesConnectionStatus?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1159,14 +1066,6 @@ extension WorkSpaces {
             self.workspaces = workspaces
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 63)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try workspaces?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case workspaces = "Workspaces"
@@ -1230,10 +1129,6 @@ extension WorkSpaces {
             self.workspaceRequest = workspaceRequest
         }
 
-        public func validate() throws {
-            try workspaceRequest?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
@@ -1259,10 +1154,6 @@ extension WorkSpaces {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.workspaceId = workspaceId
-        }
-
-        public func validate() throws {
-            try validate(workspaceId, name:"workspaceId", pattern: "^ws-[0-9a-z]{8,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1332,10 +1223,6 @@ extension WorkSpaces {
 
         public init(imageId: String? = nil) {
             self.imageId = imageId
-        }
-
-        public func validate() throws {
-            try validate(imageId, name:"imageId", pattern: "wsi-[0-9a-z]{9,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1414,14 +1301,6 @@ extension WorkSpaces {
         public init(managementCidrRanges: [String]? = nil, nextToken: String? = nil) {
             self.managementCidrRanges = managementCidrRanges
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try managementCidrRanges?.forEach {
-                try validate($0, name:"managementCidrRanges[]", pattern: "(^([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.0\\.0)(\\/(16$))$")
-            }
-            try validate(nextToken, name:"nextToken", max: 63)
-            try validate(nextToken, name:"nextToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1682,12 +1561,6 @@ extension WorkSpaces {
             self.failedRequests = failedRequests
         }
 
-        public func validate() throws {
-            try failedRequests?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case failedRequests = "FailedRequests"
         }
@@ -1751,12 +1624,6 @@ extension WorkSpaces {
             self.failedRequests = failedRequests
         }
 
-        public func validate() throws {
-            try failedRequests?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case failedRequests = "FailedRequests"
         }
@@ -1812,10 +1679,6 @@ extension WorkSpaces {
 
         public init(capacity: String? = nil) {
             self.capacity = capacity
-        }
-
-        public func validate() throws {
-            try validate(capacity, name:"capacity", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1887,12 +1750,6 @@ extension WorkSpaces {
             self.failedRequests = failedRequests
         }
 
-        public func validate() throws {
-            try failedRequests?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case failedRequests = "FailedRequests"
         }
@@ -1954,12 +1811,6 @@ extension WorkSpaces {
 
         public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
             self.failedRequests = failedRequests
-        }
-
-        public func validate() throws {
-            try failedRequests?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2059,12 +1910,6 @@ extension WorkSpaces {
             self.failedRequests = failedRequests
         }
 
-        public func validate() throws {
-            try failedRequests?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case failedRequests = "FailedRequests"
         }
@@ -2114,10 +1959,6 @@ extension WorkSpaces {
 
         public init(capacity: String? = nil) {
             self.capacity = capacity
-        }
-
-        public func validate() throws {
-            try validate(capacity, name:"capacity", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2193,15 +2034,6 @@ extension WorkSpaces {
             self.workspaceProperties = workspaceProperties
         }
 
-        public func validate() throws {
-            try validate(bundleId, name:"bundleId", pattern: "^wsb-[0-9a-z]{8,63}$")
-            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{8,63}$")
-            try validate(subnetId, name:"subnetId", pattern: "^(subnet-[0-9a-f]{8})$")
-            try validate(userName, name:"userName", max: 63)
-            try validate(userName, name:"userName", min: 1)
-            try validate(workspaceId, name:"workspaceId", pattern: "^ws-[0-9a-z]{8,63}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bundleId = "BundleId"
             case computerName = "ComputerName"
@@ -2257,13 +2089,6 @@ extension WorkSpaces {
             self.userStorage = userStorage
         }
 
-        public func validate() throws {
-            try validate(bundleId, name:"bundleId", pattern: "^wsb-[0-9a-z]{8,63}$")
-            try validate(name, name:"name", min: 1)
-            try rootStorage?.validate()
-            try userStorage?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bundleId = "BundleId"
             case computeType = "ComputeType"
@@ -2297,10 +2122,6 @@ extension WorkSpaces {
             self.connectionStateCheckTimestamp = connectionStateCheckTimestamp
             self.lastKnownUserConnectionTimestamp = lastKnownUserConnectionTimestamp
             self.workspaceId = workspaceId
-        }
-
-        public func validate() throws {
-            try validate(workspaceId, name:"workspaceId", pattern: "^ws-[0-9a-z]{8,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2369,23 +2190,6 @@ extension WorkSpaces {
             self.subnetIds = subnetIds
             self.workspaceCreationProperties = workspaceCreationProperties
             self.workspaceSecurityGroupId = workspaceSecurityGroupId
-        }
-
-        public func validate() throws {
-            try validate(customerUserName, name:"customerUserName", max: 63)
-            try validate(customerUserName, name:"customerUserName", min: 1)
-            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{8,63}$")
-            try validate(iamRoleId, name:"iamRoleId", pattern: "^arn:aws:[A-Za-z0-9][A-za-z0-9_/.-]{0,62}:[A-za-z0-9_/.-]{0,63}:[A-za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.-]{0,127}$")
-            try ipGroupIds?.forEach {
-                try validate($0, name:"ipGroupIds[]", pattern: "wsipg-[0-9a-z]{8,63}$")
-            }
-            try validate(registrationCode, name:"registrationCode", max: 20)
-            try validate(registrationCode, name:"registrationCode", min: 1)
-            try subnetIds?.forEach {
-                try validate($0, name:"subnetIds[]", pattern: "^(subnet-[0-9a-f]{8})$")
-            }
-            try workspaceCreationProperties?.validate()
-            try validate(workspaceSecurityGroupId, name:"workspaceSecurityGroupId", pattern: "^(sg-[0-9a-f]{8})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2458,16 +2262,6 @@ extension WorkSpaces {
             self.operatingSystem = operatingSystem
             self.requiredTenancy = requiredTenancy
             self.state = state
-        }
-
-        public func validate() throws {
-            try validate(description, name:"description", max: 256)
-            try validate(description, name:"description", min: 1)
-            try validate(description, name:"description", pattern: "^[a-zA-Z0-9_./() -]+$")
-            try validate(imageId, name:"imageId", pattern: "wsi-[0-9a-z]{9,63}$")
-            try validate(name, name:"name", max: 64)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_./()\\\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2643,10 +2437,6 @@ extension WorkSpaces {
             self.groupId = groupId
             self.groupName = groupName
             self.userRules = userRules
-        }
-
-        public func validate() throws {
-            try validate(groupId, name:"groupId", pattern: "wsipg-[0-9a-z]{8,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {

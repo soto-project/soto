@@ -132,18 +132,6 @@ extension MTurk {
             self.workerId = workerId
         }
 
-        public func validate() throws {
-            try validate(assignmentId, name:"assignmentId", max: 64)
-            try validate(assignmentId, name:"assignmentId", min: 1)
-            try validate(assignmentId, name:"assignmentId", pattern: "^[A-Z0-9]+$")
-            try validate(hITId, name:"hITId", max: 64)
-            try validate(hITId, name:"hITId", min: 1)
-            try validate(hITId, name:"hITId", pattern: "^[A-Z0-9]+$")
-            try validate(workerId, name:"workerId", max: 64)
-            try validate(workerId, name:"workerId", min: 1)
-            try validate(workerId, name:"workerId", pattern: "^A[A-Z0-9]+$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case acceptTime = "AcceptTime"
             case answer = "Answer"
@@ -241,16 +229,6 @@ extension MTurk {
             self.grantTime = grantTime
             self.reason = reason
             self.workerId = workerId
-        }
-
-        public func validate() throws {
-            try validate(assignmentId, name:"assignmentId", max: 64)
-            try validate(assignmentId, name:"assignmentId", min: 1)
-            try validate(assignmentId, name:"assignmentId", pattern: "^[A-Z0-9]+$")
-            try validate(bonusAmount, name:"bonusAmount", pattern: "^[0-9]+(\\.)?[0-9]{0,2}$")
-            try validate(workerId, name:"workerId", max: 64)
-            try validate(workerId, name:"workerId", min: 1)
-            try validate(workerId, name:"workerId", pattern: "^A[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -435,10 +413,6 @@ extension MTurk {
             self.hit = hit
         }
 
-        public func validate() throws {
-            try hit?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case hit = "HIT"
         }
@@ -508,12 +482,6 @@ extension MTurk {
 
         public init(hITTypeId: String? = nil) {
             self.hITTypeId = hITTypeId
-        }
-
-        public func validate() throws {
-            try validate(hITTypeId, name:"hITTypeId", max: 64)
-            try validate(hITTypeId, name:"hITTypeId", min: 1)
-            try validate(hITTypeId, name:"hITTypeId", pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -606,10 +574,6 @@ extension MTurk {
             self.hit = hit
         }
 
-        public func validate() throws {
-            try hit?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case hit = "HIT"
         }
@@ -687,10 +651,6 @@ extension MTurk {
 
         public init(qualificationType: QualificationType? = nil) {
             self.qualificationType = qualificationType
-        }
-
-        public func validate() throws {
-            try qualificationType?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -914,11 +874,6 @@ extension MTurk {
             self.onHoldBalance = onHoldBalance
         }
 
-        public func validate() throws {
-            try validate(availableBalance, name:"availableBalance", pattern: "^[0-9]+(\\.)?[0-9]{0,2}$")
-            try validate(onHoldBalance, name:"onHoldBalance", pattern: "^[0-9]+(\\.)?[0-9]{0,2}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case availableBalance = "AvailableBalance"
             case onHoldBalance = "OnHoldBalance"
@@ -962,11 +917,6 @@ extension MTurk {
         public init(assignment: Assignment? = nil, hit: HIT? = nil) {
             self.assignment = assignment
             self.hit = hit
-        }
-
-        public func validate() throws {
-            try assignment?.validate()
-            try hit?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1055,10 +1005,6 @@ extension MTurk {
             self.hit = hit
         }
 
-        public func validate() throws {
-            try hit?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case hit = "HIT"
         }
@@ -1107,10 +1053,6 @@ extension MTurk {
             self.qualification = qualification
         }
 
-        public func validate() throws {
-            try qualification?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case qualification = "Qualification"
         }
@@ -1149,10 +1091,6 @@ extension MTurk {
 
         public init(qualificationType: QualificationType? = nil) {
             self.qualificationType = qualificationType
-        }
-
-        public func validate() throws {
-            try qualificationType?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1249,25 +1187,6 @@ extension MTurk {
             self.requesterAnnotation = requesterAnnotation
             self.reward = reward
             self.title = title
-        }
-
-        public func validate() throws {
-            try validate(hITGroupId, name:"hITGroupId", max: 64)
-            try validate(hITGroupId, name:"hITGroupId", min: 1)
-            try validate(hITGroupId, name:"hITGroupId", pattern: "^[A-Z0-9]+$")
-            try validate(hITId, name:"hITId", max: 64)
-            try validate(hITId, name:"hITId", min: 1)
-            try validate(hITId, name:"hITId", pattern: "^[A-Z0-9]+$")
-            try validate(hITLayoutId, name:"hITLayoutId", max: 64)
-            try validate(hITLayoutId, name:"hITLayoutId", min: 1)
-            try validate(hITLayoutId, name:"hITLayoutId", pattern: "^[A-Z0-9]+$")
-            try validate(hITTypeId, name:"hITTypeId", max: 64)
-            try validate(hITTypeId, name:"hITTypeId", min: 1)
-            try validate(hITTypeId, name:"hITTypeId", pattern: "^[A-Z0-9]+$")
-            try qualificationRequirements?.forEach {
-                try $0.validate()
-            }
-            try validate(reward, name:"reward", pattern: "^[0-9]+(\\.)?[0-9]{0,2}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1401,14 +1320,6 @@ extension MTurk {
             self.numResults = numResults
         }
 
-        public func validate() throws {
-            try assignments?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case assignments = "Assignments"
             case nextToken = "NextToken"
@@ -1479,14 +1390,6 @@ extension MTurk {
             self.numResults = numResults
         }
 
-        public func validate() throws {
-            try bonusPayments?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bonusPayments = "BonusPayments"
             case nextToken = "NextToken"
@@ -1550,14 +1453,6 @@ extension MTurk {
             self.numResults = numResults
         }
 
-        public func validate() throws {
-            try hITs?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case hITs = "HITs"
             case nextToken = "NextToken"
@@ -1610,14 +1505,6 @@ extension MTurk {
             self.hITs = hITs
             self.nextToken = nextToken
             self.numResults = numResults
-        }
-
-        public func validate() throws {
-            try hITs?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1680,14 +1567,6 @@ extension MTurk {
             self.nextToken = nextToken
             self.numResults = numResults
             self.qualificationRequests = qualificationRequests
-        }
-
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try qualificationRequests?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1757,14 +1636,6 @@ extension MTurk {
             self.nextToken = nextToken
             self.numResults = numResults
             self.qualificationTypes = qualificationTypes
-        }
-
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try qualificationTypes?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1857,16 +1728,6 @@ extension MTurk {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try assignmentReviewReport?.validate()
-            try validate(hITId, name:"hITId", max: 64)
-            try validate(hITId, name:"hITId", min: 1)
-            try validate(hITId, name:"hITId", pattern: "^[A-Z0-9]+$")
-            try hITReviewReport?.validate()
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case assignmentReviewPolicy = "AssignmentReviewPolicy"
             case assignmentReviewReport = "AssignmentReviewReport"
@@ -1938,14 +1799,6 @@ extension MTurk {
             self.numResults = numResults
         }
 
-        public func validate() throws {
-            try hITs?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case hITs = "HITs"
             case nextToken = "NextToken"
@@ -1998,14 +1851,6 @@ extension MTurk {
             self.nextToken = nextToken
             self.numResults = numResults
             self.workerBlocks = workerBlocks
-        }
-
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try workerBlocks?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2074,14 +1919,6 @@ extension MTurk {
             self.nextToken = nextToken
             self.numResults = numResults
             self.qualifications = qualifications
-        }
-
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try qualifications?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2185,12 +2022,6 @@ extension MTurk {
             self.workerId = workerId
         }
 
-        public func validate() throws {
-            try validate(workerId, name:"workerId", max: 64)
-            try validate(workerId, name:"workerId", min: 1)
-            try validate(workerId, name:"workerId", pattern: "^A[A-Z0-9]+$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case notifyWorkersFailureCode = "NotifyWorkersFailureCode"
             case notifyWorkersFailureMessage = "NotifyWorkersFailureMessage"
@@ -2243,12 +2074,6 @@ extension MTurk {
 
         public init(notifyWorkersFailureStatuses: [NotifyWorkersFailureStatus]? = nil) {
             self.notifyWorkersFailureStatuses = notifyWorkersFailureStatuses
-        }
-
-        public func validate() throws {
-            try notifyWorkersFailureStatuses?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2336,16 +2161,6 @@ extension MTurk {
             self.workerId = workerId
         }
 
-        public func validate() throws {
-            try localeValue?.validate()
-            try validate(qualificationTypeId, name:"qualificationTypeId", max: 64)
-            try validate(qualificationTypeId, name:"qualificationTypeId", min: 1)
-            try validate(qualificationTypeId, name:"qualificationTypeId", pattern: "^[A-Z0-9]+$")
-            try validate(workerId, name:"workerId", max: 64)
-            try validate(workerId, name:"workerId", min: 1)
-            try validate(workerId, name:"workerId", pattern: "^A[A-Z0-9]+$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case grantTime = "GrantTime"
             case integerValue = "IntegerValue"
@@ -2386,15 +2201,6 @@ extension MTurk {
             self.submitTime = submitTime
             self.test = test
             self.workerId = workerId
-        }
-
-        public func validate() throws {
-            try validate(qualificationTypeId, name:"qualificationTypeId", max: 64)
-            try validate(qualificationTypeId, name:"qualificationTypeId", min: 1)
-            try validate(qualificationTypeId, name:"qualificationTypeId", pattern: "^[A-Z0-9]+$")
-            try validate(workerId, name:"workerId", max: 64)
-            try validate(workerId, name:"workerId", min: 1)
-            try validate(workerId, name:"workerId", pattern: "^A[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2514,12 +2320,6 @@ extension MTurk {
             self.retryDelayInSeconds = retryDelayInSeconds
             self.test = test
             self.testDurationInSeconds = testDurationInSeconds
-        }
-
-        public func validate() throws {
-            try validate(qualificationTypeId, name:"qualificationTypeId", max: 64)
-            try validate(qualificationTypeId, name:"qualificationTypeId", min: 1)
-            try validate(qualificationTypeId, name:"qualificationTypeId", pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2651,15 +2451,6 @@ extension MTurk {
             self.targetType = targetType
         }
 
-        public func validate() throws {
-            try validate(actionId, name:"actionId", max: 64)
-            try validate(actionId, name:"actionId", min: 1)
-            try validate(actionId, name:"actionId", pattern: "^[A-Z0-9]+$")
-            try validate(targetId, name:"targetId", max: 64)
-            try validate(targetId, name:"targetId", min: 1)
-            try validate(targetId, name:"targetId", pattern: "^[A-Z0-9]+$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case actionId = "ActionId"
             case actionName = "ActionName"
@@ -2724,15 +2515,6 @@ extension MTurk {
             self.reviewResults = reviewResults
         }
 
-        public func validate() throws {
-            try reviewActions?.forEach {
-                try $0.validate()
-            }
-            try reviewResults?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case reviewActions = "ReviewActions"
             case reviewResults = "ReviewResults"
@@ -2769,18 +2551,6 @@ extension MTurk {
             self.subjectId = subjectId
             self.subjectType = subjectType
             self.value = value
-        }
-
-        public func validate() throws {
-            try validate(actionId, name:"actionId", max: 64)
-            try validate(actionId, name:"actionId", min: 1)
-            try validate(actionId, name:"actionId", pattern: "^[A-Z0-9]+$")
-            try validate(questionId, name:"questionId", max: 64)
-            try validate(questionId, name:"questionId", min: 1)
-            try validate(questionId, name:"questionId", pattern: "^[A-Z0-9]+$")
-            try validate(subjectId, name:"subjectId", max: 64)
-            try validate(subjectId, name:"subjectId", min: 1)
-            try validate(subjectId, name:"subjectId", pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3113,10 +2883,6 @@ extension MTurk {
             self.qualificationType = qualificationType
         }
 
-        public func validate() throws {
-            try qualificationType?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case qualificationType = "QualificationType"
         }
@@ -3136,12 +2902,6 @@ extension MTurk {
         public init(reason: String? = nil, workerId: String? = nil) {
             self.reason = reason
             self.workerId = workerId
-        }
-
-        public func validate() throws {
-            try validate(workerId, name:"workerId", max: 64)
-            try validate(workerId, name:"workerId", min: 1)
-            try validate(workerId, name:"workerId", pattern: "^A[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

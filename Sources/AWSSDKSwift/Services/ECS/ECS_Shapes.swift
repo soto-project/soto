@@ -178,14 +178,6 @@ extension ECS {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case activeServicesCount = "activeServicesCount"
             case clusterArn = "clusterArn"
@@ -593,14 +585,6 @@ extension ECS {
             self.versionInfo = versionInfo
         }
 
-        public func validate() throws {
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case agentConnected = "agentConnected"
             case agentUpdateStatus = "agentUpdateStatus"
@@ -761,10 +745,6 @@ extension ECS {
             self.cluster = cluster
         }
 
-        public func validate() throws {
-            try cluster?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case cluster = "cluster"
         }
@@ -900,10 +880,6 @@ extension ECS {
 
         public init(service: Service? = nil) {
             self.service = service
-        }
-
-        public func validate() throws {
-            try service?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1099,10 +1075,6 @@ extension ECS {
             self.cluster = cluster
         }
 
-        public func validate() throws {
-            try cluster?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case cluster = "cluster"
         }
@@ -1145,10 +1117,6 @@ extension ECS {
 
         public init(service: Service? = nil) {
             self.service = service
-        }
-
-        public func validate() throws {
-            try service?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1356,10 +1324,6 @@ extension ECS {
             self.containerInstance = containerInstance
         }
 
-        public func validate() throws {
-            try containerInstance?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case containerInstance = "containerInstance"
         }
@@ -1437,12 +1401,6 @@ extension ECS {
             self.failures = failures
         }
 
-        public func validate() throws {
-            try clusters?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case clusters = "clusters"
             case failures = "failures"
@@ -1490,12 +1448,6 @@ extension ECS {
         public init(containerInstances: [ContainerInstance]? = nil, failures: [Failure]? = nil) {
             self.containerInstances = containerInstances
             self.failures = failures
-        }
-
-        public func validate() throws {
-            try containerInstances?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1547,12 +1499,6 @@ extension ECS {
             self.services = services
         }
 
-        public func validate() throws {
-            try services?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case failures = "failures"
             case services = "services"
@@ -1595,14 +1541,6 @@ extension ECS {
         public init(tags: [Tag]? = nil, taskDefinition: TaskDefinition? = nil) {
             self.tags = tags
             self.taskDefinition = taskDefinition
-        }
-
-        public func validate() throws {
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1701,12 +1639,6 @@ extension ECS {
         public init(failures: [Failure]? = nil, tasks: [Task]? = nil) {
             self.failures = failures
             self.tasks = tasks
-        }
-
-        public func validate() throws {
-            try tasks?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2353,14 +2285,6 @@ extension ECS {
 
         public init(tags: [Tag]? = nil) {
             self.tags = tags
-        }
-
-        public func validate() throws {
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3095,10 +3019,6 @@ extension ECS {
             self.containerInstance = containerInstance
         }
 
-        public func validate() throws {
-            try containerInstance?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case containerInstance = "containerInstance"
         }
@@ -3207,14 +3127,6 @@ extension ECS {
         public init(tags: [Tag]? = nil, taskDefinition: TaskDefinition? = nil) {
             self.tags = tags
             self.taskDefinition = taskDefinition
-        }
-
-        public func validate() throws {
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3415,12 +3327,6 @@ extension ECS {
             self.tasks = tasks
         }
 
-        public func validate() throws {
-            try tasks?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case failures = "failures"
             case tasks = "tasks"
@@ -3606,14 +3512,6 @@ extension ECS {
             self.tags = tags
             self.taskDefinition = taskDefinition
             self.taskSets = taskSets
-        }
-
-        public func validate() throws {
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3845,12 +3743,6 @@ extension ECS {
             self.tasks = tasks
         }
 
-        public func validate() throws {
-            try tasks?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case failures = "failures"
             case tasks = "tasks"
@@ -3894,10 +3786,6 @@ extension ECS {
 
         public init(task: Task? = nil) {
             self.task = task
-        }
-
-        public func validate() throws {
-            try task?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4300,14 +4188,6 @@ extension ECS {
             self.taskArn = taskArn
             self.taskDefinitionArn = taskDefinitionArn
             self.version = version
-        }
-
-        public func validate() throws {
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4797,10 +4677,6 @@ extension ECS {
             self.containerInstance = containerInstance
         }
 
-        public func validate() throws {
-            try containerInstance?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case containerInstance = "containerInstance"
         }
@@ -4847,12 +4723,6 @@ extension ECS {
         public init(containerInstances: [ContainerInstance]? = nil, failures: [Failure]? = nil) {
             self.containerInstances = containerInstances
             self.failures = failures
-        }
-
-        public func validate() throws {
-            try containerInstances?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4971,10 +4841,6 @@ extension ECS {
 
         public init(service: Service? = nil) {
             self.service = service
-        }
-
-        public func validate() throws {
-            try service?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

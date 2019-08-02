@@ -95,12 +95,6 @@ extension KinesisVideo {
             self.streamARN = streamARN
         }
 
-        public func validate() throws {
-            try validate(streamARN, name:"streamARN", max: 1024)
-            try validate(streamARN, name:"streamARN", min: 1)
-            try validate(streamARN, name:"streamARN", pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case streamARN = "StreamARN"
         }
@@ -186,10 +180,6 @@ extension KinesisVideo {
 
         public init(streamInfo: StreamInfo? = nil) {
             self.streamInfo = streamInfo
-        }
-
-        public func validate() throws {
-            try streamInfo?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -301,14 +291,6 @@ extension KinesisVideo {
             self.streamInfoList = streamInfoList
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 512)
-            try validate(nextToken, name:"nextToken", min: 0)
-            try streamInfoList?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case streamInfoList = "StreamInfoList"
@@ -369,17 +351,6 @@ extension KinesisVideo {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 512)
-            try validate(nextToken, name:"nextToken", min: 0)
-            try tags?.forEach {
-                try validate($0.key, name:"tags[key:]", max: 128)
-                try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case tags = "Tags"
@@ -436,27 +407,6 @@ extension KinesisVideo {
             self.streamARN = streamARN
             self.streamName = streamName
             self.version = version
-        }
-
-        public func validate() throws {
-            try validate(dataRetentionInHours, name:"dataRetentionInHours", min: 0)
-            try validate(deviceName, name:"deviceName", max: 128)
-            try validate(deviceName, name:"deviceName", min: 1)
-            try validate(deviceName, name:"deviceName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(kmsKeyId, name:"kmsKeyId", max: 2048)
-            try validate(kmsKeyId, name:"kmsKeyId", min: 1)
-            try validate(mediaType, name:"mediaType", max: 128)
-            try validate(mediaType, name:"mediaType", min: 1)
-            try validate(mediaType, name:"mediaType", pattern: "[\\w\\-\\.\\+]+/[\\w\\-\\.\\+]+(,[\\w\\-\\.\\+]+/[\\w\\-\\.\\+]+)*")
-            try validate(streamARN, name:"streamARN", max: 1024)
-            try validate(streamARN, name:"streamARN", min: 1)
-            try validate(streamARN, name:"streamARN", pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
-            try validate(streamName, name:"streamName", max: 256)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(version, name:"version", max: 64)
-            try validate(version, name:"version", min: 1)
-            try validate(version, name:"version", pattern: "[a-zA-Z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {

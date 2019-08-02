@@ -33,10 +33,6 @@ extension Lambda {
             self.unreservedConcurrentExecutions = unreservedConcurrentExecutions
         }
 
-        public func validate() throws {
-            try validate(unreservedConcurrentExecutions, name:"unreservedConcurrentExecutions", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case codeSizeUnzipped = "CodeSizeUnzipped"
             case codeSizeZipped = "CodeSizeZipped"
@@ -274,19 +270,6 @@ extension Lambda {
             self.routingConfig = routingConfig
         }
 
-        public func validate() throws {
-            try validate(aliasArn, name:"aliasArn", pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(description, name:"description", max: 256)
-            try validate(description, name:"description", min: 0)
-            try validate(functionVersion, name:"functionVersion", max: 1024)
-            try validate(functionVersion, name:"functionVersion", min: 1)
-            try validate(functionVersion, name:"functionVersion", pattern: "(\\$LATEST|[0-9]+)")
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
-            try routingConfig?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case aliasArn = "AliasArn"
             case description = "Description"
@@ -334,10 +317,6 @@ extension Lambda {
 
         public init(reservedConcurrentExecutions: Int32? = nil) {
             self.reservedConcurrentExecutions = reservedConcurrentExecutions
-        }
-
-        public func validate() throws {
-            try validate(reservedConcurrentExecutions, name:"reservedConcurrentExecutions", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -776,12 +755,6 @@ extension Lambda {
             self.variables = variables
         }
 
-        public func validate() throws {
-            try variables?.forEach {
-                try validate($0.key, name:"variables[key:]", pattern: "[a-zA-Z]([a-zA-Z0-9_])+")
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case error = "Error"
             case variables = "Variables"
@@ -826,13 +799,6 @@ extension Lambda {
             self.state = state
             self.stateTransitionReason = stateTransitionReason
             self.uuid = uuid
-        }
-
-        public func validate() throws {
-            try validate(batchSize, name:"batchSize", max: 10000)
-            try validate(batchSize, name:"batchSize", min: 1)
-            try validate(eventSourceArn, name:"eventSourceArn", pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
-            try validate(functionArn, name:"functionArn", pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1006,32 +972,6 @@ extension Lambda {
             self.vpcConfig = vpcConfig
         }
 
-        public func validate() throws {
-            try deadLetterConfig?.validate()
-            try validate(description, name:"description", max: 256)
-            try validate(description, name:"description", min: 0)
-            try environment?.validate()
-            try validate(functionArn, name:"functionArn", pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_\\.]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(functionName, name:"functionName", max: 170)
-            try validate(functionName, name:"functionName", min: 1)
-            try validate(functionName, name:"functionName", pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(handler, name:"handler", max: 128)
-            try validate(handler, name:"handler", pattern: "[^\\s]+")
-            try validate(kMSKeyArn, name:"kMSKeyArn", pattern: "(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()")
-            try layers?.forEach {
-                try $0.validate()
-            }
-            try validate(masterArn, name:"masterArn", pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(memorySize, name:"memorySize", max: 3008)
-            try validate(memorySize, name:"memorySize", min: 128)
-            try validate(role, name:"role", pattern: "arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
-            try validate(timeout, name:"timeout", min: 1)
-            try validate(version, name:"version", max: 1024)
-            try validate(version, name:"version", min: 1)
-            try validate(version, name:"version", pattern: "(\\$LATEST|[0-9]+)")
-            try vpcConfig?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case codeSha256 = "CodeSha256"
             case codeSize = "CodeSize"
@@ -1083,10 +1023,6 @@ extension Lambda {
         public init(accountLimit: AccountLimit? = nil, accountUsage: AccountUsage? = nil) {
             self.accountLimit = accountLimit
             self.accountUsage = accountUsage
-        }
-
-        public func validate() throws {
-            try accountLimit?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1227,11 +1163,6 @@ extension Lambda {
             self.concurrency = concurrency
             self.configuration = configuration
             self.tags = tags
-        }
-
-        public func validate() throws {
-            try concurrency?.validate()
-            try configuration?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1383,19 +1314,6 @@ extension Lambda {
             self.version = version
         }
 
-        public func validate() throws {
-            try validate(compatibleRuntimes, name:"compatibleRuntimes", max: 5)
-            try validate(description, name:"description", max: 256)
-            try validate(description, name:"description", min: 0)
-            try validate(layerArn, name:"layerArn", max: 140)
-            try validate(layerArn, name:"layerArn", min: 1)
-            try validate(layerArn, name:"layerArn", pattern: "arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+")
-            try validate(layerVersionArn, name:"layerVersionArn", max: 140)
-            try validate(layerVersionArn, name:"layerVersionArn", min: 1)
-            try validate(layerVersionArn, name:"layerVersionArn", pattern: "arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+")
-            try validate(licenseInfo, name:"licenseInfo", max: 512)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case compatibleRuntimes = "CompatibleRuntimes"
             case content = "Content"
@@ -1544,12 +1462,6 @@ extension Lambda {
             self.statusCode = statusCode
         }
 
-        public func validate() throws {
-            try validate(executedVersion, name:"executedVersion", max: 1024)
-            try validate(executedVersion, name:"executedVersion", min: 1)
-            try validate(executedVersion, name:"executedVersion", pattern: "(\\$LATEST|[0-9]+)")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case executedVersion = "X-Amz-Executed-Version"
             case functionError = "X-Amz-Function-Error"
@@ -1627,12 +1539,6 @@ extension Lambda {
         public init(arn: String? = nil, codeSize: Int64? = nil) {
             self.arn = arn
             self.codeSize = codeSize
-        }
-
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 140)
-            try validate(arn, name:"arn", min: 1)
-            try validate(arn, name:"arn", pattern: "arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1742,16 +1648,6 @@ extension Lambda {
             self.version = version
         }
 
-        public func validate() throws {
-            try validate(compatibleRuntimes, name:"compatibleRuntimes", max: 5)
-            try validate(description, name:"description", max: 256)
-            try validate(description, name:"description", min: 0)
-            try validate(layerVersionArn, name:"layerVersionArn", max: 140)
-            try validate(layerVersionArn, name:"layerVersionArn", min: 1)
-            try validate(layerVersionArn, name:"layerVersionArn", pattern: "arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+")
-            try validate(licenseInfo, name:"licenseInfo", max: 512)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case compatibleRuntimes = "CompatibleRuntimes"
             case createdDate = "CreatedDate"
@@ -1780,16 +1676,6 @@ extension Lambda {
             self.latestMatchingVersion = latestMatchingVersion
             self.layerArn = layerArn
             self.layerName = layerName
-        }
-
-        public func validate() throws {
-            try latestMatchingVersion?.validate()
-            try validate(layerArn, name:"layerArn", max: 140)
-            try validate(layerArn, name:"layerArn", min: 1)
-            try validate(layerArn, name:"layerArn", pattern: "arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+")
-            try validate(layerName, name:"layerName", max: 140)
-            try validate(layerName, name:"layerName", min: 1)
-            try validate(layerName, name:"layerName", pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1858,12 +1744,6 @@ extension Lambda {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try aliases?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case aliases = "Aliases"
             case nextMarker = "NextMarker"
@@ -1927,12 +1807,6 @@ extension Lambda {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try eventSourceMappings?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case eventSourceMappings = "EventSourceMappings"
             case nextMarker = "NextMarker"
@@ -1991,12 +1865,6 @@ extension Lambda {
         public init(functions: [FunctionConfiguration]? = nil, nextMarker: String? = nil) {
             self.functions = functions
             self.nextMarker = nextMarker
-        }
-
-        public func validate() throws {
-            try functions?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2061,12 +1929,6 @@ extension Lambda {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try layerVersions?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case layerVersions = "LayerVersions"
             case nextMarker = "NextMarker"
@@ -2119,12 +1981,6 @@ extension Lambda {
         public init(layers: [LayersListItem]? = nil, nextMarker: String? = nil) {
             self.layers = layers
             self.nextMarker = nextMarker
-        }
-
-        public func validate() throws {
-            try layers?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2220,12 +2076,6 @@ extension Lambda {
         public init(nextMarker: String? = nil, versions: [FunctionConfiguration]? = nil) {
             self.nextMarker = nextMarker
             self.versions = versions
-        }
-
-        public func validate() throws {
-            try versions?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2326,19 +2176,6 @@ extension Lambda {
             self.layerVersionArn = layerVersionArn
             self.licenseInfo = licenseInfo
             self.version = version
-        }
-
-        public func validate() throws {
-            try validate(compatibleRuntimes, name:"compatibleRuntimes", max: 5)
-            try validate(description, name:"description", max: 256)
-            try validate(description, name:"description", min: 0)
-            try validate(layerArn, name:"layerArn", max: 140)
-            try validate(layerArn, name:"layerArn", min: 1)
-            try validate(layerArn, name:"layerArn", pattern: "arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+")
-            try validate(layerVersionArn, name:"layerVersionArn", max: 140)
-            try validate(layerVersionArn, name:"layerVersionArn", min: 1)
-            try validate(layerVersionArn, name:"layerVersionArn", pattern: "arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+")
-            try validate(licenseInfo, name:"licenseInfo", max: 512)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2940,11 +2777,6 @@ extension Lambda {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcId = vpcId
-        }
-
-        public func validate() throws {
-            try validate(securityGroupIds, name:"securityGroupIds", max: 5)
-            try validate(subnetIds, name:"subnetIds", max: 16)
         }
 
         private enum CodingKeys: String, CodingKey {

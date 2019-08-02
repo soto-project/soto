@@ -81,11 +81,6 @@ extension AWSBackup {
             self.statusMessage = statusMessage
         }
 
-        public func validate() throws {
-            try validate(backupVaultName, name:"backupVaultName", pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-            try validate(resourceType, name:"resourceType", pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case backupJobId = "BackupJobId"
             case backupSizeInBytes = "BackupSizeInBytes"
@@ -133,12 +128,6 @@ extension AWSBackup {
         public init(backupPlanName: String, rules: [BackupRule]) {
             self.backupPlanName = backupPlanName
             self.rules = rules
-        }
-
-        public func validate() throws {
-            try rules.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -289,11 +278,6 @@ extension AWSBackup {
             self.targetBackupVaultName = targetBackupVaultName
         }
 
-        public func validate() throws {
-            try validate(ruleName, name:"ruleName", pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-            try validate(targetBackupVaultName, name:"targetBackupVaultName", pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case completionWindowMinutes = "CompletionWindowMinutes"
             case lifecycle = "Lifecycle"
@@ -426,10 +410,6 @@ extension AWSBackup {
             self.selectionName = selectionName
         }
 
-        public func validate() throws {
-            try validate(selectionName, name:"selectionName", pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case backupPlanId = "BackupPlanId"
             case creationDate = "CreationDate"
@@ -481,10 +461,6 @@ extension AWSBackup {
             self.creatorRequestId = creatorRequestId
             self.encryptionKeyArn = encryptionKeyArn
             self.numberOfRecoveryPoints = numberOfRecoveryPoints
-        }
-
-        public func validate() throws {
-            try validate(backupVaultName, name:"backupVaultName", pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -726,10 +702,6 @@ extension AWSBackup {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
-        }
-
-        public func validate() throws {
-            try validate(backupVaultName, name:"backupVaultName", pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -988,11 +960,6 @@ extension AWSBackup {
             self.statusMessage = statusMessage
         }
 
-        public func validate() throws {
-            try validate(backupVaultName, name:"backupVaultName", pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-            try validate(resourceType, name:"resourceType", pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case backupJobId = "BackupJobId"
             case backupSizeInBytes = "BackupSizeInBytes"
@@ -1110,10 +1077,6 @@ extension AWSBackup {
             self.resourceType = resourceType
         }
 
-        public func validate() throws {
-            try validate(resourceType, name:"resourceType", pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case lastBackupTime = "LastBackupTime"
             case resourceArn = "ResourceArn"
@@ -1221,11 +1184,6 @@ extension AWSBackup {
             self.resourceType = resourceType
             self.status = status
             self.storageClass = storageClass
-        }
-
-        public func validate() throws {
-            try validate(backupVaultName, name:"backupVaultName", pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-            try validate(resourceType, name:"resourceType", pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1396,10 +1354,6 @@ extension AWSBackup {
             self.backupPlan = backupPlan
         }
 
-        public func validate() throws {
-            try backupPlan?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case backupPlan = "BackupPlan"
         }
@@ -1432,10 +1386,6 @@ extension AWSBackup {
 
         public init(backupPlanDocument: BackupPlan? = nil) {
             self.backupPlanDocument = backupPlanDocument
-        }
-
-        public func validate() throws {
-            try backupPlanDocument?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1505,10 +1455,6 @@ extension AWSBackup {
             self.versionId = versionId
         }
 
-        public func validate() throws {
-            try backupPlan?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case backupPlan = "BackupPlan"
             case backupPlanArn = "BackupPlanArn"
@@ -1571,10 +1517,6 @@ extension AWSBackup {
             self.selectionId = selectionId
         }
 
-        public func validate() throws {
-            try backupSelection?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case backupPlanId = "BackupPlanId"
             case backupSelection = "BackupSelection"
@@ -1623,10 +1565,6 @@ extension AWSBackup {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
             self.policy = policy
-        }
-
-        public func validate() throws {
-            try validate(backupVaultName, name:"backupVaultName", pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1679,10 +1617,6 @@ extension AWSBackup {
             self.backupVaultEvents = backupVaultEvents
             self.backupVaultName = backupVaultName
             self.sNSTopicArn = sNSTopicArn
-        }
-
-        public func validate() throws {
-            try validate(backupVaultName, name:"backupVaultName", pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1756,12 +1690,6 @@ extension AWSBackup {
 
         public init(resourceTypes: [String]? = nil) {
             self.resourceTypes = resourceTypes
-        }
-
-        public func validate() throws {
-            try resourceTypes?.forEach {
-                try validate($0, name:"resourceTypes[]", pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1864,12 +1792,6 @@ extension AWSBackup {
         public init(backupJobs: [BackupJob]? = nil, nextToken: String? = nil) {
             self.backupJobs = backupJobs
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try backupJobs?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2083,12 +2005,6 @@ extension AWSBackup {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try backupSelectionsList?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case backupSelectionsList = "BackupSelectionsList"
             case nextToken = "NextToken"
@@ -2138,12 +2054,6 @@ extension AWSBackup {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try backupVaultList?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case backupVaultList = "BackupVaultList"
             case nextToken = "NextToken"
@@ -2191,12 +2101,6 @@ extension AWSBackup {
         public init(nextToken: String? = nil, results: [ProtectedResource]? = nil) {
             self.nextToken = nextToken
             self.results = results
-        }
-
-        public func validate() throws {
-            try results?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2280,12 +2184,6 @@ extension AWSBackup {
             self.recoveryPoints = recoveryPoints
         }
 
-        public func validate() throws {
-            try recoveryPoints?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case recoveryPoints = "RecoveryPoints"
@@ -2338,12 +2236,6 @@ extension AWSBackup {
         public init(nextToken: String? = nil, recoveryPoints: [RecoveryPointByResource]? = nil) {
             self.nextToken = nextToken
             self.recoveryPoints = recoveryPoints
-        }
-
-        public func validate() throws {
-            try recoveryPoints?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2473,10 +2365,6 @@ extension AWSBackup {
             self.lastBackupTime = lastBackupTime
             self.resourceArn = resourceArn
             self.resourceType = resourceType
-        }
-
-        public func validate() throws {
-            try validate(resourceType, name:"resourceType", pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2615,11 +2503,6 @@ extension AWSBackup {
             self.status = status
         }
 
-        public func validate() throws {
-            try validate(backupVaultName, name:"backupVaultName", pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-            try validate(resourceType, name:"resourceType", pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case backupSizeInBytes = "BackupSizeInBytes"
             case backupVaultArn = "BackupVaultArn"
@@ -2670,10 +2553,6 @@ extension AWSBackup {
             self.encryptionKeyArn = encryptionKeyArn
             self.recoveryPointArn = recoveryPointArn
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(backupVaultName, name:"backupVaultName", pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {

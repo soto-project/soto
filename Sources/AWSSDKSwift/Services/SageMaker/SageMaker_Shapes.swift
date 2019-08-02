@@ -49,14 +49,6 @@ extension SageMaker {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
         }
@@ -138,15 +130,6 @@ extension SageMaker {
             self.validationStatuses = validationStatuses
         }
 
-        public func validate() throws {
-            try imageScanStatuses?.forEach {
-                try $0.validate()
-            }
-            try validationStatuses?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case imageScanStatuses = "ImageScanStatuses"
             case validationStatuses = "ValidationStatuses"
@@ -171,12 +154,6 @@ extension SageMaker {
             self.failureReason = failureReason
             self.name = name
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 63)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -212,17 +189,6 @@ extension SageMaker {
             self.algorithmName = algorithmName
             self.algorithmStatus = algorithmStatus
             self.creationTime = creationTime
-        }
-
-        public func validate() throws {
-            try validate(algorithmArn, name:"algorithmArn", max: 2048)
-            try validate(algorithmArn, name:"algorithmArn", min: 1)
-            try validate(algorithmArn, name:"algorithmArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:algorithm/.*")
-            try validate(algorithmDescription, name:"algorithmDescription", max: 1024)
-            try validate(algorithmDescription, name:"algorithmDescription", pattern: "[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*")
-            try validate(algorithmName, name:"algorithmName", max: 63)
-            try validate(algorithmName, name:"algorithmName", min: 1)
-            try validate(algorithmName, name:"algorithmName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -553,16 +519,6 @@ extension SageMaker {
             self.lastModifiedTime = lastModifiedTime
         }
 
-        public func validate() throws {
-            try validate(codeRepositoryArn, name:"codeRepositoryArn", max: 2048)
-            try validate(codeRepositoryArn, name:"codeRepositoryArn", min: 1)
-            try validate(codeRepositoryArn, name:"codeRepositoryArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:code-repository/.*")
-            try validate(codeRepositoryName, name:"codeRepositoryName", max: 63)
-            try validate(codeRepositoryName, name:"codeRepositoryName", min: 1)
-            try validate(codeRepositoryName, name:"codeRepositoryName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
-            try gitConfig?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case codeRepositoryArn = "CodeRepositoryArn"
             case codeRepositoryName = "CodeRepositoryName"
@@ -659,14 +615,6 @@ extension SageMaker {
             self.compilationTargetDevice = compilationTargetDevice
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
-        }
-
-        public func validate() throws {
-            try validate(compilationJobArn, name:"compilationJobArn", max: 256)
-            try validate(compilationJobArn, name:"compilationJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:compilation-job/.*")
-            try validate(compilationJobName, name:"compilationJobName", max: 63)
-            try validate(compilationJobName, name:"compilationJobName", min: 1)
-            try validate(compilationJobName, name:"compilationJobName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -883,12 +831,6 @@ extension SageMaker {
             self.algorithmArn = algorithmArn
         }
 
-        public func validate() throws {
-            try validate(algorithmArn, name:"algorithmArn", max: 2048)
-            try validate(algorithmArn, name:"algorithmArn", min: 1)
-            try validate(algorithmArn, name:"algorithmArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:algorithm/.*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case algorithmArn = "AlgorithmArn"
         }
@@ -933,12 +875,6 @@ extension SageMaker {
 
         public init(codeRepositoryArn: String) {
             self.codeRepositoryArn = codeRepositoryArn
-        }
-
-        public func validate() throws {
-            try validate(codeRepositoryArn, name:"codeRepositoryArn", max: 2048)
-            try validate(codeRepositoryArn, name:"codeRepositoryArn", min: 1)
-            try validate(codeRepositoryArn, name:"codeRepositoryArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:code-repository/.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1007,11 +943,6 @@ extension SageMaker {
             self.compilationJobArn = compilationJobArn
         }
 
-        public func validate() throws {
-            try validate(compilationJobArn, name:"compilationJobArn", max: 256)
-            try validate(compilationJobArn, name:"compilationJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:compilation-job/.*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case compilationJobArn = "CompilationJobArn"
         }
@@ -1077,12 +1008,6 @@ extension SageMaker {
             self.endpointConfigArn = endpointConfigArn
         }
 
-        public func validate() throws {
-            try validate(endpointConfigArn, name:"endpointConfigArn", max: 2048)
-            try validate(endpointConfigArn, name:"endpointConfigArn", min: 20)
-            try validate(endpointConfigArn, name:"endpointConfigArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:endpoint-config/.*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case endpointConfigArn = "EndpointConfigArn"
         }
@@ -1137,12 +1062,6 @@ extension SageMaker {
 
         public init(endpointArn: String) {
             self.endpointArn = endpointArn
-        }
-
-        public func validate() throws {
-            try validate(endpointArn, name:"endpointArn", max: 2048)
-            try validate(endpointArn, name:"endpointArn", min: 20)
-            try validate(endpointArn, name:"endpointArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:endpoint/.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1211,11 +1130,6 @@ extension SageMaker {
 
         public init(hyperParameterTuningJobArn: String) {
             self.hyperParameterTuningJobArn = hyperParameterTuningJobArn
-        }
-
-        public func validate() throws {
-            try validate(hyperParameterTuningJobArn, name:"hyperParameterTuningJobArn", max: 256)
-            try validate(hyperParameterTuningJobArn, name:"hyperParameterTuningJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:hyper-parameter-tuning-job/.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1321,11 +1235,6 @@ extension SageMaker {
             self.labelingJobArn = labelingJobArn
         }
 
-        public func validate() throws {
-            try validate(labelingJobArn, name:"labelingJobArn", max: 2048)
-            try validate(labelingJobArn, name:"labelingJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:labeling-job/.*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case labelingJobArn = "LabelingJobArn"
         }
@@ -1409,12 +1318,6 @@ extension SageMaker {
             self.modelArn = modelArn
         }
 
-        public func validate() throws {
-            try validate(modelArn, name:"modelArn", max: 2048)
-            try validate(modelArn, name:"modelArn", min: 20)
-            try validate(modelArn, name:"modelArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:model/.*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case modelArn = "ModelArn"
         }
@@ -1483,12 +1386,6 @@ extension SageMaker {
 
         public init(modelPackageArn: String) {
             self.modelPackageArn = modelPackageArn
-        }
-
-        public func validate() throws {
-            try validate(modelPackageArn, name:"modelPackageArn", max: 2048)
-            try validate(modelPackageArn, name:"modelPackageArn", min: 1)
-            try validate(modelPackageArn, name:"modelPackageArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:model-package/.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1665,10 +1562,6 @@ extension SageMaker {
             self.notebookInstanceLifecycleConfigArn = notebookInstanceLifecycleConfigArn
         }
 
-        public func validate() throws {
-            try validate(notebookInstanceLifecycleConfigArn, name:"notebookInstanceLifecycleConfigArn", max: 256)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case notebookInstanceLifecycleConfigArn = "NotebookInstanceLifecycleConfigArn"
         }
@@ -1684,10 +1577,6 @@ extension SageMaker {
 
         public init(notebookInstanceArn: String? = nil) {
             self.notebookInstanceArn = notebookInstanceArn
-        }
-
-        public func validate() throws {
-            try validate(notebookInstanceArn, name:"notebookInstanceArn", max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1855,11 +1744,6 @@ extension SageMaker {
             self.trainingJobArn = trainingJobArn
         }
 
-        public func validate() throws {
-            try validate(trainingJobArn, name:"trainingJobArn", max: 256)
-            try validate(trainingJobArn, name:"trainingJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:training-job/.*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case trainingJobArn = "TrainingJobArn"
         }
@@ -1969,11 +1853,6 @@ extension SageMaker {
             self.transformJobArn = transformJobArn
         }
 
-        public func validate() throws {
-            try validate(transformJobArn, name:"transformJobArn", max: 256)
-            try validate(transformJobArn, name:"transformJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:transform-job/.*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case transformJobArn = "TransformJobArn"
         }
@@ -2045,11 +1924,6 @@ extension SageMaker {
 
         public init(workteamArn: String? = nil) {
             self.workteamArn = workteamArn
-        }
-
-        public func validate() throws {
-            try validate(workteamArn, name:"workteamArn", max: 256)
-            try validate(workteamArn, name:"workteamArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:workteam/.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2393,13 +2267,6 @@ extension SageMaker {
             self.specifiedImage = specifiedImage
         }
 
-        public func validate() throws {
-            try validate(resolvedImage, name:"resolvedImage", max: 255)
-            try validate(resolvedImage, name:"resolvedImage", pattern: "[\\S]+")
-            try validate(specifiedImage, name:"specifiedImage", max: 255)
-            try validate(specifiedImage, name:"specifiedImage", pattern: "[\\S]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case resolutionTime = "ResolutionTime"
             case resolvedImage = "ResolvedImage"
@@ -2482,23 +2349,6 @@ extension SageMaker {
             self.validationSpecification = validationSpecification
         }
 
-        public func validate() throws {
-            try validate(algorithmArn, name:"algorithmArn", max: 2048)
-            try validate(algorithmArn, name:"algorithmArn", min: 1)
-            try validate(algorithmArn, name:"algorithmArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:algorithm/.*")
-            try validate(algorithmDescription, name:"algorithmDescription", max: 1024)
-            try validate(algorithmDescription, name:"algorithmDescription", pattern: "[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*")
-            try validate(algorithmName, name:"algorithmName", max: 63)
-            try validate(algorithmName, name:"algorithmName", min: 1)
-            try validate(algorithmName, name:"algorithmName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
-            try algorithmStatusDetails.validate()
-            try inferenceSpecification?.validate()
-            try validate(productId, name:"productId", max: 256)
-            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
-            try trainingSpecification.validate()
-            try validationSpecification?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case algorithmArn = "AlgorithmArn"
             case algorithmDescription = "AlgorithmDescription"
@@ -2563,16 +2413,6 @@ extension SageMaker {
             self.creationTime = creationTime
             self.gitConfig = gitConfig
             self.lastModifiedTime = lastModifiedTime
-        }
-
-        public func validate() throws {
-            try validate(codeRepositoryArn, name:"codeRepositoryArn", max: 2048)
-            try validate(codeRepositoryArn, name:"codeRepositoryArn", min: 1)
-            try validate(codeRepositoryArn, name:"codeRepositoryArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:code-repository/.*")
-            try validate(codeRepositoryName, name:"codeRepositoryName", max: 63)
-            try validate(codeRepositoryName, name:"codeRepositoryName", min: 1)
-            try validate(codeRepositoryName, name:"codeRepositoryName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
-            try gitConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2667,22 +2507,6 @@ extension SageMaker {
             self.stoppingCondition = stoppingCondition
         }
 
-        public func validate() throws {
-            try validate(compilationJobArn, name:"compilationJobArn", max: 256)
-            try validate(compilationJobArn, name:"compilationJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:compilation-job/.*")
-            try validate(compilationJobName, name:"compilationJobName", max: 63)
-            try validate(compilationJobName, name:"compilationJobName", min: 1)
-            try validate(compilationJobName, name:"compilationJobName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
-            try validate(failureReason, name:"failureReason", max: 1024)
-            try inputConfig.validate()
-            try modelArtifacts.validate()
-            try outputConfig.validate()
-            try validate(roleArn, name:"roleArn", max: 2048)
-            try validate(roleArn, name:"roleArn", min: 20)
-            try validate(roleArn, name:"roleArn", pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
-            try stoppingCondition.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case compilationEndTime = "CompilationEndTime"
             case compilationJobArn = "CompilationJobArn"
@@ -2748,20 +2572,6 @@ extension SageMaker {
             self.endpointConfigName = endpointConfigName
             self.kmsKeyId = kmsKeyId
             self.productionVariants = productionVariants
-        }
-
-        public func validate() throws {
-            try validate(endpointConfigArn, name:"endpointConfigArn", max: 2048)
-            try validate(endpointConfigArn, name:"endpointConfigArn", min: 20)
-            try validate(endpointConfigArn, name:"endpointConfigArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:endpoint-config/.*")
-            try validate(endpointConfigName, name:"endpointConfigName", max: 63)
-            try validate(endpointConfigName, name:"endpointConfigName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try validate(kmsKeyId, name:"kmsKeyId", max: 2048)
-            try validate(kmsKeyId, name:"kmsKeyId", pattern: ".*")
-            try productionVariants.forEach {
-                try $0.validate()
-            }
-            try validate(productionVariants, name:"productionVariants", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2833,21 +2643,6 @@ extension SageMaker {
             self.failureReason = failureReason
             self.lastModifiedTime = lastModifiedTime
             self.productionVariants = productionVariants
-        }
-
-        public func validate() throws {
-            try validate(endpointArn, name:"endpointArn", max: 2048)
-            try validate(endpointArn, name:"endpointArn", min: 20)
-            try validate(endpointArn, name:"endpointArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:endpoint/.*")
-            try validate(endpointConfigName, name:"endpointConfigName", max: 63)
-            try validate(endpointConfigName, name:"endpointConfigName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try validate(endpointName, name:"endpointName", max: 63)
-            try validate(endpointName, name:"endpointName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try validate(failureReason, name:"failureReason", max: 1024)
-            try productionVariants?.forEach {
-                try $0.validate()
-            }
-            try validate(productionVariants, name:"productionVariants", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2947,22 +2742,6 @@ extension SageMaker {
             self.trainingJobDefinition = trainingJobDefinition
             self.trainingJobStatusCounters = trainingJobStatusCounters
             self.warmStartConfig = warmStartConfig
-        }
-
-        public func validate() throws {
-            try bestTrainingJob?.validate()
-            try validate(failureReason, name:"failureReason", max: 1024)
-            try validate(hyperParameterTuningJobArn, name:"hyperParameterTuningJobArn", max: 256)
-            try validate(hyperParameterTuningJobArn, name:"hyperParameterTuningJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:hyper-parameter-tuning-job/.*")
-            try hyperParameterTuningJobConfig.validate()
-            try validate(hyperParameterTuningJobName, name:"hyperParameterTuningJobName", max: 32)
-            try validate(hyperParameterTuningJobName, name:"hyperParameterTuningJobName", min: 1)
-            try validate(hyperParameterTuningJobName, name:"hyperParameterTuningJobName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try objectiveStatusCounters.validate()
-            try overallBestTrainingJob?.validate()
-            try trainingJobDefinition?.validate()
-            try trainingJobStatusCounters.validate()
-            try warmStartConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3086,37 +2865,6 @@ extension SageMaker {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(failureReason, name:"failureReason", max: 1024)
-            try humanTaskConfig.validate()
-            try inputConfig.validate()
-            try validate(jobReferenceCode, name:"jobReferenceCode", min: 1)
-            try validate(jobReferenceCode, name:"jobReferenceCode", pattern: ".+")
-            try validate(labelAttributeName, name:"labelAttributeName", max: 127)
-            try validate(labelAttributeName, name:"labelAttributeName", min: 1)
-            try validate(labelAttributeName, name:"labelAttributeName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try validate(labelCategoryConfigS3Uri, name:"labelCategoryConfigS3Uri", max: 1024)
-            try validate(labelCategoryConfigS3Uri, name:"labelCategoryConfigS3Uri", pattern: "^(https|s3)://([^/]+)/?(.*)$")
-            try labelCounters.validate()
-            try labelingJobAlgorithmsConfig?.validate()
-            try validate(labelingJobArn, name:"labelingJobArn", max: 2048)
-            try validate(labelingJobArn, name:"labelingJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:labeling-job/.*")
-            try validate(labelingJobName, name:"labelingJobName", max: 63)
-            try validate(labelingJobName, name:"labelingJobName", min: 1)
-            try validate(labelingJobName, name:"labelingJobName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try labelingJobOutput?.validate()
-            try outputConfig.validate()
-            try validate(roleArn, name:"roleArn", max: 2048)
-            try validate(roleArn, name:"roleArn", min: 20)
-            try validate(roleArn, name:"roleArn", pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
-            try stoppingConditions?.validate()
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case failureReason = "FailureReason"
@@ -3201,23 +2949,6 @@ extension SageMaker {
             self.vpcConfig = vpcConfig
         }
 
-        public func validate() throws {
-            try containers?.forEach {
-                try $0.validate()
-            }
-            try validate(containers, name:"containers", max: 5)
-            try validate(executionRoleArn, name:"executionRoleArn", max: 2048)
-            try validate(executionRoleArn, name:"executionRoleArn", min: 20)
-            try validate(executionRoleArn, name:"executionRoleArn", pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
-            try validate(modelArn, name:"modelArn", max: 2048)
-            try validate(modelArn, name:"modelArn", min: 20)
-            try validate(modelArn, name:"modelArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:model/.*")
-            try validate(modelName, name:"modelName", max: 63)
-            try validate(modelName, name:"modelName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try primaryContainer?.validate()
-            try vpcConfig?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case containers = "Containers"
             case creationTime = "CreationTime"
@@ -3299,21 +3030,6 @@ extension SageMaker {
             self.modelPackageStatusDetails = modelPackageStatusDetails
             self.sourceAlgorithmSpecification = sourceAlgorithmSpecification
             self.validationSpecification = validationSpecification
-        }
-
-        public func validate() throws {
-            try inferenceSpecification?.validate()
-            try validate(modelPackageArn, name:"modelPackageArn", max: 2048)
-            try validate(modelPackageArn, name:"modelPackageArn", min: 1)
-            try validate(modelPackageArn, name:"modelPackageArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:model-package/.*")
-            try validate(modelPackageDescription, name:"modelPackageDescription", max: 1024)
-            try validate(modelPackageDescription, name:"modelPackageDescription", pattern: "[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*")
-            try validate(modelPackageName, name:"modelPackageName", max: 63)
-            try validate(modelPackageName, name:"modelPackageName", min: 1)
-            try validate(modelPackageName, name:"modelPackageName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
-            try modelPackageStatusDetails.validate()
-            try sourceAlgorithmSpecification?.validate()
-            try validationSpecification?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3404,20 +3120,6 @@ extension SageMaker {
             self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
             self.onCreate = onCreate
             self.onStart = onStart
-        }
-
-        public func validate() throws {
-            try validate(notebookInstanceLifecycleConfigArn, name:"notebookInstanceLifecycleConfigArn", max: 256)
-            try validate(notebookInstanceLifecycleConfigName, name:"notebookInstanceLifecycleConfigName", max: 63)
-            try validate(notebookInstanceLifecycleConfigName, name:"notebookInstanceLifecycleConfigName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try onCreate?.forEach {
-                try $0.validate()
-            }
-            try validate(onCreate, name:"onCreate", max: 1)
-            try onStart?.forEach {
-                try $0.validate()
-            }
-            try validate(onStart, name:"onStart", max: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3518,38 +3220,6 @@ extension SageMaker {
             self.volumeSizeInGB = volumeSizeInGB
         }
 
-        public func validate() throws {
-            try additionalCodeRepositories?.forEach {
-                try validate($0, name:"additionalCodeRepositories[]", max: 1024)
-                try validate($0, name:"additionalCodeRepositories[]", min: 1)
-                try validate($0, name:"additionalCodeRepositories[]", pattern: "^https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            }
-            try validate(additionalCodeRepositories, name:"additionalCodeRepositories", max: 3)
-            try validate(defaultCodeRepository, name:"defaultCodeRepository", max: 1024)
-            try validate(defaultCodeRepository, name:"defaultCodeRepository", min: 1)
-            try validate(defaultCodeRepository, name:"defaultCodeRepository", pattern: "^https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try validate(failureReason, name:"failureReason", max: 1024)
-            try validate(kmsKeyId, name:"kmsKeyId", max: 2048)
-            try validate(kmsKeyId, name:"kmsKeyId", pattern: ".*")
-            try validate(notebookInstanceArn, name:"notebookInstanceArn", max: 256)
-            try validate(notebookInstanceLifecycleConfigName, name:"notebookInstanceLifecycleConfigName", max: 63)
-            try validate(notebookInstanceLifecycleConfigName, name:"notebookInstanceLifecycleConfigName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try validate(notebookInstanceName, name:"notebookInstanceName", max: 63)
-            try validate(notebookInstanceName, name:"notebookInstanceName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try validate(roleArn, name:"roleArn", max: 2048)
-            try validate(roleArn, name:"roleArn", min: 20)
-            try validate(roleArn, name:"roleArn", pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
-            try securityGroups?.forEach {
-                try validate($0, name:"securityGroups[]", max: 32)
-                try validate($0, name:"securityGroups[]", pattern: "[-0-9a-zA-Z]+")
-            }
-            try validate(securityGroups, name:"securityGroups", max: 5)
-            try validate(subnetId, name:"subnetId", max: 32)
-            try validate(subnetId, name:"subnetId", pattern: "[-0-9a-zA-Z]+")
-            try validate(volumeSizeInGB, name:"volumeSizeInGB", max: 16384)
-            try validate(volumeSizeInGB, name:"volumeSizeInGB", min: 5)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case acceleratorTypes = "AcceleratorTypes"
             case additionalCodeRepositories = "AdditionalCodeRepositories"
@@ -3606,10 +3276,6 @@ extension SageMaker {
 
         public init(subscribedWorkteam: SubscribedWorkteam) {
             self.subscribedWorkteam = subscribedWorkteam
-        }
-
-        public func validate() throws {
-            try subscribedWorkteam.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3744,44 +3410,6 @@ extension SageMaker {
             self.vpcConfig = vpcConfig
         }
 
-        public func validate() throws {
-            try algorithmSpecification.validate()
-            try validate(failureReason, name:"failureReason", max: 1024)
-            try finalMetricDataList?.forEach {
-                try $0.validate()
-            }
-            try validate(finalMetricDataList, name:"finalMetricDataList", max: 20)
-            try validate(finalMetricDataList, name:"finalMetricDataList", min: 0)
-            try hyperParameters?.forEach {
-                try validate($0.key, name:"hyperParameters[key:]", max: 256)
-                try validate($0.key, name:"hyperParameters[key:]", pattern: ".*")
-                try validate($0.value, name:"hyperParameters[:Value]", max: 256)
-                try validate($0.value, name:"hyperParameters[:Value]", pattern: ".*")
-            }
-            try inputDataConfig?.forEach {
-                try $0.validate()
-            }
-            try validate(inputDataConfig, name:"inputDataConfig", max: 20)
-            try validate(inputDataConfig, name:"inputDataConfig", min: 1)
-            try validate(labelingJobArn, name:"labelingJobArn", max: 2048)
-            try validate(labelingJobArn, name:"labelingJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:labeling-job/.*")
-            try modelArtifacts.validate()
-            try outputDataConfig?.validate()
-            try resourceConfig.validate()
-            try validate(roleArn, name:"roleArn", max: 2048)
-            try validate(roleArn, name:"roleArn", min: 20)
-            try validate(roleArn, name:"roleArn", pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
-            try stoppingCondition.validate()
-            try validate(trainingJobArn, name:"trainingJobArn", max: 256)
-            try validate(trainingJobArn, name:"trainingJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:training-job/.*")
-            try validate(trainingJobName, name:"trainingJobName", max: 63)
-            try validate(trainingJobName, name:"trainingJobName", min: 1)
-            try validate(trainingJobName, name:"trainingJobName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try validate(tuningJobArn, name:"tuningJobArn", max: 256)
-            try validate(tuningJobArn, name:"tuningJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:hyper-parameter-tuning-job/.*")
-            try vpcConfig?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case algorithmSpecification = "AlgorithmSpecification"
             case creationTime = "CreationTime"
@@ -3908,31 +3536,6 @@ extension SageMaker {
             self.transformStartTime = transformStartTime
         }
 
-        public func validate() throws {
-            try dataProcessing?.validate()
-            try environment?.forEach {
-                try validate($0.key, name:"environment[key:]", max: 1024)
-                try validate($0.key, name:"environment[key:]", pattern: "[a-zA-Z_][a-zA-Z0-9_]*")
-                try validate($0.value, name:"environment[:Value]", max: 10240)
-                try validate($0.value, name:"environment[:Value]", pattern: "[\\S\\s]*")
-            }
-            try validate(failureReason, name:"failureReason", max: 1024)
-            try validate(labelingJobArn, name:"labelingJobArn", max: 2048)
-            try validate(labelingJobArn, name:"labelingJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:labeling-job/.*")
-            try validate(maxConcurrentTransforms, name:"maxConcurrentTransforms", min: 0)
-            try validate(maxPayloadInMB, name:"maxPayloadInMB", min: 0)
-            try validate(modelName, name:"modelName", max: 63)
-            try validate(modelName, name:"modelName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try transformInput.validate()
-            try validate(transformJobArn, name:"transformJobArn", max: 256)
-            try validate(transformJobArn, name:"transformJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:transform-job/.*")
-            try validate(transformJobName, name:"transformJobName", max: 63)
-            try validate(transformJobName, name:"transformJobName", min: 1)
-            try validate(transformJobName, name:"transformJobName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try transformOutput?.validate()
-            try transformResources.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case batchStrategy = "BatchStrategy"
             case creationTime = "CreationTime"
@@ -3987,10 +3590,6 @@ extension SageMaker {
 
         public init(workteam: Workteam) {
             self.workteam = workteam
-        }
-
-        public func validate() throws {
-            try workteam.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4080,14 +3679,6 @@ extension SageMaker {
             self.endpointConfigName = endpointConfigName
         }
 
-        public func validate() throws {
-            try validate(endpointConfigArn, name:"endpointConfigArn", max: 2048)
-            try validate(endpointConfigArn, name:"endpointConfigArn", min: 20)
-            try validate(endpointConfigArn, name:"endpointConfigArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:endpoint-config/.*")
-            try validate(endpointConfigName, name:"endpointConfigName", max: 63)
-            try validate(endpointConfigName, name:"endpointConfigName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case endpointConfigArn = "EndpointConfigArn"
@@ -4140,14 +3731,6 @@ extension SageMaker {
             self.endpointName = endpointName
             self.endpointStatus = endpointStatus
             self.lastModifiedTime = lastModifiedTime
-        }
-
-        public func validate() throws {
-            try validate(endpointArn, name:"endpointArn", max: 2048)
-            try validate(endpointArn, name:"endpointArn", min: 20)
-            try validate(endpointArn, name:"endpointArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:endpoint/.*")
-            try validate(endpointName, name:"endpointName", max: 63)
-            try validate(endpointName, name:"endpointName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4215,12 +3798,6 @@ extension SageMaker {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(metricName, name:"metricName", max: 255)
-            try validate(metricName, name:"metricName", min: 1)
-            try validate(metricName, name:"metricName", pattern: ".+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case metricName = "MetricName"
             case `type` = "Type"
@@ -4273,12 +3850,6 @@ extension SageMaker {
 
         public init(propertyNameSuggestions: [PropertyNameSuggestion]? = nil) {
             self.propertyNameSuggestions = propertyNameSuggestions
-        }
-
-        public func validate() throws {
-            try propertyNameSuggestions?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4695,25 +4266,6 @@ extension SageMaker {
             self.tuningJobName = tuningJobName
         }
 
-        public func validate() throws {
-            try validate(failureReason, name:"failureReason", max: 1024)
-            try finalHyperParameterTuningJobObjectiveMetric?.validate()
-            try validate(trainingJobArn, name:"trainingJobArn", max: 256)
-            try validate(trainingJobArn, name:"trainingJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:training-job/.*")
-            try validate(trainingJobName, name:"trainingJobName", max: 63)
-            try validate(trainingJobName, name:"trainingJobName", min: 1)
-            try validate(trainingJobName, name:"trainingJobName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try tunedHyperParameters.forEach {
-                try validate($0.key, name:"tunedHyperParameters[key:]", max: 256)
-                try validate($0.key, name:"tunedHyperParameters[key:]", pattern: ".*")
-                try validate($0.value, name:"tunedHyperParameters[:Value]", max: 256)
-                try validate($0.value, name:"tunedHyperParameters[:Value]", pattern: ".*")
-            }
-            try validate(tuningJobName, name:"tuningJobName", max: 32)
-            try validate(tuningJobName, name:"tuningJobName", min: 1)
-            try validate(tuningJobName, name:"tuningJobName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case failureReason = "FailureReason"
@@ -4874,17 +4426,6 @@ extension SageMaker {
             self.resourceLimits = resourceLimits
             self.strategy = strategy
             self.trainingJobStatusCounters = trainingJobStatusCounters
-        }
-
-        public func validate() throws {
-            try validate(hyperParameterTuningJobArn, name:"hyperParameterTuningJobArn", max: 256)
-            try validate(hyperParameterTuningJobArn, name:"hyperParameterTuningJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:hyper-parameter-tuning-job/.*")
-            try validate(hyperParameterTuningJobName, name:"hyperParameterTuningJobName", max: 32)
-            try validate(hyperParameterTuningJobName, name:"hyperParameterTuningJobName", min: 1)
-            try validate(hyperParameterTuningJobName, name:"hyperParameterTuningJobName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try objectiveStatusCounters.validate()
-            try resourceLimits?.validate()
-            try trainingJobStatusCounters.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5172,14 +4713,6 @@ extension SageMaker {
             self.unlabeled = unlabeled
         }
 
-        public func validate() throws {
-            try validate(failedNonRetryableError, name:"failedNonRetryableError", min: 0)
-            try validate(humanLabeled, name:"humanLabeled", min: 0)
-            try validate(machineLabeled, name:"machineLabeled", min: 0)
-            try validate(totalLabeled, name:"totalLabeled", min: 0)
-            try validate(unlabeled, name:"unlabeled", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case failedNonRetryableError = "FailedNonRetryableError"
             case humanLabeled = "HumanLabeled"
@@ -5207,12 +4740,6 @@ extension SageMaker {
             self.humanLabeled = humanLabeled
             self.pendingHuman = pendingHuman
             self.total = total
-        }
-
-        public func validate() throws {
-            try validate(humanLabeled, name:"humanLabeled", min: 0)
-            try validate(pendingHuman, name:"pendingHuman", min: 0)
-            try validate(total, name:"total", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5331,18 +4858,6 @@ extension SageMaker {
             self.workRequesterAccountId = workRequesterAccountId
         }
 
-        public func validate() throws {
-            try validate(jobReferenceCode, name:"jobReferenceCode", min: 1)
-            try validate(jobReferenceCode, name:"jobReferenceCode", pattern: ".+")
-            try labelCounters?.validate()
-            try validate(labelingJobName, name:"labelingJobName", max: 63)
-            try validate(labelingJobName, name:"labelingJobName", min: 1)
-            try validate(labelingJobName, name:"labelingJobName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try validate(numberOfHumanWorkersPerDataObject, name:"numberOfHumanWorkersPerDataObject", max: 9)
-            try validate(numberOfHumanWorkersPerDataObject, name:"numberOfHumanWorkersPerDataObject", min: 1)
-            try validate(workRequesterAccountId, name:"workRequesterAccountId", pattern: "^\\d+$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case jobReferenceCode = "JobReferenceCode"
@@ -5394,14 +4909,6 @@ extension SageMaker {
         public init(finalActiveLearningModelArn: String? = nil, outputDatasetS3Uri: String) {
             self.finalActiveLearningModelArn = finalActiveLearningModelArn
             self.outputDatasetS3Uri = outputDatasetS3Uri
-        }
-
-        public func validate() throws {
-            try validate(finalActiveLearningModelArn, name:"finalActiveLearningModelArn", max: 2048)
-            try validate(finalActiveLearningModelArn, name:"finalActiveLearningModelArn", min: 20)
-            try validate(finalActiveLearningModelArn, name:"finalActiveLearningModelArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:model/.*")
-            try validate(outputDatasetS3Uri, name:"outputDatasetS3Uri", max: 1024)
-            try validate(outputDatasetS3Uri, name:"outputDatasetS3Uri", pattern: "^(https|s3)://([^/]+)/?(.*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5576,24 +5083,6 @@ extension SageMaker {
             self.workteamArn = workteamArn
         }
 
-        public func validate() throws {
-            try validate(annotationConsolidationLambdaArn, name:"annotationConsolidationLambdaArn", max: 2048)
-            try validate(annotationConsolidationLambdaArn, name:"annotationConsolidationLambdaArn", pattern: "arn:aws[a-z\\-]*:lambda:[a-z]{2}-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_\\.]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(failureReason, name:"failureReason", max: 1024)
-            try inputConfig?.validate()
-            try labelCounters.validate()
-            try validate(labelingJobArn, name:"labelingJobArn", max: 2048)
-            try validate(labelingJobArn, name:"labelingJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:labeling-job/.*")
-            try validate(labelingJobName, name:"labelingJobName", max: 63)
-            try validate(labelingJobName, name:"labelingJobName", min: 1)
-            try validate(labelingJobName, name:"labelingJobName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try labelingJobOutput?.validate()
-            try validate(preHumanTaskLambdaArn, name:"preHumanTaskLambdaArn", max: 2048)
-            try validate(preHumanTaskLambdaArn, name:"preHumanTaskLambdaArn", pattern: "arn:aws[a-z\\-]*:lambda:[a-z]{2}-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_\\.]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(workteamArn, name:"workteamArn", max: 256)
-            try validate(workteamArn, name:"workteamArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:workteam/.*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case annotationConsolidationLambdaArn = "AnnotationConsolidationLambdaArn"
             case creationTime = "CreationTime"
@@ -5682,14 +5171,6 @@ extension SageMaker {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try algorithmSummaryList.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 8192)
-            try validate(nextToken, name:"nextToken", pattern: ".*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case algorithmSummaryList = "AlgorithmSummaryList"
             case nextToken = "NextToken"
@@ -5776,14 +5257,6 @@ extension SageMaker {
         public init(codeRepositorySummaryList: [CodeRepositorySummary], nextToken: String? = nil) {
             self.codeRepositorySummaryList = codeRepositorySummaryList
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try codeRepositorySummaryList.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 8192)
-            try validate(nextToken, name:"nextToken", pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5879,14 +5352,6 @@ extension SageMaker {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try compilationJobSummaries.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 8192)
-            try validate(nextToken, name:"nextToken", pattern: ".*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case compilationJobSummaries = "CompilationJobSummaries"
             case nextToken = "NextToken"
@@ -5970,14 +5435,6 @@ extension SageMaker {
         public init(endpointConfigs: [EndpointConfigSummary], nextToken: String? = nil) {
             self.endpointConfigs = endpointConfigs
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try endpointConfigs.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 8192)
-            try validate(nextToken, name:"nextToken", pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6073,14 +5530,6 @@ extension SageMaker {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try endpoints.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 8192)
-            try validate(nextToken, name:"nextToken", pattern: ".*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case endpoints = "Endpoints"
             case nextToken = "NextToken"
@@ -6174,14 +5623,6 @@ extension SageMaker {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try hyperParameterTuningJobSummaries.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 8192)
-            try validate(nextToken, name:"nextToken", pattern: ".*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case hyperParameterTuningJobSummaries = "HyperParameterTuningJobSummaries"
             case nextToken = "NextToken"
@@ -6266,14 +5707,6 @@ extension SageMaker {
         public init(labelingJobSummaryList: [LabelingJobForWorkteamSummary], nextToken: String? = nil) {
             self.labelingJobSummaryList = labelingJobSummaryList
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try labelingJobSummaryList.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 8192)
-            try validate(nextToken, name:"nextToken", pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6374,14 +5807,6 @@ extension SageMaker {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try labelingJobSummaryList?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 8192)
-            try validate(nextToken, name:"nextToken", pattern: ".*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case labelingJobSummaryList = "LabelingJobSummaryList"
             case nextToken = "NextToken"
@@ -6460,14 +5885,6 @@ extension SageMaker {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try modelPackageSummaryList.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 8192)
-            try validate(nextToken, name:"nextToken", pattern: ".*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case modelPackageSummaryList = "ModelPackageSummaryList"
             case nextToken = "NextToken"
@@ -6544,14 +5961,6 @@ extension SageMaker {
         public init(models: [ModelSummary], nextToken: String? = nil) {
             self.models = models
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try models.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 8192)
-            try validate(nextToken, name:"nextToken", pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6640,14 +6049,6 @@ extension SageMaker {
         public init(nextToken: String? = nil, notebookInstanceLifecycleConfigs: [NotebookInstanceLifecycleConfigSummary]? = nil) {
             self.nextToken = nextToken
             self.notebookInstanceLifecycleConfigs = notebookInstanceLifecycleConfigs
-        }
-
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 8192)
-            try validate(nextToken, name:"nextToken", pattern: ".*")
-            try notebookInstanceLifecycleConfigs?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6765,14 +6166,6 @@ extension SageMaker {
             self.notebookInstances = notebookInstances
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 8192)
-            try validate(nextToken, name:"nextToken", pattern: ".*")
-            try notebookInstances?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case notebookInstances = "NotebookInstances"
@@ -6832,14 +6225,6 @@ extension SageMaker {
             self.subscribedWorkteams = subscribedWorkteams
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 8192)
-            try validate(nextToken, name:"nextToken", pattern: ".*")
-            try subscribedWorkteams.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case subscribedWorkteams = "SubscribedWorkteams"
@@ -6895,16 +6280,6 @@ extension SageMaker {
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
-        }
-
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 8192)
-            try validate(nextToken, name:"nextToken", pattern: ".*")
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6979,14 +6354,6 @@ extension SageMaker {
         public init(nextToken: String? = nil, trainingJobSummaries: [HyperParameterTrainingJobSummary]) {
             self.nextToken = nextToken
             self.trainingJobSummaries = trainingJobSummaries
-        }
-
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 8192)
-            try validate(nextToken, name:"nextToken", pattern: ".*")
-            try trainingJobSummaries.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7082,14 +6449,6 @@ extension SageMaker {
             self.trainingJobSummaries = trainingJobSummaries
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 8192)
-            try validate(nextToken, name:"nextToken", pattern: ".*")
-            try trainingJobSummaries.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case trainingJobSummaries = "TrainingJobSummaries"
@@ -7183,14 +6542,6 @@ extension SageMaker {
             self.transformJobSummaries = transformJobSummaries
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 8192)
-            try validate(nextToken, name:"nextToken", pattern: ".*")
-            try transformJobSummaries.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case transformJobSummaries = "TransformJobSummaries"
@@ -7260,14 +6611,6 @@ extension SageMaker {
             self.workteams = workteams
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 8192)
-            try validate(nextToken, name:"nextToken", pattern: ".*")
-            try workteams.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case workteams = "Workteams"
@@ -7321,12 +6664,6 @@ extension SageMaker {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(metricName, name:"metricName", max: 255)
-            try validate(metricName, name:"metricName", min: 1)
-            try validate(metricName, name:"metricName", pattern: ".+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case metricName = "MetricName"
             case timestamp = "Timestamp"
@@ -7375,11 +6712,6 @@ extension SageMaker {
 
         public init(s3ModelArtifacts: String) {
             self.s3ModelArtifacts = s3ModelArtifacts
-        }
-
-        public func validate() throws {
-            try validate(s3ModelArtifacts, name:"s3ModelArtifacts", max: 1024)
-            try validate(s3ModelArtifacts, name:"s3ModelArtifacts", pattern: "^(https|s3)://([^/]+)/?(.*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7468,15 +6800,6 @@ extension SageMaker {
             self.validationStatuses = validationStatuses
         }
 
-        public func validate() throws {
-            try imageScanStatuses?.forEach {
-                try $0.validate()
-            }
-            try validationStatuses.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case imageScanStatuses = "ImageScanStatuses"
             case validationStatuses = "ValidationStatuses"
@@ -7501,12 +6824,6 @@ extension SageMaker {
             self.failureReason = failureReason
             self.name = name
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 63)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7542,17 +6859,6 @@ extension SageMaker {
             self.modelPackageDescription = modelPackageDescription
             self.modelPackageName = modelPackageName
             self.modelPackageStatus = modelPackageStatus
-        }
-
-        public func validate() throws {
-            try validate(modelPackageArn, name:"modelPackageArn", max: 2048)
-            try validate(modelPackageArn, name:"modelPackageArn", min: 1)
-            try validate(modelPackageArn, name:"modelPackageArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:model-package/.*")
-            try validate(modelPackageDescription, name:"modelPackageDescription", max: 1024)
-            try validate(modelPackageDescription, name:"modelPackageDescription", pattern: "[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*")
-            try validate(modelPackageName, name:"modelPackageName", max: 63)
-            try validate(modelPackageName, name:"modelPackageName", min: 1)
-            try validate(modelPackageName, name:"modelPackageName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7652,14 +6958,6 @@ extension SageMaker {
             self.modelName = modelName
         }
 
-        public func validate() throws {
-            try validate(modelArn, name:"modelArn", max: 2048)
-            try validate(modelArn, name:"modelArn", min: 20)
-            try validate(modelArn, name:"modelArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:model/.*")
-            try validate(modelName, name:"modelName", max: 63)
-            try validate(modelName, name:"modelName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case modelArn = "ModelArn"
@@ -7742,12 +7040,6 @@ extension SageMaker {
             self.lastModifiedTime = lastModifiedTime
             self.notebookInstanceLifecycleConfigArn = notebookInstanceLifecycleConfigArn
             self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
-        }
-
-        public func validate() throws {
-            try validate(notebookInstanceLifecycleConfigArn, name:"notebookInstanceLifecycleConfigArn", max: 256)
-            try validate(notebookInstanceLifecycleConfigName, name:"notebookInstanceLifecycleConfigName", max: 63)
-            try validate(notebookInstanceLifecycleConfigName, name:"notebookInstanceLifecycleConfigName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7853,23 +7145,6 @@ extension SageMaker {
             self.url = url
         }
 
-        public func validate() throws {
-            try additionalCodeRepositories?.forEach {
-                try validate($0, name:"additionalCodeRepositories[]", max: 1024)
-                try validate($0, name:"additionalCodeRepositories[]", min: 1)
-                try validate($0, name:"additionalCodeRepositories[]", pattern: "^https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            }
-            try validate(additionalCodeRepositories, name:"additionalCodeRepositories", max: 3)
-            try validate(defaultCodeRepository, name:"defaultCodeRepository", max: 1024)
-            try validate(defaultCodeRepository, name:"defaultCodeRepository", min: 1)
-            try validate(defaultCodeRepository, name:"defaultCodeRepository", pattern: "^https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try validate(notebookInstanceArn, name:"notebookInstanceArn", max: 256)
-            try validate(notebookInstanceLifecycleConfigName, name:"notebookInstanceLifecycleConfigName", max: 63)
-            try validate(notebookInstanceLifecycleConfigName, name:"notebookInstanceLifecycleConfigName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try validate(notebookInstanceName, name:"notebookInstanceName", max: 63)
-            try validate(notebookInstanceName, name:"notebookInstanceName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case additionalCodeRepositories = "AdditionalCodeRepositories"
             case creationTime = "CreationTime"
@@ -7930,12 +7205,6 @@ extension SageMaker {
             self.failed = failed
             self.pending = pending
             self.succeeded = succeeded
-        }
-
-        public func validate() throws {
-            try validate(failed, name:"failed", min: 0)
-            try validate(pending, name:"pending", min: 0)
-            try validate(succeeded, name:"succeeded", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8253,18 +7522,6 @@ extension SageMaker {
             self.variantName = variantName
         }
 
-        public func validate() throws {
-            try validate(currentInstanceCount, name:"currentInstanceCount", min: 1)
-            try validate(currentWeight, name:"currentWeight", min: 0)
-            try deployedImages?.forEach {
-                try $0.validate()
-            }
-            try validate(desiredInstanceCount, name:"desiredInstanceCount", min: 1)
-            try validate(desiredWeight, name:"desiredWeight", min: 0)
-            try validate(variantName, name:"variantName", max: 63)
-            try validate(variantName, name:"variantName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case currentInstanceCount = "CurrentInstanceCount"
             case currentWeight = "CurrentWeight"
@@ -8308,12 +7565,6 @@ extension SageMaker {
 
         public init(propertyName: String? = nil) {
             self.propertyName = propertyName
-        }
-
-        public func validate() throws {
-            try validate(propertyName, name:"propertyName", max: 255)
-            try validate(propertyName, name:"propertyName", min: 1)
-            try validate(propertyName, name:"propertyName", pattern: ".+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8645,10 +7896,6 @@ extension SageMaker {
             self.trainingJob = trainingJob
         }
 
-        public func validate() throws {
-            try trainingJob?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case trainingJob = "TrainingJob"
         }
@@ -8721,14 +7968,6 @@ extension SageMaker {
         public init(nextToken: String? = nil, results: [SearchRecord]? = nil) {
             self.nextToken = nextToken
             self.results = results
-        }
-
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 8192)
-            try validate(nextToken, name:"nextToken", pattern: ".*")
-            try results?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9091,17 +8330,6 @@ extension SageMaker {
             self.workteamArn = workteamArn
         }
 
-        public func validate() throws {
-            try validate(marketplaceDescription, name:"marketplaceDescription", max: 200)
-            try validate(marketplaceDescription, name:"marketplaceDescription", min: 1)
-            try validate(marketplaceDescription, name:"marketplaceDescription", pattern: ".+")
-            try validate(marketplaceTitle, name:"marketplaceTitle", max: 200)
-            try validate(marketplaceTitle, name:"marketplaceTitle", min: 1)
-            try validate(marketplaceTitle, name:"marketplaceTitle", pattern: ".+")
-            try validate(workteamArn, name:"workteamArn", max: 256)
-            try validate(workteamArn, name:"workteamArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:workteam/.*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case listingId = "ListingId"
             case marketplaceDescription = "MarketplaceDescription"
@@ -9326,49 +8554,6 @@ extension SageMaker {
             self.vpcConfig = vpcConfig
         }
 
-        public func validate() throws {
-            try algorithmSpecification?.validate()
-            try validate(failureReason, name:"failureReason", max: 1024)
-            try finalMetricDataList?.forEach {
-                try $0.validate()
-            }
-            try validate(finalMetricDataList, name:"finalMetricDataList", max: 20)
-            try validate(finalMetricDataList, name:"finalMetricDataList", min: 0)
-            try hyperParameters?.forEach {
-                try validate($0.key, name:"hyperParameters[key:]", max: 256)
-                try validate($0.key, name:"hyperParameters[key:]", pattern: ".*")
-                try validate($0.value, name:"hyperParameters[:Value]", max: 256)
-                try validate($0.value, name:"hyperParameters[:Value]", pattern: ".*")
-            }
-            try inputDataConfig?.forEach {
-                try $0.validate()
-            }
-            try validate(inputDataConfig, name:"inputDataConfig", max: 20)
-            try validate(inputDataConfig, name:"inputDataConfig", min: 1)
-            try validate(labelingJobArn, name:"labelingJobArn", max: 2048)
-            try validate(labelingJobArn, name:"labelingJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:labeling-job/.*")
-            try modelArtifacts?.validate()
-            try outputDataConfig?.validate()
-            try resourceConfig?.validate()
-            try validate(roleArn, name:"roleArn", max: 2048)
-            try validate(roleArn, name:"roleArn", min: 20)
-            try validate(roleArn, name:"roleArn", pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
-            try stoppingCondition?.validate()
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 0)
-            try validate(trainingJobArn, name:"trainingJobArn", max: 256)
-            try validate(trainingJobArn, name:"trainingJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:training-job/.*")
-            try validate(trainingJobName, name:"trainingJobName", max: 63)
-            try validate(trainingJobName, name:"trainingJobName", min: 1)
-            try validate(trainingJobName, name:"trainingJobName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try validate(tuningJobArn, name:"tuningJobArn", max: 256)
-            try validate(tuningJobArn, name:"tuningJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:hyper-parameter-tuning-job/.*")
-            try vpcConfig?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case algorithmSpecification = "AlgorithmSpecification"
             case creationTime = "CreationTime"
@@ -9508,14 +8693,6 @@ extension SageMaker {
             self.stopped = stopped
         }
 
-        public func validate() throws {
-            try validate(completed, name:"completed", min: 0)
-            try validate(inProgress, name:"inProgress", min: 0)
-            try validate(nonRetryableError, name:"nonRetryableError", min: 0)
-            try validate(retryableError, name:"retryableError", min: 0)
-            try validate(stopped, name:"stopped", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case completed = "Completed"
             case inProgress = "InProgress"
@@ -9555,14 +8732,6 @@ extension SageMaker {
             self.trainingJobArn = trainingJobArn
             self.trainingJobName = trainingJobName
             self.trainingJobStatus = trainingJobStatus
-        }
-
-        public func validate() throws {
-            try validate(trainingJobArn, name:"trainingJobArn", max: 256)
-            try validate(trainingJobArn, name:"trainingJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:training-job/.*")
-            try validate(trainingJobName, name:"trainingJobName", max: 63)
-            try validate(trainingJobName, name:"trainingJobName", min: 1)
-            try validate(trainingJobName, name:"trainingJobName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9847,15 +9016,6 @@ extension SageMaker {
             self.transformJobStatus = transformJobStatus
         }
 
-        public func validate() throws {
-            try validate(failureReason, name:"failureReason", max: 1024)
-            try validate(transformJobArn, name:"transformJobArn", max: 256)
-            try validate(transformJobArn, name:"transformJobArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:transform-job/.*")
-            try validate(transformJobName, name:"transformJobName", max: 63)
-            try validate(transformJobName, name:"transformJobName", min: 1)
-            try validate(transformJobName, name:"transformJobName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case failureReason = "FailureReason"
@@ -10090,12 +9250,6 @@ extension SageMaker {
             self.codeRepositoryArn = codeRepositoryArn
         }
 
-        public func validate() throws {
-            try validate(codeRepositoryArn, name:"codeRepositoryArn", max: 2048)
-            try validate(codeRepositoryArn, name:"codeRepositoryArn", min: 1)
-            try validate(codeRepositoryArn, name:"codeRepositoryArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:code-repository/.*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case codeRepositoryArn = "CodeRepositoryArn"
         }
@@ -10140,12 +9294,6 @@ extension SageMaker {
 
         public init(endpointArn: String) {
             self.endpointArn = endpointArn
-        }
-
-        public func validate() throws {
-            try validate(endpointArn, name:"endpointArn", max: 2048)
-            try validate(endpointArn, name:"endpointArn", min: 20)
-            try validate(endpointArn, name:"endpointArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:endpoint/.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10194,12 +9342,6 @@ extension SageMaker {
 
         public init(endpointArn: String) {
             self.endpointArn = endpointArn
-        }
-
-        public func validate() throws {
-            try validate(endpointArn, name:"endpointArn", max: 2048)
-            try validate(endpointArn, name:"endpointArn", min: 20)
-            try validate(endpointArn, name:"endpointArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:endpoint/.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10420,10 +9562,6 @@ extension SageMaker {
             self.workteam = workteam
         }
 
-        public func validate() throws {
-            try workteam.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case workteam = "Workteam"
         }
@@ -10507,23 +9645,6 @@ extension SageMaker {
             self.subDomain = subDomain
             self.workteamArn = workteamArn
             self.workteamName = workteamName
-        }
-
-        public func validate() throws {
-            try validate(description, name:"description", max: 200)
-            try validate(description, name:"description", min: 1)
-            try validate(description, name:"description", pattern: ".+")
-            try memberDefinitions.forEach {
-                try $0.validate()
-            }
-            try validate(memberDefinitions, name:"memberDefinitions", max: 10)
-            try validate(memberDefinitions, name:"memberDefinitions", min: 1)
-            try notificationConfiguration?.validate()
-            try validate(workteamArn, name:"workteamArn", max: 256)
-            try validate(workteamArn, name:"workteamArn", pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:workteam/.*")
-            try validate(workteamName, name:"workteamName", max: 63)
-            try validate(workteamName, name:"workteamName", min: 1)
-            try validate(workteamName, name:"workteamName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
 
         private enum CodingKeys: String, CodingKey {

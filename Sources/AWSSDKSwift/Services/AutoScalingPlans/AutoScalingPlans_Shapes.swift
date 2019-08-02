@@ -274,12 +274,6 @@ extension AutoScalingPlans {
             self.scalingPlanResources = scalingPlanResources
         }
 
-        public func validate() throws {
-            try scalingPlanResources?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case scalingPlanResources = "ScalingPlanResources"
@@ -348,12 +342,6 @@ extension AutoScalingPlans {
         public init(nextToken: String? = nil, scalingPlans: [ScalingPlan]? = nil) {
             self.nextToken = nextToken
             self.scalingPlans = scalingPlans
-        }
-
-        public func validate() throws {
-            try scalingPlans?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -719,17 +707,6 @@ extension AutoScalingPlans {
             self.statusStartTime = statusStartTime
         }
 
-        public func validate() throws {
-            try applicationSource.validate()
-            try scalingInstructions.forEach {
-                try $0.validate()
-            }
-            try validate(scalingPlanName, name:"scalingPlanName", max: 128)
-            try validate(scalingPlanName, name:"scalingPlanName", min: 1)
-            try validate(scalingPlanName, name:"scalingPlanName", pattern: "[\\p{Print}&&[^|:/]]+")
-            try validate(statusMessage, name:"statusMessage", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case applicationSource = "ApplicationSource"
             case creationTime = "CreationTime"
@@ -782,19 +759,6 @@ extension AutoScalingPlans {
             self.serviceNamespace = serviceNamespace
         }
 
-        public func validate() throws {
-            try validate(resourceId, name:"resourceId", max: 1600)
-            try validate(resourceId, name:"resourceId", min: 1)
-            try validate(resourceId, name:"resourceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(scalingPlanName, name:"scalingPlanName", max: 128)
-            try validate(scalingPlanName, name:"scalingPlanName", min: 1)
-            try validate(scalingPlanName, name:"scalingPlanName", pattern: "[\\p{Print}&&[^|:/]]+")
-            try scalingPolicies?.forEach {
-                try $0.validate()
-            }
-            try validate(scalingStatusMessage, name:"scalingStatusMessage", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case resourceId = "ResourceId"
             case scalableDimension = "ScalableDimension"
@@ -837,13 +801,6 @@ extension AutoScalingPlans {
             self.policyName = policyName
             self.policyType = policyType
             self.targetTrackingConfiguration = targetTrackingConfiguration
-        }
-
-        public func validate() throws {
-            try validate(policyName, name:"policyName", max: 256)
-            try validate(policyName, name:"policyName", min: 1)
-            try validate(policyName, name:"policyName", pattern: "\\p{Print}+")
-            try targetTrackingConfiguration?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

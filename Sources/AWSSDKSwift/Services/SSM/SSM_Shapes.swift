@@ -53,24 +53,6 @@ extension SSM {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(activationId, name:"activationId", pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
-            try validate(defaultInstanceName, name:"defaultInstanceName", max: 256)
-            try validate(defaultInstanceName, name:"defaultInstanceName", min: 0)
-            try validate(defaultInstanceName, name:"defaultInstanceName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try validate(description, name:"description", max: 256)
-            try validate(description, name:"description", min: 0)
-            try validate(iamRole, name:"iamRole", max: 64)
-            try validate(registrationLimit, name:"registrationLimit", max: 1000)
-            try validate(registrationLimit, name:"registrationLimit", min: 1)
-            try validate(registrationsCount, name:"registrationsCount", max: 1000)
-            try validate(registrationsCount, name:"registrationsCount", min: 1)
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", max: 1000)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case activationId = "ActivationId"
             case createdDate = "CreatedDate"
@@ -173,22 +155,6 @@ extension SSM {
             self.overview = overview
             self.scheduleExpression = scheduleExpression
             self.targets = targets
-        }
-
-        public func validate() throws {
-            try validate(associationId, name:"associationId", pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
-            try validate(associationName, name:"associationName", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(associationVersion, name:"associationVersion", pattern: "([$]LATEST)|([1-9][0-9]*)")
-            try validate(documentVersion, name:"documentVersion", pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(instanceId, name:"instanceId", pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
-            try validate(scheduleExpression, name:"scheduleExpression", max: 256)
-            try validate(scheduleExpression, name:"scheduleExpression", min: 1)
-            try targets?.forEach {
-                try $0.validate()
-            }
-            try validate(targets, name:"targets", max: 5)
-            try validate(targets, name:"targets", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -302,32 +268,6 @@ extension SSM {
             self.targets = targets
         }
 
-        public func validate() throws {
-            try validate(associationId, name:"associationId", pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
-            try validate(associationName, name:"associationName", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(associationVersion, name:"associationVersion", pattern: "([$]LATEST)|([1-9][0-9]*)")
-            try validate(automationTargetParameterName, name:"automationTargetParameterName", max: 50)
-            try validate(automationTargetParameterName, name:"automationTargetParameterName", min: 1)
-            try validate(documentVersion, name:"documentVersion", pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(instanceId, name:"instanceId", pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(maxConcurrency, name:"maxConcurrency", max: 7)
-            try validate(maxConcurrency, name:"maxConcurrency", min: 1)
-            try validate(maxConcurrency, name:"maxConcurrency", pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
-            try validate(maxErrors, name:"maxErrors", max: 7)
-            try validate(maxErrors, name:"maxErrors", min: 1)
-            try validate(maxErrors, name:"maxErrors", pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
-            try outputLocation?.validate()
-            try validate(scheduleExpression, name:"scheduleExpression", max: 256)
-            try validate(scheduleExpression, name:"scheduleExpression", min: 1)
-            try status?.validate()
-            try targets?.forEach {
-                try $0.validate()
-            }
-            try validate(targets, name:"targets", max: 5)
-            try validate(targets, name:"targets", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case associationId = "AssociationId"
             case associationName = "AssociationName"
@@ -390,12 +330,6 @@ extension SSM {
             self.lastExecutionDate = lastExecutionDate
             self.resourceCountByStatus = resourceCountByStatus
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(associationId, name:"associationId", pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
-            try validate(associationVersion, name:"associationVersion", pattern: "([$]LATEST)|([1-9][0-9]*)")
-            try validate(executionId, name:"executionId", pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -490,17 +424,6 @@ extension SSM {
             self.resourceId = resourceId
             self.resourceType = resourceType
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(associationId, name:"associationId", pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
-            try validate(associationVersion, name:"associationVersion", pattern: "([$]LATEST)|([1-9][0-9]*)")
-            try validate(executionId, name:"executionId", pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
-            try outputSource?.validate()
-            try validate(resourceId, name:"resourceId", max: 100)
-            try validate(resourceId, name:"resourceId", min: 1)
-            try validate(resourceType, name:"resourceType", max: 50)
-            try validate(resourceType, name:"resourceType", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -725,28 +648,6 @@ extension SSM {
             self.targets = targets
         }
 
-        public func validate() throws {
-            try validate(associationId, name:"associationId", pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
-            try validate(associationName, name:"associationName", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(associationVersion, name:"associationVersion", pattern: "([$]LATEST)|([1-9][0-9]*)")
-            try validate(documentVersion, name:"documentVersion", pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(maxConcurrency, name:"maxConcurrency", max: 7)
-            try validate(maxConcurrency, name:"maxConcurrency", min: 1)
-            try validate(maxConcurrency, name:"maxConcurrency", pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
-            try validate(maxErrors, name:"maxErrors", max: 7)
-            try validate(maxErrors, name:"maxErrors", min: 1)
-            try validate(maxErrors, name:"maxErrors", pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
-            try outputLocation?.validate()
-            try validate(scheduleExpression, name:"scheduleExpression", max: 256)
-            try validate(scheduleExpression, name:"scheduleExpression", min: 1)
-            try targets?.forEach {
-                try $0.validate()
-            }
-            try validate(targets, name:"targets", max: 5)
-            try validate(targets, name:"targets", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case associationId = "AssociationId"
             case associationName = "AssociationName"
@@ -792,11 +693,6 @@ extension SSM {
             self.url = url
         }
 
-        public func validate() throws {
-            try validate(hash, name:"hash", max: 256)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case hash = "Hash"
             case hashType = "HashType"
@@ -821,10 +717,6 @@ extension SSM {
 
         public init(name: String? = nil) {
             self.name = name
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -974,50 +866,6 @@ extension SSM {
             self.targetMaps = targetMaps
             self.targetParameterName = targetParameterName
             self.targets = targets
-        }
-
-        public func validate() throws {
-            try validate(automationExecutionId, name:"automationExecutionId", max: 36)
-            try validate(automationExecutionId, name:"automationExecutionId", min: 36)
-            try validate(documentName, name:"documentName", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(documentVersion, name:"documentVersion", pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(maxConcurrency, name:"maxConcurrency", max: 7)
-            try validate(maxConcurrency, name:"maxConcurrency", min: 1)
-            try validate(maxConcurrency, name:"maxConcurrency", pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
-            try validate(maxErrors, name:"maxErrors", max: 7)
-            try validate(maxErrors, name:"maxErrors", min: 1)
-            try validate(maxErrors, name:"maxErrors", pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
-            try outputs?.forEach {
-                try validate($0.key, name:"outputs[key:]", max: 50)
-                try validate($0.key, name:"outputs[key:]", min: 1)
-                try validate($0.value, name:"outputs[:Value]", max: 10)
-                try validate($0.value, name:"outputs[:Value]", min: 0)
-            }
-            try parameters?.forEach {
-                try validate($0.key, name:"parameters[key:]", max: 50)
-                try validate($0.key, name:"parameters[key:]", min: 1)
-                try validate($0.value, name:"parameters[:Value]", max: 10)
-                try validate($0.value, name:"parameters[:Value]", min: 0)
-            }
-            try validate(parentAutomationExecutionId, name:"parentAutomationExecutionId", max: 36)
-            try validate(parentAutomationExecutionId, name:"parentAutomationExecutionId", min: 36)
-            try stepExecutions?.forEach {
-                try $0.validate()
-            }
-            try targetLocations?.forEach {
-                try $0.validate()
-            }
-            try validate(targetLocations, name:"targetLocations", max: 100)
-            try validate(targetLocations, name:"targetLocations", min: 1)
-            try validate(targetMaps, name:"targetMaps", max: 300)
-            try validate(targetMaps, name:"targetMaps", min: 0)
-            try validate(targetParameterName, name:"targetParameterName", max: 50)
-            try validate(targetParameterName, name:"targetParameterName", min: 1)
-            try targets?.forEach {
-                try $0.validate()
-            }
-            try validate(targets, name:"targets", max: 5)
-            try validate(targets, name:"targets", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1188,36 +1036,6 @@ extension SSM {
             self.targets = targets
         }
 
-        public func validate() throws {
-            try validate(automationExecutionId, name:"automationExecutionId", max: 36)
-            try validate(automationExecutionId, name:"automationExecutionId", min: 36)
-            try validate(documentName, name:"documentName", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(documentVersion, name:"documentVersion", pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(maxConcurrency, name:"maxConcurrency", max: 7)
-            try validate(maxConcurrency, name:"maxConcurrency", min: 1)
-            try validate(maxConcurrency, name:"maxConcurrency", pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
-            try validate(maxErrors, name:"maxErrors", max: 7)
-            try validate(maxErrors, name:"maxErrors", min: 1)
-            try validate(maxErrors, name:"maxErrors", pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
-            try outputs?.forEach {
-                try validate($0.key, name:"outputs[key:]", max: 50)
-                try validate($0.key, name:"outputs[key:]", min: 1)
-                try validate($0.value, name:"outputs[:Value]", max: 10)
-                try validate($0.value, name:"outputs[:Value]", min: 0)
-            }
-            try validate(parentAutomationExecutionId, name:"parentAutomationExecutionId", max: 36)
-            try validate(parentAutomationExecutionId, name:"parentAutomationExecutionId", min: 36)
-            try validate(targetMaps, name:"targetMaps", max: 300)
-            try validate(targetMaps, name:"targetMaps", min: 0)
-            try validate(targetParameterName, name:"targetParameterName", max: 50)
-            try validate(targetParameterName, name:"targetParameterName", min: 1)
-            try targets?.forEach {
-                try $0.validate()
-            }
-            try validate(targets, name:"targets", max: 5)
-            try validate(targets, name:"targets", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case automationExecutionId = "AutomationExecutionId"
             case automationExecutionStatus = "AutomationExecutionStatus"
@@ -1335,12 +1153,6 @@ extension SSM {
 
         public init(windowExecutionId: String? = nil) {
             self.windowExecutionId = windowExecutionId
-        }
-
-        public func validate() throws {
-            try validate(windowExecutionId, name:"windowExecutionId", max: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", min: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1474,38 +1286,6 @@ extension SSM {
             self.statusDetails = statusDetails
             self.targetCount = targetCount
             self.targets = targets
-        }
-
-        public func validate() throws {
-            try cloudWatchOutputConfig?.validate()
-            try validate(commandId, name:"commandId", max: 36)
-            try validate(commandId, name:"commandId", min: 36)
-            try validate(comment, name:"comment", max: 100)
-            try validate(documentName, name:"documentName", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(documentVersion, name:"documentVersion", pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try instanceIds?.forEach {
-                try validate($0, name:"instanceIds[]", pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            }
-            try validate(instanceIds, name:"instanceIds", max: 50)
-            try validate(instanceIds, name:"instanceIds", min: 0)
-            try validate(maxConcurrency, name:"maxConcurrency", max: 7)
-            try validate(maxConcurrency, name:"maxConcurrency", min: 1)
-            try validate(maxConcurrency, name:"maxConcurrency", pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
-            try validate(maxErrors, name:"maxErrors", max: 7)
-            try validate(maxErrors, name:"maxErrors", min: 1)
-            try validate(maxErrors, name:"maxErrors", pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
-            try validate(outputS3BucketName, name:"outputS3BucketName", max: 63)
-            try validate(outputS3BucketName, name:"outputS3BucketName", min: 3)
-            try validate(outputS3KeyPrefix, name:"outputS3KeyPrefix", max: 500)
-            try validate(outputS3Region, name:"outputS3Region", max: 20)
-            try validate(outputS3Region, name:"outputS3Region", min: 3)
-            try validate(statusDetails, name:"statusDetails", max: 100)
-            try validate(statusDetails, name:"statusDetails", min: 0)
-            try targets?.forEach {
-                try $0.validate()
-            }
-            try validate(targets, name:"targets", max: 5)
-            try validate(targets, name:"targets", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1642,23 +1422,6 @@ extension SSM {
             self.traceOutput = traceOutput
         }
 
-        public func validate() throws {
-            try cloudWatchOutputConfig?.validate()
-            try validate(commandId, name:"commandId", max: 36)
-            try validate(commandId, name:"commandId", min: 36)
-            try commandPlugins?.forEach {
-                try $0.validate()
-            }
-            try validate(comment, name:"comment", max: 100)
-            try validate(documentName, name:"documentName", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(documentVersion, name:"documentVersion", pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(instanceId, name:"instanceId", pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(instanceName, name:"instanceName", max: 255)
-            try validate(statusDetails, name:"statusDetails", max: 100)
-            try validate(statusDetails, name:"statusDetails", min: 0)
-            try validate(traceOutput, name:"traceOutput", max: 2500)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case cloudWatchOutputConfig = "CloudWatchOutputConfig"
             case commandId = "CommandId"
@@ -1745,18 +1508,6 @@ extension SSM {
             self.standardOutputUrl = standardOutputUrl
             self.status = status
             self.statusDetails = statusDetails
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", min: 4)
-            try validate(output, name:"output", max: 2500)
-            try validate(outputS3BucketName, name:"outputS3BucketName", max: 63)
-            try validate(outputS3BucketName, name:"outputS3BucketName", min: 3)
-            try validate(outputS3KeyPrefix, name:"outputS3KeyPrefix", max: 500)
-            try validate(outputS3Region, name:"outputS3Region", max: 20)
-            try validate(outputS3Region, name:"outputS3Region", min: 3)
-            try validate(statusDetails, name:"statusDetails", max: 100)
-            try validate(statusDetails, name:"statusDetails", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1870,26 +1621,6 @@ extension SSM {
             self.severity = severity
             self.status = status
             self.title = title
-        }
-
-        public func validate() throws {
-            try validate(complianceType, name:"complianceType", max: 100)
-            try validate(complianceType, name:"complianceType", min: 1)
-            try validate(complianceType, name:"complianceType", pattern: "[A-Za-z0-9_\\-]\\w+|Custom:[a-zA-Z0-9_\\-]\\w+")
-            try details?.forEach {
-                try validate($0.key, name:"details[key:]", max: 64)
-                try validate($0.key, name:"details[key:]", min: 1)
-                try validate($0.value, name:"details[:Value]", max: 4096)
-                try validate($0.value, name:"details[:Value]", min: 0)
-            }
-            try executionSummary?.validate()
-            try validate(id, name:"id", max: 100)
-            try validate(id, name:"id", min: 1)
-            try validate(resourceId, name:"resourceId", max: 100)
-            try validate(resourceId, name:"resourceId", min: 1)
-            try validate(resourceType, name:"resourceType", max: 50)
-            try validate(resourceType, name:"resourceType", min: 1)
-            try validate(title, name:"title", max: 500)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2033,12 +1764,6 @@ extension SSM {
             self.nonCompliantSummary = nonCompliantSummary
         }
 
-        public func validate() throws {
-            try validate(complianceType, name:"complianceType", max: 100)
-            try validate(complianceType, name:"complianceType", min: 1)
-            try validate(complianceType, name:"complianceType", pattern: "[A-Za-z0-9_\\-]\\w+|Custom:[a-zA-Z0-9_\\-]\\w+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case complianceType = "ComplianceType"
             case compliantSummary = "CompliantSummary"
@@ -2145,12 +1870,6 @@ extension SSM {
         public init(activationCode: String? = nil, activationId: String? = nil) {
             self.activationCode = activationCode
             self.activationId = activationId
-        }
-
-        public func validate() throws {
-            try validate(activationCode, name:"activationCode", max: 250)
-            try validate(activationCode, name:"activationCode", min: 20)
-            try validate(activationId, name:"activationId", pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2294,15 +2013,6 @@ extension SSM {
             self.successful = successful
         }
 
-        public func validate() throws {
-            try failed?.forEach {
-                try $0.validate()
-            }
-            try successful?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case failed = "Failed"
             case successful = "Successful"
@@ -2416,10 +2126,6 @@ extension SSM {
             self.associationDescription = associationDescription
         }
 
-        public func validate() throws {
-            try associationDescription?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case associationDescription = "AssociationDescription"
         }
@@ -2504,10 +2210,6 @@ extension SSM {
 
         public init(documentDescription: DocumentDescription? = nil) {
             self.documentDescription = documentDescription
-        }
-
-        public func validate() throws {
-            try documentDescription?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2612,12 +2314,6 @@ extension SSM {
 
         public init(windowId: String? = nil) {
             self.windowId = windowId
-        }
-
-        public func validate() throws {
-            try validate(windowId, name:"windowId", max: 20)
-            try validate(windowId, name:"windowId", min: 20)
-            try validate(windowId, name:"windowId", pattern: "^mw-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2835,12 +2531,6 @@ extension SSM {
             self.baselineId = baselineId
         }
 
-        public func validate() throws {
-            try validate(baselineId, name:"baselineId", max: 128)
-            try validate(baselineId, name:"baselineId", min: 20)
-            try validate(baselineId, name:"baselineId", pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case baselineId = "BaselineId"
         }
@@ -3053,13 +2743,6 @@ extension SSM {
             self.typeName = typeName
         }
 
-        public func validate() throws {
-            try deletionSummary?.validate()
-            try validate(typeName, name:"typeName", max: 100)
-            try validate(typeName, name:"typeName", min: 1)
-            try validate(typeName, name:"typeName", pattern: "^(AWS|Custom):.*$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case deletionId = "DeletionId"
             case deletionSummary = "DeletionSummary"
@@ -3100,12 +2783,6 @@ extension SSM {
 
         public init(windowId: String? = nil) {
             self.windowId = windowId
-        }
-
-        public func validate() throws {
-            try validate(windowId, name:"windowId", max: 20)
-            try validate(windowId, name:"windowId", min: 20)
-            try validate(windowId, name:"windowId", pattern: "^mw-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3185,21 +2862,6 @@ extension SSM {
             self.invalidParameters = invalidParameters
         }
 
-        public func validate() throws {
-            try deletedParameters?.forEach {
-                try validate($0, name:"deletedParameters[]", max: 2048)
-                try validate($0, name:"deletedParameters[]", min: 1)
-            }
-            try validate(deletedParameters, name:"deletedParameters", max: 10)
-            try validate(deletedParameters, name:"deletedParameters", min: 1)
-            try invalidParameters?.forEach {
-                try validate($0, name:"invalidParameters[]", max: 2048)
-                try validate($0, name:"invalidParameters[]", min: 1)
-            }
-            try validate(invalidParameters, name:"invalidParameters", max: 10)
-            try validate(invalidParameters, name:"invalidParameters", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case deletedParameters = "DeletedParameters"
             case invalidParameters = "InvalidParameters"
@@ -3239,12 +2901,6 @@ extension SSM {
 
         public init(baselineId: String? = nil) {
             self.baselineId = baselineId
-        }
-
-        public func validate() throws {
-            try validate(baselineId, name:"baselineId", max: 128)
-            try validate(baselineId, name:"baselineId", min: 20)
-            try validate(baselineId, name:"baselineId", pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3358,15 +3014,6 @@ extension SSM {
             self.patchGroup = patchGroup
         }
 
-        public func validate() throws {
-            try validate(baselineId, name:"baselineId", max: 128)
-            try validate(baselineId, name:"baselineId", min: 20)
-            try validate(baselineId, name:"baselineId", pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
-            try validate(patchGroup, name:"patchGroup", max: 256)
-            try validate(patchGroup, name:"patchGroup", min: 1)
-            try validate(patchGroup, name:"patchGroup", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case baselineId = "BaselineId"
             case patchGroup = "PatchGroup"
@@ -3425,15 +3072,6 @@ extension SSM {
             self.windowTargetId = windowTargetId
         }
 
-        public func validate() throws {
-            try validate(windowId, name:"windowId", max: 20)
-            try validate(windowId, name:"windowId", min: 20)
-            try validate(windowId, name:"windowId", pattern: "^mw-[0-9a-f]{17}$")
-            try validate(windowTargetId, name:"windowTargetId", max: 36)
-            try validate(windowTargetId, name:"windowTargetId", min: 36)
-            try validate(windowTargetId, name:"windowTargetId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case windowId = "WindowId"
             case windowTargetId = "WindowTargetId"
@@ -3485,15 +3123,6 @@ extension SSM {
         public init(windowId: String? = nil, windowTaskId: String? = nil) {
             self.windowId = windowId
             self.windowTaskId = windowTaskId
-        }
-
-        public func validate() throws {
-            try validate(windowId, name:"windowId", max: 20)
-            try validate(windowId, name:"windowId", min: 20)
-            try validate(windowId, name:"windowId", pattern: "^mw-[0-9a-f]{17}$")
-            try validate(windowTaskId, name:"windowTaskId", max: 36)
-            try validate(windowTaskId, name:"windowTaskId", min: 36)
-            try validate(windowTaskId, name:"windowTaskId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3579,12 +3208,6 @@ extension SSM {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try activationList?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case activationList = "ActivationList"
             case nextToken = "NextToken"
@@ -3655,12 +3278,6 @@ extension SSM {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try associationExecutionTargets?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case associationExecutionTargets = "AssociationExecutionTargets"
             case nextToken = "NextToken"
@@ -3725,12 +3342,6 @@ extension SSM {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try associationExecutions?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case associationExecutions = "AssociationExecutions"
             case nextToken = "NextToken"
@@ -3786,10 +3397,6 @@ extension SSM {
 
         public init(associationDescription: AssociationDescription? = nil) {
             self.associationDescription = associationDescription
-        }
-
-        public func validate() throws {
-            try associationDescription?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3848,12 +3455,6 @@ extension SSM {
         public init(automationExecutionMetadataList: [AutomationExecutionMetadata]? = nil, nextToken: String? = nil) {
             self.automationExecutionMetadataList = automationExecutionMetadataList
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try automationExecutionMetadataList?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3927,12 +3528,6 @@ extension SSM {
             self.stepExecutions = stepExecutions
         }
 
-        public func validate() throws {
-            try stepExecutions?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case stepExecutions = "StepExecutions"
@@ -3992,12 +3587,6 @@ extension SSM {
             self.patches = patches
         }
 
-        public func validate() throws {
-            try patches?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case patches = "Patches"
@@ -4040,13 +3629,6 @@ extension SSM {
 
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
-        }
-
-        public func validate() throws {
-            try accountIds?.forEach {
-                try validate($0, name:"accountIds[]", pattern: "(?i)all|[0-9]{12}")
-            }
-            try validate(accountIds, name:"accountIds", max: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4097,10 +3679,6 @@ extension SSM {
 
         public init(document: DocumentDescription? = nil) {
             self.document = document
-        }
-
-        public func validate() throws {
-            try document?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4155,12 +3733,6 @@ extension SSM {
         public init(associations: [InstanceAssociation]? = nil, nextToken: String? = nil) {
             self.associations = associations
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try associations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4220,12 +3792,6 @@ extension SSM {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try effectivePatches?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case effectivePatches = "EffectivePatches"
             case nextToken = "NextToken"
@@ -4279,12 +3845,6 @@ extension SSM {
         public init(instanceAssociationStatusInfos: [InstanceAssociationStatusInfo]? = nil, nextToken: String? = nil) {
             self.instanceAssociationStatusInfos = instanceAssociationStatusInfos
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try instanceAssociationStatusInfos?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4354,12 +3914,6 @@ extension SSM {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try instanceInformationList?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case instanceInformationList = "InstanceInformationList"
             case nextToken = "NextToken"
@@ -4427,14 +3981,6 @@ extension SSM {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try instancePatchStates?.forEach {
-                try $0.validate()
-            }
-            try validate(instancePatchStates, name:"instancePatchStates", max: 5)
-            try validate(instancePatchStates, name:"instancePatchStates", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case instancePatchStates = "InstancePatchStates"
             case nextToken = "NextToken"
@@ -4492,12 +4038,6 @@ extension SSM {
         public init(instancePatchStates: [InstancePatchState]? = nil, nextToken: String? = nil) {
             self.instancePatchStates = instancePatchStates
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try instancePatchStates?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4619,12 +4159,6 @@ extension SSM {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try inventoryDeletions?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case inventoryDeletions = "InventoryDeletions"
             case nextToken = "NextToken"
@@ -4700,12 +4234,6 @@ extension SSM {
             self.windowExecutionTaskInvocationIdentities = windowExecutionTaskInvocationIdentities
         }
 
-        public func validate() throws {
-            try windowExecutionTaskInvocationIdentities?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case windowExecutionTaskInvocationIdentities = "WindowExecutionTaskInvocationIdentities"
@@ -4773,12 +4301,6 @@ extension SSM {
             self.windowExecutionTaskIdentities = windowExecutionTaskIdentities
         }
 
-        public func validate() throws {
-            try windowExecutionTaskIdentities?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case windowExecutionTaskIdentities = "WindowExecutionTaskIdentities"
@@ -4844,12 +4366,6 @@ extension SSM {
         public init(nextToken: String? = nil, windowExecutions: [MaintenanceWindowExecution]? = nil) {
             self.nextToken = nextToken
             self.windowExecutions = windowExecutions
-        }
-
-        public func validate() throws {
-            try windowExecutions?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4933,12 +4449,6 @@ extension SSM {
             self.scheduledWindowExecutions = scheduledWindowExecutions
         }
 
-        public func validate() throws {
-            try scheduledWindowExecutions?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case scheduledWindowExecutions = "ScheduledWindowExecutions"
@@ -5004,12 +4514,6 @@ extension SSM {
         public init(nextToken: String? = nil, targets: [MaintenanceWindowTarget]? = nil) {
             self.nextToken = nextToken
             self.targets = targets
-        }
-
-        public func validate() throws {
-            try targets?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5079,12 +4583,6 @@ extension SSM {
             self.tasks = tasks
         }
 
-        public func validate() throws {
-            try tasks?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case tasks = "Tasks"
@@ -5148,12 +4646,6 @@ extension SSM {
             self.windowIdentities = windowIdentities
         }
 
-        public func validate() throws {
-            try windowIdentities?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case windowIdentities = "WindowIdentities"
@@ -5213,12 +4705,6 @@ extension SSM {
             self.windowIdentities = windowIdentities
         }
 
-        public func validate() throws {
-            try windowIdentities?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case windowIdentities = "WindowIdentities"
@@ -5271,12 +4757,6 @@ extension SSM {
         public init(nextToken: String? = nil, opsItemSummaries: [OpsItemSummary]? = nil) {
             self.nextToken = nextToken
             self.opsItemSummaries = opsItemSummaries
-        }
-
-        public func validate() throws {
-            try opsItemSummaries?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5344,12 +4824,6 @@ extension SSM {
             self.parameters = parameters
         }
 
-        public func validate() throws {
-            try parameters?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case parameters = "Parameters"
@@ -5407,12 +4881,6 @@ extension SSM {
         public init(baselineIdentities: [PatchBaselineIdentity]? = nil, nextToken: String? = nil) {
             self.baselineIdentities = baselineIdentities
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try baselineIdentities?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5549,12 +5017,6 @@ extension SSM {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try mappings?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case mappings = "Mappings"
             case nextToken = "NextToken"
@@ -5683,12 +5145,6 @@ extension SSM {
             self.sessions = sessions
         }
 
-        public func validate() throws {
-            try sessions?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case sessions = "Sessions"
@@ -5713,12 +5169,6 @@ extension SSM {
             self.defaultVersion = defaultVersion
             self.defaultVersionName = defaultVersionName
             self.name = name
-        }
-
-        public func validate() throws {
-            try validate(defaultVersion, name:"defaultVersion", pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(defaultVersionName, name:"defaultVersionName", pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5818,25 +5268,6 @@ extension SSM {
             self.tags = tags
             self.targetType = targetType
             self.versionName = versionName
-        }
-
-        public func validate() throws {
-            try attachmentsInformation?.forEach {
-                try $0.validate()
-            }
-            try validate(defaultVersion, name:"defaultVersion", pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(documentVersion, name:"documentVersion", pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(hash, name:"hash", max: 256)
-            try validate(latestVersion, name:"latestVersion", pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
-            try validate(schemaVersion, name:"schemaVersion", pattern: "([0-9]+)\\.([0-9]+)")
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", max: 1000)
-            try validate(targetType, name:"targetType", max: 200)
-            try validate(targetType, name:"targetType", pattern: "^\\/[\\w\\.\\-\\:\\/]*$")
-            try validate(versionName, name:"versionName", pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5956,19 +5387,6 @@ extension SSM {
             self.tags = tags
             self.targetType = targetType
             self.versionName = versionName
-        }
-
-        public func validate() throws {
-            try validate(documentVersion, name:"documentVersion", pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
-            try validate(schemaVersion, name:"schemaVersion", pattern: "([0-9]+)\\.([0-9]+)")
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", max: 1000)
-            try validate(targetType, name:"targetType", max: 200)
-            try validate(targetType, name:"targetType", pattern: "^\\/[\\w\\.\\-\\:\\/]*$")
-            try validate(versionName, name:"versionName", pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6117,12 +5535,6 @@ extension SSM {
             self.versionName = versionName
         }
 
-        public func validate() throws {
-            try validate(documentVersion, name:"documentVersion", pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(versionName, name:"versionName", pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case createdDate = "CreatedDate"
             case documentFormat = "DocumentFormat"
@@ -6149,10 +5561,6 @@ extension SSM {
         public init(patch: Patch? = nil, patchStatus: PatchStatus? = nil) {
             self.patch = patch
             self.patchStatus = patchStatus
-        }
-
-        public func validate() throws {
-            try patch?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6187,10 +5595,6 @@ extension SSM {
             self.message = message
         }
 
-        public func validate() throws {
-            try entry?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case entry = "Entry"
             case fault = "Fault"
@@ -6216,15 +5620,6 @@ extension SSM {
             self.details = details
             self.failureStage = failureStage
             self.failureType = failureType
-        }
-
-        public func validate() throws {
-            try details?.forEach {
-                try validate($0.key, name:"details[key:]", max: 50)
-                try validate($0.key, name:"details[key:]", min: 1)
-                try validate($0.value, name:"details[:Value]", max: 10)
-                try validate($0.value, name:"details[:Value]", min: 0)
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6273,10 +5668,6 @@ extension SSM {
 
         public init(automationExecution: AutomationExecution? = nil) {
             self.automationExecution = automationExecution
-        }
-
-        public func validate() throws {
-            try automationExecution?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6394,24 +5785,6 @@ extension SSM {
             self.statusDetails = statusDetails
         }
 
-        public func validate() throws {
-            try cloudWatchOutputConfig?.validate()
-            try validate(commandId, name:"commandId", max: 36)
-            try validate(commandId, name:"commandId", min: 36)
-            try validate(comment, name:"comment", max: 100)
-            try validate(documentName, name:"documentName", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(documentVersion, name:"documentVersion", pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(executionElapsedTime, name:"executionElapsedTime", pattern: "^([\\-]?\\d{4}(?!\\d{2}\\b))((-?)((0[1-9]|1[0-2])(\\3([12]\\d|0[1-9]|3[01]))?|W([0-4]\\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\\d|[12]\\d{2}|3([0-5]\\d|6[1-6])))([T\\s]((([01]\\d|2[0-3])((:?)[0-5]\\d)?|24\\:?00)([\\.,]\\d(?!:))?)?(\\17[0-5]\\d([\\.,]\\d)?)?([zZ]|([\\-])([01]\\d|2[0-3]):?([0-5]\\d)?)?)?)?$")
-            try validate(executionEndDateTime, name:"executionEndDateTime", pattern: "^([\\-]?\\d{4}(?!\\d{2}\\b))((-?)((0[1-9]|1[0-2])(\\3([12]\\d|0[1-9]|3[01]))?|W([0-4]\\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\\d|[12]\\d{2}|3([0-5]\\d|6[1-6])))([T\\s]((([01]\\d|2[0-3])((:?)[0-5]\\d)?|24\\:?00)([\\.,]\\d(?!:))?)?(\\17[0-5]\\d([\\.,]\\d)?)?([zZ]|([\\-])([01]\\d|2[0-3]):?([0-5]\\d)?)?)?)?$")
-            try validate(executionStartDateTime, name:"executionStartDateTime", pattern: "^([\\-]?\\d{4}(?!\\d{2}\\b))((-?)((0[1-9]|1[0-2])(\\3([12]\\d|0[1-9]|3[01]))?|W([0-4]\\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\\d|[12]\\d{2}|3([0-5]\\d|6[1-6])))([T\\s]((([01]\\d|2[0-3])((:?)[0-5]\\d)?|24\\:?00)([\\.,]\\d(?!:))?)?(\\17[0-5]\\d([\\.,]\\d)?)?([zZ]|([\\-])([01]\\d|2[0-3]):?([0-5]\\d)?)?)?)?$")
-            try validate(instanceId, name:"instanceId", pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(pluginName, name:"pluginName", min: 4)
-            try validate(standardErrorContent, name:"standardErrorContent", max: 8000)
-            try validate(standardOutputContent, name:"standardOutputContent", max: 24000)
-            try validate(statusDetails, name:"statusDetails", max: 100)
-            try validate(statusDetails, name:"statusDetails", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case cloudWatchOutputConfig = "CloudWatchOutputConfig"
             case commandId = "CommandId"
@@ -6471,11 +5844,6 @@ extension SSM {
             self.target = target
         }
 
-        public func validate() throws {
-            try validate(target, name:"target", max: 50)
-            try validate(target, name:"target", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case status = "Status"
             case target = "Target"
@@ -6513,12 +5881,6 @@ extension SSM {
         public init(baselineId: String? = nil, operatingSystem: OperatingSystem? = nil) {
             self.baselineId = baselineId
             self.operatingSystem = operatingSystem
-        }
-
-        public func validate() throws {
-            try validate(baselineId, name:"baselineId", max: 128)
-            try validate(baselineId, name:"baselineId", min: 20)
-            try validate(baselineId, name:"baselineId", pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6578,13 +5940,6 @@ extension SSM {
             self.product = product
             self.snapshotDownloadUrl = snapshotDownloadUrl
             self.snapshotId = snapshotId
-        }
-
-        public func validate() throws {
-            try validate(instanceId, name:"instanceId", pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(snapshotId, name:"snapshotId", max: 36)
-            try validate(snapshotId, name:"snapshotId", min: 36)
-            try validate(snapshotId, name:"snapshotId", pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6677,16 +6032,6 @@ extension SSM {
             self.versionName = versionName
         }
 
-        public func validate() throws {
-            try attachmentsContent?.forEach {
-                try $0.validate()
-            }
-            try validate(content, name:"content", min: 1)
-            try validate(documentVersion, name:"documentVersion", pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
-            try validate(versionName, name:"versionName", pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case attachmentsContent = "AttachmentsContent"
             case content = "Content"
@@ -6773,12 +6118,6 @@ extension SSM {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try entities?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case entities = "Entities"
             case nextToken = "NextToken"
@@ -6845,12 +6184,6 @@ extension SSM {
             self.schemas = schemas
         }
 
-        public func validate() throws {
-            try schemas?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case schemas = "Schemas"
@@ -6910,19 +6243,6 @@ extension SSM {
             self.statusDetails = statusDetails
             self.taskIds = taskIds
             self.windowExecutionId = windowExecutionId
-        }
-
-        public func validate() throws {
-            try validate(statusDetails, name:"statusDetails", max: 250)
-            try validate(statusDetails, name:"statusDetails", min: 0)
-            try taskIds?.forEach {
-                try validate($0, name:"taskIds[]", max: 36)
-                try validate($0, name:"taskIds[]", min: 36)
-                try validate($0, name:"taskIds[]", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
-            }
-            try validate(windowExecutionId, name:"windowExecutionId", max: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", min: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7028,23 +6348,6 @@ extension SSM {
             self.taskType = taskType
             self.windowExecutionId = windowExecutionId
             self.windowTargetId = windowTargetId
-        }
-
-        public func validate() throws {
-            try validate(invocationId, name:"invocationId", max: 36)
-            try validate(invocationId, name:"invocationId", min: 36)
-            try validate(invocationId, name:"invocationId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
-            try validate(ownerInformation, name:"ownerInformation", max: 128)
-            try validate(ownerInformation, name:"ownerInformation", min: 1)
-            try validate(statusDetails, name:"statusDetails", max: 250)
-            try validate(statusDetails, name:"statusDetails", min: 0)
-            try validate(taskExecutionId, name:"taskExecutionId", max: 36)
-            try validate(taskExecutionId, name:"taskExecutionId", min: 36)
-            try validate(taskExecutionId, name:"taskExecutionId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
-            try validate(windowExecutionId, name:"windowExecutionId", max: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", min: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
-            try validate(windowTargetId, name:"windowTargetId", max: 36)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7154,26 +6457,6 @@ extension SSM {
             self.windowExecutionId = windowExecutionId
         }
 
-        public func validate() throws {
-            try validate(maxConcurrency, name:"maxConcurrency", max: 7)
-            try validate(maxConcurrency, name:"maxConcurrency", min: 1)
-            try validate(maxConcurrency, name:"maxConcurrency", pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
-            try validate(maxErrors, name:"maxErrors", max: 7)
-            try validate(maxErrors, name:"maxErrors", min: 1)
-            try validate(maxErrors, name:"maxErrors", pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
-            try validate(priority, name:"priority", min: 0)
-            try validate(statusDetails, name:"statusDetails", max: 250)
-            try validate(statusDetails, name:"statusDetails", min: 0)
-            try validate(taskArn, name:"taskArn", max: 1600)
-            try validate(taskArn, name:"taskArn", min: 1)
-            try validate(taskExecutionId, name:"taskExecutionId", max: 36)
-            try validate(taskExecutionId, name:"taskExecutionId", min: 36)
-            try validate(taskExecutionId, name:"taskExecutionId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
-            try validate(windowExecutionId, name:"windowExecutionId", max: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", min: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case endTime = "EndTime"
             case maxConcurrency = "MaxConcurrency"
@@ -7276,23 +6559,6 @@ extension SSM {
             self.scheduleTimezone = scheduleTimezone
             self.startDate = startDate
             self.windowId = windowId
-        }
-
-        public func validate() throws {
-            try validate(cutoff, name:"cutoff", max: 23)
-            try validate(cutoff, name:"cutoff", min: 0)
-            try validate(description, name:"description", max: 128)
-            try validate(description, name:"description", min: 1)
-            try validate(duration, name:"duration", max: 24)
-            try validate(duration, name:"duration", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 3)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(schedule, name:"schedule", max: 256)
-            try validate(schedule, name:"schedule", min: 1)
-            try validate(windowId, name:"windowId", max: 20)
-            try validate(windowId, name:"windowId", min: 20)
-            try validate(windowId, name:"windowId", pattern: "^mw-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7408,41 +6674,6 @@ extension SSM {
             self.windowTaskId = windowTaskId
         }
 
-        public func validate() throws {
-            try validate(description, name:"description", max: 128)
-            try validate(description, name:"description", min: 1)
-            try loggingInfo?.validate()
-            try validate(maxConcurrency, name:"maxConcurrency", max: 7)
-            try validate(maxConcurrency, name:"maxConcurrency", min: 1)
-            try validate(maxConcurrency, name:"maxConcurrency", pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
-            try validate(maxErrors, name:"maxErrors", max: 7)
-            try validate(maxErrors, name:"maxErrors", min: 1)
-            try validate(maxErrors, name:"maxErrors", pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 3)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(priority, name:"priority", min: 0)
-            try targets?.forEach {
-                try $0.validate()
-            }
-            try validate(targets, name:"targets", max: 5)
-            try validate(targets, name:"targets", min: 0)
-            try validate(taskArn, name:"taskArn", max: 1600)
-            try validate(taskArn, name:"taskArn", min: 1)
-            try taskInvocationParameters?.validate()
-            try taskParameters?.forEach {
-                try validate($0.key, name:"taskParameters[key:]", max: 255)
-                try validate($0.key, name:"taskParameters[key:]", min: 1)
-                try $0.value.validate()
-            }
-            try validate(windowId, name:"windowId", max: 20)
-            try validate(windowId, name:"windowId", min: 20)
-            try validate(windowId, name:"windowId", pattern: "^mw-[0-9a-f]{17}$")
-            try validate(windowTaskId, name:"windowTaskId", max: 36)
-            try validate(windowTaskId, name:"windowTaskId", min: 36)
-            try validate(windowTaskId, name:"windowTaskId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case loggingInfo = "LoggingInfo"
@@ -7492,10 +6723,6 @@ extension SSM {
 
         public init(opsItem: OpsItem? = nil) {
             self.opsItem = opsItem
-        }
-
-        public func validate() throws {
-            try opsItem?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7566,12 +6793,6 @@ extension SSM {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try entities?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case entities = "Entities"
             case nextToken = "NextToken"
@@ -7633,12 +6854,6 @@ extension SSM {
             self.parameters = parameters
         }
 
-        public func validate() throws {
-            try parameters?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case parameters = "Parameters"
@@ -7682,10 +6897,6 @@ extension SSM {
 
         public init(parameter: Parameter? = nil) {
             self.parameter = parameter
-        }
-
-        public func validate() throws {
-            try parameter?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7761,12 +6972,6 @@ extension SSM {
             self.parameters = parameters
         }
 
-        public func validate() throws {
-            try parameters?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case parameters = "Parameters"
@@ -7818,18 +7023,6 @@ extension SSM {
         public init(invalidParameters: [String]? = nil, parameters: [Parameter]? = nil) {
             self.invalidParameters = invalidParameters
             self.parameters = parameters
-        }
-
-        public func validate() throws {
-            try invalidParameters?.forEach {
-                try validate($0, name:"invalidParameters[]", max: 2048)
-                try validate($0, name:"invalidParameters[]", min: 1)
-            }
-            try validate(invalidParameters, name:"invalidParameters", max: 10)
-            try validate(invalidParameters, name:"invalidParameters", min: 1)
-            try parameters?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7884,15 +7077,6 @@ extension SSM {
             self.baselineId = baselineId
             self.operatingSystem = operatingSystem
             self.patchGroup = patchGroup
-        }
-
-        public func validate() throws {
-            try validate(baselineId, name:"baselineId", max: 128)
-            try validate(baselineId, name:"baselineId", min: 20)
-            try validate(baselineId, name:"baselineId", pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
-            try validate(patchGroup, name:"patchGroup", max: 256)
-            try validate(patchGroup, name:"patchGroup", min: 1)
-            try validate(patchGroup, name:"patchGroup", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7993,41 +7177,6 @@ extension SSM {
             self.sources = sources
         }
 
-        public func validate() throws {
-            try approvalRules?.validate()
-            try approvedPatches?.forEach {
-                try validate($0, name:"approvedPatches[]", max: 100)
-                try validate($0, name:"approvedPatches[]", min: 1)
-            }
-            try validate(approvedPatches, name:"approvedPatches", max: 50)
-            try validate(approvedPatches, name:"approvedPatches", min: 0)
-            try validate(baselineId, name:"baselineId", max: 128)
-            try validate(baselineId, name:"baselineId", min: 20)
-            try validate(baselineId, name:"baselineId", pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
-            try validate(description, name:"description", max: 1024)
-            try validate(description, name:"description", min: 1)
-            try globalFilters?.validate()
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 3)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try patchGroups?.forEach {
-                try validate($0, name:"patchGroups[]", max: 256)
-                try validate($0, name:"patchGroups[]", min: 1)
-                try validate($0, name:"patchGroups[]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            }
-            try rejectedPatches?.forEach {
-                try validate($0, name:"rejectedPatches[]", max: 100)
-                try validate($0, name:"rejectedPatches[]", min: 1)
-            }
-            try validate(rejectedPatches, name:"rejectedPatches", max: 50)
-            try validate(rejectedPatches, name:"rejectedPatches", min: 0)
-            try sources?.forEach {
-                try $0.validate()
-            }
-            try validate(sources, name:"sources", max: 20)
-            try validate(sources, name:"sources", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case approvalRules = "ApprovalRules"
             case approvedPatches = "ApprovedPatches"
@@ -8081,10 +7230,6 @@ extension SSM {
             self.serviceSetting = serviceSetting
         }
 
-        public func validate() throws {
-            try serviceSetting?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case serviceSetting = "ServiceSetting"
         }
@@ -8134,13 +7279,6 @@ extension SSM {
             self.associationVersion = associationVersion
             self.content = content
             self.instanceId = instanceId
-        }
-
-        public func validate() throws {
-            try validate(associationId, name:"associationId", pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
-            try validate(associationVersion, name:"associationVersion", pattern: "([$]LATEST)|([1-9][0-9]*)")
-            try validate(content, name:"content", min: 1)
-            try validate(instanceId, name:"instanceId", pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8245,18 +7383,6 @@ extension SSM {
             self.status = status
         }
 
-        public func validate() throws {
-            try validate(associationId, name:"associationId", pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
-            try validate(associationName, name:"associationName", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(associationVersion, name:"associationVersion", pattern: "([$]LATEST)|([1-9][0-9]*)")
-            try validate(documentVersion, name:"documentVersion", pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(errorCode, name:"errorCode", max: 10)
-            try validate(executionSummary, name:"executionSummary", max: 512)
-            try validate(executionSummary, name:"executionSummary", min: 1)
-            try validate(instanceId, name:"instanceId", pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case associationId = "AssociationId"
             case associationName = "AssociationName"
@@ -8355,17 +7481,6 @@ extension SSM {
             self.platformVersion = platformVersion
             self.registrationDate = registrationDate
             self.resourceType = resourceType
-        }
-
-        public func validate() throws {
-            try validate(activationId, name:"activationId", pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
-            try validate(agentVersion, name:"agentVersion", pattern: "^[0-9]{1,6}(\\.[0-9]{1,6}){2,3}$")
-            try validate(computerName, name:"computerName", max: 255)
-            try validate(computerName, name:"computerName", min: 1)
-            try validate(iamRole, name:"iamRole", max: 64)
-            try validate(instanceId, name:"instanceId", pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(iPAddress, name:"iPAddress", max: 46)
-            try validate(iPAddress, name:"iPAddress", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8536,24 +7651,6 @@ extension SSM {
             self.unreportedNotApplicableCount = unreportedNotApplicableCount
         }
 
-        public func validate() throws {
-            try validate(baselineId, name:"baselineId", max: 128)
-            try validate(baselineId, name:"baselineId", min: 20)
-            try validate(baselineId, name:"baselineId", pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
-            try validate(installOverrideList, name:"installOverrideList", max: 256)
-            try validate(installOverrideList, name:"installOverrideList", min: 1)
-            try validate(installOverrideList, name:"installOverrideList", pattern: "^https://.+$|^s3://([^/]+)/(.*?([^/]+))$")
-            try validate(instanceId, name:"instanceId", pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(ownerInformation, name:"ownerInformation", max: 128)
-            try validate(ownerInformation, name:"ownerInformation", min: 1)
-            try validate(patchGroup, name:"patchGroup", max: 256)
-            try validate(patchGroup, name:"patchGroup", min: 1)
-            try validate(patchGroup, name:"patchGroup", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try validate(snapshotId, name:"snapshotId", max: 36)
-            try validate(snapshotId, name:"snapshotId", min: 36)
-            try validate(snapshotId, name:"snapshotId", pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case baselineId = "BaselineId"
             case failedCount = "FailedCount"
@@ -8706,13 +7803,6 @@ extension SSM {
             self.typeName = typeName
         }
 
-        public func validate() throws {
-            try deletionSummary?.validate()
-            try validate(typeName, name:"typeName", max: 100)
-            try validate(typeName, name:"typeName", min: 1)
-            try validate(typeName, name:"typeName", pattern: "^(AWS|Custom):.*$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case deletionId = "DeletionId"
             case deletionStartTime = "DeletionStartTime"
@@ -8744,12 +7834,6 @@ extension SSM {
             self.totalCount = totalCount
         }
 
-        public func validate() throws {
-            try summaryItems?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case remainingCount = "RemainingCount"
             case summaryItems = "SummaryItems"
@@ -8775,10 +7859,6 @@ extension SSM {
             self.count = count
             self.remainingCount = remainingCount
             self.version = version
-        }
-
-        public func validate() throws {
-            try validate(version, name:"version", pattern: "^([0-9]{1,6})(\\.[0-9]{1,6})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8959,15 +8039,6 @@ extension SSM {
             self.version = version
         }
 
-        public func validate() throws {
-            try validate(attributes, name:"attributes", max: 50)
-            try validate(attributes, name:"attributes", min: 1)
-            try validate(typeName, name:"typeName", max: 100)
-            try validate(typeName, name:"typeName", min: 1)
-            try validate(typeName, name:"typeName", pattern: "^(AWS|Custom):.*$")
-            try validate(version, name:"version", pattern: "^([0-9]{1,6})(\\.[0-9]{1,6})$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case attributes = "Attributes"
             case displayName = "DisplayName"
@@ -9002,12 +8073,6 @@ extension SSM {
             self.id = id
         }
 
-        public func validate() throws {
-            try data?.forEach {
-                try $0.value.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case data = "Data"
             case id = "Id"
@@ -9040,17 +8105,6 @@ extension SSM {
             self.contentHash = contentHash
             self.schemaVersion = schemaVersion
             self.typeName = typeName
-        }
-
-        public func validate() throws {
-            try validate(captureTime, name:"captureTime", pattern: "^(20)[0-9][0-9]-(0[1-9]|1[012])-([12][0-9]|3[01]|0[1-9])(T)(2[0-3]|[0-1][0-9])(:[0-5][0-9])(:[0-5][0-9])(Z)$")
-            try validate(content, name:"content", max: 10000)
-            try validate(content, name:"content", min: 0)
-            try validate(contentHash, name:"contentHash", max: 256)
-            try validate(schemaVersion, name:"schemaVersion", pattern: "^([0-9]{1,6})(\\.[0-9]{1,6})$")
-            try validate(typeName, name:"typeName", max: 100)
-            try validate(typeName, name:"typeName", min: 1)
-            try validate(typeName, name:"typeName", pattern: "^(AWS|Custom):.*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9118,15 +8172,6 @@ extension SSM {
             self.invalidLabels = invalidLabels
         }
 
-        public func validate() throws {
-            try invalidLabels?.forEach {
-                try validate($0, name:"invalidLabels[]", max: 100)
-                try validate($0, name:"invalidLabels[]", min: 1)
-            }
-            try validate(invalidLabels, name:"invalidLabels", max: 10)
-            try validate(invalidLabels, name:"invalidLabels", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case invalidLabels = "InvalidLabels"
         }
@@ -9188,13 +8233,6 @@ extension SSM {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try associationVersions?.forEach {
-                try $0.validate()
-            }
-            try validate(associationVersions, name:"associationVersions", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case associationVersions = "AssociationVersions"
             case nextToken = "NextToken"
@@ -9251,12 +8289,6 @@ extension SSM {
         public init(associations: [Association]? = nil, nextToken: String? = nil) {
             self.associations = associations
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try associations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9336,12 +8368,6 @@ extension SSM {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try commandInvocations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case commandInvocations = "CommandInvocations"
             case nextToken = "NextToken"
@@ -9412,12 +8438,6 @@ extension SSM {
         public init(commands: [Command]? = nil, nextToken: String? = nil) {
             self.commands = commands
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try commands?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9497,12 +8517,6 @@ extension SSM {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try complianceItems?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case complianceItems = "ComplianceItems"
             case nextToken = "NextToken"
@@ -9560,12 +8574,6 @@ extension SSM {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try complianceSummaryItems?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case complianceSummaryItems = "ComplianceSummaryItems"
             case nextToken = "NextToken"
@@ -9619,13 +8627,6 @@ extension SSM {
         public init(documentVersions: [DocumentVersionInfo]? = nil, nextToken: String? = nil) {
             self.documentVersions = documentVersions
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try documentVersions?.forEach {
-                try $0.validate()
-            }
-            try validate(documentVersions, name:"documentVersions", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9694,12 +8695,6 @@ extension SSM {
         public init(documentIdentifiers: [DocumentIdentifier]? = nil, nextToken: String? = nil) {
             self.documentIdentifiers = documentIdentifiers
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try documentIdentifiers?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9791,17 +8786,6 @@ extension SSM {
             self.typeName = typeName
         }
 
-        public func validate() throws {
-            try validate(captureTime, name:"captureTime", pattern: "^(20)[0-9][0-9]-(0[1-9]|1[012])-([12][0-9]|3[01]|0[1-9])(T)(2[0-3]|[0-1][0-9])(:[0-5][0-9])(:[0-5][0-9])(Z)$")
-            try validate(entries, name:"entries", max: 10000)
-            try validate(entries, name:"entries", min: 0)
-            try validate(instanceId, name:"instanceId", pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(schemaVersion, name:"schemaVersion", pattern: "^([0-9]{1,6})(\\.[0-9]{1,6})$")
-            try validate(typeName, name:"typeName", max: 100)
-            try validate(typeName, name:"typeName", min: 1)
-            try validate(typeName, name:"typeName", pattern: "^(AWS|Custom):.*$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case captureTime = "CaptureTime"
             case entries = "Entries"
@@ -9863,12 +8847,6 @@ extension SSM {
             self.resourceComplianceSummaryItems = resourceComplianceSummaryItems
         }
 
-        public func validate() throws {
-            try resourceComplianceSummaryItems?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case resourceComplianceSummaryItems = "ResourceComplianceSummaryItems"
@@ -9918,12 +8896,6 @@ extension SSM {
             self.resourceDataSyncItems = resourceDataSyncItems
         }
 
-        public func validate() throws {
-            try resourceDataSyncItems?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case resourceDataSyncItems = "ResourceDataSyncItems"
@@ -9962,13 +8934,6 @@ extension SSM {
 
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
-        }
-
-        public func validate() throws {
-            try tagList?.forEach {
-                try $0.validate()
-            }
-            try validate(tagList, name:"tagList", max: 1000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10075,17 +9040,6 @@ extension SSM {
             self.windowId = windowId
         }
 
-        public func validate() throws {
-            try validate(statusDetails, name:"statusDetails", max: 250)
-            try validate(statusDetails, name:"statusDetails", min: 0)
-            try validate(windowExecutionId, name:"windowExecutionId", max: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", min: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
-            try validate(windowId, name:"windowId", max: 20)
-            try validate(windowId, name:"windowId", min: 20)
-            try validate(windowId, name:"windowId", pattern: "^mw-[0-9a-f]{17}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case endTime = "EndTime"
             case startTime = "StartTime"
@@ -10146,19 +9100,6 @@ extension SSM {
             self.taskExecutionId = taskExecutionId
             self.taskType = taskType
             self.windowExecutionId = windowExecutionId
-        }
-
-        public func validate() throws {
-            try validate(statusDetails, name:"statusDetails", max: 250)
-            try validate(statusDetails, name:"statusDetails", min: 0)
-            try validate(taskArn, name:"taskArn", max: 1600)
-            try validate(taskArn, name:"taskArn", min: 1)
-            try validate(taskExecutionId, name:"taskExecutionId", max: 36)
-            try validate(taskExecutionId, name:"taskExecutionId", min: 36)
-            try validate(taskExecutionId, name:"taskExecutionId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
-            try validate(windowExecutionId, name:"windowExecutionId", max: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", min: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10227,23 +9168,6 @@ extension SSM {
             self.taskType = taskType
             self.windowExecutionId = windowExecutionId
             self.windowTargetId = windowTargetId
-        }
-
-        public func validate() throws {
-            try validate(invocationId, name:"invocationId", max: 36)
-            try validate(invocationId, name:"invocationId", min: 36)
-            try validate(invocationId, name:"invocationId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
-            try validate(ownerInformation, name:"ownerInformation", max: 128)
-            try validate(ownerInformation, name:"ownerInformation", min: 1)
-            try validate(statusDetails, name:"statusDetails", max: 250)
-            try validate(statusDetails, name:"statusDetails", min: 0)
-            try validate(taskExecutionId, name:"taskExecutionId", max: 36)
-            try validate(taskExecutionId, name:"taskExecutionId", min: 36)
-            try validate(taskExecutionId, name:"taskExecutionId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
-            try validate(windowExecutionId, name:"windowExecutionId", max: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", min: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
-            try validate(windowTargetId, name:"windowTargetId", max: 36)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10345,23 +9269,6 @@ extension SSM {
             self.windowId = windowId
         }
 
-        public func validate() throws {
-            try validate(cutoff, name:"cutoff", max: 23)
-            try validate(cutoff, name:"cutoff", min: 0)
-            try validate(description, name:"description", max: 128)
-            try validate(description, name:"description", min: 1)
-            try validate(duration, name:"duration", max: 24)
-            try validate(duration, name:"duration", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 3)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(schedule, name:"schedule", max: 256)
-            try validate(schedule, name:"schedule", min: 1)
-            try validate(windowId, name:"windowId", max: 20)
-            try validate(windowId, name:"windowId", min: 20)
-            try validate(windowId, name:"windowId", pattern: "^mw-[0-9a-f]{17}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case cutoff = "Cutoff"
             case description = "Description"
@@ -10391,15 +9298,6 @@ extension SSM {
         public init(name: String? = nil, windowId: String? = nil) {
             self.name = name
             self.windowId = windowId
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 3)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(windowId, name:"windowId", max: 20)
-            try validate(windowId, name:"windowId", min: 20)
-            try validate(windowId, name:"windowId", pattern: "^mw-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10579,27 +9477,6 @@ extension SSM {
             self.windowTargetId = windowTargetId
         }
 
-        public func validate() throws {
-            try validate(description, name:"description", max: 128)
-            try validate(description, name:"description", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 3)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(ownerInformation, name:"ownerInformation", max: 128)
-            try validate(ownerInformation, name:"ownerInformation", min: 1)
-            try targets?.forEach {
-                try $0.validate()
-            }
-            try validate(targets, name:"targets", max: 5)
-            try validate(targets, name:"targets", min: 0)
-            try validate(windowId, name:"windowId", max: 20)
-            try validate(windowId, name:"windowId", min: 20)
-            try validate(windowId, name:"windowId", pattern: "^mw-[0-9a-f]{17}$")
-            try validate(windowTargetId, name:"windowTargetId", max: 36)
-            try validate(windowTargetId, name:"windowTargetId", min: 36)
-            try validate(windowTargetId, name:"windowTargetId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case name = "Name"
@@ -10669,40 +9546,6 @@ extension SSM {
             self.`type` = `type`
             self.windowId = windowId
             self.windowTaskId = windowTaskId
-        }
-
-        public func validate() throws {
-            try validate(description, name:"description", max: 128)
-            try validate(description, name:"description", min: 1)
-            try loggingInfo?.validate()
-            try validate(maxConcurrency, name:"maxConcurrency", max: 7)
-            try validate(maxConcurrency, name:"maxConcurrency", min: 1)
-            try validate(maxConcurrency, name:"maxConcurrency", pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
-            try validate(maxErrors, name:"maxErrors", max: 7)
-            try validate(maxErrors, name:"maxErrors", min: 1)
-            try validate(maxErrors, name:"maxErrors", pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 3)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(priority, name:"priority", min: 0)
-            try targets?.forEach {
-                try $0.validate()
-            }
-            try validate(targets, name:"targets", max: 5)
-            try validate(targets, name:"targets", min: 0)
-            try validate(taskArn, name:"taskArn", max: 1600)
-            try validate(taskArn, name:"taskArn", min: 1)
-            try taskParameters?.forEach {
-                try validate($0.key, name:"taskParameters[key:]", max: 255)
-                try validate($0.key, name:"taskParameters[key:]", min: 1)
-                try $0.value.validate()
-            }
-            try validate(windowId, name:"windowId", max: 20)
-            try validate(windowId, name:"windowId", min: 20)
-            try validate(windowId, name:"windowId", pattern: "^mw-[0-9a-f]{17}$")
-            try validate(windowTaskId, name:"windowTaskId", max: 36)
-            try validate(windowTaskId, name:"windowTaskId", min: 36)
-            try validate(windowTaskId, name:"windowTaskId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11004,12 +9847,6 @@ extension SSM {
             self.id = id
         }
 
-        public func validate() throws {
-            try data?.forEach {
-                try $0.value.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case data = "Data"
             case id = "Id"
@@ -11026,11 +9863,6 @@ extension SSM {
 
         public init(content: [[String: String]]? = nil) {
             self.content = content
-        }
-
-        public func validate() throws {
-            try validate(content, name:"content", max: 10000)
-            try validate(content, name:"content", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11144,22 +9976,6 @@ extension SSM {
             self.status = status
             self.title = title
             self.version = version
-        }
-
-        public func validate() throws {
-            try validate(description, name:"description", max: 1024)
-            try validate(description, name:"description", min: 1)
-            try operationalData?.forEach {
-                try validate($0.key, name:"operationalData[key:]", max: 128)
-                try validate($0.key, name:"operationalData[key:]", min: 1)
-            }
-            try validate(opsItemId, name:"opsItemId", pattern: "^(oi)-[0-9a-f]{12}$")
-            try validate(priority, name:"priority", max: 5)
-            try validate(priority, name:"priority", min: 1)
-            try validate(source, name:"source", max: 64)
-            try validate(source, name:"source", min: 1)
-            try validate(title, name:"title", max: 1024)
-            try validate(title, name:"title", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11332,20 +10148,6 @@ extension SSM {
             self.title = title
         }
 
-        public func validate() throws {
-            try operationalData?.forEach {
-                try validate($0.key, name:"operationalData[key:]", max: 128)
-                try validate($0.key, name:"operationalData[key:]", min: 1)
-            }
-            try validate(opsItemId, name:"opsItemId", pattern: "^(oi)-[0-9a-f]{12}$")
-            try validate(priority, name:"priority", max: 5)
-            try validate(priority, name:"priority", min: 1)
-            try validate(source, name:"source", max: 64)
-            try validate(source, name:"source", min: 1)
-            try validate(title, name:"title", max: 1024)
-            try validate(title, name:"title", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case createdBy = "CreatedBy"
             case createdTime = "CreatedTime"
@@ -11374,11 +10176,6 @@ extension SSM {
         public init(outputSourceId: String? = nil, outputSourceType: String? = nil) {
             self.outputSourceId = outputSourceId
             self.outputSourceType = outputSourceType
-        }
-
-        public func validate() throws {
-            try validate(outputSourceId, name:"outputSourceId", max: 36)
-            try validate(outputSourceId, name:"outputSourceId", min: 36)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11425,13 +10222,6 @@ extension SSM {
             self.`type` = `type`
             self.value = value
             self.version = version
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 2048)
-            try validate(name, name:"name", min: 1)
-            try validate(selector, name:"selector", max: 128)
-            try validate(selector, name:"selector", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11500,24 +10290,6 @@ extension SSM {
             self.`type` = `type`
             self.value = value
             self.version = version
-        }
-
-        public func validate() throws {
-            try validate(allowedPattern, name:"allowedPattern", max: 1024)
-            try validate(allowedPattern, name:"allowedPattern", min: 0)
-            try validate(description, name:"description", max: 1024)
-            try validate(description, name:"description", min: 0)
-            try validate(keyId, name:"keyId", max: 256)
-            try validate(keyId, name:"keyId", min: 1)
-            try validate(keyId, name:"keyId", pattern: "^([a-zA-Z0-9:/_-]+)$")
-            try labels?.forEach {
-                try validate($0, name:"labels[]", max: 100)
-                try validate($0, name:"labels[]", min: 1)
-            }
-            try validate(labels, name:"labels", max: 10)
-            try validate(labels, name:"labels", min: 1)
-            try validate(name, name:"name", max: 2048)
-            try validate(name, name:"name", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11609,18 +10381,6 @@ extension SSM {
             self.tier = tier
             self.`type` = `type`
             self.version = version
-        }
-
-        public func validate() throws {
-            try validate(allowedPattern, name:"allowedPattern", max: 1024)
-            try validate(allowedPattern, name:"allowedPattern", min: 0)
-            try validate(description, name:"description", max: 1024)
-            try validate(description, name:"description", min: 0)
-            try validate(keyId, name:"keyId", max: 256)
-            try validate(keyId, name:"keyId", min: 1)
-            try validate(keyId, name:"keyId", pattern: "^([a-zA-Z0-9:/_-]+)$")
-            try validate(name, name:"name", max: 2048)
-            try validate(name, name:"name", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11789,11 +10549,6 @@ extension SSM {
             self.vendor = vendor
         }
 
-        public func validate() throws {
-            try validate(id, name:"id", max: 100)
-            try validate(id, name:"id", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case classification = "Classification"
             case contentUrl = "ContentUrl"
@@ -11843,17 +10598,6 @@ extension SSM {
             self.baselineName = baselineName
             self.defaultBaseline = defaultBaseline
             self.operatingSystem = operatingSystem
-        }
-
-        public func validate() throws {
-            try validate(baselineDescription, name:"baselineDescription", max: 1024)
-            try validate(baselineDescription, name:"baselineDescription", min: 1)
-            try validate(baselineId, name:"baselineId", max: 128)
-            try validate(baselineId, name:"baselineId", min: 20)
-            try validate(baselineId, name:"baselineId", pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
-            try validate(baselineName, name:"baselineName", max: 128)
-            try validate(baselineName, name:"baselineName", min: 3)
-            try validate(baselineName, name:"baselineName", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12018,13 +10762,6 @@ extension SSM {
         public init(baselineIdentity: PatchBaselineIdentity? = nil, patchGroup: String? = nil) {
             self.baselineIdentity = baselineIdentity
             self.patchGroup = patchGroup
-        }
-
-        public func validate() throws {
-            try baselineIdentity?.validate()
-            try validate(patchGroup, name:"patchGroup", max: 256)
-            try validate(patchGroup, name:"patchGroup", min: 1)
-            try validate(patchGroup, name:"patchGroup", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12512,12 +11249,6 @@ extension SSM {
             self.baselineId = baselineId
         }
 
-        public func validate() throws {
-            try validate(baselineId, name:"baselineId", max: 128)
-            try validate(baselineId, name:"baselineId", min: 20)
-            try validate(baselineId, name:"baselineId", pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case baselineId = "BaselineId"
         }
@@ -12568,15 +11299,6 @@ extension SSM {
         public init(baselineId: String? = nil, patchGroup: String? = nil) {
             self.baselineId = baselineId
             self.patchGroup = patchGroup
-        }
-
-        public func validate() throws {
-            try validate(baselineId, name:"baselineId", max: 128)
-            try validate(baselineId, name:"baselineId", min: 20)
-            try validate(baselineId, name:"baselineId", pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
-            try validate(patchGroup, name:"patchGroup", max: 256)
-            try validate(patchGroup, name:"patchGroup", min: 1)
-            try validate(patchGroup, name:"patchGroup", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12662,12 +11384,6 @@ extension SSM {
 
         public init(windowTargetId: String? = nil) {
             self.windowTargetId = windowTargetId
-        }
-
-        public func validate() throws {
-            try validate(windowTargetId, name:"windowTargetId", max: 36)
-            try validate(windowTargetId, name:"windowTargetId", min: 36)
-            try validate(windowTargetId, name:"windowTargetId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12803,12 +11519,6 @@ extension SSM {
             self.windowTaskId = windowTaskId
         }
 
-        public func validate() throws {
-            try validate(windowTaskId, name:"windowTaskId", max: 36)
-            try validate(windowTaskId, name:"windowTaskId", min: 36)
-            try validate(windowTaskId, name:"windowTaskId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case windowTaskId = "WindowTaskId"
         }
@@ -12908,10 +11618,6 @@ extension SSM {
             self.serviceSetting = serviceSetting
         }
 
-        public func validate() throws {
-            try serviceSetting?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case serviceSetting = "ServiceSetting"
         }
@@ -12979,17 +11685,6 @@ extension SSM {
             self.status = status
         }
 
-        public func validate() throws {
-            try validate(complianceType, name:"complianceType", max: 100)
-            try validate(complianceType, name:"complianceType", min: 1)
-            try validate(complianceType, name:"complianceType", pattern: "[A-Za-z0-9_\\-]\\w+|Custom:[a-zA-Z0-9_\\-]\\w+")
-            try executionSummary?.validate()
-            try validate(resourceId, name:"resourceId", max: 100)
-            try validate(resourceId, name:"resourceId", min: 1)
-            try validate(resourceType, name:"resourceType", max: 50)
-            try validate(resourceType, name:"resourceType", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case complianceType = "ComplianceType"
             case compliantSummary = "CompliantSummary"
@@ -13036,12 +11731,6 @@ extension SSM {
             self.s3Destination = s3Destination
             self.syncCreatedTime = syncCreatedTime
             self.syncName = syncName
-        }
-
-        public func validate() throws {
-            try s3Destination?.validate()
-            try validate(syncName, name:"syncName", max: 64)
-            try validate(syncName, name:"syncName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13191,13 +11880,6 @@ extension SSM {
             self.tokenValue = tokenValue
         }
 
-        public func validate() throws {
-            try validate(sessionId, name:"sessionId", max: 96)
-            try validate(sessionId, name:"sessionId", min: 1)
-            try validate(tokenValue, name:"tokenValue", max: 300)
-            try validate(tokenValue, name:"tokenValue", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case sessionId = "SessionId"
             case streamUrl = "StreamUrl"
@@ -13275,15 +11957,6 @@ extension SSM {
             self.executionTime = executionTime
             self.name = name
             self.windowId = windowId
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 3)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(windowId, name:"windowId", max: 20)
-            try validate(windowId, name:"windowId", min: 20)
-            try validate(windowId, name:"windowId", pattern: "^mw-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13479,10 +12152,6 @@ extension SSM {
             self.command = command
         }
 
-        public func validate() throws {
-            try command?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case command = "Command"
         }
@@ -13518,13 +12187,6 @@ extension SSM {
             self.settingId = settingId
             self.settingValue = settingValue
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(settingId, name:"settingId", max: 1000)
-            try validate(settingId, name:"settingId", min: 1)
-            try validate(settingValue, name:"settingValue", max: 4096)
-            try validate(settingValue, name:"settingValue", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13579,19 +12241,6 @@ extension SSM {
             self.startDate = startDate
             self.status = status
             self.target = target
-        }
-
-        public func validate() throws {
-            try validate(details, name:"details", max: 1024)
-            try validate(details, name:"details", min: 1)
-            try validate(documentName, name:"documentName", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try outputUrl?.validate()
-            try validate(owner, name:"owner", max: 256)
-            try validate(owner, name:"owner", min: 1)
-            try validate(sessionId, name:"sessionId", max: 96)
-            try validate(sessionId, name:"sessionId", min: 1)
-            try validate(target, name:"target", max: 50)
-            try validate(target, name:"target", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13657,13 +12306,6 @@ extension SSM {
         public init(cloudWatchOutputUrl: String? = nil, s3OutputUrl: String? = nil) {
             self.cloudWatchOutputUrl = cloudWatchOutputUrl
             self.s3OutputUrl = s3OutputUrl
-        }
-
-        public func validate() throws {
-            try validate(cloudWatchOutputUrl, name:"cloudWatchOutputUrl", max: 2083)
-            try validate(cloudWatchOutputUrl, name:"cloudWatchOutputUrl", min: 1)
-            try validate(s3OutputUrl, name:"s3OutputUrl", max: 2083)
-            try validate(s3OutputUrl, name:"s3OutputUrl", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13885,11 +12527,6 @@ extension SSM {
             self.automationExecutionId = automationExecutionId
         }
 
-        public func validate() throws {
-            try validate(automationExecutionId, name:"automationExecutionId", max: 36)
-            try validate(automationExecutionId, name:"automationExecutionId", min: 36)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case automationExecutionId = "AutomationExecutionId"
         }
@@ -13950,13 +12587,6 @@ extension SSM {
             self.sessionId = sessionId
             self.streamUrl = streamUrl
             self.tokenValue = tokenValue
-        }
-
-        public func validate() throws {
-            try validate(sessionId, name:"sessionId", max: 96)
-            try validate(sessionId, name:"sessionId", min: 1)
-            try validate(tokenValue, name:"tokenValue", max: 300)
-            try validate(tokenValue, name:"tokenValue", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14060,33 +12690,6 @@ extension SSM {
             self.targets = targets
             self.timeoutSeconds = timeoutSeconds
             self.validNextSteps = validNextSteps
-        }
-
-        public func validate() throws {
-            try validate(action, name:"action", pattern: "^aws:[a-zA-Z]{3,25}$")
-            try failureDetails?.validate()
-            try outputs?.forEach {
-                try validate($0.key, name:"outputs[key:]", max: 50)
-                try validate($0.key, name:"outputs[key:]", min: 1)
-                try validate($0.value, name:"outputs[:Value]", max: 10)
-                try validate($0.value, name:"outputs[:Value]", min: 0)
-            }
-            try overriddenParameters?.forEach {
-                try validate($0.key, name:"overriddenParameters[key:]", max: 50)
-                try validate($0.key, name:"overriddenParameters[key:]", min: 1)
-                try validate($0.value, name:"overriddenParameters[:Value]", max: 10)
-                try validate($0.value, name:"overriddenParameters[:Value]", min: 0)
-            }
-            try targetLocation?.validate()
-            try targets?.forEach {
-                try $0.validate()
-            }
-            try validate(targets, name:"targets", max: 5)
-            try validate(targets, name:"targets", min: 0)
-            try validNextSteps?.forEach {
-                try validate($0, name:"validNextSteps[]", max: 65535)
-                try validate($0, name:"validNextSteps[]", min: 1)
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14344,11 +12947,6 @@ extension SSM {
             self.sessionId = sessionId
         }
 
-        public func validate() throws {
-            try validate(sessionId, name:"sessionId", max: 96)
-            try validate(sessionId, name:"sessionId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case sessionId = "SessionId"
         }
@@ -14467,10 +13065,6 @@ extension SSM {
             self.associationDescription = associationDescription
         }
 
-        public func validate() throws {
-            try associationDescription?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case associationDescription = "AssociationDescription"
         }
@@ -14521,10 +13115,6 @@ extension SSM {
             self.associationDescription = associationDescription
         }
 
-        public func validate() throws {
-            try associationDescription?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case associationDescription = "AssociationDescription"
         }
@@ -14567,10 +13157,6 @@ extension SSM {
 
         public init(description: DocumentDefaultVersionDescription? = nil) {
             self.description = description
-        }
-
-        public func validate() throws {
-            try description?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14649,10 +13235,6 @@ extension SSM {
 
         public init(documentDescription: DocumentDescription? = nil) {
             self.documentDescription = documentDescription
-        }
-
-        public func validate() throws {
-            try documentDescription?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14801,23 +13383,6 @@ extension SSM {
             self.windowId = windowId
         }
 
-        public func validate() throws {
-            try validate(cutoff, name:"cutoff", max: 23)
-            try validate(cutoff, name:"cutoff", min: 0)
-            try validate(description, name:"description", max: 128)
-            try validate(description, name:"description", min: 1)
-            try validate(duration, name:"duration", max: 24)
-            try validate(duration, name:"duration", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 3)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(schedule, name:"schedule", max: 256)
-            try validate(schedule, name:"schedule", min: 1)
-            try validate(windowId, name:"windowId", max: 20)
-            try validate(windowId, name:"windowId", min: 20)
-            try validate(windowId, name:"windowId", pattern: "^mw-[0-9a-f]{17}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case allowUnassociatedTargets = "AllowUnassociatedTargets"
             case cutoff = "Cutoff"
@@ -14931,27 +13496,6 @@ extension SSM {
             self.targets = targets
             self.windowId = windowId
             self.windowTargetId = windowTargetId
-        }
-
-        public func validate() throws {
-            try validate(description, name:"description", max: 128)
-            try validate(description, name:"description", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 3)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(ownerInformation, name:"ownerInformation", max: 128)
-            try validate(ownerInformation, name:"ownerInformation", min: 1)
-            try targets?.forEach {
-                try $0.validate()
-            }
-            try validate(targets, name:"targets", max: 5)
-            try validate(targets, name:"targets", min: 0)
-            try validate(windowId, name:"windowId", max: 20)
-            try validate(windowId, name:"windowId", min: 20)
-            try validate(windowId, name:"windowId", pattern: "^mw-[0-9a-f]{17}$")
-            try validate(windowTargetId, name:"windowTargetId", max: 36)
-            try validate(windowTargetId, name:"windowTargetId", min: 36)
-            try validate(windowTargetId, name:"windowTargetId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15139,41 +13683,6 @@ extension SSM {
             self.taskParameters = taskParameters
             self.windowId = windowId
             self.windowTaskId = windowTaskId
-        }
-
-        public func validate() throws {
-            try validate(description, name:"description", max: 128)
-            try validate(description, name:"description", min: 1)
-            try loggingInfo?.validate()
-            try validate(maxConcurrency, name:"maxConcurrency", max: 7)
-            try validate(maxConcurrency, name:"maxConcurrency", min: 1)
-            try validate(maxConcurrency, name:"maxConcurrency", pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
-            try validate(maxErrors, name:"maxErrors", max: 7)
-            try validate(maxErrors, name:"maxErrors", min: 1)
-            try validate(maxErrors, name:"maxErrors", pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 3)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(priority, name:"priority", min: 0)
-            try targets?.forEach {
-                try $0.validate()
-            }
-            try validate(targets, name:"targets", max: 5)
-            try validate(targets, name:"targets", min: 0)
-            try validate(taskArn, name:"taskArn", max: 1600)
-            try validate(taskArn, name:"taskArn", min: 1)
-            try taskInvocationParameters?.validate()
-            try taskParameters?.forEach {
-                try validate($0.key, name:"taskParameters[key:]", max: 255)
-                try validate($0.key, name:"taskParameters[key:]", min: 1)
-                try $0.value.validate()
-            }
-            try validate(windowId, name:"windowId", max: 20)
-            try validate(windowId, name:"windowId", min: 20)
-            try validate(windowId, name:"windowId", pattern: "^mw-[0-9a-f]{17}$")
-            try validate(windowTaskId, name:"windowTaskId", max: 36)
-            try validate(windowTaskId, name:"windowTaskId", min: 36)
-            try validate(windowTaskId, name:"windowTaskId", pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15471,36 +13980,6 @@ extension SSM {
             self.rejectedPatches = rejectedPatches
             self.rejectedPatchesAction = rejectedPatchesAction
             self.sources = sources
-        }
-
-        public func validate() throws {
-            try approvalRules?.validate()
-            try approvedPatches?.forEach {
-                try validate($0, name:"approvedPatches[]", max: 100)
-                try validate($0, name:"approvedPatches[]", min: 1)
-            }
-            try validate(approvedPatches, name:"approvedPatches", max: 50)
-            try validate(approvedPatches, name:"approvedPatches", min: 0)
-            try validate(baselineId, name:"baselineId", max: 128)
-            try validate(baselineId, name:"baselineId", min: 20)
-            try validate(baselineId, name:"baselineId", pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
-            try validate(description, name:"description", max: 1024)
-            try validate(description, name:"description", min: 1)
-            try globalFilters?.validate()
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 3)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try rejectedPatches?.forEach {
-                try validate($0, name:"rejectedPatches[]", max: 100)
-                try validate($0, name:"rejectedPatches[]", min: 1)
-            }
-            try validate(rejectedPatches, name:"rejectedPatches", max: 50)
-            try validate(rejectedPatches, name:"rejectedPatches", min: 0)
-            try sources?.forEach {
-                try $0.validate()
-            }
-            try validate(sources, name:"sources", max: 20)
-            try validate(sources, name:"sources", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

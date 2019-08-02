@@ -47,15 +47,6 @@ extension SecretsManager {
             self.versionId = versionId
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 2048)
-            try validate(arn, name:"arn", min: 20)
-            try validate(name, name:"name", max: 256)
-            try validate(name, name:"name", min: 1)
-            try validate(versionId, name:"versionId", max: 64)
-            try validate(versionId, name:"versionId", min: 32)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case name = "Name"
@@ -147,15 +138,6 @@ extension SecretsManager {
             self.versionId = versionId
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 2048)
-            try validate(arn, name:"arn", min: 20)
-            try validate(name, name:"name", max: 256)
-            try validate(name, name:"name", min: 1)
-            try validate(versionId, name:"versionId", max: 64)
-            try validate(versionId, name:"versionId", min: 32)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case name = "Name"
@@ -199,13 +181,6 @@ extension SecretsManager {
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
-        }
-
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 2048)
-            try validate(arn, name:"arn", min: 20)
-            try validate(name, name:"name", max: 512)
-            try validate(name, name:"name", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -264,13 +239,6 @@ extension SecretsManager {
             self.arn = arn
             self.deletionDate = deletionDate
             self.name = name
-        }
-
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 2048)
-            try validate(arn, name:"arn", min: 20)
-            try validate(name, name:"name", max: 256)
-            try validate(name, name:"name", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -362,28 +330,6 @@ extension SecretsManager {
             self.versionIdsToStages = versionIdsToStages
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 2048)
-            try validate(arn, name:"arn", min: 20)
-            try validate(description, name:"description", max: 2048)
-            try validate(kmsKeyId, name:"kmsKeyId", max: 2048)
-            try validate(kmsKeyId, name:"kmsKeyId", min: 0)
-            try validate(name, name:"name", max: 256)
-            try validate(name, name:"name", min: 1)
-            try validate(rotationLambdaARN, name:"rotationLambdaARN", max: 2048)
-            try validate(rotationLambdaARN, name:"rotationLambdaARN", min: 0)
-            try rotationRules?.validate()
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try versionIdsToStages?.forEach {
-                try validate($0.key, name:"versionIdsToStages[key:]", max: 64)
-                try validate($0.key, name:"versionIdsToStages[key:]", min: 32)
-                try validate($0.value, name:"versionIdsToStages[:Value]", max: 20)
-                try validate($0.value, name:"versionIdsToStages[:Value]", min: 1)
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case deletedDate = "DeletedDate"
@@ -472,11 +418,6 @@ extension SecretsManager {
             self.randomPassword = randomPassword
         }
 
-        public func validate() throws {
-            try validate(randomPassword, name:"randomPassword", max: 4096)
-            try validate(randomPassword, name:"randomPassword", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case randomPassword = "RandomPassword"
         }
@@ -522,15 +463,6 @@ extension SecretsManager {
             self.arn = arn
             self.name = name
             self.resourcePolicy = resourcePolicy
-        }
-
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 2048)
-            try validate(arn, name:"arn", min: 20)
-            try validate(name, name:"name", max: 512)
-            try validate(name, name:"name", min: 1)
-            try validate(resourcePolicy, name:"resourcePolicy", max: 4096)
-            try validate(resourcePolicy, name:"resourcePolicy", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -612,25 +544,6 @@ extension SecretsManager {
             self.versionStages = versionStages
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 2048)
-            try validate(arn, name:"arn", min: 20)
-            try validate(name, name:"name", max: 256)
-            try validate(name, name:"name", min: 1)
-            try validate(secretBinary, name:"secretBinary", max: 7168)
-            try validate(secretBinary, name:"secretBinary", min: 0)
-            try validate(secretString, name:"secretString", max: 7168)
-            try validate(secretString, name:"secretString", min: 0)
-            try validate(versionId, name:"versionId", max: 64)
-            try validate(versionId, name:"versionId", min: 32)
-            try versionStages?.forEach {
-                try validate($0, name:"versionStages[]", max: 256)
-                try validate($0, name:"versionStages[]", min: 1)
-            }
-            try validate(versionStages, name:"versionStages", max: 20)
-            try validate(versionStages, name:"versionStages", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case createdDate = "CreatedDate"
@@ -707,18 +620,6 @@ extension SecretsManager {
             self.versions = versions
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 2048)
-            try validate(arn, name:"arn", min: 20)
-            try validate(name, name:"name", max: 256)
-            try validate(name, name:"name", min: 1)
-            try validate(nextToken, name:"nextToken", max: 4096)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try versions?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case name = "Name"
@@ -772,14 +673,6 @@ extension SecretsManager {
             self.secretList = secretList
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 4096)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try secretList?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case secretList = "SecretList"
@@ -829,13 +722,6 @@ extension SecretsManager {
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
-        }
-
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 2048)
-            try validate(arn, name:"arn", min: 20)
-            try validate(name, name:"name", max: 512)
-            try validate(name, name:"name", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -922,21 +808,6 @@ extension SecretsManager {
             self.versionStages = versionStages
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 2048)
-            try validate(arn, name:"arn", min: 20)
-            try validate(name, name:"name", max: 256)
-            try validate(name, name:"name", min: 1)
-            try validate(versionId, name:"versionId", max: 64)
-            try validate(versionId, name:"versionId", min: 32)
-            try versionStages?.forEach {
-                try validate($0, name:"versionStages[]", max: 256)
-                try validate($0, name:"versionStages[]", min: 1)
-            }
-            try validate(versionStages, name:"versionStages", max: 20)
-            try validate(versionStages, name:"versionStages", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case name = "Name"
@@ -981,13 +852,6 @@ extension SecretsManager {
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
-        }
-
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 2048)
-            try validate(arn, name:"arn", min: 20)
-            try validate(name, name:"name", max: 256)
-            try validate(name, name:"name", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1056,15 +920,6 @@ extension SecretsManager {
             self.arn = arn
             self.name = name
             self.versionId = versionId
-        }
-
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 2048)
-            try validate(arn, name:"arn", min: 20)
-            try validate(name, name:"name", max: 256)
-            try validate(name, name:"name", min: 1)
-            try validate(versionId, name:"versionId", max: 64)
-            try validate(versionId, name:"versionId", min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1156,28 +1011,6 @@ extension SecretsManager {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 2048)
-            try validate(arn, name:"arn", min: 20)
-            try validate(description, name:"description", max: 2048)
-            try validate(kmsKeyId, name:"kmsKeyId", max: 2048)
-            try validate(kmsKeyId, name:"kmsKeyId", min: 0)
-            try validate(name, name:"name", max: 256)
-            try validate(name, name:"name", min: 1)
-            try validate(rotationLambdaARN, name:"rotationLambdaARN", max: 2048)
-            try validate(rotationLambdaARN, name:"rotationLambdaARN", min: 0)
-            try rotationRules?.validate()
-            try secretVersionsToStages?.forEach {
-                try validate($0.key, name:"secretVersionsToStages[key:]", max: 64)
-                try validate($0.key, name:"secretVersionsToStages[key:]", min: 32)
-                try validate($0.value, name:"secretVersionsToStages[:Value]", max: 20)
-                try validate($0.value, name:"secretVersionsToStages[:Value]", min: 1)
-            }
-            try tags?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case deletedDate = "DeletedDate"
@@ -1217,17 +1050,6 @@ extension SecretsManager {
             self.lastAccessedDate = lastAccessedDate
             self.versionId = versionId
             self.versionStages = versionStages
-        }
-
-        public func validate() throws {
-            try validate(versionId, name:"versionId", max: 64)
-            try validate(versionId, name:"versionId", min: 32)
-            try versionStages?.forEach {
-                try validate($0, name:"versionStages[]", max: 256)
-                try validate($0, name:"versionStages[]", min: 1)
-            }
-            try validate(versionStages, name:"versionStages", max: 20)
-            try validate(versionStages, name:"versionStages", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1404,15 +1226,6 @@ extension SecretsManager {
             self.versionId = versionId
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 2048)
-            try validate(arn, name:"arn", min: 20)
-            try validate(name, name:"name", max: 256)
-            try validate(name, name:"name", min: 1)
-            try validate(versionId, name:"versionId", max: 64)
-            try validate(versionId, name:"versionId", min: 32)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case name = "Name"
@@ -1477,13 +1290,6 @@ extension SecretsManager {
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
-        }
-
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 2048)
-            try validate(arn, name:"arn", min: 20)
-            try validate(name, name:"name", max: 256)
-            try validate(name, name:"name", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

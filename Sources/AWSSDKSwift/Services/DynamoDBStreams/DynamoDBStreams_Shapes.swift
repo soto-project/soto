@@ -53,16 +53,6 @@ extension DynamoDBStreams {
             self.ss = ss
         }
 
-        public func validate() throws {
-            try l?.forEach {
-                try $0.validate()
-            }
-            try m?.forEach {
-                try validate($0.key, name:"m[key:]", max: 65535)
-                try $0.value.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case b = "B"
             case bool = "BOOL"
@@ -124,10 +114,6 @@ extension DynamoDBStreams {
             self.streamDescription = streamDescription
         }
 
-        public func validate() throws {
-            try streamDescription?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case streamDescription = "StreamDescription"
         }
@@ -175,14 +161,6 @@ extension DynamoDBStreams {
         public init(nextShardIterator: String? = nil, records: [Record]? = nil) {
             self.nextShardIterator = nextShardIterator
             self.records = records
-        }
-
-        public func validate() throws {
-            try validate(nextShardIterator, name:"nextShardIterator", max: 2048)
-            try validate(nextShardIterator, name:"nextShardIterator", min: 1)
-            try records?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -244,11 +222,6 @@ extension DynamoDBStreams {
             self.shardIterator = shardIterator
         }
 
-        public func validate() throws {
-            try validate(shardIterator, name:"shardIterator", max: 2048)
-            try validate(shardIterator, name:"shardIterator", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case shardIterator = "ShardIterator"
         }
@@ -290,11 +263,6 @@ extension DynamoDBStreams {
         public init(attributeName: String, keyType: KeyType) {
             self.attributeName = attributeName
             self.keyType = keyType
-        }
-
-        public func validate() throws {
-            try validate(attributeName, name:"attributeName", max: 255)
-            try validate(attributeName, name:"attributeName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -361,14 +329,6 @@ extension DynamoDBStreams {
             self.streams = streams
         }
 
-        public func validate() throws {
-            try validate(lastEvaluatedStreamArn, name:"lastEvaluatedStreamArn", max: 1024)
-            try validate(lastEvaluatedStreamArn, name:"lastEvaluatedStreamArn", min: 37)
-            try streams?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case lastEvaluatedStreamArn = "LastEvaluatedStreamArn"
             case streams = "Streams"
@@ -418,10 +378,6 @@ extension DynamoDBStreams {
             self.userIdentity = userIdentity
         }
 
-        public func validate() throws {
-            try dynamodb?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case awsRegion = "awsRegion"
             case dynamodb = "dynamodb"
@@ -449,13 +405,6 @@ extension DynamoDBStreams {
             self.startingSequenceNumber = startingSequenceNumber
         }
 
-        public func validate() throws {
-            try validate(endingSequenceNumber, name:"endingSequenceNumber", max: 40)
-            try validate(endingSequenceNumber, name:"endingSequenceNumber", min: 21)
-            try validate(startingSequenceNumber, name:"startingSequenceNumber", max: 40)
-            try validate(startingSequenceNumber, name:"startingSequenceNumber", min: 21)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case endingSequenceNumber = "EndingSequenceNumber"
             case startingSequenceNumber = "StartingSequenceNumber"
@@ -480,14 +429,6 @@ extension DynamoDBStreams {
             self.parentShardId = parentShardId
             self.sequenceNumberRange = sequenceNumberRange
             self.shardId = shardId
-        }
-
-        public func validate() throws {
-            try validate(parentShardId, name:"parentShardId", max: 65)
-            try validate(parentShardId, name:"parentShardId", min: 28)
-            try sequenceNumberRange?.validate()
-            try validate(shardId, name:"shardId", max: 65)
-            try validate(shardId, name:"shardId", min: 28)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -523,14 +464,6 @@ extension DynamoDBStreams {
             self.streamArn = streamArn
             self.streamLabel = streamLabel
             self.tableName = tableName
-        }
-
-        public func validate() throws {
-            try validate(streamArn, name:"streamArn", max: 1024)
-            try validate(streamArn, name:"streamArn", min: 37)
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -584,24 +517,6 @@ extension DynamoDBStreams {
             self.tableName = tableName
         }
 
-        public func validate() throws {
-            try keySchema?.forEach {
-                try $0.validate()
-            }
-            try validate(keySchema, name:"keySchema", max: 2)
-            try validate(keySchema, name:"keySchema", min: 1)
-            try validate(lastEvaluatedShardId, name:"lastEvaluatedShardId", max: 65)
-            try validate(lastEvaluatedShardId, name:"lastEvaluatedShardId", min: 28)
-            try shards?.forEach {
-                try $0.validate()
-            }
-            try validate(streamArn, name:"streamArn", max: 1024)
-            try validate(streamArn, name:"streamArn", min: 37)
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationRequestDateTime = "CreationRequestDateTime"
             case keySchema = "KeySchema"
@@ -649,24 +564,6 @@ extension DynamoDBStreams {
             self.sequenceNumber = sequenceNumber
             self.sizeBytes = sizeBytes
             self.streamViewType = streamViewType
-        }
-
-        public func validate() throws {
-            try keys?.forEach {
-                try validate($0.key, name:"keys[key:]", max: 65535)
-                try $0.value.validate()
-            }
-            try newImage?.forEach {
-                try validate($0.key, name:"newImage[key:]", max: 65535)
-                try $0.value.validate()
-            }
-            try oldImage?.forEach {
-                try validate($0.key, name:"oldImage[key:]", max: 65535)
-                try $0.value.validate()
-            }
-            try validate(sequenceNumber, name:"sequenceNumber", max: 40)
-            try validate(sequenceNumber, name:"sequenceNumber", min: 21)
-            try validate(sizeBytes, name:"sizeBytes", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -773,12 +773,6 @@ extension MediaLive {
             self.scheduleActions = scheduleActions
         }
 
-        public func validate() throws {
-            try scheduleActions.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case scheduleActions = "scheduleActions"
         }
@@ -811,12 +805,6 @@ extension MediaLive {
 
         public init(scheduleActions: [ScheduleAction]) {
             self.scheduleActions = scheduleActions
-        }
-
-        public func validate() throws {
-            try scheduleActions.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -868,11 +856,6 @@ extension MediaLive {
             self.deletes = deletes
         }
 
-        public func validate() throws {
-            try creates?.validate()
-            try deletes?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creates = "creates"
             case deletes = "deletes"
@@ -893,11 +876,6 @@ extension MediaLive {
         public init(creates: BatchScheduleActionCreateResult? = nil, deletes: BatchScheduleActionDeleteResult? = nil) {
             self.creates = creates
             self.deletes = deletes
-        }
-
-        public func validate() throws {
-            try creates?.validate()
-            try deletes?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1398,16 +1376,6 @@ extension MediaLive {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try destinations?.forEach {
-                try $0.validate()
-            }
-            try encoderSettings?.validate()
-            try inputAttachments?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case channelClass = "channelClass"
@@ -1545,15 +1513,6 @@ extension MediaLive {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try destinations?.forEach {
-                try $0.validate()
-            }
-            try inputAttachments?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case channelClass = "channelClass"
@@ -1616,16 +1575,6 @@ extension MediaLive {
             self.requestId = requestId
             self.roleArn = roleArn
             self.tags = tags
-        }
-
-        public func validate() throws {
-            try destinations?.forEach {
-                try $0.validate()
-            }
-            try encoderSettings?.validate()
-            try inputAttachments?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1715,10 +1664,6 @@ extension MediaLive {
             self.channel = channel
         }
 
-        public func validate() throws {
-            try channel?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case channel = "channel"
         }
@@ -1733,10 +1678,6 @@ extension MediaLive {
 
         public init(channel: Channel? = nil) {
             self.channel = channel
-        }
-
-        public func validate() throws {
-            try channel?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2031,16 +1972,6 @@ extension MediaLive {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try destinations?.forEach {
-                try $0.validate()
-            }
-            try encoderSettings?.validate()
-            try inputAttachments?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case channelClass = "channelClass"
@@ -2315,16 +2246,6 @@ extension MediaLive {
             self.roleArn = roleArn
             self.state = state
             self.tags = tags
-        }
-
-        public func validate() throws {
-            try destinations?.forEach {
-                try $0.validate()
-            }
-            try encoderSettings?.validate()
-            try inputAttachments?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2690,12 +2611,6 @@ extension MediaLive {
         public init(nextToken: String? = nil, scheduleActions: [ScheduleAction]? = nil) {
             self.nextToken = nextToken
             self.scheduleActions = scheduleActions
-        }
-
-        public func validate() throws {
-            try scheduleActions?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5451,12 +5366,6 @@ extension MediaLive {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try channels?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case channels = "channels"
             case nextToken = "nextToken"
@@ -5475,12 +5384,6 @@ extension MediaLive {
         public init(channels: [ChannelSummary]? = nil, nextToken: String? = nil) {
             self.channels = channels
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try channels?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7054,10 +6957,6 @@ extension MediaLive {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(count, name:"count", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case count = "count"
             case name = "name"
@@ -7669,12 +7568,6 @@ extension MediaLive {
             self.scheduleActions = scheduleActions
         }
 
-        public func validate() throws {
-            try scheduleActions.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case scheduleActions = "scheduleActions"
@@ -8257,16 +8150,6 @@ extension MediaLive {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try destinations?.forEach {
-                try $0.validate()
-            }
-            try encoderSettings?.validate()
-            try inputAttachments?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case channelClass = "channelClass"
@@ -8480,16 +8363,6 @@ extension MediaLive {
             self.roleArn = roleArn
             self.state = state
             self.tags = tags
-        }
-
-        public func validate() throws {
-            try destinations?.forEach {
-                try $0.validate()
-            }
-            try encoderSettings?.validate()
-            try inputAttachments?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8742,16 +8615,6 @@ extension MediaLive {
             self.roleArn = roleArn
         }
 
-        public func validate() throws {
-            try destinations?.forEach {
-                try $0.validate()
-            }
-            try encoderSettings?.validate()
-            try inputAttachments?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case destinations = "destinations"
             case encoderSettings = "encoderSettings"
@@ -8777,12 +8640,6 @@ extension MediaLive {
         public init(channelClass: ChannelClass, destinations: [OutputDestination]? = nil) {
             self.channelClass = channelClass
             self.destinations = destinations
-        }
-
-        public func validate() throws {
-            try destinations?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8830,10 +8687,6 @@ extension MediaLive {
 
         public init(channel: Channel? = nil) {
             self.channel = channel
-        }
-
-        public func validate() throws {
-            try channel?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8906,10 +8759,6 @@ extension MediaLive {
             self.channel = channel
         }
 
-        public func validate() throws {
-            try channel?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case channel = "channel"
         }
@@ -8924,10 +8773,6 @@ extension MediaLive {
 
         public init(channel: Channel? = nil) {
             self.channel = channel
-        }
-
-        public func validate() throws {
-            try channel?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

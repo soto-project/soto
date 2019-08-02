@@ -33,10 +33,6 @@ extension Route53Domains {
             self.price = price
         }
 
-        public func validate() throws {
-            try validate(domainName, name:"domainName", max: 255)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case billDate = "BillDate"
             case domainName = "DomainName"
@@ -571,10 +567,6 @@ extension Route53Domains {
             self.operationId = operationId
         }
 
-        public func validate() throws {
-            try validate(operationId, name:"operationId", max: 255)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operationId = "OperationId"
         }
@@ -608,10 +600,6 @@ extension Route53Domains {
             self.domainName = domainName
         }
 
-        public func validate() throws {
-            try validate(domainName, name:"domainName", max: 255)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case availability = "Availability"
             case domainName = "DomainName"
@@ -640,10 +628,6 @@ extension Route53Domains {
             self.domainName = domainName
             self.expiry = expiry
             self.transferLock = transferLock
-        }
-
-        public func validate() throws {
-            try validate(domainName, name:"domainName", max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -730,10 +714,6 @@ extension Route53Domains {
 
         public init(operationId: String) {
             self.operationId = operationId
-        }
-
-        public func validate() throws {
-            try validate(operationId, name:"operationId", max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -832,10 +812,6 @@ extension Route53Domains {
         public init(domainName: String? = nil, status: ReachabilityStatus? = nil) {
             self.domainName = domainName
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(domainName, name:"domainName", max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -957,18 +933,6 @@ extension Route53Domains {
             self.whoIsServer = whoIsServer
         }
 
-        public func validate() throws {
-            try validate(abuseContactEmail, name:"abuseContactEmail", max: 254)
-            try validate(abuseContactPhone, name:"abuseContactPhone", max: 30)
-            try adminContact.validate()
-            try validate(domainName, name:"domainName", max: 255)
-            try nameservers.forEach {
-                try $0.validate()
-            }
-            try registrantContact.validate()
-            try techContact.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case abuseContactEmail = "AbuseContactEmail"
             case abuseContactPhone = "AbuseContactPhone"
@@ -1037,12 +1001,6 @@ extension Route53Domains {
             self.suggestionsList = suggestionsList
         }
 
-        public func validate() throws {
-            try suggestionsList?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case suggestionsList = "SuggestionsList"
         }
@@ -1101,11 +1059,6 @@ extension Route53Domains {
             self.`type` = `type`
         }
 
-        public func validate() throws {
-            try validate(domainName, name:"domainName", max: 255)
-            try validate(operationId, name:"operationId", max: 255)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case domainName = "DomainName"
             case message = "Message"
@@ -1157,13 +1110,6 @@ extension Route53Domains {
         public init(domains: [DomainSummary], nextPageMarker: String? = nil) {
             self.domains = domains
             self.nextPageMarker = nextPageMarker
-        }
-
-        public func validate() throws {
-            try domains.forEach {
-                try $0.validate()
-            }
-            try validate(nextPageMarker, name:"nextPageMarker", max: 4096)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1218,13 +1164,6 @@ extension Route53Domains {
         public init(nextPageMarker: String? = nil, operations: [OperationSummary]) {
             self.nextPageMarker = nextPageMarker
             self.operations = operations
-        }
-
-        public func validate() throws {
-            try validate(nextPageMarker, name:"nextPageMarker", max: 4096)
-            try operations.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1332,10 +1271,6 @@ extension Route53Domains {
             self.status = status
             self.submittedDate = submittedDate
             self.`type` = `type`
-        }
-
-        public func validate() throws {
-            try validate(operationId, name:"operationId", max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1457,10 +1392,6 @@ extension Route53Domains {
             self.operationId = operationId
         }
 
-        public func validate() throws {
-            try validate(operationId, name:"operationId", max: 255)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operationId = "OperationId"
         }
@@ -1511,10 +1442,6 @@ extension Route53Domains {
             self.operationId = operationId
         }
 
-        public func validate() throws {
-            try validate(operationId, name:"operationId", max: 255)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operationId = "OperationId"
         }
@@ -1561,11 +1488,6 @@ extension Route53Domains {
             self.isAlreadyVerified = isAlreadyVerified
         }
 
-        public func validate() throws {
-            try validate(domainName, name:"domainName", max: 255)
-            try validate(emailAddress, name:"emailAddress", max: 254)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case domainName = "domainName"
             case emailAddress = "emailAddress"
@@ -1604,10 +1526,6 @@ extension Route53Domains {
 
         public init(authCode: String) {
             self.authCode = authCode
-        }
-
-        public func validate() throws {
-            try validate(authCode, name:"authCode", max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1735,10 +1653,6 @@ extension Route53Domains {
             self.operationId = operationId
         }
 
-        public func validate() throws {
-            try validate(operationId, name:"operationId", max: 255)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operationId = "OperationId"
         }
@@ -1799,10 +1713,6 @@ extension Route53Domains {
             self.operationId = operationId
         }
 
-        public func validate() throws {
-            try validate(operationId, name:"operationId", max: 255)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operationId = "OperationId"
         }
@@ -1859,10 +1769,6 @@ extension Route53Domains {
             self.operationId = operationId
         }
 
-        public func validate() throws {
-            try validate(operationId, name:"operationId", max: 255)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case operationId = "OperationId"
         }
@@ -1907,10 +1813,6 @@ extension Route53Domains {
 
         public init(operationId: String) {
             self.operationId = operationId
-        }
-
-        public func validate() throws {
-            try validate(operationId, name:"operationId", max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2003,13 +1905,6 @@ extension Route53Domains {
         public init(billingRecords: [BillingRecord]? = nil, nextPageMarker: String? = nil) {
             self.billingRecords = billingRecords
             self.nextPageMarker = nextPageMarker
-        }
-
-        public func validate() throws {
-            try billingRecords?.forEach {
-                try $0.validate()
-            }
-            try validate(nextPageMarker, name:"nextPageMarker", max: 4096)
         }
 
         private enum CodingKeys: String, CodingKey {

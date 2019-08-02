@@ -2030,12 +2030,6 @@ extension OpsWorks {
             self.loadBasedAutoScalingConfigurations = loadBasedAutoScalingConfigurations
         }
 
-        public func validate() throws {
-            try loadBasedAutoScalingConfigurations?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case loadBasedAutoScalingConfigurations = "LoadBasedAutoScalingConfigurations"
         }
@@ -3388,11 +3382,6 @@ extension OpsWorks {
             self.enable = enable
             self.layerId = layerId
             self.upScaling = upScaling
-        }
-
-        public func validate() throws {
-            try downScaling?.validate()
-            try upScaling?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

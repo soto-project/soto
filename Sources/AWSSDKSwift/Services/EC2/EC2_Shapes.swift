@@ -4097,10 +4097,6 @@ extension EC2 {
             self.lifecycle = lifecycle
         }
 
-        public func validate() throws {
-            try launchTemplateAndOverrides?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case errorCode = "errorCode"
             case errorMessage = "errorMessage"
@@ -4135,10 +4131,6 @@ extension EC2 {
             self.launchTemplateAndOverrides = launchTemplateAndOverrides
             self.lifecycle = lifecycle
             self.platform = platform
-        }
-
-        public func validate() throws {
-            try launchTemplateAndOverrides?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4252,15 +4244,6 @@ extension EC2 {
             self.errors = errors
             self.fleetId = fleetId
             self.instances = instances
-        }
-
-        public func validate() throws {
-            try errors?.forEach {
-                try $0.validate()
-            }
-            try instances?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4638,10 +4621,6 @@ extension EC2 {
             self.launchTemplate = launchTemplate
         }
 
-        public func validate() throws {
-            try launchTemplate?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case launchTemplate = "launchTemplate"
         }
@@ -4711,10 +4690,6 @@ extension EC2 {
 
         public init(launchTemplateVersion: LaunchTemplateVersion? = nil) {
             self.launchTemplateVersion = launchTemplateVersion
-        }
-
-        public func validate() throws {
-            try launchTemplateVersion?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7105,10 +7080,6 @@ extension EC2 {
             self.launchTemplate = launchTemplate
         }
 
-        public func validate() throws {
-            try launchTemplate?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case launchTemplate = "launchTemplate"
         }
@@ -9282,10 +9253,6 @@ extension EC2 {
             self.lifecycle = lifecycle
         }
 
-        public func validate() throws {
-            try launchTemplateAndOverrides?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case errorCode = "errorCode"
             case errorMessage = "errorMessage"
@@ -9465,10 +9432,6 @@ extension EC2 {
             self.platform = platform
         }
 
-        public func validate() throws {
-            try launchTemplateAndOverrides?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case instanceIds = "instanceIds"
             case instanceType = "instanceType"
@@ -9529,12 +9492,6 @@ extension EC2 {
         public init(fleets: [FleetData]? = nil, nextToken: String? = nil) {
             self.fleets = fleets
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try fleets?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10624,12 +10581,6 @@ extension EC2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try launchTemplateVersions?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case launchTemplateVersions = "launchTemplateVersionSet"
             case nextToken = "nextToken"
@@ -10702,12 +10653,6 @@ extension EC2 {
         public init(launchTemplates: [LaunchTemplate]? = nil, nextToken: String? = nil) {
             self.launchTemplates = launchTemplates
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try launchTemplates?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12274,12 +12219,6 @@ extension EC2 {
             self.spotFleetRequestConfigs = spotFleetRequestConfigs
         }
 
-        public func validate() throws {
-            try spotFleetRequestConfigs?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case spotFleetRequestConfigs = "spotFleetRequestConfigSet"
@@ -13384,11 +13323,6 @@ extension EC2 {
         public init(nextToken: String? = nil, vpcs: [ClassicLinkDnsSupport]? = nil) {
             self.nextToken = nextToken
             self.vpcs = vpcs
-        }
-
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 1024)
-            try validate(nextToken, name:"nextToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15800,18 +15734,6 @@ extension EC2 {
             self.validUntil = validUntil
         }
 
-        public func validate() throws {
-            try errors?.forEach {
-                try $0.validate()
-            }
-            try instances?.forEach {
-                try $0.validate()
-            }
-            try launchTemplateConfigs?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case activityStatus = "activityStatus"
             case clientToken = "clientToken"
@@ -15863,10 +15785,6 @@ extension EC2 {
         public init(launchTemplateSpecification: FleetLaunchTemplateSpecification? = nil, overrides: [FleetLaunchTemplateOverrides]? = nil) {
             self.launchTemplateSpecification = launchTemplateSpecification
             self.overrides = overrides
-        }
-
-        public func validate() throws {
-            try launchTemplateSpecification?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -20127,12 +20045,6 @@ extension EC2 {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(launchTemplateName, name:"launchTemplateName", max: 128)
-            try validate(launchTemplateName, name:"launchTemplateName", min: 3)
-            try validate(launchTemplateName, name:"launchTemplateName", pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case createdBy = "createdBy"
             case createTime = "createTime"
@@ -20158,10 +20070,6 @@ extension EC2 {
         public init(launchTemplateSpecification: FleetLaunchTemplateSpecification? = nil, overrides: FleetLaunchTemplateOverrides? = nil) {
             self.launchTemplateSpecification = launchTemplateSpecification
             self.overrides = overrides
-        }
-
-        public func validate() throws {
-            try launchTemplateSpecification?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -21105,13 +21013,6 @@ extension EC2 {
             self.launchTemplateName = launchTemplateName
             self.versionDescription = versionDescription
             self.versionNumber = versionNumber
-        }
-
-        public func validate() throws {
-            try validate(launchTemplateName, name:"launchTemplateName", max: 128)
-            try validate(launchTemplateName, name:"launchTemplateName", min: 3)
-            try validate(launchTemplateName, name:"launchTemplateName", pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
-            try validate(versionDescription, name:"versionDescription", max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -22099,10 +22000,6 @@ extension EC2 {
 
         public init(launchTemplate: LaunchTemplate? = nil) {
             self.launchTemplate = launchTemplate
-        }
-
-        public func validate() throws {
-            try launchTemplate?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -28954,10 +28851,6 @@ extension EC2 {
             self.spotFleetRequestConfig = spotFleetRequestConfig
             self.spotFleetRequestId = spotFleetRequestId
             self.spotFleetRequestState = spotFleetRequestState
-        }
-
-        public func validate() throws {
-            try spotFleetRequestConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

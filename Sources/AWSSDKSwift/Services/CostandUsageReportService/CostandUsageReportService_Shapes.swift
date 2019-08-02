@@ -110,12 +110,6 @@ extension CostandUsageReportService {
             self.reportDefinitions = reportDefinitions
         }
 
-        public func validate() throws {
-            try reportDefinitions?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case reportDefinitions = "ReportDefinitions"

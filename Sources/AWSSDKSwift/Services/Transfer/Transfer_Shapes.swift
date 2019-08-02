@@ -73,10 +73,6 @@ extension Transfer {
             self.serverId = serverId
         }
 
-        public func validate() throws {
-            try validate(serverId, name:"serverId", pattern: "^s-([0-9a-f]{17})$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case serverId = "ServerId"
         }
@@ -155,11 +151,6 @@ extension Transfer {
         public init(serverId: String, userName: String) {
             self.serverId = serverId
             self.userName = userName
-        }
-
-        public func validate() throws {
-            try validate(serverId, name:"serverId", pattern: "^s-([0-9a-f]{17})$")
-            try validate(userName, name:"userName", pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -282,10 +273,6 @@ extension Transfer {
             self.server = server
         }
 
-        public func validate() throws {
-            try server.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case server = "Server"
         }
@@ -332,11 +319,6 @@ extension Transfer {
         public init(serverId: String, user: DescribedUser) {
             self.serverId = serverId
             self.user = user
-        }
-
-        public func validate() throws {
-            try validate(serverId, name:"serverId", pattern: "^s-([0-9a-f]{17})$")
-            try user.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -397,17 +379,6 @@ extension Transfer {
             self.userCount = userCount
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 1600)
-            try validate(arn, name:"arn", min: 20)
-            try endpointDetails?.validate()
-            try identityProviderDetails?.validate()
-            try validate(loggingRole, name:"loggingRole", pattern: "arn:.*role/.*")
-            try validate(serverId, name:"serverId", pattern: "^s-([0-9a-f]{17})$")
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case endpointDetails = "EndpointDetails"
@@ -457,21 +428,6 @@ extension Transfer {
             self.sshPublicKeys = sshPublicKeys
             self.tags = tags
             self.userName = userName
-        }
-
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 1600)
-            try validate(arn, name:"arn", min: 20)
-            try validate(homeDirectory, name:"homeDirectory", max: 1024)
-            try validate(homeDirectory, name:"homeDirectory", pattern: "^$|/.*")
-            try validate(role, name:"role", pattern: "arn:.*role/.*")
-            try sshPublicKeys?.forEach {
-                try $0.validate()
-            }
-            try validate(sshPublicKeys, name:"sshPublicKeys", max: 5)
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 1)
-            try validate(userName, name:"userName", pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -598,12 +554,6 @@ extension Transfer {
             self.userName = userName
         }
 
-        public func validate() throws {
-            try validate(serverId, name:"serverId", pattern: "^s-([0-9a-f]{17})$")
-            try validate(sshPublicKeyId, name:"sshPublicKeyId", pattern: "^key-[0-9a-f]{17}$")
-            try validate(userName, name:"userName", pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case serverId = "ServerId"
             case sshPublicKeyId = "SshPublicKeyId"
@@ -654,14 +604,6 @@ extension Transfer {
         public init(nextToken: String? = nil, servers: [ListedServer]) {
             self.nextToken = nextToken
             self.servers = servers
-        }
-
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 6144)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try servers.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -726,15 +668,6 @@ extension Transfer {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 1600)
-            try validate(arn, name:"arn", min: 20)
-            try validate(nextToken, name:"nextToken", max: 6144)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case nextToken = "NextToken"
@@ -797,15 +730,6 @@ extension Transfer {
             self.users = users
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 6144)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(serverId, name:"serverId", pattern: "^s-([0-9a-f]{17})$")
-            try users.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case serverId = "ServerId"
@@ -849,13 +773,6 @@ extension Transfer {
             self.userCount = userCount
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 1600)
-            try validate(arn, name:"arn", min: 20)
-            try validate(loggingRole, name:"loggingRole", pattern: "arn:.*role/.*")
-            try validate(serverId, name:"serverId", pattern: "^s-([0-9a-f]{17})$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case endpointType = "EndpointType"
@@ -895,15 +812,6 @@ extension Transfer {
             self.userName = userName
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 1600)
-            try validate(arn, name:"arn", min: 20)
-            try validate(homeDirectory, name:"homeDirectory", max: 1024)
-            try validate(homeDirectory, name:"homeDirectory", pattern: "^$|/.*")
-            try validate(role, name:"role", pattern: "arn:.*role/.*")
-            try validate(userName, name:"userName", pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case homeDirectory = "HomeDirectory"
@@ -931,12 +839,6 @@ extension Transfer {
             self.dateImported = dateImported
             self.sshPublicKeyBody = sshPublicKeyBody
             self.sshPublicKeyId = sshPublicKeyId
-        }
-
-        public func validate() throws {
-            try validate(sshPublicKeyBody, name:"sshPublicKeyBody", max: 2048)
-            try validate(sshPublicKeyBody, name:"sshPublicKeyBody", pattern: "^ssh-rsa\\s+[A-Za-z0-9+/]+[=]{0,3}(\\s+.+)?\\s*$")
-            try validate(sshPublicKeyId, name:"sshPublicKeyId", pattern: "^key-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1199,10 +1101,6 @@ extension Transfer {
             self.serverId = serverId
         }
 
-        public func validate() throws {
-            try validate(serverId, name:"serverId", pattern: "^s-([0-9a-f]{17})$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case serverId = "ServerId"
         }
@@ -1267,11 +1165,6 @@ extension Transfer {
         public init(serverId: String, userName: String) {
             self.serverId = serverId
             self.userName = userName
-        }
-
-        public func validate() throws {
-            try validate(serverId, name:"serverId", pattern: "^s-([0-9a-f]{17})$")
-            try validate(userName, name:"userName", pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
         }
 
         private enum CodingKeys: String, CodingKey {

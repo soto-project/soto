@@ -179,15 +179,6 @@ extension OpsWorksCM {
             self.userArn = userArn
         }
 
-        public func validate() throws {
-            try validate(backupId, name:"backupId", max: 79)
-            try validate(preferredBackupWindow, name:"preferredBackupWindow", pattern: "^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$")
-            try validate(preferredMaintenanceWindow, name:"preferredMaintenanceWindow", pattern: "^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$")
-            try validate(serverName, name:"serverName", max: 40)
-            try validate(serverName, name:"serverName", min: 1)
-            try validate(serverName, name:"serverName", pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case backupArn = "BackupArn"
             case backupId = "BackupId"
@@ -266,10 +257,6 @@ extension OpsWorksCM {
 
         public init(backup: Backup? = nil) {
             self.backup = backup
-        }
-
-        public func validate() throws {
-            try backup?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -396,10 +383,6 @@ extension OpsWorksCM {
 
         public init(server: Server? = nil) {
             self.server = server
-        }
-
-        public func validate() throws {
-            try server?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -546,12 +529,6 @@ extension OpsWorksCM {
         public init(backups: [Backup]? = nil, nextToken: String? = nil) {
             self.backups = backups
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try backups?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -716,12 +693,6 @@ extension OpsWorksCM {
             self.servers = servers
         }
 
-        public func validate() throws {
-            try servers?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case servers = "Servers"
@@ -848,12 +819,6 @@ extension OpsWorksCM {
         public init(engineAttribute: EngineAttribute? = nil, serverName: String? = nil) {
             self.engineAttribute = engineAttribute
             self.serverName = serverName
-        }
-
-        public func validate() throws {
-            try validate(serverName, name:"serverName", max: 40)
-            try validate(serverName, name:"serverName", min: 1)
-            try validate(serverName, name:"serverName", pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1022,11 +987,6 @@ extension OpsWorksCM {
             self.subnetIds = subnetIds
         }
 
-        public func validate() throws {
-            try validate(preferredBackupWindow, name:"preferredBackupWindow", pattern: "^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$")
-            try validate(preferredMaintenanceWindow, name:"preferredMaintenanceWindow", pattern: "^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case associatePublicIpAddress = "AssociatePublicIpAddress"
             case backupRetentionCount = "BackupRetentionCount"
@@ -1143,10 +1103,6 @@ extension OpsWorksCM {
             self.server = server
         }
 
-        public func validate() throws {
-            try server?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case server = "Server"
         }
@@ -1198,10 +1154,6 @@ extension OpsWorksCM {
 
         public init(server: Server? = nil) {
             self.server = server
-        }
-
-        public func validate() throws {
-            try server?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1262,10 +1214,6 @@ extension OpsWorksCM {
 
         public init(server: Server? = nil) {
             self.server = server
-        }
-
-        public func validate() throws {
-            try server?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

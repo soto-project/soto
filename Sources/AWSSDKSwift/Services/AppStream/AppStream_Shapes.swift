@@ -50,18 +50,6 @@ extension AppStream {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(displayName, name:"displayName", min: 1)
-            try validate(iconURL, name:"iconURL", min: 1)
-            try validate(launchParameters, name:"launchParameters", min: 1)
-            try validate(launchPath, name:"launchPath", min: 1)
-            try metadata?.forEach {
-                try validate($0.key, name:"metadata[key:]", min: 1)
-                try validate($0.value, name:"metadata[:Value]", min: 1)
-            }
-            try validate(name, name:"name", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case displayName = "DisplayName"
             case enabled = "Enabled"
@@ -117,11 +105,6 @@ extension AppStream {
             self.enabled = enabled
             self.s3BucketName = s3BucketName
             self.settingsGroup = settingsGroup
-        }
-
-        public func validate() throws {
-            try validate(s3BucketName, name:"s3BucketName", min: 1)
-            try validate(settingsGroup, name:"settingsGroup", max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -210,12 +193,6 @@ extension AppStream {
             self.errors = errors
         }
 
-        public func validate() throws {
-            try errors?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case errors = "errors"
         }
@@ -256,12 +233,6 @@ extension AppStream {
 
         public init(errors: [UserStackAssociationError]? = nil) {
             self.errors = errors
-        }
-
-        public func validate() throws {
-            try errors?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -370,10 +341,6 @@ extension AppStream {
             self.destinationImageName = destinationImageName
         }
 
-        public func validate() throws {
-            try validate(destinationImageName, name:"destinationImageName", pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case destinationImageName = "DestinationImageName"
         }
@@ -423,10 +390,6 @@ extension AppStream {
 
         public init(directoryConfig: DirectoryConfig? = nil) {
             self.directoryConfig = directoryConfig
-        }
-
-        public func validate() throws {
-            try directoryConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -552,10 +515,6 @@ extension AppStream {
             self.fleet = fleet
         }
 
-        public func validate() throws {
-            try fleet?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case fleet = "Fleet"
         }
@@ -661,10 +620,6 @@ extension AppStream {
             self.imageBuilder = imageBuilder
         }
 
-        public func validate() throws {
-            try imageBuilder?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case imageBuilder = "ImageBuilder"
         }
@@ -710,10 +665,6 @@ extension AppStream {
         public init(expires: TimeStamp? = nil, streamingURL: String? = nil) {
             self.expires = expires
             self.streamingURL = streamingURL
-        }
-
-        public func validate() throws {
-            try validate(streamingURL, name:"streamingURL", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -812,10 +763,6 @@ extension AppStream {
             self.stack = stack
         }
 
-        public func validate() throws {
-            try stack?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case stack = "Stack"
         }
@@ -889,10 +836,6 @@ extension AppStream {
             self.streamingURL = streamingURL
         }
 
-        public func validate() throws {
-            try validate(streamingURL, name:"streamingURL", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case expires = "Expires"
             case streamingURL = "StreamingURL"
@@ -921,10 +864,6 @@ extension AppStream {
         public init(s3BucketName: String? = nil, schedule: UsageReportSchedule? = nil) {
             self.s3BucketName = s3BucketName
             self.schedule = schedule
-        }
-
-        public func validate() throws {
-            try validate(s3BucketName, name:"s3BucketName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1075,10 +1014,6 @@ extension AppStream {
             self.imageBuilder = imageBuilder
         }
 
-        public func validate() throws {
-            try imageBuilder?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case imageBuilder = "ImageBuilder"
         }
@@ -1150,10 +1085,6 @@ extension AppStream {
 
         public init(image: Image? = nil) {
             self.image = image
-        }
-
-        public func validate() throws {
-            try image?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1289,13 +1220,6 @@ extension AppStream {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try directoryConfigs?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case directoryConfigs = "DirectoryConfigs"
             case nextToken = "NextToken"
@@ -1345,13 +1269,6 @@ extension AppStream {
         public init(fleets: [Fleet]? = nil, nextToken: String? = nil) {
             self.fleets = fleets
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try fleets?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1408,13 +1325,6 @@ extension AppStream {
         public init(imageBuilders: [ImageBuilder]? = nil, nextToken: String? = nil) {
             self.imageBuilders = imageBuilders
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try imageBuilders?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1485,14 +1395,6 @@ extension AppStream {
             self.name = name
             self.nextToken = nextToken
             self.sharedImagePermissionsList = sharedImagePermissionsList
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
-            try validate(nextToken, name:"nextToken", min: 1)
-            try sharedImagePermissionsList?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1567,13 +1469,6 @@ extension AppStream {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try images?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case images = "Images"
             case nextToken = "NextToken"
@@ -1646,13 +1541,6 @@ extension AppStream {
             self.sessions = sessions
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", min: 1)
-            try sessions?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case sessions = "Sessions"
@@ -1704,13 +1592,6 @@ extension AppStream {
             self.stacks = stacks
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", min: 1)
-            try stacks?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case stacks = "Stacks"
@@ -1757,13 +1638,6 @@ extension AppStream {
         public init(nextToken: String? = nil, usageReportSubscriptions: [UsageReportSubscription]? = nil) {
             self.nextToken = nextToken
             self.usageReportSubscriptions = usageReportSubscriptions
-        }
-
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", min: 1)
-            try usageReportSubscriptions?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1835,15 +1709,6 @@ extension AppStream {
             self.userStackAssociations = userStackAssociations
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", min: 1)
-            try userStackAssociations?.forEach {
-                try $0.validate()
-            }
-            try validate(userStackAssociations, name:"userStackAssociations", max: 25)
-            try validate(userStackAssociations, name:"userStackAssociations", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case userStackAssociations = "UserStackAssociations"
@@ -1897,13 +1762,6 @@ extension AppStream {
             self.users = users
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", min: 1)
-            try users?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case users = "Users"
@@ -1932,13 +1790,6 @@ extension AppStream {
             self.directoryName = directoryName
             self.organizationalUnitDistinguishedNames = organizationalUnitDistinguishedNames
             self.serviceAccountCredentials = serviceAccountCredentials
-        }
-
-        public func validate() throws {
-            try organizationalUnitDistinguishedNames?.forEach {
-                try validate($0, name:"organizationalUnitDistinguishedNames[]", max: 2000)
-            }
-            try serviceAccountCredentials?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2191,21 +2042,6 @@ extension AppStream {
             self.vpcConfig = vpcConfig
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
-            try validate(description, name:"description", min: 1)
-            try validate(displayName, name:"displayName", min: 1)
-            try domainJoinInfo?.validate()
-            try fleetErrors?.forEach {
-                try $0.validate()
-            }
-            try validate(imageArn, name:"imageArn", pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
-            try validate(imageName, name:"imageName", min: 1)
-            try validate(instanceType, name:"instanceType", min: 1)
-            try validate(name, name:"name", min: 1)
-            try vpcConfig?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case computeCapacityStatus = "ComputeCapacityStatus"
@@ -2249,10 +2085,6 @@ extension AppStream {
         public init(errorCode: FleetErrorCode? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
-        }
-
-        public func validate() throws {
-            try validate(errorMessage, name:"errorMessage", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2377,21 +2209,6 @@ extension AppStream {
             self.visibility = visibility
         }
 
-        public func validate() throws {
-            try applications?.forEach {
-                try $0.validate()
-            }
-            try validate(appstreamAgentVersion, name:"appstreamAgentVersion", max: 100)
-            try validate(appstreamAgentVersion, name:"appstreamAgentVersion", min: 1)
-            try validate(arn, name:"arn", pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
-            try validate(baseImageArn, name:"baseImageArn", pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
-            try validate(description, name:"description", min: 1)
-            try validate(displayName, name:"displayName", min: 1)
-            try validate(imageBuilderName, name:"imageBuilderName", min: 1)
-            try validate(name, name:"name", min: 1)
-            try stateChangeReason?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case applications = "Applications"
             case appstreamAgentVersion = "AppstreamAgentVersion"
@@ -2483,24 +2300,6 @@ extension AppStream {
             self.vpcConfig = vpcConfig
         }
 
-        public func validate() throws {
-            try validate(appstreamAgentVersion, name:"appstreamAgentVersion", max: 100)
-            try validate(appstreamAgentVersion, name:"appstreamAgentVersion", min: 1)
-            try validate(arn, name:"arn", pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
-            try validate(description, name:"description", min: 1)
-            try validate(displayName, name:"displayName", min: 1)
-            try domainJoinInfo?.validate()
-            try validate(imageArn, name:"imageArn", pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
-            try imageBuilderErrors?.forEach {
-                try $0.validate()
-            }
-            try validate(instanceType, name:"instanceType", min: 1)
-            try validate(name, name:"name", min: 1)
-            try networkAccessConfiguration?.validate()
-            try stateChangeReason?.validate()
-            try vpcConfig?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case appstreamAgentVersion = "AppstreamAgentVersion"
             case arn = "Arn"
@@ -2548,10 +2347,6 @@ extension AppStream {
         public init(code: ImageBuilderStateChangeReasonCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
-        }
-
-        public func validate() throws {
-            try validate(message, name:"message", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2613,10 +2408,6 @@ extension AppStream {
             self.message = message
         }
 
-        public func validate() throws {
-            try validate(message, name:"message", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case message = "Message"
@@ -2644,10 +2435,6 @@ extension AppStream {
         public init(errorCode: UsageReportExecutionErrorCode? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
-        }
-
-        public func validate() throws {
-            try validate(errorMessage, name:"errorMessage", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2699,13 +2486,6 @@ extension AppStream {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try names?.forEach {
-                try validate($0, name:"names[]", min: 1)
-            }
-            try validate(nextToken, name:"nextToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case names = "Names"
             case nextToken = "NextToken"
@@ -2755,13 +2535,6 @@ extension AppStream {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try names?.forEach {
-                try validate($0, name:"names[]", min: 1)
-            }
-            try validate(nextToken, name:"nextToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case names = "Names"
             case nextToken = "NextToken"
@@ -2801,17 +2574,6 @@ extension AppStream {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try tags?.forEach {
-                try validate($0.key, name:"tags[key:]", max: 128)
-                try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.key, name:"tags[key:]", pattern: "^(^(?!aws:).[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
-                try validate($0.value, name:"tags[:Value]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
         }
@@ -2837,11 +2599,6 @@ extension AppStream {
         public init(eniId: String? = nil, eniPrivateIpAddress: String? = nil) {
             self.eniId = eniId
             self.eniPrivateIpAddress = eniPrivateIpAddress
-        }
-
-        public func validate() throws {
-            try validate(eniId, name:"eniId", min: 1)
-            try validate(eniPrivateIpAddress, name:"eniPrivateIpAddress", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2881,10 +2638,6 @@ extension AppStream {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.errorTimestamp = errorTimestamp
-        }
-
-        public func validate() throws {
-            try validate(errorMessage, name:"errorMessage", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2970,15 +2723,6 @@ extension AppStream {
             self.userId = userId
         }
 
-        public func validate() throws {
-            try validate(fleetName, name:"fleetName", min: 1)
-            try validate(id, name:"id", min: 1)
-            try networkAccessConfiguration?.validate()
-            try validate(stackName, name:"stackName", min: 1)
-            try validate(userId, name:"userId", max: 32)
-            try validate(userId, name:"userId", min: 2)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case authenticationType = "AuthenticationType"
             case connectionState = "ConnectionState"
@@ -3020,10 +2764,6 @@ extension AppStream {
         public init(imagePermissions: ImagePermissions, sharedAccountId: String) {
             self.imagePermissions = imagePermissions
             self.sharedAccountId = sharedAccountId
-        }
-
-        public func validate() throws {
-            try validate(sharedAccountId, name:"sharedAccountId", pattern: "^\\d+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3084,23 +2824,6 @@ extension AppStream {
             self.userSettings = userSettings
         }
 
-        public func validate() throws {
-            try applicationSettings?.validate()
-            try validate(arn, name:"arn", pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
-            try validate(description, name:"description", min: 1)
-            try validate(displayName, name:"displayName", min: 1)
-            try validate(feedbackURL, name:"feedbackURL", max: 1000)
-            try validate(name, name:"name", min: 1)
-            try validate(redirectURL, name:"redirectURL", max: 1000)
-            try stackErrors?.forEach {
-                try $0.validate()
-            }
-            try storageConnectors?.forEach {
-                try $0.validate()
-            }
-            try validate(userSettings, name:"userSettings", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case applicationSettings = "ApplicationSettings"
             case arn = "Arn"
@@ -3142,10 +2865,6 @@ extension AppStream {
         public init(errorCode: StackErrorCode? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
-        }
-
-        public func validate() throws {
-            try validate(errorMessage, name:"errorMessage", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3229,10 +2948,6 @@ extension AppStream {
             self.imageBuilder = imageBuilder
         }
 
-        public func validate() throws {
-            try imageBuilder?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case imageBuilder = "ImageBuilder"
         }
@@ -3298,10 +3013,6 @@ extension AppStream {
 
         public init(imageBuilder: ImageBuilder? = nil) {
             self.imageBuilder = imageBuilder
-        }
-
-        public func validate() throws {
-            try imageBuilder?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3480,10 +3191,6 @@ extension AppStream {
             self.directoryConfig = directoryConfig
         }
 
-        public func validate() throws {
-            try directoryConfig?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case directoryConfig = "DirectoryConfig"
         }
@@ -3592,10 +3299,6 @@ extension AppStream {
 
         public init(fleet: Fleet? = nil) {
             self.fleet = fleet
-        }
-
-        public func validate() throws {
-            try fleet?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3725,10 +3428,6 @@ extension AppStream {
             self.stack = stack
         }
 
-        public func validate() throws {
-            try stack?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case stack = "Stack"
         }
@@ -3768,13 +3467,6 @@ extension AppStream {
             self.s3BucketName = s3BucketName
             self.schedule = schedule
             self.subscriptionErrors = subscriptionErrors
-        }
-
-        public func validate() throws {
-            try validate(s3BucketName, name:"s3BucketName", min: 1)
-            try subscriptionErrors?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3823,18 +3515,6 @@ extension AppStream {
             self.lastName = lastName
             self.status = status
             self.userName = userName
-        }
-
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
-            try validate(firstName, name:"firstName", max: 2048)
-            try validate(firstName, name:"firstName", pattern: "^[A-Za-z0-9_\\-\\s]+$")
-            try validate(lastName, name:"lastName", max: 2048)
-            try validate(lastName, name:"lastName", pattern: "^[A-Za-z0-9_\\-\\s]+$")
-            try validate(status, name:"status", min: 1)
-            try validate(userName, name:"userName", max: 128)
-            try validate(userName, name:"userName", min: 1)
-            try validate(userName, name:"userName", pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3928,11 +3608,6 @@ extension AppStream {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.userStackAssociation = userStackAssociation
-        }
-
-        public func validate() throws {
-            try validate(errorMessage, name:"errorMessage", min: 1)
-            try userStackAssociation?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

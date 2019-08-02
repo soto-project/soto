@@ -86,10 +86,6 @@ extension IoTThingsGraph {
             self.summary = summary
         }
 
-        public func validate() throws {
-            try summary?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case summary = "summary"
         }
@@ -164,10 +160,6 @@ extension IoTThingsGraph {
             self.summary = summary
         }
 
-        public func validate() throws {
-            try summary?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case summary = "summary"
         }
@@ -209,10 +201,6 @@ extension IoTThingsGraph {
 
         public init(summary: SystemTemplateSummary? = nil) {
             self.summary = summary
-        }
-
-        public func validate() throws {
-            try summary?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -305,10 +293,6 @@ extension IoTThingsGraph {
             self.namespaceName = namespaceName
         }
 
-        public func validate() throws {
-            try validate(namespaceName, name:"namespaceName", max: 128)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case namespaceArn = "namespaceArn"
             case namespaceName = "namespaceName"
@@ -391,11 +375,6 @@ extension IoTThingsGraph {
             self.revisionNumber = revisionNumber
         }
 
-        public func validate() throws {
-            try validate(id, name:"id", max: 160)
-            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case id = "id"
             case revisionNumber = "revisionNumber"
@@ -438,10 +417,6 @@ extension IoTThingsGraph {
         public init(greengrassDeploymentId: String? = nil, summary: SystemInstanceSummary) {
             self.greengrassDeploymentId = greengrassDeploymentId
             self.summary = summary
-        }
-
-        public func validate() throws {
-            try summary.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -565,11 +540,6 @@ extension IoTThingsGraph {
             self.trackingNamespaceVersion = trackingNamespaceVersion
         }
 
-        public func validate() throws {
-            try validate(namespaceName, name:"namespaceName", max: 128)
-            try validate(trackingNamespaceName, name:"trackingNamespaceName", max: 128)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case namespaceArn = "namespaceArn"
             case namespaceName = "namespaceName"
@@ -641,12 +611,6 @@ extension IoTThingsGraph {
             self.definition = definition
             self.id = id
             self.`type` = `type`
-        }
-
-        public func validate() throws {
-            try definition?.validate()
-            try validate(id, name:"id", max: 160)
-            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -795,13 +759,6 @@ extension IoTThingsGraph {
             self.updatedAt = updatedAt
         }
 
-        public func validate() throws {
-            try validate(flowTemplateId, name:"flowTemplateId", max: 160)
-            try validate(flowTemplateId, name:"flowTemplateId", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
-            try validate(systemInstanceId, name:"systemInstanceId", max: 160)
-            try validate(systemInstanceId, name:"systemInstanceId", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
             case flowExecutionId = "flowExecutionId"
@@ -830,11 +787,6 @@ extension IoTThingsGraph {
             self.definition = definition
             self.summary = summary
             self.validatedNamespaceVersion = validatedNamespaceVersion
-        }
-
-        public func validate() throws {
-            try definition?.validate()
-            try summary?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -901,11 +853,6 @@ extension IoTThingsGraph {
             self.revisionNumber = revisionNumber
         }
 
-        public func validate() throws {
-            try validate(id, name:"id", max: 160)
-            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdAt = "createdAt"
@@ -957,12 +904,6 @@ extension IoTThingsGraph {
             self.descriptions = descriptions
         }
 
-        public func validate() throws {
-            try descriptions?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case descriptions = "descriptions"
         }
@@ -1005,10 +946,6 @@ extension IoTThingsGraph {
 
         public init(description: FlowTemplateDescription? = nil) {
             self.description = description
-        }
-
-        public func validate() throws {
-            try description?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1066,12 +1003,6 @@ extension IoTThingsGraph {
             self.summaries = summaries
         }
 
-        public func validate() throws {
-            try summaries?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case summaries = "summaries"
@@ -1112,10 +1043,6 @@ extension IoTThingsGraph {
             self.namespaceArn = namespaceArn
             self.namespaceName = namespaceName
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(namespaceName, name:"namespaceName", max: 128)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1161,10 +1088,6 @@ extension IoTThingsGraph {
             self.description = description
         }
 
-        public func validate() throws {
-            try description?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case description = "description"
         }
@@ -1207,10 +1130,6 @@ extension IoTThingsGraph {
 
         public init(description: SystemTemplateDescription? = nil) {
             self.description = description
-        }
-
-        public func validate() throws {
-            try description?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1266,12 +1185,6 @@ extension IoTThingsGraph {
         public init(nextToken: String? = nil, summaries: [SystemTemplateSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
-        }
-
-        public func validate() throws {
-            try summaries?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1336,12 +1249,6 @@ extension IoTThingsGraph {
             self.namespaceVersion = namespaceVersion
             self.uploadId = uploadId
             self.uploadStatus = uploadStatus
-        }
-
-        public func validate() throws {
-            try validate(namespaceName, name:"namespaceName", max: 128)
-            try validate(uploadId, name:"uploadId", max: 40)
-            try validate(uploadId, name:"uploadId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1459,14 +1366,6 @@ extension IoTThingsGraph {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case tags = "tags"
@@ -1570,12 +1469,6 @@ extension IoTThingsGraph {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try descriptions?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case descriptions = "descriptions"
             case nextToken = "nextToken"
@@ -1647,12 +1540,6 @@ extension IoTThingsGraph {
             self.summaries = summaries
         }
 
-        public func validate() throws {
-            try summaries?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case summaries = "summaries"
@@ -1710,12 +1597,6 @@ extension IoTThingsGraph {
             self.summaries = summaries
         }
 
-        public func validate() throws {
-            try summaries?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case summaries = "summaries"
@@ -1768,12 +1649,6 @@ extension IoTThingsGraph {
         public init(nextToken: String? = nil, summaries: [SystemInstanceSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
-        }
-
-        public func validate() throws {
-            try summaries?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1831,12 +1706,6 @@ extension IoTThingsGraph {
         public init(nextToken: String? = nil, summaries: [SystemTemplateSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
-        }
-
-        public func validate() throws {
-            try summaries?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1900,12 +1769,6 @@ extension IoTThingsGraph {
             self.things = things
         }
 
-        public func validate() throws {
-            try things?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case things = "things"
@@ -1956,17 +1819,6 @@ extension IoTThingsGraph {
             self.summary = summary
             self.validatedDependencyRevisions = validatedDependencyRevisions
             self.validatedNamespaceVersion = validatedNamespaceVersion
-        }
-
-        public func validate() throws {
-            try definition?.validate()
-            try validate(flowActionsRoleArn, name:"flowActionsRoleArn", max: 2048)
-            try validate(flowActionsRoleArn, name:"flowActionsRoleArn", min: 20)
-            try metricsConfiguration?.validate()
-            try summary?.validate()
-            try validatedDependencyRevisions?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2053,11 +1905,6 @@ extension IoTThingsGraph {
             self.updatedAt = updatedAt
         }
 
-        public func validate() throws {
-            try validate(id, name:"id", max: 160)
-            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdAt = "createdAt"
@@ -2089,11 +1936,6 @@ extension IoTThingsGraph {
             self.definition = definition
             self.summary = summary
             self.validatedNamespaceVersion = validatedNamespaceVersion
-        }
-
-        public func validate() throws {
-            try definition?.validate()
-            try summary?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2158,11 +2000,6 @@ extension IoTThingsGraph {
             self.createdAt = createdAt
             self.id = id
             self.revisionNumber = revisionNumber
-        }
-
-        public func validate() throws {
-            try validate(id, name:"id", max: 160)
-            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2259,12 +2096,6 @@ extension IoTThingsGraph {
             self.thingName = thingName
         }
 
-        public func validate() throws {
-            try validate(thingName, name:"thingName", max: 128)
-            try validate(thingName, name:"thingName", min: 1)
-            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case thingArn = "thingArn"
             case thingName = "thingName"
@@ -2303,10 +2134,6 @@ extension IoTThingsGraph {
 
         public init(summary: SystemInstanceSummary? = nil) {
             self.summary = summary
-        }
-
-        public func validate() throws {
-            try summary?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2401,10 +2228,6 @@ extension IoTThingsGraph {
             self.summary = summary
         }
 
-        public func validate() throws {
-            try summary?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case summary = "summary"
         }
@@ -2455,10 +2278,6 @@ extension IoTThingsGraph {
             self.summary = summary
         }
 
-        public func validate() throws {
-            try summary?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case summary = "summary"
         }
@@ -2505,11 +2324,6 @@ extension IoTThingsGraph {
 
         public init(uploadId: String) {
             self.uploadId = uploadId
-        }
-
-        public func validate() throws {
-            try validate(uploadId, name:"uploadId", max: 40)
-            try validate(uploadId, name:"uploadId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

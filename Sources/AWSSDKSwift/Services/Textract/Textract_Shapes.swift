@@ -47,13 +47,6 @@ extension Textract {
             self.documentMetadata = documentMetadata
         }
 
-        public func validate() throws {
-            try blocks?.forEach {
-                try $0.validate()
-            }
-            try documentMetadata?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case blocks = "Blocks"
             case documentMetadata = "DocumentMetadata"
@@ -118,20 +111,6 @@ extension Textract {
             self.rowSpan = rowSpan
             self.selectionStatus = selectionStatus
             self.text = text
-        }
-
-        public func validate() throws {
-            try validate(columnIndex, name:"columnIndex", min: 0)
-            try validate(columnSpan, name:"columnSpan", min: 0)
-            try validate(confidence, name:"confidence", max: 100)
-            try validate(confidence, name:"confidence", min: 0)
-            try validate(id, name:"id", pattern: ".*\\S.*")
-            try validate(page, name:"page", min: 0)
-            try relationships?.forEach {
-                try $0.validate()
-            }
-            try validate(rowIndex, name:"rowIndex", min: 0)
-            try validate(rowSpan, name:"rowSpan", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -231,13 +210,6 @@ extension Textract {
             self.documentMetadata = documentMetadata
         }
 
-        public func validate() throws {
-            try blocks?.forEach {
-                try $0.validate()
-            }
-            try documentMetadata?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case blocks = "Blocks"
             case documentMetadata = "DocumentMetadata"
@@ -303,10 +275,6 @@ extension Textract {
 
         public init(pages: Int32? = nil) {
             self.pages = pages
-        }
-
-        public func validate() throws {
-            try validate(pages, name:"pages", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -417,19 +385,6 @@ extension Textract {
             self.warnings = warnings
         }
 
-        public func validate() throws {
-            try blocks?.forEach {
-                try $0.validate()
-            }
-            try documentMetadata?.validate()
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(nextToken, name:"nextToken", pattern: ".*\\S.*")
-            try warnings?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case blocks = "Blocks"
             case documentMetadata = "DocumentMetadata"
@@ -507,19 +462,6 @@ extension Textract {
             self.nextToken = nextToken
             self.statusMessage = statusMessage
             self.warnings = warnings
-        }
-
-        public func validate() throws {
-            try blocks?.forEach {
-                try $0.validate()
-            }
-            try documentMetadata?.validate()
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(nextToken, name:"nextToken", pattern: ".*\\S.*")
-            try warnings?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -607,12 +549,6 @@ extension Textract {
         public init(ids: [String]? = nil, type: RelationshipType? = nil) {
             self.ids = ids
             self.`type` = `type`
-        }
-
-        public func validate() throws {
-            try ids?.forEach {
-                try validate($0, name:"ids[]", pattern: ".*\\S.*")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -732,12 +668,6 @@ extension Textract {
             self.jobId = jobId
         }
 
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 64)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "^[a-zA-Z0-9-_]+$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case jobId = "JobId"
         }
@@ -798,12 +728,6 @@ extension Textract {
             self.jobId = jobId
         }
 
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 64)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "^[a-zA-Z0-9-_]+$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case jobId = "JobId"
         }
@@ -823,12 +747,6 @@ extension Textract {
         public init(errorCode: String? = nil, pages: [Int32]? = nil) {
             self.errorCode = errorCode
             self.pages = pages
-        }
-
-        public func validate() throws {
-            try pages?.forEach {
-                try validate($0, name:"pages[]", min: 0)
-            }
         }
 
         private enum CodingKeys: String, CodingKey {

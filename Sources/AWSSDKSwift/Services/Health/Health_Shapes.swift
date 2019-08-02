@@ -44,19 +44,6 @@ extension Health {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(awsAccountId, name:"awsAccountId", pattern: "[0-9]{12}")
-            try validate(entityArn, name:"entityArn", max: 1600)
-            try validate(entityUrl, name:"entityUrl", pattern: "https?://.+\\.(amazon\\.com|amazonaws\\.com|amazonaws\\.cn|c2s\\.ic\\.gov|sc2s\\.sgov\\.gov|amazonaws-us-gov.com)/.*")
-            try validate(entityValue, name:"entityValue", max: 256)
-            try validate(eventArn, name:"eventArn", max: 1600)
-            try validate(eventArn, name:"eventArn", pattern: "arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}")
-            try tags?.forEach {
-                try validate($0.key, name:"tags[key:]", max: 127)
-                try validate($0.value, name:"tags[:Value]", max: 255)
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "awsAccountId"
             case entityArn = "entityArn"
@@ -148,13 +135,6 @@ extension Health {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try entities?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9=/+_.-]{4,512}")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case entities = "entities"
             case nextToken = "nextToken"
@@ -197,12 +177,6 @@ extension Health {
 
         public init(entityAggregates: [EntityAggregate]? = nil) {
             self.entityAggregates = entityAggregates
-        }
-
-        public func validate() throws {
-            try entityAggregates?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -265,10 +239,6 @@ extension Health {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9=/+_.-]{4,512}")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case eventAggregates = "eventAggregates"
             case nextToken = "nextToken"
@@ -322,15 +292,6 @@ extension Health {
         public init(failedSet: [EventDetailsErrorItem]? = nil, successfulSet: [EventDetails]? = nil) {
             self.failedSet = failedSet
             self.successfulSet = successfulSet
-        }
-
-        public func validate() throws {
-            try failedSet?.forEach {
-                try $0.validate()
-            }
-            try successfulSet?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -396,13 +357,6 @@ extension Health {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try eventTypes?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9=/+_.-]{4,512}")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case eventTypes = "eventTypes"
             case nextToken = "nextToken"
@@ -466,13 +420,6 @@ extension Health {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try events?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9=/+_.-]{4,512}")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case events = "events"
             case nextToken = "nextToken"
@@ -493,11 +440,6 @@ extension Health {
         public init(count: Int32? = nil, eventArn: String? = nil) {
             self.count = count
             self.eventArn = eventArn
-        }
-
-        public func validate() throws {
-            try validate(eventArn, name:"eventArn", max: 1600)
-            try validate(eventArn, name:"eventArn", pattern: "arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -620,17 +562,6 @@ extension Health {
             self.statusCode = statusCode
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 1600)
-            try validate(arn, name:"arn", pattern: "arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}")
-            try validate(availabilityZone, name:"availabilityZone", pattern: "[a-z]{2}\\-[0-9a-z\\-]{4,16}")
-            try validate(eventTypeCode, name:"eventTypeCode", max: 100)
-            try validate(eventTypeCode, name:"eventTypeCode", min: 3)
-            try validate(region, name:"region", pattern: "[^:/]{2,25}")
-            try validate(service, name:"service", max: 30)
-            try validate(service, name:"service", min: 2)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case availabilityZone = "availabilityZone"
@@ -704,13 +635,6 @@ extension Health {
             self.eventMetadata = eventMetadata
         }
 
-        public func validate() throws {
-            try event?.validate()
-            try eventMetadata?.forEach {
-                try validate($0.value, name:"eventMetadata[:Value]", max: 10240)
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case event = "event"
             case eventDescription = "eventDescription"
@@ -736,11 +660,6 @@ extension Health {
             self.errorMessage = errorMessage
             self.errorName = errorName
             self.eventArn = eventArn
-        }
-
-        public func validate() throws {
-            try validate(eventArn, name:"eventArn", max: 1600)
-            try validate(eventArn, name:"eventArn", pattern: "arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -895,13 +814,6 @@ extension Health {
             self.category = category
             self.code = code
             self.service = service
-        }
-
-        public func validate() throws {
-            try validate(code, name:"code", max: 100)
-            try validate(code, name:"code", min: 3)
-            try validate(service, name:"service", max: 30)
-            try validate(service, name:"service", min: 2)
         }
 
         private enum CodingKeys: String, CodingKey {

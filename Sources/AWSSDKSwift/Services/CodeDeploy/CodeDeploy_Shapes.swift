@@ -125,11 +125,6 @@ extension CodeDeploy {
             self.linkedToGitHub = linkedToGitHub
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case applicationId = "applicationId"
             case applicationName = "applicationName"
@@ -245,14 +240,6 @@ extension CodeDeploy {
             self.revisions = revisions
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try revisions?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case applicationName = "applicationName"
             case errorMessage = "errorMessage"
@@ -294,12 +281,6 @@ extension CodeDeploy {
 
         public init(applicationsInfo: [ApplicationInfo]? = nil) {
             self.applicationsInfo = applicationsInfo
-        }
-
-        public func validate() throws {
-            try applicationsInfo?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -352,12 +333,6 @@ extension CodeDeploy {
         public init(deploymentGroupsInfo: [DeploymentGroupInfo]? = nil, errorMessage: String? = nil) {
             self.deploymentGroupsInfo = deploymentGroupsInfo
             self.errorMessage = errorMessage
-        }
-
-        public func validate() throws {
-            try deploymentGroupsInfo?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -476,12 +451,6 @@ extension CodeDeploy {
 
         public init(deploymentsInfo: [DeploymentInfo]? = nil) {
             self.deploymentsInfo = deploymentsInfo
-        }
-
-        public func validate() throws {
-            try deploymentsInfo?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1088,11 +1057,6 @@ extension CodeDeploy {
             self.trafficRoutingConfig = trafficRoutingConfig
         }
 
-        public func validate() throws {
-            try validate(deploymentConfigName, name:"deploymentConfigName", max: 100)
-            try validate(deploymentConfigName, name:"deploymentConfigName", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case computePlatform = "computePlatform"
             case createTime = "createTime"
@@ -1200,15 +1164,6 @@ extension CodeDeploy {
             self.serviceRoleArn = serviceRoleArn
             self.targetRevision = targetRevision
             self.triggerConfigurations = triggerConfigurations
-        }
-
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(deploymentConfigName, name:"deploymentConfigName", max: 100)
-            try validate(deploymentConfigName, name:"deploymentConfigName", min: 1)
-            try validate(deploymentGroupName, name:"deploymentGroupName", max: 100)
-            try validate(deploymentGroupName, name:"deploymentGroupName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1350,15 +1305,6 @@ extension CodeDeploy {
             self.status = status
             self.targetInstances = targetInstances
             self.updateOutdatedInstancesOnly = updateOutdatedInstancesOnly
-        }
-
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(deploymentConfigName, name:"deploymentConfigName", max: 100)
-            try validate(deploymentConfigName, name:"deploymentConfigName", min: 1)
-            try validate(deploymentGroupName, name:"deploymentGroupName", max: 100)
-            try validate(deploymentGroupName, name:"deploymentGroupName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1884,13 +1830,6 @@ extension CodeDeploy {
             self.registerTime = registerTime
         }
 
-        public func validate() throws {
-            try deploymentGroups?.forEach {
-                try validate($0, name:"deploymentGroups[]", max: 100)
-                try validate($0, name:"deploymentGroups[]", min: 1)
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case deploymentGroups = "deploymentGroups"
             case description = "description"
@@ -1932,10 +1871,6 @@ extension CodeDeploy {
 
         public init(application: ApplicationInfo? = nil) {
             self.application = application
-        }
-
-        public func validate() throws {
-            try application?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1990,12 +1925,6 @@ extension CodeDeploy {
             self.revisionInfo = revisionInfo
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try revisionInfo?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case applicationName = "applicationName"
             case revision = "revision"
@@ -2035,10 +1964,6 @@ extension CodeDeploy {
 
         public init(deploymentConfigInfo: DeploymentConfigInfo? = nil) {
             self.deploymentConfigInfo = deploymentConfigInfo
-        }
-
-        public func validate() throws {
-            try deploymentConfigInfo?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2085,10 +2010,6 @@ extension CodeDeploy {
 
         public init(deploymentGroupInfo: DeploymentGroupInfo? = nil) {
             self.deploymentGroupInfo = deploymentGroupInfo
-        }
-
-        public func validate() throws {
-            try deploymentGroupInfo?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2162,10 +2083,6 @@ extension CodeDeploy {
 
         public init(deploymentInfo: DeploymentInfo? = nil) {
             self.deploymentInfo = deploymentInfo
-        }
-
-        public func validate() throws {
-            try deploymentInfo?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2754,13 +2671,6 @@ extension CodeDeploy {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try applications?.forEach {
-                try validate($0, name:"applications[]", max: 100)
-                try validate($0, name:"applications[]", min: 1)
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case applications = "applications"
             case nextToken = "nextToken"
@@ -2798,13 +2708,6 @@ extension CodeDeploy {
         public init(deploymentConfigsList: [String]? = nil, nextToken: String? = nil) {
             self.deploymentConfigsList = deploymentConfigsList
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try deploymentConfigsList?.forEach {
-                try validate($0, name:"deploymentConfigsList[]", max: 100)
-                try validate($0, name:"deploymentConfigsList[]", min: 1)
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2858,15 +2761,6 @@ extension CodeDeploy {
             self.applicationName = applicationName
             self.deploymentGroups = deploymentGroups
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try deploymentGroups?.forEach {
-                try validate($0, name:"deploymentGroups[]", max: 100)
-                try validate($0, name:"deploymentGroups[]", min: 1)
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3428,10 +3322,6 @@ extension CodeDeploy {
         public init(genericRevisionInfo: GenericRevisionInfo? = nil, revisionLocation: RevisionLocation? = nil) {
             self.genericRevisionInfo = genericRevisionInfo
             self.revisionLocation = revisionLocation
-        }
-
-        public func validate() throws {
-            try genericRevisionInfo?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

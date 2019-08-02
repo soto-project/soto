@@ -301,10 +301,6 @@ extension MigrationHub {
             self.migrationTask = migrationTask
         }
 
-        public func validate() throws {
-            try migrationTask?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case migrationTask = "MigrationTask"
         }
@@ -543,12 +539,6 @@ extension MigrationHub {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try createdArtifactList?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case createdArtifactList = "CreatedArtifactList"
             case nextToken = "NextToken"
@@ -614,12 +604,6 @@ extension MigrationHub {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try discoveredResourceList?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case discoveredResourceList = "DiscoveredResourceList"
             case nextToken = "NextToken"
@@ -676,12 +660,6 @@ extension MigrationHub {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try migrationTaskSummaryList?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case migrationTaskSummaryList = "MigrationTaskSummaryList"
             case nextToken = "NextToken"
@@ -731,12 +709,6 @@ extension MigrationHub {
             self.progressUpdateStreamSummaryList = progressUpdateStreamSummaryList
         }
 
-        public func validate() throws {
-            try progressUpdateStreamSummaryList?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case progressUpdateStreamSummaryList = "ProgressUpdateStreamSummaryList"
@@ -768,21 +740,6 @@ extension MigrationHub {
             self.resourceAttributeList = resourceAttributeList
             self.task = task
             self.updateDateTime = updateDateTime
-        }
-
-        public func validate() throws {
-            try validate(migrationTaskName, name:"migrationTaskName", max: 256)
-            try validate(migrationTaskName, name:"migrationTaskName", min: 1)
-            try validate(migrationTaskName, name:"migrationTaskName", pattern: "[^:|]+")
-            try validate(progressUpdateStream, name:"progressUpdateStream", max: 50)
-            try validate(progressUpdateStream, name:"progressUpdateStream", min: 1)
-            try validate(progressUpdateStream, name:"progressUpdateStream", pattern: "[^/:|\\000-\\037]+")
-            try resourceAttributeList?.forEach {
-                try $0.validate()
-            }
-            try validate(resourceAttributeList, name:"resourceAttributeList", max: 100)
-            try validate(resourceAttributeList, name:"resourceAttributeList", min: 0)
-            try task?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -823,19 +780,6 @@ extension MigrationHub {
             self.status = status
             self.statusDetail = statusDetail
             self.updateDateTime = updateDateTime
-        }
-
-        public func validate() throws {
-            try validate(migrationTaskName, name:"migrationTaskName", max: 256)
-            try validate(migrationTaskName, name:"migrationTaskName", min: 1)
-            try validate(migrationTaskName, name:"migrationTaskName", pattern: "[^:|]+")
-            try validate(progressPercent, name:"progressPercent", max: 100)
-            try validate(progressPercent, name:"progressPercent", min: 0)
-            try validate(progressUpdateStream, name:"progressUpdateStream", max: 50)
-            try validate(progressUpdateStream, name:"progressUpdateStream", min: 1)
-            try validate(progressUpdateStream, name:"progressUpdateStream", pattern: "[^/:|\\000-\\037]+")
-            try validate(statusDetail, name:"statusDetail", max: 500)
-            try validate(statusDetail, name:"statusDetail", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -959,12 +903,6 @@ extension MigrationHub {
 
         public init(progressUpdateStreamName: String? = nil) {
             self.progressUpdateStreamName = progressUpdateStreamName
-        }
-
-        public func validate() throws {
-            try validate(progressUpdateStreamName, name:"progressUpdateStreamName", max: 50)
-            try validate(progressUpdateStreamName, name:"progressUpdateStreamName", min: 1)
-            try validate(progressUpdateStreamName, name:"progressUpdateStreamName", pattern: "[^/:|\\000-\\037]+")
         }
 
         private enum CodingKeys: String, CodingKey {

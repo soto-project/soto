@@ -21,13 +21,6 @@ extension LexRuntimeService {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(text, name:"text", max: 15)
-            try validate(text, name:"text", min: 1)
-            try validate(value, name:"value", max: 1000)
-            try validate(value, name:"value", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case text = "text"
             case value = "value"
@@ -75,22 +68,6 @@ extension LexRuntimeService {
             self.imageUrl = imageUrl
             self.subTitle = subTitle
             self.title = title
-        }
-
-        public func validate() throws {
-            try validate(attachmentLinkUrl, name:"attachmentLinkUrl", max: 2048)
-            try validate(attachmentLinkUrl, name:"attachmentLinkUrl", min: 1)
-            try buttons?.forEach {
-                try $0.validate()
-            }
-            try validate(buttons, name:"buttons", max: 5)
-            try validate(buttons, name:"buttons", min: 0)
-            try validate(imageUrl, name:"imageUrl", max: 2048)
-            try validate(imageUrl, name:"imageUrl", min: 1)
-            try validate(subTitle, name:"subTitle", max: 80)
-            try validate(subTitle, name:"subTitle", min: 1)
-            try validate(title, name:"title", max: 80)
-            try validate(title, name:"title", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -220,11 +197,6 @@ extension LexRuntimeService {
             self.slotToElicit = slotToElicit
         }
 
-        public func validate() throws {
-            try validate(message, name:"message", max: 1024)
-            try validate(message, name:"message", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case audioStream = "audioStream"
             case contentType = "Content-Type"
@@ -329,12 +301,6 @@ extension LexRuntimeService {
             self.slotToElicit = slotToElicit
         }
 
-        public func validate() throws {
-            try validate(message, name:"message", max: 1024)
-            try validate(message, name:"message", min: 1)
-            try responseCard?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case dialogState = "dialogState"
             case intentName = "intentName"
@@ -365,14 +331,6 @@ extension LexRuntimeService {
             self.contentType = contentType
             self.genericAttachments = genericAttachments
             self.version = version
-        }
-
-        public func validate() throws {
-            try genericAttachments?.forEach {
-                try $0.validate()
-            }
-            try validate(genericAttachments, name:"genericAttachments", max: 10)
-            try validate(genericAttachments, name:"genericAttachments", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

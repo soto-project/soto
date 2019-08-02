@@ -248,12 +248,6 @@ extension EFS {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try fileSystems?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case fileSystems = "FileSystems"
             case marker = "Marker"
@@ -305,10 +299,6 @@ extension EFS {
 
         public init(securityGroups: [String]) {
             self.securityGroups = securityGroups
-        }
-
-        public func validate() throws {
-            try validate(securityGroups, name:"securityGroups", max: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -430,12 +420,6 @@ extension EFS {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try tags.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case marker = "Marker"
             case nextMarker = "NextMarker"
@@ -507,20 +491,6 @@ extension EFS {
             self.throughputMode = throughputMode
         }
 
-        public func validate() throws {
-            try validate(creationToken, name:"creationToken", max: 64)
-            try validate(creationToken, name:"creationToken", min: 1)
-            try validate(kmsKeyId, name:"kmsKeyId", max: 2048)
-            try validate(kmsKeyId, name:"kmsKeyId", min: 1)
-            try validate(name, name:"name", max: 256)
-            try validate(numberOfMountTargets, name:"numberOfMountTargets", min: 0)
-            try validate(provisionedThroughputInMibps, name:"provisionedThroughputInMibps", min: 1)
-            try sizeInBytes.validate()
-            try tags.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case creationToken = "CreationToken"
@@ -561,12 +531,6 @@ extension EFS {
             self.value = value
             self.valueInIA = valueInIA
             self.valueInStandard = valueInStandard
-        }
-
-        public func validate() throws {
-            try validate(value, name:"value", min: 0)
-            try validate(valueInIA, name:"valueInIA", min: 0)
-            try validate(valueInStandard, name:"valueInStandard", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

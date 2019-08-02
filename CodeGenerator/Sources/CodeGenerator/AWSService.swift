@@ -285,7 +285,6 @@ struct AWSService {
         var shapes = [Shape]()
         for (key, json) in apiJSON["shapes"].dictionaryValue {
             do {
-                //if json["deprecated"].bool == true { continue }
                 let shape = try Shape(name: key, type: shapeType(from: json))
                 shapes.append(shape)
             } catch AWSServiceError.eventStreamingCodeGenerationsAreUnsupported {
@@ -299,6 +298,42 @@ struct AWSService {
         return shapes.sorted{ $0.name < $1.name }
     }
 
+    /// flag which shape are used as input shapes and output shapes
+    private func setShapeUsed(shape: Shape, inInput: Bool = false, inOutput: Bool = false) {
+        if inInput {
+            // if value is already set then don't set again. This avoids recursive loops where shapes reference themselves
+            guard shape.usedInInput != true else {return}
+            shape.usedInInput = true
+        }
+        if inOutput {
+            // if value is already set then don't set again. This avoids recursive loops where shapes reference themselves
+            guard shape.usedInOutput != true else {return}
+            shape.usedInOutput = true
+        }
+        
+        // cannot just set children shapes to be used. The shapes that are actually output are the top level shapes. Instead I need to find the top level shape with the same name. If there isn't a toplevel shape then I use the child shape to ensure the values are propagated to any children of that child.
+        switch shape.type {
+        case .structure(let shape):
+            shape.members.forEach { member in
+                let memberShape = shapes.first(where: {$0.name == member.shape.name}) ?? member.shape
+                setShapeUsed(shape: memberShape, inInput: inInput, inOutput: inOutput)
+            }
+        case .list(let shape,_,_):
+            let memberShape = shapes.first(where: {$0.name == shape.name}) ?? shape
+            setShapeUsed(shape: memberShape, inInput: inInput, inOutput: inOutput)
+            
+        case .map(let key, let value):
+            let keyShape = shapes.first(where: {$0.name == key.name}) ?? key
+            setShapeUsed(shape: keyShape, inInput: inInput, inOutput: inOutput)
+            
+            let valueShape = shapes.first(where: {$0.name == value.name}) ?? value
+            setShapeUsed(shape: valueShape, inInput: inInput, inOutput: inOutput)
+
+        default:
+            break
+        }
+    }
+    
     private func parseOperation(shapes: [Shape]) throws -> ([Operation], [String])  {
         var operations: [Operation] = []
         var errorShapeNames: [String] = []
@@ -322,6 +357,7 @@ struct AWSService {
             var inputShape: Shape?
             if let inputShapeName = json["input"]["shape"].string {
                 if let index = shapes.index(where: { inputShapeName == $0.name }) {
+                    setShapeUsed(shape: shapes[index], inInput: true)
                     inputShape = shapes[index]
                 }
             }
@@ -329,6 +365,7 @@ struct AWSService {
             var outputShape: Shape?
             if let outputShapeName = json["output"]["shape"].string {
                 if let index = shapes.index(where: { outputShapeName == $0.name }) {
+                    setShapeUsed(shape: shapes[index], inOutput: true)
                     outputShape = shapes[index]
                 }
             }

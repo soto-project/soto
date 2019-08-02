@@ -161,16 +161,6 @@ extension XRay {
             self.unprocessedTraceIds = unprocessedTraceIds
         }
 
-        public func validate() throws {
-            try traces?.forEach {
-                try $0.validate()
-            }
-            try unprocessedTraceIds?.forEach {
-                try validate($0, name:"unprocessedTraceIds[]", max: 35)
-                try validate($0, name:"unprocessedTraceIds[]", min: 1)
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case traces = "Traces"
@@ -255,10 +245,6 @@ extension XRay {
             self.samplingRuleRecord = samplingRuleRecord
         }
 
-        public func validate() throws {
-            try samplingRuleRecord?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case samplingRuleRecord = "SamplingRuleRecord"
         }
@@ -333,10 +319,6 @@ extension XRay {
 
         public init(samplingRuleRecord: SamplingRuleRecord? = nil) {
             self.samplingRuleRecord = samplingRuleRecord
-        }
-
-        public func validate() throws {
-            try samplingRuleRecord?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -831,12 +813,6 @@ extension XRay {
             self.samplingRuleRecords = samplingRuleRecords
         }
 
-        public func validate() throws {
-            try samplingRuleRecords?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case samplingRuleRecords = "SamplingRuleRecords"
@@ -1217,12 +1193,6 @@ extension XRay {
             self.nextToken = nextToken
             self.tracesProcessedCount = tracesProcessedCount
             self.traceSummaries = traceSummaries
-        }
-
-        public func validate() throws {
-            try traceSummaries?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1728,10 +1698,6 @@ extension XRay {
             self.samplingRule = samplingRule
         }
 
-        public func validate() throws {
-            try samplingRule?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
             case modifiedAt = "ModifiedAt"
@@ -1998,10 +1964,6 @@ extension XRay {
             self.id = id
         }
 
-        public func validate() throws {
-            try validate(document, name:"document", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case document = "Document"
             case id = "Id"
@@ -2242,14 +2204,6 @@ extension XRay {
             self.segments = segments
         }
 
-        public func validate() throws {
-            try validate(id, name:"id", max: 35)
-            try validate(id, name:"id", min: 1)
-            try segments?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case duration = "Duration"
             case id = "Id"
@@ -2343,11 +2297,6 @@ extension XRay {
             self.revision = revision
             self.serviceIds = serviceIds
             self.users = users
-        }
-
-        public func validate() throws {
-            try validate(id, name:"id", max: 35)
-            try validate(id, name:"id", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2532,10 +2481,6 @@ extension XRay {
 
         public init(samplingRuleRecord: SamplingRuleRecord? = nil) {
             self.samplingRuleRecord = samplingRuleRecord
-        }
-
-        public func validate() throws {
-            try samplingRuleRecord?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

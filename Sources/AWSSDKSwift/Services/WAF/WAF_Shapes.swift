@@ -75,13 +75,6 @@ extension WAF {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(byteMatchSetId, name:"byteMatchSetId", max: 128)
-            try validate(byteMatchSetId, name:"byteMatchSetId", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case byteMatchSetId = "ByteMatchSetId"
             case byteMatchTuples = "ByteMatchTuples"
@@ -103,13 +96,6 @@ extension WAF {
         public init(byteMatchSetId: String, name: String) {
             self.byteMatchSetId = byteMatchSetId
             self.name = name
-        }
-
-        public func validate() throws {
-            try validate(byteMatchSetId, name:"byteMatchSetId", max: 128)
-            try validate(byteMatchSetId, name:"byteMatchSetId", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -239,11 +225,6 @@ extension WAF {
             self.changeToken = changeToken
         }
 
-        public func validate() throws {
-            try byteMatchSet?.validate()
-            try validate(changeToken, name:"changeToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case byteMatchSet = "ByteMatchSet"
             case changeToken = "ChangeToken"
@@ -294,11 +275,6 @@ extension WAF {
             self.geoMatchSet = geoMatchSet
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try geoMatchSet?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case geoMatchSet = "GeoMatchSet"
@@ -347,11 +323,6 @@ extension WAF {
         public init(changeToken: String? = nil, iPSet: IPSet? = nil) {
             self.changeToken = changeToken
             self.iPSet = iPSet
-        }
-
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try iPSet?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -429,11 +400,6 @@ extension WAF {
             self.rule = rule
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try rule?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case rule = "Rule"
@@ -484,11 +450,6 @@ extension WAF {
             self.regexMatchSet = regexMatchSet
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try regexMatchSet?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case regexMatchSet = "RegexMatchSet"
@@ -537,11 +498,6 @@ extension WAF {
         public init(changeToken: String? = nil, regexPatternSet: RegexPatternSet? = nil) {
             self.changeToken = changeToken
             self.regexPatternSet = regexPatternSet
-        }
-
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try regexPatternSet?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -607,11 +563,6 @@ extension WAF {
             self.ruleGroup = ruleGroup
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try ruleGroup?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case ruleGroup = "RuleGroup"
@@ -675,11 +626,6 @@ extension WAF {
             self.rule = rule
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try rule?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case rule = "Rule"
@@ -730,11 +676,6 @@ extension WAF {
             self.sizeConstraintSet = sizeConstraintSet
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try sizeConstraintSet?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case sizeConstraintSet = "SizeConstraintSet"
@@ -783,11 +724,6 @@ extension WAF {
         public init(changeToken: String? = nil, sqlInjectionMatchSet: SqlInjectionMatchSet? = nil) {
             self.changeToken = changeToken
             self.sqlInjectionMatchSet = sqlInjectionMatchSet
-        }
-
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try sqlInjectionMatchSet?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -858,11 +794,6 @@ extension WAF {
             self.webACL = webACL
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try webACL?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case webACL = "WebACL"
@@ -913,11 +844,6 @@ extension WAF {
             self.xssMatchSet = xssMatchSet
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try xssMatchSet?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case xssMatchSet = "XssMatchSet"
@@ -962,10 +888,6 @@ extension WAF {
 
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
-        }
-
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1013,10 +935,6 @@ extension WAF {
             self.changeToken = changeToken
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
         }
@@ -1060,10 +978,6 @@ extension WAF {
 
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
-        }
-
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1171,10 +1085,6 @@ extension WAF {
             self.changeToken = changeToken
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
         }
@@ -1218,10 +1128,6 @@ extension WAF {
 
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
-        }
-
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1269,10 +1175,6 @@ extension WAF {
             self.changeToken = changeToken
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
         }
@@ -1316,10 +1218,6 @@ extension WAF {
 
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
-        }
-
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1367,10 +1265,6 @@ extension WAF {
             self.changeToken = changeToken
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
         }
@@ -1414,10 +1308,6 @@ extension WAF {
 
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
-        }
-
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1465,10 +1355,6 @@ extension WAF {
             self.changeToken = changeToken
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
         }
@@ -1514,10 +1400,6 @@ extension WAF {
             self.changeToken = changeToken
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
         }
@@ -1561,10 +1443,6 @@ extension WAF {
 
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
-        }
-
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1916,13 +1794,6 @@ extension WAF {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(geoMatchSetId, name:"geoMatchSetId", max: 128)
-            try validate(geoMatchSetId, name:"geoMatchSetId", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case geoMatchConstraints = "GeoMatchConstraints"
             case geoMatchSetId = "GeoMatchSetId"
@@ -1944,13 +1815,6 @@ extension WAF {
         public init(geoMatchSetId: String, name: String) {
             self.geoMatchSetId = geoMatchSetId
             self.name = name
-        }
-
-        public func validate() throws {
-            try validate(geoMatchSetId, name:"geoMatchSetId", max: 128)
-            try validate(geoMatchSetId, name:"geoMatchSetId", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2015,10 +1879,6 @@ extension WAF {
             self.byteMatchSet = byteMatchSet
         }
 
-        public func validate() throws {
-            try byteMatchSet?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case byteMatchSet = "ByteMatchSet"
         }
@@ -2042,10 +1902,6 @@ extension WAF {
 
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
-        }
-
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2125,10 +1981,6 @@ extension WAF {
             self.geoMatchSet = geoMatchSet
         }
 
-        public func validate() throws {
-            try geoMatchSet?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case geoMatchSet = "GeoMatchSet"
         }
@@ -2166,10 +2018,6 @@ extension WAF {
 
         public init(iPSet: IPSet? = nil) {
             self.iPSet = iPSet
-        }
-
-        public func validate() throws {
-            try iPSet?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2211,10 +2059,6 @@ extension WAF {
             self.loggingConfiguration = loggingConfiguration
         }
 
-        public func validate() throws {
-            try loggingConfiguration?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case loggingConfiguration = "LoggingConfiguration"
         }
@@ -2252,10 +2096,6 @@ extension WAF {
 
         public init(policy: String? = nil) {
             self.policy = policy
-        }
-
-        public func validate() throws {
-            try validate(policy, name:"policy", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2307,10 +2147,6 @@ extension WAF {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case managedKeys = "ManagedKeys"
             case nextMarker = "NextMarker"
@@ -2349,10 +2185,6 @@ extension WAF {
 
         public init(rule: RateBasedRule? = nil) {
             self.rule = rule
-        }
-
-        public func validate() throws {
-            try rule?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2394,10 +2226,6 @@ extension WAF {
             self.regexMatchSet = regexMatchSet
         }
 
-        public func validate() throws {
-            try regexMatchSet?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case regexMatchSet = "RegexMatchSet"
         }
@@ -2435,10 +2263,6 @@ extension WAF {
 
         public init(regexPatternSet: RegexPatternSet? = nil) {
             self.regexPatternSet = regexPatternSet
-        }
-
-        public func validate() throws {
-            try regexPatternSet?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2480,10 +2304,6 @@ extension WAF {
             self.ruleGroup = ruleGroup
         }
 
-        public func validate() throws {
-            try ruleGroup?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case ruleGroup = "RuleGroup"
         }
@@ -2521,10 +2341,6 @@ extension WAF {
 
         public init(rule: Rule? = nil) {
             self.rule = rule
-        }
-
-        public func validate() throws {
-            try rule?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2593,12 +2409,6 @@ extension WAF {
             self.timeWindow = timeWindow
         }
 
-        public func validate() throws {
-            try sampledRequests?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case populationSize = "PopulationSize"
             case sampledRequests = "SampledRequests"
@@ -2640,10 +2450,6 @@ extension WAF {
             self.sizeConstraintSet = sizeConstraintSet
         }
 
-        public func validate() throws {
-            try sizeConstraintSet?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case sizeConstraintSet = "SizeConstraintSet"
         }
@@ -2681,10 +2487,6 @@ extension WAF {
 
         public init(sqlInjectionMatchSet: SqlInjectionMatchSet? = nil) {
             self.sqlInjectionMatchSet = sqlInjectionMatchSet
-        }
-
-        public func validate() throws {
-            try sqlInjectionMatchSet?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2726,10 +2528,6 @@ extension WAF {
             self.webACL = webACL
         }
 
-        public func validate() throws {
-            try webACL?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case webACL = "WebACL"
         }
@@ -2767,10 +2565,6 @@ extension WAF {
 
         public init(xssMatchSet: XssMatchSet? = nil) {
             self.xssMatchSet = xssMatchSet
-        }
-
-        public func validate() throws {
-            try xssMatchSet?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2862,13 +2656,6 @@ extension WAF {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(iPSetId, name:"iPSetId", max: 128)
-            try validate(iPSetId, name:"iPSetId", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case iPSetDescriptors = "IPSetDescriptors"
             case iPSetId = "IPSetId"
@@ -2918,13 +2705,6 @@ extension WAF {
         public init(iPSetId: String, name: String) {
             self.iPSetId = iPSetId
             self.name = name
-        }
-
-        public func validate() throws {
-            try validate(iPSetId, name:"iPSetId", max: 128)
-            try validate(iPSetId, name:"iPSetId", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3006,13 +2786,6 @@ extension WAF {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try activatedRules?.forEach {
-                try $0.validate()
-            }
-            try validate(nextMarker, name:"nextMarker", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case activatedRules = "ActivatedRules"
             case nextMarker = "NextMarker"
@@ -3061,13 +2834,6 @@ extension WAF {
         public init(byteMatchSets: [ByteMatchSetSummary]? = nil, nextMarker: String? = nil) {
             self.byteMatchSets = byteMatchSets
             self.nextMarker = nextMarker
-        }
-
-        public func validate() throws {
-            try byteMatchSets?.forEach {
-                try $0.validate()
-            }
-            try validate(nextMarker, name:"nextMarker", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3120,13 +2886,6 @@ extension WAF {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try geoMatchSets?.forEach {
-                try $0.validate()
-            }
-            try validate(nextMarker, name:"nextMarker", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case geoMatchSets = "GeoMatchSets"
             case nextMarker = "NextMarker"
@@ -3175,13 +2934,6 @@ extension WAF {
         public init(iPSets: [IPSetSummary]? = nil, nextMarker: String? = nil) {
             self.iPSets = iPSets
             self.nextMarker = nextMarker
-        }
-
-        public func validate() throws {
-            try iPSets?.forEach {
-                try $0.validate()
-            }
-            try validate(nextMarker, name:"nextMarker", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3234,13 +2986,6 @@ extension WAF {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try loggingConfigurations?.forEach {
-                try $0.validate()
-            }
-            try validate(nextMarker, name:"nextMarker", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case loggingConfigurations = "LoggingConfigurations"
             case nextMarker = "NextMarker"
@@ -3289,13 +3034,6 @@ extension WAF {
         public init(nextMarker: String? = nil, rules: [RuleSummary]? = nil) {
             self.nextMarker = nextMarker
             self.rules = rules
-        }
-
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", min: 1)
-            try rules?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3348,13 +3086,6 @@ extension WAF {
             self.regexMatchSets = regexMatchSets
         }
 
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", min: 1)
-            try regexMatchSets?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextMarker = "NextMarker"
             case regexMatchSets = "RegexMatchSets"
@@ -3403,13 +3134,6 @@ extension WAF {
         public init(nextMarker: String? = nil, regexPatternSets: [RegexPatternSetSummary]? = nil) {
             self.nextMarker = nextMarker
             self.regexPatternSets = regexPatternSets
-        }
-
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", min: 1)
-            try regexPatternSets?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3462,13 +3186,6 @@ extension WAF {
             self.ruleGroups = ruleGroups
         }
 
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", min: 1)
-            try ruleGroups?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextMarker = "NextMarker"
             case ruleGroups = "RuleGroups"
@@ -3517,13 +3234,6 @@ extension WAF {
         public init(nextMarker: String? = nil, rules: [RuleSummary]? = nil) {
             self.nextMarker = nextMarker
             self.rules = rules
-        }
-
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", min: 1)
-            try rules?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3576,13 +3286,6 @@ extension WAF {
             self.sizeConstraintSets = sizeConstraintSets
         }
 
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", min: 1)
-            try sizeConstraintSets?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextMarker = "NextMarker"
             case sizeConstraintSets = "SizeConstraintSets"
@@ -3633,13 +3336,6 @@ extension WAF {
             self.sqlInjectionMatchSets = sqlInjectionMatchSets
         }
 
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", min: 1)
-            try sqlInjectionMatchSets?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextMarker = "NextMarker"
             case sqlInjectionMatchSets = "SqlInjectionMatchSets"
@@ -3688,13 +3384,6 @@ extension WAF {
         public init(nextMarker: String? = nil, ruleGroups: [SubscribedRuleGroupSummary]? = nil) {
             self.nextMarker = nextMarker
             self.ruleGroups = ruleGroups
-        }
-
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", min: 1)
-            try ruleGroups?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3749,11 +3438,6 @@ extension WAF {
             self.tagInfoForResource = tagInfoForResource
         }
 
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", min: 1)
-            try tagInfoForResource?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextMarker = "NextMarker"
             case tagInfoForResource = "TagInfoForResource"
@@ -3804,13 +3488,6 @@ extension WAF {
             self.webACLs = webACLs
         }
 
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", min: 1)
-            try webACLs?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextMarker = "NextMarker"
             case webACLs = "WebACLs"
@@ -3859,13 +3536,6 @@ extension WAF {
         public init(nextMarker: String? = nil, xssMatchSets: [XssMatchSetSummary]? = nil) {
             self.nextMarker = nextMarker
             self.xssMatchSets = xssMatchSets
-        }
-
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", min: 1)
-            try xssMatchSets?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4038,10 +3708,6 @@ extension WAF {
             self.loggingConfiguration = loggingConfiguration
         }
 
-        public func validate() throws {
-            try loggingConfiguration?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case loggingConfiguration = "LoggingConfiguration"
         }
@@ -4115,18 +3781,6 @@ extension WAF {
             self.ruleId = ruleId
         }
 
-        public func validate() throws {
-            try matchPredicates.forEach {
-                try $0.validate()
-            }
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(rateLimit, name:"rateLimit", max: 2000000000)
-            try validate(rateLimit, name:"rateLimit", min: 2000)
-            try validate(ruleId, name:"ruleId", max: 128)
-            try validate(ruleId, name:"ruleId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case matchPredicates = "MatchPredicates"
             case metricName = "MetricName"
@@ -4162,16 +3816,6 @@ extension WAF {
             self.regexMatchTuples = regexMatchTuples
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(regexMatchSetId, name:"regexMatchSetId", max: 128)
-            try validate(regexMatchSetId, name:"regexMatchSetId", min: 1)
-            try regexMatchTuples?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case regexMatchSetId = "RegexMatchSetId"
@@ -4193,13 +3837,6 @@ extension WAF {
         public init(name: String, regexMatchSetId: String) {
             self.name = name
             self.regexMatchSetId = regexMatchSetId
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(regexMatchSetId, name:"regexMatchSetId", max: 128)
-            try validate(regexMatchSetId, name:"regexMatchSetId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4286,17 +3923,6 @@ extension WAF {
             self.regexPatternStrings = regexPatternStrings
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(regexPatternSetId, name:"regexPatternSetId", max: 128)
-            try validate(regexPatternSetId, name:"regexPatternSetId", min: 1)
-            try regexPatternStrings.forEach {
-                try validate($0, name:"regexPatternStrings[]", min: 1)
-            }
-            try validate(regexPatternStrings, name:"regexPatternStrings", max: 10)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case regexPatternSetId = "RegexPatternSetId"
@@ -4318,13 +3944,6 @@ extension WAF {
         public init(name: String, regexPatternSetId: String) {
             self.name = name
             self.regexPatternSetId = regexPatternSetId
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(regexPatternSetId, name:"regexPatternSetId", max: 128)
-            try validate(regexPatternSetId, name:"regexPatternSetId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4383,16 +4002,6 @@ extension WAF {
             self.ruleId = ruleId
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try predicates.forEach {
-                try $0.validate()
-            }
-            try validate(ruleId, name:"ruleId", max: 128)
-            try validate(ruleId, name:"ruleId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case metricName = "MetricName"
             case name = "Name"
@@ -4421,13 +4030,6 @@ extension WAF {
             self.ruleGroupId = ruleGroupId
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(ruleGroupId, name:"ruleGroupId", max: 128)
-            try validate(ruleGroupId, name:"ruleGroupId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case metricName = "MetricName"
             case name = "Name"
@@ -4449,13 +4051,6 @@ extension WAF {
         public init(name: String, ruleGroupId: String) {
             self.name = name
             self.ruleGroupId = ruleGroupId
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(ruleGroupId, name:"ruleGroupId", max: 128)
-            try validate(ruleGroupId, name:"ruleGroupId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4504,13 +4099,6 @@ extension WAF {
         public init(name: String, ruleId: String) {
             self.name = name
             self.ruleId = ruleId
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(ruleId, name:"ruleId", max: 128)
-            try validate(ruleId, name:"ruleId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4571,12 +4159,6 @@ extension WAF {
             self.ruleWithinRuleGroup = ruleWithinRuleGroup
             self.timestamp = timestamp
             self.weight = weight
-        }
-
-        public func validate() throws {
-            try validate(ruleWithinRuleGroup, name:"ruleWithinRuleGroup", max: 128)
-            try validate(ruleWithinRuleGroup, name:"ruleWithinRuleGroup", min: 1)
-            try validate(weight, name:"weight", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4645,16 +4227,6 @@ extension WAF {
             self.sizeConstraintSetId = sizeConstraintSetId
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try sizeConstraints.forEach {
-                try $0.validate()
-            }
-            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", max: 128)
-            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case sizeConstraints = "SizeConstraints"
@@ -4676,13 +4248,6 @@ extension WAF {
         public init(name: String, sizeConstraintSetId: String) {
             self.name = name
             self.sizeConstraintSetId = sizeConstraintSetId
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", max: 128)
-            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4737,13 +4302,6 @@ extension WAF {
             self.sqlInjectionMatchTuples = sqlInjectionMatchTuples
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", max: 128)
-            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case sqlInjectionMatchSetId = "SqlInjectionMatchSetId"
@@ -4765,13 +4323,6 @@ extension WAF {
         public init(name: String, sqlInjectionMatchSetId: String) {
             self.name = name
             self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", max: 128)
-            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4844,13 +4395,6 @@ extension WAF {
             self.ruleGroupId = ruleGroupId
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(ruleGroupId, name:"ruleGroupId", max: 128)
-            try validate(ruleGroupId, name:"ruleGroupId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case metricName = "MetricName"
             case name = "Name"
@@ -4897,15 +4441,6 @@ extension WAF {
         public init(resourceARN: String? = nil, tagList: [Tag]? = nil) {
             self.resourceARN = resourceARN
             self.tagList = tagList
-        }
-
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 1224)
-            try validate(resourceARN, name:"resourceARN", min: 1)
-            try tagList?.forEach {
-                try $0.validate()
-            }
-            try validate(tagList, name:"tagList", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5067,10 +4602,6 @@ extension WAF {
             self.changeToken = changeToken
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
         }
@@ -5122,10 +4653,6 @@ extension WAF {
             self.changeToken = changeToken
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
         }
@@ -5175,10 +4702,6 @@ extension WAF {
 
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
-        }
-
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5241,10 +4764,6 @@ extension WAF {
             self.changeToken = changeToken
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
         }
@@ -5297,10 +4816,6 @@ extension WAF {
 
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
-        }
-
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5357,10 +4872,6 @@ extension WAF {
             self.changeToken = changeToken
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
         }
@@ -5415,10 +4926,6 @@ extension WAF {
             self.changeToken = changeToken
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
         }
@@ -5470,10 +4977,6 @@ extension WAF {
 
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
-        }
-
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5530,10 +5033,6 @@ extension WAF {
             self.changeToken = changeToken
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
         }
@@ -5583,10 +5082,6 @@ extension WAF {
 
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
-        }
-
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5647,10 +5142,6 @@ extension WAF {
             self.changeToken = changeToken
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
         }
@@ -5700,10 +5191,6 @@ extension WAF {
 
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
-        }
-
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5797,18 +5284,6 @@ extension WAF {
             self.webACLId = webACLId
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try rules.forEach {
-                try $0.validate()
-            }
-            try validate(webACLArn, name:"webACLArn", max: 1224)
-            try validate(webACLArn, name:"webACLArn", min: 1)
-            try validate(webACLId, name:"webACLId", max: 128)
-            try validate(webACLId, name:"webACLId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case defaultAction = "DefaultAction"
             case metricName = "MetricName"
@@ -5833,13 +5308,6 @@ extension WAF {
         public init(name: String, webACLId: String) {
             self.name = name
             self.webACLId = webACLId
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(webACLId, name:"webACLId", max: 128)
-            try validate(webACLId, name:"webACLId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5894,13 +5362,6 @@ extension WAF {
             self.xssMatchTuples = xssMatchTuples
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(xssMatchSetId, name:"xssMatchSetId", max: 128)
-            try validate(xssMatchSetId, name:"xssMatchSetId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case xssMatchSetId = "XssMatchSetId"
@@ -5922,13 +5383,6 @@ extension WAF {
         public init(name: String, xssMatchSetId: String) {
             self.name = name
             self.xssMatchSetId = xssMatchSetId
-        }
-
-        public func validate() throws {
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(xssMatchSetId, name:"xssMatchSetId", max: 128)
-            try validate(xssMatchSetId, name:"xssMatchSetId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

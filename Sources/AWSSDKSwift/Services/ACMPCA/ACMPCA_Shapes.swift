@@ -194,14 +194,6 @@ extension ACMPCA {
             self.`type` = `type`
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 200)
-            try validate(arn, name:"arn", min: 5)
-            try validate(arn, name:"arn", pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]*:[\\w+=,.@-]+(/[\\w+=/,.@-]+)*")
-            try certificateAuthorityConfiguration?.validate()
-            try revocationConfiguration?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case certificateAuthorityConfiguration = "CertificateAuthorityConfiguration"
@@ -315,12 +307,6 @@ extension ACMPCA {
             self.s3Key = s3Key
         }
 
-        public func validate() throws {
-            try validate(auditReportId, name:"auditReportId", max: 36)
-            try validate(auditReportId, name:"auditReportId", min: 36)
-            try validate(auditReportId, name:"auditReportId", pattern: "[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case auditReportId = "AuditReportId"
             case s3Key = "S3Key"
@@ -387,12 +373,6 @@ extension ACMPCA {
 
         public init(certificateAuthorityArn: String? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
-        }
-
-        public func validate() throws {
-            try validate(certificateAuthorityArn, name:"certificateAuthorityArn", max: 200)
-            try validate(certificateAuthorityArn, name:"certificateAuthorityArn", min: 5)
-            try validate(certificateAuthorityArn, name:"certificateAuthorityArn", pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]*:[\\w+=,.@-]+(/[\\w+=/,.@-]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -654,10 +634,6 @@ extension ACMPCA {
             self.certificateAuthority = certificateAuthority
         }
 
-        public func validate() throws {
-            try certificateAuthority?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case certificateAuthority = "CertificateAuthority"
         }
@@ -914,12 +890,6 @@ extension ACMPCA {
             self.certificateArn = certificateArn
         }
 
-        public func validate() throws {
-            try validate(certificateArn, name:"certificateArn", max: 200)
-            try validate(certificateArn, name:"certificateArn", min: 5)
-            try validate(certificateArn, name:"certificateArn", pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]*:[\\w+=,.@-]+(/[\\w+=/,.@-]+)*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "CertificateArn"
         }
@@ -976,14 +946,6 @@ extension ACMPCA {
         public init(certificateAuthorities: [CertificateAuthority]? = nil, nextToken: String? = nil) {
             self.certificateAuthorities = certificateAuthorities
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try certificateAuthorities?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 500)
-            try validate(nextToken, name:"nextToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1045,15 +1007,6 @@ extension ACMPCA {
             self.permissions = permissions
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 500)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try permissions?.forEach {
-                try $0.validate()
-            }
-            try validate(permissions, name:"permissions", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case permissions = "Permissions"
@@ -1113,16 +1066,6 @@ extension ACMPCA {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 500)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try tags?.forEach {
-                try $0.validate()
-            }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case tags = "Tags"
@@ -1159,14 +1102,6 @@ extension ACMPCA {
             self.policy = policy
             self.principal = principal
             self.sourceAccount = sourceAccount
-        }
-
-        public func validate() throws {
-            try validate(actions, name:"actions", max: 3)
-            try validate(actions, name:"actions", min: 1)
-            try validate(certificateAuthorityArn, name:"certificateAuthorityArn", max: 200)
-            try validate(certificateAuthorityArn, name:"certificateAuthorityArn", min: 5)
-            try validate(certificateAuthorityArn, name:"certificateAuthorityArn", pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]*:[\\w+=,.@-]+(/[\\w+=/,.@-]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {

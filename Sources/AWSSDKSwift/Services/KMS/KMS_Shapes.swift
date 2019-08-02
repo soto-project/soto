@@ -32,16 +32,6 @@ extension KMS {
             self.targetKeyId = targetKeyId
         }
 
-        public func validate() throws {
-            try validate(aliasArn, name:"aliasArn", max: 2048)
-            try validate(aliasArn, name:"aliasArn", min: 20)
-            try validate(aliasName, name:"aliasName", max: 256)
-            try validate(aliasName, name:"aliasName", min: 1)
-            try validate(aliasName, name:"aliasName", pattern: "^[a-zA-Z0-9:/_-]+$")
-            try validate(targetKeyId, name:"targetKeyId", max: 2048)
-            try validate(targetKeyId, name:"targetKeyId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case aliasArn = "AliasArn"
             case aliasName = "AliasName"
@@ -81,11 +71,6 @@ extension KMS {
 
         public init(keyId: String? = nil) {
             self.keyId = keyId
-        }
-
-        public func validate() throws {
-            try validate(keyId, name:"keyId", max: 2048)
-            try validate(keyId, name:"keyId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -226,11 +211,6 @@ extension KMS {
             self.customKeyStoreId = customKeyStoreId
         }
 
-        public func validate() throws {
-            try validate(customKeyStoreId, name:"customKeyStoreId", max: 64)
-            try validate(customKeyStoreId, name:"customKeyStoreId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case customKeyStoreId = "CustomKeyStoreId"
         }
@@ -319,13 +299,6 @@ extension KMS {
             self.grantToken = grantToken
         }
 
-        public func validate() throws {
-            try validate(grantId, name:"grantId", max: 128)
-            try validate(grantId, name:"grantId", min: 1)
-            try validate(grantToken, name:"grantToken", max: 8192)
-            try validate(grantToken, name:"grantToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case grantId = "GrantId"
             case grantToken = "GrantToken"
@@ -404,10 +377,6 @@ extension KMS {
             self.keyMetadata = keyMetadata
         }
 
-        public func validate() throws {
-            try keyMetadata?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case keyMetadata = "KeyMetadata"
         }
@@ -447,17 +416,6 @@ extension KMS {
             self.customKeyStoreId = customKeyStoreId
             self.customKeyStoreName = customKeyStoreName
             self.trustAnchorCertificate = trustAnchorCertificate
-        }
-
-        public func validate() throws {
-            try validate(cloudHsmClusterId, name:"cloudHsmClusterId", max: 24)
-            try validate(cloudHsmClusterId, name:"cloudHsmClusterId", min: 19)
-            try validate(customKeyStoreId, name:"customKeyStoreId", max: 64)
-            try validate(customKeyStoreId, name:"customKeyStoreId", min: 1)
-            try validate(customKeyStoreName, name:"customKeyStoreName", max: 256)
-            try validate(customKeyStoreName, name:"customKeyStoreName", min: 1)
-            try validate(trustAnchorCertificate, name:"trustAnchorCertificate", max: 5000)
-            try validate(trustAnchorCertificate, name:"trustAnchorCertificate", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -529,13 +487,6 @@ extension KMS {
         public init(keyId: String? = nil, plaintext: Data? = nil) {
             self.keyId = keyId
             self.plaintext = plaintext
-        }
-
-        public func validate() throws {
-            try validate(keyId, name:"keyId", max: 2048)
-            try validate(keyId, name:"keyId", min: 1)
-            try validate(plaintext, name:"plaintext", max: 4096)
-            try validate(plaintext, name:"plaintext", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -683,15 +634,6 @@ extension KMS {
             self.truncated = truncated
         }
 
-        public func validate() throws {
-            try customKeyStores?.forEach {
-                try $0.validate()
-            }
-            try validate(nextMarker, name:"nextMarker", max: 1024)
-            try validate(nextMarker, name:"nextMarker", min: 1)
-            try validate(nextMarker, name:"nextMarker", pattern: "[\\u0020-\\u00FF]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case customKeyStores = "CustomKeyStores"
             case nextMarker = "NextMarker"
@@ -742,10 +684,6 @@ extension KMS {
 
         public init(keyMetadata: KeyMetadata? = nil) {
             self.keyMetadata = keyMetadata
-        }
-
-        public func validate() throws {
-            try keyMetadata?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -932,13 +870,6 @@ extension KMS {
             self.keyId = keyId
         }
 
-        public func validate() throws {
-            try validate(ciphertextBlob, name:"ciphertextBlob", max: 6144)
-            try validate(ciphertextBlob, name:"ciphertextBlob", min: 1)
-            try validate(keyId, name:"keyId", max: 2048)
-            try validate(keyId, name:"keyId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case ciphertextBlob = "CiphertextBlob"
             case keyId = "KeyId"
@@ -1021,15 +952,6 @@ extension KMS {
             self.plaintext = plaintext
         }
 
-        public func validate() throws {
-            try validate(ciphertextBlob, name:"ciphertextBlob", max: 6144)
-            try validate(ciphertextBlob, name:"ciphertextBlob", min: 1)
-            try validate(keyId, name:"keyId", max: 2048)
-            try validate(keyId, name:"keyId", min: 1)
-            try validate(plaintext, name:"plaintext", max: 4096)
-            try validate(plaintext, name:"plaintext", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case ciphertextBlob = "CiphertextBlob"
             case keyId = "KeyId"
@@ -1103,13 +1025,6 @@ extension KMS {
             self.keyId = keyId
         }
 
-        public func validate() throws {
-            try validate(ciphertextBlob, name:"ciphertextBlob", max: 6144)
-            try validate(ciphertextBlob, name:"ciphertextBlob", min: 1)
-            try validate(keyId, name:"keyId", max: 2048)
-            try validate(keyId, name:"keyId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case ciphertextBlob = "CiphertextBlob"
             case keyId = "KeyId"
@@ -1157,11 +1072,6 @@ extension KMS {
             self.plaintext = plaintext
         }
 
-        public func validate() throws {
-            try validate(plaintext, name:"plaintext", max: 4096)
-            try validate(plaintext, name:"plaintext", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case plaintext = "Plaintext"
         }
@@ -1207,12 +1117,6 @@ extension KMS {
 
         public init(policy: String? = nil) {
             self.policy = policy
-        }
-
-        public func validate() throws {
-            try validate(policy, name:"policy", max: 131072)
-            try validate(policy, name:"policy", min: 1)
-            try validate(policy, name:"policy", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1315,15 +1219,6 @@ extension KMS {
             self.publicKey = publicKey
         }
 
-        public func validate() throws {
-            try validate(importToken, name:"importToken", max: 6144)
-            try validate(importToken, name:"importToken", min: 1)
-            try validate(keyId, name:"keyId", max: 2048)
-            try validate(keyId, name:"keyId", min: 1)
-            try validate(publicKey, name:"publicKey", max: 4096)
-            try validate(publicKey, name:"publicKey", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case importToken = "ImportToken"
             case keyId = "KeyId"
@@ -1396,25 +1291,6 @@ extension KMS {
             self.name = name
             self.operations = operations
             self.retiringPrincipal = retiringPrincipal
-        }
-
-        public func validate() throws {
-            try validate(granteePrincipal, name:"granteePrincipal", max: 256)
-            try validate(granteePrincipal, name:"granteePrincipal", min: 1)
-            try validate(granteePrincipal, name:"granteePrincipal", pattern: "^[\\w+=,.@:/-]+$")
-            try validate(grantId, name:"grantId", max: 128)
-            try validate(grantId, name:"grantId", min: 1)
-            try validate(issuingAccount, name:"issuingAccount", max: 256)
-            try validate(issuingAccount, name:"issuingAccount", min: 1)
-            try validate(issuingAccount, name:"issuingAccount", pattern: "^[\\w+=,.@:/-]+$")
-            try validate(keyId, name:"keyId", max: 2048)
-            try validate(keyId, name:"keyId", min: 1)
-            try validate(name, name:"name", max: 256)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9:/_-]+$")
-            try validate(retiringPrincipal, name:"retiringPrincipal", max: 256)
-            try validate(retiringPrincipal, name:"retiringPrincipal", min: 1)
-            try validate(retiringPrincipal, name:"retiringPrincipal", pattern: "^[\\w+=,.@:/-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1513,13 +1389,6 @@ extension KMS {
             self.keyId = keyId
         }
 
-        public func validate() throws {
-            try validate(keyArn, name:"keyArn", max: 2048)
-            try validate(keyArn, name:"keyArn", min: 20)
-            try validate(keyId, name:"keyId", max: 2048)
-            try validate(keyId, name:"keyId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case keyArn = "KeyArn"
             case keyId = "KeyId"
@@ -1598,19 +1467,6 @@ extension KMS {
             self.keyUsage = keyUsage
             self.origin = origin
             self.validTo = validTo
-        }
-
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 2048)
-            try validate(arn, name:"arn", min: 20)
-            try validate(cloudHsmClusterId, name:"cloudHsmClusterId", max: 24)
-            try validate(cloudHsmClusterId, name:"cloudHsmClusterId", min: 19)
-            try validate(customKeyStoreId, name:"customKeyStoreId", max: 64)
-            try validate(customKeyStoreId, name:"customKeyStoreId", min: 1)
-            try validate(description, name:"description", max: 8192)
-            try validate(description, name:"description", min: 0)
-            try validate(keyId, name:"keyId", max: 2048)
-            try validate(keyId, name:"keyId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1703,15 +1559,6 @@ extension KMS {
             self.truncated = truncated
         }
 
-        public func validate() throws {
-            try aliases?.forEach {
-                try $0.validate()
-            }
-            try validate(nextMarker, name:"nextMarker", max: 1024)
-            try validate(nextMarker, name:"nextMarker", min: 1)
-            try validate(nextMarker, name:"nextMarker", pattern: "[\\u0020-\\u00FF]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case aliases = "Aliases"
             case nextMarker = "NextMarker"
@@ -1774,15 +1621,6 @@ extension KMS {
             self.grants = grants
             self.nextMarker = nextMarker
             self.truncated = truncated
-        }
-
-        public func validate() throws {
-            try grants?.forEach {
-                try $0.validate()
-            }
-            try validate(nextMarker, name:"nextMarker", max: 1024)
-            try validate(nextMarker, name:"nextMarker", min: 1)
-            try validate(nextMarker, name:"nextMarker", pattern: "[\\u0020-\\u00FF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1849,17 +1687,6 @@ extension KMS {
             self.truncated = truncated
         }
 
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", max: 1024)
-            try validate(nextMarker, name:"nextMarker", min: 1)
-            try validate(nextMarker, name:"nextMarker", pattern: "[\\u0020-\\u00FF]*")
-            try policyNames?.forEach {
-                try validate($0, name:"policyNames[]", max: 128)
-                try validate($0, name:"policyNames[]", min: 1)
-                try validate($0, name:"policyNames[]", pattern: "[\\w]+")
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextMarker = "NextMarker"
             case policyNames = "PolicyNames"
@@ -1915,15 +1742,6 @@ extension KMS {
             self.keys = keys
             self.nextMarker = nextMarker
             self.truncated = truncated
-        }
-
-        public func validate() throws {
-            try keys?.forEach {
-                try $0.validate()
-            }
-            try validate(nextMarker, name:"nextMarker", max: 1024)
-            try validate(nextMarker, name:"nextMarker", min: 1)
-            try validate(nextMarker, name:"nextMarker", pattern: "[\\u0020-\\u00FF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1988,15 +1806,6 @@ extension KMS {
             self.nextMarker = nextMarker
             self.tags = tags
             self.truncated = truncated
-        }
-
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", max: 1024)
-            try validate(nextMarker, name:"nextMarker", min: 1)
-            try validate(nextMarker, name:"nextMarker", pattern: "[\\u0020-\\u00FF]*")
-            try tags?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2164,15 +1973,6 @@ extension KMS {
             self.sourceKeyId = sourceKeyId
         }
 
-        public func validate() throws {
-            try validate(ciphertextBlob, name:"ciphertextBlob", max: 6144)
-            try validate(ciphertextBlob, name:"ciphertextBlob", min: 1)
-            try validate(keyId, name:"keyId", max: 2048)
-            try validate(keyId, name:"keyId", min: 1)
-            try validate(sourceKeyId, name:"sourceKeyId", max: 2048)
-            try validate(sourceKeyId, name:"sourceKeyId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case ciphertextBlob = "CiphertextBlob"
             case keyId = "KeyId"
@@ -2288,11 +2088,6 @@ extension KMS {
         public init(deletionDate: TimeStamp? = nil, keyId: String? = nil) {
             self.deletionDate = deletionDate
             self.keyId = keyId
-        }
-
-        public func validate() throws {
-            try validate(keyId, name:"keyId", max: 2048)
-            try validate(keyId, name:"keyId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

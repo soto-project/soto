@@ -46,10 +46,6 @@ extension CloudHSM {
             self.status = status
         }
 
-        public func validate() throws {
-            try validate(status, name:"status", pattern: "[\\w :+=./\\\\-]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case status = "Status"
         }
@@ -99,10 +95,6 @@ extension CloudHSM {
 
         public init(hapgArn: String? = nil) {
             self.hapgArn = hapgArn
-        }
-
-        public func validate() throws {
-            try validate(hapgArn, name:"hapgArn", pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hapg-[0-9a-f]{8}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -183,10 +175,6 @@ extension CloudHSM {
             self.hsmArn = hsmArn
         }
 
-        public func validate() throws {
-            try validate(hsmArn, name:"hsmArn", pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hsm-[0-9a-f]{8}")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case hsmArn = "HsmArn"
         }
@@ -233,10 +221,6 @@ extension CloudHSM {
             self.clientArn = clientArn
         }
 
-        public func validate() throws {
-            try validate(clientArn, name:"clientArn", pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:client-[0-9a-f]{8}")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case clientArn = "ClientArn"
         }
@@ -273,10 +257,6 @@ extension CloudHSM {
 
         public init(status: String) {
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(status, name:"status", pattern: "[\\w :+=./\\\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -317,10 +297,6 @@ extension CloudHSM {
             self.status = status
         }
 
-        public func validate() throws {
-            try validate(status, name:"status", pattern: "[\\w :+=./\\\\-]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case status = "Status"
         }
@@ -357,10 +333,6 @@ extension CloudHSM {
 
         public init(status: String) {
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(status, name:"status", pattern: "[\\w :+=./\\\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -428,25 +400,6 @@ extension CloudHSM {
             self.lastModifiedTimestamp = lastModifiedTimestamp
             self.partitionSerialList = partitionSerialList
             self.state = state
-        }
-
-        public func validate() throws {
-            try validate(hapgArn, name:"hapgArn", pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hapg-[0-9a-f]{8}")
-            try validate(hapgSerial, name:"hapgSerial", pattern: "[\\w :+=./\\\\-]*")
-            try hsmsLastActionFailed?.forEach {
-                try validate($0, name:"hsmsLastActionFailed[]", pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hsm-[0-9a-f]{8}")
-            }
-            try hsmsPendingDeletion?.forEach {
-                try validate($0, name:"hsmsPendingDeletion[]", pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hsm-[0-9a-f]{8}")
-            }
-            try hsmsPendingRegistration?.forEach {
-                try validate($0, name:"hsmsPendingRegistration[]", pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hsm-[0-9a-f]{8}")
-            }
-            try validate(label, name:"label", pattern: "[a-zA-Z0-9_.-]{1,64}")
-            try validate(lastModifiedTimestamp, name:"lastModifiedTimestamp", pattern: "\\d*")
-            try partitionSerialList?.forEach {
-                try validate($0, name:"partitionSerialList[]", pattern: "\\d{6,12}")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -580,30 +533,6 @@ extension CloudHSM {
             self.vpcId = vpcId
         }
 
-        public func validate() throws {
-            try validate(availabilityZone, name:"availabilityZone", pattern: "[a-zA-Z0-9\\-]*")
-            try validate(eniId, name:"eniId", pattern: "eni-[0-9a-f]{8}")
-            try validate(eniIp, name:"eniIp", pattern: "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}")
-            try validate(hsmArn, name:"hsmArn", pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hsm-[0-9a-f]{8}")
-            try validate(hsmType, name:"hsmType", pattern: "[\\w :+=./\\\\-]*")
-            try validate(iamRoleArn, name:"iamRoleArn", pattern: "arn:aws(-iso)?:iam::[0-9]{12}:role/[a-zA-Z0-9_\\+=,\\.\\-@]{1,64}")
-            try partitions?.forEach {
-                try validate($0, name:"partitions[]", pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hsm-[0-9a-f]{8}/partition-[0-9]{6,12}")
-            }
-            try validate(serialNumber, name:"serialNumber", pattern: "\\d{1,16}")
-            try validate(serverCertLastUpdated, name:"serverCertLastUpdated", pattern: "\\d*")
-            try validate(serverCertUri, name:"serverCertUri", pattern: "[\\w :+=./\\\\-]*")
-            try validate(softwareVersion, name:"softwareVersion", pattern: "[\\w :+=./\\\\-]*")
-            try validate(sshKeyLastUpdated, name:"sshKeyLastUpdated", pattern: "\\d*")
-            try validate(sshPublicKey, name:"sshPublicKey", pattern: "[a-zA-Z0-9+/= ._:\\\\@-]*")
-            try validate(statusDetails, name:"statusDetails", pattern: "[\\w :+=./\\\\-]*")
-            try validate(subnetId, name:"subnetId", pattern: "subnet-[0-9a-f]{8}")
-            try validate(subscriptionEndDate, name:"subscriptionEndDate", pattern: "\\d*")
-            try validate(subscriptionStartDate, name:"subscriptionStartDate", pattern: "\\d*")
-            try validate(vendorName, name:"vendorName", pattern: "[\\w :+=./\\\\-]*")
-            try validate(vpcId, name:"vpcId", pattern: "vpc-[0-9a-f]{8}")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
             case eniId = "EniId"
@@ -684,16 +613,6 @@ extension CloudHSM {
             self.lastModifiedTimestamp = lastModifiedTimestamp
         }
 
-        public func validate() throws {
-            try validate(certificate, name:"certificate", max: 2400)
-            try validate(certificate, name:"certificate", min: 600)
-            try validate(certificate, name:"certificate", pattern: "[\\w :+=./\\n-]*")
-            try validate(certificateFingerprint, name:"certificateFingerprint", pattern: "([0-9a-fA-F][0-9a-fA-F]:){15}[0-9a-fA-F][0-9a-fA-F]")
-            try validate(clientArn, name:"clientArn", pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:client-[0-9a-f]{8}")
-            try validate(label, name:"label", pattern: "[a-zA-Z0-9_.-]{1,64}")
-            try validate(lastModifiedTimestamp, name:"lastModifiedTimestamp", pattern: "\\d*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case certificate = "Certificate"
             case certificateFingerprint = "CertificateFingerprint"
@@ -757,12 +676,6 @@ extension CloudHSM {
             self.configType = configType
         }
 
-        public func validate() throws {
-            try validate(configCred, name:"configCred", pattern: "[\\w :+=./\\\\-]*")
-            try validate(configFile, name:"configFile", pattern: "[\\w :+=./\\\\-]*")
-            try validate(configType, name:"configType", pattern: "[\\w :+=./\\\\-]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case configCred = "ConfigCred"
             case configFile = "ConfigFile"
@@ -799,12 +712,6 @@ extension CloudHSM {
 
         public init(aZList: [String]? = nil) {
             self.aZList = aZList
-        }
-
-        public func validate() throws {
-            try aZList?.forEach {
-                try validate($0, name:"aZList[]", pattern: "[a-zA-Z0-9\\-]*")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -847,13 +754,6 @@ extension CloudHSM {
         public init(hapgList: [String], nextToken: String? = nil) {
             self.hapgList = hapgList
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try hapgList.forEach {
-                try validate($0, name:"hapgList[]", pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hapg-[0-9a-f]{8}")
-            }
-            try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9+/]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -899,13 +799,6 @@ extension CloudHSM {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try hsmList?.forEach {
-                try validate($0, name:"hsmList[]", pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hsm-[0-9a-f]{8}")
-            }
-            try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9+/]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case hsmList = "HsmList"
             case nextToken = "NextToken"
@@ -949,13 +842,6 @@ extension CloudHSM {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try clientList.forEach {
-                try validate($0, name:"clientList[]", pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:client-[0-9a-f]{8}")
-            }
-            try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9+/]*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case clientList = "ClientList"
             case nextToken = "NextToken"
@@ -993,12 +879,6 @@ extension CloudHSM {
 
         public init(tagList: [Tag]) {
             self.tagList = tagList
-        }
-
-        public func validate() throws {
-            try tagList.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1051,10 +931,6 @@ extension CloudHSM {
 
         public init(hapgArn: String? = nil) {
             self.hapgArn = hapgArn
-        }
-
-        public func validate() throws {
-            try validate(hapgArn, name:"hapgArn", pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hapg-[0-9a-f]{8}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1125,10 +1001,6 @@ extension CloudHSM {
             self.hsmArn = hsmArn
         }
 
-        public func validate() throws {
-            try validate(hsmArn, name:"hsmArn", pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:hsm-[0-9a-f]{8}")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case hsmArn = "HsmArn"
         }
@@ -1173,10 +1045,6 @@ extension CloudHSM {
 
         public init(clientArn: String? = nil) {
             self.clientArn = clientArn
-        }
-
-        public func validate() throws {
-            try validate(clientArn, name:"clientArn", pattern: "arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\\-]*:[0-9]{12}:client-[0-9a-f]{8}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1224,10 +1092,6 @@ extension CloudHSM {
 
         public init(status: String) {
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(status, name:"status", pattern: "[\\w :+=./\\\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {

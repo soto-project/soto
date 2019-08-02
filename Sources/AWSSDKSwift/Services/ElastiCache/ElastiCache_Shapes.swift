@@ -840,10 +840,6 @@ extension ElastiCache {
             self.snapshot = snapshot
         }
 
-        public func validate() throws {
-            try snapshot?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case snapshot = "Snapshot"
         }
@@ -1328,10 +1324,6 @@ extension ElastiCache {
             self.snapshot = snapshot
         }
 
-        public func validate() throws {
-            try snapshot?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case snapshot = "Snapshot"
         }
@@ -1554,10 +1546,6 @@ extension ElastiCache {
 
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
-        }
-
-        public func validate() throws {
-            try snapshot?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2023,12 +2011,6 @@ extension ElastiCache {
         public init(marker: String? = nil, snapshots: [Snapshot]? = nil) {
             self.marker = marker
             self.snapshots = snapshots
-        }
-
-        public func validate() throws {
-            try snapshots?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2970,10 +2952,6 @@ extension ElastiCache {
             self.nodeGroupConfiguration = nodeGroupConfiguration
             self.nodeGroupId = nodeGroupId
             self.snapshotCreateTime = snapshotCreateTime
-        }
-
-        public func validate() throws {
-            try nodeGroupConfiguration?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3985,12 +3963,6 @@ extension ElastiCache {
             self.snapshotWindow = snapshotWindow
             self.topicArn = topicArn
             self.vpcId = vpcId
-        }
-
-        public func validate() throws {
-            try nodeSnapshots?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {

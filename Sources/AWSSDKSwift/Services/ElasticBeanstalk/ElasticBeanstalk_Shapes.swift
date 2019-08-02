@@ -94,20 +94,6 @@ extension ElasticBeanstalk {
             self.versions = versions
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try configurationTemplates?.forEach {
-                try validate($0, name:"configurationTemplates[]", max: 100)
-                try validate($0, name:"configurationTemplates[]", min: 1)
-            }
-            try validate(description, name:"description", max: 200)
-            try versions?.forEach {
-                try validate($0, name:"versions[]", max: 100)
-                try validate($0, name:"versions[]", min: 1)
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case applicationArn = "ApplicationArn"
             case applicationName = "ApplicationName"
@@ -132,10 +118,6 @@ extension ElasticBeanstalk {
             self.application = application
         }
 
-        public func validate() throws {
-            try application?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case application = "Application"
         }
@@ -151,12 +133,6 @@ extension ElasticBeanstalk {
 
         public init(applications: [ApplicationDescription]? = nil) {
             self.applications = applications
-        }
-
-        public func validate() throws {
-            try applications?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -234,11 +210,6 @@ extension ElasticBeanstalk {
             self.resourceLifecycleConfig = resourceLifecycleConfig
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case resourceLifecycleConfig = "ResourceLifecycleConfig"
@@ -293,16 +264,6 @@ extension ElasticBeanstalk {
             self.versionLabel = versionLabel
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(description, name:"description", max: 200)
-            try sourceBuildInformation?.validate()
-            try sourceBundle?.validate()
-            try validate(versionLabel, name:"versionLabel", max: 100)
-            try validate(versionLabel, name:"versionLabel", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case applicationVersionArn = "ApplicationVersionArn"
@@ -329,10 +290,6 @@ extension ElasticBeanstalk {
             self.applicationVersion = applicationVersion
         }
 
-        public func validate() throws {
-            try applicationVersion?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case applicationVersion = "ApplicationVersion"
         }
@@ -352,12 +309,6 @@ extension ElasticBeanstalk {
         public init(applicationVersions: [ApplicationVersionDescription]? = nil, nextToken: String? = nil) {
             self.applicationVersions = applicationVersions
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try applicationVersions?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -622,11 +573,6 @@ extension ElasticBeanstalk {
             self.fullyQualifiedCNAME = fullyQualifiedCNAME
         }
 
-        public func validate() throws {
-            try validate(fullyQualifiedCNAME, name:"fullyQualifiedCNAME", max: 255)
-            try validate(fullyQualifiedCNAME, name:"fullyQualifiedCNAME", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case available = "Available"
             case fullyQualifiedCNAME = "FullyQualifiedCNAME"
@@ -870,19 +816,6 @@ extension ElasticBeanstalk {
             self.templateName = templateName
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(description, name:"description", max: 200)
-            try validate(environmentName, name:"environmentName", max: 40)
-            try validate(environmentName, name:"environmentName", min: 4)
-            try optionSettings?.forEach {
-                try $0.validate()
-            }
-            try validate(templateName, name:"templateName", max: 100)
-            try validate(templateName, name:"templateName", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case dateCreated = "DateCreated"
@@ -907,12 +840,6 @@ extension ElasticBeanstalk {
 
         public init(configurationSettings: [ConfigurationSettingsDescription]? = nil) {
             self.configurationSettings = configurationSettings
-        }
-
-        public func validate() throws {
-            try configurationSettings?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1309,10 +1236,6 @@ extension ElasticBeanstalk {
 
         public init(s3Bucket: String? = nil) {
             self.s3Bucket = s3Bucket
-        }
-
-        public func validate() throws {
-            try validate(s3Bucket, name:"s3Bucket", max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1773,15 +1696,6 @@ extension ElasticBeanstalk {
             self.status = status
         }
 
-        public func validate() throws {
-            try causes?.forEach {
-                try validate($0, name:"causes[]", max: 255)
-                try validate($0, name:"causes[]", min: 1)
-            }
-            try validate(environmentName, name:"environmentName", max: 40)
-            try validate(environmentName, name:"environmentName", min: 4)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case applicationMetrics = "ApplicationMetrics"
             case causes = "Causes"
@@ -1847,11 +1761,6 @@ extension ElasticBeanstalk {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(managedActionHistoryItems, name:"managedActionHistoryItems", max: 100)
-            try validate(managedActionHistoryItems, name:"managedActionHistoryItems", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case managedActionHistoryItems = "ManagedActionHistoryItems"
             case nextToken = "NextToken"
@@ -1895,11 +1804,6 @@ extension ElasticBeanstalk {
 
         public init(managedActions: [ManagedAction]? = nil) {
             self.managedActions = managedActions
-        }
-
-        public func validate() throws {
-            try validate(managedActions, name:"managedActions", max: 100)
-            try validate(managedActions, name:"managedActions", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2143,14 +2047,6 @@ extension ElasticBeanstalk {
             self.refreshedAt = refreshedAt
         }
 
-        public func validate() throws {
-            try instanceHealthList?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 100)
-            try validate(nextToken, name:"nextToken", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case instanceHealthList = "InstanceHealthList"
             case nextToken = "NextToken"
@@ -2185,10 +2081,6 @@ extension ElasticBeanstalk {
 
         public init(platformDescription: PlatformDescription? = nil) {
             self.platformDescription = platformDescription
-        }
-
-        public func validate() throws {
-            try platformDescription?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2284,20 +2176,6 @@ extension ElasticBeanstalk {
             self.versionLabel = versionLabel
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(cname, name:"cname", max: 255)
-            try validate(cname, name:"cname", min: 1)
-            try validate(description, name:"description", max: 200)
-            try validate(environmentName, name:"environmentName", max: 40)
-            try validate(environmentName, name:"environmentName", min: 4)
-            try validate(templateName, name:"templateName", max: 100)
-            try validate(templateName, name:"templateName", min: 1)
-            try validate(versionLabel, name:"versionLabel", max: 100)
-            try validate(versionLabel, name:"versionLabel", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case abortableOperationInProgress = "AbortableOperationInProgress"
             case applicationName = "ApplicationName"
@@ -2336,12 +2214,6 @@ extension ElasticBeanstalk {
         public init(environments: [EnvironmentDescription]? = nil, nextToken: String? = nil) {
             self.environments = environments
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try environments?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2483,11 +2355,6 @@ extension ElasticBeanstalk {
             self.triggers = triggers
         }
 
-        public func validate() throws {
-            try validate(environmentName, name:"environmentName", max: 40)
-            try validate(environmentName, name:"environmentName", min: 4)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroups = "AutoScalingGroups"
             case environmentName = "EnvironmentName"
@@ -2510,10 +2377,6 @@ extension ElasticBeanstalk {
 
         public init(environmentResources: EnvironmentResourceDescription? = nil) {
             self.environmentResources = environmentResources
-        }
-
-        public func validate() throws {
-            try environmentResources?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2618,17 +2481,6 @@ extension ElasticBeanstalk {
             self.versionLabel = versionLabel
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(environmentName, name:"environmentName", max: 40)
-            try validate(environmentName, name:"environmentName", min: 4)
-            try validate(templateName, name:"templateName", max: 100)
-            try validate(templateName, name:"templateName", min: 1)
-            try validate(versionLabel, name:"versionLabel", max: 100)
-            try validate(versionLabel, name:"versionLabel", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case environmentName = "EnvironmentName"
@@ -2656,12 +2508,6 @@ extension ElasticBeanstalk {
         public init(events: [EventDescription]? = nil, nextToken: String? = nil) {
             self.events = events
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try events?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2875,12 +2721,6 @@ extension ElasticBeanstalk {
         public init(solutionStackDetails: [SolutionStackDescription]? = nil, solutionStacks: [String]? = nil) {
             self.solutionStackDetails = solutionStackDetails
             self.solutionStacks = solutionStacks
-        }
-
-        public func validate() throws {
-            try solutionStackDetails?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3302,10 +3142,6 @@ extension ElasticBeanstalk {
             self.supportedTierList = supportedTierList
         }
 
-        public func validate() throws {
-            try validate(description, name:"description", max: 200)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case customAmiList = "CustomAmiList"
             case dateCreated = "DateCreated"
@@ -3611,12 +3447,6 @@ extension ElasticBeanstalk {
             self.resourceTags = resourceTags
         }
 
-        public func validate() throws {
-            try resourceTags?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "ResourceArn"
             case resourceTags = "ResourceTags"
@@ -3774,15 +3604,6 @@ extension ElasticBeanstalk {
             self.system = system
         }
 
-        public func validate() throws {
-            try causes?.forEach {
-                try validate($0, name:"causes[]", max: 255)
-                try validate($0, name:"causes[]", min: 1)
-            }
-            try validate(instanceId, name:"instanceId", max: 255)
-            try validate(instanceId, name:"instanceId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case applicationMetrics = "ApplicationMetrics"
             case availabilityZone = "AvailabilityZone"
@@ -3811,13 +3632,6 @@ extension ElasticBeanstalk {
         public init(permittedFileTypes: [String]? = nil, solutionStackName: String? = nil) {
             self.permittedFileTypes = permittedFileTypes
             self.solutionStackName = solutionStackName
-        }
-
-        public func validate() throws {
-            try permittedFileTypes?.forEach {
-                try validate($0, name:"permittedFileTypes[]", max: 100)
-                try validate($0, name:"permittedFileTypes[]", min: 1)
-            }
         }
 
         private enum CodingKeys: String, CodingKey {

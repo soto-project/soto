@@ -45,14 +45,6 @@ extension GlobalAccelerator {
             self.status = status
         }
 
-        public func validate() throws {
-            try validate(acceleratorArn, name:"acceleratorArn", max: 255)
-            try ipSets?.forEach {
-                try $0.validate()
-            }
-            try validate(name, name:"name", max: 255)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case acceleratorArn = "AcceleratorArn"
             case createdTime = "CreatedTime"
@@ -83,11 +75,6 @@ extension GlobalAccelerator {
             self.flowLogsEnabled = flowLogsEnabled
             self.flowLogsS3Bucket = flowLogsS3Bucket
             self.flowLogsS3Prefix = flowLogsS3Prefix
-        }
-
-        public func validate() throws {
-            try validate(flowLogsS3Bucket, name:"flowLogsS3Bucket", max: 255)
-            try validate(flowLogsS3Prefix, name:"flowLogsS3Prefix", max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -156,10 +143,6 @@ extension GlobalAccelerator {
 
         public init(accelerator: Accelerator? = nil) {
             self.accelerator = accelerator
-        }
-
-        public func validate() throws {
-            try accelerator?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -261,10 +244,6 @@ extension GlobalAccelerator {
             self.endpointGroup = endpointGroup
         }
 
-        public func validate() throws {
-            try endpointGroup?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case endpointGroup = "EndpointGroup"
         }
@@ -327,10 +306,6 @@ extension GlobalAccelerator {
 
         public init(listener: Listener? = nil) {
             self.listener = listener
-        }
-
-        public func validate() throws {
-            try listener?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -434,10 +409,6 @@ extension GlobalAccelerator {
             self.acceleratorAttributes = acceleratorAttributes
         }
 
-        public func validate() throws {
-            try acceleratorAttributes?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case acceleratorAttributes = "AcceleratorAttributes"
         }
@@ -474,10 +445,6 @@ extension GlobalAccelerator {
 
         public init(accelerator: Accelerator? = nil) {
             self.accelerator = accelerator
-        }
-
-        public func validate() throws {
-            try accelerator?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -518,10 +485,6 @@ extension GlobalAccelerator {
             self.endpointGroup = endpointGroup
         }
 
-        public func validate() throws {
-            try endpointGroup?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case endpointGroup = "EndpointGroup"
         }
@@ -558,10 +521,6 @@ extension GlobalAccelerator {
 
         public init(listener: Listener? = nil) {
             self.listener = listener
-        }
-
-        public func validate() throws {
-            try listener?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -621,13 +580,6 @@ extension GlobalAccelerator {
             self.weight = weight
         }
 
-        public func validate() throws {
-            try validate(endpointId, name:"endpointId", max: 255)
-            try validate(healthReason, name:"healthReason", max: 255)
-            try validate(weight, name:"weight", max: 255)
-            try validate(weight, name:"weight", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case endpointId = "EndpointId"
             case healthReason = "HealthReason"
@@ -680,23 +632,6 @@ extension GlobalAccelerator {
             self.trafficDialPercentage = trafficDialPercentage
         }
 
-        public func validate() throws {
-            try endpointDescriptions?.forEach {
-                try $0.validate()
-            }
-            try validate(endpointGroupArn, name:"endpointGroupArn", max: 255)
-            try validate(endpointGroupRegion, name:"endpointGroupRegion", max: 255)
-            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", max: 30)
-            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", min: 10)
-            try validate(healthCheckPath, name:"healthCheckPath", max: 255)
-            try validate(healthCheckPort, name:"healthCheckPort", max: 65535)
-            try validate(healthCheckPort, name:"healthCheckPort", min: 1)
-            try validate(thresholdCount, name:"thresholdCount", max: 10)
-            try validate(thresholdCount, name:"thresholdCount", min: 1)
-            try validate(trafficDialPercentage, name:"trafficDialPercentage", max: 100)
-            try validate(trafficDialPercentage, name:"trafficDialPercentage", min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case endpointDescriptions = "EndpointDescriptions"
             case endpointGroupArn = "EndpointGroupArn"
@@ -743,12 +678,6 @@ extension GlobalAccelerator {
         public init(ipAddresses: [String]? = nil, ipFamily: String? = nil) {
             self.ipAddresses = ipAddresses
             self.ipFamily = ipFamily
-        }
-
-        public func validate() throws {
-            try validate(ipAddresses, name:"ipAddresses", max: 2)
-            try validate(ipAddresses, name:"ipAddresses", min: 0)
-            try validate(ipFamily, name:"ipFamily", max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -799,13 +728,6 @@ extension GlobalAccelerator {
         public init(accelerators: [Accelerator]? = nil, nextToken: String? = nil) {
             self.accelerators = accelerators
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try accelerators?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -864,13 +786,6 @@ extension GlobalAccelerator {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try endpointGroups?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 255)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case endpointGroups = "EndpointGroups"
             case nextToken = "NextToken"
@@ -927,13 +842,6 @@ extension GlobalAccelerator {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try listeners?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 255)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case listeners = "Listeners"
             case nextToken = "NextToken"
@@ -962,15 +870,6 @@ extension GlobalAccelerator {
             self.listenerArn = listenerArn
             self.portRanges = portRanges
             self.`protocol` = `protocol`
-        }
-
-        public func validate() throws {
-            try validate(listenerArn, name:"listenerArn", max: 255)
-            try portRanges?.forEach {
-                try $0.validate()
-            }
-            try validate(portRanges, name:"portRanges", max: 10)
-            try validate(portRanges, name:"portRanges", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1066,10 +965,6 @@ extension GlobalAccelerator {
             self.acceleratorAttributes = acceleratorAttributes
         }
 
-        public func validate() throws {
-            try acceleratorAttributes?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case acceleratorAttributes = "AcceleratorAttributes"
         }
@@ -1122,10 +1017,6 @@ extension GlobalAccelerator {
 
         public init(accelerator: Accelerator? = nil) {
             self.accelerator = accelerator
-        }
-
-        public func validate() throws {
-            try accelerator?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1215,10 +1106,6 @@ extension GlobalAccelerator {
             self.endpointGroup = endpointGroup
         }
 
-        public func validate() throws {
-            try endpointGroup?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case endpointGroup = "EndpointGroup"
         }
@@ -1275,10 +1162,6 @@ extension GlobalAccelerator {
 
         public init(listener: Listener? = nil) {
             self.listener = listener
-        }
-
-        public func validate() throws {
-            try listener?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

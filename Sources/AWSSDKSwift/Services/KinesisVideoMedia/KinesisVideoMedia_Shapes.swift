@@ -60,12 +60,6 @@ extension KinesisVideoMedia {
             self.payload = payload
         }
 
-        public func validate() throws {
-            try validate(contentType, name:"contentType", max: 128)
-            try validate(contentType, name:"contentType", min: 1)
-            try validate(contentType, name:"contentType", pattern: "^[a-zA-Z0-9_\\.\\-]+$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case contentType = "Content-Type"
             case payload = "Payload"

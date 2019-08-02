@@ -1618,10 +1618,6 @@ extension MediaConvert {
             self.job = job
         }
 
-        public func validate() throws {
-            try job?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case job = "job"
         }
@@ -1695,10 +1691,6 @@ extension MediaConvert {
             self.jobTemplate = jobTemplate
         }
 
-        public func validate() throws {
-            try jobTemplate?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case jobTemplate = "jobTemplate"
         }
@@ -1755,10 +1747,6 @@ extension MediaConvert {
 
         public init(preset: Preset? = nil) {
             self.preset = preset
-        }
-
-        public func validate() throws {
-            try preset?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3042,10 +3030,6 @@ extension MediaConvert {
             self.job = job
         }
 
-        public func validate() throws {
-            try job?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case job = "job"
         }
@@ -3080,10 +3064,6 @@ extension MediaConvert {
             self.jobTemplate = jobTemplate
         }
 
-        public func validate() throws {
-            try jobTemplate?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case jobTemplate = "jobTemplate"
         }
@@ -3116,10 +3096,6 @@ extension MediaConvert {
 
         public init(preset: Preset? = nil) {
             self.preset = preset
-        }
-
-        public func validate() throws {
-            try preset?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5088,10 +5064,6 @@ extension MediaConvert {
             self.userMetadata = userMetadata
         }
 
-        public func validate() throws {
-            try settings.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case accelerationSettings = "accelerationSettings"
             case arn = "arn"
@@ -5255,10 +5227,6 @@ extension MediaConvert {
             self.settings = settings
             self.statusUpdateInterval = statusUpdateInterval
             self.`type` = `type`
-        }
-
-        public func validate() throws {
-            try settings.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5610,12 +5578,6 @@ extension MediaConvert {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try jobTemplates?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case jobTemplates = "jobTemplates"
             case nextToken = "nextToken"
@@ -5680,12 +5642,6 @@ extension MediaConvert {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try jobs?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case jobs = "jobs"
             case nextToken = "nextToken"
@@ -5748,12 +5704,6 @@ extension MediaConvert {
         public init(nextToken: String? = nil, presets: [Preset]? = nil) {
             self.nextToken = nextToken
             self.presets = presets
-        }
-
-        public func validate() throws {
-            try presets?.forEach {
-                try $0.validate()
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7429,10 +7379,6 @@ extension MediaConvert {
             self.`type` = `type`
         }
 
-        public func validate() throws {
-            try settings.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case category = "category"
@@ -8443,10 +8389,6 @@ extension MediaConvert {
             self.jobTemplate = jobTemplate
         }
 
-        public func validate() throws {
-            try jobTemplate?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case jobTemplate = "jobTemplate"
         }
@@ -8498,10 +8440,6 @@ extension MediaConvert {
 
         public init(preset: Preset? = nil) {
             self.preset = preset
-        }
-
-        public func validate() throws {
-            try preset?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

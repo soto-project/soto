@@ -93,11 +93,6 @@ extension ManagedBlockchain {
             self.memberId = memberId
         }
 
-        public func validate() throws {
-            try validate(memberId, name:"memberId", max: 32)
-            try validate(memberId, name:"memberId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case memberId = "MemberId"
         }
@@ -184,13 +179,6 @@ extension ManagedBlockchain {
             self.networkId = networkId
         }
 
-        public func validate() throws {
-            try validate(memberId, name:"memberId", max: 32)
-            try validate(memberId, name:"memberId", min: 1)
-            try validate(networkId, name:"networkId", max: 32)
-            try validate(networkId, name:"networkId", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case memberId = "MemberId"
             case networkId = "NetworkId"
@@ -248,11 +236,6 @@ extension ManagedBlockchain {
 
         public init(nodeId: String? = nil) {
             self.nodeId = nodeId
-        }
-
-        public func validate() throws {
-            try validate(nodeId, name:"nodeId", max: 32)
-            try validate(nodeId, name:"nodeId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -318,11 +301,6 @@ extension ManagedBlockchain {
 
         public init(proposalId: String? = nil) {
             self.proposalId = proposalId
-        }
-
-        public func validate() throws {
-            try validate(proposalId, name:"proposalId", max: 32)
-            try validate(proposalId, name:"proposalId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -463,10 +441,6 @@ extension ManagedBlockchain {
             self.member = member
         }
 
-        public func validate() throws {
-            try member?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case member = "Member"
         }
@@ -504,10 +478,6 @@ extension ManagedBlockchain {
 
         public init(network: Network? = nil) {
             self.network = network
-        }
-
-        public func validate() throws {
-            try network?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -563,10 +533,6 @@ extension ManagedBlockchain {
             self.node = node
         }
 
-        public func validate() throws {
-            try node?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case node = "Node"
         }
@@ -613,10 +579,6 @@ extension ManagedBlockchain {
             self.proposal = proposal
         }
 
-        public func validate() throws {
-            try proposal?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case proposal = "Proposal"
         }
@@ -647,12 +609,6 @@ extension ManagedBlockchain {
             self.invitationId = invitationId
             self.networkSummary = networkSummary
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(invitationId, name:"invitationId", max: 32)
-            try validate(invitationId, name:"invitationId", min: 1)
-            try networkSummary?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -734,13 +690,6 @@ extension ManagedBlockchain {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try invitations?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 128)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case invitations = "Invitations"
             case nextToken = "NextToken"
@@ -813,13 +762,6 @@ extension ManagedBlockchain {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try members?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 128)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case members = "Members"
             case nextToken = "NextToken"
@@ -883,13 +825,6 @@ extension ManagedBlockchain {
         public init(networks: [NetworkSummary]? = nil, nextToken: String? = nil) {
             self.networks = networks
             self.nextToken = nextToken
-        }
-
-        public func validate() throws {
-            try networks?.forEach {
-                try $0.validate()
-            }
-            try validate(nextToken, name:"nextToken", max: 128)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -961,13 +896,6 @@ extension ManagedBlockchain {
             self.nodes = nodes
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 128)
-            try nodes?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case nodes = "Nodes"
@@ -1032,13 +960,6 @@ extension ManagedBlockchain {
             self.proposalVotes = proposalVotes
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 128)
-            try proposalVotes?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case proposalVotes = "ProposalVotes"
@@ -1096,13 +1017,6 @@ extension ManagedBlockchain {
             self.proposals = proposals
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 128)
-            try proposals?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case proposals = "Proposals"
@@ -1143,18 +1057,6 @@ extension ManagedBlockchain {
             self.name = name
             self.networkId = networkId
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(description, name:"description", max: 128)
-            try frameworkAttributes?.validate()
-            try validate(id, name:"id", max: 32)
-            try validate(id, name:"id", min: 1)
-            try validate(name, name:"name", max: 64)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "^(?!-)^[^0-9](?!.*--)[A-Za-z0-9-]+[^- ]$")
-            try validate(networkId, name:"networkId", max: 32)
-            try validate(networkId, name:"networkId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1219,12 +1121,6 @@ extension ManagedBlockchain {
             self.caEndpoint = caEndpoint
         }
 
-        public func validate() throws {
-            try validate(adminUsername, name:"adminUsername", max: 16)
-            try validate(adminUsername, name:"adminUsername", min: 1)
-            try validate(adminUsername, name:"adminUsername", pattern: "^[a-zA-Z][a-zA-Z0-9]*$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case adminUsername = "AdminUsername"
             case caEndpoint = "CaEndpoint"
@@ -1272,10 +1168,6 @@ extension ManagedBlockchain {
 
         public init(fabric: MemberFabricAttributes? = nil) {
             self.fabric = fabric
-        }
-
-        public func validate() throws {
-            try fabric?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1345,15 +1237,6 @@ extension ManagedBlockchain {
             self.status = status
         }
 
-        public func validate() throws {
-            try validate(description, name:"description", max: 128)
-            try validate(id, name:"id", max: 32)
-            try validate(id, name:"id", min: 1)
-            try validate(name, name:"name", max: 64)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "^(?!-)^[^0-9](?!.*--)[A-Za-z0-9-]+[^- ]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationDate = "CreationDate"
             case description = "Description"
@@ -1410,18 +1293,6 @@ extension ManagedBlockchain {
             self.status = status
             self.votingPolicy = votingPolicy
             self.vpcEndpointServiceName = vpcEndpointServiceName
-        }
-
-        public func validate() throws {
-            try validate(description, name:"description", max: 128)
-            try validate(frameworkVersion, name:"frameworkVersion", max: 8)
-            try validate(frameworkVersion, name:"frameworkVersion", min: 1)
-            try validate(id, name:"id", max: 32)
-            try validate(id, name:"id", min: 1)
-            try validate(name, name:"name", max: 64)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: ".*\\S.*")
-            try votingPolicy?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1556,17 +1427,6 @@ extension ManagedBlockchain {
             self.status = status
         }
 
-        public func validate() throws {
-            try validate(description, name:"description", max: 128)
-            try validate(frameworkVersion, name:"frameworkVersion", max: 8)
-            try validate(frameworkVersion, name:"frameworkVersion", min: 1)
-            try validate(id, name:"id", max: 32)
-            try validate(id, name:"id", min: 1)
-            try validate(name, name:"name", max: 64)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: ".*\\S.*")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationDate = "CreationDate"
             case description = "Description"
@@ -1616,15 +1476,6 @@ extension ManagedBlockchain {
             self.memberId = memberId
             self.networkId = networkId
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(id, name:"id", max: 32)
-            try validate(id, name:"id", min: 1)
-            try validate(memberId, name:"memberId", max: 32)
-            try validate(memberId, name:"memberId", min: 1)
-            try validate(networkId, name:"networkId", max: 32)
-            try validate(networkId, name:"networkId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1738,11 +1589,6 @@ extension ManagedBlockchain {
             self.status = status
         }
 
-        public func validate() throws {
-            try validate(id, name:"id", max: 32)
-            try validate(id, name:"id", min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
             case creationDate = "CreationDate"
@@ -1806,20 +1652,6 @@ extension ManagedBlockchain {
             self.proposedByMemberName = proposedByMemberName
             self.status = status
             self.yesVoteCount = yesVoteCount
-        }
-
-        public func validate() throws {
-            try actions?.validate()
-            try validate(description, name:"description", max: 128)
-            try validate(networkId, name:"networkId", max: 32)
-            try validate(networkId, name:"networkId", min: 1)
-            try validate(proposalId, name:"proposalId", max: 32)
-            try validate(proposalId, name:"proposalId", min: 1)
-            try validate(proposedByMemberId, name:"proposedByMemberId", max: 32)
-            try validate(proposedByMemberId, name:"proposedByMemberId", min: 1)
-            try validate(proposedByMemberName, name:"proposedByMemberName", max: 64)
-            try validate(proposedByMemberName, name:"proposedByMemberName", min: 1)
-            try validate(proposedByMemberName, name:"proposedByMemberName", pattern: "^(?!-)^[^0-9](?!.*--)[A-Za-z0-9-]+[^- ]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1909,17 +1741,6 @@ extension ManagedBlockchain {
             self.proposedByMemberId = proposedByMemberId
             self.proposedByMemberName = proposedByMemberName
             self.status = status
-        }
-
-        public func validate() throws {
-            try validate(description, name:"description", max: 128)
-            try validate(proposalId, name:"proposalId", max: 32)
-            try validate(proposalId, name:"proposalId", min: 1)
-            try validate(proposedByMemberId, name:"proposedByMemberId", max: 32)
-            try validate(proposedByMemberId, name:"proposedByMemberId", min: 1)
-            try validate(proposedByMemberName, name:"proposedByMemberName", max: 64)
-            try validate(proposedByMemberName, name:"proposedByMemberName", min: 1)
-            try validate(proposedByMemberName, name:"proposedByMemberName", pattern: "^(?!-)^[^0-9](?!.*--)[A-Za-z0-9-]+[^- ]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2058,14 +1879,6 @@ extension ManagedBlockchain {
             self.memberId = memberId
             self.memberName = memberName
             self.vote = vote
-        }
-
-        public func validate() throws {
-            try validate(memberId, name:"memberId", max: 32)
-            try validate(memberId, name:"memberId", min: 1)
-            try validate(memberName, name:"memberName", max: 64)
-            try validate(memberName, name:"memberName", min: 1)
-            try validate(memberName, name:"memberName", pattern: "^(?!-)^[^0-9](?!.*--)[A-Za-z0-9-]+[^- ]$")
         }
 
         private enum CodingKeys: String, CodingKey {

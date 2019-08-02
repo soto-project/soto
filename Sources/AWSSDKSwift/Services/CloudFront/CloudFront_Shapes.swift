@@ -557,10 +557,6 @@ extension CloudFront {
             self.location = location
         }
 
-        public func validate() throws {
-            try distribution?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case distribution = "Distribution"
             case eTag = "ETag"
@@ -612,10 +608,6 @@ extension CloudFront {
             self.distribution = distribution
             self.eTag = eTag
             self.location = location
-        }
-
-        public func validate() throws {
-            try distribution?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1288,10 +1280,6 @@ extension CloudFront {
             self.status = status
         }
 
-        public func validate() throws {
-            try distributionConfig.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case activeTrustedSigners = "ActiveTrustedSigners"
             case aliasICPRecordals = "AliasICPRecordals"
@@ -1466,12 +1454,6 @@ extension CloudFront {
             self.quantity = quantity
         }
 
-        public func validate() throws {
-            try items?.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case isTruncated = "IsTruncated"
             case items = "Items"
@@ -1568,11 +1550,6 @@ extension CloudFront {
             self.status = status
             self.viewerCertificate = viewerCertificate
             self.webACLId = webACLId
-        }
-
-        public func validate() throws {
-            try originGroups?.validate()
-            try origins.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2122,10 +2099,6 @@ extension CloudFront {
             self.eTag = eTag
         }
 
-        public func validate() throws {
-            try distributionConfig?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case distributionConfig = "DistributionConfig"
             case eTag = "ETag"
@@ -2165,10 +2138,6 @@ extension CloudFront {
         public init(distribution: Distribution? = nil, eTag: String? = nil) {
             self.distribution = distribution
             self.eTag = eTag
-        }
-
-        public func validate() throws {
-            try distribution?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2864,10 +2833,6 @@ extension CloudFront {
             self.distributionList = distributionList
         }
 
-        public func validate() throws {
-            try distributionList?.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case distributionList = "DistributionList"
         }
@@ -2907,10 +2872,6 @@ extension CloudFront {
 
         public init(distributionList: DistributionList? = nil) {
             self.distributionList = distributionList
-        }
-
-        public func validate() throws {
-            try distributionList?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3161,10 +3122,6 @@ extension CloudFront {
 
         public init(tags: Tags) {
             self.tags = tags
-        }
-
-        public func validate() throws {
-            try tags.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4362,10 +4319,6 @@ extension CloudFront {
         public init(distribution: Distribution? = nil, eTag: String? = nil) {
             self.distribution = distribution
             self.eTag = eTag
-        }
-
-        public func validate() throws {
-            try distribution?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

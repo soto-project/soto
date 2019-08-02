@@ -276,10 +276,6 @@ extension IoT1ClickProjects {
             self.placement = placement
         }
 
-        public func validate() throws {
-            try placement.validate()
-        }
-
         private enum CodingKeys: String, CodingKey {
             case placement = "placement"
         }
@@ -318,10 +314,6 @@ extension IoT1ClickProjects {
 
         public init(project: ProjectDescription) {
             self.project = project
-        }
-
-        public func validate() throws {
-            try project.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -450,16 +442,6 @@ extension IoT1ClickProjects {
             self.devices = devices
         }
 
-        public func validate() throws {
-            try devices.forEach {
-                try validate($0.key, name:"devices[key:]", max: 128)
-                try validate($0.key, name:"devices[key:]", min: 1)
-                try validate($0.key, name:"devices[key:]", pattern: "^[a-zA-Z0-9_-]+$")
-                try validate($0.value, name:"devices[:Value]", max: 32)
-                try validate($0.value, name:"devices[:Value]", min: 1)
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case devices = "devices"
         }
@@ -518,14 +500,6 @@ extension IoT1ClickProjects {
             self.placements = placements
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 1024)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try placements.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case placements = "placements"
@@ -577,14 +551,6 @@ extension IoT1ClickProjects {
             self.projects = projects
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 1024)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try projects.forEach {
-                try $0.validate()
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case projects = "projects"
@@ -624,15 +590,6 @@ extension IoT1ClickProjects {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try tags?.forEach {
-                try validate($0.key, name:"tags[key:]", max: 128)
-                try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
-                try validate($0.value, name:"tags[:Value]", max: 256)
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
         }
@@ -666,20 +623,6 @@ extension IoT1ClickProjects {
             self.updatedDate = updatedDate
         }
 
-        public func validate() throws {
-            try attributes.forEach {
-                try validate($0.key, name:"attributes[key:]", max: 128)
-                try validate($0.key, name:"attributes[key:]", min: 1)
-                try validate($0.value, name:"attributes[:Value]", max: 800)
-            }
-            try validate(placementName, name:"placementName", max: 128)
-            try validate(placementName, name:"placementName", min: 1)
-            try validate(placementName, name:"placementName", pattern: "^[a-zA-Z0-9_-]+$")
-            try validate(projectName, name:"projectName", max: 128)
-            try validate(projectName, name:"projectName", min: 1)
-            try validate(projectName, name:"projectName", pattern: "^[0-9A-Za-z_-]+$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
             case createdDate = "createdDate"
@@ -711,15 +654,6 @@ extension IoT1ClickProjects {
             self.placementName = placementName
             self.projectName = projectName
             self.updatedDate = updatedDate
-        }
-
-        public func validate() throws {
-            try validate(placementName, name:"placementName", max: 128)
-            try validate(placementName, name:"placementName", min: 1)
-            try validate(placementName, name:"placementName", pattern: "^[a-zA-Z0-9_-]+$")
-            try validate(projectName, name:"projectName", max: 128)
-            try validate(projectName, name:"projectName", min: 1)
-            try validate(projectName, name:"projectName", pattern: "^[0-9A-Za-z_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -802,22 +736,6 @@ extension IoT1ClickProjects {
             self.updatedDate = updatedDate
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: "^arn:aws:iot1click:[A-Za-z0-9_/.-]{0,63}:\\d+:projects/[0-9A-Za-z_-]{1,128}$")
-            try validate(description, name:"description", max: 500)
-            try validate(description, name:"description", min: 0)
-            try placementTemplate?.validate()
-            try validate(projectName, name:"projectName", max: 128)
-            try validate(projectName, name:"projectName", min: 1)
-            try validate(projectName, name:"projectName", pattern: "^[0-9A-Za-z_-]+$")
-            try tags?.forEach {
-                try validate($0.key, name:"tags[key:]", max: 128)
-                try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
-                try validate($0.value, name:"tags[:Value]", max: 256)
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdDate = "createdDate"
@@ -855,19 +773,6 @@ extension IoT1ClickProjects {
             self.projectName = projectName
             self.tags = tags
             self.updatedDate = updatedDate
-        }
-
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: "^arn:aws:iot1click:[A-Za-z0-9_/.-]{0,63}:\\d+:projects/[0-9A-Za-z_-]{1,128}$")
-            try validate(projectName, name:"projectName", max: 128)
-            try validate(projectName, name:"projectName", min: 1)
-            try validate(projectName, name:"projectName", pattern: "^[0-9A-Za-z_-]+$")
-            try tags?.forEach {
-                try validate($0.key, name:"tags[key:]", max: 128)
-                try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
-                try validate($0.value, name:"tags[:Value]", max: 256)
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
