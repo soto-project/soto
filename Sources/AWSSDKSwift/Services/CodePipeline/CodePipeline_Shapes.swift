@@ -285,8 +285,8 @@ extension CodePipeline {
             try configuration?.forEach {
                 try validate($0.key, name:"configuration[key:]", max: 50)
                 try validate($0.key, name:"configuration[key:]", min: 1)
-                try validate($0.value, name:"configuration[:Value]", max: 1000)
-                try validate($0.value, name:"configuration[:Value]", min: 1)
+                try validate($0.value, name:"configuration[:value]", max: 1000)
+                try validate($0.value, name:"configuration[:value]", min: 1)
             }
             try inputArtifacts?.forEach {
                 try $0.validate()
@@ -2564,9 +2564,9 @@ extension CodePipeline {
             try queryParam?.forEach {
                 try validate($0.key, name:"queryParam[key:]", max: 50)
                 try validate($0.key, name:"queryParam[key:]", min: 1)
-                try validate($0.value, name:"queryParam[:Value]", max: 50)
-                try validate($0.value, name:"queryParam[:Value]", min: 1)
-                try validate($0.value, name:"queryParam[:Value]", pattern: "[a-zA-Z0-9_-]+")
+                try validate($0.value, name:"queryParam[:value]", max: 50)
+                try validate($0.value, name:"queryParam[:value]", min: 1)
+                try validate($0.value, name:"queryParam[:value]", pattern: "[a-zA-Z0-9_-]+")
             }
         }
 

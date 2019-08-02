@@ -164,7 +164,7 @@ extension Amplify {
             try validate(buildSpec, name:"buildSpec", min: 1)
             try environmentVariables?.forEach {
                 try validate($0.key, name:"environmentVariables[key:]", max: 255)
-                try validate($0.value, name:"environmentVariables[:Value]", max: 1000)
+                try validate($0.value, name:"environmentVariables[:value]", max: 1000)
             }
             try validate(framework, name:"framework", max: 255)
         }
@@ -390,7 +390,7 @@ extension Amplify {
             try validate(description, name:"description", max: 1000)
             try environmentVariables?.forEach {
                 try validate($0.key, name:"environmentVariables[key:]", max: 255)
-                try validate($0.value, name:"environmentVariables[:Value]", max: 1000)
+                try validate($0.value, name:"environmentVariables[:value]", max: 1000)
             }
             try validate(iamServiceRoleArn, name:"iamServiceRoleArn", max: 1000)
             try validate(iamServiceRoleArn, name:"iamServiceRoleArn", min: 1)
@@ -402,7 +402,7 @@ extension Amplify {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
                 try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
-                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:value]", max: 256)
             }
         }
 
@@ -519,14 +519,14 @@ extension Amplify {
             try validate(displayName, name:"displayName", max: 255)
             try environmentVariables?.forEach {
                 try validate($0.key, name:"environmentVariables[key:]", max: 255)
-                try validate($0.value, name:"environmentVariables[:Value]", max: 1000)
+                try validate($0.value, name:"environmentVariables[:value]", max: 1000)
             }
             try validate(framework, name:"framework", max: 255)
             try tags?.forEach {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
                 try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
-                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:value]", max: 256)
             }
         }
 
@@ -592,7 +592,7 @@ extension Amplify {
             try validate(branchName, name:"branchName", min: 1)
             try fileMap?.forEach {
                 try validate($0.key, name:"fileMap[key:]", max: 255)
-                try validate($0.value, name:"fileMap[:Value]", max: 32)
+                try validate($0.value, name:"fileMap[:value]", max: 32)
             }
         }
 
@@ -2067,7 +2067,7 @@ extension Amplify {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
                 try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
-                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:value]", max: 256)
             }
         }
 
@@ -2207,7 +2207,7 @@ extension Amplify {
             try validate(description, name:"description", max: 1000)
             try environmentVariables?.forEach {
                 try validate($0.key, name:"environmentVariables[key:]", max: 255)
-                try validate($0.value, name:"environmentVariables[:Value]", max: 1000)
+                try validate($0.value, name:"environmentVariables[:value]", max: 1000)
             }
             try validate(iamServiceRoleArn, name:"iamServiceRoleArn", max: 1000)
             try validate(iamServiceRoleArn, name:"iamServiceRoleArn", min: 1)
@@ -2322,7 +2322,7 @@ extension Amplify {
             try validate(displayName, name:"displayName", max: 255)
             try environmentVariables?.forEach {
                 try validate($0.key, name:"environmentVariables[key:]", max: 255)
-                try validate($0.value, name:"environmentVariables[:Value]", max: 1000)
+                try validate($0.value, name:"environmentVariables[:value]", max: 1000)
             }
             try validate(framework, name:"framework", max: 255)
         }

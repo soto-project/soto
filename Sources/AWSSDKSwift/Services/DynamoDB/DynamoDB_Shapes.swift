@@ -573,8 +573,8 @@ extension DynamoDB {
                 try validate($0.key, name:"requestItems[key:]", max: 255)
                 try validate($0.key, name:"requestItems[key:]", min: 3)
                 try validate($0.key, name:"requestItems[key:]", pattern: "[a-zA-Z0-9_.-]+")
-                try validate($0.value, name:"requestItems[:Value]", max: 25)
-                try validate($0.value, name:"requestItems[:Value]", min: 1)
+                try validate($0.value, name:"requestItems[:value]", max: 25)
+                try validate($0.value, name:"requestItems[:value]", min: 1)
             }
         }
 
@@ -746,7 +746,7 @@ extension DynamoDB {
 
         public func validate() throws {
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:Value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
             }
             try expressionAttributeValues?.forEach {
                 try $0.value.validate()
@@ -1143,7 +1143,7 @@ extension DynamoDB {
 
         public func validate() throws {
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:Value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
             }
             try expressionAttributeValues?.forEach {
                 try $0.value.validate()
@@ -1282,7 +1282,7 @@ extension DynamoDB {
                 try $0.value.validate()
             }
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:Value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
             }
             try expressionAttributeValues?.forEach {
                 try $0.value.validate()
@@ -1813,7 +1813,7 @@ extension DynamoDB {
 
         public func validate() throws {
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:Value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
             }
             try key.forEach {
                 try validate($0.key, name:"key[key:]", max: 65535)
@@ -1873,7 +1873,7 @@ extension DynamoDB {
             }
             try validate(attributesToGet, name:"attributesToGet", min: 1)
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:Value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
             }
             try key.forEach {
                 try validate($0.key, name:"key[key:]", max: 65535)
@@ -2300,7 +2300,7 @@ extension DynamoDB {
             }
             try validate(attributesToGet, name:"attributesToGet", min: 1)
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:Value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
             }
             try validate(keys, name:"keys", max: 100)
             try validate(keys, name:"keys", min: 1)
@@ -2840,7 +2840,7 @@ extension DynamoDB {
 
         public func validate() throws {
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:Value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
             }
             try expressionAttributeValues?.forEach {
                 try $0.value.validate()
@@ -2917,7 +2917,7 @@ extension DynamoDB {
                 try $0.value.validate()
             }
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:Value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
             }
             try expressionAttributeValues?.forEach {
                 try $0.value.validate()
@@ -3081,7 +3081,7 @@ extension DynamoDB {
                 try $0.value.validate()
             }
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:Value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
             }
             try expressionAttributeValues?.forEach {
                 try $0.value.validate()
@@ -3718,7 +3718,7 @@ extension DynamoDB {
                 try $0.value.validate()
             }
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:Value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
             }
             try expressionAttributeValues?.forEach {
                 try $0.value.validate()
@@ -4399,7 +4399,7 @@ extension DynamoDB {
 
         public func validate() throws {
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:Value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
             }
             try expressionAttributeValues?.forEach {
                 try $0.value.validate()
@@ -4690,7 +4690,7 @@ extension DynamoDB {
                 try $0.value.validate()
             }
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:Value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
             }
             try expressionAttributeValues?.forEach {
                 try $0.value.validate()

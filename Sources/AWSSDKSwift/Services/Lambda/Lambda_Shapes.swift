@@ -297,8 +297,8 @@ extension Lambda {
                 try validate($0.key, name:"additionalVersionWeights[key:]", max: 1024)
                 try validate($0.key, name:"additionalVersionWeights[key:]", min: 1)
                 try validate($0.key, name:"additionalVersionWeights[key:]", pattern: "[0-9]+")
-                try validate($0.value, name:"additionalVersionWeights[:Value]", max: 1)
-                try validate($0.value, name:"additionalVersionWeights[:Value]", min: 0)
+                try validate($0.value, name:"additionalVersionWeights[:value]", max: 1)
+                try validate($0.value, name:"additionalVersionWeights[:value]", min: 0)
             }
         }
 

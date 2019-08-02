@@ -41,8 +41,8 @@ extension MobileAnalytics {
             try attributes?.forEach {
                 try validate($0.key, name:"attributes[key:]", max: 50)
                 try validate($0.key, name:"attributes[key:]", min: 1)
-                try validate($0.value, name:"attributes[:Value]", max: 1000)
-                try validate($0.value, name:"attributes[:Value]", min: 0)
+                try validate($0.value, name:"attributes[:value]", max: 1000)
+                try validate($0.value, name:"attributes[:value]", min: 0)
             }
             try validate(eventType, name:"eventType", max: 50)
             try validate(eventType, name:"eventType", min: 1)

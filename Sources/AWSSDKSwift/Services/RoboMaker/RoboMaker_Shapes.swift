@@ -168,9 +168,9 @@ extension RoboMaker {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
                 try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
-                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
+                try validate($0.value, name:"tags[:value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
             }
         }
 
@@ -264,9 +264,9 @@ extension RoboMaker {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
                 try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
-                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
+                try validate($0.value, name:"tags[:value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
             }
         }
 
@@ -343,9 +343,9 @@ extension RoboMaker {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
                 try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
-                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
+                try validate($0.value, name:"tags[:value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
             }
         }
 
@@ -521,9 +521,9 @@ extension RoboMaker {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
                 try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
-                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
+                try validate($0.value, name:"tags[:value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
             }
         }
 
@@ -622,9 +622,9 @@ extension RoboMaker {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
                 try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
-                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
+                try validate($0.value, name:"tags[:value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
             }
         }
 
@@ -854,9 +854,9 @@ extension RoboMaker {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
                 try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
-                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
+                try validate($0.value, name:"tags[:value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
             }
             try vpcConfig?.validate()
         }
@@ -1273,8 +1273,8 @@ extension RoboMaker {
                 try validate($0.key, name:"environmentVariables[key:]", max: 1024)
                 try validate($0.key, name:"environmentVariables[key:]", min: 1)
                 try validate($0.key, name:"environmentVariables[key:]", pattern: "[A-Z_][A-Z0-9_]*")
-                try validate($0.value, name:"environmentVariables[:Value]", max: 1024)
-                try validate($0.value, name:"environmentVariables[:Value]", min: 1)
+                try validate($0.value, name:"environmentVariables[:value]", max: 1024)
+                try validate($0.value, name:"environmentVariables[:value]", min: 1)
             }
             try validate(launchFile, name:"launchFile", max: 1024)
             try validate(launchFile, name:"launchFile", min: 1)
@@ -2009,8 +2009,8 @@ extension RoboMaker {
                 try validate($0.key, name:"environmentVariables[key:]", max: 1024)
                 try validate($0.key, name:"environmentVariables[key:]", min: 1)
                 try validate($0.key, name:"environmentVariables[key:]", pattern: "[A-Z_][A-Z0-9_]*")
-                try validate($0.value, name:"environmentVariables[:Value]", max: 1024)
-                try validate($0.value, name:"environmentVariables[:Value]", min: 1)
+                try validate($0.value, name:"environmentVariables[:value]", max: 1024)
+                try validate($0.value, name:"environmentVariables[:value]", min: 1)
             }
             try validate(launchFile, name:"launchFile", max: 1024)
             try validate(launchFile, name:"launchFile", min: 1)
@@ -3307,9 +3307,9 @@ extension RoboMaker {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
                 try validate($0.key, name:"tags[key:]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
-                try validate($0.value, name:"tags[:Value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
+                try validate($0.value, name:"tags[:value]", pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
             }
         }
 

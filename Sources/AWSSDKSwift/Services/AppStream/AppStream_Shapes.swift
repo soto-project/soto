@@ -477,9 +477,9 @@ extension AppStream {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
                 try validate($0.key, name:"tags[key:]", pattern: "^(^(?!aws:).[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
-                try validate($0.value, name:"tags[:Value]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
+                try validate($0.value, name:"tags[:value]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try vpcConfig?.validate()
         }
@@ -586,9 +586,9 @@ extension AppStream {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
                 try validate($0.key, name:"tags[key:]", pattern: "^(^(?!aws:).[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
-                try validate($0.value, name:"tags[:Value]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
+                try validate($0.value, name:"tags[:value]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try vpcConfig?.validate()
         }
@@ -731,9 +731,9 @@ extension AppStream {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
                 try validate($0.key, name:"tags[key:]", pattern: "^(^(?!aws:).[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
-                try validate($0.value, name:"tags[:Value]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
+                try validate($0.value, name:"tags[:value]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try validate(userSettings, name:"userSettings", min: 1)
         }
@@ -3084,9 +3084,9 @@ extension AppStream {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
                 try validate($0.key, name:"tags[key:]", pattern: "^(^(?!aws:).[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
-                try validate($0.value, name:"tags[:Value]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
+                try validate($0.value, name:"tags[:value]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
         }
 

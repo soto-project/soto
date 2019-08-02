@@ -3175,8 +3175,8 @@ extension KinesisAnalyticsV2 {
             try propertyMap.forEach {
                 try validate($0.key, name:"propertyMap[key:]", max: 2048)
                 try validate($0.key, name:"propertyMap[key:]", min: 1)
-                try validate($0.value, name:"propertyMap[:Value]", max: 2048)
-                try validate($0.value, name:"propertyMap[:Value]", min: 1)
+                try validate($0.value, name:"propertyMap[:value]", max: 2048)
+                try validate($0.value, name:"propertyMap[:value]", min: 1)
             }
         }
 

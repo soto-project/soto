@@ -376,7 +376,7 @@ extension SecurityHub {
             try validate(productArn, name:"productArn", pattern: ".*\\S.*")
             try productFields?.forEach {
                 try validate($0.key, name:"productFields[key:]", pattern: ".*\\S.*")
-                try validate($0.value, name:"productFields[:Value]", pattern: ".*\\S.*")
+                try validate($0.value, name:"productFields[:value]", pattern: ".*\\S.*")
             }
             try relatedFindings?.forEach {
                 try $0.validate()
@@ -397,7 +397,7 @@ extension SecurityHub {
             try validate(updatedAt, name:"updatedAt", pattern: ".*\\S.*")
             try userDefinedFields?.forEach {
                 try validate($0.key, name:"userDefinedFields[key:]", pattern: ".*\\S.*")
-                try validate($0.value, name:"userDefinedFields[:Value]", pattern: ".*\\S.*")
+                try validate($0.value, name:"userDefinedFields[:value]", pattern: ".*\\S.*")
             }
         }
 
@@ -1979,7 +1979,7 @@ extension SecurityHub {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
                 try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
-                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:value]", max: 256)
             }
         }
 
@@ -3260,7 +3260,7 @@ extension SecurityHub {
             try validate(region, name:"region", pattern: ".*\\S.*")
             try tags?.forEach {
                 try validate($0.key, name:"tags[key:]", pattern: ".*\\S.*")
-                try validate($0.value, name:"tags[:Value]", pattern: ".*\\S.*")
+                try validate($0.value, name:"tags[:value]", pattern: ".*\\S.*")
             }
             try validate(`type`, name:"`type`", pattern: ".*\\S.*")
         }
@@ -3310,7 +3310,7 @@ extension SecurityHub {
             try container?.validate()
             try other?.forEach {
                 try validate($0.key, name:"other[key:]", pattern: ".*\\S.*")
-                try validate($0.value, name:"other[:Value]", pattern: ".*\\S.*")
+                try validate($0.value, name:"other[:value]", pattern: ".*\\S.*")
             }
         }
 
@@ -3460,7 +3460,7 @@ extension SecurityHub {
             try validate(standardsArn, name:"standardsArn", pattern: ".*\\S.*")
             try standardsInput?.forEach {
                 try validate($0.key, name:"standardsInput[key:]", pattern: ".*\\S.*")
-                try validate($0.value, name:"standardsInput[:Value]", pattern: ".*\\S.*")
+                try validate($0.value, name:"standardsInput[:value]", pattern: ".*\\S.*")
             }
         }
 
@@ -3524,7 +3524,7 @@ extension SecurityHub {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
                 try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
-                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:value]", max: 256)
             }
         }
 

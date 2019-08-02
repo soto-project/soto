@@ -1082,7 +1082,7 @@ extension S3Control {
             try userMetadata?.forEach {
                 try validate($0.key, name:"userMetadata[key:]", max: 1024)
                 try validate($0.key, name:"userMetadata[key:]", min: 1)
-                try validate($0.value, name:"userMetadata[:Value]", max: 1024)
+                try validate($0.value, name:"userMetadata[:value]", max: 1024)
             }
         }
 

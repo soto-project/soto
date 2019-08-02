@@ -1642,8 +1642,8 @@ extension XRay {
             try attributes?.forEach {
                 try validate($0.key, name:"attributes[key:]", max: 32)
                 try validate($0.key, name:"attributes[key:]", min: 1)
-                try validate($0.value, name:"attributes[:Value]", max: 32)
-                try validate($0.value, name:"attributes[:Value]", min: 1)
+                try validate($0.value, name:"attributes[:value]", max: 32)
+                try validate($0.value, name:"attributes[:value]", min: 1)
             }
             try validate(fixedRate, name:"fixedRate", max: 1)
             try validate(fixedRate, name:"fixedRate", min: 0)
@@ -1765,8 +1765,8 @@ extension XRay {
             try attributes?.forEach {
                 try validate($0.key, name:"attributes[key:]", max: 32)
                 try validate($0.key, name:"attributes[key:]", min: 1)
-                try validate($0.value, name:"attributes[:Value]", max: 32)
-                try validate($0.value, name:"attributes[:Value]", min: 1)
+                try validate($0.value, name:"attributes[:value]", max: 32)
+                try validate($0.value, name:"attributes[:value]", min: 1)
             }
             try validate(host, name:"host", max: 64)
             try validate(hTTPMethod, name:"hTTPMethod", max: 10)

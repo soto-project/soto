@@ -1291,8 +1291,8 @@ extension Connect {
             try attributes?.forEach {
                 try validate($0.key, name:"attributes[key:]", max: 32767)
                 try validate($0.key, name:"attributes[key:]", min: 1)
-                try validate($0.value, name:"attributes[:Value]", max: 32767)
-                try validate($0.value, name:"attributes[:Value]", min: 0)
+                try validate($0.value, name:"attributes[:value]", max: 32767)
+                try validate($0.value, name:"attributes[:value]", min: 0)
             }
             try validate(clientToken, name:"clientToken", max: 500)
             try validate(contactFlowId, name:"contactFlowId", max: 500)
@@ -1425,8 +1425,8 @@ extension Connect {
             try attributes.forEach {
                 try validate($0.key, name:"attributes[key:]", max: 32767)
                 try validate($0.key, name:"attributes[key:]", min: 1)
-                try validate($0.value, name:"attributes[:Value]", max: 32767)
-                try validate($0.value, name:"attributes[:Value]", min: 0)
+                try validate($0.value, name:"attributes[:value]", max: 32767)
+                try validate($0.value, name:"attributes[:value]", min: 0)
             }
             try validate(initialContactId, name:"initialContactId", max: 256)
             try validate(initialContactId, name:"initialContactId", min: 1)

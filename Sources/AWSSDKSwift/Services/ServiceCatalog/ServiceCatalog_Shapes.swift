@@ -1177,8 +1177,8 @@ extension ServiceCatalog {
         public func validate() throws {
             try validate(acceptLanguage, name:"acceptLanguage", max: 100)
             try definition.forEach {
-                try validate($0.value, name:"definition[:Value]", max: 1024)
-                try validate($0.value, name:"definition[:Value]", min: 1)
+                try validate($0.value, name:"definition[:value]", max: 1024)
+                try validate($0.value, name:"definition[:value]", min: 1)
             }
             try validate(description, name:"description", max: 1024)
             try validate(idempotencyToken, name:"idempotencyToken", max: 128)
@@ -6585,8 +6585,8 @@ extension ServiceCatalog {
             try validate(provisionedProductId, name:"provisionedProductId", min: 1)
             try validate(provisionedProductId, name:"provisionedProductId", pattern: "^[a-zA-Z0-9_\\-]*")
             try provisionedProductProperties.forEach {
-                try validate($0.value, name:"provisionedProductProperties[:Value]", max: 1024)
-                try validate($0.value, name:"provisionedProductProperties[:Value]", min: 1)
+                try validate($0.value, name:"provisionedProductProperties[:value]", max: 1024)
+                try validate($0.value, name:"provisionedProductProperties[:value]", min: 1)
             }
         }
 
@@ -6837,8 +6837,8 @@ extension ServiceCatalog {
         public func validate() throws {
             try validate(acceptLanguage, name:"acceptLanguage", max: 100)
             try definition?.forEach {
-                try validate($0.value, name:"definition[:Value]", max: 1024)
-                try validate($0.value, name:"definition[:Value]", min: 1)
+                try validate($0.value, name:"definition[:value]", max: 1024)
+                try validate($0.value, name:"definition[:value]", min: 1)
             }
             try validate(description, name:"description", max: 1024)
             try validate(id, name:"id", max: 100)

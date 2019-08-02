@@ -4200,7 +4200,7 @@ extension AlexaForBusiness {
         public func validate() throws {
             try authorizationResult.forEach {
                 try validate($0.key, name:"authorizationResult[key:]", min: 1)
-                try validate($0.value, name:"authorizationResult[:Value]", min: 1)
+                try validate($0.value, name:"authorizationResult[:value]", min: 1)
             }
             try validate(roomArn, name:"roomArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try validate(skillId, name:"skillId", pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")

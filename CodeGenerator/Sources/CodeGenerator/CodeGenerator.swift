@@ -381,8 +381,8 @@ extension AWSService {
         case .map(let key, let value):
             // validation code doesn't support containers inside containers. Only service affected by this is SSM
             if !container {
-                let keyValidationContext = generateValidationContext(name: name+"[key:_]", shape: key, required: true, container: true)
-                let valueValiationContext = generateValidationContext(name: name+"[_:value]", shape: value, required: true, container: true)
+                let keyValidationContext = generateValidationContext(name: name+"[key:]", shape: key, required: true, container: true)
+                let valueValiationContext = generateValidationContext(name: name+"[:value]", shape: value, required: true, container: true)
                 if keyValidationContext != nil || valueValiationContext != nil {
                     return ValidationContext(name: name.toSwiftVariableCase(), required: required, key: keyValidationContext, value: valueValiationContext)
                 }

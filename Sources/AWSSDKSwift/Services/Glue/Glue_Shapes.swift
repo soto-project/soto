@@ -1237,7 +1237,7 @@ extension Glue {
 
         public func validate() throws {
             try connectionProperties.forEach {
-                try validate($0.value, name:"connectionProperties[:Value]", max: 1024)
+                try validate($0.value, name:"connectionProperties[:value]", max: 1024)
             }
             try validate(description, name:"description", max: 2048)
             try validate(description, name:"description", min: 0)
@@ -1753,8 +1753,8 @@ extension Glue {
             try tags?.forEach {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
             }
             try targets.validate()
         }
@@ -1949,8 +1949,8 @@ extension Glue {
             try tags?.forEach {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
             }
         }
 
@@ -2193,8 +2193,8 @@ extension Glue {
             try tags?.forEach {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
             }
             try validate(timeout, name:"timeout", min: 1)
             try validate(workerType, name:"workerType", max: 255)
@@ -2532,8 +2532,8 @@ extension Glue {
             try tags?.forEach {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
             }
             try validate(workflowName, name:"workflowName", max: 255)
             try validate(workflowName, name:"workflowName", min: 1)
@@ -2651,8 +2651,8 @@ extension Glue {
             try tags?.forEach {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
             }
         }
 
@@ -2885,7 +2885,7 @@ extension Glue {
                 try validate($0.key, name:"parameters[key:]", max: 255)
                 try validate($0.key, name:"parameters[key:]", min: 1)
                 try validate($0.key, name:"parameters[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-                try validate($0.value, name:"parameters[:Value]", max: 512000)
+                try validate($0.value, name:"parameters[:value]", max: 512000)
             }
         }
 
@@ -6438,8 +6438,8 @@ extension Glue {
             try tags?.forEach {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
             }
         }
 
@@ -6498,8 +6498,8 @@ extension Glue {
             try tags?.forEach {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
             }
         }
 
@@ -6558,8 +6558,8 @@ extension Glue {
             try tags?.forEach {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
             }
         }
 
@@ -6625,8 +6625,8 @@ extension Glue {
             try tags?.forEach {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
             }
         }
 
@@ -7005,7 +7005,7 @@ extension Glue {
                 try validate($0.key, name:"parameters[key:]", max: 255)
                 try validate($0.key, name:"parameters[key:]", min: 1)
                 try validate($0.key, name:"parameters[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-                try validate($0.value, name:"parameters[:Value]", max: 512000)
+                try validate($0.value, name:"parameters[:value]", max: 512000)
             }
             try storageDescriptor?.validate()
             try values?.forEach {
@@ -7541,7 +7541,7 @@ extension Glue {
                 try validate($0.key, name:"parameters[key:]", max: 255)
                 try validate($0.key, name:"parameters[key:]", min: 1)
                 try validate($0.key, name:"parameters[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-                try validate($0.value, name:"parameters[:Value]", max: 512000)
+                try validate($0.value, name:"parameters[:value]", max: 512000)
             }
             try validate(serializationLibrary, name:"serializationLibrary", max: 255)
             try validate(serializationLibrary, name:"serializationLibrary", min: 1)
@@ -8000,7 +8000,7 @@ extension Glue {
                 try validate($0.key, name:"parameters[key:]", max: 255)
                 try validate($0.key, name:"parameters[key:]", min: 1)
                 try validate($0.key, name:"parameters[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-                try validate($0.value, name:"parameters[:Value]", max: 512000)
+                try validate($0.value, name:"parameters[:value]", max: 512000)
             }
             try serdeInfo?.validate()
             try skewedInfo?.validate()
@@ -8209,7 +8209,7 @@ extension Glue {
                 try validate($0.key, name:"parameters[key:]", max: 255)
                 try validate($0.key, name:"parameters[key:]", min: 1)
                 try validate($0.key, name:"parameters[key:]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-                try validate($0.value, name:"parameters[:Value]", max: 512000)
+                try validate($0.value, name:"parameters[:value]", max: 512000)
             }
             try partitionKeys?.forEach {
                 try $0.validate()
@@ -8309,8 +8309,8 @@ extension Glue {
             try tagsToAdd.forEach {
                 try validate($0.key, name:"tagsToAdd[key:]", max: 128)
                 try validate($0.key, name:"tagsToAdd[key:]", min: 1)
-                try validate($0.value, name:"tagsToAdd[:Value]", max: 256)
-                try validate($0.value, name:"tagsToAdd[:Value]", min: 0)
+                try validate($0.value, name:"tagsToAdd[:value]", max: 256)
+                try validate($0.value, name:"tagsToAdd[:value]", min: 0)
             }
         }
 

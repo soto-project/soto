@@ -918,8 +918,8 @@ extension GameLift {
             try playerDataMap?.forEach {
                 try validate($0.key, name:"playerDataMap[key:]", max: 1024)
                 try validate($0.key, name:"playerDataMap[key:]", min: 1)
-                try validate($0.value, name:"playerDataMap[:Value]", max: 2048)
-                try validate($0.value, name:"playerDataMap[:Value]", min: 1)
+                try validate($0.value, name:"playerDataMap[:value]", max: 2048)
+                try validate($0.value, name:"playerDataMap[:value]", min: 1)
             }
             try playerIds.forEach {
                 try validate($0, name:"playerIds[]", max: 1024)
@@ -4045,7 +4045,7 @@ extension GameLift {
         public func validate() throws {
             try latencyInMs?.forEach {
                 try validate($0.key, name:"latencyInMs[key:]", min: 1)
-                try validate($0.value, name:"latencyInMs[:Value]", min: 1)
+                try validate($0.value, name:"latencyInMs[:value]", min: 1)
             }
             try playerAttributes?.forEach {
                 try validate($0.key, name:"playerAttributes[key:]", max: 1024)

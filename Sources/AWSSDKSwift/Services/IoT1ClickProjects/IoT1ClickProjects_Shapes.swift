@@ -83,7 +83,7 @@ extension IoT1ClickProjects {
             try attributes?.forEach {
                 try validate($0.key, name:"attributes[key:]", max: 128)
                 try validate($0.key, name:"attributes[key:]", min: 1)
-                try validate($0.value, name:"attributes[:Value]", max: 800)
+                try validate($0.value, name:"attributes[:value]", max: 800)
             }
             try validate(placementName, name:"placementName", max: 128)
             try validate(placementName, name:"placementName", min: 1)
@@ -143,7 +143,7 @@ extension IoT1ClickProjects {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
                 try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
-                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:value]", max: 256)
             }
         }
 
@@ -341,7 +341,7 @@ extension IoT1ClickProjects {
             try callbackOverrides?.forEach {
                 try validate($0.key, name:"callbackOverrides[key:]", max: 128)
                 try validate($0.key, name:"callbackOverrides[key:]", min: 1)
-                try validate($0.value, name:"callbackOverrides[:Value]", max: 200)
+                try validate($0.value, name:"callbackOverrides[:value]", max: 200)
             }
             try validate(deviceType, name:"deviceType", max: 128)
         }
@@ -684,7 +684,7 @@ extension IoT1ClickProjects {
             try defaultAttributes?.forEach {
                 try validate($0.key, name:"defaultAttributes[key:]", max: 128)
                 try validate($0.key, name:"defaultAttributes[key:]", min: 1)
-                try validate($0.value, name:"defaultAttributes[:Value]", max: 800)
+                try validate($0.value, name:"defaultAttributes[:value]", max: 800)
             }
             try deviceTemplates?.forEach {
                 try validate($0.key, name:"deviceTemplates[key:]", max: 128)
@@ -806,7 +806,7 @@ extension IoT1ClickProjects {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
                 try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
-                try validate($0.value, name:"tags[:Value]", max: 256)
+                try validate($0.value, name:"tags[:value]", max: 256)
             }
         }
 
@@ -889,7 +889,7 @@ extension IoT1ClickProjects {
             try attributes?.forEach {
                 try validate($0.key, name:"attributes[key:]", max: 128)
                 try validate($0.key, name:"attributes[key:]", min: 1)
-                try validate($0.value, name:"attributes[:Value]", max: 800)
+                try validate($0.value, name:"attributes[:value]", max: 800)
             }
             try validate(placementName, name:"placementName", max: 128)
             try validate(placementName, name:"placementName", min: 1)

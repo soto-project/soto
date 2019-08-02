@@ -2881,13 +2881,13 @@ extension Personalize {
         public func validate() throws {
             try algorithmHyperParameters?.forEach {
                 try validate($0.key, name:"algorithmHyperParameters[key:]", max: 256)
-                try validate($0.value, name:"algorithmHyperParameters[:Value]", max: 1000)
+                try validate($0.value, name:"algorithmHyperParameters[:value]", max: 1000)
             }
             try autoMLConfig?.validate()
             try validate(eventValueThreshold, name:"eventValueThreshold", max: 256)
             try featureTransformationParameters?.forEach {
                 try validate($0.key, name:"featureTransformationParameters[key:]", max: 256)
-                try validate($0.value, name:"featureTransformationParameters[:Value]", max: 1000)
+                try validate($0.value, name:"featureTransformationParameters[:value]", max: 1000)
             }
             try hpoConfig?.validate()
         }

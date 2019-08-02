@@ -2786,8 +2786,8 @@ extension CognitoIdentityProvider {
             try userPoolTags?.forEach {
                 try validate($0.key, name:"userPoolTags[key:]", max: 128)
                 try validate($0.key, name:"userPoolTags[key:]", min: 1)
-                try validate($0.value, name:"userPoolTags[:Value]", max: 256)
-                try validate($0.value, name:"userPoolTags[:Value]", min: 0)
+                try validate($0.value, name:"userPoolTags[:value]", max: 256)
+                try validate($0.value, name:"userPoolTags[:value]", min: 0)
             }
             try verificationMessageTemplate?.validate()
         }
@@ -6486,8 +6486,8 @@ extension CognitoIdentityProvider {
             try tags?.forEach {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
             }
         }
 
@@ -7252,8 +7252,8 @@ extension CognitoIdentityProvider {
             try userPoolTags?.forEach {
                 try validate($0.key, name:"userPoolTags[key:]", max: 128)
                 try validate($0.key, name:"userPoolTags[key:]", min: 1)
-                try validate($0.value, name:"userPoolTags[:Value]", max: 256)
-                try validate($0.value, name:"userPoolTags[:Value]", min: 0)
+                try validate($0.value, name:"userPoolTags[:value]", max: 256)
+                try validate($0.value, name:"userPoolTags[:value]", min: 0)
             }
             try verificationMessageTemplate?.validate()
         }

@@ -669,8 +669,8 @@ extension SageMaker {
             try environment?.forEach {
                 try validate($0.key, name:"environment[key:]", max: 1024)
                 try validate($0.key, name:"environment[key:]", pattern: "[a-zA-Z_][a-zA-Z0-9_]*")
-                try validate($0.value, name:"environment[:Value]", max: 1024)
-                try validate($0.value, name:"environment[:Value]", pattern: "[\\S\\s]*")
+                try validate($0.value, name:"environment[:value]", max: 1024)
+                try validate($0.value, name:"environment[:value]", pattern: "[\\S\\s]*")
             }
             try validate(image, name:"image", max: 255)
             try validate(image, name:"image", pattern: "[\\S]+")
@@ -1691,8 +1691,8 @@ extension SageMaker {
             try hyperParameters?.forEach {
                 try validate($0.key, name:"hyperParameters[key:]", max: 256)
                 try validate($0.key, name:"hyperParameters[key:]", pattern: ".*")
-                try validate($0.value, name:"hyperParameters[:Value]", max: 256)
-                try validate($0.value, name:"hyperParameters[:Value]", pattern: ".*")
+                try validate($0.value, name:"hyperParameters[:value]", max: 256)
+                try validate($0.value, name:"hyperParameters[:value]", pattern: ".*")
             }
             try inputDataConfig?.forEach {
                 try $0.validate()
@@ -1806,8 +1806,8 @@ extension SageMaker {
             try environment?.forEach {
                 try validate($0.key, name:"environment[key:]", max: 1024)
                 try validate($0.key, name:"environment[key:]", pattern: "[a-zA-Z_][a-zA-Z0-9_]*")
-                try validate($0.value, name:"environment[:Value]", max: 10240)
-                try validate($0.value, name:"environment[:Value]", pattern: "[\\S\\s]*")
+                try validate($0.value, name:"environment[:value]", max: 10240)
+                try validate($0.value, name:"environment[:value]", pattern: "[\\S\\s]*")
             }
             try validate(maxConcurrentTransforms, name:"maxConcurrentTransforms", min: 0)
             try validate(maxPayloadInMB, name:"maxPayloadInMB", min: 0)
@@ -4193,8 +4193,8 @@ extension SageMaker {
             try staticHyperParameters?.forEach {
                 try validate($0.key, name:"staticHyperParameters[key:]", max: 256)
                 try validate($0.key, name:"staticHyperParameters[key:]", pattern: ".*")
-                try validate($0.value, name:"staticHyperParameters[:Value]", max: 256)
-                try validate($0.value, name:"staticHyperParameters[:Value]", pattern: ".*")
+                try validate($0.value, name:"staticHyperParameters[:value]", max: 256)
+                try validate($0.value, name:"staticHyperParameters[:value]", pattern: ".*")
             }
             try stoppingCondition.validate()
             try vpcConfig?.validate()
@@ -8619,8 +8619,8 @@ extension SageMaker {
             try hyperParameters?.forEach {
                 try validate($0.key, name:"hyperParameters[key:]", max: 256)
                 try validate($0.key, name:"hyperParameters[key:]", pattern: ".*")
-                try validate($0.value, name:"hyperParameters[:Value]", max: 256)
-                try validate($0.value, name:"hyperParameters[:Value]", pattern: ".*")
+                try validate($0.value, name:"hyperParameters[:value]", max: 256)
+                try validate($0.value, name:"hyperParameters[:value]", pattern: ".*")
             }
             try inputDataConfig.forEach {
                 try $0.validate()
@@ -8950,8 +8950,8 @@ extension SageMaker {
             try environment?.forEach {
                 try validate($0.key, name:"environment[key:]", max: 1024)
                 try validate($0.key, name:"environment[key:]", pattern: "[a-zA-Z_][a-zA-Z0-9_]*")
-                try validate($0.value, name:"environment[:Value]", max: 10240)
-                try validate($0.value, name:"environment[:Value]", pattern: "[\\S\\s]*")
+                try validate($0.value, name:"environment[:value]", max: 10240)
+                try validate($0.value, name:"environment[:value]", pattern: "[\\S\\s]*")
             }
             try validate(maxConcurrentTransforms, name:"maxConcurrentTransforms", min: 0)
             try validate(maxPayloadInMB, name:"maxPayloadInMB", min: 0)

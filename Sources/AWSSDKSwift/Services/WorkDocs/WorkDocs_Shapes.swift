@@ -477,9 +477,9 @@ extension WorkDocs {
                 try validate($0.key, name:"customMetadata[key:]", max: 56)
                 try validate($0.key, name:"customMetadata[key:]", min: 1)
                 try validate($0.key, name:"customMetadata[key:]", pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
-                try validate($0.value, name:"customMetadata[:Value]", max: 256)
-                try validate($0.value, name:"customMetadata[:Value]", min: 1)
-                try validate($0.value, name:"customMetadata[:Value]", pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+                try validate($0.value, name:"customMetadata[:value]", max: 256)
+                try validate($0.value, name:"customMetadata[:value]", min: 1)
+                try validate($0.value, name:"customMetadata[:value]", pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
             }
             try validate(resourceId, name:"resourceId", max: 128)
             try validate(resourceId, name:"resourceId", min: 1)

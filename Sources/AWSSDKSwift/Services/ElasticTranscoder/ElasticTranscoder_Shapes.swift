@@ -2384,8 +2384,8 @@ extension ElasticTranscoder {
             try codecOptions?.forEach {
                 try validate($0.key, name:"codecOptions[key:]", max: 255)
                 try validate($0.key, name:"codecOptions[key:]", min: 1)
-                try validate($0.value, name:"codecOptions[:Value]", max: 255)
-                try validate($0.value, name:"codecOptions[:Value]", min: 1)
+                try validate($0.value, name:"codecOptions[:value]", max: 255)
+                try validate($0.value, name:"codecOptions[:value]", min: 1)
             }
             try validate(displayAspectRatio, name:"displayAspectRatio", pattern: "(^auto$)|(^1:1$)|(^4:3$)|(^3:2$)|(^16:9$)")
             try validate(fixedGOP, name:"fixedGOP", pattern: "(^true$)|(^false$)")

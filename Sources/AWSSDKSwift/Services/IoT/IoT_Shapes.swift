@@ -616,8 +616,8 @@ extension IoT {
             try attributes?.forEach {
                 try validate($0.key, name:"attributes[key:]", max: 128)
                 try validate($0.key, name:"attributes[key:]", pattern: "[a-zA-Z0-9_.,@/:#-]+")
-                try validate($0.value, name:"attributes[:Value]", max: 800)
-                try validate($0.value, name:"attributes[:Value]", pattern: "[a-zA-Z0-9_.,@/:#-]*")
+                try validate($0.value, name:"attributes[:value]", max: 800)
+                try validate($0.value, name:"attributes[:value]", pattern: "[a-zA-Z0-9_.,@/:#-]*")
             }
         }
 
@@ -1340,9 +1340,9 @@ extension IoT {
                 try validate($0.key, name:"statusDetails[key:]", max: 128)
                 try validate($0.key, name:"statusDetails[key:]", min: 1)
                 try validate($0.key, name:"statusDetails[key:]", pattern: "[a-zA-Z0-9:_-]+")
-                try validate($0.value, name:"statusDetails[:Value]", max: 1024)
-                try validate($0.value, name:"statusDetails[:Value]", min: 1)
-                try validate($0.value, name:"statusDetails[:Value]", pattern: "[^\\p{C}]*+")
+                try validate($0.value, name:"statusDetails[:value]", max: 1024)
+                try validate($0.value, name:"statusDetails[:value]", min: 1)
+                try validate($0.value, name:"statusDetails[:value]", pattern: "[^\\p{C}]*+")
             }
             try validate(thingName, name:"thingName", max: 128)
             try validate(thingName, name:"thingName", min: 1)
@@ -1808,7 +1808,7 @@ extension IoT {
                 try validate($0.key, name:"tokenSigningPublicKeys[key:]", max: 128)
                 try validate($0.key, name:"tokenSigningPublicKeys[key:]", min: 1)
                 try validate($0.key, name:"tokenSigningPublicKeys[key:]", pattern: "[a-zA-Z0-9:_-]+")
-                try validate($0.value, name:"tokenSigningPublicKeys[:Value]", max: 5120)
+                try validate($0.value, name:"tokenSigningPublicKeys[:value]", max: 5120)
             }
         }
 
@@ -11597,7 +11597,7 @@ extension IoT {
                 try validate($0.key, name:"tokenSigningPublicKeys[key:]", max: 128)
                 try validate($0.key, name:"tokenSigningPublicKeys[key:]", min: 1)
                 try validate($0.key, name:"tokenSigningPublicKeys[key:]", pattern: "[a-zA-Z0-9:_-]+")
-                try validate($0.value, name:"tokenSigningPublicKeys[:Value]", max: 5120)
+                try validate($0.value, name:"tokenSigningPublicKeys[:value]", max: 5120)
             }
         }
 

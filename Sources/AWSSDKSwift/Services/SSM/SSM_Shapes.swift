@@ -1668,8 +1668,8 @@ extension SSM {
             try details?.forEach {
                 try validate($0.key, name:"details[key:]", max: 64)
                 try validate($0.key, name:"details[key:]", min: 1)
-                try validate($0.value, name:"details[:Value]", max: 4096)
-                try validate($0.value, name:"details[:Value]", min: 0)
+                try validate($0.value, name:"details[:value]", max: 4096)
+                try validate($0.value, name:"details[:value]", min: 0)
             }
             try validate(id, name:"id", max: 100)
             try validate(id, name:"id", min: 1)
@@ -7974,8 +7974,8 @@ extension SSM {
             try context?.forEach {
                 try validate($0.key, name:"context[key:]", max: 64)
                 try validate($0.key, name:"context[key:]", min: 1)
-                try validate($0.value, name:"context[:Value]", max: 4096)
-                try validate($0.value, name:"context[:Value]", min: 0)
+                try validate($0.value, name:"context[:value]", max: 4096)
+                try validate($0.value, name:"context[:value]", min: 0)
             }
             try validate(schemaVersion, name:"schemaVersion", pattern: "^([0-9]{1,6})(\\.[0-9]{1,6})$")
             try validate(typeName, name:"typeName", max: 100)
@@ -8997,8 +8997,8 @@ extension SSM {
             try parameters?.forEach {
                 try validate($0.key, name:"parameters[key:]", max: 50)
                 try validate($0.key, name:"parameters[key:]", min: 1)
-                try validate($0.value, name:"parameters[:Value]", max: 10)
-                try validate($0.value, name:"parameters[:Value]", min: 0)
+                try validate($0.value, name:"parameters[:value]", max: 10)
+                try validate($0.value, name:"parameters[:value]", min: 0)
             }
         }
 
@@ -9816,8 +9816,8 @@ extension SSM {
             try values?.forEach {
                 try validate($0.key, name:"values[key:]", max: 32)
                 try validate($0.key, name:"values[key:]", min: 1)
-                try validate($0.value, name:"values[:Value]", max: 512)
-                try validate($0.value, name:"values[:Value]", min: 0)
+                try validate($0.value, name:"values[:value]", max: 512)
+                try validate($0.value, name:"values[:value]", min: 0)
             }
         }
 
@@ -11992,8 +11992,8 @@ extension SSM {
             try payload?.forEach {
                 try validate($0.key, name:"payload[key:]", max: 50)
                 try validate($0.key, name:"payload[key:]", min: 1)
-                try validate($0.value, name:"payload[:Value]", max: 10)
-                try validate($0.value, name:"payload[:Value]", min: 0)
+                try validate($0.value, name:"payload[:value]", max: 10)
+                try validate($0.value, name:"payload[:value]", min: 0)
             }
         }
 
@@ -12481,8 +12481,8 @@ extension SSM {
             try parameters?.forEach {
                 try validate($0.key, name:"parameters[key:]", max: 50)
                 try validate($0.key, name:"parameters[key:]", min: 1)
-                try validate($0.value, name:"parameters[:Value]", max: 10)
-                try validate($0.value, name:"parameters[:Value]", min: 0)
+                try validate($0.value, name:"parameters[:value]", max: 10)
+                try validate($0.value, name:"parameters[:value]", min: 0)
             }
             try targetLocations?.forEach {
                 try $0.validate()

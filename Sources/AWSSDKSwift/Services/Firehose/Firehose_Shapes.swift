@@ -1323,7 +1323,7 @@ extension Firehose {
         public func validate() throws {
             try columnToJsonKeyMappings?.forEach {
                 try validate($0.key, name:"columnToJsonKeyMappings[key:]", pattern: "^\\S+$")
-                try validate($0.value, name:"columnToJsonKeyMappings[:Value]", pattern: "^(?!\\s*$).+")
+                try validate($0.value, name:"columnToJsonKeyMappings[:value]", pattern: "^(?!\\s*$).+")
             }
         }
 

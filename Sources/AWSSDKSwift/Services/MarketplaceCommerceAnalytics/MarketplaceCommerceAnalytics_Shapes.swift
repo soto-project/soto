@@ -70,8 +70,8 @@ extension MarketplaceCommerceAnalytics {
             try customerDefinedValues?.forEach {
                 try validate($0.key, name:"customerDefinedValues[key:]", max: 255)
                 try validate($0.key, name:"customerDefinedValues[key:]", min: 1)
-                try validate($0.value, name:"customerDefinedValues[:Value]", max: 255)
-                try validate($0.value, name:"customerDefinedValues[:Value]", min: 1)
+                try validate($0.value, name:"customerDefinedValues[:value]", max: 255)
+                try validate($0.value, name:"customerDefinedValues[:value]", min: 1)
             }
             try validate(destinationS3BucketName, name:"destinationS3BucketName", min: 1)
             try validate(roleNameArn, name:"roleNameArn", min: 1)
@@ -146,8 +146,8 @@ extension MarketplaceCommerceAnalytics {
             try customerDefinedValues?.forEach {
                 try validate($0.key, name:"customerDefinedValues[key:]", max: 255)
                 try validate($0.key, name:"customerDefinedValues[key:]", min: 1)
-                try validate($0.value, name:"customerDefinedValues[:Value]", max: 255)
-                try validate($0.value, name:"customerDefinedValues[:Value]", min: 1)
+                try validate($0.value, name:"customerDefinedValues[:value]", max: 255)
+                try validate($0.value, name:"customerDefinedValues[:value]", min: 1)
             }
             try validate(destinationS3BucketName, name:"destinationS3BucketName", min: 1)
             try validate(roleNameArn, name:"roleNameArn", min: 1)

@@ -100,8 +100,8 @@ extension CognitoIdentity {
             try identityPoolTags?.forEach {
                 try validate($0.key, name:"identityPoolTags[key:]", max: 128)
                 try validate($0.key, name:"identityPoolTags[key:]", min: 1)
-                try validate($0.value, name:"identityPoolTags[:Value]", max: 256)
-                try validate($0.value, name:"identityPoolTags[:Value]", min: 0)
+                try validate($0.value, name:"identityPoolTags[:value]", max: 256)
+                try validate($0.value, name:"identityPoolTags[:value]", min: 0)
             }
             try openIdConnectProviderARNs?.forEach {
                 try validate($0, name:"openIdConnectProviderARNs[]", max: 2048)
@@ -114,9 +114,9 @@ extension CognitoIdentity {
             try supportedLoginProviders?.forEach {
                 try validate($0.key, name:"supportedLoginProviders[key:]", max: 128)
                 try validate($0.key, name:"supportedLoginProviders[key:]", min: 1)
-                try validate($0.value, name:"supportedLoginProviders[:Value]", max: 128)
-                try validate($0.value, name:"supportedLoginProviders[:Value]", min: 1)
-                try validate($0.value, name:"supportedLoginProviders[:Value]", pattern: "[\\w.;_/-]+")
+                try validate($0.value, name:"supportedLoginProviders[:value]", max: 128)
+                try validate($0.value, name:"supportedLoginProviders[:value]", min: 1)
+                try validate($0.value, name:"supportedLoginProviders[:value]", pattern: "[\\w.;_/-]+")
             }
         }
 
@@ -312,8 +312,8 @@ extension CognitoIdentity {
             try logins?.forEach {
                 try validate($0.key, name:"logins[key:]", max: 128)
                 try validate($0.key, name:"logins[key:]", min: 1)
-                try validate($0.value, name:"logins[:Value]", max: 50000)
-                try validate($0.value, name:"logins[:Value]", min: 1)
+                try validate($0.value, name:"logins[:value]", max: 50000)
+                try validate($0.value, name:"logins[:value]", min: 1)
             }
         }
 
@@ -376,8 +376,8 @@ extension CognitoIdentity {
             try logins?.forEach {
                 try validate($0.key, name:"logins[key:]", max: 128)
                 try validate($0.key, name:"logins[key:]", min: 1)
-                try validate($0.value, name:"logins[:Value]", max: 50000)
-                try validate($0.value, name:"logins[:Value]", min: 1)
+                try validate($0.value, name:"logins[:value]", max: 50000)
+                try validate($0.value, name:"logins[:value]", min: 1)
             }
         }
 
@@ -489,8 +489,8 @@ extension CognitoIdentity {
             try logins.forEach {
                 try validate($0.key, name:"logins[key:]", max: 128)
                 try validate($0.key, name:"logins[key:]", min: 1)
-                try validate($0.value, name:"logins[:Value]", max: 50000)
-                try validate($0.value, name:"logins[:Value]", min: 1)
+                try validate($0.value, name:"logins[:value]", max: 50000)
+                try validate($0.value, name:"logins[:value]", min: 1)
             }
             try validate(tokenDuration, name:"tokenDuration", max: 86400)
             try validate(tokenDuration, name:"tokenDuration", min: 1)
@@ -549,8 +549,8 @@ extension CognitoIdentity {
             try logins?.forEach {
                 try validate($0.key, name:"logins[key:]", max: 128)
                 try validate($0.key, name:"logins[key:]", min: 1)
-                try validate($0.value, name:"logins[:Value]", max: 50000)
-                try validate($0.value, name:"logins[:Value]", min: 1)
+                try validate($0.value, name:"logins[:value]", max: 50000)
+                try validate($0.value, name:"logins[:value]", min: 1)
             }
         }
 
@@ -674,8 +674,8 @@ extension CognitoIdentity {
             try identityPoolTags?.forEach {
                 try validate($0.key, name:"identityPoolTags[key:]", max: 128)
                 try validate($0.key, name:"identityPoolTags[key:]", min: 1)
-                try validate($0.value, name:"identityPoolTags[:Value]", max: 256)
-                try validate($0.value, name:"identityPoolTags[:Value]", min: 0)
+                try validate($0.value, name:"identityPoolTags[:value]", max: 256)
+                try validate($0.value, name:"identityPoolTags[:value]", min: 0)
             }
             try openIdConnectProviderARNs?.forEach {
                 try validate($0, name:"openIdConnectProviderARNs[]", max: 2048)
@@ -688,9 +688,9 @@ extension CognitoIdentity {
             try supportedLoginProviders?.forEach {
                 try validate($0.key, name:"supportedLoginProviders[key:]", max: 128)
                 try validate($0.key, name:"supportedLoginProviders[key:]", min: 1)
-                try validate($0.value, name:"supportedLoginProviders[:Value]", max: 128)
-                try validate($0.value, name:"supportedLoginProviders[:Value]", min: 1)
-                try validate($0.value, name:"supportedLoginProviders[:Value]", pattern: "[\\w.;_/-]+")
+                try validate($0.value, name:"supportedLoginProviders[:value]", max: 128)
+                try validate($0.value, name:"supportedLoginProviders[:value]", min: 1)
+                try validate($0.value, name:"supportedLoginProviders[:value]", pattern: "[\\w.;_/-]+")
             }
         }
 
@@ -1172,8 +1172,8 @@ extension CognitoIdentity {
             }
             try roles.forEach {
                 try validate($0.key, name:"roles[key:]", pattern: "(un)?authenticated")
-                try validate($0.value, name:"roles[:Value]", max: 2048)
-                try validate($0.value, name:"roles[:Value]", min: 20)
+                try validate($0.value, name:"roles[:value]", max: 2048)
+                try validate($0.value, name:"roles[:value]", min: 20)
             }
         }
 
@@ -1206,8 +1206,8 @@ extension CognitoIdentity {
             try tags?.forEach {
                 try validate($0.key, name:"tags[key:]", max: 128)
                 try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.value, name:"tags[:Value]", max: 256)
-                try validate($0.value, name:"tags[:Value]", min: 0)
+                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.value, name:"tags[:value]", min: 0)
             }
         }
 
@@ -1298,8 +1298,8 @@ extension CognitoIdentity {
             try logins.forEach {
                 try validate($0.key, name:"logins[key:]", max: 128)
                 try validate($0.key, name:"logins[key:]", min: 1)
-                try validate($0.value, name:"logins[:Value]", max: 50000)
-                try validate($0.value, name:"logins[:Value]", min: 1)
+                try validate($0.value, name:"logins[:value]", max: 50000)
+                try validate($0.value, name:"logins[:value]", min: 1)
             }
             try loginsToRemove.forEach {
                 try validate($0, name:"loginsToRemove[]", max: 128)
