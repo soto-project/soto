@@ -482,28 +482,6 @@ extension MediaTailor {
         }
     }
 
-    public struct TagsModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: true, type: .map)
-        ]
-
-        /// A comma-separated list of tag key:value pairs. For example: 
-        ///  {
-        ///  "Key1": "Value1",
-        ///  "Key2": "Value2"
-        ///  }
-        ///  
-        public let tags: [String: String]
-
-        public init(tags: [String: String]) {
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-        }
-    }
-
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string), 

@@ -1017,14 +1017,6 @@ extension CodeDeploy {
         }
     }
 
-    public struct DeploymentAlreadyStartedException: AWSShape {
-
-
-        public init() {
-        }
-
-    }
-
     public struct DeploymentConfigInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "computePlatform", required: false, type: .enum), 
@@ -2365,30 +2357,6 @@ extension CodeDeploy {
         case blue = "Blue"
         case green = "Green"
         public var description: String { return self.rawValue }
-    }
-
-    public struct InvalidDeploymentConfigIdException: AWSShape {
-
-
-        public init() {
-        }
-
-    }
-
-    public struct InvalidInstanceIdException: AWSShape {
-
-
-        public init() {
-        }
-
-    }
-
-    public struct InvalidTargetException: AWSShape {
-
-
-        public init() {
-        }
-
     }
 
     public struct LambdaFunctionInfo: AWSShape {

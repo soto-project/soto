@@ -5,18 +5,6 @@ import AWSSDKSwiftCore
 
 extension Inspector {
 
-    public enum AccessDeniedErrorCode: String, CustomStringConvertible, Codable {
-        case accessDeniedToAssessmentTarget = "ACCESS_DENIED_TO_ASSESSMENT_TARGET"
-        case accessDeniedToAssessmentTemplate = "ACCESS_DENIED_TO_ASSESSMENT_TEMPLATE"
-        case accessDeniedToAssessmentRun = "ACCESS_DENIED_TO_ASSESSMENT_RUN"
-        case accessDeniedToFinding = "ACCESS_DENIED_TO_FINDING"
-        case accessDeniedToResourceGroup = "ACCESS_DENIED_TO_RESOURCE_GROUP"
-        case accessDeniedToRulesPackage = "ACCESS_DENIED_TO_RULES_PACKAGE"
-        case accessDeniedToSnsTopic = "ACCESS_DENIED_TO_SNS_TOPIC"
-        case accessDeniedToIamRole = "ACCESS_DENIED_TO_IAM_ROLE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AddAttributesToFindingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attributes", required: true, type: .list), 
@@ -67,28 +55,6 @@ extension Inspector {
 
         private enum CodingKeys: String, CodingKey {
             case failedItems = "failedItems"
-        }
-    }
-
-    public struct AgentAlreadyRunningAssessment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "agentId", required: true, type: .string), 
-            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
-        ]
-
-        /// ID of the agent that is running on an EC2 instance that is already participating in another started assessment run.
-        public let agentId: String
-        /// The ARN of the assessment run that has already been started.
-        public let assessmentRunArn: String
-
-        public init(agentId: String, assessmentRunArn: String) {
-            self.agentId = agentId
-            self.assessmentRunArn = assessmentRunArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case agentId = "agentId"
-            case assessmentRunArn = "assessmentRunArn"
         }
     }
 
@@ -1914,79 +1880,6 @@ extension Inspector {
         }
     }
 
-    public enum InvalidCrossAccountRoleErrorCode: String, CustomStringConvertible, Codable {
-        case roleDoesNotExistOrInvalidTrustRelationship = "ROLE_DOES_NOT_EXIST_OR_INVALID_TRUST_RELATIONSHIP"
-        case roleDoesNotHaveCorrectPolicy = "ROLE_DOES_NOT_HAVE_CORRECT_POLICY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InvalidInputErrorCode: String, CustomStringConvertible, Codable {
-        case invalidAssessmentTargetArn = "INVALID_ASSESSMENT_TARGET_ARN"
-        case invalidAssessmentTemplateArn = "INVALID_ASSESSMENT_TEMPLATE_ARN"
-        case invalidAssessmentRunArn = "INVALID_ASSESSMENT_RUN_ARN"
-        case invalidFindingArn = "INVALID_FINDING_ARN"
-        case invalidResourceGroupArn = "INVALID_RESOURCE_GROUP_ARN"
-        case invalidRulesPackageArn = "INVALID_RULES_PACKAGE_ARN"
-        case invalidResourceArn = "INVALID_RESOURCE_ARN"
-        case invalidSnsTopicArn = "INVALID_SNS_TOPIC_ARN"
-        case invalidIamRoleArn = "INVALID_IAM_ROLE_ARN"
-        case invalidAssessmentTargetName = "INVALID_ASSESSMENT_TARGET_NAME"
-        case invalidAssessmentTargetNamePattern = "INVALID_ASSESSMENT_TARGET_NAME_PATTERN"
-        case invalidAssessmentTemplateName = "INVALID_ASSESSMENT_TEMPLATE_NAME"
-        case invalidAssessmentTemplateNamePattern = "INVALID_ASSESSMENT_TEMPLATE_NAME_PATTERN"
-        case invalidAssessmentTemplateDuration = "INVALID_ASSESSMENT_TEMPLATE_DURATION"
-        case invalidAssessmentTemplateDurationRange = "INVALID_ASSESSMENT_TEMPLATE_DURATION_RANGE"
-        case invalidAssessmentRunDurationRange = "INVALID_ASSESSMENT_RUN_DURATION_RANGE"
-        case invalidAssessmentRunStartTimeRange = "INVALID_ASSESSMENT_RUN_START_TIME_RANGE"
-        case invalidAssessmentRunCompletionTimeRange = "INVALID_ASSESSMENT_RUN_COMPLETION_TIME_RANGE"
-        case invalidAssessmentRunStateChangeTimeRange = "INVALID_ASSESSMENT_RUN_STATE_CHANGE_TIME_RANGE"
-        case invalidAssessmentRunState = "INVALID_ASSESSMENT_RUN_STATE"
-        case invalidTag = "INVALID_TAG"
-        case invalidTagKey = "INVALID_TAG_KEY"
-        case invalidTagValue = "INVALID_TAG_VALUE"
-        case invalidResourceGroupTagKey = "INVALID_RESOURCE_GROUP_TAG_KEY"
-        case invalidResourceGroupTagValue = "INVALID_RESOURCE_GROUP_TAG_VALUE"
-        case invalidAttribute = "INVALID_ATTRIBUTE"
-        case invalidUserAttribute = "INVALID_USER_ATTRIBUTE"
-        case invalidUserAttributeKey = "INVALID_USER_ATTRIBUTE_KEY"
-        case invalidUserAttributeValue = "INVALID_USER_ATTRIBUTE_VALUE"
-        case invalidPaginationToken = "INVALID_PAGINATION_TOKEN"
-        case invalidMaxResults = "INVALID_MAX_RESULTS"
-        case invalidAgentId = "INVALID_AGENT_ID"
-        case invalidAutoScalingGroup = "INVALID_AUTO_SCALING_GROUP"
-        case invalidRuleName = "INVALID_RULE_NAME"
-        case invalidSeverity = "INVALID_SEVERITY"
-        case invalidLocale = "INVALID_LOCALE"
-        case invalidEvent = "INVALID_EVENT"
-        case assessmentTargetNameAlreadyTaken = "ASSESSMENT_TARGET_NAME_ALREADY_TAKEN"
-        case assessmentTemplateNameAlreadyTaken = "ASSESSMENT_TEMPLATE_NAME_ALREADY_TAKEN"
-        case invalidNumberOfAssessmentTargetArns = "INVALID_NUMBER_OF_ASSESSMENT_TARGET_ARNS"
-        case invalidNumberOfAssessmentTemplateArns = "INVALID_NUMBER_OF_ASSESSMENT_TEMPLATE_ARNS"
-        case invalidNumberOfAssessmentRunArns = "INVALID_NUMBER_OF_ASSESSMENT_RUN_ARNS"
-        case invalidNumberOfFindingArns = "INVALID_NUMBER_OF_FINDING_ARNS"
-        case invalidNumberOfResourceGroupArns = "INVALID_NUMBER_OF_RESOURCE_GROUP_ARNS"
-        case invalidNumberOfRulesPackageArns = "INVALID_NUMBER_OF_RULES_PACKAGE_ARNS"
-        case invalidNumberOfAssessmentRunStates = "INVALID_NUMBER_OF_ASSESSMENT_RUN_STATES"
-        case invalidNumberOfTags = "INVALID_NUMBER_OF_TAGS"
-        case invalidNumberOfResourceGroupTags = "INVALID_NUMBER_OF_RESOURCE_GROUP_TAGS"
-        case invalidNumberOfAttributes = "INVALID_NUMBER_OF_ATTRIBUTES"
-        case invalidNumberOfUserAttributes = "INVALID_NUMBER_OF_USER_ATTRIBUTES"
-        case invalidNumberOfAgentIds = "INVALID_NUMBER_OF_AGENT_IDS"
-        case invalidNumberOfAutoScalingGroups = "INVALID_NUMBER_OF_AUTO_SCALING_GROUPS"
-        case invalidNumberOfRuleNames = "INVALID_NUMBER_OF_RULE_NAMES"
-        case invalidNumberOfSeverities = "INVALID_NUMBER_OF_SEVERITIES"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LimitExceededErrorCode: String, CustomStringConvertible, Codable {
-        case assessmentTargetLimitExceeded = "ASSESSMENT_TARGET_LIMIT_EXCEEDED"
-        case assessmentTemplateLimitExceeded = "ASSESSMENT_TEMPLATE_LIMIT_EXCEEDED"
-        case assessmentRunLimitExceeded = "ASSESSMENT_RUN_LIMIT_EXCEEDED"
-        case resourceGroupLimitExceeded = "RESOURCE_GROUP_LIMIT_EXCEEDED"
-        case eventSubscriptionLimitExceeded = "EVENT_SUBSCRIPTION_LIMIT_EXCEEDED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListAssessmentRunAgentsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assessmentRunArn", required: true, type: .string), 
@@ -2567,18 +2460,6 @@ extension Inspector {
             case subnetId = "subnetId"
             case vpcId = "vpcId"
         }
-    }
-
-    public enum NoSuchEntityErrorCode: String, CustomStringConvertible, Codable {
-        case assessmentTargetDoesNotExist = "ASSESSMENT_TARGET_DOES_NOT_EXIST"
-        case assessmentTemplateDoesNotExist = "ASSESSMENT_TEMPLATE_DOES_NOT_EXIST"
-        case assessmentRunDoesNotExist = "ASSESSMENT_RUN_DOES_NOT_EXIST"
-        case findingDoesNotExist = "FINDING_DOES_NOT_EXIST"
-        case resourceGroupDoesNotExist = "RESOURCE_GROUP_DOES_NOT_EXIST"
-        case rulesPackageDoesNotExist = "RULES_PACKAGE_DOES_NOT_EXIST"
-        case snsTopicDoesNotExist = "SNS_TOPIC_DOES_NOT_EXIST"
-        case iamRoleDoesNotExist = "IAM_ROLE_DOES_NOT_EXIST"
-        public var description: String { return self.rawValue }
     }
 
     public struct PreviewAgentsRequest: AWSShape {

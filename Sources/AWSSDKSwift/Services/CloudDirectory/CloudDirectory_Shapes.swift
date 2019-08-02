@@ -2065,28 +2065,6 @@ extension CloudDirectory {
         }
     }
 
-    public enum BatchWriteExceptionType: String, CustomStringConvertible, Codable {
-        case internalserviceexception = "InternalServiceException"
-        case validationexception = "ValidationException"
-        case invalidarnexception = "InvalidArnException"
-        case linknamealreadyinuseexception = "LinkNameAlreadyInUseException"
-        case stillcontainslinksexception = "StillContainsLinksException"
-        case facetvalidationexception = "FacetValidationException"
-        case objectnotdetachedexception = "ObjectNotDetachedException"
-        case resourcenotfoundexception = "ResourceNotFoundException"
-        case accessdeniedexception = "AccessDeniedException"
-        case invalidattachmentexception = "InvalidAttachmentException"
-        case notindexexception = "NotIndexException"
-        case notnodeexception = "NotNodeException"
-        case indexedattributemissingexception = "IndexedAttributeMissingException"
-        case objectalreadydetachedexception = "ObjectAlreadyDetachedException"
-        case notpolicyexception = "NotPolicyException"
-        case directorynotenabledexception = "DirectoryNotEnabledException"
-        case limitexceededexception = "LimitExceededException"
-        case unsupportedindextypeexception = "UnsupportedIndexTypeException"
-        public var description: String { return self.rawValue }
-    }
-
     public struct BatchWriteOperation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AddFacetToObject", required: false, type: .structure), 

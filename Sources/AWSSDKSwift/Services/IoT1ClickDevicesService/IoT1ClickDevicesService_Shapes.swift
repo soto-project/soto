@@ -112,23 +112,6 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct DeviceClaimResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .string)
-        ]
-
-        /// The device's final claim state.
-        public let state: String?
-
-        public init(state: String? = nil) {
-            self.state = state
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "state"
-        }
-    }
-
     public struct DeviceDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
@@ -199,29 +182,6 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct DeviceEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Events", location: .body(locationName: "events"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
-
-        /// An array of zero or more elements describing the event(s) associated with the
-        ///  device.
-        public let events: [DeviceEvent]?
-        /// The token to retrieve the next set of results.
-        public let nextToken: String?
-
-        public init(events: [DeviceEvent]? = nil, nextToken: String? = nil) {
-            self.events = events
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case events = "events"
-            case nextToken = "nextToken"
-        }
-    }
-
     public struct DeviceMethod: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceType", location: .body(locationName: "deviceType"), required: false, type: .string), 
@@ -242,14 +202,6 @@ extension IoT1ClickDevicesService {
             case deviceType = "deviceType"
             case methodName = "methodName"
         }
-    }
-
-    public struct Empty: AWSShape {
-
-
-        public init() {
-        }
-
     }
 
     public struct FinalizeDeviceClaimRequest: AWSShape {

@@ -2079,50 +2079,6 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct QueryCompileError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "message", required: false, type: .string)
-        ]
-
-        /// Reserved.
-        public let location: QueryCompileErrorLocation?
-        /// Reserved.
-        public let message: String?
-
-        public init(location: QueryCompileErrorLocation? = nil, message: String? = nil) {
-            self.location = location
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case location = "location"
-            case message = "message"
-        }
-    }
-
-    public struct QueryCompileErrorLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endCharOffset", required: false, type: .integer), 
-            AWSShapeMember(label: "startCharOffset", required: false, type: .integer)
-        ]
-
-        /// Reserved.
-        public let endCharOffset: Int32?
-        /// Reserved.
-        public let startCharOffset: Int32?
-
-        public init(endCharOffset: Int32? = nil, startCharOffset: Int32? = nil) {
-            self.endCharOffset = endCharOffset
-            self.startCharOffset = startCharOffset
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endCharOffset = "endCharOffset"
-            case startCharOffset = "startCharOffset"
-        }
-    }
-
     public struct QueryInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "createTime", required: false, type: .long), 

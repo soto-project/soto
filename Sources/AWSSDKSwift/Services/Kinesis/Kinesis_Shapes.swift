@@ -703,22 +703,6 @@ extension Kinesis {
         }
     }
 
-    public struct InternalFailureException: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "message", required: false, type: .string)
-        ]
-
-        public let message: String?
-
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
-    }
-
     public struct ListShardsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExclusiveStartShardId", required: false, type: .string), 
@@ -1677,32 +1661,6 @@ extension Kinesis {
         case active = "ACTIVE"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
-    }
-
-    public struct SubscribeToShardEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContinuationSequenceNumber", required: true, type: .string), 
-            AWSShapeMember(label: "MillisBehindLatest", required: true, type: .long), 
-            AWSShapeMember(label: "Records", required: true, type: .list)
-        ]
-
-        /// Use this as StartingSequenceNumber in the next call to SubscribeToShard.
-        public let continuationSequenceNumber: String
-        /// The number of milliseconds the read records are from the tip of the stream, indicating how far behind current time the consumer is. A value of zero indicates that record processing is caught up, and there are no new records to process at this moment.
-        public let millisBehindLatest: Int64
-        public let records: [Record]
-
-        public init(continuationSequenceNumber: String, millisBehindLatest: Int64, records: [Record]) {
-            self.continuationSequenceNumber = continuationSequenceNumber
-            self.millisBehindLatest = millisBehindLatest
-            self.records = records
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case continuationSequenceNumber = "ContinuationSequenceNumber"
-            case millisBehindLatest = "MillisBehindLatest"
-            case records = "Records"
-        }
     }
 
     public struct SubscribeToShardInput: AWSShape {

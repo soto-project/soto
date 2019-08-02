@@ -1230,11 +1230,6 @@ extension Athena {
 
     }
 
-    public enum ThrottleReason: String, CustomStringConvertible, Codable {
-        case concurrentQueryLimitExceeded = "CONCURRENT_QUERY_LIMIT_EXCEEDED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct UnprocessedNamedQueryId: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ErrorCode", required: false, type: .string), 

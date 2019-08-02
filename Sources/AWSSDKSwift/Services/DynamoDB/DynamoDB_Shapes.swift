@@ -640,33 +640,6 @@ extension DynamoDB {
         }
     }
 
-    public struct CancellationReason: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", required: false, type: .string), 
-            AWSShapeMember(label: "Item", required: false, type: .map), 
-            AWSShapeMember(label: "Message", required: false, type: .string)
-        ]
-
-        /// Status code for the result of the cancelled transaction.
-        public let code: String?
-        /// Item in the request which caused the transaction to get cancelled.
-        public let item: [String: AttributeValue]?
-        /// Cancellation reason message description.
-        public let message: String?
-
-        public init(code: String? = nil, item: [String: AttributeValue]? = nil, message: String? = nil) {
-            self.code = code
-            self.item = item
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case code = "Code"
-            case item = "Item"
-            case message = "Message"
-        }
-    }
-
     public struct Capacity: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CapacityUnits", required: false, type: .double), 

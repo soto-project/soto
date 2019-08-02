@@ -2390,15 +2390,6 @@ extension Lambda {
         }
     }
 
-    public enum ThrottleReason: String, CustomStringConvertible, Codable {
-        case concurrentinvocationlimitexceeded = "ConcurrentInvocationLimitExceeded"
-        case functioninvocationratelimitexceeded = "FunctionInvocationRateLimitExceeded"
-        case reservedfunctionconcurrentinvocationlimitexceeded = "ReservedFunctionConcurrentInvocationLimitExceeded"
-        case reservedfunctioninvocationratelimitexceeded = "ReservedFunctionInvocationRateLimitExceeded"
-        case callerratelimitexceeded = "CallerRateLimitExceeded"
-        public var description: String { return self.rawValue }
-    }
-
     public struct TracingConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Mode", required: false, type: .enum)

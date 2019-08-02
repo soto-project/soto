@@ -3029,36 +3029,6 @@ extension LexModelBuildingService {
         }
     }
 
-    public enum ReferenceType: String, CustomStringConvertible, Codable {
-        case intent = "Intent"
-        case bot = "Bot"
-        case botalias = "BotAlias"
-        case botchannel = "BotChannel"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ResourceReference: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
-
-        /// The name of the resource that is using the resource that you are trying to delete.
-        public let name: String?
-        /// The version of the resource that is using the resource that you are trying to delete.
-        public let version: String?
-
-        public init(name: String? = nil, version: String? = nil) {
-            self.name = name
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case version = "version"
-        }
-    }
-
     public enum ResourceType: String, CustomStringConvertible, Codable {
         case bot = "BOT"
         case intent = "INTENT"

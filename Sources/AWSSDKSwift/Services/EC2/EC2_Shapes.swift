@@ -1075,33 +1075,6 @@ extension EC2 {
         }
     }
 
-    public enum AssociatedNetworkType: String, CustomStringConvertible, Codable {
-        case vpc = "vpc"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AssociatedTargetNetwork: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkId", location: .body(locationName: "networkId"), required: false, type: .string), 
-            AWSShapeMember(label: "NetworkType", location: .body(locationName: "networkType"), required: false, type: .enum)
-        ]
-
-        /// The ID of the subnet.
-        public let networkId: String?
-        /// The target network type.
-        public let networkType: AssociatedNetworkType?
-
-        public init(networkId: String? = nil, networkType: AssociatedNetworkType? = nil) {
-            self.networkId = networkId
-            self.networkType = networkType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case networkId = "networkId"
-            case networkType = "networkType"
-        }
-    }
-
     public struct AssociationStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", location: .body(locationName: "code"), required: false, type: .enum), 

@@ -972,30 +972,6 @@ extension Kafka {
         public var description: String { return self.rawValue }
     }
 
-    public struct Error: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InvalidParameter", location: .body(locationName: "invalidParameter"), required: false, type: .string), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
-        ]
-
-        ///             The parameter that caused the error.
-        ///          
-        public let invalidParameter: String?
-        ///             The description of the error.
-        ///          
-        public let message: String?
-
-        public init(invalidParameter: String? = nil, message: String? = nil) {
-            self.invalidParameter = invalidParameter
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case invalidParameter = "invalidParameter"
-            case message = "message"
-        }
-    }
-
     public struct ErrorInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ErrorCode", location: .body(locationName: "errorCode"), required: false, type: .string), 

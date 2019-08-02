@@ -222,13 +222,6 @@ extension CloudFront {
         }
     }
 
-    public enum CertificateSource: String, CustomStringConvertible, Codable {
-        case cloudfront = "cloudfront"
-        case iam = "iam"
-        case acm = "acm"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CloudFrontOriginAccessIdentity: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CloudFrontOriginAccessIdentityConfig", required: false, type: .structure), 

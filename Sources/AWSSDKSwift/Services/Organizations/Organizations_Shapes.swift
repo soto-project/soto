@@ -43,11 +43,6 @@ extension Organizations {
         }
     }
 
-    public enum AccessDeniedForDependencyExceptionReason: String, CustomStringConvertible, Codable {
-        case accessDeniedDuringCreateServiceLinkedRole = "ACCESS_DENIED_DURING_CREATE_SERVICE_LINKED_ROLE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Account: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string), 
@@ -205,32 +200,6 @@ extension Organizations {
     public enum ChildType: String, CustomStringConvertible, Codable {
         case account = "ACCOUNT"
         case organizationalUnit = "ORGANIZATIONAL_UNIT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ConstraintViolationExceptionReason: String, CustomStringConvertible, Codable {
-        case accountNumberLimitExceeded = "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
-        case handshakeRateLimitExceeded = "HANDSHAKE_RATE_LIMIT_EXCEEDED"
-        case ouNumberLimitExceeded = "OU_NUMBER_LIMIT_EXCEEDED"
-        case ouDepthLimitExceeded = "OU_DEPTH_LIMIT_EXCEEDED"
-        case policyNumberLimitExceeded = "POLICY_NUMBER_LIMIT_EXCEEDED"
-        case maxPolicyTypeAttachmentLimitExceeded = "MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED"
-        case minPolicyTypeAttachmentLimitExceeded = "MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED"
-        case accountCannotLeaveOrganization = "ACCOUNT_CANNOT_LEAVE_ORGANIZATION"
-        case accountCannotLeaveWithoutEula = "ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA"
-        case accountCannotLeaveWithoutPhoneVerification = "ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION"
-        case masterAccountPaymentInstrumentRequired = "MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED"
-        case memberAccountPaymentInstrumentRequired = "MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED"
-        case accountCreationRateLimitExceeded = "ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED"
-        case masterAccountAddressDoesNotMatchMarketplace = "MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE"
-        case masterAccountMissingContactInfo = "MASTER_ACCOUNT_MISSING_CONTACT_INFO"
-        case masterAccountNotGovcloudEnabled = "MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED"
-        case organizationNotInAllFeaturesMode = "ORGANIZATION_NOT_IN_ALL_FEATURES_MODE"
-        case createOrganizationInBillingModeUnsupportedRegion = "CREATE_ORGANIZATION_IN_BILLING_MODE_UNSUPPORTED_REGION"
-        case emailVerificationCodeExpired = "EMAIL_VERIFICATION_CODE_EXPIRED"
-        case waitPeriodActive = "WAIT_PERIOD_ACTIVE"
-        case maxTagLimitExceeded = "MAX_TAG_LIMIT_EXCEEDED"
-        case tagPolicyViolation = "TAG_POLICY_VIOLATION"
         public var description: String { return self.rawValue }
     }
 
@@ -1101,18 +1070,6 @@ extension Organizations {
         }
     }
 
-    public enum HandshakeConstraintViolationExceptionReason: String, CustomStringConvertible, Codable {
-        case accountNumberLimitExceeded = "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
-        case handshakeRateLimitExceeded = "HANDSHAKE_RATE_LIMIT_EXCEEDED"
-        case alreadyInAnOrganization = "ALREADY_IN_AN_ORGANIZATION"
-        case organizationAlreadyHasAllFeatures = "ORGANIZATION_ALREADY_HAS_ALL_FEATURES"
-        case inviteDisabledDuringEnableAllFeatures = "INVITE_DISABLED_DURING_ENABLE_ALL_FEATURES"
-        case paymentInstrumentRequired = "PAYMENT_INSTRUMENT_REQUIRED"
-        case organizationFromDifferentSellerOfRecord = "ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD"
-        case organizationMembershipChangeRateLimitExceeded = "ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED"
-        public var description: String { return self.rawValue }
-    }
-
     public struct HandshakeFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ActionType", required: false, type: .enum), 
@@ -1225,30 +1182,6 @@ extension Organizations {
     public enum IAMUserAccessToBilling: String, CustomStringConvertible, Codable {
         case allow = "ALLOW"
         case deny = "DENY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InvalidInputExceptionReason: String, CustomStringConvertible, Codable {
-        case invalidPartyTypeTarget = "INVALID_PARTY_TYPE_TARGET"
-        case invalidSyntaxOrganizationArn = "INVALID_SYNTAX_ORGANIZATION_ARN"
-        case invalidSyntaxPolicyId = "INVALID_SYNTAX_POLICY_ID"
-        case invalidEnum = "INVALID_ENUM"
-        case invalidListMember = "INVALID_LIST_MEMBER"
-        case maxLengthExceeded = "MAX_LENGTH_EXCEEDED"
-        case maxValueExceeded = "MAX_VALUE_EXCEEDED"
-        case minLengthExceeded = "MIN_LENGTH_EXCEEDED"
-        case minValueExceeded = "MIN_VALUE_EXCEEDED"
-        case immutablePolicy = "IMMUTABLE_POLICY"
-        case invalidPattern = "INVALID_PATTERN"
-        case invalidPatternTargetId = "INVALID_PATTERN_TARGET_ID"
-        case inputRequired = "INPUT_REQUIRED"
-        case invalidNextToken = "INVALID_NEXT_TOKEN"
-        case maxLimitExceededFilter = "MAX_LIMIT_EXCEEDED_FILTER"
-        case movingAccountBetweenDifferentRoots = "MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS"
-        case invalidFullNameTarget = "INVALID_FULL_NAME_TARGET"
-        case unrecognizedServicePrincipal = "UNRECOGNIZED_SERVICE_PRINCIPAL"
-        case invalidRoleName = "INVALID_ROLE_NAME"
-        case invalidSystemTagsParameter = "INVALID_SYSTEM_TAGS_PARAMETER"
         public var description: String { return self.rawValue }
     }
 

@@ -201,22 +201,6 @@ extension MediaLive {
         }
     }
 
-    public struct AccessDenied: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
-        ]
-
-        public let message: String?
-
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
-    }
-
     public enum AfdSignaling: String, CustomStringConvertible, Codable {
         case auto = "AUTO"
         case fixed = "FIXED"
@@ -862,28 +846,6 @@ extension MediaLive {
         }
     }
 
-    public struct BatchUpdateScheduleResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Creates", location: .body(locationName: "creates"), required: false, type: .structure), 
-            AWSShapeMember(label: "Deletes", location: .body(locationName: "deletes"), required: false, type: .structure)
-        ]
-
-        /// Schedule actions created in the schedule.
-        public let creates: BatchScheduleActionCreateResult?
-        /// Schedule actions deleted from the schedule.
-        public let deletes: BatchScheduleActionDeleteResult?
-
-        public init(creates: BatchScheduleActionCreateResult? = nil, deletes: BatchScheduleActionDeleteResult? = nil) {
-            self.creates = creates
-            self.deletes = deletes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creates = "creates"
-            case deletes = "deletes"
-        }
-    }
-
     public struct BlackoutSlate: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BlackoutSlateImage", location: .body(locationName: "blackoutSlateImage"), required: false, type: .structure), 
@@ -1400,27 +1362,6 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public struct ChannelConfigurationValidationError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string), 
-            AWSShapeMember(label: "ValidationErrors", location: .body(locationName: "validationErrors"), required: false, type: .list)
-        ]
-
-        public let message: String?
-        /// A collection of validation error responses.
-        public let validationErrors: [ValidationError]?
-
-        public init(message: String? = nil, validationErrors: [ValidationError]? = nil) {
-            self.message = message
-            self.validationErrors = validationErrors
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-            case validationErrors = "validationErrors"
-        }
-    }
-
     public struct ChannelEgressEndpoint: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SourceIp", location: .body(locationName: "sourceIp"), required: false, type: .string)
@@ -1530,67 +1471,6 @@ extension MediaLive {
         }
     }
 
-    public struct CreateChannel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelClass", location: .body(locationName: "channelClass"), required: false, type: .enum), 
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
-            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments"), required: false, type: .list), 
-            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification"), required: false, type: .structure), 
-            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel"), required: false, type: .enum), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId"), required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
-        ]
-
-        /// The class for this channel. STANDARD for a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
-        public let channelClass: ChannelClass?
-        public let destinations: [OutputDestination]?
-        public let encoderSettings: EncoderSettings?
-        /// List of input attachments for channel.
-        public let inputAttachments: [InputAttachment]?
-        /// Specification of input for this channel (max. bitrate, resolution, codec, etc.)
-        public let inputSpecification: InputSpecification?
-        /// The log level to write to CloudWatch Logs.
-        public let logLevel: LogLevel?
-        /// Name of channel.
-        public let name: String?
-        /// Unique request ID to be specified. This is needed to prevent retries from
-        /// creating multiple resources.
-        public let requestId: String?
-        /// An optional Amazon Resource Name (ARN) of the role to assume when running the Channel.
-        public let roleArn: String?
-        /// A collection of key-value pairs.
-        public let tags: [String: String]?
-
-        public init(channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, requestId: String? = CreateChannel.idempotencyToken(), roleArn: String? = nil, tags: [String: String]? = nil) {
-            self.channelClass = channelClass
-            self.destinations = destinations
-            self.encoderSettings = encoderSettings
-            self.inputAttachments = inputAttachments
-            self.inputSpecification = inputSpecification
-            self.logLevel = logLevel
-            self.name = name
-            self.requestId = requestId
-            self.roleArn = roleArn
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case channelClass = "channelClass"
-            case destinations = "destinations"
-            case encoderSettings = "encoderSettings"
-            case inputAttachments = "inputAttachments"
-            case inputSpecification = "inputSpecification"
-            case logLevel = "logLevel"
-            case name = "name"
-            case requestId = "requestId"
-            case roleArn = "roleArn"
-            case tags = "tags"
-        }
-    }
-
     public struct CreateChannelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChannelClass", location: .body(locationName: "channelClass"), required: false, type: .enum), 
@@ -1669,87 +1549,6 @@ extension MediaLive {
         }
     }
 
-    public struct CreateChannelResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Channel", location: .body(locationName: "channel"), required: false, type: .structure)
-        ]
-
-        public let channel: Channel?
-
-        public init(channel: Channel? = nil) {
-            self.channel = channel
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case channel = "channel"
-        }
-    }
-
-    public struct CreateInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
-            AWSShapeMember(label: "InputSecurityGroups", location: .body(locationName: "inputSecurityGroups"), required: false, type: .list), 
-            AWSShapeMember(label: "MediaConnectFlows", location: .body(locationName: "mediaConnectFlows"), required: false, type: .list), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId"), required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Sources", location: .body(locationName: "sources"), required: false, type: .list), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .enum), 
-            AWSShapeMember(label: "Vpc", location: .body(locationName: "vpc"), required: false, type: .structure)
-        ]
-
-        /// Destination settings for PUSH type inputs.
-        public let destinations: [InputDestinationRequest]?
-        /// A list of security groups referenced by IDs to attach to the input.
-        public let inputSecurityGroups: [String]?
-        /// A list of the MediaConnect Flows that you want to use in this input. You can specify as few as one
-        /// Flow and presently, as many as two. The only requirement is when you have more than one is that each Flow is in a
-        /// separate Availability Zone as this ensures your EML input is redundant to AZ issues.
-        public let mediaConnectFlows: [MediaConnectFlowRequest]?
-        /// Name of the input.
-        public let name: String?
-        /// Unique identifier of the request to ensure the request is handled
-        /// exactly once in case of retries.
-        public let requestId: String?
-        /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
-        public let roleArn: String?
-        /// The source URLs for a PULL-type input. Every PULL type input needs
-        /// exactly two source URLs for redundancy.
-        /// Only specify sources for PULL type Inputs. Leave Destinations empty.
-        public let sources: [InputSourceRequest]?
-        /// A collection of key-value pairs.
-        public let tags: [String: String]?
-        public let `type`: InputType?
-        public let vpc: InputVpcRequest?
-
-        public init(destinations: [InputDestinationRequest]? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, requestId: String? = CreateInput.idempotencyToken(), roleArn: String? = nil, sources: [InputSourceRequest]? = nil, tags: [String: String]? = nil, type: InputType? = nil, vpc: InputVpcRequest? = nil) {
-            self.destinations = destinations
-            self.inputSecurityGroups = inputSecurityGroups
-            self.mediaConnectFlows = mediaConnectFlows
-            self.name = name
-            self.requestId = requestId
-            self.roleArn = roleArn
-            self.sources = sources
-            self.tags = tags
-            self.`type` = `type`
-            self.vpc = vpc
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinations = "destinations"
-            case inputSecurityGroups = "inputSecurityGroups"
-            case mediaConnectFlows = "mediaConnectFlows"
-            case name = "name"
-            case requestId = "requestId"
-            case roleArn = "roleArn"
-            case sources = "sources"
-            case tags = "tags"
-            case `type` = "type"
-            case vpc = "vpc"
-        }
-    }
-
     public struct CreateInputRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
@@ -1818,22 +1617,6 @@ extension MediaLive {
         }
     }
 
-    public struct CreateInputResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Input", location: .body(locationName: "input"), required: false, type: .structure)
-        ]
-
-        public let input: Input?
-
-        public init(input: Input? = nil) {
-            self.input = input
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case input = "input"
-        }
-    }
-
     public struct CreateInputSecurityGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
@@ -1855,22 +1638,6 @@ extension MediaLive {
     }
 
     public struct CreateInputSecurityGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroup", location: .body(locationName: "securityGroup"), required: false, type: .structure)
-        ]
-
-        public let securityGroup: InputSecurityGroup?
-
-        public init(securityGroup: InputSecurityGroup? = nil) {
-            self.securityGroup = securityGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityGroup = "securityGroup"
-        }
-    }
-
-    public struct CreateInputSecurityGroupResultModel: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SecurityGroup", location: .body(locationName: "securityGroup"), required: false, type: .structure)
         ]
@@ -3188,14 +2955,6 @@ extension MediaLive {
             case source608ChannelNumber = "source608ChannelNumber"
             case source608TrackNumber = "source608TrackNumber"
         }
-    }
-
-    public struct Empty: AWSShape {
-
-
-        public init() {
-        }
-
     }
 
     public struct EncoderSettings: AWSShape {
@@ -4980,28 +4739,6 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public struct InputSecurityGroupWhitelistRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
-            AWSShapeMember(label: "WhitelistRules", location: .body(locationName: "whitelistRules"), required: false, type: .list)
-        ]
-
-        /// A collection of key-value pairs.
-        public let tags: [String: String]?
-        /// List of IPv4 CIDR addresses to whitelist
-        public let whitelistRules: [InputWhitelistRuleCidr]?
-
-        public init(tags: [String: String]? = nil, whitelistRules: [InputWhitelistRuleCidr]? = nil) {
-            self.tags = tags
-            self.whitelistRules = whitelistRules
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-            case whitelistRules = "whitelistRules"
-        }
-    }
-
     public struct InputSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AudioSelectors", location: .body(locationName: "audioSelectors"), required: false, type: .list), 
@@ -5259,38 +4996,6 @@ extension MediaLive {
         }
     }
 
-    public struct InternalServiceError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
-        ]
-
-        public let message: String?
-
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
-    }
-
-    public struct InvalidRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
-        ]
-
-        public let message: String?
-
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
-    }
-
     public struct KeyProviderSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StaticKeySettings", location: .body(locationName: "staticKeySettings"), required: false, type: .structure)
@@ -5308,22 +5013,6 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case staticKeySettings = "staticKeySettings"
-        }
-    }
-
-    public struct LimitExceeded: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
-        ]
-
-        public let message: String?
-
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
         }
     }
 
@@ -5353,26 +5042,6 @@ extension MediaLive {
     }
 
     public struct ListChannelsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Channels", location: .body(locationName: "channels"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
-
-        public let channels: [ChannelSummary]?
-        public let nextToken: String?
-
-        public init(channels: [ChannelSummary]? = nil, nextToken: String? = nil) {
-            self.channels = channels
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case channels = "channels"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct ListChannelsResultModel: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Channels", location: .body(locationName: "channels"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
@@ -5437,27 +5106,6 @@ extension MediaLive {
         }
     }
 
-    public struct ListInputSecurityGroupsResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputSecurityGroups", location: .body(locationName: "inputSecurityGroups"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
-
-        /// List of input security groups
-        public let inputSecurityGroups: [InputSecurityGroup]?
-        public let nextToken: String?
-
-        public init(inputSecurityGroups: [InputSecurityGroup]? = nil, nextToken: String? = nil) {
-            self.inputSecurityGroups = inputSecurityGroups
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputSecurityGroups = "inputSecurityGroups"
-            case nextToken = "nextToken"
-        }
-    }
-
     public struct ListInputsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
@@ -5484,26 +5132,6 @@ extension MediaLive {
     }
 
     public struct ListInputsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Inputs", location: .body(locationName: "inputs"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
-
-        public let inputs: [Input]?
-        public let nextToken: String?
-
-        public init(inputs: [Input]? = nil, nextToken: String? = nil) {
-            self.inputs = inputs
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputs = "inputs"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct ListInputsResultModel: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Inputs", location: .body(locationName: "inputs"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
@@ -5604,28 +5232,6 @@ extension MediaLive {
         }
     }
 
-    public struct ListOfferingsResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Offerings", location: .body(locationName: "offerings"), required: false, type: .list)
-        ]
-
-        /// Token to retrieve the next page of results
-        public let nextToken: String?
-        /// List of offerings
-        public let offerings: [Offering]?
-
-        public init(nextToken: String? = nil, offerings: [Offering]? = nil) {
-            self.nextToken = nextToken
-            self.offerings = offerings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case offerings = "offerings"
-        }
-    }
-
     public struct ListReservationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChannelClass", location: .querystring(locationName: "channelClass"), required: false, type: .string), 
@@ -5690,28 +5296,6 @@ extension MediaLive {
         ]
 
         public let nextToken: String?
-        public let reservations: [Reservation]?
-
-        public init(nextToken: String? = nil, reservations: [Reservation]? = nil) {
-            self.nextToken = nextToken
-            self.reservations = reservations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case reservations = "reservations"
-        }
-    }
-
-    public struct ListReservationsResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Reservations", location: .body(locationName: "reservations"), required: false, type: .list)
-        ]
-
-        /// Token to retrieve the next page of results
-        public let nextToken: String?
-        /// List of reservations
         public let reservations: [Reservation]?
 
         public init(nextToken: String? = nil, reservations: [Reservation]? = nil) {
@@ -6929,43 +6513,6 @@ extension MediaLive {
         }
     }
 
-    public struct PurchaseOffering: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Count", location: .body(locationName: "count"), required: true, type: .integer), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId"), required: false, type: .string), 
-            AWSShapeMember(label: "Start", location: .body(locationName: "start"), required: false, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
-        ]
-
-        /// Number of resources
-        public let count: Int32
-        /// Name for the new reservation
-        public let name: String?
-        /// Unique request ID to be specified. This is needed to prevent retries from creating multiple resources.
-        public let requestId: String?
-        /// Requested reservation start time (UTC) in ISO-8601 format. The specified time must be between the first day of the current month and one year from now. If no value is given, the default is now.
-        public let start: String?
-        /// A collection of key-value pairs
-        public let tags: [String: String]?
-
-        public init(count: Int32, name: String? = nil, requestId: String? = PurchaseOffering.idempotencyToken(), start: String? = nil, tags: [String: String]? = nil) {
-            self.count = count
-            self.name = name
-            self.requestId = requestId
-            self.start = start
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case count = "count"
-            case name = "name"
-            case requestId = "requestId"
-            case start = "start"
-            case tags = "tags"
-        }
-    }
-
     public struct PurchaseOfferingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Count", location: .body(locationName: "count"), required: true, type: .integer), 
@@ -7007,22 +6554,6 @@ extension MediaLive {
     }
 
     public struct PurchaseOfferingResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Reservation", location: .body(locationName: "reservation"), required: false, type: .structure)
-        ]
-
-        public let reservation: Reservation?
-
-        public init(reservation: Reservation? = nil) {
-            self.reservation = reservation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reservation = "reservation"
-        }
-    }
-
-    public struct PurchaseOfferingResultModel: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Reservation", location: .body(locationName: "reservation"), required: false, type: .structure)
         ]
@@ -7286,38 +6817,6 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public struct ResourceConflict: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
-        ]
-
-        public let message: String?
-
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
-    }
-
-    public struct ResourceNotFound: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
-        ]
-
-        public let message: String?
-
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
-    }
-
     public enum RtmpCacheFullBehavior: String, CustomStringConvertible, Codable {
         case disconnectImmediately = "DISCONNECT_IMMEDIATELY"
         case waitForServer = "WAIT_FOR_SERVER"
@@ -7541,36 +7040,6 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case fixedModeScheduleActionStartSettings = "fixedModeScheduleActionStartSettings"
             case followModeScheduleActionStartSettings = "followModeScheduleActionStartSettings"
-        }
-    }
-
-    public struct ScheduleDeleteResultModel: AWSShape {
-
-
-        public init() {
-        }
-
-    }
-
-    public struct ScheduleDescribeResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "ScheduleActions", location: .body(locationName: "scheduleActions"), required: true, type: .list)
-        ]
-
-        /// The next token; for use in pagination.
-        public let nextToken: String?
-        /// The list of actions in the schedule.
-        public let scheduleActions: [ScheduleAction]
-
-        public init(nextToken: String? = nil, scheduleActions: [ScheduleAction]) {
-            self.nextToken = nextToken
-            self.scheduleActions = scheduleActions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case scheduleActions = "scheduleActions"
         }
     }
 
@@ -8383,22 +7852,6 @@ extension MediaLive {
         }
     }
 
-    public struct TagsModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
-        ]
-
-        public let tags: [String: String]?
-
-        public init(tags: [String: String]? = nil) {
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-        }
-    }
-
     public struct TeletextDestinationSettings: AWSShape {
 
 
@@ -8580,74 +8033,6 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public struct UpdateChannel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
-            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments"), required: false, type: .list), 
-            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification"), required: false, type: .structure), 
-            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel"), required: false, type: .enum), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string)
-        ]
-
-        /// A list of output destinations for this channel.
-        public let destinations: [OutputDestination]?
-        /// The encoder settings for this channel.
-        public let encoderSettings: EncoderSettings?
-        public let inputAttachments: [InputAttachment]?
-        /// Specification of input for this channel (max. bitrate, resolution, codec, etc.)
-        public let inputSpecification: InputSpecification?
-        /// The log level to write to CloudWatch Logs.
-        public let logLevel: LogLevel?
-        /// The name of the channel.
-        public let name: String?
-        /// An optional Amazon Resource Name (ARN) of the role to assume when running the Channel. If you do not specify this on an update call but the role was previously set that role will be removed.
-        public let roleArn: String?
-
-        public init(destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, roleArn: String? = nil) {
-            self.destinations = destinations
-            self.encoderSettings = encoderSettings
-            self.inputAttachments = inputAttachments
-            self.inputSpecification = inputSpecification
-            self.logLevel = logLevel
-            self.name = name
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinations = "destinations"
-            case encoderSettings = "encoderSettings"
-            case inputAttachments = "inputAttachments"
-            case inputSpecification = "inputSpecification"
-            case logLevel = "logLevel"
-            case name = "name"
-            case roleArn = "roleArn"
-        }
-    }
-
-    public struct UpdateChannelClass: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelClass", location: .body(locationName: "channelClass"), required: true, type: .enum), 
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list)
-        ]
-
-        /// The channel class that you wish to update this channel to use.
-        public let channelClass: ChannelClass
-        /// A list of output destinations for this channel.
-        public let destinations: [OutputDestination]?
-
-        public init(channelClass: ChannelClass, destinations: [OutputDestination]? = nil) {
-            self.channelClass = channelClass
-            self.destinations = destinations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case channelClass = "channelClass"
-            case destinations = "destinations"
-        }
-    }
-
     public struct UpdateChannelClassRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChannelClass", location: .body(locationName: "channelClass"), required: true, type: .enum), 
@@ -8764,68 +8149,6 @@ extension MediaLive {
         }
     }
 
-    public struct UpdateChannelResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Channel", location: .body(locationName: "channel"), required: false, type: .structure)
-        ]
-
-        public let channel: Channel?
-
-        public init(channel: Channel? = nil) {
-            self.channel = channel
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case channel = "channel"
-        }
-    }
-
-    public struct UpdateInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
-            AWSShapeMember(label: "InputSecurityGroups", location: .body(locationName: "inputSecurityGroups"), required: false, type: .list), 
-            AWSShapeMember(label: "MediaConnectFlows", location: .body(locationName: "mediaConnectFlows"), required: false, type: .list), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Sources", location: .body(locationName: "sources"), required: false, type: .list)
-        ]
-
-        /// Destination settings for PUSH type inputs.
-        public let destinations: [InputDestinationRequest]?
-        /// A list of security groups referenced by IDs to attach to the input.
-        public let inputSecurityGroups: [String]?
-        /// A list of the MediaConnect Flow ARNs that you want to use as the source of the input. You can specify as few as one
-        /// Flow and presently, as many as two. The only requirement is when you have more than one is that each Flow is in a
-        /// separate Availability Zone as this ensures your EML input is redundant to AZ issues.
-        public let mediaConnectFlows: [MediaConnectFlowRequest]?
-        /// Name of the input.
-        public let name: String?
-        /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
-        public let roleArn: String?
-        /// The source URLs for a PULL-type input. Every PULL type input needs
-        /// exactly two source URLs for redundancy.
-        /// Only specify sources for PULL type Inputs. Leave Destinations empty.
-        public let sources: [InputSourceRequest]?
-
-        public init(destinations: [InputDestinationRequest]? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, roleArn: String? = nil, sources: [InputSourceRequest]? = nil) {
-            self.destinations = destinations
-            self.inputSecurityGroups = inputSecurityGroups
-            self.mediaConnectFlows = mediaConnectFlows
-            self.name = name
-            self.roleArn = roleArn
-            self.sources = sources
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinations = "destinations"
-            case inputSecurityGroups = "inputSecurityGroups"
-            case mediaConnectFlows = "mediaConnectFlows"
-            case name = "name"
-            case roleArn = "roleArn"
-            case sources = "sources"
-        }
-    }
-
     public struct UpdateInputRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
@@ -8882,22 +8205,6 @@ extension MediaLive {
         }
     }
 
-    public struct UpdateInputResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Input", location: .body(locationName: "input"), required: false, type: .structure)
-        ]
-
-        public let input: Input?
-
-        public init(input: Input? = nil) {
-            self.input = input
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case input = "input"
-        }
-    }
-
     public struct UpdateInputSecurityGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputSecurityGroupId", location: .uri(locationName: "inputSecurityGroupId"), required: true, type: .string), 
@@ -8938,39 +8245,6 @@ extension MediaLive {
         }
     }
 
-    public struct UpdateInputSecurityGroupResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroup", location: .body(locationName: "securityGroup"), required: false, type: .structure)
-        ]
-
-        public let securityGroup: InputSecurityGroup?
-
-        public init(securityGroup: InputSecurityGroup? = nil) {
-            self.securityGroup = securityGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityGroup = "securityGroup"
-        }
-    }
-
-    public struct UpdateReservation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
-        ]
-
-        /// Name of the reservation
-        public let name: String?
-
-        public init(name: String? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
-    }
-
     public struct UpdateReservationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
@@ -9004,42 +8278,6 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case reservation = "reservation"
-        }
-    }
-
-    public struct UpdateReservationResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Reservation", location: .body(locationName: "reservation"), required: false, type: .structure)
-        ]
-
-        public let reservation: Reservation?
-
-        public init(reservation: Reservation? = nil) {
-            self.reservation = reservation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reservation = "reservation"
-        }
-    }
-
-    public struct ValidationError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ElementPath", location: .body(locationName: "elementPath"), required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", location: .body(locationName: "errorMessage"), required: false, type: .string)
-        ]
-
-        public let elementPath: String?
-        public let errorMessage: String?
-
-        public init(elementPath: String? = nil, errorMessage: String? = nil) {
-            self.elementPath = elementPath
-            self.errorMessage = errorMessage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case elementPath = "elementPath"
-            case errorMessage = "errorMessage"
         }
     }
 

@@ -455,6 +455,9 @@ extension AWSService {
 
         var shapeContexts : [[String : Any]] = []
         for shape in shapes {
+            if shape.usedInInput == false && shape.usedInOutput == false {
+                continue
+            }
             // don't output error shapes
             if errorShapeNames.contains(shape.name) { continue }
 

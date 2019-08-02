@@ -3743,36 +3743,6 @@ extension WAFRegional {
         public var description: String { return self.rawValue }
     }
 
-    public enum ParameterExceptionField: String, CustomStringConvertible, Codable {
-        case changeAction = "CHANGE_ACTION"
-        case wafAction = "WAF_ACTION"
-        case wafOverrideAction = "WAF_OVERRIDE_ACTION"
-        case predicateType = "PREDICATE_TYPE"
-        case ipsetType = "IPSET_TYPE"
-        case byteMatchFieldType = "BYTE_MATCH_FIELD_TYPE"
-        case sqlInjectionMatchFieldType = "SQL_INJECTION_MATCH_FIELD_TYPE"
-        case byteMatchTextTransformation = "BYTE_MATCH_TEXT_TRANSFORMATION"
-        case byteMatchPositionalConstraint = "BYTE_MATCH_POSITIONAL_CONSTRAINT"
-        case sizeConstraintComparisonOperator = "SIZE_CONSTRAINT_COMPARISON_OPERATOR"
-        case geoMatchLocationType = "GEO_MATCH_LOCATION_TYPE"
-        case geoMatchLocationValue = "GEO_MATCH_LOCATION_VALUE"
-        case rateKey = "RATE_KEY"
-        case ruleType = "RULE_TYPE"
-        case nextMarker = "NEXT_MARKER"
-        case resourceArn = "RESOURCE_ARN"
-        case tags = "TAGS"
-        case tagKeys = "TAG_KEYS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ParameterExceptionReason: String, CustomStringConvertible, Codable {
-        case invalidOption = "INVALID_OPTION"
-        case illegalCombination = "ILLEGAL_COMBINATION"
-        case illegalArgument = "ILLEGAL_ARGUMENT"
-        case invalidTagKey = "INVALID_TAG_KEY"
-        public var description: String { return self.rawValue }
-    }
-
     public enum PositionalConstraint: String, CustomStringConvertible, Codable {
         case exactly = "EXACTLY"
         case startsWith = "STARTS_WITH"

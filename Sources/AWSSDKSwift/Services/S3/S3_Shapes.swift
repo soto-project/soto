@@ -718,14 +718,6 @@ extension S3 {
         }
     }
 
-    public struct ContinuationEvent: AWSShape {
-
-
-        public init() {
-        }
-
-    }
-
     public struct CopyObjectOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "CopyObjectResult"
@@ -1951,14 +1943,6 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case replicaKmsKeyID = "ReplicaKmsKeyID"
         }
-    }
-
-    public struct EndEvent: AWSShape {
-
-
-        public init() {
-        }
-
     }
 
     public struct Error: AWSShape {
@@ -5576,50 +5560,6 @@ extension S3 {
         }
     }
 
-    public struct Progress: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BytesProcessed", required: false, type: .long), 
-            AWSShapeMember(label: "BytesReturned", required: false, type: .long), 
-            AWSShapeMember(label: "BytesScanned", required: false, type: .long)
-        ]
-
-        /// The current number of uncompressed object bytes processed.
-        public let bytesProcessed: Int64?
-        /// The current number of bytes of records payload data returned.
-        public let bytesReturned: Int64?
-        /// The current number of object bytes scanned.
-        public let bytesScanned: Int64?
-
-        public init(bytesProcessed: Int64? = nil, bytesReturned: Int64? = nil, bytesScanned: Int64? = nil) {
-            self.bytesProcessed = bytesProcessed
-            self.bytesReturned = bytesReturned
-            self.bytesScanned = bytesScanned
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bytesProcessed = "BytesProcessed"
-            case bytesReturned = "BytesReturned"
-            case bytesScanned = "BytesScanned"
-        }
-    }
-
-    public struct ProgressEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Details", required: false, type: .structure)
-        ]
-
-        /// The Progress event details.
-        public let details: Progress?
-
-        public init(details: Progress? = nil) {
-            self.details = details
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case details = "Details"
-        }
-    }
-
     public enum `Protocol`: String, CustomStringConvertible, Codable {
         case http = "http"
         case https = "https"
@@ -6863,23 +6803,6 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
-    public struct RecordsEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Payload", required: false, type: .blob)
-        ]
-
-        /// The byte array of partial, one or more result records.
-        public let payload: Data?
-
-        public init(payload: Data? = nil) {
-            self.payload = payload
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case payload = "Payload"
-        }
-    }
-
     public struct Redirect: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HostName", required: false, type: .string), 
@@ -7612,50 +7535,6 @@ extension S3 {
         case enabled = "Enabled"
         case disabled = "Disabled"
         public var description: String { return self.rawValue }
-    }
-
-    public struct Stats: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BytesProcessed", required: false, type: .long), 
-            AWSShapeMember(label: "BytesReturned", required: false, type: .long), 
-            AWSShapeMember(label: "BytesScanned", required: false, type: .long)
-        ]
-
-        /// The total number of uncompressed object bytes processed.
-        public let bytesProcessed: Int64?
-        /// The total number of bytes of records payload data returned.
-        public let bytesReturned: Int64?
-        /// The total number of object bytes scanned.
-        public let bytesScanned: Int64?
-
-        public init(bytesProcessed: Int64? = nil, bytesReturned: Int64? = nil, bytesScanned: Int64? = nil) {
-            self.bytesProcessed = bytesProcessed
-            self.bytesReturned = bytesReturned
-            self.bytesScanned = bytesScanned
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bytesProcessed = "BytesProcessed"
-            case bytesReturned = "BytesReturned"
-            case bytesScanned = "BytesScanned"
-        }
-    }
-
-    public struct StatsEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Details", required: false, type: .structure)
-        ]
-
-        /// The Stats event details.
-        public let details: Stats?
-
-        public init(details: Stats? = nil) {
-            self.details = details
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case details = "Details"
-        }
     }
 
     public enum StorageClass: String, CustomStringConvertible, Codable {

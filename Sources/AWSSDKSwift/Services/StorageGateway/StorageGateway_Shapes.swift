@@ -2825,71 +2825,6 @@ extension StorageGateway {
         }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case activationkeyexpired = "ActivationKeyExpired"
-        case activationkeyinvalid = "ActivationKeyInvalid"
-        case activationkeynotfound = "ActivationKeyNotFound"
-        case gatewayinternalerror = "GatewayInternalError"
-        case gatewaynotconnected = "GatewayNotConnected"
-        case gatewaynotfound = "GatewayNotFound"
-        case gatewayproxynetworkconnectionbusy = "GatewayProxyNetworkConnectionBusy"
-        case authenticationfailure = "AuthenticationFailure"
-        case bandwidththrottleschedulenotfound = "BandwidthThrottleScheduleNotFound"
-        case blocked = "Blocked"
-        case cannotexportsnapshot = "CannotExportSnapshot"
-        case chapcredentialnotfound = "ChapCredentialNotFound"
-        case diskalreadyallocated = "DiskAlreadyAllocated"
-        case diskdoesnotexist = "DiskDoesNotExist"
-        case disksizegreaterthanvolumemaxsize = "DiskSizeGreaterThanVolumeMaxSize"
-        case disksizelessthanvolumesize = "DiskSizeLessThanVolumeSize"
-        case disksizenotgigaligned = "DiskSizeNotGigAligned"
-        case duplicatecertificateinfo = "DuplicateCertificateInfo"
-        case duplicateschedule = "DuplicateSchedule"
-        case endpointnotfound = "EndpointNotFound"
-        case iamnotsupported = "IAMNotSupported"
-        case initiatorinvalid = "InitiatorInvalid"
-        case initiatornotfound = "InitiatorNotFound"
-        case internalerror = "InternalError"
-        case invalidgateway = "InvalidGateway"
-        case invalidendpoint = "InvalidEndpoint"
-        case invalidparameters = "InvalidParameters"
-        case invalidschedule = "InvalidSchedule"
-        case localstoragelimitexceeded = "LocalStorageLimitExceeded"
-        case lunalreadyallocated = "LunAlreadyAllocated "
-        case luninvalid = "LunInvalid"
-        case maximumcontentlengthexceeded = "MaximumContentLengthExceeded"
-        case maximumtapecartridgecountexceeded = "MaximumTapeCartridgeCountExceeded"
-        case maximumvolumecountexceeded = "MaximumVolumeCountExceeded"
-        case networkconfigurationchanged = "NetworkConfigurationChanged"
-        case nodisksavailable = "NoDisksAvailable"
-        case notimplemented = "NotImplemented"
-        case notsupported = "NotSupported"
-        case operationaborted = "OperationAborted"
-        case outdatedgateway = "OutdatedGateway"
-        case parametersnotimplemented = "ParametersNotImplemented"
-        case regioninvalid = "RegionInvalid"
-        case requesttimeout = "RequestTimeout"
-        case serviceunavailable = "ServiceUnavailable"
-        case snapshotdeleted = "SnapshotDeleted"
-        case snapshotidinvalid = "SnapshotIdInvalid"
-        case snapshotinprogress = "SnapshotInProgress"
-        case snapshotnotfound = "SnapshotNotFound"
-        case snapshotschedulenotfound = "SnapshotScheduleNotFound"
-        case stagingareafull = "StagingAreaFull"
-        case storagefailure = "StorageFailure"
-        case tapecartridgenotfound = "TapeCartridgeNotFound"
-        case targetalreadyexists = "TargetAlreadyExists"
-        case targetinvalid = "TargetInvalid"
-        case targetnotfound = "TargetNotFound"
-        case unauthorizedoperation = "UnauthorizedOperation"
-        case volumealreadyexists = "VolumeAlreadyExists"
-        case volumeidinvalid = "VolumeIdInvalid"
-        case volumeinuse = "VolumeInUse"
-        case volumenotfound = "VolumeNotFound"
-        case volumenotready = "VolumeNotReady"
-        public var description: String { return self.rawValue }
-    }
-
     public struct FileShareInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileShareARN", required: false, type: .string), 
@@ -4191,28 +4126,6 @@ extension StorageGateway {
 
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct StorageGatewayError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errorCode", required: false, type: .enum), 
-            AWSShapeMember(label: "errorDetails", required: false, type: .map)
-        ]
-
-        /// Additional information about the error.
-        public let errorCode: ErrorCode?
-        /// Human-readable text that provides detail about the error that occurred.
-        public let errorDetails: [String: String]?
-
-        public init(errorCode: ErrorCode? = nil, errorDetails: [String: String]? = nil) {
-            self.errorCode = errorCode
-            self.errorDetails = errorDetails
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case errorDetails = "errorDetails"
         }
     }
 

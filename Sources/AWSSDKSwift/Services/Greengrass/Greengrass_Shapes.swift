@@ -1857,14 +1857,6 @@ extension Greengrass {
         }
     }
 
-    public struct Empty: AWSShape {
-
-
-        public init() {
-        }
-
-    }
-
     public enum EncodingType: String, CustomStringConvertible, Codable {
         case binary = "binary"
         case json = "json"
@@ -2102,28 +2094,6 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case gid = "Gid"
             case uid = "Uid"
-        }
-    }
-
-    public struct GeneralError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorDetails", required: false, type: .list), 
-            AWSShapeMember(label: "Message", required: false, type: .string)
-        ]
-
-        /// Details about the error.
-        public let errorDetails: [ErrorDetail]?
-        /// A message containing information about the error.
-        public let message: String?
-
-        public init(errorDetails: [ErrorDetail]? = nil, message: String? = nil) {
-            self.errorDetails = errorDetails
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorDetails = "ErrorDetails"
-            case message = "Message"
         }
     }
 
@@ -3437,33 +3407,6 @@ extension Greengrass {
         }
     }
 
-    public struct GroupCertificateConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateAuthorityExpiryInMilliseconds", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
-            AWSShapeMember(label: "GroupId", required: false, type: .string)
-        ]
-
-        /// The amount of time remaining before the certificate authority expires, in milliseconds.
-        public let certificateAuthorityExpiryInMilliseconds: String?
-        /// The amount of time remaining before the certificate expires, in milliseconds.
-        public let certificateExpiryInMilliseconds: String?
-        /// The ID of the group certificate configuration.
-        public let groupId: String?
-
-        public init(certificateAuthorityExpiryInMilliseconds: String? = nil, certificateExpiryInMilliseconds: String? = nil, groupId: String? = nil) {
-            self.certificateAuthorityExpiryInMilliseconds = certificateAuthorityExpiryInMilliseconds
-            self.certificateExpiryInMilliseconds = certificateExpiryInMilliseconds
-            self.groupId = groupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateAuthorityExpiryInMilliseconds = "CertificateAuthorityExpiryInMilliseconds"
-            case certificateExpiryInMilliseconds = "CertificateExpiryInMilliseconds"
-            case groupId = "GroupId"
-        }
-    }
-
     public struct GroupInformation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string), 
@@ -3823,28 +3766,6 @@ extension Greengrass {
         ]
 
         public let definitions: [DefinitionInformation]?
-        public let nextToken: String?
-
-        public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
-            self.definitions = definitions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case definitions = "Definitions"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListDefinitionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Definitions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-
-        /// Information about a definition.
-        public let definitions: [DefinitionInformation]?
-        /// The token for the next set of results, or ''null'' if there are no additional results.
         public let nextToken: String?
 
         public init(definitions: [DefinitionInformation]? = nil, nextToken: String? = nil) {
@@ -4472,28 +4393,6 @@ extension Greengrass {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
-        }
-    }
-
-    public struct ListVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Versions", required: false, type: .list)
-        ]
-
-        /// The token for the next set of results, or ''null'' if there are no additional results.
-        public let nextToken: String?
-        /// Information about a version.
-        public let versions: [VersionInformation]?
-
-        public init(nextToken: String? = nil, versions: [VersionInformation]? = nil) {
-            self.nextToken = nextToken
-            self.versions = versions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case versions = "Versions"
         }
     }
 

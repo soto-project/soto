@@ -2845,22 +2845,6 @@ extension MediaConvert {
         }
     }
 
-    public struct ExceptionBody: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
-        ]
-
-        public let message: String?
-
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
-    }
-
     public enum F4vMoovPlacement: String, CustomStringConvertible, Codable {
         case progressiveDownload = "PROGRESSIVE_DOWNLOAD"
         case normal = "NORMAL"

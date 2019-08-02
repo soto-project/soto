@@ -27,14 +27,6 @@ extension FSx {
         }
     }
 
-    public enum ActiveDirectoryErrorType: String, CustomStringConvertible, Codable {
-        case domainNotFound = "DOMAIN_NOT_FOUND"
-        case incompatibleDomainMode = "INCOMPATIBLE_DOMAIN_MODE"
-        case wrongVpc = "WRONG_VPC"
-        case invalidDomainStage = "INVALID_DOMAIN_STAGE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Backup: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BackupId", required: true, type: .string), 
@@ -1188,14 +1180,6 @@ extension FSx {
             case password = "Password"
             case userName = "UserName"
         }
-    }
-
-    public enum ServiceLimit: String, CustomStringConvertible, Codable {
-        case fileSystemCount = "FILE_SYSTEM_COUNT"
-        case totalThroughputCapacity = "TOTAL_THROUGHPUT_CAPACITY"
-        case totalStorage = "TOTAL_STORAGE"
-        case totalUserInitiatedBackups = "TOTAL_USER_INITIATED_BACKUPS"
-        public var description: String { return self.rawValue }
     }
 
     public struct Tag: AWSShape {

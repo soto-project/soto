@@ -288,23 +288,6 @@ extension ElasticTranscoder {
         }
     }
 
-    public struct Clip: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TimeSpan", required: false, type: .structure)
-        ]
-
-        /// Settings that determine when a clip begins and how long it lasts.
-        public let timeSpan: TimeSpan?
-
-        public init(timeSpan: TimeSpan? = nil) {
-            self.timeSpan = timeSpan
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case timeSpan = "TimeSpan"
-        }
-    }
-
     public struct CreateJobOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlbumArt", required: false, type: .structure), 
