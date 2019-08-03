@@ -86,7 +86,6 @@ class S3Tests: XCTestCase {
         XCTAssertEqual(output.contents?.first?.eTag, putResult.eTag)
     }
 
-
     static var allTests : [(String, (S3Tests) -> () throws -> Void)] {
         return [
             ("testPutObject", testPutObject),

@@ -1,0 +1,109 @@
+//
+//  S3_Extension.swift
+//  AWSSDKSwift
+//
+//  Created by Adam Fowler on 2019/08/01.
+//
+//
+import Foundation
+import AWSSDKSwiftCore
+
+public extension S3 {
+
+    ///  Creates presigned URL for retrieving object from Amazon S3.
+    func presignedGetObject(bucket: String, key: String, expires: Int = 3600) throws -> URL {
+        let signer = try Signers.V4(credential: SharedCredential(), region: .euwest1, service: "s3", endpoint: nil)
+        let urlToSign = URL(string: "https://\(bucket).s3.amazonaws.com/\(key)")!
+        let presignedURL = signer.signedURL(url: urlToSign,  method: "GET", date: Date(), expires: expires)
+        return presignedURL
+    }
+    
+    ///  Creates presigned URL for uploading object to Amazon S3.
+    func presignedPutObject(bucket: String, key: String, expires: Int = 3600) throws -> URL {
+        let signer = try Signers.V4(credential: SharedCredential(), region: .euwest1, service: "s3", endpoint: nil)
+        let urlToSign = URL(string: "https://\(bucket).s3.amazonaws.com/\(key)")!
+        let presignedURL = signer.signedURL(url: urlToSign,  method: "PUT", date: Date(), expires: expires)
+        return presignedURL
+    }
+    
+    /// Implement multipart download of a file. Returns a Future that contains the size of file downloaded. Each file part downloaded is passed to the outputStream function
+    func multipartDownload(bucket: String, key: String, partSize: Int64=5*1024*1024, outputStream: @escaping (Data) throws -> ()) throws -> Future<Int64> {
+        // function downloading part of a file
+        func multipartDownloadPart(fileSize: Int64, offset: Int64) throws -> Future<Int64> {
+            let range = "bytes=\(offset)-\(offset+Int64(partSize-1))"
+            let request = S3.GetObjectRequest(bucket: bucket, key: key, range: range)
+            let result = try getObject(request).then { output -> Future<Int64> in
+                do {
+                    // should never happen
+                    guard let length = output.contentLength, length > 0 else { return AWSClient.eventGroup.next().newSucceededFuture(result: fileSize) }
+                    guard let body = output.body else { return AWSClient.eventGroup.next().newSucceededFuture(result: fileSize) }
+                    // callback
+                    try outputStream(body)
+                    let newOffset = offset + partSize
+                    // if file size if less than of equal to new offset, then we have reached the end of the file and should return success
+                    guard fileSize > newOffset else { return AWSClient.eventGroup.next().newSucceededFuture(result: fileSize) }
+                    // download next part
+                    return try multipartDownloadPart(fileSize: fileSize, offset: newOffset)
+                } catch {
+                    return AWSClient.eventGroup.next().newFailedFuture(error: error)
+                }
+            }
+            return result
+        }
+        
+        // get object size before downloading
+        let request = S3.HeadObjectRequest(bucket: bucket, key: key)
+        let result = try headObject(request).then { object -> Future<Int64> in
+            do {
+                // download file
+                return try multipartDownloadPart(fileSize: object.contentLength!, offset: 0)
+            } catch {
+                return AWSClient.eventGroup.next().newFailedFuture(error: error)
+            }
+        }
+        return result
+    }
+
+    /// Implement multipart upload of a file
+    func multipartUpload(bucket: String, key: String, partSize: Int=5*1024*1024, inputStream: @escaping () throws -> Data?) throws -> Future<CompleteMultipartUploadOutput> {
+        var completedParts: [S3.CompletedPart] = []
+        // function uploading part of a file
+        func multipartUploadPart(partNumber: Int32, uploadId: String) throws -> Future<[S3.CompletedPart]> {
+            // get data
+            guard let data = try inputStream() else { return AWSClient.eventGroup.next().newSucceededFuture(result: completedParts)}
+            // request upload
+            let request = S3.UploadPartRequest(body: data, bucket: bucket, contentLength: Int64(data.count), key: key, partNumber: partNumber, uploadId: uploadId)
+            let result = try uploadPart(request).then { output -> Future<[S3.CompletedPart]> in
+                // upload next part
+                do {
+                    let part = S3.CompletedPart(eTag: output.eTag, partNumber: partNumber)
+                    completedParts.append(part)
+                    return try multipartUploadPart(partNumber: partNumber+1, uploadId: uploadId)
+                } catch {
+                    return AWSClient.eventGroup.next().newFailedFuture(error: error)
+                }
+            }
+            return result
+        }
+        
+        let request = S3.CreateMultipartUploadRequest(bucket: bucket, key: key)
+        let result = try createMultipartUpload(request).then { upload -> Future<CompleteMultipartUploadOutput> in
+            //guard uploadId = upload.uploadId else { return nil }
+            let uploadId = upload.uploadId!
+            do {
+                return try multipartUploadPart(partNumber: 1, uploadId: uploadId).then { parts -> Future<CompleteMultipartUploadOutput> in
+                    do {
+                        let request = S3.CompleteMultipartUploadRequest(bucket: bucket, key:key, multipartUpload: S3.CompletedMultipartUpload(parts:parts), uploadId: uploadId)
+                        let result = try self.completeMultipartUpload(request)
+                        return result
+                    } catch {
+                        return AWSClient.eventGroup.next().newFailedFuture(error: error)
+                    }
+                }
+            } catch {
+                return AWSClient.eventGroup.next().newFailedFuture(error: error)
+            }
+        }
+        return result
+    }
+}
