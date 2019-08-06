@@ -47,30 +47,32 @@ public extension S3 {
     /// - returns: A future that will receive the complete file size once the multipart download has finished.
     func multipartDownload(_ input: GetObjectRequest, partSize: Int64=5*1024*1024, outputStream: @escaping (Data) throws -> ()) throws -> Future<Int64> {
         // function downloading part of a file
-        func multipartDownloadPart(fileSize: Int64, offset: Int64) throws -> Future<Int64> {
+        func multipartDownloadPart(fileSize: Int64, offset: Int64, body: Data? = nil) throws -> Future<Int64> {
+            // output the data uploaded previously
+            let outputBody = AWSClient.eventGroup.next().submit { ()->Int64 in
+                if let body = body {
+                    try outputStream(body)
+                }
+                return fileSize
+            }
+            guard fileSize > offset else { return outputBody }
             let range = "bytes=\(offset)-\(offset+Int64(partSize-1))"
-            
             let request = S3.GetObjectRequest(bucket: input.bucket, key: input.key, range: range, sSECustomerAlgorithm: input.sSECustomerAlgorithm, sSECustomerKey: input.sSECustomerKey, sSECustomerKeyMD5: input.sSECustomerKeyMD5, versionId: input.versionId)
             let result = try getObject(request)
-                .then { output -> Future<Int64> in
+                .and(outputBody)
+                .then { (output,_) -> Future<Int64> in
                     // should never happen
-                    guard let length = output.contentLength, length > 0 else { return AWSClient.eventGroup.next().newSucceededFuture(result: fileSize) }
-                    guard let body = output.body else { return AWSClient.eventGroup.next().newSucceededFuture(result: fileSize) }
+                    guard let length = output.contentLength, length > 0 else {
+                        return AWSClient.eventGroup.next().newSucceededFuture(result: fileSize)
+                    }
+                    guard let body = output.body else {
+                        return AWSClient.eventGroup.next().newSucceededFuture(result: fileSize)
+                    }
                     let newOffset = offset + partSize
-                    // callback
-                    return AWSClient.eventGroup.next().submit {
-                        try outputStream(body)
-                        }
-                        .then {
-                            // if file size if less than of equal to new offset, then we have reached the end of the file and should return success
-                            guard fileSize > newOffset else { return AWSClient.eventGroup.next().newSucceededFuture(result: fileSize) }
-                            // download next part
-                            do {
-                                
-                                return try multipartDownloadPart(fileSize: fileSize, offset: newOffset)
-                            } catch {
-                                return AWSClient.eventGroup.next().newFailedFuture(error: error)
-                            }
+                    do {
+                        return try multipartDownloadPart(fileSize: fileSize, offset: newOffset, body: body)
+                    } catch {
+                        return AWSClient.eventGroup.next().newFailedFuture(error: error)
                     }
             }
             return result
@@ -99,29 +101,31 @@ public extension S3 {
     func multipartUpload(_ input: CreateMultipartUploadRequest, inputStream: @escaping () throws -> Data?) throws -> Future<CompleteMultipartUploadOutput> {
         var completedParts: [S3.CompletedPart] = []
         // function uploading part of a file
-        func multipartUploadPart(partNumber: Int32, uploadId: String) throws -> Future<[S3.CompletedPart]> {
-            // load data
-            let result = AWSClient.eventGroup.next().submit {
+        func multipartUploadPart(partNumber: Int32, uploadId: String, body: Data? = nil) throws -> Future<[S3.CompletedPart]> {
+            // create upload data future, if there is no data to load because this is the first time this is called create a succeeded future
+            let uploadResult : Future<[S3.CompletedPart]>
+            if let body = body {
+                let request = S3.UploadPartRequest(body: body, bucket: input.bucket, contentLength: Int64(body.count), key: input.key, partNumber: partNumber, requestPayer: input.requestPayer, sSECustomerAlgorithm: input.sSECustomerAlgorithm, sSECustomerKey: input.sSECustomerKey, sSECustomerKeyMD5: input.sSECustomerKeyMD5, uploadId: uploadId)
+                // request upload future
+                uploadResult = try self.uploadPart(request).map { output -> [S3.CompletedPart] in
+                    let part = S3.CompletedPart(eTag: output.eTag, partNumber: partNumber)
+                    completedParts.append(part)
+                    return completedParts
+                }
+            } else {
+                uploadResult = AWSClient.eventGroup.next().newSucceededFuture(result: [])
+            }
+            
+            // load data future
+            let result = AWSClient.eventGroup.next().submit { ()->Data? in
                 return try inputStream()
                 }
+                .and(uploadResult)
                 // upload data
-                .then { data -> Future<[S3.CompletedPart]> in
-                    guard let data = data else { return AWSClient.eventGroup.next().newSucceededFuture(result: completedParts)}
-                    // request upload
-                    let request = S3.UploadPartRequest(body: data, bucket: input.bucket, contentLength: Int64(data.count), key: input.key, partNumber: partNumber, requestPayer: input.requestPayer, sSECustomerAlgorithm: input.sSECustomerAlgorithm, sSECustomerKey: input.sSECustomerKey, sSECustomerKeyMD5: input.sSECustomerKeyMD5, uploadId: uploadId)
+                .then { (data, parts) -> Future<[S3.CompletedPart]> in
+                    guard let data = data else { return AWSClient.eventGroup.next().newSucceededFuture(result: parts)}
                     do {
-                        let result = try self.uploadPart(request)
-                            // upload next part
-                            .then { output -> Future<[S3.CompletedPart]> in
-                                do {
-                                    let part = S3.CompletedPart(eTag: output.eTag, partNumber: partNumber)
-                                    completedParts.append(part)
-                                    return try multipartUploadPart(partNumber: partNumber+1, uploadId: uploadId)
-                                } catch {
-                                    return AWSClient.eventGroup.next().newFailedFuture(error: error)
-                                }
-                        }
-                        return result
+                        return try multipartUploadPart(partNumber: partNumber+1, uploadId: uploadId, body: data)
                     } catch {
                         return AWSClient.eventGroup.next().newFailedFuture(error: error)
                     }
