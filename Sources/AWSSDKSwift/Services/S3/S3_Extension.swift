@@ -9,8 +9,11 @@ import Foundation
 import AWSSDKSwiftCore
 
 public extension S3ErrorType {
-    enum extensionErrors : Error {
+    enum multipart : Error {
+        case noUploadId
         case downloadEmpty(message: String)
+        case failedToWrite(file: String)
+        case failedToRead(file: String)
     }
 }
 
@@ -44,14 +47,14 @@ public extension S3 {
         return presignedURL
     }
     
-    /// Implement multipart download of a file.
+    /// Multipart download of a file from S3.
     ///
     /// - parameters:
     ///     - input: The GetObjectRequest shape that contains the details of the object request.
     ///     - partSize: Size of each part to be downloaded
     ///     - outputStream: Function to be called for each downloaded part
     /// - returns: A future that will receive the complete file size once the multipart download has finished.
-    func multipartDownload(_ input: GetObjectRequest, partSize: Int64=5*1024*1024, outputStream: @escaping (Data) throws -> ()) throws -> Future<Int64> {
+    func multipartDownload(_ input: GetObjectRequest, partSize: Int = 5*1024*1024, outputStream: @escaping (Data) throws -> ()) throws -> Future<Int64> {
         // function downloading part of a file
         func multipartDownloadPart(fileSize: Int64, offset: Int64, body: Data? = nil) throws -> Future<Int64> {
             // output the data uploaded previously
@@ -70,12 +73,12 @@ public extension S3 {
                     do {
                         // should never happen
                         guard let body = output.body else {
-                            throw S3ErrorType.extensionErrors.downloadEmpty(message: "Body is unexpectedly nil")
+                            throw S3ErrorType.multipart.downloadEmpty(message: "Body is unexpectedly nil")
                         }
                         guard let length = output.contentLength, length > 0 else {
-                            throw S3ErrorType.extensionErrors.downloadEmpty(message: "Content length is unexpectedly zero")
+                            throw S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero")
                         }
-                        let newOffset = offset + partSize
+                        let newOffset = offset + Int64(partSize)
                         return try multipartDownloadPart(fileSize: fileSize, offset: newOffset, body: body)
                     } catch {
                         return AWSClient.eventGroup.next().newFailedFuture(error: error)
@@ -89,8 +92,11 @@ public extension S3 {
         let result = try headObject(request)
             .then { object -> Future<Int64> in
                 do {
+                    guard let contentLength = object.contentLength else {
+                        throw S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero")
+                    }
                     // download file
-                    return try multipartDownloadPart(fileSize: object.contentLength!, offset: 0)
+                    return try multipartDownloadPart(fileSize: contentLength, offset: 0)
                 } catch {
                     return AWSClient.eventGroup.next().newFailedFuture(error: error)
                 }
@@ -98,7 +104,7 @@ public extension S3 {
         return result
     }
     
-    /// Implement S3 multipart upload.
+    /// Multipart upload of file to S3.
     ///
     /// - parameters:
     ///     - input: The CreateMultipartUploadRequest structure that contains the details about the upload
@@ -106,7 +112,8 @@ public extension S3 {
     /// - returns: A Future that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
     func multipartUpload(_ input: CreateMultipartUploadRequest, inputStream: @escaping () throws -> Data?) throws -> Future<CompleteMultipartUploadOutput> {
         var completedParts: [S3.CompletedPart] = []
-        // function uploading part of a file
+        
+        // function uploading part of a file and queueing up upload of the next part
         func multipartUploadPart(partNumber: Int32, uploadId: String, body: Data? = nil) throws -> Future<[S3.CompletedPart]> {
             // create upload data future, if there is no data to load because this is the first time this is called create a succeeded future
             let uploadResult : Future<[S3.CompletedPart]>
@@ -141,9 +148,9 @@ public extension S3 {
         
         // initialize multipart upload
         let result = try createMultipartUpload(input).then { upload -> Future<CompleteMultipartUploadOutput> in
-            //guard uploadId = upload.uploadId else { return nil }
-            let uploadId = upload.uploadId!
+            guard let uploadId = upload.uploadId else { return AWSClient.eventGroup.next().newFailedFuture(error: S3ErrorType.multipart.noUploadId) }
             do {
+                // upload all the parts
                 return try multipartUploadPart(partNumber: 1, uploadId: uploadId)
                     .then { parts -> Future<CompleteMultipartUploadOutput> in
                         // if success then complete the multipart upload
@@ -166,5 +173,90 @@ public extension S3 {
             }
         }
         return result
+    }
+
+    /// Multipart download of a file from S3.
+    ///
+    /// - parameters:
+    ///     - input: The GetObjectRequest shape that contains the details of the object request.
+    ///     - partSize: Size of each part to be downloaded
+    ///     - filename: Filename to save download to
+    /// - returns: A future that will receive the complete file size once the multipart download has finished.
+    func multipartDownload(_ input: GetObjectRequest, partSize: Int = 5*1024*1024, filename: String, progress: @escaping (Int64)->() = {_ in}) throws -> Future<Int64> {
+        if let outputStream = OutputStream(toFileAtPath: filename, append: false) {
+            outputStream.open()
+            
+            var progressValue : Int64 = 0
+            let download = try self.multipartDownload(input, partSize: partSize, outputStream:{ data in
+                let bytesWritten = data.withUnsafeBytes { (ptr : UnsafeRawBufferPointer) -> Int in
+                    if let bytes = ptr.baseAddress?.assumingMemoryBound(to: UInt8.self) {
+                        // read chunk
+                        return outputStream.write(bytes, maxLength: data.count)
+                    } else {
+                        return -1
+                    }
+                }
+                if bytesWritten != data.count {
+                    throw S3ErrorType.multipart.failedToWrite(file: filename)
+                }
+                // update progress
+                progressValue += Int64(data.count)
+                progress(progressValue)
+            })
+            download.whenComplete {
+                outputStream.close()
+            }
+            return download
+        } else {
+            throw S3ErrorType.multipart.failedToWrite(file: filename)
+        }
+    }
+
+    /// Multipart upload of file to S3.
+    ///
+    /// - parameters:
+    ///     - input: The CreateMultipartUploadRequest structure that contains the details about the upload
+    ///     - partSize: Size of each part to upload. This has to be at least 5MB
+    ///     - filename: Name of file to upload
+    ///
+    /// - returns: A Future that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
+    func multipartUpload(_ input: CreateMultipartUploadRequest, partSize: Int = 5*1024*1024, filename: String, progress: @escaping (Int64)->() = { _ in }) throws -> Future<CompleteMultipartUploadOutput> {
+        if let inputStream = InputStream(fileAtPath: filename) {
+            inputStream.open()
+
+            var progressAmount : Int64 = 0
+            let upload = try self.multipartUpload(input, inputStream:{
+                progress(progressAmount)
+                
+                var data = Data(count:partSize)
+                let bytesRead = data.withUnsafeMutableBytes { (ptr : UnsafeMutableRawBufferPointer) -> Int in
+                    if let bytes = ptr.baseAddress?.assumingMemoryBound(to: UInt8.self) {
+                        // read chunk
+                        return inputStream.read(bytes, maxLength: partSize)
+                    } else {
+                        return -1
+                    }
+                }
+                if bytesRead == 0 {
+                    return nil
+                }
+                if bytesRead == -1 {
+                    throw S3ErrorType.multipart.failedToRead(file: filename)
+                }
+                
+                progressAmount += Int64(bytesRead)
+                
+                if bytesRead != data.count {
+                    data.removeSubrange(bytesRead..<partSize)
+                }
+                return data
+            })
+            upload.whenComplete {
+                inputStream.close()
+            }
+            return upload
+        } else {
+            throw S3ErrorType.multipart.failedToRead(file: filename)
+        }
     }
 }
