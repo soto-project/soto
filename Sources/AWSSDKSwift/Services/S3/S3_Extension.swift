@@ -8,6 +8,12 @@
 import Foundation
 import AWSSDKSwiftCore
 
+public extension S3ErrorType {
+    enum extensionErrors : Error {
+        case downloadEmpty(message: String)
+    }
+}
+
 public extension S3 {
 
     ///  Creates pre-signed URL for retrieving object from Amazon S3.
@@ -61,15 +67,15 @@ public extension S3 {
             let result = try getObject(request)
                 .and(outputBody)
                 .then { (output,_) -> Future<Int64> in
-                    // should never happen
-                    guard let length = output.contentLength, length > 0 else {
-                        return AWSClient.eventGroup.next().newSucceededFuture(result: fileSize)
-                    }
-                    guard let body = output.body else {
-                        return AWSClient.eventGroup.next().newSucceededFuture(result: fileSize)
-                    }
-                    let newOffset = offset + partSize
                     do {
+                        // should never happen
+                        guard let body = output.body else {
+                            throw S3ErrorType.extensionErrors.downloadEmpty(message: "Body is unexpectedly nil")
+                        }
+                        guard let length = output.contentLength, length > 0 else {
+                            throw S3ErrorType.extensionErrors.downloadEmpty(message: "Content length is unexpectedly zero")
+                        }
+                        let newOffset = offset + partSize
                         return try multipartDownloadPart(fileSize: fileSize, offset: newOffset, body: body)
                     } catch {
                         return AWSClient.eventGroup.next().newFailedFuture(error: error)
