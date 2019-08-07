@@ -258,7 +258,6 @@ struct AWSService {
         var shapes = [Shape]()
         for (key, json) in apiJSON["shapes"].dictionaryValue {
             do {
-                //if json["deprecated"].bool == true { continue }
                 let shape = try Shape(name: key, type: shapeType(from: json))
                 shapes.append(shape)
             } catch AWSServiceError.eventStreamingCodeGenerationsAreUnsupported {

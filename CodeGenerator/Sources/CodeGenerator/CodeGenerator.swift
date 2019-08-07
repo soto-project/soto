@@ -131,7 +131,7 @@ extension Shape {
 }
 
 extension ShapeType {
-    var description : String {
+    var description: String {
         switch self {
         case .structure:
             return "structure"
@@ -165,60 +165,60 @@ extension ShapeType {
 
 extension AWSService {
     struct ErrorContext {
-        let `enum` : String
-        let string : String
+        let `enum`: String
+        let string: String
     }
     
     struct OperationContext {
-        let comment : [String.SubSequence]
-        let funcName : String
-        let inputShape : String?
-        let outputShape : String?
-        let name : String
-        let path : String
-        let httpMethod : String
-        let deprecated : String?
+        let comment: [String.SubSequence]
+        let funcName: String
+        let inputShape: String?
+        let outputShape: String?
+        let name: String
+        let path: String
+        let httpMethod: String
+        let deprecated: String?
     }
     
     struct EnumMemberContext {
-        let `case` : String
-        let string : String
+        let `case`: String
+        let string: String
     }
     
     struct EnumContext {
-        let name : String
-        let values : [EnumMemberContext]
+        let name: String
+        let values: [EnumMemberContext]
     }
     
     struct MemberContext {
-        let name : String
-        let variable : String
-        let locationPath : String
-        let location : String?
-        let parameter : String
-        let required : Bool
-        let type : String
-        let typeEnum : String
-        let encoding : String?
-        let comment : [String.SubSequence]
-        var duplicate : Bool
+        let name: String
+        let variable: String
+        let locationPath: String
+        let location: String?
+        let parameter: String
+        let required: Bool
+        let type: String
+        let typeEnum: String
+        let encoding: String?
+        let comment: [String.SubSequence]
+        var duplicate: Bool
     }
     
     struct StructureContext {
-        let object : String
-        let name : String
-        let payload : String?
-        let namespace : String?
-        let members : [MemberContext]
+        let object: String
+        let name: String
+        let payload: String?
+        let namespace: String?
+        let members: [MemberContext]
     }
     
     /// Generate the context information for outputting the error enums
     func generateErrorContext() -> [String: Any] {
-        var context : [String: Any] = [:]
+        var context: [String: Any] = [:]
         context["name"] = serviceName
         context["errorName"] = serviceErrorName
         
-        var errorContexts : [ErrorContext] = []
+        var errorContexts: [ErrorContext] = []
         for error in errorShapeNames {
             errorContexts.append(ErrorContext(enum: error.toSwiftVariableCase(), string: error))
         }
@@ -230,7 +230,7 @@ extension AWSService {
 
     /// Generate the context information for outputting the service api calls
     func generateServiceContext() -> [String: Any] {
-        var context : [String: Any] = [:]
+        var context: [String: Any] = [:]
         
         // Service initialization
         context["name"] = serviceName
@@ -259,7 +259,7 @@ extension AWSService {
         }
 
         // Operations
-        var operationContexts : [OperationContext] = []
+        var operationContexts: [OperationContext] = []
         for operation in operations {
             operationContexts.append(OperationContext(
                 comment: docJSON["operations"][operation.name].stringValue.tagStriped().split(separator: "\n"),
@@ -279,7 +279,7 @@ extension AWSService {
     func generateEnumContext(_ shape: Shape, values: [String]) -> EnumContext {
         
         // Operations
-        var valueContexts : [EnumMemberContext] = []
+        var valueContexts: [EnumMemberContext] = []
         for value in values {
             var key = value.lowercased()
                 .replacingOccurrences(of: ".", with: "_")
@@ -330,8 +330,8 @@ extension AWSService {
                 || $0.shape.swiftTypeName == "[\(shape.swiftTypeName)]"
         })
         
-        var memberContexts : [MemberContext] = []
-        var usedLocationPath : [String] = []
+        var memberContexts: [MemberContext] = []
+        var usedLocationPath: [String] = []
         for member in type.members {
             var memberContext = generateMemberContext(member, shape: shape)
             
@@ -356,21 +356,21 @@ extension AWSService {
     
     /// Generate the context for outputting all the AWSShape (enums and structures)
     func generateShapesContext() -> [String: Any] {
-        var context : [String: Any] = [:]
+        var context: [String: Any] = [:]
         context["name"] = serviceName
 
-        var shapeContexts : [[String : Any]] = []
+        var shapeContexts: [[String: Any]] = []
         for shape in shapes {
             if errorShapeNames.contains(shape.name) { continue }
 
             switch shape.type {
             case .enum(let values):
-                var enumContext : [String: Any] = [:]
+                var enumContext: [String: Any] = [:]
                 enumContext["enum"] = generateEnumContext(shape, values: values)
                 shapeContexts.append(enumContext)
 
             case .structure(let type):
-                var structContext : [String: Any] = [:]
+                var structContext: [String: Any] = [:]
                 structContext["struct"] = generateStructureContext(shape, type: type)
                 shapeContexts.append(structContext)
 
