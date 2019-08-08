@@ -7,6 +7,7 @@
 //
 import Foundation
 import AWSSDKSwiftCore
+import S3
 
 public extension S3ErrorType {
     enum multipart : Error {
