@@ -53,15 +53,15 @@ public extension S3 {
     /// - parameters:
     ///     - input: The GetObjectRequest shape that contains the details of the object request.
     ///     - partSize: Size of each part to be downloaded
-    ///     - outputStream: Function to be called for each downloaded part
+    ///     - outputStream: Function to be called for each downloaded part. Called with data block and file size
     /// - returns: A future that will receive the complete file size once the multipart download has finished.
-    func multipartDownload(_ input: GetObjectRequest, partSize: Int = 5*1024*1024, outputStream: @escaping (Data) throws -> ()) throws -> Future<Int64> {
+    func multipartDownload(_ input: GetObjectRequest, partSize: Int = 5*1024*1024, outputStream: @escaping (Data, Int64) throws -> ()) throws -> Future<Int64> {
         // function downloading part of a file
         func multipartDownloadPart(fileSize: Int64, offset: Int64, body: Data? = nil) throws -> Future<Int64> {
             // output the data uploaded previously
             let outputBody = AWSClient.eventGroup.next().submit { ()->Int64 in
                 if let body = body {
-                    try outputStream(body)
+                    try outputStream(body, fileSize)
                 }
                 return fileSize
             }
@@ -182,13 +182,14 @@ public extension S3 {
     ///     - input: The GetObjectRequest shape that contains the details of the object request.
     ///     - partSize: Size of each part to be downloaded
     ///     - filename: Filename to save download to
+    ///     - progress: Callback that returns the progress of the download. It is called after each part is downloaded with a value between 0.0 and 1.0 indicating how far the download is complete (1.0 meaning finished).
     /// - returns: A future that will receive the complete file size once the multipart download has finished.
-    func multipartDownload(_ input: GetObjectRequest, partSize: Int = 5*1024*1024, filename: String, progress: @escaping (Int64)->() = {_ in}) throws -> Future<Int64> {
+    func multipartDownload(_ input: GetObjectRequest, partSize: Int = 5*1024*1024, filename: String, progress: @escaping (Double) throws->() = {_ in}) throws -> Future<Int64> {
         if let outputStream = OutputStream(toFileAtPath: filename, append: false) {
             outputStream.open()
             
             var progressValue : Int64 = 0
-            let download = try self.multipartDownload(input, partSize: partSize, outputStream:{ data in
+            let download = try self.multipartDownload(input, partSize: partSize, outputStream:{ data, fileSize in
                 let bytesWritten = data.withUnsafeBytes { (bytes : UnsafePointer<UInt8>) -> Int in
                     // read chunk
                     return outputStream.write(bytes, maxLength: data.count)
@@ -198,7 +199,7 @@ public extension S3 {
                 }
                 // update progress
                 progressValue += Int64(data.count)
-                progress(progressValue)
+                try progress(Double(progressValue)/Double(fileSize))
             })
             download.whenComplete {
                 outputStream.close()
@@ -215,15 +216,16 @@ public extension S3 {
     ///     - input: The CreateMultipartUploadRequest structure that contains the details about the upload
     ///     - partSize: Size of each part to upload. This has to be at least 5MB
     ///     - filename: Name of file to upload
-    ///
+    ///     - progress: Callback that returns the progress of the upload. It is called after each part is uploaded with a value between 0.0 and 1.0 indicating how far the upload is complete (1.0 meaning finished).
     /// - returns: A Future that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
-    func multipartUpload(_ input: CreateMultipartUploadRequest, partSize: Int = 5*1024*1024, filename: String, progress: @escaping (Int64)->() = { _ in }) throws -> Future<CompleteMultipartUploadOutput> {
+    func multipartUpload(_ input: CreateMultipartUploadRequest, partSize: Int = 5*1024*1024, filename: String, progress: @escaping (Double) throws->() = { _ in }) throws -> Future<CompleteMultipartUploadOutput> {
+        let fileSize = try FileManager.default.attributesOfItem(atPath: filename)[.size] as? UInt64 ?? UInt64.max
         if let inputStream = InputStream(fileAtPath: filename) {
             inputStream.open()
 
             var progressAmount : Int64 = 0
             let upload = try self.multipartUpload(input, inputStream:{
-                progress(progressAmount)
+                try progress(Double(progressAmount) / Double(fileSize))
                 
                 var data = Data(count:partSize)
                 let bytesRead = data.withUnsafeMutableBytes { (bytes : UnsafeMutablePointer<UInt8>) -> Int in

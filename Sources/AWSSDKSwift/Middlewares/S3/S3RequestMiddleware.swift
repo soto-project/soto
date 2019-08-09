@@ -15,6 +15,7 @@ public struct S3RequestMiddleware: AWSRequestMiddleware {
 
         switch request.httpMethod.lowercased() {
         case "get":
+            guard let host = request.url.host, host.contains("amazonaws.com") else { break }
             let query = request.url.query != nil ? "?\(request.url.query!)" : ""
             let domain: String
             if let host = request.url.host, host.contains("amazonaws.com") {
