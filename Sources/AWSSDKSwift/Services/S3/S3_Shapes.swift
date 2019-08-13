@@ -307,6 +307,16 @@ extension S3 {
         case saEast1 = "sa-east-1"
         case cnNorth1 = "cn-north-1"
         case euCentral1 = "eu-central-1"
+        case usEast2 = "us-east-2"
+        case euWest2 = "eu-west-2"
+        case euWest3 = "eu-west-3"
+        case euNorth1 = "eu-north-1"
+        case apEast1 = "ap-east-1"
+        case apNortheast2 = "ap-northeast-2"
+        case apNortheast3 = "ap-northeast-3"
+        case caCentral1 = "ca-central-1"
+        case cnNorthwest1 = "cn-northwest-1"
+        case meSouth1 = "me-south-1"
         public var description: String { return self.rawValue }
     }
 
