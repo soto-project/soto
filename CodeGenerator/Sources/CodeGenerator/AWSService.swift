@@ -67,6 +67,9 @@ struct AWSService {
         endpoint["endpoints"].dictionaryValue.forEach {
             if let hostname = $0.value["hostname"].string {
                 endpointMap[$0.key] = hostname
+            } else if partitionEndpoint != nil {
+                // if there is a partition endpoint, then default this regions endpoint to ensure partition endpoint doesn't override it. Only an issue for S3 at the moment.
+                endpointMap[$0.key] = "\(endpointPrefix).\($0.key).amazonaws.com"
             }
         }
         return endpointMap
