@@ -3,7 +3,7 @@ import AWSSDKSwiftCore
 
 let MEGA_BYTE = 1024 * 1024
 
-public struct GlacierRequestMiddleware: AWSRequestMiddleware {
+public struct GlacierRequestMiddleware: AWSServiceMiddleware {
 
     let apiVersion: String
 
