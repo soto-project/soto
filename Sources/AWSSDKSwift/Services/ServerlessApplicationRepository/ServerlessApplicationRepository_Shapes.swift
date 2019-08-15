@@ -683,9 +683,9 @@ extension ServerlessApplicationRepository {
             self.semanticVersion = semanticVersion
         }
 
-        public func validate() throws {
-            try validate(maxItems, name:"maxItems", max: 100)
-            try validate(maxItems, name:"maxItems", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxItems, name:"maxItems", parent: name, max: 100)
+            try validate(maxItems, name:"maxItems", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -733,9 +733,9 @@ extension ServerlessApplicationRepository {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxItems, name:"maxItems", max: 100)
-            try validate(maxItems, name:"maxItems", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxItems, name:"maxItems", parent: name, max: 100)
+            try validate(maxItems, name:"maxItems", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -779,9 +779,9 @@ extension ServerlessApplicationRepository {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxItems, name:"maxItems", max: 100)
-            try validate(maxItems, name:"maxItems", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxItems, name:"maxItems", parent: name, max: 100)
+            try validate(maxItems, name:"maxItems", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

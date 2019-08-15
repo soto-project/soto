@@ -21,15 +21,15 @@ extension Kinesis {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(streamName, name:"streamName", max: 128)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(streamName, name:"streamName", parent: name, max: 128)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try tags.forEach {
-                try validate($0.key, name:"tags[key:]", max: 128)
-                try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.value, name:"tags[:value]", max: 256)
-                try validate($0.value, name:"tags[:value]", min: 0)
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
             }
         }
 
@@ -129,12 +129,12 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public func validate() throws {
-            try validate(shardCount, name:"shardCount", max: 100000)
-            try validate(shardCount, name:"shardCount", min: 1)
-            try validate(streamName, name:"streamName", max: 128)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(shardCount, name:"shardCount", parent: name, max: 100000)
+            try validate(shardCount, name:"shardCount", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, max: 128)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -159,12 +159,12 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public func validate() throws {
-            try validate(retentionPeriodHours, name:"retentionPeriodHours", max: 168)
-            try validate(retentionPeriodHours, name:"retentionPeriodHours", min: 1)
-            try validate(streamName, name:"streamName", max: 128)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(retentionPeriodHours, name:"retentionPeriodHours", parent: name, max: 168)
+            try validate(retentionPeriodHours, name:"retentionPeriodHours", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, max: 128)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -189,10 +189,10 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public func validate() throws {
-            try validate(streamName, name:"streamName", max: 128)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(streamName, name:"streamName", parent: name, max: 128)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -221,16 +221,16 @@ extension Kinesis {
             self.streamARN = streamARN
         }
 
-        public func validate() throws {
-            try validate(consumerARN, name:"consumerARN", max: 2048)
-            try validate(consumerARN, name:"consumerARN", min: 1)
-            try validate(consumerARN, name:"consumerARN", pattern: "^(arn):aws.*:kinesis:.*:\\d{12}:.*stream\\/[a-zA-Z0-9_.-]+\\/consumer\\/[a-zA-Z0-9_.-]+:[0-9]+")
-            try validate(consumerName, name:"consumerName", max: 128)
-            try validate(consumerName, name:"consumerName", min: 1)
-            try validate(consumerName, name:"consumerName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(streamARN, name:"streamARN", max: 2048)
-            try validate(streamARN, name:"streamARN", min: 1)
-            try validate(streamARN, name:"streamARN", pattern: "arn:aws.*:kinesis:.*:\\d{12}:stream/.*")
+        public func validate(name: String) throws {
+            try validate(consumerARN, name:"consumerARN", parent: name, max: 2048)
+            try validate(consumerARN, name:"consumerARN", parent: name, min: 1)
+            try validate(consumerARN, name:"consumerARN", parent: name, pattern: "^(arn):aws.*:kinesis:.*:\\d{12}:.*stream\\/[a-zA-Z0-9_.-]+\\/consumer\\/[a-zA-Z0-9_.-]+:[0-9]+")
+            try validate(consumerName, name:"consumerName", parent: name, max: 128)
+            try validate(consumerName, name:"consumerName", parent: name, min: 1)
+            try validate(consumerName, name:"consumerName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(streamARN, name:"streamARN", parent: name, max: 2048)
+            try validate(streamARN, name:"streamARN", parent: name, min: 1)
+            try validate(streamARN, name:"streamARN", parent: name, pattern: "arn:aws.*:kinesis:.*:\\d{12}:stream/.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -290,16 +290,16 @@ extension Kinesis {
             self.streamARN = streamARN
         }
 
-        public func validate() throws {
-            try validate(consumerARN, name:"consumerARN", max: 2048)
-            try validate(consumerARN, name:"consumerARN", min: 1)
-            try validate(consumerARN, name:"consumerARN", pattern: "^(arn):aws.*:kinesis:.*:\\d{12}:.*stream\\/[a-zA-Z0-9_.-]+\\/consumer\\/[a-zA-Z0-9_.-]+:[0-9]+")
-            try validate(consumerName, name:"consumerName", max: 128)
-            try validate(consumerName, name:"consumerName", min: 1)
-            try validate(consumerName, name:"consumerName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(streamARN, name:"streamARN", max: 2048)
-            try validate(streamARN, name:"streamARN", min: 1)
-            try validate(streamARN, name:"streamARN", pattern: "arn:aws.*:kinesis:.*:\\d{12}:stream/.*")
+        public func validate(name: String) throws {
+            try validate(consumerARN, name:"consumerARN", parent: name, max: 2048)
+            try validate(consumerARN, name:"consumerARN", parent: name, min: 1)
+            try validate(consumerARN, name:"consumerARN", parent: name, pattern: "^(arn):aws.*:kinesis:.*:\\d{12}:.*stream\\/[a-zA-Z0-9_.-]+\\/consumer\\/[a-zA-Z0-9_.-]+:[0-9]+")
+            try validate(consumerName, name:"consumerName", parent: name, max: 128)
+            try validate(consumerName, name:"consumerName", parent: name, min: 1)
+            try validate(consumerName, name:"consumerName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(streamARN, name:"streamARN", parent: name, max: 2048)
+            try validate(streamARN, name:"streamARN", parent: name, min: 1)
+            try validate(streamARN, name:"streamARN", parent: name, pattern: "arn:aws.*:kinesis:.*:\\d{12}:stream/.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -346,15 +346,15 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public func validate() throws {
-            try validate(exclusiveStartShardId, name:"exclusiveStartShardId", max: 128)
-            try validate(exclusiveStartShardId, name:"exclusiveStartShardId", min: 1)
-            try validate(exclusiveStartShardId, name:"exclusiveStartShardId", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(limit, name:"limit", max: 10000)
-            try validate(limit, name:"limit", min: 1)
-            try validate(streamName, name:"streamName", max: 128)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(exclusiveStartShardId, name:"exclusiveStartShardId", parent: name, max: 128)
+            try validate(exclusiveStartShardId, name:"exclusiveStartShardId", parent: name, min: 1)
+            try validate(exclusiveStartShardId, name:"exclusiveStartShardId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(limit, name:"limit", parent: name, max: 10000)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, max: 128)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -393,10 +393,10 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public func validate() throws {
-            try validate(streamName, name:"streamName", max: 128)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(streamName, name:"streamName", parent: name, max: 128)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -437,12 +437,12 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public func validate() throws {
-            try validate(shardLevelMetrics, name:"shardLevelMetrics", max: 7)
-            try validate(shardLevelMetrics, name:"shardLevelMetrics", min: 1)
-            try validate(streamName, name:"streamName", max: 128)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(shardLevelMetrics, name:"shardLevelMetrics", parent: name, max: 7)
+            try validate(shardLevelMetrics, name:"shardLevelMetrics", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, max: 128)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -467,12 +467,12 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public func validate() throws {
-            try validate(shardLevelMetrics, name:"shardLevelMetrics", max: 7)
-            try validate(shardLevelMetrics, name:"shardLevelMetrics", min: 1)
-            try validate(streamName, name:"streamName", max: 128)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(shardLevelMetrics, name:"shardLevelMetrics", parent: name, max: 7)
+            try validate(shardLevelMetrics, name:"shardLevelMetrics", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, max: 128)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -547,11 +547,11 @@ extension Kinesis {
             self.shardIterator = shardIterator
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 10000)
-            try validate(limit, name:"limit", min: 1)
-            try validate(shardIterator, name:"shardIterator", max: 512)
-            try validate(shardIterator, name:"shardIterator", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 10000)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(shardIterator, name:"shardIterator", parent: name, max: 512)
+            try validate(shardIterator, name:"shardIterator", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -615,14 +615,14 @@ extension Kinesis {
             self.timestamp = timestamp
         }
 
-        public func validate() throws {
-            try validate(shardId, name:"shardId", max: 128)
-            try validate(shardId, name:"shardId", min: 1)
-            try validate(shardId, name:"shardId", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(startingSequenceNumber, name:"startingSequenceNumber", pattern: "0|([1-9]\\d{0,128})")
-            try validate(streamName, name:"streamName", max: 128)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(shardId, name:"shardId", parent: name, max: 128)
+            try validate(shardId, name:"shardId", parent: name, min: 1)
+            try validate(shardId, name:"shardId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(startingSequenceNumber, name:"startingSequenceNumber", parent: name, pattern: "0|([1-9]\\d{0,128})")
+            try validate(streamName, name:"streamName", parent: name, max: 128)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -689,12 +689,12 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public func validate() throws {
-            try validate(retentionPeriodHours, name:"retentionPeriodHours", max: 168)
-            try validate(retentionPeriodHours, name:"retentionPeriodHours", min: 1)
-            try validate(streamName, name:"streamName", max: 128)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(retentionPeriodHours, name:"retentionPeriodHours", parent: name, max: 168)
+            try validate(retentionPeriodHours, name:"retentionPeriodHours", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, max: 128)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -731,17 +731,17 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public func validate() throws {
-            try validate(exclusiveStartShardId, name:"exclusiveStartShardId", max: 128)
-            try validate(exclusiveStartShardId, name:"exclusiveStartShardId", min: 1)
-            try validate(exclusiveStartShardId, name:"exclusiveStartShardId", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(maxResults, name:"maxResults", max: 10000)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 1048576)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(streamName, name:"streamName", max: 128)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(exclusiveStartShardId, name:"exclusiveStartShardId", parent: name, max: 128)
+            try validate(exclusiveStartShardId, name:"exclusiveStartShardId", parent: name, min: 1)
+            try validate(exclusiveStartShardId, name:"exclusiveStartShardId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(maxResults, name:"maxResults", parent: name, max: 10000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1048576)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, max: 128)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -799,14 +799,14 @@ extension Kinesis {
             self.streamCreationTimestamp = streamCreationTimestamp
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 10000)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 1048576)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(streamARN, name:"streamARN", max: 2048)
-            try validate(streamARN, name:"streamARN", min: 1)
-            try validate(streamARN, name:"streamARN", pattern: "arn:aws.*:kinesis:.*:\\d{12}:stream/.*")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 10000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1048576)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(streamARN, name:"streamARN", parent: name, max: 2048)
+            try validate(streamARN, name:"streamARN", parent: name, min: 1)
+            try validate(streamARN, name:"streamARN", parent: name, pattern: "arn:aws.*:kinesis:.*:\\d{12}:stream/.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -855,12 +855,12 @@ extension Kinesis {
             self.limit = limit
         }
 
-        public func validate() throws {
-            try validate(exclusiveStartStreamName, name:"exclusiveStartStreamName", max: 128)
-            try validate(exclusiveStartStreamName, name:"exclusiveStartStreamName", min: 1)
-            try validate(exclusiveStartStreamName, name:"exclusiveStartStreamName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(limit, name:"limit", max: 10000)
-            try validate(limit, name:"limit", min: 1)
+        public func validate(name: String) throws {
+            try validate(exclusiveStartStreamName, name:"exclusiveStartStreamName", parent: name, max: 128)
+            try validate(exclusiveStartStreamName, name:"exclusiveStartStreamName", parent: name, min: 1)
+            try validate(exclusiveStartStreamName, name:"exclusiveStartStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(limit, name:"limit", parent: name, max: 10000)
+            try validate(limit, name:"limit", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -911,14 +911,14 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public func validate() throws {
-            try validate(exclusiveStartTagKey, name:"exclusiveStartTagKey", max: 128)
-            try validate(exclusiveStartTagKey, name:"exclusiveStartTagKey", min: 1)
-            try validate(limit, name:"limit", max: 50)
-            try validate(limit, name:"limit", min: 1)
-            try validate(streamName, name:"streamName", max: 128)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(exclusiveStartTagKey, name:"exclusiveStartTagKey", parent: name, max: 128)
+            try validate(exclusiveStartTagKey, name:"exclusiveStartTagKey", parent: name, min: 1)
+            try validate(limit, name:"limit", parent: name, max: 50)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, max: 128)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -970,16 +970,16 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public func validate() throws {
-            try validate(adjacentShardToMerge, name:"adjacentShardToMerge", max: 128)
-            try validate(adjacentShardToMerge, name:"adjacentShardToMerge", min: 1)
-            try validate(adjacentShardToMerge, name:"adjacentShardToMerge", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(shardToMerge, name:"shardToMerge", max: 128)
-            try validate(shardToMerge, name:"shardToMerge", min: 1)
-            try validate(shardToMerge, name:"shardToMerge", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(streamName, name:"streamName", max: 128)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(adjacentShardToMerge, name:"adjacentShardToMerge", parent: name, max: 128)
+            try validate(adjacentShardToMerge, name:"adjacentShardToMerge", parent: name, min: 1)
+            try validate(adjacentShardToMerge, name:"adjacentShardToMerge", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(shardToMerge, name:"shardToMerge", parent: name, max: 128)
+            try validate(shardToMerge, name:"shardToMerge", parent: name, min: 1)
+            try validate(shardToMerge, name:"shardToMerge", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(streamName, name:"streamName", parent: name, max: 128)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1029,16 +1029,16 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public func validate() throws {
-            try validate(data, name:"data", max: 1048576)
-            try validate(data, name:"data", min: 0)
-            try validate(explicitHashKey, name:"explicitHashKey", pattern: "0|([1-9]\\d{0,38})")
-            try validate(partitionKey, name:"partitionKey", max: 256)
-            try validate(partitionKey, name:"partitionKey", min: 1)
-            try validate(sequenceNumberForOrdering, name:"sequenceNumberForOrdering", pattern: "0|([1-9]\\d{0,128})")
-            try validate(streamName, name:"streamName", max: 128)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(data, name:"data", parent: name, max: 1048576)
+            try validate(data, name:"data", parent: name, min: 0)
+            try validate(explicitHashKey, name:"explicitHashKey", parent: name, pattern: "0|([1-9]\\d{0,38})")
+            try validate(partitionKey, name:"partitionKey", parent: name, max: 256)
+            try validate(partitionKey, name:"partitionKey", parent: name, min: 1)
+            try validate(sequenceNumberForOrdering, name:"sequenceNumberForOrdering", parent: name, pattern: "0|([1-9]\\d{0,128})")
+            try validate(streamName, name:"streamName", parent: name, max: 128)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1093,15 +1093,15 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try records.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).records[]")
             }
-            try validate(records, name:"records", max: 500)
-            try validate(records, name:"records", min: 1)
-            try validate(streamName, name:"streamName", max: 128)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(records, name:"records", parent: name, max: 500)
+            try validate(records, name:"records", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, max: 128)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1157,12 +1157,12 @@ extension Kinesis {
             self.partitionKey = partitionKey
         }
 
-        public func validate() throws {
-            try validate(data, name:"data", max: 1048576)
-            try validate(data, name:"data", min: 0)
-            try validate(explicitHashKey, name:"explicitHashKey", pattern: "0|([1-9]\\d{0,38})")
-            try validate(partitionKey, name:"partitionKey", max: 256)
-            try validate(partitionKey, name:"partitionKey", min: 1)
+        public func validate(name: String) throws {
+            try validate(data, name:"data", parent: name, max: 1048576)
+            try validate(data, name:"data", parent: name, min: 0)
+            try validate(explicitHashKey, name:"explicitHashKey", parent: name, pattern: "0|([1-9]\\d{0,38})")
+            try validate(partitionKey, name:"partitionKey", parent: name, max: 256)
+            try validate(partitionKey, name:"partitionKey", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1257,13 +1257,13 @@ extension Kinesis {
             self.streamARN = streamARN
         }
 
-        public func validate() throws {
-            try validate(consumerName, name:"consumerName", max: 128)
-            try validate(consumerName, name:"consumerName", min: 1)
-            try validate(consumerName, name:"consumerName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(streamARN, name:"streamARN", max: 2048)
-            try validate(streamARN, name:"streamARN", min: 1)
-            try validate(streamARN, name:"streamARN", pattern: "arn:aws.*:kinesis:.*:\\d{12}:stream/.*")
+        public func validate(name: String) throws {
+            try validate(consumerName, name:"consumerName", parent: name, max: 128)
+            try validate(consumerName, name:"consumerName", parent: name, min: 1)
+            try validate(consumerName, name:"consumerName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(streamARN, name:"streamARN", parent: name, max: 2048)
+            try validate(streamARN, name:"streamARN", parent: name, min: 1)
+            try validate(streamARN, name:"streamARN", parent: name, pattern: "arn:aws.*:kinesis:.*:\\d{12}:stream/.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1305,16 +1305,16 @@ extension Kinesis {
             self.tagKeys = tagKeys
         }
 
-        public func validate() throws {
-            try validate(streamName, name:"streamName", max: 128)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(streamName, name:"streamName", parent: name, max: 128)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try tagKeys.forEach {
-                try validate($0, name:"tagKeys[]", max: 128)
-                try validate($0, name:"tagKeys[]", min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try validate(tagKeys, name:"tagKeys", max: 50)
-            try validate(tagKeys, name:"tagKeys", min: 1)
+            try validate(tagKeys, name:"tagKeys", parent: name, max: 50)
+            try validate(tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1416,14 +1416,14 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public func validate() throws {
-            try validate(newStartingHashKey, name:"newStartingHashKey", pattern: "0|([1-9]\\d{0,38})")
-            try validate(shardToSplit, name:"shardToSplit", max: 128)
-            try validate(shardToSplit, name:"shardToSplit", min: 1)
-            try validate(shardToSplit, name:"shardToSplit", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(streamName, name:"streamName", max: 128)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(newStartingHashKey, name:"newStartingHashKey", parent: name, pattern: "0|([1-9]\\d{0,38})")
+            try validate(shardToSplit, name:"shardToSplit", parent: name, max: 128)
+            try validate(shardToSplit, name:"shardToSplit", parent: name, min: 1)
+            try validate(shardToSplit, name:"shardToSplit", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(streamName, name:"streamName", parent: name, max: 128)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1453,12 +1453,12 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public func validate() throws {
-            try validate(keyId, name:"keyId", max: 2048)
-            try validate(keyId, name:"keyId", min: 1)
-            try validate(streamName, name:"streamName", max: 128)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, max: 128)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1485,8 +1485,8 @@ extension Kinesis {
             self.`type` = `type`
         }
 
-        public func validate() throws {
-            try validate(sequenceNumber, name:"sequenceNumber", pattern: "0|([1-9]\\d{0,128})")
+        public func validate(name: String) throws {
+            try validate(sequenceNumber, name:"sequenceNumber", parent: name, pattern: "0|([1-9]\\d{0,128})")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1516,12 +1516,12 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public func validate() throws {
-            try validate(keyId, name:"keyId", max: 2048)
-            try validate(keyId, name:"keyId", min: 1)
-            try validate(streamName, name:"streamName", max: 128)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, max: 128)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1682,14 +1682,14 @@ extension Kinesis {
             self.startingPosition = startingPosition
         }
 
-        public func validate() throws {
-            try validate(consumerARN, name:"consumerARN", max: 2048)
-            try validate(consumerARN, name:"consumerARN", min: 1)
-            try validate(consumerARN, name:"consumerARN", pattern: "^(arn):aws.*:kinesis:.*:\\d{12}:.*stream\\/[a-zA-Z0-9_.-]+\\/consumer\\/[a-zA-Z0-9_.-]+:[0-9]+")
-            try validate(shardId, name:"shardId", max: 128)
-            try validate(shardId, name:"shardId", min: 1)
-            try validate(shardId, name:"shardId", pattern: "[a-zA-Z0-9_.-]+")
-            try startingPosition.validate()
+        public func validate(name: String) throws {
+            try validate(consumerARN, name:"consumerARN", parent: name, max: 2048)
+            try validate(consumerARN, name:"consumerARN", parent: name, min: 1)
+            try validate(consumerARN, name:"consumerARN", parent: name, pattern: "^(arn):aws.*:kinesis:.*:\\d{12}:.*stream\\/[a-zA-Z0-9_.-]+\\/consumer\\/[a-zA-Z0-9_.-]+:[0-9]+")
+            try validate(shardId, name:"shardId", parent: name, max: 128)
+            try validate(shardId, name:"shardId", parent: name, min: 1)
+            try validate(shardId, name:"shardId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try startingPosition.validate(name: "\(name).startingPosition")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1741,12 +1741,12 @@ extension Kinesis {
             self.targetShardCount = targetShardCount
         }
 
-        public func validate() throws {
-            try validate(streamName, name:"streamName", max: 128)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(targetShardCount, name:"targetShardCount", max: 100000)
-            try validate(targetShardCount, name:"targetShardCount", min: 1)
+        public func validate(name: String) throws {
+            try validate(streamName, name:"streamName", parent: name, max: 128)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(targetShardCount, name:"targetShardCount", parent: name, max: 100000)
+            try validate(targetShardCount, name:"targetShardCount", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

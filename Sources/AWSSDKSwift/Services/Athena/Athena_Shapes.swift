@@ -17,9 +17,9 @@ extension Athena {
             self.namedQueryIds = namedQueryIds
         }
 
-        public func validate() throws {
-            try validate(namedQueryIds, name:"namedQueryIds", max: 50)
-            try validate(namedQueryIds, name:"namedQueryIds", min: 1)
+        public func validate(name: String) throws {
+            try validate(namedQueryIds, name:"namedQueryIds", parent: name, max: 50)
+            try validate(namedQueryIds, name:"namedQueryIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -61,9 +61,9 @@ extension Athena {
             self.queryExecutionIds = queryExecutionIds
         }
 
-        public func validate() throws {
-            try validate(queryExecutionIds, name:"queryExecutionIds", max: 50)
-            try validate(queryExecutionIds, name:"queryExecutionIds", min: 1)
+        public func validate(name: String) throws {
+            try validate(queryExecutionIds, name:"queryExecutionIds", parent: name, max: 50)
+            try validate(queryExecutionIds, name:"queryExecutionIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -194,18 +194,18 @@ extension Athena {
             self.workGroup = workGroup
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 128)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 32)
-            try validate(database, name:"database", max: 255)
-            try validate(database, name:"database", min: 1)
-            try validate(description, name:"description", max: 1024)
-            try validate(description, name:"description", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(queryString, name:"queryString", max: 262144)
-            try validate(queryString, name:"queryString", min: 1)
-            try validate(workGroup, name:"workGroup", pattern: "[a-zA-z0-9._-]{1,128}")
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 128)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 32)
+            try validate(database, name:"database", parent: name, max: 255)
+            try validate(database, name:"database", parent: name, min: 1)
+            try validate(description, name:"description", parent: name, max: 1024)
+            try validate(description, name:"description", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(queryString, name:"queryString", parent: name, max: 262144)
+            try validate(queryString, name:"queryString", parent: name, min: 1)
+            try validate(workGroup, name:"workGroup", parent: name, pattern: "[a-zA-z0-9._-]{1,128}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -259,13 +259,13 @@ extension Athena {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try configuration?.validate()
-            try validate(description, name:"description", max: 1024)
-            try validate(description, name:"description", min: 0)
-            try validate(name, name:"name", pattern: "[a-zA-z0-9._-]{1,128}")
+        public func validate(name: String) throws {
+            try configuration?.validate(name: "\(name).configuration")
+            try validate(description, name:"description", parent: name, max: 1024)
+            try validate(description, name:"description", parent: name, min: 0)
+            try validate(name, name:"name", parent: name, pattern: "[a-zA-z0-9._-]{1,128}")
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
         }
 
@@ -343,8 +343,8 @@ extension Athena {
             self.workGroup = workGroup
         }
 
-        public func validate() throws {
-            try validate(workGroup, name:"workGroup", pattern: "[a-zA-z0-9._-]{1,128}")
+        public func validate(name: String) throws {
+            try validate(workGroup, name:"workGroup", parent: name, pattern: "[a-zA-z0-9._-]{1,128}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -478,11 +478,11 @@ extension Athena {
             self.queryExecutionId = queryExecutionId
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 0)
-            try validate(nextToken, name:"nextToken", max: 1024)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -531,8 +531,8 @@ extension Athena {
             self.workGroup = workGroup
         }
 
-        public func validate() throws {
-            try validate(workGroup, name:"workGroup", pattern: "[a-zA-z0-9._-]{1,128}")
+        public func validate(name: String) throws {
+            try validate(workGroup, name:"workGroup", parent: name, pattern: "[a-zA-z0-9._-]{1,128}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -577,12 +577,12 @@ extension Athena {
             self.workGroup = workGroup
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 50)
-            try validate(maxResults, name:"maxResults", min: 0)
-            try validate(nextToken, name:"nextToken", max: 1024)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(workGroup, name:"workGroup", pattern: "[a-zA-z0-9._-]{1,128}")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(workGroup, name:"workGroup", parent: name, pattern: "[a-zA-z0-9._-]{1,128}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -634,12 +634,12 @@ extension Athena {
             self.workGroup = workGroup
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 50)
-            try validate(maxResults, name:"maxResults", min: 0)
-            try validate(nextToken, name:"nextToken", max: 1024)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(workGroup, name:"workGroup", pattern: "[a-zA-z0-9._-]{1,128}")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(workGroup, name:"workGroup", parent: name, pattern: "[a-zA-z0-9._-]{1,128}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -691,12 +691,12 @@ extension Athena {
             self.resourceARN = resourceARN
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", min: 75)
-            try validate(nextToken, name:"nextToken", max: 1024)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(resourceARN, name:"resourceARN", max: 1011)
-            try validate(resourceARN, name:"resourceARN", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, min: 75)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 1011)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -744,11 +744,11 @@ extension Athena {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 50)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 1024)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -885,9 +885,9 @@ extension Athena {
             self.database = database
         }
 
-        public func validate() throws {
-            try validate(database, name:"database", max: 255)
-            try validate(database, name:"database", min: 1)
+        public func validate(name: String) throws {
+            try validate(database, name:"database", parent: name, max: 255)
+            try validate(database, name:"database", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1096,13 +1096,13 @@ extension Athena {
             self.workGroup = workGroup
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 128)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 32)
-            try queryExecutionContext?.validate()
-            try validate(queryString, name:"queryString", max: 262144)
-            try validate(queryString, name:"queryString", min: 1)
-            try validate(workGroup, name:"workGroup", pattern: "[a-zA-z0-9._-]{1,128}")
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 128)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 32)
+            try queryExecutionContext?.validate(name: "\(name).queryExecutionContext")
+            try validate(queryString, name:"queryString", parent: name, max: 262144)
+            try validate(queryString, name:"queryString", parent: name, min: 1)
+            try validate(workGroup, name:"workGroup", parent: name, pattern: "[a-zA-z0-9._-]{1,128}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1179,11 +1179,11 @@ extension Athena {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 128)
-            try validate(key, name:"key", min: 1)
-            try validate(value, name:"value", max: 256)
-            try validate(value, name:"value", min: 0)
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1208,11 +1208,11 @@ extension Athena {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 1011)
-            try validate(resourceARN, name:"resourceARN", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 1011)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
             try tags.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
         }
 
@@ -1300,12 +1300,12 @@ extension Athena {
             self.tagKeys = tagKeys
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 1011)
-            try validate(resourceARN, name:"resourceARN", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 1011)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
             try tagKeys.forEach {
-                try validate($0, name:"tagKeys[]", max: 128)
-                try validate($0, name:"tagKeys[]", min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
         }
 
@@ -1347,11 +1347,11 @@ extension Athena {
             self.workGroup = workGroup
         }
 
-        public func validate() throws {
-            try configurationUpdates?.validate()
-            try validate(description, name:"description", max: 1024)
-            try validate(description, name:"description", min: 0)
-            try validate(workGroup, name:"workGroup", pattern: "[a-zA-z0-9._-]{1,128}")
+        public func validate(name: String) throws {
+            try configurationUpdates?.validate(name: "\(name).configurationUpdates")
+            try validate(description, name:"description", parent: name, max: 1024)
+            try validate(description, name:"description", parent: name, min: 0)
+            try validate(workGroup, name:"workGroup", parent: name, pattern: "[a-zA-z0-9._-]{1,128}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1431,8 +1431,8 @@ extension Athena {
             self.resultConfiguration = resultConfiguration
         }
 
-        public func validate() throws {
-            try validate(bytesScannedCutoffPerQuery, name:"bytesScannedCutoffPerQuery", min: 10000000)
+        public func validate(name: String) throws {
+            try validate(bytesScannedCutoffPerQuery, name:"bytesScannedCutoffPerQuery", parent: name, min: 10000000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1471,8 +1471,8 @@ extension Athena {
             self.resultConfigurationUpdates = resultConfigurationUpdates
         }
 
-        public func validate() throws {
-            try validate(bytesScannedCutoffPerQuery, name:"bytesScannedCutoffPerQuery", min: 10000000)
+        public func validate(name: String) throws {
+            try validate(bytesScannedCutoffPerQuery, name:"bytesScannedCutoffPerQuery", parent: name, min: 10000000)
         }
 
         private enum CodingKeys: String, CodingKey {

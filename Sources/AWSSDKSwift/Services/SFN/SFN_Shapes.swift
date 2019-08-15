@@ -180,11 +180,11 @@ extension SFN {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 80)
-            try validate(name, name:"name", min: 1)
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 80)
+            try validate(name, name:"name", parent: name, min: 1)
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
         }
 
@@ -240,15 +240,15 @@ extension SFN {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(definition, name:"definition", max: 1048576)
-            try validate(definition, name:"definition", min: 1)
-            try validate(name, name:"name", max: 80)
-            try validate(name, name:"name", min: 1)
-            try validate(roleArn, name:"roleArn", max: 256)
-            try validate(roleArn, name:"roleArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(definition, name:"definition", parent: name, max: 1048576)
+            try validate(definition, name:"definition", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 80)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(roleArn, name:"roleArn", parent: name, max: 256)
+            try validate(roleArn, name:"roleArn", parent: name, min: 1)
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
         }
 
@@ -294,9 +294,9 @@ extension SFN {
             self.activityArn = activityArn
         }
 
-        public func validate() throws {
-            try validate(activityArn, name:"activityArn", max: 256)
-            try validate(activityArn, name:"activityArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(activityArn, name:"activityArn", parent: name, max: 256)
+            try validate(activityArn, name:"activityArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -324,9 +324,9 @@ extension SFN {
             self.stateMachineArn = stateMachineArn
         }
 
-        public func validate() throws {
-            try validate(stateMachineArn, name:"stateMachineArn", max: 256)
-            try validate(stateMachineArn, name:"stateMachineArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(stateMachineArn, name:"stateMachineArn", parent: name, max: 256)
+            try validate(stateMachineArn, name:"stateMachineArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -354,9 +354,9 @@ extension SFN {
             self.activityArn = activityArn
         }
 
-        public func validate() throws {
-            try validate(activityArn, name:"activityArn", max: 256)
-            try validate(activityArn, name:"activityArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(activityArn, name:"activityArn", parent: name, max: 256)
+            try validate(activityArn, name:"activityArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -403,9 +403,9 @@ extension SFN {
             self.executionArn = executionArn
         }
 
-        public func validate() throws {
-            try validate(executionArn, name:"executionArn", max: 256)
-            try validate(executionArn, name:"executionArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(executionArn, name:"executionArn", parent: name, max: 256)
+            try validate(executionArn, name:"executionArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -477,9 +477,9 @@ extension SFN {
             self.executionArn = executionArn
         }
 
-        public func validate() throws {
-            try validate(executionArn, name:"executionArn", max: 256)
-            try validate(executionArn, name:"executionArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(executionArn, name:"executionArn", parent: name, max: 256)
+            try validate(executionArn, name:"executionArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -536,9 +536,9 @@ extension SFN {
             self.stateMachineArn = stateMachineArn
         }
 
-        public func validate() throws {
-            try validate(stateMachineArn, name:"stateMachineArn", max: 256)
-            try validate(stateMachineArn, name:"stateMachineArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(stateMachineArn, name:"stateMachineArn", parent: name, max: 256)
+            try validate(stateMachineArn, name:"stateMachineArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -760,11 +760,11 @@ extension SFN {
             self.workerName = workerName
         }
 
-        public func validate() throws {
-            try validate(activityArn, name:"activityArn", max: 256)
-            try validate(activityArn, name:"activityArn", min: 1)
-            try validate(workerName, name:"workerName", max: 80)
-            try validate(workerName, name:"workerName", min: 1)
+        public func validate(name: String) throws {
+            try validate(activityArn, name:"activityArn", parent: name, max: 256)
+            try validate(activityArn, name:"activityArn", parent: name, min: 1)
+            try validate(workerName, name:"workerName", parent: name, max: 80)
+            try validate(workerName, name:"workerName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -819,13 +819,13 @@ extension SFN {
             self.reverseOrder = reverseOrder
         }
 
-        public func validate() throws {
-            try validate(executionArn, name:"executionArn", max: 256)
-            try validate(executionArn, name:"executionArn", min: 1)
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 0)
-            try validate(nextToken, name:"nextToken", max: 1024)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(executionArn, name:"executionArn", parent: name, max: 256)
+            try validate(executionArn, name:"executionArn", parent: name, min: 1)
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1206,11 +1206,11 @@ extension SFN {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 0)
-            try validate(nextToken, name:"nextToken", max: 1024)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1265,13 +1265,13 @@ extension SFN {
             self.statusFilter = statusFilter
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 0)
-            try validate(nextToken, name:"nextToken", max: 1024)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(stateMachineArn, name:"stateMachineArn", max: 256)
-            try validate(stateMachineArn, name:"stateMachineArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(stateMachineArn, name:"stateMachineArn", parent: name, max: 256)
+            try validate(stateMachineArn, name:"stateMachineArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1320,11 +1320,11 @@ extension SFN {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 0)
-            try validate(nextToken, name:"nextToken", max: 1024)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1366,9 +1366,9 @@ extension SFN {
             self.resourceArn = resourceArn
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 256)
-            try validate(resourceArn, name:"resourceArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 256)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1413,13 +1413,13 @@ extension SFN {
             self.taskToken = taskToken
         }
 
-        public func validate() throws {
-            try validate(cause, name:"cause", max: 32768)
-            try validate(cause, name:"cause", min: 0)
-            try validate(error, name:"error", max: 256)
-            try validate(error, name:"error", min: 0)
-            try validate(taskToken, name:"taskToken", max: 1024)
-            try validate(taskToken, name:"taskToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(cause, name:"cause", parent: name, max: 32768)
+            try validate(cause, name:"cause", parent: name, min: 0)
+            try validate(error, name:"error", parent: name, max: 256)
+            try validate(error, name:"error", parent: name, min: 0)
+            try validate(taskToken, name:"taskToken", parent: name, max: 1024)
+            try validate(taskToken, name:"taskToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1449,9 +1449,9 @@ extension SFN {
             self.taskToken = taskToken
         }
 
-        public func validate() throws {
-            try validate(taskToken, name:"taskToken", max: 1024)
-            try validate(taskToken, name:"taskToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(taskToken, name:"taskToken", parent: name, max: 1024)
+            try validate(taskToken, name:"taskToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1483,10 +1483,10 @@ extension SFN {
             self.taskToken = taskToken
         }
 
-        public func validate() throws {
-            try validate(output, name:"output", max: 32768)
-            try validate(taskToken, name:"taskToken", max: 1024)
-            try validate(taskToken, name:"taskToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(output, name:"output", parent: name, max: 32768)
+            try validate(taskToken, name:"taskToken", parent: name, max: 1024)
+            try validate(taskToken, name:"taskToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1523,12 +1523,12 @@ extension SFN {
             self.stateMachineArn = stateMachineArn
         }
 
-        public func validate() throws {
-            try validate(input, name:"input", max: 32768)
-            try validate(name, name:"name", max: 80)
-            try validate(name, name:"name", min: 1)
-            try validate(stateMachineArn, name:"stateMachineArn", max: 256)
-            try validate(stateMachineArn, name:"stateMachineArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(input, name:"input", parent: name, max: 32768)
+            try validate(name, name:"name", parent: name, max: 80)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(stateMachineArn, name:"stateMachineArn", parent: name, max: 256)
+            try validate(stateMachineArn, name:"stateMachineArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1657,13 +1657,13 @@ extension SFN {
             self.executionArn = executionArn
         }
 
-        public func validate() throws {
-            try validate(cause, name:"cause", max: 32768)
-            try validate(cause, name:"cause", min: 0)
-            try validate(error, name:"error", max: 256)
-            try validate(error, name:"error", min: 0)
-            try validate(executionArn, name:"executionArn", max: 256)
-            try validate(executionArn, name:"executionArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(cause, name:"cause", parent: name, max: 32768)
+            try validate(cause, name:"cause", parent: name, min: 0)
+            try validate(error, name:"error", parent: name, max: 256)
+            try validate(error, name:"error", parent: name, min: 0)
+            try validate(executionArn, name:"executionArn", parent: name, max: 256)
+            try validate(executionArn, name:"executionArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1706,11 +1706,11 @@ extension SFN {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 128)
-            try validate(key, name:"key", min: 1)
-            try validate(value, name:"value", max: 256)
-            try validate(value, name:"value", min: 0)
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1735,11 +1735,11 @@ extension SFN {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 256)
-            try validate(resourceArn, name:"resourceArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 256)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
             try tags.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
         }
 
@@ -2014,12 +2014,12 @@ extension SFN {
             self.tagKeys = tagKeys
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 256)
-            try validate(resourceArn, name:"resourceArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 256)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
             try tagKeys.forEach {
-                try validate($0, name:"tagKeys[]", max: 128)
-                try validate($0, name:"tagKeys[]", min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
         }
 
@@ -2057,13 +2057,13 @@ extension SFN {
             self.stateMachineArn = stateMachineArn
         }
 
-        public func validate() throws {
-            try validate(definition, name:"definition", max: 1048576)
-            try validate(definition, name:"definition", min: 1)
-            try validate(roleArn, name:"roleArn", max: 256)
-            try validate(roleArn, name:"roleArn", min: 1)
-            try validate(stateMachineArn, name:"stateMachineArn", max: 256)
-            try validate(stateMachineArn, name:"stateMachineArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(definition, name:"definition", parent: name, max: 1048576)
+            try validate(definition, name:"definition", parent: name, min: 1)
+            try validate(roleArn, name:"roleArn", parent: name, max: 256)
+            try validate(roleArn, name:"roleArn", parent: name, min: 1)
+            try validate(stateMachineArn, name:"stateMachineArn", parent: name, max: 256)
+            try validate(stateMachineArn, name:"stateMachineArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

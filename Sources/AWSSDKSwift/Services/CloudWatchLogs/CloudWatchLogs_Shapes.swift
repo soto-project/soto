@@ -21,11 +21,11 @@ extension CloudWatchLogs {
             self.logGroupName = logGroupName
         }
 
-        public func validate() throws {
-            try validate(kmsKeyId, name:"kmsKeyId", max: 256)
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
+        public func validate(name: String) throws {
+            try validate(kmsKeyId, name:"kmsKeyId", parent: name, max: 256)
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -46,9 +46,9 @@ extension CloudWatchLogs {
             self.taskId = taskId
         }
 
-        public func validate() throws {
-            try validate(taskId, name:"taskId", max: 512)
-            try validate(taskId, name:"taskId", min: 1)
+        public func validate(name: String) throws {
+            try validate(taskId, name:"taskId", parent: name, max: 512)
+            try validate(taskId, name:"taskId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -92,19 +92,19 @@ extension CloudWatchLogs {
             self.to = to
         }
 
-        public func validate() throws {
-            try validate(destination, name:"destination", max: 512)
-            try validate(destination, name:"destination", min: 1)
-            try validate(from, name:"from", min: 0)
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try validate(logStreamNamePrefix, name:"logStreamNamePrefix", max: 512)
-            try validate(logStreamNamePrefix, name:"logStreamNamePrefix", min: 1)
-            try validate(logStreamNamePrefix, name:"logStreamNamePrefix", pattern: "[^:*]*")
-            try validate(taskName, name:"taskName", max: 512)
-            try validate(taskName, name:"taskName", min: 1)
-            try validate(to, name:"to", min: 0)
+        public func validate(name: String) throws {
+            try validate(destination, name:"destination", parent: name, max: 512)
+            try validate(destination, name:"destination", parent: name, min: 1)
+            try validate(from, name:"from", parent: name, min: 0)
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try validate(logStreamNamePrefix, name:"logStreamNamePrefix", parent: name, max: 512)
+            try validate(logStreamNamePrefix, name:"logStreamNamePrefix", parent: name, min: 1)
+            try validate(logStreamNamePrefix, name:"logStreamNamePrefix", parent: name, pattern: "[^:*]*")
+            try validate(taskName, name:"taskName", parent: name, max: 512)
+            try validate(taskName, name:"taskName", parent: name, min: 1)
+            try validate(to, name:"to", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -155,17 +155,17 @@ extension CloudWatchLogs {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(kmsKeyId, name:"kmsKeyId", max: 256)
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
+        public func validate(name: String) throws {
+            try validate(kmsKeyId, name:"kmsKeyId", parent: name, max: 256)
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
             try tags?.forEach {
-                try validate($0.key, name:"tags[key:]", max: 128)
-                try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.key, name:"tags[key:]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
-                try validate($0.value, name:"tags[:value]", max: 256)
-                try validate($0.value, name:"tags[:value]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
         }
 
@@ -192,13 +192,13 @@ extension CloudWatchLogs {
             self.logStreamName = logStreamName
         }
 
-        public func validate() throws {
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try validate(logStreamName, name:"logStreamName", max: 512)
-            try validate(logStreamName, name:"logStreamName", min: 1)
-            try validate(logStreamName, name:"logStreamName", pattern: "[^:*]*")
+        public func validate(name: String) throws {
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try validate(logStreamName, name:"logStreamName", parent: name, max: 512)
+            try validate(logStreamName, name:"logStreamName", parent: name, min: 1)
+            try validate(logStreamName, name:"logStreamName", parent: name, pattern: "[^:*]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -219,10 +219,10 @@ extension CloudWatchLogs {
             self.destinationName = destinationName
         }
 
-        public func validate() throws {
-            try validate(destinationName, name:"destinationName", max: 512)
-            try validate(destinationName, name:"destinationName", min: 1)
-            try validate(destinationName, name:"destinationName", pattern: "[^:*]*")
+        public func validate(name: String) throws {
+            try validate(destinationName, name:"destinationName", parent: name, max: 512)
+            try validate(destinationName, name:"destinationName", parent: name, min: 1)
+            try validate(destinationName, name:"destinationName", parent: name, pattern: "[^:*]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -242,10 +242,10 @@ extension CloudWatchLogs {
             self.logGroupName = logGroupName
         }
 
-        public func validate() throws {
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
+        public func validate(name: String) throws {
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -269,13 +269,13 @@ extension CloudWatchLogs {
             self.logStreamName = logStreamName
         }
 
-        public func validate() throws {
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try validate(logStreamName, name:"logStreamName", max: 512)
-            try validate(logStreamName, name:"logStreamName", min: 1)
-            try validate(logStreamName, name:"logStreamName", pattern: "[^:*]*")
+        public func validate(name: String) throws {
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try validate(logStreamName, name:"logStreamName", parent: name, max: 512)
+            try validate(logStreamName, name:"logStreamName", parent: name, min: 1)
+            try validate(logStreamName, name:"logStreamName", parent: name, pattern: "[^:*]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -300,13 +300,13 @@ extension CloudWatchLogs {
             self.logGroupName = logGroupName
         }
 
-        public func validate() throws {
-            try validate(filterName, name:"filterName", max: 512)
-            try validate(filterName, name:"filterName", min: 1)
-            try validate(filterName, name:"filterName", pattern: "[^:*]*")
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
+        public func validate(name: String) throws {
+            try validate(filterName, name:"filterName", parent: name, max: 512)
+            try validate(filterName, name:"filterName", parent: name, min: 1)
+            try validate(filterName, name:"filterName", parent: name, pattern: "[^:*]*")
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -344,10 +344,10 @@ extension CloudWatchLogs {
             self.logGroupName = logGroupName
         }
 
-        public func validate() throws {
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
+        public func validate(name: String) throws {
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -371,13 +371,13 @@ extension CloudWatchLogs {
             self.logGroupName = logGroupName
         }
 
-        public func validate() throws {
-            try validate(filterName, name:"filterName", max: 512)
-            try validate(filterName, name:"filterName", min: 1)
-            try validate(filterName, name:"filterName", pattern: "[^:*]*")
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
+        public func validate(name: String) throws {
+            try validate(filterName, name:"filterName", parent: name, max: 512)
+            try validate(filterName, name:"filterName", parent: name, min: 1)
+            try validate(filterName, name:"filterName", parent: name, pattern: "[^:*]*")
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -406,13 +406,13 @@ extension CloudWatchLogs {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(destinationNamePrefix, name:"destinationNamePrefix", max: 512)
-            try validate(destinationNamePrefix, name:"destinationNamePrefix", min: 1)
-            try validate(destinationNamePrefix, name:"destinationNamePrefix", pattern: "[^:*]*")
-            try validate(limit, name:"limit", max: 50)
-            try validate(limit, name:"limit", min: 1)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(destinationNamePrefix, name:"destinationNamePrefix", parent: name, max: 512)
+            try validate(destinationNamePrefix, name:"destinationNamePrefix", parent: name, min: 1)
+            try validate(destinationNamePrefix, name:"destinationNamePrefix", parent: name, pattern: "[^:*]*")
+            try validate(limit, name:"limit", parent: name, max: 50)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -467,12 +467,12 @@ extension CloudWatchLogs {
             self.taskId = taskId
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 50)
-            try validate(limit, name:"limit", min: 1)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(taskId, name:"taskId", max: 512)
-            try validate(taskId, name:"taskId", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 50)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(taskId, name:"taskId", parent: name, max: 512)
+            try validate(taskId, name:"taskId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -524,13 +524,13 @@ extension CloudWatchLogs {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 50)
-            try validate(limit, name:"limit", min: 1)
-            try validate(logGroupNamePrefix, name:"logGroupNamePrefix", max: 512)
-            try validate(logGroupNamePrefix, name:"logGroupNamePrefix", min: 1)
-            try validate(logGroupNamePrefix, name:"logGroupNamePrefix", pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 50)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(logGroupNamePrefix, name:"logGroupNamePrefix", parent: name, max: 512)
+            try validate(logGroupNamePrefix, name:"logGroupNamePrefix", parent: name, min: 1)
+            try validate(logGroupNamePrefix, name:"logGroupNamePrefix", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -593,16 +593,16 @@ extension CloudWatchLogs {
             self.orderBy = orderBy
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 50)
-            try validate(limit, name:"limit", min: 1)
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try validate(logStreamNamePrefix, name:"logStreamNamePrefix", max: 512)
-            try validate(logStreamNamePrefix, name:"logStreamNamePrefix", min: 1)
-            try validate(logStreamNamePrefix, name:"logStreamNamePrefix", pattern: "[^:*]*")
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 50)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try validate(logStreamNamePrefix, name:"logStreamNamePrefix", parent: name, max: 512)
+            try validate(logStreamNamePrefix, name:"logStreamNamePrefix", parent: name, min: 1)
+            try validate(logStreamNamePrefix, name:"logStreamNamePrefix", parent: name, pattern: "[^:*]*")
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -668,20 +668,20 @@ extension CloudWatchLogs {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(filterNamePrefix, name:"filterNamePrefix", max: 512)
-            try validate(filterNamePrefix, name:"filterNamePrefix", min: 1)
-            try validate(filterNamePrefix, name:"filterNamePrefix", pattern: "[^:*]*")
-            try validate(limit, name:"limit", max: 50)
-            try validate(limit, name:"limit", min: 1)
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try validate(metricName, name:"metricName", max: 255)
-            try validate(metricName, name:"metricName", pattern: "[^:*$]*")
-            try validate(metricNamespace, name:"metricNamespace", max: 255)
-            try validate(metricNamespace, name:"metricNamespace", pattern: "[^:*$]*")
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(filterNamePrefix, name:"filterNamePrefix", parent: name, max: 512)
+            try validate(filterNamePrefix, name:"filterNamePrefix", parent: name, min: 1)
+            try validate(filterNamePrefix, name:"filterNamePrefix", parent: name, pattern: "[^:*]*")
+            try validate(limit, name:"limit", parent: name, max: 50)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try validate(metricName, name:"metricName", parent: name, max: 255)
+            try validate(metricName, name:"metricName", parent: name, pattern: "[^:*$]*")
+            try validate(metricNamespace, name:"metricNamespace", parent: name, max: 255)
+            try validate(metricNamespace, name:"metricNamespace", parent: name, pattern: "[^:*$]*")
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -738,13 +738,13 @@ extension CloudWatchLogs {
             self.status = status
         }
 
-        public func validate() throws {
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -791,10 +791,10 @@ extension CloudWatchLogs {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 50)
-            try validate(limit, name:"limit", min: 1)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 50)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -848,16 +848,16 @@ extension CloudWatchLogs {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(filterNamePrefix, name:"filterNamePrefix", max: 512)
-            try validate(filterNamePrefix, name:"filterNamePrefix", min: 1)
-            try validate(filterNamePrefix, name:"filterNamePrefix", pattern: "[^:*]*")
-            try validate(limit, name:"limit", max: 50)
-            try validate(limit, name:"limit", min: 1)
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(filterNamePrefix, name:"filterNamePrefix", parent: name, max: 512)
+            try validate(filterNamePrefix, name:"filterNamePrefix", parent: name, min: 1)
+            try validate(filterNamePrefix, name:"filterNamePrefix", parent: name, pattern: "[^:*]*")
+            try validate(limit, name:"limit", parent: name, max: 50)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -943,10 +943,10 @@ extension CloudWatchLogs {
             self.logGroupName = logGroupName
         }
 
-        public func validate() throws {
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
+        public func validate(name: String) throws {
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1115,27 +1115,27 @@ extension CloudWatchLogs {
             self.startTime = startTime
         }
 
-        public func validate() throws {
-            try validate(endTime, name:"endTime", min: 0)
-            try validate(filterPattern, name:"filterPattern", max: 1024)
-            try validate(filterPattern, name:"filterPattern", min: 0)
-            try validate(limit, name:"limit", max: 10000)
-            try validate(limit, name:"limit", min: 1)
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try validate(logStreamNamePrefix, name:"logStreamNamePrefix", max: 512)
-            try validate(logStreamNamePrefix, name:"logStreamNamePrefix", min: 1)
-            try validate(logStreamNamePrefix, name:"logStreamNamePrefix", pattern: "[^:*]*")
+        public func validate(name: String) throws {
+            try validate(endTime, name:"endTime", parent: name, min: 0)
+            try validate(filterPattern, name:"filterPattern", parent: name, max: 1024)
+            try validate(filterPattern, name:"filterPattern", parent: name, min: 0)
+            try validate(limit, name:"limit", parent: name, max: 10000)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try validate(logStreamNamePrefix, name:"logStreamNamePrefix", parent: name, max: 512)
+            try validate(logStreamNamePrefix, name:"logStreamNamePrefix", parent: name, min: 1)
+            try validate(logStreamNamePrefix, name:"logStreamNamePrefix", parent: name, pattern: "[^:*]*")
             try logStreamNames?.forEach {
-                try validate($0, name:"logStreamNames[]", max: 512)
-                try validate($0, name:"logStreamNames[]", min: 1)
-                try validate($0, name:"logStreamNames[]", pattern: "[^:*]*")
+                try validate($0, name: "logStreamNames[]", parent: name, max: 512)
+                try validate($0, name: "logStreamNames[]", parent: name, min: 1)
+                try validate($0, name: "logStreamNames[]", parent: name, pattern: "[^:*]*")
             }
-            try validate(logStreamNames, name:"logStreamNames", max: 100)
-            try validate(logStreamNames, name:"logStreamNames", min: 1)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(startTime, name:"startTime", min: 0)
+            try validate(logStreamNames, name:"logStreamNames", parent: name, max: 100)
+            try validate(logStreamNames, name:"logStreamNames", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(startTime, name:"startTime", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1251,18 +1251,18 @@ extension CloudWatchLogs {
             self.startTime = startTime
         }
 
-        public func validate() throws {
-            try validate(endTime, name:"endTime", min: 0)
-            try validate(limit, name:"limit", max: 10000)
-            try validate(limit, name:"limit", min: 1)
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try validate(logStreamName, name:"logStreamName", max: 512)
-            try validate(logStreamName, name:"logStreamName", min: 1)
-            try validate(logStreamName, name:"logStreamName", pattern: "[^:*]*")
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(startTime, name:"startTime", min: 0)
+        public func validate(name: String) throws {
+            try validate(endTime, name:"endTime", parent: name, min: 0)
+            try validate(limit, name:"limit", parent: name, max: 10000)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try validate(logStreamName, name:"logStreamName", parent: name, max: 512)
+            try validate(logStreamName, name:"logStreamName", parent: name, min: 1)
+            try validate(logStreamName, name:"logStreamName", parent: name, pattern: "[^:*]*")
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(startTime, name:"startTime", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1319,11 +1319,11 @@ extension CloudWatchLogs {
             self.time = time
         }
 
-        public func validate() throws {
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try validate(time, name:"time", min: 0)
+        public func validate(name: String) throws {
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try validate(time, name:"time", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1395,9 +1395,9 @@ extension CloudWatchLogs {
             self.queryId = queryId
         }
 
-        public func validate() throws {
-            try validate(queryId, name:"queryId", max: 256)
-            try validate(queryId, name:"queryId", min: 0)
+        public func validate(name: String) throws {
+            try validate(queryId, name:"queryId", parent: name, max: 256)
+            try validate(queryId, name:"queryId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1448,9 +1448,9 @@ extension CloudWatchLogs {
             self.timestamp = timestamp
         }
 
-        public func validate() throws {
-            try validate(message, name:"message", min: 1)
-            try validate(timestamp, name:"timestamp", min: 0)
+        public func validate(name: String) throws {
+            try validate(message, name:"message", parent: name, min: 1)
+            try validate(timestamp, name:"timestamp", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1471,10 +1471,10 @@ extension CloudWatchLogs {
             self.logGroupName = logGroupName
         }
 
-        public func validate() throws {
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
+        public func validate(name: String) throws {
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1706,12 +1706,12 @@ extension CloudWatchLogs {
             self.metricValue = metricValue
         }
 
-        public func validate() throws {
-            try validate(metricName, name:"metricName", max: 255)
-            try validate(metricName, name:"metricName", pattern: "[^:*$]*")
-            try validate(metricNamespace, name:"metricNamespace", max: 255)
-            try validate(metricNamespace, name:"metricNamespace", pattern: "[^:*$]*")
-            try validate(metricValue, name:"metricValue", max: 100)
+        public func validate(name: String) throws {
+            try validate(metricName, name:"metricName", parent: name, max: 255)
+            try validate(metricName, name:"metricName", parent: name, pattern: "[^:*$]*")
+            try validate(metricNamespace, name:"metricNamespace", parent: name, max: 255)
+            try validate(metricNamespace, name:"metricNamespace", parent: name, pattern: "[^:*$]*")
+            try validate(metricValue, name:"metricValue", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1771,11 +1771,11 @@ extension CloudWatchLogs {
             self.destinationName = destinationName
         }
 
-        public func validate() throws {
-            try validate(accessPolicy, name:"accessPolicy", min: 1)
-            try validate(destinationName, name:"destinationName", max: 512)
-            try validate(destinationName, name:"destinationName", min: 1)
-            try validate(destinationName, name:"destinationName", pattern: "[^:*]*")
+        public func validate(name: String) throws {
+            try validate(accessPolicy, name:"accessPolicy", parent: name, min: 1)
+            try validate(destinationName, name:"destinationName", parent: name, max: 512)
+            try validate(destinationName, name:"destinationName", parent: name, min: 1)
+            try validate(destinationName, name:"destinationName", parent: name, pattern: "[^:*]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1804,12 +1804,12 @@ extension CloudWatchLogs {
             self.targetArn = targetArn
         }
 
-        public func validate() throws {
-            try validate(destinationName, name:"destinationName", max: 512)
-            try validate(destinationName, name:"destinationName", min: 1)
-            try validate(destinationName, name:"destinationName", pattern: "[^:*]*")
-            try validate(roleArn, name:"roleArn", min: 1)
-            try validate(targetArn, name:"targetArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(destinationName, name:"destinationName", parent: name, max: 512)
+            try validate(destinationName, name:"destinationName", parent: name, min: 1)
+            try validate(destinationName, name:"destinationName", parent: name, pattern: "[^:*]*")
+            try validate(roleArn, name:"roleArn", parent: name, min: 1)
+            try validate(targetArn, name:"targetArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1860,19 +1860,19 @@ extension CloudWatchLogs {
             self.sequenceToken = sequenceToken
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try logEvents.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).logEvents[]")
             }
-            try validate(logEvents, name:"logEvents", max: 10000)
-            try validate(logEvents, name:"logEvents", min: 1)
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try validate(logStreamName, name:"logStreamName", max: 512)
-            try validate(logStreamName, name:"logStreamName", min: 1)
-            try validate(logStreamName, name:"logStreamName", pattern: "[^:*]*")
-            try validate(sequenceToken, name:"sequenceToken", min: 1)
+            try validate(logEvents, name:"logEvents", parent: name, max: 10000)
+            try validate(logEvents, name:"logEvents", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try validate(logStreamName, name:"logStreamName", parent: name, max: 512)
+            try validate(logStreamName, name:"logStreamName", parent: name, min: 1)
+            try validate(logStreamName, name:"logStreamName", parent: name, pattern: "[^:*]*")
+            try validate(sequenceToken, name:"sequenceToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1929,20 +1929,20 @@ extension CloudWatchLogs {
             self.metricTransformations = metricTransformations
         }
 
-        public func validate() throws {
-            try validate(filterName, name:"filterName", max: 512)
-            try validate(filterName, name:"filterName", min: 1)
-            try validate(filterName, name:"filterName", pattern: "[^:*]*")
-            try validate(filterPattern, name:"filterPattern", max: 1024)
-            try validate(filterPattern, name:"filterPattern", min: 0)
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
+        public func validate(name: String) throws {
+            try validate(filterName, name:"filterName", parent: name, max: 512)
+            try validate(filterName, name:"filterName", parent: name, min: 1)
+            try validate(filterName, name:"filterName", parent: name, pattern: "[^:*]*")
+            try validate(filterPattern, name:"filterPattern", parent: name, max: 1024)
+            try validate(filterPattern, name:"filterPattern", parent: name, min: 0)
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
             try metricTransformations.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).metricTransformations[]")
             }
-            try validate(metricTransformations, name:"metricTransformations", max: 1)
-            try validate(metricTransformations, name:"metricTransformations", min: 1)
+            try validate(metricTransformations, name:"metricTransformations", parent: name, max: 1)
+            try validate(metricTransformations, name:"metricTransformations", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1969,9 +1969,9 @@ extension CloudWatchLogs {
             self.policyName = policyName
         }
 
-        public func validate() throws {
-            try validate(policyDocument, name:"policyDocument", max: 5120)
-            try validate(policyDocument, name:"policyDocument", min: 1)
+        public func validate(name: String) throws {
+            try validate(policyDocument, name:"policyDocument", parent: name, max: 5120)
+            try validate(policyDocument, name:"policyDocument", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2012,10 +2012,10 @@ extension CloudWatchLogs {
             self.retentionInDays = retentionInDays
         }
 
-        public func validate() throws {
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
+        public func validate(name: String) throws {
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2056,17 +2056,17 @@ extension CloudWatchLogs {
             self.roleArn = roleArn
         }
 
-        public func validate() throws {
-            try validate(destinationArn, name:"destinationArn", min: 1)
-            try validate(filterName, name:"filterName", max: 512)
-            try validate(filterName, name:"filterName", min: 1)
-            try validate(filterName, name:"filterName", pattern: "[^:*]*")
-            try validate(filterPattern, name:"filterPattern", max: 1024)
-            try validate(filterPattern, name:"filterPattern", min: 0)
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try validate(roleArn, name:"roleArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(destinationArn, name:"destinationArn", parent: name, min: 1)
+            try validate(filterName, name:"filterName", parent: name, max: 512)
+            try validate(filterName, name:"filterName", parent: name, min: 1)
+            try validate(filterName, name:"filterName", parent: name, pattern: "[^:*]*")
+            try validate(filterPattern, name:"filterPattern", parent: name, max: 1024)
+            try validate(filterPattern, name:"filterPattern", parent: name, min: 0)
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try validate(roleArn, name:"roleArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2278,16 +2278,16 @@ extension CloudWatchLogs {
             self.startTime = startTime
         }
 
-        public func validate() throws {
-            try validate(endTime, name:"endTime", min: 0)
-            try validate(limit, name:"limit", max: 10000)
-            try validate(limit, name:"limit", min: 1)
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try validate(queryString, name:"queryString", max: 2048)
-            try validate(queryString, name:"queryString", min: 0)
-            try validate(startTime, name:"startTime", min: 0)
+        public func validate(name: String) throws {
+            try validate(endTime, name:"endTime", parent: name, min: 0)
+            try validate(limit, name:"limit", parent: name, max: 10000)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try validate(queryString, name:"queryString", parent: name, max: 2048)
+            try validate(queryString, name:"queryString", parent: name, min: 0)
+            try validate(startTime, name:"startTime", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2328,9 +2328,9 @@ extension CloudWatchLogs {
             self.queryId = queryId
         }
 
-        public func validate() throws {
-            try validate(queryId, name:"queryId", max: 256)
-            try validate(queryId, name:"queryId", min: 0)
+        public func validate(name: String) throws {
+            try validate(queryId, name:"queryId", parent: name, max: 256)
+            try validate(queryId, name:"queryId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2415,16 +2415,16 @@ extension CloudWatchLogs {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
+        public func validate(name: String) throws {
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
             try tags.forEach {
-                try validate($0.key, name:"tags[key:]", max: 128)
-                try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.key, name:"tags[key:]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
-                try validate($0.value, name:"tags[:value]", max: 256)
-                try validate($0.value, name:"tags[:value]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
         }
 
@@ -2449,14 +2449,14 @@ extension CloudWatchLogs {
             self.logEventMessages = logEventMessages
         }
 
-        public func validate() throws {
-            try validate(filterPattern, name:"filterPattern", max: 1024)
-            try validate(filterPattern, name:"filterPattern", min: 0)
+        public func validate(name: String) throws {
+            try validate(filterPattern, name:"filterPattern", parent: name, max: 1024)
+            try validate(filterPattern, name:"filterPattern", parent: name, min: 0)
             try logEventMessages.forEach {
-                try validate($0, name:"logEventMessages[]", min: 1)
+                try validate($0, name: "logEventMessages[]", parent: name, min: 1)
             }
-            try validate(logEventMessages, name:"logEventMessages", max: 50)
-            try validate(logEventMessages, name:"logEventMessages", min: 1)
+            try validate(logEventMessages, name:"logEventMessages", parent: name, max: 50)
+            try validate(logEventMessages, name:"logEventMessages", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2498,16 +2498,16 @@ extension CloudWatchLogs {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(logGroupName, name:"logGroupName", max: 512)
-            try validate(logGroupName, name:"logGroupName", min: 1)
-            try validate(logGroupName, name:"logGroupName", pattern: "[\\.\\-_/#A-Za-z0-9]+")
+        public func validate(name: String) throws {
+            try validate(logGroupName, name:"logGroupName", parent: name, max: 512)
+            try validate(logGroupName, name:"logGroupName", parent: name, min: 1)
+            try validate(logGroupName, name:"logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
             try tags.forEach {
-                try validate($0, name:"tags[]", max: 128)
-                try validate($0, name:"tags[]", min: 1)
-                try validate($0, name:"tags[]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
+                try validate($0, name: "tags[]", parent: name, max: 128)
+                try validate($0, name: "tags[]", parent: name, min: 1)
+                try validate($0, name: "tags[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

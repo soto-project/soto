@@ -23,8 +23,8 @@ extension Lightsail {
             self.staticIpName = staticIpName
         }
 
-        public func validate() throws {
-            try validate(staticIpName, name:"staticIpName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(staticIpName, name:"staticIpName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -69,10 +69,10 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
-        public func validate() throws {
-            try validate(diskName, name:"diskName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(diskPath, name:"diskPath", pattern: ".*\\S.*")
-            try validate(instanceName, name:"instanceName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(diskName, name:"diskName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(diskPath, name:"diskPath", parent: name, pattern: ".*\\S.*")
+            try validate(instanceName, name:"instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -115,11 +115,11 @@ extension Lightsail {
             self.loadBalancerName = loadBalancerName
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try instanceNames.forEach {
-                try validate($0, name:"instanceNames[]", pattern: "\\w[\\w\\-]*\\w")
+                try validate($0, name: "instanceNames[]", parent: name, pattern: "\\w[\\w\\-]*\\w")
             }
-            try validate(loadBalancerName, name:"loadBalancerName", pattern: "\\w[\\w\\-]*\\w")
+            try validate(loadBalancerName, name:"loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -161,9 +161,9 @@ extension Lightsail {
             self.loadBalancerName = loadBalancerName
         }
 
-        public func validate() throws {
-            try validate(certificateName, name:"certificateName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(loadBalancerName, name:"loadBalancerName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(certificateName, name:"certificateName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(loadBalancerName, name:"loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -205,9 +205,9 @@ extension Lightsail {
             self.staticIpName = staticIpName
         }
 
-        public func validate() throws {
-            try validate(instanceName, name:"instanceName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(staticIpName, name:"staticIpName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(instanceName, name:"instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(staticIpName, name:"staticIpName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -416,9 +416,9 @@ extension Lightsail {
             self.portInfo = portInfo
         }
 
-        public func validate() throws {
-            try validate(instanceName, name:"instanceName", pattern: "\\w[\\w\\-]*\\w")
-            try portInfo.validate()
+        public func validate(name: String) throws {
+            try validate(instanceName, name:"instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try portInfo.validate(name: "\(name).portInfo")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -548,9 +548,9 @@ extension Lightsail {
             self.targetSnapshotName = targetSnapshotName
         }
 
-        public func validate() throws {
-            try validate(sourceSnapshotName, name:"sourceSnapshotName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(targetSnapshotName, name:"targetSnapshotName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(sourceSnapshotName, name:"sourceSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(targetSnapshotName, name:"targetSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -589,9 +589,9 @@ extension Lightsail {
             self.instances = instances
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try instances.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).instances[]")
             }
         }
 
@@ -645,10 +645,10 @@ extension Lightsail {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(availabilityZone, name:"availabilityZone", pattern: ".*\\S.*")
-            try validate(diskName, name:"diskName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(diskSnapshotName, name:"diskSnapshotName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(availabilityZone, name:"availabilityZone", parent: name, pattern: ".*\\S.*")
+            try validate(diskName, name:"diskName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(diskSnapshotName, name:"diskSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -701,9 +701,9 @@ extension Lightsail {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(availabilityZone, name:"availabilityZone", pattern: ".*\\S.*")
-            try validate(diskName, name:"diskName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(availabilityZone, name:"availabilityZone", parent: name, pattern: ".*\\S.*")
+            try validate(diskName, name:"diskName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -755,10 +755,10 @@ extension Lightsail {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(diskName, name:"diskName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(diskSnapshotName, name:"diskSnapshotName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(instanceName, name:"instanceName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(diskName, name:"diskName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(diskSnapshotName, name:"diskSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(instanceName, name:"instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -802,8 +802,8 @@ extension Lightsail {
             self.domainName = domainName
         }
 
-        public func validate() throws {
-            try domainEntry.validate()
+        public func validate(name: String) throws {
+            try domainEntry.validate(name: "\(name).domainEntry")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -888,9 +888,9 @@ extension Lightsail {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(instanceName, name:"instanceName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(instanceSnapshotName, name:"instanceSnapshotName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(instanceName, name:"instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(instanceSnapshotName, name:"instanceSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -957,13 +957,13 @@ extension Lightsail {
             self.userData = userData
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try attachedDiskMapping?.forEach {
-                try validate($0.key, name:"attachedDiskMapping[key:]", pattern: "\\w[\\w\\-]*\\w")
+                try validate($0.key, name:"attachedDiskMapping.key", parent: name, pattern: "\\w[\\w\\-]*\\w")
             }
-            try validate(bundleId, name:"bundleId", pattern: ".*\\S.*")
-            try validate(instanceSnapshotName, name:"instanceSnapshotName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(keyPairName, name:"keyPairName", pattern: "\\w[\\w\\-]*\\w")
+            try validate(bundleId, name:"bundleId", parent: name, pattern: ".*\\S.*")
+            try validate(instanceSnapshotName, name:"instanceSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(keyPairName, name:"keyPairName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1031,10 +1031,10 @@ extension Lightsail {
             self.userData = userData
         }
 
-        public func validate() throws {
-            try validate(blueprintId, name:"blueprintId", pattern: ".*\\S.*")
-            try validate(bundleId, name:"bundleId", pattern: ".*\\S.*")
-            try validate(keyPairName, name:"keyPairName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(blueprintId, name:"blueprintId", parent: name, pattern: ".*\\S.*")
+            try validate(bundleId, name:"bundleId", parent: name, pattern: ".*\\S.*")
+            try validate(keyPairName, name:"keyPairName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1081,8 +1081,8 @@ extension Lightsail {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(keyPairName, name:"keyPairName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(keyPairName, name:"keyPairName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1159,11 +1159,11 @@ extension Lightsail {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(certificateName, name:"certificateName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(instancePort, name:"instancePort", max: 65535)
-            try validate(instancePort, name:"instancePort", min: 0)
-            try validate(loadBalancerName, name:"loadBalancerName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(certificateName, name:"certificateName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(instancePort, name:"instancePort", parent: name, max: 65535)
+            try validate(instancePort, name:"instancePort", parent: name, min: 0)
+            try validate(loadBalancerName, name:"loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1222,9 +1222,9 @@ extension Lightsail {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(certificateName, name:"certificateName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(loadBalancerName, name:"loadBalancerName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(certificateName, name:"certificateName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(loadBalancerName, name:"loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1297,10 +1297,10 @@ extension Lightsail {
             self.useLatestRestorableTime = useLatestRestorableTime
         }
 
-        public func validate() throws {
-            try validate(relationalDatabaseName, name:"relationalDatabaseName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(relationalDatabaseSnapshotName, name:"relationalDatabaseSnapshotName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(sourceRelationalDatabaseName, name:"sourceRelationalDatabaseName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(relationalDatabaseName, name:"relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(relationalDatabaseSnapshotName, name:"relationalDatabaseSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(sourceRelationalDatabaseName, name:"sourceRelationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1385,8 +1385,8 @@ extension Lightsail {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(relationalDatabaseName, name:"relationalDatabaseName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(relationalDatabaseName, name:"relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1441,9 +1441,9 @@ extension Lightsail {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(relationalDatabaseName, name:"relationalDatabaseName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(relationalDatabaseSnapshotName, name:"relationalDatabaseSnapshotName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(relationalDatabaseName, name:"relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(relationalDatabaseSnapshotName, name:"relationalDatabaseSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1482,8 +1482,8 @@ extension Lightsail {
             self.diskName = diskName
         }
 
-        public func validate() throws {
-            try validate(diskName, name:"diskName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(diskName, name:"diskName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1520,8 +1520,8 @@ extension Lightsail {
             self.diskSnapshotName = diskSnapshotName
         }
 
-        public func validate() throws {
-            try validate(diskSnapshotName, name:"diskSnapshotName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(diskSnapshotName, name:"diskSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1562,8 +1562,8 @@ extension Lightsail {
             self.domainName = domainName
         }
 
-        public func validate() throws {
-            try domainEntry.validate()
+        public func validate(name: String) throws {
+            try domainEntry.validate(name: "\(name).domainEntry")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1635,8 +1635,8 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
-        public func validate() throws {
-            try validate(instanceName, name:"instanceName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(instanceName, name:"instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1673,8 +1673,8 @@ extension Lightsail {
             self.instanceSnapshotName = instanceSnapshotName
         }
 
-        public func validate() throws {
-            try validate(instanceSnapshotName, name:"instanceSnapshotName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(instanceSnapshotName, name:"instanceSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1711,8 +1711,8 @@ extension Lightsail {
             self.keyPairName = keyPairName
         }
 
-        public func validate() throws {
-            try validate(keyPairName, name:"keyPairName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(keyPairName, name:"keyPairName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1749,8 +1749,8 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
-        public func validate() throws {
-            try validate(instanceName, name:"instanceName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(instanceName, name:"instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1787,8 +1787,8 @@ extension Lightsail {
             self.loadBalancerName = loadBalancerName
         }
 
-        public func validate() throws {
-            try validate(loadBalancerName, name:"loadBalancerName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(loadBalancerName, name:"loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1833,9 +1833,9 @@ extension Lightsail {
             self.loadBalancerName = loadBalancerName
         }
 
-        public func validate() throws {
-            try validate(certificateName, name:"certificateName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(loadBalancerName, name:"loadBalancerName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(certificateName, name:"certificateName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(loadBalancerName, name:"loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1882,9 +1882,9 @@ extension Lightsail {
             self.skipFinalSnapshot = skipFinalSnapshot
         }
 
-        public func validate() throws {
-            try validate(finalRelationalDatabaseSnapshotName, name:"finalRelationalDatabaseSnapshotName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(relationalDatabaseName, name:"relationalDatabaseName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(finalRelationalDatabaseSnapshotName, name:"finalRelationalDatabaseSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(relationalDatabaseName, name:"relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1923,8 +1923,8 @@ extension Lightsail {
             self.relationalDatabaseSnapshotName = relationalDatabaseSnapshotName
         }
 
-        public func validate() throws {
-            try validate(relationalDatabaseSnapshotName, name:"relationalDatabaseSnapshotName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(relationalDatabaseSnapshotName, name:"relationalDatabaseSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1983,8 +1983,8 @@ extension Lightsail {
             self.diskName = diskName
         }
 
-        public func validate() throws {
-            try validate(diskName, name:"diskName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(diskName, name:"diskName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2025,11 +2025,11 @@ extension Lightsail {
             self.loadBalancerName = loadBalancerName
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try instanceNames.forEach {
-                try validate($0, name:"instanceNames[]", pattern: "\\w[\\w\\-]*\\w")
+                try validate($0, name: "instanceNames[]", parent: name, pattern: "\\w[\\w\\-]*\\w")
             }
-            try validate(loadBalancerName, name:"loadBalancerName", pattern: "\\w[\\w\\-]*\\w")
+            try validate(loadBalancerName, name:"loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2067,8 +2067,8 @@ extension Lightsail {
             self.staticIpName = staticIpName
         }
 
-        public func validate() throws {
-            try validate(staticIpName, name:"staticIpName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(staticIpName, name:"staticIpName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2223,9 +2223,9 @@ extension Lightsail {
             self.originalDiskPath = originalDiskPath
         }
 
-        public func validate() throws {
-            try validate(newDiskName, name:"newDiskName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(originalDiskPath, name:"originalDiskPath", pattern: ".*\\S.*")
+        public func validate(name: String) throws {
+            try validate(newDiskName, name:"newDiskName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(originalDiskPath, name:"originalDiskPath", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2430,8 +2430,8 @@ extension Lightsail {
             self.`type` = `type`
         }
 
-        public func validate() throws {
-            try validate(id, name:"id", pattern: ".*\\S.*")
+        public func validate(name: String) throws {
+            try validate(id, name:"id", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2595,8 +2595,8 @@ extension Lightsail {
             self.sourceSnapshotName = sourceSnapshotName
         }
 
-        public func validate() throws {
-            try validate(sourceSnapshotName, name:"sourceSnapshotName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(sourceSnapshotName, name:"sourceSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2799,8 +2799,8 @@ extension Lightsail {
             self.diskName = diskName
         }
 
-        public func validate() throws {
-            try validate(diskName, name:"diskName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(diskName, name:"diskName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2837,8 +2837,8 @@ extension Lightsail {
             self.diskSnapshotName = diskSnapshotName
         }
 
-        public func validate() throws {
-            try validate(diskSnapshotName, name:"diskSnapshotName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(diskSnapshotName, name:"diskSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3069,8 +3069,8 @@ extension Lightsail {
             self.`protocol` = `protocol`
         }
 
-        public func validate() throws {
-            try validate(instanceName, name:"instanceName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(instanceName, name:"instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3132,10 +3132,10 @@ extension Lightsail {
             self.unit = unit
         }
 
-        public func validate() throws {
-            try validate(instanceName, name:"instanceName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(period, name:"period", max: 86400)
-            try validate(period, name:"period", min: 60)
+        public func validate(name: String) throws {
+            try validate(instanceName, name:"instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(period, name:"period", parent: name, max: 86400)
+            try validate(period, name:"period", parent: name, min: 60)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3183,8 +3183,8 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
-        public func validate() throws {
-            try validate(instanceName, name:"instanceName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(instanceName, name:"instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3221,8 +3221,8 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
-        public func validate() throws {
-            try validate(instanceName, name:"instanceName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(instanceName, name:"instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3259,8 +3259,8 @@ extension Lightsail {
             self.instanceSnapshotName = instanceSnapshotName
         }
 
-        public func validate() throws {
-            try validate(instanceSnapshotName, name:"instanceSnapshotName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(instanceSnapshotName, name:"instanceSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3336,8 +3336,8 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
-        public func validate() throws {
-            try validate(instanceName, name:"instanceName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(instanceName, name:"instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3413,8 +3413,8 @@ extension Lightsail {
             self.keyPairName = keyPairName
         }
 
-        public func validate() throws {
-            try validate(keyPairName, name:"keyPairName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(keyPairName, name:"keyPairName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3514,10 +3514,10 @@ extension Lightsail {
             self.unit = unit
         }
 
-        public func validate() throws {
-            try validate(loadBalancerName, name:"loadBalancerName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(period, name:"period", max: 86400)
-            try validate(period, name:"period", min: 60)
+        public func validate(name: String) throws {
+            try validate(loadBalancerName, name:"loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(period, name:"period", parent: name, max: 86400)
+            try validate(period, name:"period", parent: name, min: 60)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3565,8 +3565,8 @@ extension Lightsail {
             self.loadBalancerName = loadBalancerName
         }
 
-        public func validate() throws {
-            try validate(loadBalancerName, name:"loadBalancerName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(loadBalancerName, name:"loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3603,8 +3603,8 @@ extension Lightsail {
             self.loadBalancerName = loadBalancerName
         }
 
-        public func validate() throws {
-            try validate(loadBalancerName, name:"loadBalancerName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(loadBalancerName, name:"loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3680,8 +3680,8 @@ extension Lightsail {
             self.operationId = operationId
         }
 
-        public func validate() throws {
-            try validate(operationId, name:"operationId", pattern: ".*\\S.*")
+        public func validate(name: String) throws {
+            try validate(operationId, name:"operationId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3722,8 +3722,8 @@ extension Lightsail {
             self.resourceName = resourceName
         }
 
-        public func validate() throws {
-            try validate(resourceName, name:"resourceName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(resourceName, name:"resourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3930,8 +3930,8 @@ extension Lightsail {
             self.relationalDatabaseName = relationalDatabaseName
         }
 
-        public func validate() throws {
-            try validate(relationalDatabaseName, name:"relationalDatabaseName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(relationalDatabaseName, name:"relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3995,8 +3995,8 @@ extension Lightsail {
             self.startTime = startTime
         }
 
-        public func validate() throws {
-            try validate(relationalDatabaseName, name:"relationalDatabaseName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(relationalDatabaseName, name:"relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4048,8 +4048,8 @@ extension Lightsail {
             self.relationalDatabaseName = relationalDatabaseName
         }
 
-        public func validate() throws {
-            try validate(relationalDatabaseName, name:"relationalDatabaseName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(relationalDatabaseName, name:"relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4090,8 +4090,8 @@ extension Lightsail {
             self.relationalDatabaseName = relationalDatabaseName
         }
 
-        public func validate() throws {
-            try validate(relationalDatabaseName, name:"relationalDatabaseName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(relationalDatabaseName, name:"relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4158,10 +4158,10 @@ extension Lightsail {
             self.unit = unit
         }
 
-        public func validate() throws {
-            try validate(period, name:"period", max: 86400)
-            try validate(period, name:"period", min: 60)
-            try validate(relationalDatabaseName, name:"relationalDatabaseName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(period, name:"period", parent: name, max: 86400)
+            try validate(period, name:"period", parent: name, min: 60)
+            try validate(relationalDatabaseName, name:"relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4213,8 +4213,8 @@ extension Lightsail {
             self.relationalDatabaseName = relationalDatabaseName
         }
 
-        public func validate() throws {
-            try validate(relationalDatabaseName, name:"relationalDatabaseName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(relationalDatabaseName, name:"relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4257,8 +4257,8 @@ extension Lightsail {
             self.relationalDatabaseName = relationalDatabaseName
         }
 
-        public func validate() throws {
-            try validate(relationalDatabaseName, name:"relationalDatabaseName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(relationalDatabaseName, name:"relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4295,8 +4295,8 @@ extension Lightsail {
             self.relationalDatabaseSnapshotName = relationalDatabaseSnapshotName
         }
 
-        public func validate() throws {
-            try validate(relationalDatabaseSnapshotName, name:"relationalDatabaseSnapshotName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(relationalDatabaseSnapshotName, name:"relationalDatabaseSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4411,8 +4411,8 @@ extension Lightsail {
             self.staticIpName = staticIpName
         }
 
-        public func validate() throws {
-            try validate(staticIpName, name:"staticIpName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(staticIpName, name:"staticIpName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4539,8 +4539,8 @@ extension Lightsail {
             self.publicKeyBase64 = publicKeyBase64
         }
 
-        public func validate() throws {
-            try validate(keyPairName, name:"keyPairName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(keyPairName, name:"keyPairName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4769,9 +4769,9 @@ extension Lightsail {
             self.userData = userData
         }
 
-        public func validate() throws {
-            try validate(instanceType, name:"instanceType", pattern: ".*\\S.*")
-            try validate(sourceName, name:"sourceName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(instanceType, name:"instanceType", parent: name, pattern: ".*\\S.*")
+            try validate(sourceName, name:"sourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5768,9 +5768,9 @@ extension Lightsail {
             self.portInfo = portInfo
         }
 
-        public func validate() throws {
-            try validate(instanceName, name:"instanceName", pattern: "\\w[\\w\\-]*\\w")
-            try portInfo.validate()
+        public func validate(name: String) throws {
+            try validate(instanceName, name:"instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try portInfo.validate(name: "\(name).portInfo")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6053,11 +6053,11 @@ extension Lightsail {
             self.toPort = toPort
         }
 
-        public func validate() throws {
-            try validate(fromPort, name:"fromPort", max: 65535)
-            try validate(fromPort, name:"fromPort", min: 0)
-            try validate(toPort, name:"toPort", max: 65535)
-            try validate(toPort, name:"toPort", min: 0)
+        public func validate(name: String) throws {
+            try validate(fromPort, name:"fromPort", parent: name, max: 65535)
+            try validate(fromPort, name:"fromPort", parent: name, min: 0)
+            try validate(toPort, name:"toPort", parent: name, max: 65535)
+            try validate(toPort, name:"toPort", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6097,10 +6097,10 @@ extension Lightsail {
             self.portInfos = portInfos
         }
 
-        public func validate() throws {
-            try validate(instanceName, name:"instanceName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(instanceName, name:"instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
             try portInfos.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).portInfos[]")
             }
         }
 
@@ -6139,8 +6139,8 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
-        public func validate() throws {
-            try validate(instanceName, name:"instanceName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(instanceName, name:"instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6177,8 +6177,8 @@ extension Lightsail {
             self.relationalDatabaseName = relationalDatabaseName
         }
 
-        public func validate() throws {
-            try validate(relationalDatabaseName, name:"relationalDatabaseName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(relationalDatabaseName, name:"relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6760,8 +6760,8 @@ extension Lightsail {
             self.staticIpName = staticIpName
         }
 
-        public func validate() throws {
-            try validate(staticIpName, name:"staticIpName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(staticIpName, name:"staticIpName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6838,8 +6838,8 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
-        public func validate() throws {
-            try validate(instanceName, name:"instanceName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(instanceName, name:"instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6876,8 +6876,8 @@ extension Lightsail {
             self.relationalDatabaseName = relationalDatabaseName
         }
 
-        public func validate() throws {
-            try validate(relationalDatabaseName, name:"relationalDatabaseName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(relationalDatabaseName, name:"relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6975,8 +6975,8 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
-        public func validate() throws {
-            try validate(instanceName, name:"instanceName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(instanceName, name:"instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7018,9 +7018,9 @@ extension Lightsail {
             self.relationalDatabaseSnapshotName = relationalDatabaseSnapshotName
         }
 
-        public func validate() throws {
-            try validate(relationalDatabaseName, name:"relationalDatabaseName", pattern: "\\w[\\w\\-]*\\w")
-            try validate(relationalDatabaseSnapshotName, name:"relationalDatabaseSnapshotName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(relationalDatabaseName, name:"relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(relationalDatabaseSnapshotName, name:"relationalDatabaseSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7084,8 +7084,8 @@ extension Lightsail {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(resourceName, name:"resourceName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(resourceName, name:"resourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7152,8 +7152,8 @@ extension Lightsail {
             self.tagKeys = tagKeys
         }
 
-        public func validate() throws {
-            try validate(resourceName, name:"resourceName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(resourceName, name:"resourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7195,8 +7195,8 @@ extension Lightsail {
             self.domainName = domainName
         }
 
-        public func validate() throws {
-            try domainEntry.validate()
+        public func validate(name: String) throws {
+            try domainEntry.validate(name: "\(name).domainEntry")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7242,10 +7242,10 @@ extension Lightsail {
             self.loadBalancerName = loadBalancerName
         }
 
-        public func validate() throws {
-            try validate(attributeValue, name:"attributeValue", max: 256)
-            try validate(attributeValue, name:"attributeValue", min: 1)
-            try validate(loadBalancerName, name:"loadBalancerName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(attributeValue, name:"attributeValue", parent: name, max: 256)
+            try validate(attributeValue, name:"attributeValue", parent: name, min: 1)
+            try validate(loadBalancerName, name:"loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7288,8 +7288,8 @@ extension Lightsail {
             self.relationalDatabaseName = relationalDatabaseName
         }
 
-        public func validate() throws {
-            try validate(relationalDatabaseName, name:"relationalDatabaseName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(relationalDatabaseName, name:"relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7359,8 +7359,8 @@ extension Lightsail {
             self.rotateMasterUserPassword = rotateMasterUserPassword
         }
 
-        public func validate() throws {
-            try validate(relationalDatabaseName, name:"relationalDatabaseName", pattern: "\\w[\\w\\-]*\\w")
+        public func validate(name: String) throws {
+            try validate(relationalDatabaseName, name:"relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {

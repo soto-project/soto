@@ -209,9 +209,9 @@ extension CodeDeploy {
             self.revisions = revisions
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 100)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -259,10 +259,10 @@ extension CodeDeploy {
             self.applicationNames = applicationNames
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try applicationNames.forEach {
-                try validate($0, name:"applicationNames[]", max: 100)
-                try validate($0, name:"applicationNames[]", min: 1)
+                try validate($0, name: "applicationNames[]", parent: name, max: 100)
+                try validate($0, name: "applicationNames[]", parent: name, min: 1)
             }
         }
 
@@ -304,12 +304,12 @@ extension CodeDeploy {
             self.deploymentGroupNames = deploymentGroupNames
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 100)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
             try deploymentGroupNames.forEach {
-                try validate($0, name:"deploymentGroupNames[]", max: 100)
-                try validate($0, name:"deploymentGroupNames[]", min: 1)
+                try validate($0, name: "deploymentGroupNames[]", parent: name, max: 100)
+                try validate($0, name: "deploymentGroupNames[]", parent: name, min: 1)
             }
         }
 
@@ -599,9 +599,9 @@ extension CodeDeploy {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 100)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -652,9 +652,9 @@ extension CodeDeploy {
             self.trafficRoutingConfig = trafficRoutingConfig
         }
 
-        public func validate() throws {
-            try validate(deploymentConfigName, name:"deploymentConfigName", max: 100)
-            try validate(deploymentConfigName, name:"deploymentConfigName", min: 1)
+        public func validate(name: String) throws {
+            try validate(deploymentConfigName, name:"deploymentConfigName", parent: name, max: 100)
+            try validate(deploymentConfigName, name:"deploymentConfigName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -758,13 +758,13 @@ extension CodeDeploy {
             self.triggerConfigurations = triggerConfigurations
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(deploymentConfigName, name:"deploymentConfigName", max: 100)
-            try validate(deploymentConfigName, name:"deploymentConfigName", min: 1)
-            try validate(deploymentGroupName, name:"deploymentGroupName", max: 100)
-            try validate(deploymentGroupName, name:"deploymentGroupName", min: 1)
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 100)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(deploymentConfigName, name:"deploymentConfigName", parent: name, max: 100)
+            try validate(deploymentConfigName, name:"deploymentConfigName", parent: name, min: 1)
+            try validate(deploymentGroupName, name:"deploymentGroupName", parent: name, max: 100)
+            try validate(deploymentGroupName, name:"deploymentGroupName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -853,13 +853,13 @@ extension CodeDeploy {
             self.updateOutdatedInstancesOnly = updateOutdatedInstancesOnly
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(deploymentConfigName, name:"deploymentConfigName", max: 100)
-            try validate(deploymentConfigName, name:"deploymentConfigName", min: 1)
-            try validate(deploymentGroupName, name:"deploymentGroupName", max: 100)
-            try validate(deploymentGroupName, name:"deploymentGroupName", min: 1)
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 100)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(deploymentConfigName, name:"deploymentConfigName", parent: name, max: 100)
+            try validate(deploymentConfigName, name:"deploymentConfigName", parent: name, min: 1)
+            try validate(deploymentGroupName, name:"deploymentGroupName", parent: name, max: 100)
+            try validate(deploymentGroupName, name:"deploymentGroupName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -905,9 +905,9 @@ extension CodeDeploy {
             self.applicationName = applicationName
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 100)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -927,9 +927,9 @@ extension CodeDeploy {
             self.deploymentConfigName = deploymentConfigName
         }
 
-        public func validate() throws {
-            try validate(deploymentConfigName, name:"deploymentConfigName", max: 100)
-            try validate(deploymentConfigName, name:"deploymentConfigName", min: 1)
+        public func validate(name: String) throws {
+            try validate(deploymentConfigName, name:"deploymentConfigName", parent: name, max: 100)
+            try validate(deploymentConfigName, name:"deploymentConfigName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -953,11 +953,11 @@ extension CodeDeploy {
             self.deploymentGroupName = deploymentGroupName
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(deploymentGroupName, name:"deploymentGroupName", max: 100)
-            try validate(deploymentGroupName, name:"deploymentGroupName", min: 1)
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 100)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(deploymentGroupName, name:"deploymentGroupName", parent: name, max: 100)
+            try validate(deploymentGroupName, name:"deploymentGroupName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1843,9 +1843,9 @@ extension CodeDeploy {
             self.applicationName = applicationName
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 100)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1886,9 +1886,9 @@ extension CodeDeploy {
             self.revision = revision
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 100)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1936,9 +1936,9 @@ extension CodeDeploy {
             self.deploymentConfigName = deploymentConfigName
         }
 
-        public func validate() throws {
-            try validate(deploymentConfigName, name:"deploymentConfigName", max: 100)
-            try validate(deploymentConfigName, name:"deploymentConfigName", min: 1)
+        public func validate(name: String) throws {
+            try validate(deploymentConfigName, name:"deploymentConfigName", parent: name, max: 100)
+            try validate(deploymentConfigName, name:"deploymentConfigName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1979,11 +1979,11 @@ extension CodeDeploy {
             self.deploymentGroupName = deploymentGroupName
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(deploymentGroupName, name:"deploymentGroupName", max: 100)
-            try validate(deploymentGroupName, name:"deploymentGroupName", min: 1)
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 100)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(deploymentGroupName, name:"deploymentGroupName", parent: name, max: 100)
+            try validate(deploymentGroupName, name:"deploymentGroupName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2568,9 +2568,9 @@ extension CodeDeploy {
             self.sortOrder = sortOrder
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 100)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2700,9 +2700,9 @@ extension CodeDeploy {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 100)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2869,11 +2869,11 @@ extension CodeDeploy {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(deploymentGroupName, name:"deploymentGroupName", max: 100)
-            try validate(deploymentGroupName, name:"deploymentGroupName", min: 1)
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 100)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(deploymentGroupName, name:"deploymentGroupName", parent: name, max: 100)
+            try validate(deploymentGroupName, name:"deploymentGroupName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3018,9 +3018,9 @@ extension CodeDeploy {
             self.resourceArn = resourceArn
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 1011)
-            try validate(resourceArn, name:"resourceArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1011)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3209,9 +3209,9 @@ extension CodeDeploy {
             self.revision = revision
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 100)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3552,9 +3552,9 @@ extension CodeDeploy {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 1011)
-            try validate(resourceArn, name:"resourceArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1011)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3839,9 +3839,9 @@ extension CodeDeploy {
             self.tagKeys = tagKeys
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 1011)
-            try validate(resourceArn, name:"resourceArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1011)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3874,11 +3874,11 @@ extension CodeDeploy {
             self.newApplicationName = newApplicationName
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(newApplicationName, name:"newApplicationName", max: 100)
-            try validate(newApplicationName, name:"newApplicationName", min: 1)
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 100)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(newApplicationName, name:"newApplicationName", parent: name, max: 100)
+            try validate(newApplicationName, name:"newApplicationName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3963,15 +3963,15 @@ extension CodeDeploy {
             self.triggerConfigurations = triggerConfigurations
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 100)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(currentDeploymentGroupName, name:"currentDeploymentGroupName", max: 100)
-            try validate(currentDeploymentGroupName, name:"currentDeploymentGroupName", min: 1)
-            try validate(deploymentConfigName, name:"deploymentConfigName", max: 100)
-            try validate(deploymentConfigName, name:"deploymentConfigName", min: 1)
-            try validate(newDeploymentGroupName, name:"newDeploymentGroupName", max: 100)
-            try validate(newDeploymentGroupName, name:"newDeploymentGroupName", min: 1)
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 100)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(currentDeploymentGroupName, name:"currentDeploymentGroupName", parent: name, max: 100)
+            try validate(currentDeploymentGroupName, name:"currentDeploymentGroupName", parent: name, min: 1)
+            try validate(deploymentConfigName, name:"deploymentConfigName", parent: name, max: 100)
+            try validate(deploymentConfigName, name:"deploymentConfigName", parent: name, min: 1)
+            try validate(newDeploymentGroupName, name:"newDeploymentGroupName", parent: name, max: 100)
+            try validate(newDeploymentGroupName, name:"newDeploymentGroupName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

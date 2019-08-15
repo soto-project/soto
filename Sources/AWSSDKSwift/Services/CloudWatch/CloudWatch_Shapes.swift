@@ -230,12 +230,12 @@ extension CloudWatch {
             self.alarmNames = alarmNames
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try alarmNames.forEach {
-                try validate($0, name:"alarmNames[]", max: 255)
-                try validate($0, name:"alarmNames[]", min: 1)
+                try validate($0, name: "alarmNames[]", parent: name, max: 255)
+                try validate($0, name: "alarmNames[]", parent: name, min: 1)
             }
-            try validate(alarmNames, name:"alarmNames", max: 100)
+            try validate(alarmNames, name:"alarmNames", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -267,16 +267,16 @@ extension CloudWatch {
             self.stat = stat
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try dimensions?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).dimensions[]")
             }
-            try validate(dimensions, name:"dimensions", max: 10)
-            try validate(metricName, name:"metricName", max: 255)
-            try validate(metricName, name:"metricName", min: 1)
-            try validate(namespace, name:"namespace", max: 255)
-            try validate(namespace, name:"namespace", min: 1)
-            try validate(namespace, name:"namespace", pattern: "[^:].*")
+            try validate(dimensions, name:"dimensions", parent: name, max: 10)
+            try validate(metricName, name:"metricName", parent: name, max: 255)
+            try validate(metricName, name:"metricName", parent: name, min: 1)
+            try validate(namespace, name:"namespace", parent: name, max: 255)
+            try validate(namespace, name:"namespace", parent: name, min: 1)
+            try validate(namespace, name:"namespace", parent: name, pattern: "[^:].*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -352,11 +352,11 @@ extension CloudWatch {
             self.startDate = startDate
         }
 
-        public func validate() throws {
-            try validate(alarmName, name:"alarmName", max: 255)
-            try validate(alarmName, name:"alarmName", min: 1)
-            try validate(maxRecords, name:"maxRecords", max: 100)
-            try validate(maxRecords, name:"maxRecords", min: 1)
+        public func validate(name: String) throws {
+            try validate(alarmName, name:"alarmName", parent: name, max: 255)
+            try validate(alarmName, name:"alarmName", parent: name, min: 1)
+            try validate(maxRecords, name:"maxRecords", parent: name, max: 100)
+            try validate(maxRecords, name:"maxRecords", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -427,18 +427,18 @@ extension CloudWatch {
             self.unit = unit
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try dimensions?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).dimensions[]")
             }
-            try validate(dimensions, name:"dimensions", max: 10)
-            try validate(extendedStatistic, name:"extendedStatistic", pattern: "p(\\d{1,2}(\\.\\d{0,2})?|100)")
-            try validate(metricName, name:"metricName", max: 255)
-            try validate(metricName, name:"metricName", min: 1)
-            try validate(namespace, name:"namespace", max: 255)
-            try validate(namespace, name:"namespace", min: 1)
-            try validate(namespace, name:"namespace", pattern: "[^:].*")
-            try validate(period, name:"period", min: 1)
+            try validate(dimensions, name:"dimensions", parent: name, max: 10)
+            try validate(extendedStatistic, name:"extendedStatistic", parent: name, pattern: "p(\\d{1,2}(\\.\\d{0,2})?|100)")
+            try validate(metricName, name:"metricName", parent: name, max: 255)
+            try validate(metricName, name:"metricName", parent: name, min: 1)
+            try validate(namespace, name:"namespace", parent: name, max: 255)
+            try validate(namespace, name:"namespace", parent: name, min: 1)
+            try validate(namespace, name:"namespace", parent: name, pattern: "[^:].*")
+            try validate(period, name:"period", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -501,18 +501,18 @@ extension CloudWatch {
             self.stateValue = stateValue
         }
 
-        public func validate() throws {
-            try validate(actionPrefix, name:"actionPrefix", max: 1024)
-            try validate(actionPrefix, name:"actionPrefix", min: 1)
-            try validate(alarmNamePrefix, name:"alarmNamePrefix", max: 255)
-            try validate(alarmNamePrefix, name:"alarmNamePrefix", min: 1)
+        public func validate(name: String) throws {
+            try validate(actionPrefix, name:"actionPrefix", parent: name, max: 1024)
+            try validate(actionPrefix, name:"actionPrefix", parent: name, min: 1)
+            try validate(alarmNamePrefix, name:"alarmNamePrefix", parent: name, max: 255)
+            try validate(alarmNamePrefix, name:"alarmNamePrefix", parent: name, min: 1)
             try alarmNames?.forEach {
-                try validate($0, name:"alarmNames[]", max: 255)
-                try validate($0, name:"alarmNames[]", min: 1)
+                try validate($0, name: "alarmNames[]", parent: name, max: 255)
+                try validate($0, name: "alarmNames[]", parent: name, min: 1)
             }
-            try validate(alarmNames, name:"alarmNames", max: 100)
-            try validate(maxRecords, name:"maxRecords", max: 100)
-            try validate(maxRecords, name:"maxRecords", min: 1)
+            try validate(alarmNames, name:"alarmNames", parent: name, max: 100)
+            try validate(maxRecords, name:"maxRecords", parent: name, max: 100)
+            try validate(maxRecords, name:"maxRecords", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -575,17 +575,17 @@ extension CloudWatch {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try dimensions?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).dimensions[]")
             }
-            try validate(dimensions, name:"dimensions", max: 10)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(metricName, name:"metricName", max: 255)
-            try validate(metricName, name:"metricName", min: 1)
-            try validate(namespace, name:"namespace", max: 255)
-            try validate(namespace, name:"namespace", min: 1)
-            try validate(namespace, name:"namespace", pattern: "[^:].*")
+            try validate(dimensions, name:"dimensions", parent: name, max: 10)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(metricName, name:"metricName", parent: name, max: 255)
+            try validate(metricName, name:"metricName", parent: name, min: 1)
+            try validate(namespace, name:"namespace", parent: name, max: 255)
+            try validate(namespace, name:"namespace", parent: name, min: 1)
+            try validate(namespace, name:"namespace", parent: name, pattern: "[^:].*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -635,11 +635,11 @@ extension CloudWatch {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(value, name:"value", max: 255)
-            try validate(value, name:"value", min: 1)
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 255)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(value, name:"value", parent: name, max: 255)
+            try validate(value, name:"value", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -664,11 +664,11 @@ extension CloudWatch {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(value, name:"value", max: 255)
-            try validate(value, name:"value", min: 1)
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 255)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(value, name:"value", parent: name, max: 255)
+            try validate(value, name:"value", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -689,12 +689,12 @@ extension CloudWatch {
             self.alarmNames = alarmNames
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try alarmNames.forEach {
-                try validate($0, name:"alarmNames[]", max: 255)
-                try validate($0, name:"alarmNames[]", min: 1)
+                try validate($0, name: "alarmNames[]", parent: name, max: 255)
+                try validate($0, name: "alarmNames[]", parent: name, min: 1)
             }
-            try validate(alarmNames, name:"alarmNames", max: 100)
+            try validate(alarmNames, name:"alarmNames", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -714,12 +714,12 @@ extension CloudWatch {
             self.alarmNames = alarmNames
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try alarmNames.forEach {
-                try validate($0, name:"alarmNames[]", max: 255)
-                try validate($0, name:"alarmNames[]", min: 1)
+                try validate($0, name: "alarmNames[]", parent: name, max: 255)
+                try validate($0, name: "alarmNames[]", parent: name, min: 1)
             }
-            try validate(alarmNames, name:"alarmNames", max: 100)
+            try validate(alarmNames, name:"alarmNames", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -803,9 +803,9 @@ extension CloudWatch {
             self.startTime = startTime
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try metricDataQueries.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).metricDataQueries[]")
             }
         }
 
@@ -890,24 +890,24 @@ extension CloudWatch {
             self.unit = unit
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try dimensions?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).dimensions[]")
             }
-            try validate(dimensions, name:"dimensions", max: 10)
+            try validate(dimensions, name:"dimensions", parent: name, max: 10)
             try extendedStatistics?.forEach {
-                try validate($0, name:"extendedStatistics[]", pattern: "p(\\d{1,2}(\\.\\d{0,2})?|100)")
+                try validate($0, name: "extendedStatistics[]", parent: name, pattern: "p(\\d{1,2}(\\.\\d{0,2})?|100)")
             }
-            try validate(extendedStatistics, name:"extendedStatistics", max: 10)
-            try validate(extendedStatistics, name:"extendedStatistics", min: 1)
-            try validate(metricName, name:"metricName", max: 255)
-            try validate(metricName, name:"metricName", min: 1)
-            try validate(namespace, name:"namespace", max: 255)
-            try validate(namespace, name:"namespace", min: 1)
-            try validate(namespace, name:"namespace", pattern: "[^:].*")
-            try validate(period, name:"period", min: 1)
-            try validate(statistics, name:"statistics", max: 5)
-            try validate(statistics, name:"statistics", min: 1)
+            try validate(extendedStatistics, name:"extendedStatistics", parent: name, max: 10)
+            try validate(extendedStatistics, name:"extendedStatistics", parent: name, min: 1)
+            try validate(metricName, name:"metricName", parent: name, max: 255)
+            try validate(metricName, name:"metricName", parent: name, min: 1)
+            try validate(namespace, name:"namespace", parent: name, max: 255)
+            try validate(namespace, name:"namespace", parent: name, min: 1)
+            try validate(namespace, name:"namespace", parent: name, pattern: "[^:].*")
+            try validate(period, name:"period", parent: name, min: 1)
+            try validate(statistics, name:"statistics", parent: name, max: 5)
+            try validate(statistics, name:"statistics", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1059,16 +1059,16 @@ extension CloudWatch {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try dimensions?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).dimensions[]")
             }
-            try validate(dimensions, name:"dimensions", max: 10)
-            try validate(metricName, name:"metricName", max: 255)
-            try validate(metricName, name:"metricName", min: 1)
-            try validate(namespace, name:"namespace", max: 255)
-            try validate(namespace, name:"namespace", min: 1)
-            try validate(namespace, name:"namespace", pattern: "[^:].*")
+            try validate(dimensions, name:"dimensions", parent: name, max: 10)
+            try validate(metricName, name:"metricName", parent: name, max: 255)
+            try validate(metricName, name:"metricName", parent: name, min: 1)
+            try validate(namespace, name:"namespace", parent: name, max: 255)
+            try validate(namespace, name:"namespace", parent: name, min: 1)
+            try validate(namespace, name:"namespace", parent: name, pattern: "[^:].*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1113,9 +1113,9 @@ extension CloudWatch {
             self.resourceARN = resourceARN
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 1024)
-            try validate(resourceARN, name:"resourceARN", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 1024)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1182,16 +1182,16 @@ extension CloudWatch {
             self.namespace = namespace
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try dimensions?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).dimensions[]")
             }
-            try validate(dimensions, name:"dimensions", max: 10)
-            try validate(metricName, name:"metricName", max: 255)
-            try validate(metricName, name:"metricName", min: 1)
-            try validate(namespace, name:"namespace", max: 255)
-            try validate(namespace, name:"namespace", min: 1)
-            try validate(namespace, name:"namespace", pattern: "[^:].*")
+            try validate(dimensions, name:"dimensions", parent: name, max: 10)
+            try validate(metricName, name:"metricName", parent: name, max: 255)
+            try validate(metricName, name:"metricName", parent: name, min: 1)
+            try validate(namespace, name:"namespace", parent: name, max: 255)
+            try validate(namespace, name:"namespace", parent: name, min: 1)
+            try validate(namespace, name:"namespace", parent: name, pattern: "[^:].*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1376,12 +1376,12 @@ extension CloudWatch {
             self.returnData = returnData
         }
 
-        public func validate() throws {
-            try validate(expression, name:"expression", max: 1024)
-            try validate(expression, name:"expression", min: 1)
-            try validate(id, name:"id", max: 255)
-            try validate(id, name:"id", min: 1)
-            try metricStat?.validate()
+        public func validate(name: String) throws {
+            try validate(expression, name:"expression", parent: name, max: 1024)
+            try validate(expression, name:"expression", parent: name, min: 1)
+            try validate(id, name:"id", parent: name, max: 255)
+            try validate(id, name:"id", parent: name, min: 1)
+            try metricStat?.validate(name: "\(name).metricStat")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1479,14 +1479,14 @@ extension CloudWatch {
             self.values = values
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try dimensions?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).dimensions[]")
             }
-            try validate(dimensions, name:"dimensions", max: 10)
-            try validate(metricName, name:"metricName", max: 255)
-            try validate(metricName, name:"metricName", min: 1)
-            try validate(storageResolution, name:"storageResolution", min: 1)
+            try validate(dimensions, name:"dimensions", parent: name, max: 10)
+            try validate(metricName, name:"metricName", parent: name, max: 255)
+            try validate(metricName, name:"metricName", parent: name, min: 1)
+            try validate(storageResolution, name:"storageResolution", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1526,9 +1526,9 @@ extension CloudWatch {
             self.unit = unit
         }
 
-        public func validate() throws {
-            try metric.validate()
-            try validate(period, name:"period", min: 1)
+        public func validate(name: String) throws {
+            try metric.validate(name: "\(name).metric")
+            try validate(period, name:"period", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1567,16 +1567,16 @@ extension CloudWatch {
             self.stat = stat
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try dimensions?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).dimensions[]")
             }
-            try validate(dimensions, name:"dimensions", max: 10)
-            try validate(metricName, name:"metricName", max: 255)
-            try validate(metricName, name:"metricName", min: 1)
-            try validate(namespace, name:"namespace", max: 255)
-            try validate(namespace, name:"namespace", min: 1)
-            try validate(namespace, name:"namespace", pattern: "[^:].*")
+            try validate(dimensions, name:"dimensions", parent: name, max: 10)
+            try validate(metricName, name:"metricName", parent: name, max: 255)
+            try validate(metricName, name:"metricName", parent: name, min: 1)
+            try validate(namespace, name:"namespace", parent: name, max: 255)
+            try validate(namespace, name:"namespace", parent: name, min: 1)
+            try validate(namespace, name:"namespace", parent: name, pattern: "[^:].*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1731,51 +1731,51 @@ extension CloudWatch {
             self.unit = unit
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try alarmActions?.forEach {
-                try validate($0, name:"alarmActions[]", max: 1024)
-                try validate($0, name:"alarmActions[]", min: 1)
+                try validate($0, name: "alarmActions[]", parent: name, max: 1024)
+                try validate($0, name: "alarmActions[]", parent: name, min: 1)
             }
-            try validate(alarmActions, name:"alarmActions", max: 5)
-            try validate(alarmDescription, name:"alarmDescription", max: 1024)
-            try validate(alarmDescription, name:"alarmDescription", min: 0)
-            try validate(alarmName, name:"alarmName", max: 255)
-            try validate(alarmName, name:"alarmName", min: 1)
-            try validate(datapointsToAlarm, name:"datapointsToAlarm", min: 1)
+            try validate(alarmActions, name:"alarmActions", parent: name, max: 5)
+            try validate(alarmDescription, name:"alarmDescription", parent: name, max: 1024)
+            try validate(alarmDescription, name:"alarmDescription", parent: name, min: 0)
+            try validate(alarmName, name:"alarmName", parent: name, max: 255)
+            try validate(alarmName, name:"alarmName", parent: name, min: 1)
+            try validate(datapointsToAlarm, name:"datapointsToAlarm", parent: name, min: 1)
             try dimensions?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).dimensions[]")
             }
-            try validate(dimensions, name:"dimensions", max: 10)
-            try validate(evaluateLowSampleCountPercentile, name:"evaluateLowSampleCountPercentile", max: 255)
-            try validate(evaluateLowSampleCountPercentile, name:"evaluateLowSampleCountPercentile", min: 1)
-            try validate(evaluationPeriods, name:"evaluationPeriods", min: 1)
-            try validate(extendedStatistic, name:"extendedStatistic", pattern: "p(\\d{1,2}(\\.\\d{0,2})?|100)")
+            try validate(dimensions, name:"dimensions", parent: name, max: 10)
+            try validate(evaluateLowSampleCountPercentile, name:"evaluateLowSampleCountPercentile", parent: name, max: 255)
+            try validate(evaluateLowSampleCountPercentile, name:"evaluateLowSampleCountPercentile", parent: name, min: 1)
+            try validate(evaluationPeriods, name:"evaluationPeriods", parent: name, min: 1)
+            try validate(extendedStatistic, name:"extendedStatistic", parent: name, pattern: "p(\\d{1,2}(\\.\\d{0,2})?|100)")
             try insufficientDataActions?.forEach {
-                try validate($0, name:"insufficientDataActions[]", max: 1024)
-                try validate($0, name:"insufficientDataActions[]", min: 1)
+                try validate($0, name: "insufficientDataActions[]", parent: name, max: 1024)
+                try validate($0, name: "insufficientDataActions[]", parent: name, min: 1)
             }
-            try validate(insufficientDataActions, name:"insufficientDataActions", max: 5)
-            try validate(metricName, name:"metricName", max: 255)
-            try validate(metricName, name:"metricName", min: 1)
+            try validate(insufficientDataActions, name:"insufficientDataActions", parent: name, max: 5)
+            try validate(metricName, name:"metricName", parent: name, max: 255)
+            try validate(metricName, name:"metricName", parent: name, min: 1)
             try metrics?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).metrics[]")
             }
-            try validate(namespace, name:"namespace", max: 255)
-            try validate(namespace, name:"namespace", min: 1)
-            try validate(namespace, name:"namespace", pattern: "[^:].*")
+            try validate(namespace, name:"namespace", parent: name, max: 255)
+            try validate(namespace, name:"namespace", parent: name, min: 1)
+            try validate(namespace, name:"namespace", parent: name, pattern: "[^:].*")
             try oKActions?.forEach {
-                try validate($0, name:"oKActions[]", max: 1024)
-                try validate($0, name:"oKActions[]", min: 1)
+                try validate($0, name: "oKActions[]", parent: name, max: 1024)
+                try validate($0, name: "oKActions[]", parent: name, min: 1)
             }
-            try validate(oKActions, name:"oKActions", max: 5)
-            try validate(period, name:"period", min: 1)
+            try validate(oKActions, name:"oKActions", parent: name, max: 5)
+            try validate(period, name:"period", parent: name, min: 1)
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(thresholdMetricId, name:"thresholdMetricId", max: 255)
-            try validate(thresholdMetricId, name:"thresholdMetricId", min: 1)
-            try validate(treatMissingData, name:"treatMissingData", max: 255)
-            try validate(treatMissingData, name:"treatMissingData", min: 1)
+            try validate(thresholdMetricId, name:"thresholdMetricId", parent: name, max: 255)
+            try validate(thresholdMetricId, name:"thresholdMetricId", parent: name, min: 1)
+            try validate(treatMissingData, name:"treatMissingData", parent: name, max: 255)
+            try validate(treatMissingData, name:"treatMissingData", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1820,13 +1820,13 @@ extension CloudWatch {
             self.namespace = namespace
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try metricData.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).metricData[]")
             }
-            try validate(namespace, name:"namespace", max: 255)
-            try validate(namespace, name:"namespace", min: 1)
-            try validate(namespace, name:"namespace", pattern: "[^:].*")
+            try validate(namespace, name:"namespace", parent: name, max: 255)
+            try validate(namespace, name:"namespace", parent: name, min: 1)
+            try validate(namespace, name:"namespace", parent: name, pattern: "[^:].*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1887,13 +1887,13 @@ extension CloudWatch {
             self.stateValue = stateValue
         }
 
-        public func validate() throws {
-            try validate(alarmName, name:"alarmName", max: 255)
-            try validate(alarmName, name:"alarmName", min: 1)
-            try validate(stateReason, name:"stateReason", max: 1023)
-            try validate(stateReason, name:"stateReason", min: 0)
-            try validate(stateReasonData, name:"stateReasonData", max: 4000)
-            try validate(stateReasonData, name:"stateReasonData", min: 0)
+        public func validate(name: String) throws {
+            try validate(alarmName, name:"alarmName", parent: name, max: 255)
+            try validate(alarmName, name:"alarmName", parent: name, min: 1)
+            try validate(stateReason, name:"stateReason", parent: name, max: 1023)
+            try validate(stateReason, name:"stateReason", parent: name, min: 0)
+            try validate(stateReasonData, name:"stateReasonData", parent: name, max: 4000)
+            try validate(stateReasonData, name:"stateReasonData", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2006,11 +2006,11 @@ extension CloudWatch {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 128)
-            try validate(key, name:"key", min: 1)
-            try validate(value, name:"value", max: 256)
-            try validate(value, name:"value", min: 0)
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2035,11 +2035,11 @@ extension CloudWatch {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 1024)
-            try validate(resourceARN, name:"resourceARN", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 1024)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
             try tags.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
         }
 
@@ -2073,12 +2073,12 @@ extension CloudWatch {
             self.tagKeys = tagKeys
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 1024)
-            try validate(resourceARN, name:"resourceARN", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 1024)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
             try tagKeys.forEach {
-                try validate($0, name:"tagKeys[]", max: 128)
-                try validate($0, name:"tagKeys[]", min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
         }
 

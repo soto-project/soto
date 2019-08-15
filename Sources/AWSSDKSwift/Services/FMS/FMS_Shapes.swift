@@ -26,10 +26,10 @@ extension FMS {
             self.adminAccount = adminAccount
         }
 
-        public func validate() throws {
-            try validate(adminAccount, name:"adminAccount", max: 1024)
-            try validate(adminAccount, name:"adminAccount", min: 1)
-            try validate(adminAccount, name:"adminAccount", pattern: "^[0-9]+$")
+        public func validate(name: String) throws {
+            try validate(adminAccount, name:"adminAccount", parent: name, max: 1024)
+            try validate(adminAccount, name:"adminAccount", parent: name, min: 1)
+            try validate(adminAccount, name:"adminAccount", parent: name, pattern: "^[0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -93,10 +93,10 @@ extension FMS {
             self.policyId = policyId
         }
 
-        public func validate() throws {
-            try validate(policyId, name:"policyId", max: 36)
-            try validate(policyId, name:"policyId", min: 36)
-            try validate(policyId, name:"policyId", pattern: "^[a-z0-9A-Z-]{36}$")
+        public func validate(name: String) throws {
+            try validate(policyId, name:"policyId", parent: name, max: 36)
+            try validate(policyId, name:"policyId", parent: name, min: 36)
+            try validate(policyId, name:"policyId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -193,13 +193,13 @@ extension FMS {
             self.policyId = policyId
         }
 
-        public func validate() throws {
-            try validate(memberAccount, name:"memberAccount", max: 1024)
-            try validate(memberAccount, name:"memberAccount", min: 1)
-            try validate(memberAccount, name:"memberAccount", pattern: "^[0-9]+$")
-            try validate(policyId, name:"policyId", max: 36)
-            try validate(policyId, name:"policyId", min: 36)
-            try validate(policyId, name:"policyId", pattern: "^[a-z0-9A-Z-]{36}$")
+        public func validate(name: String) throws {
+            try validate(memberAccount, name:"memberAccount", parent: name, max: 1024)
+            try validate(memberAccount, name:"memberAccount", parent: name, min: 1)
+            try validate(memberAccount, name:"memberAccount", parent: name, pattern: "^[0-9]+$")
+            try validate(policyId, name:"policyId", parent: name, max: 36)
+            try validate(policyId, name:"policyId", parent: name, min: 36)
+            try validate(policyId, name:"policyId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -267,10 +267,10 @@ extension FMS {
             self.policyId = policyId
         }
 
-        public func validate() throws {
-            try validate(policyId, name:"policyId", max: 36)
-            try validate(policyId, name:"policyId", min: 36)
-            try validate(policyId, name:"policyId", pattern: "^[a-z0-9A-Z-]{36}$")
+        public func validate(name: String) throws {
+            try validate(policyId, name:"policyId", parent: name, max: 36)
+            try validate(policyId, name:"policyId", parent: name, min: 36)
+            try validate(policyId, name:"policyId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -332,17 +332,17 @@ extension FMS {
             self.startTime = startTime
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(memberAccountId, name:"memberAccountId", max: 1024)
-            try validate(memberAccountId, name:"memberAccountId", min: 1)
-            try validate(memberAccountId, name:"memberAccountId", pattern: "^[0-9]+$")
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(nextToken, name:"nextToken", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try validate(policyId, name:"policyId", max: 36)
-            try validate(policyId, name:"policyId", min: 36)
-            try validate(policyId, name:"policyId", pattern: "^[a-z0-9A-Z-]{36}$")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(memberAccountId, name:"memberAccountId", parent: name, max: 1024)
+            try validate(memberAccountId, name:"memberAccountId", parent: name, min: 1)
+            try validate(memberAccountId, name:"memberAccountId", parent: name, pattern: "^[0-9]+$")
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(policyId, name:"policyId", parent: name, max: 36)
+            try validate(policyId, name:"policyId", parent: name, min: 36)
+            try validate(policyId, name:"policyId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -407,14 +407,14 @@ extension FMS {
             self.policyId = policyId
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(nextToken, name:"nextToken", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try validate(policyId, name:"policyId", max: 36)
-            try validate(policyId, name:"policyId", min: 36)
-            try validate(policyId, name:"policyId", pattern: "^[a-z0-9A-Z-]{36}$")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(policyId, name:"policyId", parent: name, max: 36)
+            try validate(policyId, name:"policyId", parent: name, min: 36)
+            try validate(policyId, name:"policyId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -462,11 +462,11 @@ extension FMS {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(nextToken, name:"nextToken", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -513,11 +513,11 @@ extension FMS {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(nextToken, name:"nextToken", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -600,30 +600,30 @@ extension FMS {
             self.securityServicePolicyData = securityServicePolicyData
         }
 
-        public func validate() throws {
-            try validate(policyId, name:"policyId", max: 36)
-            try validate(policyId, name:"policyId", min: 36)
-            try validate(policyId, name:"policyId", pattern: "^[a-z0-9A-Z-]{36}$")
-            try validate(policyName, name:"policyName", max: 128)
-            try validate(policyName, name:"policyName", min: 1)
-            try validate(policyName, name:"policyName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try validate(policyUpdateToken, name:"policyUpdateToken", max: 1024)
-            try validate(policyUpdateToken, name:"policyUpdateToken", min: 1)
-            try validate(policyUpdateToken, name:"policyUpdateToken", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        public func validate(name: String) throws {
+            try validate(policyId, name:"policyId", parent: name, max: 36)
+            try validate(policyId, name:"policyId", parent: name, min: 36)
+            try validate(policyId, name:"policyId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
+            try validate(policyName, name:"policyName", parent: name, max: 128)
+            try validate(policyName, name:"policyName", parent: name, min: 1)
+            try validate(policyName, name:"policyName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(policyUpdateToken, name:"policyUpdateToken", parent: name, max: 1024)
+            try validate(policyUpdateToken, name:"policyUpdateToken", parent: name, min: 1)
+            try validate(policyUpdateToken, name:"policyUpdateToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             try resourceTags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).resourceTags[]")
             }
-            try validate(resourceTags, name:"resourceTags", max: 8)
-            try validate(resourceTags, name:"resourceTags", min: 0)
-            try validate(resourceType, name:"resourceType", max: 128)
-            try validate(resourceType, name:"resourceType", min: 1)
-            try validate(resourceType, name:"resourceType", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(resourceTags, name:"resourceTags", parent: name, max: 8)
+            try validate(resourceTags, name:"resourceTags", parent: name, min: 0)
+            try validate(resourceType, name:"resourceType", parent: name, max: 128)
+            try validate(resourceType, name:"resourceType", parent: name, min: 1)
+            try validate(resourceType, name:"resourceType", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             try resourceTypeList?.forEach {
-                try validate($0, name:"resourceTypeList[]", max: 128)
-                try validate($0, name:"resourceTypeList[]", min: 1)
-                try validate($0, name:"resourceTypeList[]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0, name: "resourceTypeList[]", parent: name, max: 128)
+                try validate($0, name: "resourceTypeList[]", parent: name, min: 1)
+                try validate($0, name: "resourceTypeList[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try securityServicePolicyData.validate()
+            try securityServicePolicyData.validate(name: "\(name).securityServicePolicyData")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -799,13 +799,13 @@ extension FMS {
             self.snsTopicArn = snsTopicArn
         }
 
-        public func validate() throws {
-            try validate(snsRoleName, name:"snsRoleName", max: 1024)
-            try validate(snsRoleName, name:"snsRoleName", min: 1)
-            try validate(snsRoleName, name:"snsRoleName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try validate(snsTopicArn, name:"snsTopicArn", max: 1024)
-            try validate(snsTopicArn, name:"snsTopicArn", min: 1)
-            try validate(snsTopicArn, name:"snsTopicArn", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        public func validate(name: String) throws {
+            try validate(snsRoleName, name:"snsRoleName", parent: name, max: 1024)
+            try validate(snsRoleName, name:"snsRoleName", parent: name, min: 1)
+            try validate(snsRoleName, name:"snsRoleName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(snsTopicArn, name:"snsTopicArn", parent: name, max: 1024)
+            try validate(snsTopicArn, name:"snsTopicArn", parent: name, min: 1)
+            try validate(snsTopicArn, name:"snsTopicArn", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -826,8 +826,8 @@ extension FMS {
             self.policy = policy
         }
 
-        public func validate() throws {
-            try policy.validate()
+        public func validate(name: String) throws {
+            try policy.validate(name: "\(name).policy")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -873,12 +873,12 @@ extension FMS {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 128)
-            try validate(key, name:"key", min: 1)
-            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try validate(value, name:"value", max: 256)
-            try validate(value, name:"value", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -903,9 +903,9 @@ extension FMS {
             self.`type` = `type`
         }
 
-        public func validate() throws {
-            try validate(managedServiceData, name:"managedServiceData", max: 1024)
-            try validate(managedServiceData, name:"managedServiceData", min: 1)
+        public func validate(name: String) throws {
+            try validate(managedServiceData, name:"managedServiceData", parent: name, max: 1024)
+            try validate(managedServiceData, name:"managedServiceData", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

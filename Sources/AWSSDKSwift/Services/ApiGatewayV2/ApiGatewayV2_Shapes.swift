@@ -436,9 +436,9 @@ extension ApiGatewayV2 {
             self.providerArns = providerArns
         }
 
-        public func validate() throws {
-            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", max: 3600)
-            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", min: 0)
+        public func validate(name: String) throws {
+            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", parent: name, max: 3600)
+            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -660,9 +660,9 @@ extension ApiGatewayV2 {
             self.timeoutInMillis = timeoutInMillis
         }
 
-        public func validate() throws {
-            try validate(timeoutInMillis, name:"timeoutInMillis", max: 29000)
-            try validate(timeoutInMillis, name:"timeoutInMillis", min: 50)
+        public func validate(name: String) throws {
+            try validate(timeoutInMillis, name:"timeoutInMillis", parent: name, max: 29000)
+            try validate(timeoutInMillis, name:"timeoutInMillis", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3583,9 +3583,9 @@ extension ApiGatewayV2 {
             self.providerArns = providerArns
         }
 
-        public func validate() throws {
-            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", max: 3600)
-            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", min: 0)
+        public func validate(name: String) throws {
+            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", parent: name, max: 3600)
+            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3803,9 +3803,9 @@ extension ApiGatewayV2 {
             self.timeoutInMillis = timeoutInMillis
         }
 
-        public func validate() throws {
-            try validate(timeoutInMillis, name:"timeoutInMillis", max: 29000)
-            try validate(timeoutInMillis, name:"timeoutInMillis", min: 50)
+        public func validate(name: String) throws {
+            try validate(timeoutInMillis, name:"timeoutInMillis", parent: name, max: 29000)
+            try validate(timeoutInMillis, name:"timeoutInMillis", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {

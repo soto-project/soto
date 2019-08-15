@@ -185,17 +185,17 @@ extension KinesisVideoArchivedMedia {
             self.streamName = streamName
         }
 
-        public func validate() throws {
-            try validate(expires, name:"expires", max: 43200)
-            try validate(expires, name:"expires", min: 300)
-            try validate(maxManifestFragmentResults, name:"maxManifestFragmentResults", max: 1000)
-            try validate(maxManifestFragmentResults, name:"maxManifestFragmentResults", min: 1)
-            try validate(streamARN, name:"streamARN", max: 1024)
-            try validate(streamARN, name:"streamARN", min: 1)
-            try validate(streamARN, name:"streamARN", pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
-            try validate(streamName, name:"streamName", max: 256)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(expires, name:"expires", parent: name, max: 43200)
+            try validate(expires, name:"expires", parent: name, min: 300)
+            try validate(maxManifestFragmentResults, name:"maxManifestFragmentResults", parent: name, max: 1000)
+            try validate(maxManifestFragmentResults, name:"maxManifestFragmentResults", parent: name, min: 1)
+            try validate(streamARN, name:"streamARN", parent: name, max: 1024)
+            try validate(streamARN, name:"streamARN", parent: name, min: 1)
+            try validate(streamARN, name:"streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try validate(streamName, name:"streamName", parent: name, max: 256)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -271,17 +271,17 @@ extension KinesisVideoArchivedMedia {
             self.streamName = streamName
         }
 
-        public func validate() throws {
-            try validate(expires, name:"expires", max: 43200)
-            try validate(expires, name:"expires", min: 300)
-            try validate(maxMediaPlaylistFragmentResults, name:"maxMediaPlaylistFragmentResults", max: 1000)
-            try validate(maxMediaPlaylistFragmentResults, name:"maxMediaPlaylistFragmentResults", min: 1)
-            try validate(streamARN, name:"streamARN", max: 1024)
-            try validate(streamARN, name:"streamARN", min: 1)
-            try validate(streamARN, name:"streamARN", pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
-            try validate(streamName, name:"streamName", max: 256)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(expires, name:"expires", parent: name, max: 43200)
+            try validate(expires, name:"expires", parent: name, min: 300)
+            try validate(maxMediaPlaylistFragmentResults, name:"maxMediaPlaylistFragmentResults", parent: name, max: 1000)
+            try validate(maxMediaPlaylistFragmentResults, name:"maxMediaPlaylistFragmentResults", parent: name, min: 1)
+            try validate(streamARN, name:"streamARN", parent: name, max: 1024)
+            try validate(streamARN, name:"streamARN", parent: name, min: 1)
+            try validate(streamARN, name:"streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try validate(streamName, name:"streamName", parent: name, max: 256)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -330,17 +330,17 @@ extension KinesisVideoArchivedMedia {
             self.streamName = streamName
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try fragments.forEach {
-                try validate($0, name:"fragments[]", max: 128)
-                try validate($0, name:"fragments[]", min: 1)
-                try validate($0, name:"fragments[]", pattern: "^[0-9]+$")
+                try validate($0, name: "fragments[]", parent: name, max: 128)
+                try validate($0, name: "fragments[]", parent: name, min: 1)
+                try validate($0, name: "fragments[]", parent: name, pattern: "^[0-9]+$")
             }
-            try validate(fragments, name:"fragments", max: 1000)
-            try validate(fragments, name:"fragments", min: 1)
-            try validate(streamName, name:"streamName", max: 256)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(fragments, name:"fragments", parent: name, max: 1000)
+            try validate(fragments, name:"fragments", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, max: 256)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -466,13 +466,13 @@ extension KinesisVideoArchivedMedia {
             self.streamName = streamName
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(streamName, name:"streamName", max: 256)
-            try validate(streamName, name:"streamName", min: 1)
-            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, max: 256)
+            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {

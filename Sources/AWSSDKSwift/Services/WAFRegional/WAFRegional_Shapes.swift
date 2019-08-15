@@ -37,12 +37,12 @@ extension WAFRegional {
             self.`type` = `type`
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try excludedRules?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).excludedRules[]")
             }
-            try validate(ruleId, name:"ruleId", max: 128)
-            try validate(ruleId, name:"ruleId", min: 1)
+            try validate(ruleId, name:"ruleId", parent: name, max: 128)
+            try validate(ruleId, name:"ruleId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -71,11 +71,11 @@ extension WAFRegional {
             self.webACLId = webACLId
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 1224)
-            try validate(resourceArn, name:"resourceArn", min: 1)
-            try validate(webACLId, name:"webACLId", max: 128)
-            try validate(webACLId, name:"webACLId", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1224)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
+            try validate(webACLId, name:"webACLId", parent: name, max: 128)
+            try validate(webACLId, name:"webACLId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -234,10 +234,10 @@ extension WAFRegional {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -284,10 +284,10 @@ extension WAFRegional {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -334,10 +334,10 @@ extension WAFRegional {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -399,16 +399,16 @@ extension WAFRegional {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
-            try validate(rateLimit, name:"rateLimit", max: 2000000000)
-            try validate(rateLimit, name:"rateLimit", min: 2000)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(rateLimit, name:"rateLimit", parent: name, max: 2000000000)
+            try validate(rateLimit, name:"rateLimit", parent: name, min: 2000)
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -459,10 +459,10 @@ extension WAFRegional {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -509,10 +509,10 @@ extension WAFRegional {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -566,14 +566,14 @@ extension WAFRegional {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -629,14 +629,14 @@ extension WAFRegional {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -685,10 +685,10 @@ extension WAFRegional {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -735,10 +735,10 @@ extension WAFRegional {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -796,14 +796,14 @@ extension WAFRegional {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -853,10 +853,10 @@ extension WAFRegional {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(name, name:"name", max: 128)
-            try validate(name, name:"name", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -903,10 +903,10 @@ extension WAFRegional {
             self.changeToken = changeToken
         }
 
-        public func validate() throws {
-            try validate(byteMatchSetId, name:"byteMatchSetId", max: 128)
-            try validate(byteMatchSetId, name:"byteMatchSetId", min: 1)
-            try validate(changeToken, name:"changeToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(byteMatchSetId, name:"byteMatchSetId", parent: name, max: 128)
+            try validate(byteMatchSetId, name:"byteMatchSetId", parent: name, min: 1)
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -948,10 +948,10 @@ extension WAFRegional {
             self.geoMatchSetId = geoMatchSetId
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(geoMatchSetId, name:"geoMatchSetId", max: 128)
-            try validate(geoMatchSetId, name:"geoMatchSetId", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(geoMatchSetId, name:"geoMatchSetId", parent: name, max: 128)
+            try validate(geoMatchSetId, name:"geoMatchSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -993,10 +993,10 @@ extension WAFRegional {
             self.iPSetId = iPSetId
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(iPSetId, name:"iPSetId", max: 128)
-            try validate(iPSetId, name:"iPSetId", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(iPSetId, name:"iPSetId", parent: name, max: 128)
+            try validate(iPSetId, name:"iPSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1034,9 +1034,9 @@ extension WAFRegional {
             self.resourceArn = resourceArn
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 1224)
-            try validate(resourceArn, name:"resourceArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1224)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1064,9 +1064,9 @@ extension WAFRegional {
             self.resourceArn = resourceArn
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 1224)
-            try validate(resourceArn, name:"resourceArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1224)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1098,10 +1098,10 @@ extension WAFRegional {
             self.ruleId = ruleId
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(ruleId, name:"ruleId", max: 128)
-            try validate(ruleId, name:"ruleId", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(ruleId, name:"ruleId", parent: name, max: 128)
+            try validate(ruleId, name:"ruleId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1143,10 +1143,10 @@ extension WAFRegional {
             self.regexMatchSetId = regexMatchSetId
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(regexMatchSetId, name:"regexMatchSetId", max: 128)
-            try validate(regexMatchSetId, name:"regexMatchSetId", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(regexMatchSetId, name:"regexMatchSetId", parent: name, max: 128)
+            try validate(regexMatchSetId, name:"regexMatchSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1188,10 +1188,10 @@ extension WAFRegional {
             self.regexPatternSetId = regexPatternSetId
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(regexPatternSetId, name:"regexPatternSetId", max: 128)
-            try validate(regexPatternSetId, name:"regexPatternSetId", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(regexPatternSetId, name:"regexPatternSetId", parent: name, max: 128)
+            try validate(regexPatternSetId, name:"regexPatternSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1233,10 +1233,10 @@ extension WAFRegional {
             self.ruleGroupId = ruleGroupId
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(ruleGroupId, name:"ruleGroupId", max: 128)
-            try validate(ruleGroupId, name:"ruleGroupId", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(ruleGroupId, name:"ruleGroupId", parent: name, max: 128)
+            try validate(ruleGroupId, name:"ruleGroupId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1278,10 +1278,10 @@ extension WAFRegional {
             self.ruleId = ruleId
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(ruleId, name:"ruleId", max: 128)
-            try validate(ruleId, name:"ruleId", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(ruleId, name:"ruleId", parent: name, max: 128)
+            try validate(ruleId, name:"ruleId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1323,10 +1323,10 @@ extension WAFRegional {
             self.sizeConstraintSetId = sizeConstraintSetId
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", max: 128)
-            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", parent: name, max: 128)
+            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1368,10 +1368,10 @@ extension WAFRegional {
             self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", max: 128)
-            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", parent: name, max: 128)
+            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1413,10 +1413,10 @@ extension WAFRegional {
             self.webACLId = webACLId
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(webACLId, name:"webACLId", max: 128)
-            try validate(webACLId, name:"webACLId", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(webACLId, name:"webACLId", parent: name, max: 128)
+            try validate(webACLId, name:"webACLId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1458,10 +1458,10 @@ extension WAFRegional {
             self.xssMatchSetId = xssMatchSetId
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(xssMatchSetId, name:"xssMatchSetId", max: 128)
-            try validate(xssMatchSetId, name:"xssMatchSetId", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(xssMatchSetId, name:"xssMatchSetId", parent: name, max: 128)
+            try validate(xssMatchSetId, name:"xssMatchSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1499,9 +1499,9 @@ extension WAFRegional {
             self.resourceArn = resourceArn
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 1224)
-            try validate(resourceArn, name:"resourceArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1224)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1529,9 +1529,9 @@ extension WAFRegional {
             self.ruleId = ruleId
         }
 
-        public func validate() throws {
-            try validate(ruleId, name:"ruleId", max: 128)
-            try validate(ruleId, name:"ruleId", min: 1)
+        public func validate(name: String) throws {
+            try validate(ruleId, name:"ruleId", parent: name, max: 128)
+            try validate(ruleId, name:"ruleId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1924,9 +1924,9 @@ extension WAFRegional {
             self.byteMatchSetId = byteMatchSetId
         }
 
-        public func validate() throws {
-            try validate(byteMatchSetId, name:"byteMatchSetId", max: 128)
-            try validate(byteMatchSetId, name:"byteMatchSetId", min: 1)
+        public func validate(name: String) throws {
+            try validate(byteMatchSetId, name:"byteMatchSetId", parent: name, max: 128)
+            try validate(byteMatchSetId, name:"byteMatchSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1988,8 +1988,8 @@ extension WAFRegional {
             self.changeToken = changeToken
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2026,9 +2026,9 @@ extension WAFRegional {
             self.geoMatchSetId = geoMatchSetId
         }
 
-        public func validate() throws {
-            try validate(geoMatchSetId, name:"geoMatchSetId", max: 128)
-            try validate(geoMatchSetId, name:"geoMatchSetId", min: 1)
+        public func validate(name: String) throws {
+            try validate(geoMatchSetId, name:"geoMatchSetId", parent: name, max: 128)
+            try validate(geoMatchSetId, name:"geoMatchSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2065,9 +2065,9 @@ extension WAFRegional {
             self.iPSetId = iPSetId
         }
 
-        public func validate() throws {
-            try validate(iPSetId, name:"iPSetId", max: 128)
-            try validate(iPSetId, name:"iPSetId", min: 1)
+        public func validate(name: String) throws {
+            try validate(iPSetId, name:"iPSetId", parent: name, max: 128)
+            try validate(iPSetId, name:"iPSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2104,9 +2104,9 @@ extension WAFRegional {
             self.resourceArn = resourceArn
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 1224)
-            try validate(resourceArn, name:"resourceArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1224)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2143,9 +2143,9 @@ extension WAFRegional {
             self.resourceArn = resourceArn
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 1224)
-            try validate(resourceArn, name:"resourceArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1224)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2186,10 +2186,10 @@ extension WAFRegional {
             self.ruleId = ruleId
         }
 
-        public func validate() throws {
-            try validate(nextMarker, name:"nextMarker", min: 1)
-            try validate(ruleId, name:"ruleId", max: 128)
-            try validate(ruleId, name:"ruleId", min: 1)
+        public func validate(name: String) throws {
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(ruleId, name:"ruleId", parent: name, max: 128)
+            try validate(ruleId, name:"ruleId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2232,9 +2232,9 @@ extension WAFRegional {
             self.ruleId = ruleId
         }
 
-        public func validate() throws {
-            try validate(ruleId, name:"ruleId", max: 128)
-            try validate(ruleId, name:"ruleId", min: 1)
+        public func validate(name: String) throws {
+            try validate(ruleId, name:"ruleId", parent: name, max: 128)
+            try validate(ruleId, name:"ruleId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2271,9 +2271,9 @@ extension WAFRegional {
             self.regexMatchSetId = regexMatchSetId
         }
 
-        public func validate() throws {
-            try validate(regexMatchSetId, name:"regexMatchSetId", max: 128)
-            try validate(regexMatchSetId, name:"regexMatchSetId", min: 1)
+        public func validate(name: String) throws {
+            try validate(regexMatchSetId, name:"regexMatchSetId", parent: name, max: 128)
+            try validate(regexMatchSetId, name:"regexMatchSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2310,9 +2310,9 @@ extension WAFRegional {
             self.regexPatternSetId = regexPatternSetId
         }
 
-        public func validate() throws {
-            try validate(regexPatternSetId, name:"regexPatternSetId", max: 128)
-            try validate(regexPatternSetId, name:"regexPatternSetId", min: 1)
+        public func validate(name: String) throws {
+            try validate(regexPatternSetId, name:"regexPatternSetId", parent: name, max: 128)
+            try validate(regexPatternSetId, name:"regexPatternSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2349,9 +2349,9 @@ extension WAFRegional {
             self.ruleGroupId = ruleGroupId
         }
 
-        public func validate() throws {
-            try validate(ruleGroupId, name:"ruleGroupId", max: 128)
-            try validate(ruleGroupId, name:"ruleGroupId", min: 1)
+        public func validate(name: String) throws {
+            try validate(ruleGroupId, name:"ruleGroupId", parent: name, max: 128)
+            try validate(ruleGroupId, name:"ruleGroupId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2388,9 +2388,9 @@ extension WAFRegional {
             self.ruleId = ruleId
         }
 
-        public func validate() throws {
-            try validate(ruleId, name:"ruleId", max: 128)
-            try validate(ruleId, name:"ruleId", min: 1)
+        public func validate(name: String) throws {
+            try validate(ruleId, name:"ruleId", parent: name, max: 128)
+            try validate(ruleId, name:"ruleId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2439,13 +2439,13 @@ extension WAFRegional {
             self.webAclId = webAclId
         }
 
-        public func validate() throws {
-            try validate(maxItems, name:"maxItems", max: 500)
-            try validate(maxItems, name:"maxItems", min: 1)
-            try validate(ruleId, name:"ruleId", max: 128)
-            try validate(ruleId, name:"ruleId", min: 1)
-            try validate(webAclId, name:"webAclId", max: 128)
-            try validate(webAclId, name:"webAclId", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxItems, name:"maxItems", parent: name, max: 500)
+            try validate(maxItems, name:"maxItems", parent: name, min: 1)
+            try validate(ruleId, name:"ruleId", parent: name, max: 128)
+            try validate(ruleId, name:"ruleId", parent: name, min: 1)
+            try validate(webAclId, name:"webAclId", parent: name, max: 128)
+            try validate(webAclId, name:"webAclId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2495,9 +2495,9 @@ extension WAFRegional {
             self.sizeConstraintSetId = sizeConstraintSetId
         }
 
-        public func validate() throws {
-            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", max: 128)
-            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", min: 1)
+        public func validate(name: String) throws {
+            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", parent: name, max: 128)
+            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2534,9 +2534,9 @@ extension WAFRegional {
             self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
         }
 
-        public func validate() throws {
-            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", max: 128)
-            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", min: 1)
+        public func validate(name: String) throws {
+            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", parent: name, max: 128)
+            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2573,9 +2573,9 @@ extension WAFRegional {
             self.resourceArn = resourceArn
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 1224)
-            try validate(resourceArn, name:"resourceArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1224)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2612,9 +2612,9 @@ extension WAFRegional {
             self.webACLId = webACLId
         }
 
-        public func validate() throws {
-            try validate(webACLId, name:"webACLId", max: 128)
-            try validate(webACLId, name:"webACLId", min: 1)
+        public func validate(name: String) throws {
+            try validate(webACLId, name:"webACLId", parent: name, max: 128)
+            try validate(webACLId, name:"webACLId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2651,9 +2651,9 @@ extension WAFRegional {
             self.xssMatchSetId = xssMatchSetId
         }
 
-        public func validate() throws {
-            try validate(xssMatchSetId, name:"xssMatchSetId", max: 128)
-            try validate(xssMatchSetId, name:"xssMatchSetId", min: 1)
+        public func validate(name: String) throws {
+            try validate(xssMatchSetId, name:"xssMatchSetId", parent: name, max: 128)
+            try validate(xssMatchSetId, name:"xssMatchSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2861,12 +2861,12 @@ extension WAFRegional {
             self.ruleGroupId = ruleGroupId
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 100)
-            try validate(limit, name:"limit", min: 0)
-            try validate(nextMarker, name:"nextMarker", min: 1)
-            try validate(ruleGroupId, name:"ruleGroupId", max: 128)
-            try validate(ruleGroupId, name:"ruleGroupId", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(ruleGroupId, name:"ruleGroupId", parent: name, max: 128)
+            try validate(ruleGroupId, name:"ruleGroupId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2914,10 +2914,10 @@ extension WAFRegional {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 100)
-            try validate(limit, name:"limit", min: 0)
-            try validate(nextMarker, name:"nextMarker", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2964,10 +2964,10 @@ extension WAFRegional {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 100)
-            try validate(limit, name:"limit", min: 0)
-            try validate(nextMarker, name:"nextMarker", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3014,10 +3014,10 @@ extension WAFRegional {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 100)
-            try validate(limit, name:"limit", min: 0)
-            try validate(nextMarker, name:"nextMarker", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3064,10 +3064,10 @@ extension WAFRegional {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 100)
-            try validate(limit, name:"limit", min: 0)
-            try validate(nextMarker, name:"nextMarker", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3114,10 +3114,10 @@ extension WAFRegional {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 100)
-            try validate(limit, name:"limit", min: 0)
-            try validate(nextMarker, name:"nextMarker", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3164,10 +3164,10 @@ extension WAFRegional {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 100)
-            try validate(limit, name:"limit", min: 0)
-            try validate(nextMarker, name:"nextMarker", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3214,10 +3214,10 @@ extension WAFRegional {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 100)
-            try validate(limit, name:"limit", min: 0)
-            try validate(nextMarker, name:"nextMarker", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3264,9 +3264,9 @@ extension WAFRegional {
             self.webACLId = webACLId
         }
 
-        public func validate() throws {
-            try validate(webACLId, name:"webACLId", max: 128)
-            try validate(webACLId, name:"webACLId", min: 1)
+        public func validate(name: String) throws {
+            try validate(webACLId, name:"webACLId", parent: name, max: 128)
+            try validate(webACLId, name:"webACLId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3308,10 +3308,10 @@ extension WAFRegional {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 100)
-            try validate(limit, name:"limit", min: 0)
-            try validate(nextMarker, name:"nextMarker", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3358,10 +3358,10 @@ extension WAFRegional {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 100)
-            try validate(limit, name:"limit", min: 0)
-            try validate(nextMarker, name:"nextMarker", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3408,10 +3408,10 @@ extension WAFRegional {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 100)
-            try validate(limit, name:"limit", min: 0)
-            try validate(nextMarker, name:"nextMarker", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3458,10 +3458,10 @@ extension WAFRegional {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 100)
-            try validate(limit, name:"limit", min: 0)
-            try validate(nextMarker, name:"nextMarker", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3508,10 +3508,10 @@ extension WAFRegional {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 100)
-            try validate(limit, name:"limit", min: 0)
-            try validate(nextMarker, name:"nextMarker", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3559,12 +3559,12 @@ extension WAFRegional {
             self.resourceARN = resourceARN
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 100)
-            try validate(limit, name:"limit", min: 0)
-            try validate(nextMarker, name:"nextMarker", min: 1)
-            try validate(resourceARN, name:"resourceARN", max: 1224)
-            try validate(resourceARN, name:"resourceARN", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 1224)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3610,10 +3610,10 @@ extension WAFRegional {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 100)
-            try validate(limit, name:"limit", min: 0)
-            try validate(nextMarker, name:"nextMarker", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3660,10 +3660,10 @@ extension WAFRegional {
             self.nextMarker = nextMarker
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 100)
-            try validate(limit, name:"limit", min: 0)
-            try validate(nextMarker, name:"nextMarker", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3714,15 +3714,15 @@ extension WAFRegional {
             self.resourceArn = resourceArn
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try logDestinationConfigs.forEach {
-                try validate($0, name:"logDestinationConfigs[]", max: 1224)
-                try validate($0, name:"logDestinationConfigs[]", min: 1)
+                try validate($0, name: "logDestinationConfigs[]", parent: name, max: 1224)
+                try validate($0, name: "logDestinationConfigs[]", parent: name, min: 1)
             }
-            try validate(logDestinationConfigs, name:"logDestinationConfigs", max: 1)
-            try validate(logDestinationConfigs, name:"logDestinationConfigs", min: 1)
-            try validate(resourceArn, name:"resourceArn", max: 1224)
-            try validate(resourceArn, name:"resourceArn", min: 1)
+            try validate(logDestinationConfigs, name:"logDestinationConfigs", parent: name, max: 1)
+            try validate(logDestinationConfigs, name:"logDestinationConfigs", parent: name, min: 1)
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1224)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3772,9 +3772,9 @@ extension WAFRegional {
             self.`type` = `type`
         }
 
-        public func validate() throws {
-            try validate(dataId, name:"dataId", max: 128)
-            try validate(dataId, name:"dataId", min: 1)
+        public func validate(name: String) throws {
+            try validate(dataId, name:"dataId", parent: name, max: 128)
+            try validate(dataId, name:"dataId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3807,8 +3807,8 @@ extension WAFRegional {
             self.loggingConfiguration = loggingConfiguration
         }
 
-        public func validate() throws {
-            try loggingConfiguration.validate()
+        public func validate(name: String) throws {
+            try loggingConfiguration.validate(name: "\(name).loggingConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3849,10 +3849,10 @@ extension WAFRegional {
             self.resourceArn = resourceArn
         }
 
-        public func validate() throws {
-            try validate(policy, name:"policy", min: 1)
-            try validate(resourceArn, name:"resourceArn", max: 1224)
-            try validate(resourceArn, name:"resourceArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(policy, name:"policy", parent: name, min: 1)
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1224)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3981,8 +3981,8 @@ extension WAFRegional {
             self.regexMatchTuple = regexMatchTuple
         }
 
-        public func validate() throws {
-            try regexMatchTuple.validate()
+        public func validate(name: String) throws {
+            try regexMatchTuple.validate(name: "\(name).regexMatchTuple")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4011,9 +4011,9 @@ extension WAFRegional {
             self.textTransformation = textTransformation
         }
 
-        public func validate() throws {
-            try validate(regexPatternSetId, name:"regexPatternSetId", max: 128)
-            try validate(regexPatternSetId, name:"regexPatternSetId", min: 1)
+        public func validate(name: String) throws {
+            try validate(regexPatternSetId, name:"regexPatternSetId", parent: name, max: 128)
+            try validate(regexPatternSetId, name:"regexPatternSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4088,8 +4088,8 @@ extension WAFRegional {
             self.regexPatternString = regexPatternString
         }
 
-        public func validate() throws {
-            try validate(regexPatternString, name:"regexPatternString", min: 1)
+        public func validate(name: String) throws {
+            try validate(regexPatternString, name:"regexPatternString", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4201,8 +4201,8 @@ extension WAFRegional {
             self.activatedRule = activatedRule
         }
 
-        public func validate() throws {
-            try activatedRule.validate()
+        public func validate(name: String) throws {
+            try activatedRule.validate(name: "\(name).activatedRule")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4249,8 +4249,8 @@ extension WAFRegional {
             self.predicate = predicate
         }
 
-        public func validate() throws {
-            try predicate.validate()
+        public func validate(name: String) throws {
+            try predicate.validate(name: "\(name).predicate")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4320,9 +4320,9 @@ extension WAFRegional {
             self.textTransformation = textTransformation
         }
 
-        public func validate() throws {
-            try validate(size, name:"size", max: 21474836480)
-            try validate(size, name:"size", min: 0)
+        public func validate(name: String) throws {
+            try validate(size, name:"size", parent: name, max: 21474836480)
+            try validate(size, name:"size", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4398,8 +4398,8 @@ extension WAFRegional {
             self.sizeConstraint = sizeConstraint
         }
 
-        public func validate() throws {
-            try sizeConstraint.validate()
+        public func validate(name: String) throws {
+            try sizeConstraint.validate(name: "\(name).sizeConstraint")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4542,11 +4542,11 @@ extension WAFRegional {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 128)
-            try validate(key, name:"key", min: 1)
-            try validate(value, name:"value", max: 256)
-            try validate(value, name:"value", min: 0)
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4589,13 +4589,13 @@ extension WAFRegional {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 1224)
-            try validate(resourceARN, name:"resourceARN", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 1224)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
             try tags.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4658,14 +4658,14 @@ extension WAFRegional {
             self.tagKeys = tagKeys
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 1224)
-            try validate(resourceARN, name:"resourceARN", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 1224)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
             try tagKeys.forEach {
-                try validate($0, name:"tagKeys[]", max: 128)
-                try validate($0, name:"tagKeys[]", min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try validate(tagKeys, name:"tagKeys", min: 1)
+            try validate(tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4702,11 +4702,11 @@ extension WAFRegional {
             self.updates = updates
         }
 
-        public func validate() throws {
-            try validate(byteMatchSetId, name:"byteMatchSetId", max: 128)
-            try validate(byteMatchSetId, name:"byteMatchSetId", min: 1)
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(updates, name:"updates", min: 1)
+        public func validate(name: String) throws {
+            try validate(byteMatchSetId, name:"byteMatchSetId", parent: name, max: 128)
+            try validate(byteMatchSetId, name:"byteMatchSetId", parent: name, min: 1)
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(updates, name:"updates", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4753,11 +4753,11 @@ extension WAFRegional {
             self.updates = updates
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(geoMatchSetId, name:"geoMatchSetId", max: 128)
-            try validate(geoMatchSetId, name:"geoMatchSetId", min: 1)
-            try validate(updates, name:"updates", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(geoMatchSetId, name:"geoMatchSetId", parent: name, max: 128)
+            try validate(geoMatchSetId, name:"geoMatchSetId", parent: name, min: 1)
+            try validate(updates, name:"updates", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4804,11 +4804,11 @@ extension WAFRegional {
             self.updates = updates
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(iPSetId, name:"iPSetId", max: 128)
-            try validate(iPSetId, name:"iPSetId", min: 1)
-            try validate(updates, name:"updates", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(iPSetId, name:"iPSetId", parent: name, max: 128)
+            try validate(iPSetId, name:"iPSetId", parent: name, min: 1)
+            try validate(updates, name:"updates", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4859,14 +4859,14 @@ extension WAFRegional {
             self.updates = updates
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(rateLimit, name:"rateLimit", max: 2000000000)
-            try validate(rateLimit, name:"rateLimit", min: 2000)
-            try validate(ruleId, name:"ruleId", max: 128)
-            try validate(ruleId, name:"ruleId", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(rateLimit, name:"rateLimit", parent: name, max: 2000000000)
+            try validate(rateLimit, name:"rateLimit", parent: name, min: 2000)
+            try validate(ruleId, name:"ruleId", parent: name, max: 128)
+            try validate(ruleId, name:"ruleId", parent: name, min: 1)
             try updates.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).updates[]")
             }
         }
 
@@ -4915,14 +4915,14 @@ extension WAFRegional {
             self.updates = updates
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(regexMatchSetId, name:"regexMatchSetId", max: 128)
-            try validate(regexMatchSetId, name:"regexMatchSetId", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(regexMatchSetId, name:"regexMatchSetId", parent: name, max: 128)
+            try validate(regexMatchSetId, name:"regexMatchSetId", parent: name, min: 1)
             try updates.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).updates[]")
             }
-            try validate(updates, name:"updates", min: 1)
+            try validate(updates, name:"updates", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4969,14 +4969,14 @@ extension WAFRegional {
             self.updates = updates
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(regexPatternSetId, name:"regexPatternSetId", max: 128)
-            try validate(regexPatternSetId, name:"regexPatternSetId", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(regexPatternSetId, name:"regexPatternSetId", parent: name, max: 128)
+            try validate(regexPatternSetId, name:"regexPatternSetId", parent: name, min: 1)
             try updates.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).updates[]")
             }
-            try validate(updates, name:"updates", min: 1)
+            try validate(updates, name:"updates", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5023,14 +5023,14 @@ extension WAFRegional {
             self.updates = updates
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(ruleGroupId, name:"ruleGroupId", max: 128)
-            try validate(ruleGroupId, name:"ruleGroupId", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(ruleGroupId, name:"ruleGroupId", parent: name, max: 128)
+            try validate(ruleGroupId, name:"ruleGroupId", parent: name, min: 1)
             try updates.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).updates[]")
             }
-            try validate(updates, name:"updates", min: 1)
+            try validate(updates, name:"updates", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5077,12 +5077,12 @@ extension WAFRegional {
             self.updates = updates
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(ruleId, name:"ruleId", max: 128)
-            try validate(ruleId, name:"ruleId", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(ruleId, name:"ruleId", parent: name, max: 128)
+            try validate(ruleId, name:"ruleId", parent: name, min: 1)
             try updates.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).updates[]")
             }
         }
 
@@ -5130,14 +5130,14 @@ extension WAFRegional {
             self.updates = updates
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", max: 128)
-            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", parent: name, max: 128)
+            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", parent: name, min: 1)
             try updates.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).updates[]")
             }
-            try validate(updates, name:"updates", min: 1)
+            try validate(updates, name:"updates", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5184,11 +5184,11 @@ extension WAFRegional {
             self.updates = updates
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", max: 128)
-            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", min: 1)
-            try validate(updates, name:"updates", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", parent: name, max: 128)
+            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", parent: name, min: 1)
+            try validate(updates, name:"updates", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5239,13 +5239,13 @@ extension WAFRegional {
             self.webACLId = webACLId
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
             try updates?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).updates[]")
             }
-            try validate(webACLId, name:"webACLId", max: 128)
-            try validate(webACLId, name:"webACLId", min: 1)
+            try validate(webACLId, name:"webACLId", parent: name, max: 128)
+            try validate(webACLId, name:"webACLId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5293,11 +5293,11 @@ extension WAFRegional {
             self.xssMatchSetId = xssMatchSetId
         }
 
-        public func validate() throws {
-            try validate(changeToken, name:"changeToken", min: 1)
-            try validate(updates, name:"updates", min: 1)
-            try validate(xssMatchSetId, name:"xssMatchSetId", max: 128)
-            try validate(xssMatchSetId, name:"xssMatchSetId", min: 1)
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(updates, name:"updates", parent: name, min: 1)
+            try validate(xssMatchSetId, name:"xssMatchSetId", parent: name, max: 128)
+            try validate(xssMatchSetId, name:"xssMatchSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5458,8 +5458,8 @@ extension WAFRegional {
             self.activatedRule = activatedRule
         }
 
-        public func validate() throws {
-            try activatedRule.validate()
+        public func validate(name: String) throws {
+            try activatedRule.validate(name: "\(name).activatedRule")
         }
 
         private enum CodingKeys: String, CodingKey {

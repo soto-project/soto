@@ -25,14 +25,14 @@ extension PersonalizeRuntime {
             self.userId = userId
         }
 
-        public func validate() throws {
-            try validate(campaignArn, name:"campaignArn", max: 256)
-            try validate(campaignArn, name:"campaignArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        public func validate(name: String) throws {
+            try validate(campaignArn, name:"campaignArn", parent: name, max: 256)
+            try validate(campaignArn, name:"campaignArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             try inputList.forEach {
-                try validate($0, name:"inputList[]", max: 256)
+                try validate($0, name: "inputList[]", parent: name, max: 256)
             }
-            try validate(inputList, name:"inputList", max: 100)
-            try validate(userId, name:"userId", max: 256)
+            try validate(inputList, name:"inputList", parent: name, max: 100)
+            try validate(userId, name:"userId", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -83,13 +83,13 @@ extension PersonalizeRuntime {
             self.userId = userId
         }
 
-        public func validate() throws {
-            try validate(campaignArn, name:"campaignArn", max: 256)
-            try validate(campaignArn, name:"campaignArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
-            try validate(itemId, name:"itemId", max: 256)
-            try validate(numResults, name:"numResults", max: 100)
-            try validate(numResults, name:"numResults", min: 0)
-            try validate(userId, name:"userId", max: 256)
+        public func validate(name: String) throws {
+            try validate(campaignArn, name:"campaignArn", parent: name, max: 256)
+            try validate(campaignArn, name:"campaignArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(itemId, name:"itemId", parent: name, max: 256)
+            try validate(numResults, name:"numResults", parent: name, max: 100)
+            try validate(numResults, name:"numResults", parent: name, min: 0)
+            try validate(userId, name:"userId", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {

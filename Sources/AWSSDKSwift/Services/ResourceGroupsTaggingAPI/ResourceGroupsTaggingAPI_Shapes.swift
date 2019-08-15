@@ -66,18 +66,18 @@ extension ResourceGroupsTaggingAPI {
             self.tagsPerPage = tagsPerPage
         }
 
-        public func validate() throws {
-            try validate(paginationToken, name:"paginationToken", max: 2048)
-            try validate(paginationToken, name:"paginationToken", min: 0)
+        public func validate(name: String) throws {
+            try validate(paginationToken, name:"paginationToken", parent: name, max: 2048)
+            try validate(paginationToken, name:"paginationToken", parent: name, min: 0)
             try resourceTypeFilters?.forEach {
-                try validate($0, name:"resourceTypeFilters[]", max: 256)
-                try validate($0, name:"resourceTypeFilters[]", min: 0)
+                try validate($0, name: "resourceTypeFilters[]", parent: name, max: 256)
+                try validate($0, name: "resourceTypeFilters[]", parent: name, min: 0)
             }
             try tagFilters?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tagFilters[]")
             }
-            try validate(tagFilters, name:"tagFilters", max: 50)
-            try validate(tagFilters, name:"tagFilters", min: 0)
+            try validate(tagFilters, name:"tagFilters", parent: name, max: 50)
+            try validate(tagFilters, name:"tagFilters", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -123,9 +123,9 @@ extension ResourceGroupsTaggingAPI {
             self.paginationToken = paginationToken
         }
 
-        public func validate() throws {
-            try validate(paginationToken, name:"paginationToken", max: 2048)
-            try validate(paginationToken, name:"paginationToken", min: 0)
+        public func validate(name: String) throws {
+            try validate(paginationToken, name:"paginationToken", parent: name, max: 2048)
+            try validate(paginationToken, name:"paginationToken", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -171,11 +171,11 @@ extension ResourceGroupsTaggingAPI {
             self.paginationToken = paginationToken
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 128)
-            try validate(key, name:"key", min: 1)
-            try validate(paginationToken, name:"paginationToken", max: 2048)
-            try validate(paginationToken, name:"paginationToken", min: 0)
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(paginationToken, name:"paginationToken", parent: name, max: 2048)
+            try validate(paginationToken, name:"paginationToken", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -266,15 +266,15 @@ extension ResourceGroupsTaggingAPI {
             self.values = values
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 128)
-            try validate(key, name:"key", min: 1)
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
             try values?.forEach {
-                try validate($0, name:"values[]", max: 256)
-                try validate($0, name:"values[]", min: 0)
+                try validate($0, name: "values[]", parent: name, max: 256)
+                try validate($0, name: "values[]", parent: name, min: 0)
             }
-            try validate(values, name:"values", max: 20)
-            try validate(values, name:"values", min: 0)
+            try validate(values, name:"values", parent: name, max: 20)
+            try validate(values, name:"values", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -299,18 +299,18 @@ extension ResourceGroupsTaggingAPI {
             self.tags = tags
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try resourceARNList.forEach {
-                try validate($0, name:"resourceARNList[]", max: 1600)
-                try validate($0, name:"resourceARNList[]", min: 1)
+                try validate($0, name: "resourceARNList[]", parent: name, max: 1600)
+                try validate($0, name: "resourceARNList[]", parent: name, min: 1)
             }
-            try validate(resourceARNList, name:"resourceARNList", max: 20)
-            try validate(resourceARNList, name:"resourceARNList", min: 1)
+            try validate(resourceARNList, name:"resourceARNList", parent: name, max: 20)
+            try validate(resourceARNList, name:"resourceARNList", parent: name, min: 1)
             try tags.forEach {
-                try validate($0.key, name:"tags[key:]", max: 128)
-                try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.value, name:"tags[:value]", max: 256)
-                try validate($0.value, name:"tags[:value]", min: 0)
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
             }
         }
 
@@ -353,19 +353,19 @@ extension ResourceGroupsTaggingAPI {
             self.tagKeys = tagKeys
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try resourceARNList.forEach {
-                try validate($0, name:"resourceARNList[]", max: 1600)
-                try validate($0, name:"resourceARNList[]", min: 1)
+                try validate($0, name: "resourceARNList[]", parent: name, max: 1600)
+                try validate($0, name: "resourceARNList[]", parent: name, min: 1)
             }
-            try validate(resourceARNList, name:"resourceARNList", max: 20)
-            try validate(resourceARNList, name:"resourceARNList", min: 1)
+            try validate(resourceARNList, name:"resourceARNList", parent: name, max: 20)
+            try validate(resourceARNList, name:"resourceARNList", parent: name, min: 1)
             try tagKeys.forEach {
-                try validate($0, name:"tagKeys[]", max: 128)
-                try validate($0, name:"tagKeys[]", min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try validate(tagKeys, name:"tagKeys", max: 50)
-            try validate(tagKeys, name:"tagKeys", min: 1)
+            try validate(tagKeys, name:"tagKeys", parent: name, max: 50)
+            try validate(tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -17,10 +17,10 @@ extension IoTDataPlane {
             self.thingName = thingName
         }
 
-        public func validate() throws {
-            try validate(thingName, name:"thingName", max: 128)
-            try validate(thingName, name:"thingName", min: 1)
-            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9_-]+")
+        public func validate(name: String) throws {
+            try validate(thingName, name:"thingName", parent: name, max: 128)
+            try validate(thingName, name:"thingName", parent: name, min: 1)
+            try validate(thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -59,10 +59,10 @@ extension IoTDataPlane {
             self.thingName = thingName
         }
 
-        public func validate() throws {
-            try validate(thingName, name:"thingName", max: 128)
-            try validate(thingName, name:"thingName", min: 1)
-            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9_-]+")
+        public func validate(name: String) throws {
+            try validate(thingName, name:"thingName", parent: name, max: 128)
+            try validate(thingName, name:"thingName", parent: name, min: 1)
+            try validate(thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -111,9 +111,9 @@ extension IoTDataPlane {
             self.topic = topic
         }
 
-        public func validate() throws {
-            try validate(qos, name:"qos", max: 1)
-            try validate(qos, name:"qos", min: 0)
+        public func validate(name: String) throws {
+            try validate(qos, name:"qos", parent: name, max: 1)
+            try validate(qos, name:"qos", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -141,10 +141,10 @@ extension IoTDataPlane {
             self.thingName = thingName
         }
 
-        public func validate() throws {
-            try validate(thingName, name:"thingName", max: 128)
-            try validate(thingName, name:"thingName", min: 1)
-            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9_-]+")
+        public func validate(name: String) throws {
+            try validate(thingName, name:"thingName", parent: name, max: 128)
+            try validate(thingName, name:"thingName", parent: name, min: 1)
+            try validate(thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {

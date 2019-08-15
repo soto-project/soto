@@ -21,8 +21,8 @@ extension Textract {
             self.featureTypes = featureTypes
         }
 
-        public func validate() throws {
-            try document.validate()
+        public func validate(name: String) throws {
+            try document.validate(name: "\(name).document")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -185,8 +185,8 @@ extension Textract {
             self.document = document
         }
 
-        public func validate() throws {
-            try document.validate()
+        public func validate(name: String) throws {
+            try document.validate(name: "\(name).document")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -232,10 +232,10 @@ extension Textract {
             self.s3Object = s3Object
         }
 
-        public func validate() throws {
-            try validate(bytes, name:"bytes", max: 5242880)
-            try validate(bytes, name:"bytes", min: 1)
-            try s3Object?.validate()
+        public func validate(name: String) throws {
+            try validate(bytes, name:"bytes", parent: name, max: 5242880)
+            try validate(bytes, name:"bytes", parent: name, min: 1)
+            try s3Object?.validate(name: "\(name).s3Object")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -256,8 +256,8 @@ extension Textract {
             self.s3Object = s3Object
         }
 
-        public func validate() throws {
-            try s3Object?.validate()
+        public func validate(name: String) throws {
+            try s3Object?.validate(name: "\(name).s3Object")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -336,14 +336,14 @@ extension Textract {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 64)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "^[a-zA-Z0-9-_]+$")
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(nextToken, name:"nextToken", pattern: ".*\\S.*")
+        public func validate(name: String) throws {
+            try validate(jobId, name:"jobId", parent: name, max: 64)
+            try validate(jobId, name:"jobId", parent: name, min: 1)
+            try validate(jobId, name:"jobId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 255)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -415,14 +415,14 @@ extension Textract {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 64)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "^[a-zA-Z0-9-_]+$")
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(nextToken, name:"nextToken", pattern: ".*\\S.*")
+        public func validate(name: String) throws {
+            try validate(jobId, name:"jobId", parent: name, max: 64)
+            try validate(jobId, name:"jobId", parent: name, min: 1)
+            try validate(jobId, name:"jobId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 255)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -498,13 +498,13 @@ extension Textract {
             self.sNSTopicArn = sNSTopicArn
         }
 
-        public func validate() throws {
-            try validate(roleArn, name:"roleArn", max: 2048)
-            try validate(roleArn, name:"roleArn", min: 20)
-            try validate(roleArn, name:"roleArn", pattern: "arn:([a-z\\d-]+):iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
-            try validate(sNSTopicArn, name:"sNSTopicArn", max: 1024)
-            try validate(sNSTopicArn, name:"sNSTopicArn", min: 20)
-            try validate(sNSTopicArn, name:"sNSTopicArn", pattern: "(^arn:([a-z\\d-]+):sns:[a-zA-Z\\d-]{1,20}:\\w{12}:.+$)")
+        public func validate(name: String) throws {
+            try validate(roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(roleArn, name:"roleArn", parent: name, pattern: "arn:([a-z\\d-]+):iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+            try validate(sNSTopicArn, name:"sNSTopicArn", parent: name, max: 1024)
+            try validate(sNSTopicArn, name:"sNSTopicArn", parent: name, min: 20)
+            try validate(sNSTopicArn, name:"sNSTopicArn", parent: name, pattern: "(^arn:([a-z\\d-]+):sns:[a-zA-Z\\d-]{1,20}:\\w{12}:.+$)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -583,16 +583,16 @@ extension Textract {
             self.version = version
         }
 
-        public func validate() throws {
-            try validate(bucket, name:"bucket", max: 255)
-            try validate(bucket, name:"bucket", min: 3)
-            try validate(bucket, name:"bucket", pattern: "[0-9A-Za-z\\.\\-_]*")
-            try validate(name, name:"name", max: 1024)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: ".*\\S.*")
-            try validate(version, name:"version", max: 1024)
-            try validate(version, name:"version", min: 1)
-            try validate(version, name:"version", pattern: ".*\\S.*")
+        public func validate(name: String) throws {
+            try validate(bucket, name:"bucket", parent: name, max: 255)
+            try validate(bucket, name:"bucket", parent: name, min: 3)
+            try validate(bucket, name:"bucket", parent: name, pattern: "[0-9A-Za-z\\.\\-_]*")
+            try validate(name, name:"name", parent: name, max: 1024)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: ".*\\S.*")
+            try validate(version, name:"version", parent: name, max: 1024)
+            try validate(version, name:"version", parent: name, min: 1)
+            try validate(version, name:"version", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -636,15 +636,15 @@ extension Textract {
             self.notificationChannel = notificationChannel
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 64)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 1)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "^[a-zA-Z0-9-_]+$")
-            try documentLocation.validate()
-            try validate(jobTag, name:"jobTag", max: 64)
-            try validate(jobTag, name:"jobTag", min: 1)
-            try validate(jobTag, name:"jobTag", pattern: "[a-zA-Z0-9_.\\-:]+")
-            try notificationChannel?.validate()
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try documentLocation.validate(name: "\(name).documentLocation")
+            try validate(jobTag, name:"jobTag", parent: name, max: 64)
+            try validate(jobTag, name:"jobTag", parent: name, min: 1)
+            try validate(jobTag, name:"jobTag", parent: name, pattern: "[a-zA-Z0-9_.\\-:]+")
+            try notificationChannel?.validate(name: "\(name).notificationChannel")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -697,15 +697,15 @@ extension Textract {
             self.notificationChannel = notificationChannel
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 64)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 1)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "^[a-zA-Z0-9-_]+$")
-            try documentLocation.validate()
-            try validate(jobTag, name:"jobTag", max: 64)
-            try validate(jobTag, name:"jobTag", min: 1)
-            try validate(jobTag, name:"jobTag", pattern: "[a-zA-Z0-9_.\\-:]+")
-            try notificationChannel?.validate()
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try documentLocation.validate(name: "\(name).documentLocation")
+            try validate(jobTag, name:"jobTag", parent: name, max: 64)
+            try validate(jobTag, name:"jobTag", parent: name, min: 1)
+            try validate(jobTag, name:"jobTag", parent: name, pattern: "[a-zA-Z0-9_.\\-:]+")
+            try notificationChannel?.validate(name: "\(name).notificationChannel")
         }
 
         private enum CodingKeys: String, CodingKey {

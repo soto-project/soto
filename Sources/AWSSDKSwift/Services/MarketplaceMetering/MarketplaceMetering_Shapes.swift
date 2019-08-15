@@ -21,14 +21,14 @@ extension MarketplaceMetering {
             self.usageRecords = usageRecords
         }
 
-        public func validate() throws {
-            try validate(productCode, name:"productCode", max: 255)
-            try validate(productCode, name:"productCode", min: 1)
+        public func validate(name: String) throws {
+            try validate(productCode, name:"productCode", parent: name, max: 255)
+            try validate(productCode, name:"productCode", parent: name, min: 1)
             try usageRecords.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).usageRecords[]")
             }
-            try validate(usageRecords, name:"usageRecords", max: 25)
-            try validate(usageRecords, name:"usageRecords", min: 0)
+            try validate(usageRecords, name:"usageRecords", parent: name, max: 25)
+            try validate(usageRecords, name:"usageRecords", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -87,13 +87,13 @@ extension MarketplaceMetering {
             self.usageQuantity = usageQuantity
         }
 
-        public func validate() throws {
-            try validate(productCode, name:"productCode", max: 255)
-            try validate(productCode, name:"productCode", min: 1)
-            try validate(usageDimension, name:"usageDimension", max: 255)
-            try validate(usageDimension, name:"usageDimension", min: 1)
-            try validate(usageQuantity, name:"usageQuantity", max: 2147483647)
-            try validate(usageQuantity, name:"usageQuantity", min: 0)
+        public func validate(name: String) throws {
+            try validate(productCode, name:"productCode", parent: name, max: 255)
+            try validate(productCode, name:"productCode", parent: name, min: 1)
+            try validate(usageDimension, name:"usageDimension", parent: name, max: 255)
+            try validate(usageDimension, name:"usageDimension", parent: name, min: 1)
+            try validate(usageQuantity, name:"usageQuantity", parent: name, max: 2147483647)
+            try validate(usageQuantity, name:"usageQuantity", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -142,11 +142,11 @@ extension MarketplaceMetering {
             self.publicKeyVersion = publicKeyVersion
         }
 
-        public func validate() throws {
-            try validate(nonce, name:"nonce", max: 255)
-            try validate(productCode, name:"productCode", max: 255)
-            try validate(productCode, name:"productCode", min: 1)
-            try validate(publicKeyVersion, name:"publicKeyVersion", min: 1)
+        public func validate(name: String) throws {
+            try validate(nonce, name:"nonce", parent: name, max: 255)
+            try validate(productCode, name:"productCode", parent: name, max: 255)
+            try validate(productCode, name:"productCode", parent: name, min: 1)
+            try validate(publicKeyVersion, name:"publicKeyVersion", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -190,8 +190,8 @@ extension MarketplaceMetering {
             self.registrationToken = registrationToken
         }
 
-        public func validate() throws {
-            try validate(registrationToken, name:"registrationToken", pattern: "\\S+")
+        public func validate(name: String) throws {
+            try validate(registrationToken, name:"registrationToken", parent: name, pattern: "\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -245,13 +245,13 @@ extension MarketplaceMetering {
             self.timestamp = timestamp
         }
 
-        public func validate() throws {
-            try validate(customerIdentifier, name:"customerIdentifier", max: 255)
-            try validate(customerIdentifier, name:"customerIdentifier", min: 1)
-            try validate(dimension, name:"dimension", max: 255)
-            try validate(dimension, name:"dimension", min: 1)
-            try validate(quantity, name:"quantity", max: 2147483647)
-            try validate(quantity, name:"quantity", min: 0)
+        public func validate(name: String) throws {
+            try validate(customerIdentifier, name:"customerIdentifier", parent: name, max: 255)
+            try validate(customerIdentifier, name:"customerIdentifier", parent: name, min: 1)
+            try validate(dimension, name:"dimension", parent: name, max: 255)
+            try validate(dimension, name:"dimension", parent: name, min: 1)
+            try validate(quantity, name:"quantity", parent: name, max: 2147483647)
+            try validate(quantity, name:"quantity", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -2666,9 +2666,9 @@ extension EC2 {
             self.classicLoadBalancers = classicLoadBalancers
         }
 
-        public func validate() throws {
-            try validate(classicLoadBalancers, name:"classicLoadBalancers", max: 5)
-            try validate(classicLoadBalancers, name:"classicLoadBalancers", min: 1)
+        public func validate(name: String) throws {
+            try validate(classicLoadBalancers, name:"classicLoadBalancers", parent: name, max: 5)
+            try validate(classicLoadBalancers, name:"classicLoadBalancers", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4175,11 +4175,11 @@ extension EC2 {
             self.validUntil = validUntil
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try launchTemplateConfigs.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).launchTemplateConfigs[]")
             }
-            try validate(launchTemplateConfigs, name:"launchTemplateConfigs", max: 50)
+            try validate(launchTemplateConfigs, name:"launchTemplateConfigs", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4566,11 +4566,11 @@ extension EC2 {
             self.versionDescription = versionDescription
         }
 
-        public func validate() throws {
-            try validate(launchTemplateName, name:"launchTemplateName", max: 128)
-            try validate(launchTemplateName, name:"launchTemplateName", min: 3)
-            try validate(launchTemplateName, name:"launchTemplateName", pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
-            try validate(versionDescription, name:"versionDescription", max: 255)
+        public func validate(name: String) throws {
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, max: 128)
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, min: 3)
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
+            try validate(versionDescription, name:"versionDescription", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4635,11 +4635,11 @@ extension EC2 {
             self.versionDescription = versionDescription
         }
 
-        public func validate() throws {
-            try validate(launchTemplateName, name:"launchTemplateName", max: 128)
-            try validate(launchTemplateName, name:"launchTemplateName", min: 3)
-            try validate(launchTemplateName, name:"launchTemplateName", pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
-            try validate(versionDescription, name:"versionDescription", max: 255)
+        public func validate(name: String) throws {
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, max: 128)
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, min: 3)
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
+            try validate(versionDescription, name:"versionDescription", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7028,10 +7028,10 @@ extension EC2 {
             self.launchTemplateName = launchTemplateName
         }
 
-        public func validate() throws {
-            try validate(launchTemplateName, name:"launchTemplateName", max: 128)
-            try validate(launchTemplateName, name:"launchTemplateName", min: 3)
-            try validate(launchTemplateName, name:"launchTemplateName", pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
+        public func validate(name: String) throws {
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, max: 128)
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, min: 3)
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7082,10 +7082,10 @@ extension EC2 {
             self.versions = versions
         }
 
-        public func validate() throws {
-            try validate(launchTemplateName, name:"launchTemplateName", max: 128)
-            try validate(launchTemplateName, name:"launchTemplateName", min: 3)
-            try validate(launchTemplateName, name:"launchTemplateName", pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
+        public func validate(name: String) throws {
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, max: 128)
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, min: 3)
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8406,9 +8406,9 @@ extension EC2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8468,9 +8468,9 @@ extension EC2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8532,9 +8532,9 @@ extension EC2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8596,9 +8596,9 @@ extension EC2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8660,9 +8660,9 @@ extension EC2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8724,9 +8724,9 @@ extension EC2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8788,9 +8788,9 @@ extension EC2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8856,9 +8856,9 @@ extension EC2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9004,9 +9004,9 @@ extension EC2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9064,9 +9064,9 @@ extension EC2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 255)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 255)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9127,9 +9127,9 @@ extension EC2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 10)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 10)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9608,9 +9608,9 @@ extension EC2 {
             self.owners = owners
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9677,9 +9677,9 @@ extension EC2 {
             self.offeringId = offeringId
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 500)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9846,9 +9846,9 @@ extension EC2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10208,9 +10208,9 @@ extension EC2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10395,9 +10395,9 @@ extension EC2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10519,10 +10519,10 @@ extension EC2 {
             self.versions = versions
         }
 
-        public func validate() throws {
-            try validate(launchTemplateName, name:"launchTemplateName", max: 128)
-            try validate(launchTemplateName, name:"launchTemplateName", min: 3)
-            try validate(launchTemplateName, name:"launchTemplateName", pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
+        public func validate(name: String) throws {
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, max: 128)
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, min: 3)
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10592,14 +10592,14 @@ extension EC2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try launchTemplateNames?.forEach {
-                try validate($0, name:"launchTemplateNames[]", max: 128)
-                try validate($0, name:"launchTemplateNames[]", min: 3)
-                try validate($0, name:"launchTemplateNames[]", pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
+                try validate($0, name: "launchTemplateNames[]", parent: name, max: 128)
+                try validate($0, name: "launchTemplateNames[]", parent: name, min: 3)
+                try validate($0, name: "launchTemplateNames[]", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
             }
-            try validate(maxResults, name:"maxResults", max: 200)
-            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(maxResults, name:"maxResults", parent: name, max: 200)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10662,9 +10662,9 @@ extension EC2 {
             self.publicIps = publicIps
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10722,9 +10722,9 @@ extension EC2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10785,9 +10785,9 @@ extension EC2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10909,9 +10909,9 @@ extension EC2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 255)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 255)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10972,9 +10972,9 @@ extension EC2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11135,9 +11135,9 @@ extension EC2 {
             self.resources = resources
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11190,9 +11190,9 @@ extension EC2 {
             self.poolIds = poolIds
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 10)
-            try validate(maxResults, name:"maxResults", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 10)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11552,9 +11552,9 @@ extension EC2 {
             self.routeTableIds = routeTableIds
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11628,9 +11628,9 @@ extension EC2 {
             self.recurrence = recurrence
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 300)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 300)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11802,9 +11802,9 @@ extension EC2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12020,9 +12020,9 @@ extension EC2 {
             self.spotFleetRequestId = spotFleetRequestId
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12092,9 +12092,9 @@ extension EC2 {
             self.startTime = startTime
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12360,11 +12360,11 @@ extension EC2 {
             self.vpcId = vpcId
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 255)
-            try validate(maxResults, name:"maxResults", min: 5)
-            try validate(nextToken, name:"nextToken", max: 1024)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 255)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12425,9 +12425,9 @@ extension EC2 {
             self.subnetIds = subnetIds
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12543,9 +12543,9 @@ extension EC2 {
             self.trafficMirrorFilterIds = trafficMirrorFilterIds
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12607,9 +12607,9 @@ extension EC2 {
             self.trafficMirrorSessionIds = trafficMirrorSessionIds
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12671,9 +12671,9 @@ extension EC2 {
             self.trafficMirrorTargetIds = trafficMirrorTargetIds
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12735,9 +12735,9 @@ extension EC2 {
             self.transitGatewayAttachmentIds = transitGatewayAttachmentIds
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12799,9 +12799,9 @@ extension EC2 {
             self.transitGatewayRouteTableIds = transitGatewayRouteTableIds
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12863,9 +12863,9 @@ extension EC2 {
             self.transitGatewayAttachmentIds = transitGatewayAttachmentIds
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12927,9 +12927,9 @@ extension EC2 {
             self.transitGatewayIds = transitGatewayIds
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13268,11 +13268,11 @@ extension EC2 {
             self.vpcIds = vpcIds
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 255)
-            try validate(maxResults, name:"maxResults", min: 5)
-            try validate(nextToken, name:"nextToken", max: 1024)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 255)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13730,9 +13730,9 @@ extension EC2 {
             self.vpcPeeringConnectionIds = vpcPeeringConnectionIds
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13794,9 +13794,9 @@ extension EC2 {
             self.vpcIds = vpcIds
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15782,9 +15782,9 @@ extension EC2 {
             self.overrides = overrides
         }
 
-        public func validate() throws {
-            try launchTemplateSpecification?.validate()
-            try validate(overrides, name:"overrides", max: 50)
+        public func validate(name: String) throws {
+            try launchTemplateSpecification?.validate(name: "\(name).launchTemplateSpecification")
+            try validate(overrides, name:"overrides", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15907,10 +15907,10 @@ extension EC2 {
             self.version = version
         }
 
-        public func validate() throws {
-            try validate(launchTemplateName, name:"launchTemplateName", max: 128)
-            try validate(launchTemplateName, name:"launchTemplateName", min: 3)
-            try validate(launchTemplateName, name:"launchTemplateName", pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
+        public func validate(name: String) throws {
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, max: 128)
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, min: 3)
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15940,10 +15940,10 @@ extension EC2 {
             self.version = version
         }
 
-        public func validate() throws {
-            try validate(launchTemplateName, name:"launchTemplateName", max: 128)
-            try validate(launchTemplateName, name:"launchTemplateName", min: 3)
-            try validate(launchTemplateName, name:"launchTemplateName", pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
+        public func validate(name: String) throws {
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, max: 128)
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, min: 3)
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -16643,9 +16643,9 @@ extension EC2 {
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -16707,9 +16707,9 @@ extension EC2 {
             self.transitGatewayRouteTableId = transitGatewayRouteTableId
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -16771,9 +16771,9 @@ extension EC2 {
             self.transitGatewayRouteTableId = transitGatewayRouteTableId
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -20175,8 +20175,8 @@ extension EC2 {
             self.overrides = overrides
         }
 
-        public func validate() throws {
-            try launchTemplateSpecification?.validate()
+        public func validate(name: String) throws {
+            try launchTemplateSpecification?.validate(name: "\(name).launchTemplateSpecification")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -21100,9 +21100,9 @@ extension EC2 {
             self.targetGroupsConfig = targetGroupsConfig
         }
 
-        public func validate() throws {
-            try classicLoadBalancersConfig?.validate()
-            try targetGroupsConfig?.validate()
+        public func validate(name: String) throws {
+            try classicLoadBalancersConfig?.validate(name: "\(name).classicLoadBalancersConfig")
+            try targetGroupsConfig?.validate(name: "\(name).targetGroupsConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -21948,10 +21948,10 @@ extension EC2 {
             self.launchTemplateName = launchTemplateName
         }
 
-        public func validate() throws {
-            try validate(launchTemplateName, name:"launchTemplateName", max: 128)
-            try validate(launchTemplateName, name:"launchTemplateName", min: 3)
-            try validate(launchTemplateName, name:"launchTemplateName", pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
+        public func validate(name: String) throws {
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, max: 128)
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, min: 3)
+            try validate(launchTemplateName, name:"launchTemplateName", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -24664,8 +24664,8 @@ extension EC2 {
             self.purchaseRequests = purchaseRequests
         }
 
-        public func validate() throws {
-            try validate(purchaseRequests, name:"purchaseRequests", min: 1)
+        public func validate(name: String) throws {
+            try validate(purchaseRequests, name:"purchaseRequests", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -25582,8 +25582,8 @@ extension EC2 {
             self.spotFleetRequestConfig = spotFleetRequestConfig
         }
 
-        public func validate() throws {
-            try spotFleetRequestConfig.validate()
+        public func validate(name: String) throws {
+            try spotFleetRequestConfig.validate(name: "\(name).spotFleetRequestConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -27966,9 +27966,9 @@ extension EC2 {
             self.transitGatewayRouteTableId = transitGatewayRouteTableId
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 1000)
-            try validate(maxResults, name:"maxResults", min: 5)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -28931,11 +28931,11 @@ extension EC2 {
             self.validUntil = validUntil
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try launchTemplateConfigs?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).launchTemplateConfigs[]")
             }
-            try loadBalancersConfig?.validate()
+            try loadBalancersConfig?.validate(name: "\(name).loadBalancersConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -30015,9 +30015,9 @@ extension EC2 {
             self.targetGroups = targetGroups
         }
 
-        public func validate() throws {
-            try validate(targetGroups, name:"targetGroups", max: 5)
-            try validate(targetGroups, name:"targetGroups", min: 1)
+        public func validate(name: String) throws {
+            try validate(targetGroups, name:"targetGroups", parent: name, max: 5)
+            try validate(targetGroups, name:"targetGroups", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

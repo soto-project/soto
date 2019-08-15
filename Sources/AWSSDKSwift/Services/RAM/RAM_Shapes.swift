@@ -314,9 +314,9 @@ extension RAM {
             self.resourceArns = resourceArns
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 500)
-            try validate(maxResults, name:"maxResults", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -385,9 +385,9 @@ extension RAM {
             self.resourceShareArns = resourceShareArns
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 500)
-            try validate(maxResults, name:"maxResults", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -447,9 +447,9 @@ extension RAM {
             self.resourceShareInvitationArns = resourceShareInvitationArns
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 500)
-            try validate(maxResults, name:"maxResults", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -518,9 +518,9 @@ extension RAM {
             self.tagFilters = tagFilters
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 500)
-            try validate(maxResults, name:"maxResults", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -592,9 +592,9 @@ extension RAM {
             self.resourceType = resourceType
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 500)
-            try validate(maxResults, name:"maxResults", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -666,9 +666,9 @@ extension RAM {
             self.resourceType = resourceType
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 500)
-            try validate(maxResults, name:"maxResults", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

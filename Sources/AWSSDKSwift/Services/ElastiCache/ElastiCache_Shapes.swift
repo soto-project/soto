@@ -134,8 +134,8 @@ extension ElastiCache {
             self.serviceUpdateName = serviceUpdateName
         }
 
-        public func validate() throws {
-            try validate(replicationGroupIds, name:"replicationGroupIds", max: 20)
+        public func validate(name: String) throws {
+            try validate(replicationGroupIds, name:"replicationGroupIds", parent: name, max: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -160,8 +160,8 @@ extension ElastiCache {
             self.serviceUpdateName = serviceUpdateName
         }
 
-        public func validate() throws {
-            try validate(replicationGroupIds, name:"replicationGroupIds", max: 20)
+        public func validate(name: String) throws {
+            try validate(replicationGroupIds, name:"replicationGroupIds", parent: name, max: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -789,10 +789,10 @@ extension ElastiCache {
             self.preferredAvailabilityZones = preferredAvailabilityZones
         }
 
-        public func validate() throws {
-            try validate(nodeGroupId, name:"nodeGroupId", max: 4)
-            try validate(nodeGroupId, name:"nodeGroupId", min: 1)
-            try validate(nodeGroupId, name:"nodeGroupId", pattern: "\\d+")
+        public func validate(name: String) throws {
+            try validate(nodeGroupId, name:"nodeGroupId", parent: name, max: 4)
+            try validate(nodeGroupId, name:"nodeGroupId", parent: name, min: 1)
+            try validate(nodeGroupId, name:"nodeGroupId", parent: name, pattern: "\\d+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1232,9 +1232,9 @@ extension ElastiCache {
             self.transitEncryptionEnabled = transitEncryptionEnabled
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try nodeGroupConfiguration?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).nodeGroupConfiguration[]")
             }
         }
 
@@ -1357,9 +1357,9 @@ extension ElastiCache {
             self.replicationGroupId = replicationGroupId
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try replicaConfiguration?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).replicaConfiguration[]")
             }
         }
 
@@ -1985,8 +1985,8 @@ extension ElastiCache {
             self.serviceUpdateStatus = serviceUpdateStatus
         }
 
-        public func validate() throws {
-            try validate(serviceUpdateStatus, name:"serviceUpdateStatus", max: 3)
+        public func validate(name: String) throws {
+            try validate(serviceUpdateStatus, name:"serviceUpdateStatus", parent: name, max: 3)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2106,10 +2106,10 @@ extension ElastiCache {
             self.updateActionStatus = updateActionStatus
         }
 
-        public func validate() throws {
-            try validate(replicationGroupIds, name:"replicationGroupIds", max: 20)
-            try validate(serviceUpdateStatus, name:"serviceUpdateStatus", max: 3)
-            try validate(updateActionStatus, name:"updateActionStatus", max: 6)
+        public func validate(name: String) throws {
+            try validate(replicationGroupIds, name:"replicationGroupIds", parent: name, max: 20)
+            try validate(serviceUpdateStatus, name:"serviceUpdateStatus", parent: name, max: 3)
+            try validate(updateActionStatus, name:"updateActionStatus", parent: name, max: 6)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2283,9 +2283,9 @@ extension ElastiCache {
             self.replicationGroupId = replicationGroupId
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try replicaConfiguration?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).replicaConfiguration[]")
             }
         }
 
@@ -2675,19 +2675,19 @@ extension ElastiCache {
             self.reshardingConfiguration = reshardingConfiguration
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try nodeGroupsToRemove?.forEach {
-                try validate($0, name:"nodeGroupsToRemove[]", max: 4)
-                try validate($0, name:"nodeGroupsToRemove[]", min: 1)
-                try validate($0, name:"nodeGroupsToRemove[]", pattern: "\\d+")
+                try validate($0, name: "nodeGroupsToRemove[]", parent: name, max: 4)
+                try validate($0, name: "nodeGroupsToRemove[]", parent: name, min: 1)
+                try validate($0, name: "nodeGroupsToRemove[]", parent: name, pattern: "\\d+")
             }
             try nodeGroupsToRetain?.forEach {
-                try validate($0, name:"nodeGroupsToRetain[]", max: 4)
-                try validate($0, name:"nodeGroupsToRetain[]", min: 1)
-                try validate($0, name:"nodeGroupsToRetain[]", pattern: "\\d+")
+                try validate($0, name: "nodeGroupsToRetain[]", parent: name, max: 4)
+                try validate($0, name: "nodeGroupsToRetain[]", parent: name, min: 1)
+                try validate($0, name: "nodeGroupsToRetain[]", parent: name, pattern: "\\d+")
             }
             try reshardingConfiguration?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).reshardingConfiguration[]")
             }
         }
 
@@ -2787,10 +2787,10 @@ extension ElastiCache {
             self.slots = slots
         }
 
-        public func validate() throws {
-            try validate(nodeGroupId, name:"nodeGroupId", max: 4)
-            try validate(nodeGroupId, name:"nodeGroupId", min: 1)
-            try validate(nodeGroupId, name:"nodeGroupId", pattern: "\\d+")
+        public func validate(name: String) throws {
+            try validate(nodeGroupId, name:"nodeGroupId", parent: name, max: 4)
+            try validate(nodeGroupId, name:"nodeGroupId", parent: name, min: 1)
+            try validate(nodeGroupId, name:"nodeGroupId", parent: name, pattern: "\\d+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3629,10 +3629,10 @@ extension ElastiCache {
             self.preferredAvailabilityZones = preferredAvailabilityZones
         }
 
-        public func validate() throws {
-            try validate(nodeGroupId, name:"nodeGroupId", max: 4)
-            try validate(nodeGroupId, name:"nodeGroupId", min: 1)
-            try validate(nodeGroupId, name:"nodeGroupId", pattern: "\\d+")
+        public func validate(name: String) throws {
+            try validate(nodeGroupId, name:"nodeGroupId", parent: name, max: 4)
+            try validate(nodeGroupId, name:"nodeGroupId", parent: name, min: 1)
+            try validate(nodeGroupId, name:"nodeGroupId", parent: name, pattern: "\\d+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4079,10 +4079,10 @@ extension ElastiCache {
             self.replicationGroupId = replicationGroupId
         }
 
-        public func validate() throws {
-            try validate(nodeGroupId, name:"nodeGroupId", max: 4)
-            try validate(nodeGroupId, name:"nodeGroupId", min: 1)
-            try validate(nodeGroupId, name:"nodeGroupId", pattern: "\\d+")
+        public func validate(name: String) throws {
+            try validate(nodeGroupId, name:"nodeGroupId", parent: name, max: 4)
+            try validate(nodeGroupId, name:"nodeGroupId", parent: name, min: 1)
+            try validate(nodeGroupId, name:"nodeGroupId", parent: name, pattern: "\\d+")
         }
 
         private enum CodingKeys: String, CodingKey {

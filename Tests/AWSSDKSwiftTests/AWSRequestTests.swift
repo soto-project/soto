@@ -172,6 +172,17 @@ class AWSRequestTests: XCTestCase {
         testAWSValidationFail(client: ACM().client, operation: "AddTagsToCertificate", input: request)
     }
     
+    func testCloudFrontCreateDistributionValidate() {
+        let cookiePreference = CloudFront.CookiePreference(forward:.all)
+        let forwardedValues = CloudFront.ForwardedValues(cookies: cookiePreference, queryString: true)
+        let trustedSigners = CloudFront.TrustedSigners(enabled: true, quantity: 2)
+        let defaultCacheBehavior = CloudFront.DefaultCacheBehavior(forwardedValues: forwardedValues, minTTL:1024, targetOriginId: "AWSRequestTests", trustedSigners: trustedSigners, viewerProtocolPolicy: .httpsOnly)
+        let origins = CloudFront.Origins(items:[], quantity:0)
+        let distribution = CloudFront.DistributionConfig(callerReference:"test", comment:"", defaultCacheBehavior: defaultCacheBehavior, enabled:true, origins: origins)
+        let request = CloudFront.CreateDistributionRequest(distributionConfig: distribution)
+        testAWSValidationFail(client: CloudFront().client, operation: "CreateDistribution", input: request)
+    }
+    
     static var allTests : [(String, (AWSRequestTests) -> () throws -> Void)] {
         return [
             ("testS3PutBucketLifecycleConfigurationRequest", testS3PutBucketLifecycleConfigurationRequest),
@@ -185,6 +196,7 @@ class AWSRequestTests: XCTestCase {
             ("testIAMAttachGroupPolicyValidate", testIAMAttachGroupPolicyValidate),
             ("testCloudFrontListTagsForResourceValidate", testCloudFrontListTagsForResourceValidate),
             ("testACMAddTagsToCertificateValidate", testACMAddTagsToCertificateValidate),
+            ("testCloudFrontCreateDistributionValidate", testCloudFrontCreateDistributionValidate)
         ]
     }
 }

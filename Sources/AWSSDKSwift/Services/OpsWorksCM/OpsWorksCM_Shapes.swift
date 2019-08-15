@@ -52,11 +52,11 @@ extension OpsWorksCM {
             self.serverName = serverName
         }
 
-        public func validate() throws {
-            try validate(nodeName, name:"nodeName", pattern: "^[\\-\\p{Alnum}_:.]+$")
-            try validate(serverName, name:"serverName", max: 40)
-            try validate(serverName, name:"serverName", min: 1)
-            try validate(serverName, name:"serverName", pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
+        public func validate(name: String) throws {
+            try validate(nodeName, name:"nodeName", parent: name, pattern: "^[\\-\\p{Alnum}_:.]+$")
+            try validate(serverName, name:"serverName", parent: name, max: 40)
+            try validate(serverName, name:"serverName", parent: name, min: 1)
+            try validate(serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -235,10 +235,10 @@ extension OpsWorksCM {
             self.serverName = serverName
         }
 
-        public func validate() throws {
-            try validate(serverName, name:"serverName", max: 40)
-            try validate(serverName, name:"serverName", min: 1)
-            try validate(serverName, name:"serverName", pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
+        public func validate(name: String) throws {
+            try validate(serverName, name:"serverName", parent: name, max: 40)
+            try validate(serverName, name:"serverName", parent: name, min: 1)
+            try validate(serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -340,16 +340,16 @@ extension OpsWorksCM {
             self.subnetIds = subnetIds
         }
 
-        public func validate() throws {
-            try validate(backupId, name:"backupId", max: 79)
-            try validate(backupRetentionCount, name:"backupRetentionCount", min: 1)
-            try validate(instanceProfileArn, name:"instanceProfileArn", pattern: "arn:aws:iam::[0-9]{12}:instance-profile/.*")
-            try validate(preferredBackupWindow, name:"preferredBackupWindow", pattern: "^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$")
-            try validate(preferredMaintenanceWindow, name:"preferredMaintenanceWindow", pattern: "^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$")
-            try validate(serverName, name:"serverName", max: 40)
-            try validate(serverName, name:"serverName", min: 1)
-            try validate(serverName, name:"serverName", pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
-            try validate(serviceRoleArn, name:"serviceRoleArn", pattern: "arn:aws:iam::[0-9]{12}:role/.*")
+        public func validate(name: String) throws {
+            try validate(backupId, name:"backupId", parent: name, max: 79)
+            try validate(backupRetentionCount, name:"backupRetentionCount", parent: name, min: 1)
+            try validate(instanceProfileArn, name:"instanceProfileArn", parent: name, pattern: "arn:aws:iam::[0-9]{12}:instance-profile/.*")
+            try validate(preferredBackupWindow, name:"preferredBackupWindow", parent: name, pattern: "^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$")
+            try validate(preferredMaintenanceWindow, name:"preferredMaintenanceWindow", parent: name, pattern: "^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$")
+            try validate(serverName, name:"serverName", parent: name, max: 40)
+            try validate(serverName, name:"serverName", parent: name, min: 1)
+            try validate(serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
+            try validate(serviceRoleArn, name:"serviceRoleArn", parent: name, pattern: "arn:aws:iam::[0-9]{12}:role/.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -402,8 +402,8 @@ extension OpsWorksCM {
             self.backupId = backupId
         }
 
-        public func validate() throws {
-            try validate(backupId, name:"backupId", max: 79)
+        public func validate(name: String) throws {
+            try validate(backupId, name:"backupId", parent: name, max: 79)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -431,10 +431,10 @@ extension OpsWorksCM {
             self.serverName = serverName
         }
 
-        public func validate() throws {
-            try validate(serverName, name:"serverName", max: 40)
-            try validate(serverName, name:"serverName", min: 1)
-            try validate(serverName, name:"serverName", pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
+        public func validate(name: String) throws {
+            try validate(serverName, name:"serverName", parent: name, max: 40)
+            try validate(serverName, name:"serverName", parent: name, min: 1)
+            try validate(serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -499,12 +499,12 @@ extension OpsWorksCM {
             self.serverName = serverName
         }
 
-        public func validate() throws {
-            try validate(backupId, name:"backupId", max: 79)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(serverName, name:"serverName", max: 40)
-            try validate(serverName, name:"serverName", min: 1)
-            try validate(serverName, name:"serverName", pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
+        public func validate(name: String) throws {
+            try validate(backupId, name:"backupId", parent: name, max: 79)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(serverName, name:"serverName", parent: name, max: 40)
+            try validate(serverName, name:"serverName", parent: name, min: 1)
+            try validate(serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -557,11 +557,11 @@ extension OpsWorksCM {
             self.serverName = serverName
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(serverName, name:"serverName", max: 40)
-            try validate(serverName, name:"serverName", min: 1)
-            try validate(serverName, name:"serverName", pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(serverName, name:"serverName", parent: name, max: 40)
+            try validate(serverName, name:"serverName", parent: name, min: 1)
+            try validate(serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -609,10 +609,10 @@ extension OpsWorksCM {
             self.serverName = serverName
         }
 
-        public func validate() throws {
-            try validate(serverName, name:"serverName", max: 40)
-            try validate(serverName, name:"serverName", min: 1)
-            try validate(serverName, name:"serverName", pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
+        public func validate(name: String) throws {
+            try validate(serverName, name:"serverName", parent: name, max: 40)
+            try validate(serverName, name:"serverName", parent: name, min: 1)
+            try validate(serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -663,11 +663,11 @@ extension OpsWorksCM {
             self.serverName = serverName
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(serverName, name:"serverName", max: 40)
-            try validate(serverName, name:"serverName", min: 1)
-            try validate(serverName, name:"serverName", pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(serverName, name:"serverName", parent: name, max: 40)
+            try validate(serverName, name:"serverName", parent: name, min: 1)
+            try validate(serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -719,11 +719,11 @@ extension OpsWorksCM {
             self.serverName = serverName
         }
 
-        public func validate() throws {
-            try validate(nodeName, name:"nodeName", pattern: "^[\\-\\p{Alnum}_:.]+$")
-            try validate(serverName, name:"serverName", max: 40)
-            try validate(serverName, name:"serverName", min: 1)
-            try validate(serverName, name:"serverName", pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
+        public func validate(name: String) throws {
+            try validate(nodeName, name:"nodeName", parent: name, pattern: "^[\\-\\p{Alnum}_:.]+$")
+            try validate(serverName, name:"serverName", parent: name, max: 40)
+            try validate(serverName, name:"serverName", parent: name, min: 1)
+            try validate(serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -792,10 +792,10 @@ extension OpsWorksCM {
             self.serverName = serverName
         }
 
-        public func validate() throws {
-            try validate(serverName, name:"serverName", max: 40)
-            try validate(serverName, name:"serverName", min: 1)
-            try validate(serverName, name:"serverName", pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
+        public func validate(name: String) throws {
+            try validate(serverName, name:"serverName", parent: name, max: 40)
+            try validate(serverName, name:"serverName", parent: name, min: 1)
+            try validate(serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -864,11 +864,11 @@ extension OpsWorksCM {
             self.serverName = serverName
         }
 
-        public func validate() throws {
-            try validate(backupId, name:"backupId", max: 79)
-            try validate(serverName, name:"serverName", max: 40)
-            try validate(serverName, name:"serverName", min: 1)
-            try validate(serverName, name:"serverName", pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
+        public func validate(name: String) throws {
+            try validate(backupId, name:"backupId", parent: name, max: 79)
+            try validate(serverName, name:"serverName", parent: name, max: 40)
+            try validate(serverName, name:"serverName", parent: name, min: 1)
+            try validate(serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1079,10 +1079,10 @@ extension OpsWorksCM {
             self.serverName = serverName
         }
 
-        public func validate() throws {
-            try validate(serverName, name:"serverName", max: 40)
-            try validate(serverName, name:"serverName", min: 1)
-            try validate(serverName, name:"serverName", pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
+        public func validate(name: String) throws {
+            try validate(serverName, name:"serverName", parent: name, max: 40)
+            try validate(serverName, name:"serverName", parent: name, min: 1)
+            try validate(serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1128,13 +1128,13 @@ extension OpsWorksCM {
             self.serverName = serverName
         }
 
-        public func validate() throws {
-            try validate(attributeName, name:"attributeName", max: 64)
-            try validate(attributeName, name:"attributeName", min: 1)
-            try validate(attributeName, name:"attributeName", pattern: "[A-Z][A-Z0-9_]*")
-            try validate(serverName, name:"serverName", max: 40)
-            try validate(serverName, name:"serverName", min: 1)
-            try validate(serverName, name:"serverName", pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
+        public func validate(name: String) throws {
+            try validate(attributeName, name:"attributeName", parent: name, max: 64)
+            try validate(attributeName, name:"attributeName", parent: name, min: 1)
+            try validate(attributeName, name:"attributeName", parent: name, pattern: "[A-Z][A-Z0-9_]*")
+            try validate(serverName, name:"serverName", parent: name, max: 40)
+            try validate(serverName, name:"serverName", parent: name, min: 1)
+            try validate(serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1187,12 +1187,12 @@ extension OpsWorksCM {
             self.serverName = serverName
         }
 
-        public func validate() throws {
-            try validate(preferredBackupWindow, name:"preferredBackupWindow", pattern: "^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$")
-            try validate(preferredMaintenanceWindow, name:"preferredMaintenanceWindow", pattern: "^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$")
-            try validate(serverName, name:"serverName", max: 40)
-            try validate(serverName, name:"serverName", min: 1)
-            try validate(serverName, name:"serverName", pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
+        public func validate(name: String) throws {
+            try validate(preferredBackupWindow, name:"preferredBackupWindow", parent: name, pattern: "^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$")
+            try validate(preferredMaintenanceWindow, name:"preferredMaintenanceWindow", parent: name, pattern: "^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$")
+            try validate(serverName, name:"serverName", parent: name, max: 40)
+            try validate(serverName, name:"serverName", parent: name, min: 1)
+            try validate(serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {

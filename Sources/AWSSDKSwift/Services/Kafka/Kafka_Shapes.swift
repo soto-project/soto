@@ -68,10 +68,10 @@ extension Kafka {
             self.storageInfo = storageInfo
         }
 
-        public func validate() throws {
-            try validate(instanceType, name:"instanceType", max: 32)
-            try validate(instanceType, name:"instanceType", min: 5)
-            try storageInfo?.validate()
+        public func validate(name: String) throws {
+            try validate(instanceType, name:"instanceType", parent: name, max: 32)
+            try validate(instanceType, name:"instanceType", parent: name, min: 5)
+            try storageInfo?.validate(name: "\(name).storageInfo")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -493,7 +493,8 @@ extension Kafka {
         ///             The version of Apache Kafka.
         ///          
         public let kafkaVersion: String
-        /// The number of Kafka broker nodes in the Amazon MSK cluster.
+        ///             The number of broker nodes in the cluster.
+        ///          
         public let numberOfBrokerNodes: Int32
         ///             Create tags when creating the cluster.
         ///          
@@ -511,14 +512,14 @@ extension Kafka {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try brokerNodeGroupInfo.validate()
-            try validate(clusterName, name:"clusterName", max: 64)
-            try validate(clusterName, name:"clusterName", min: 1)
-            try validate(kafkaVersion, name:"kafkaVersion", max: 128)
-            try validate(kafkaVersion, name:"kafkaVersion", min: 1)
-            try validate(numberOfBrokerNodes, name:"numberOfBrokerNodes", max: 15)
-            try validate(numberOfBrokerNodes, name:"numberOfBrokerNodes", min: 1)
+        public func validate(name: String) throws {
+            try brokerNodeGroupInfo.validate(name: "\(name).brokerNodeGroupInfo")
+            try validate(clusterName, name:"clusterName", parent: name, max: 64)
+            try validate(clusterName, name:"clusterName", parent: name, min: 1)
+            try validate(kafkaVersion, name:"kafkaVersion", parent: name, max: 128)
+            try validate(kafkaVersion, name:"kafkaVersion", parent: name, min: 1)
+            try validate(numberOfBrokerNodes, name:"numberOfBrokerNodes", parent: name, max: 15)
+            try validate(numberOfBrokerNodes, name:"numberOfBrokerNodes", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -880,9 +881,9 @@ extension Kafka {
             self.volumeSize = volumeSize
         }
 
-        public func validate() throws {
-            try validate(volumeSize, name:"volumeSize", max: 16384)
-            try validate(volumeSize, name:"volumeSize", min: 1)
+        public func validate(name: String) throws {
+            try validate(volumeSize, name:"volumeSize", parent: name, max: 16384)
+            try validate(volumeSize, name:"volumeSize", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1052,9 +1053,9 @@ extension Kafka {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1105,9 +1106,9 @@ extension Kafka {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1159,9 +1160,9 @@ extension Kafka {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1209,9 +1210,9 @@ extension Kafka {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1262,9 +1263,9 @@ extension Kafka {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1429,8 +1430,8 @@ extension Kafka {
             self.ebsStorageInfo = ebsStorageInfo
         }
 
-        public func validate() throws {
-            try ebsStorageInfo?.validate()
+        public func validate(name: String) throws {
+            try ebsStorageInfo?.validate(name: "\(name).ebsStorageInfo")
         }
 
         private enum CodingKeys: String, CodingKey {

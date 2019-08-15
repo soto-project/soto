@@ -29,18 +29,18 @@ extension EC2InstanceConnect {
             self.sSHPublicKey = sSHPublicKey
         }
 
-        public func validate() throws {
-            try validate(availabilityZone, name:"availabilityZone", max: 32)
-            try validate(availabilityZone, name:"availabilityZone", min: 6)
-            try validate(availabilityZone, name:"availabilityZone", pattern: "^(\\w+-){2,3}\\d+\\w+$")
-            try validate(instanceId, name:"instanceId", max: 32)
-            try validate(instanceId, name:"instanceId", min: 10)
-            try validate(instanceId, name:"instanceId", pattern: "^i-[a-f0-9]+$")
-            try validate(instanceOSUser, name:"instanceOSUser", max: 32)
-            try validate(instanceOSUser, name:"instanceOSUser", min: 1)
-            try validate(instanceOSUser, name:"instanceOSUser", pattern: "^[A-Za-z_][A-Za-z0-9\\@\\._-]{0,30}[A-Za-z0-9\\$_-]?$")
-            try validate(sSHPublicKey, name:"sSHPublicKey", max: 4096)
-            try validate(sSHPublicKey, name:"sSHPublicKey", min: 256)
+        public func validate(name: String) throws {
+            try validate(availabilityZone, name:"availabilityZone", parent: name, max: 32)
+            try validate(availabilityZone, name:"availabilityZone", parent: name, min: 6)
+            try validate(availabilityZone, name:"availabilityZone", parent: name, pattern: "^(\\w+-){2,3}\\d+\\w+$")
+            try validate(instanceId, name:"instanceId", parent: name, max: 32)
+            try validate(instanceId, name:"instanceId", parent: name, min: 10)
+            try validate(instanceId, name:"instanceId", parent: name, pattern: "^i-[a-f0-9]+$")
+            try validate(instanceOSUser, name:"instanceOSUser", parent: name, max: 32)
+            try validate(instanceOSUser, name:"instanceOSUser", parent: name, min: 1)
+            try validate(instanceOSUser, name:"instanceOSUser", parent: name, pattern: "^[A-Za-z_][A-Za-z0-9\\@\\._-]{0,30}[A-Za-z0-9\\$_-]?$")
+            try validate(sSHPublicKey, name:"sSHPublicKey", parent: name, max: 4096)
+            try validate(sSHPublicKey, name:"sSHPublicKey", parent: name, min: 256)
         }
 
         private enum CodingKeys: String, CodingKey {

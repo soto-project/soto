@@ -258,11 +258,11 @@ extension OpsWorks {
             self.thresholdsWaitTime = thresholdsWaitTime
         }
 
-        public func validate() throws {
-            try validate(ignoreMetricsTime, name:"ignoreMetricsTime", max: 100)
-            try validate(ignoreMetricsTime, name:"ignoreMetricsTime", min: 1)
-            try validate(thresholdsWaitTime, name:"thresholdsWaitTime", max: 100)
-            try validate(thresholdsWaitTime, name:"thresholdsWaitTime", min: 1)
+        public func validate(name: String) throws {
+            try validate(ignoreMetricsTime, name:"ignoreMetricsTime", parent: name, max: 100)
+            try validate(ignoreMetricsTime, name:"ignoreMetricsTime", parent: name, min: 1)
+            try validate(thresholdsWaitTime, name:"thresholdsWaitTime", parent: name, max: 100)
+            try validate(thresholdsWaitTime, name:"thresholdsWaitTime", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2743,9 +2743,9 @@ extension OpsWorks {
             self.validForInMinutes = validForInMinutes
         }
 
-        public func validate() throws {
-            try validate(validForInMinutes, name:"validForInMinutes", max: 1440)
-            try validate(validForInMinutes, name:"validForInMinutes", min: 60)
+        public func validate(name: String) throws {
+            try validate(validForInMinutes, name:"validForInMinutes", parent: name, max: 1440)
+            try validate(validForInMinutes, name:"validForInMinutes", parent: name, min: 60)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4030,9 +4030,9 @@ extension OpsWorks {
             self.upScaling = upScaling
         }
 
-        public func validate() throws {
-            try downScaling?.validate()
-            try upScaling?.validate()
+        public func validate(name: String) throws {
+            try downScaling?.validate(name: "\(name).downScaling")
+            try upScaling?.validate(name: "\(name).upScaling")
         }
 
         private enum CodingKeys: String, CodingKey {

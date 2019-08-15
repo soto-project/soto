@@ -45,30 +45,30 @@ extension STS {
             self.tokenCode = tokenCode
         }
 
-        public func validate() throws {
-            try validate(durationSeconds, name:"durationSeconds", max: 43200)
-            try validate(durationSeconds, name:"durationSeconds", min: 900)
-            try validate(externalId, name:"externalId", max: 1224)
-            try validate(externalId, name:"externalId", min: 2)
-            try validate(externalId, name:"externalId", pattern: "[\\w+=,.@:\\/-]*")
-            try validate(policy, name:"policy", max: 2048)
-            try validate(policy, name:"policy", min: 1)
-            try validate(policy, name:"policy", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+        public func validate(name: String) throws {
+            try validate(durationSeconds, name:"durationSeconds", parent: name, max: 43200)
+            try validate(durationSeconds, name:"durationSeconds", parent: name, min: 900)
+            try validate(externalId, name:"externalId", parent: name, max: 1224)
+            try validate(externalId, name:"externalId", parent: name, min: 2)
+            try validate(externalId, name:"externalId", parent: name, pattern: "[\\w+=,.@:\\/-]*")
+            try validate(policy, name:"policy", parent: name, max: 2048)
+            try validate(policy, name:"policy", parent: name, min: 1)
+            try validate(policy, name:"policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
             try policyArns?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).policyArns[]")
             }
-            try validate(roleArn, name:"roleArn", max: 2048)
-            try validate(roleArn, name:"roleArn", min: 20)
-            try validate(roleArn, name:"roleArn", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
-            try validate(roleSessionName, name:"roleSessionName", max: 64)
-            try validate(roleSessionName, name:"roleSessionName", min: 2)
-            try validate(roleSessionName, name:"roleSessionName", pattern: "[\\w+=,.@-]*")
-            try validate(serialNumber, name:"serialNumber", max: 256)
-            try validate(serialNumber, name:"serialNumber", min: 9)
-            try validate(serialNumber, name:"serialNumber", pattern: "[\\w+=/:,.@-]*")
-            try validate(tokenCode, name:"tokenCode", max: 6)
-            try validate(tokenCode, name:"tokenCode", min: 6)
-            try validate(tokenCode, name:"tokenCode", pattern: "[\\d]*")
+            try validate(roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(roleArn, name:"roleArn", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
+            try validate(roleSessionName, name:"roleSessionName", parent: name, max: 64)
+            try validate(roleSessionName, name:"roleSessionName", parent: name, min: 2)
+            try validate(roleSessionName, name:"roleSessionName", parent: name, pattern: "[\\w+=,.@-]*")
+            try validate(serialNumber, name:"serialNumber", parent: name, max: 256)
+            try validate(serialNumber, name:"serialNumber", parent: name, min: 9)
+            try validate(serialNumber, name:"serialNumber", parent: name, pattern: "[\\w+=/:,.@-]*")
+            try validate(tokenCode, name:"tokenCode", parent: name, max: 6)
+            try validate(tokenCode, name:"tokenCode", parent: name, min: 6)
+            try validate(tokenCode, name:"tokenCode", parent: name, pattern: "[\\d]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -142,23 +142,23 @@ extension STS {
             self.sAMLAssertion = sAMLAssertion
         }
 
-        public func validate() throws {
-            try validate(durationSeconds, name:"durationSeconds", max: 43200)
-            try validate(durationSeconds, name:"durationSeconds", min: 900)
-            try validate(policy, name:"policy", max: 2048)
-            try validate(policy, name:"policy", min: 1)
-            try validate(policy, name:"policy", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+        public func validate(name: String) throws {
+            try validate(durationSeconds, name:"durationSeconds", parent: name, max: 43200)
+            try validate(durationSeconds, name:"durationSeconds", parent: name, min: 900)
+            try validate(policy, name:"policy", parent: name, max: 2048)
+            try validate(policy, name:"policy", parent: name, min: 1)
+            try validate(policy, name:"policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
             try policyArns?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).policyArns[]")
             }
-            try validate(principalArn, name:"principalArn", max: 2048)
-            try validate(principalArn, name:"principalArn", min: 20)
-            try validate(principalArn, name:"principalArn", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
-            try validate(roleArn, name:"roleArn", max: 2048)
-            try validate(roleArn, name:"roleArn", min: 20)
-            try validate(roleArn, name:"roleArn", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
-            try validate(sAMLAssertion, name:"sAMLAssertion", max: 100000)
-            try validate(sAMLAssertion, name:"sAMLAssertion", min: 4)
+            try validate(principalArn, name:"principalArn", parent: name, max: 2048)
+            try validate(principalArn, name:"principalArn", parent: name, min: 20)
+            try validate(principalArn, name:"principalArn", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
+            try validate(roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(roleArn, name:"roleArn", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
+            try validate(sAMLAssertion, name:"sAMLAssertion", parent: name, max: 100000)
+            try validate(sAMLAssertion, name:"sAMLAssertion", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -259,25 +259,25 @@ extension STS {
             self.webIdentityToken = webIdentityToken
         }
 
-        public func validate() throws {
-            try validate(durationSeconds, name:"durationSeconds", max: 43200)
-            try validate(durationSeconds, name:"durationSeconds", min: 900)
-            try validate(policy, name:"policy", max: 2048)
-            try validate(policy, name:"policy", min: 1)
-            try validate(policy, name:"policy", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+        public func validate(name: String) throws {
+            try validate(durationSeconds, name:"durationSeconds", parent: name, max: 43200)
+            try validate(durationSeconds, name:"durationSeconds", parent: name, min: 900)
+            try validate(policy, name:"policy", parent: name, max: 2048)
+            try validate(policy, name:"policy", parent: name, min: 1)
+            try validate(policy, name:"policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
             try policyArns?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).policyArns[]")
             }
-            try validate(providerId, name:"providerId", max: 2048)
-            try validate(providerId, name:"providerId", min: 4)
-            try validate(roleArn, name:"roleArn", max: 2048)
-            try validate(roleArn, name:"roleArn", min: 20)
-            try validate(roleArn, name:"roleArn", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
-            try validate(roleSessionName, name:"roleSessionName", max: 64)
-            try validate(roleSessionName, name:"roleSessionName", min: 2)
-            try validate(roleSessionName, name:"roleSessionName", pattern: "[\\w+=,.@-]*")
-            try validate(webIdentityToken, name:"webIdentityToken", max: 2048)
-            try validate(webIdentityToken, name:"webIdentityToken", min: 4)
+            try validate(providerId, name:"providerId", parent: name, max: 2048)
+            try validate(providerId, name:"providerId", parent: name, min: 4)
+            try validate(roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(roleArn, name:"roleArn", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
+            try validate(roleSessionName, name:"roleSessionName", parent: name, max: 64)
+            try validate(roleSessionName, name:"roleSessionName", parent: name, min: 2)
+            try validate(roleSessionName, name:"roleSessionName", parent: name, pattern: "[\\w+=,.@-]*")
+            try validate(webIdentityToken, name:"webIdentityToken", parent: name, max: 2048)
+            try validate(webIdentityToken, name:"webIdentityToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -399,9 +399,9 @@ extension STS {
             self.encodedMessage = encodedMessage
         }
 
-        public func validate() throws {
-            try validate(encodedMessage, name:"encodedMessage", max: 10240)
-            try validate(encodedMessage, name:"encodedMessage", min: 1)
+        public func validate(name: String) throws {
+            try validate(encodedMessage, name:"encodedMessage", parent: name, max: 10240)
+            try validate(encodedMessage, name:"encodedMessage", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -507,17 +507,17 @@ extension STS {
             self.policyArns = policyArns
         }
 
-        public func validate() throws {
-            try validate(durationSeconds, name:"durationSeconds", max: 129600)
-            try validate(durationSeconds, name:"durationSeconds", min: 900)
-            try validate(name, name:"name", max: 32)
-            try validate(name, name:"name", min: 2)
-            try validate(name, name:"name", pattern: "[\\w+=,.@-]*")
-            try validate(policy, name:"policy", max: 2048)
-            try validate(policy, name:"policy", min: 1)
-            try validate(policy, name:"policy", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+        public func validate(name: String) throws {
+            try validate(durationSeconds, name:"durationSeconds", parent: name, max: 129600)
+            try validate(durationSeconds, name:"durationSeconds", parent: name, min: 900)
+            try validate(name, name:"name", parent: name, max: 32)
+            try validate(name, name:"name", parent: name, min: 2)
+            try validate(name, name:"name", parent: name, pattern: "[\\w+=,.@-]*")
+            try validate(policy, name:"policy", parent: name, max: 2048)
+            try validate(policy, name:"policy", parent: name, min: 1)
+            try validate(policy, name:"policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
             try policyArns?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).policyArns[]")
             }
         }
 
@@ -576,15 +576,15 @@ extension STS {
             self.tokenCode = tokenCode
         }
 
-        public func validate() throws {
-            try validate(durationSeconds, name:"durationSeconds", max: 129600)
-            try validate(durationSeconds, name:"durationSeconds", min: 900)
-            try validate(serialNumber, name:"serialNumber", max: 256)
-            try validate(serialNumber, name:"serialNumber", min: 9)
-            try validate(serialNumber, name:"serialNumber", pattern: "[\\w+=/:,.@-]*")
-            try validate(tokenCode, name:"tokenCode", max: 6)
-            try validate(tokenCode, name:"tokenCode", min: 6)
-            try validate(tokenCode, name:"tokenCode", pattern: "[\\d]*")
+        public func validate(name: String) throws {
+            try validate(durationSeconds, name:"durationSeconds", parent: name, max: 129600)
+            try validate(durationSeconds, name:"durationSeconds", parent: name, min: 900)
+            try validate(serialNumber, name:"serialNumber", parent: name, max: 256)
+            try validate(serialNumber, name:"serialNumber", parent: name, min: 9)
+            try validate(serialNumber, name:"serialNumber", parent: name, pattern: "[\\w+=/:,.@-]*")
+            try validate(tokenCode, name:"tokenCode", parent: name, max: 6)
+            try validate(tokenCode, name:"tokenCode", parent: name, min: 6)
+            try validate(tokenCode, name:"tokenCode", parent: name, pattern: "[\\d]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -623,10 +623,10 @@ extension STS {
             self.arn = arn
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", max: 2048)
-            try validate(arn, name:"arn", min: 20)
-            try validate(arn, name:"arn", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 2048)
+            try validate(arn, name:"arn", parent: name, min: 20)
+            try validate(arn, name:"arn", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
         }
 
         private enum CodingKeys: String, CodingKey {

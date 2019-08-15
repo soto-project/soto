@@ -719,12 +719,12 @@ extension ECS {
             self.tags = tags
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 0)
+            try validate(tags, name:"tags", parent: name, max: 50)
+            try validate(tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -838,12 +838,12 @@ extension ECS {
             self.taskDefinition = taskDefinition
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 0)
+            try validate(tags, name:"tags", parent: name, max: 50)
+            try validate(tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2986,12 +2986,12 @@ extension ECS {
             self.versionInfo = versionInfo
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 0)
+            try validate(tags, name:"tags", parent: name, max: 50)
+            try validate(tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3087,12 +3087,12 @@ extension ECS {
             self.volumes = volumes
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 0)
+            try validate(tags, name:"tags", parent: name, max: 50)
+            try validate(tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3285,12 +3285,12 @@ extension ECS {
             self.taskDefinition = taskDefinition
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 0)
+            try validate(tags, name:"tags", parent: name, max: 50)
+            try validate(tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3705,12 +3705,12 @@ extension ECS {
             self.taskDefinition = taskDefinition
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 0)
+            try validate(tags, name:"tags", parent: name, max: 50)
+            try validate(tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4008,13 +4008,13 @@ extension ECS {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 128)
-            try validate(key, name:"key", min: 1)
-            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try validate(value, name:"value", max: 256)
-            try validate(value, name:"value", min: 0)
-            try validate(value, name:"value", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, min: 0)
+            try validate(value, name:"value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4039,12 +4039,12 @@ extension ECS {
             self.tags = tags
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", max: 50)
-            try validate(tags, name:"tags", min: 0)
+            try validate(tags, name:"tags", parent: name, max: 50)
+            try validate(tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4621,11 +4621,11 @@ extension ECS {
             self.tagKeys = tagKeys
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tagKeys.forEach {
-                try validate($0, name:"tagKeys[]", max: 128)
-                try validate($0, name:"tagKeys[]", min: 1)
-                try validate($0, name:"tagKeys[]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
         }
 

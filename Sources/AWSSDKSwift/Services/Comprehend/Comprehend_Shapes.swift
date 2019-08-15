@@ -39,9 +39,9 @@ extension Comprehend {
             self.textList = textList
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try textList.forEach {
-                try validate($0, name:"textList[]", min: 1)
+                try validate($0, name: "textList[]", parent: name, min: 1)
             }
         }
 
@@ -110,9 +110,9 @@ extension Comprehend {
             self.textList = textList
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try textList.forEach {
-                try validate($0, name:"textList[]", min: 1)
+                try validate($0, name: "textList[]", parent: name, min: 1)
             }
         }
 
@@ -182,9 +182,9 @@ extension Comprehend {
             self.textList = textList
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try textList.forEach {
-                try validate($0, name:"textList[]", min: 1)
+                try validate($0, name: "textList[]", parent: name, min: 1)
             }
         }
 
@@ -259,9 +259,9 @@ extension Comprehend {
             self.textList = textList
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try textList.forEach {
-                try validate($0, name:"textList[]", min: 1)
+                try validate($0, name: "textList[]", parent: name, min: 1)
             }
         }
 
@@ -331,9 +331,9 @@ extension Comprehend {
             self.textList = textList
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try textList.forEach {
-                try validate($0, name:"textList[]", min: 1)
+                try validate($0, name: "textList[]", parent: name, min: 1)
             }
         }
 
@@ -500,22 +500,22 @@ extension Comprehend {
             self.vpcConfig = vpcConfig
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 64)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 1)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "^[a-zA-Z0-9-]+$")
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", max: 2048)
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", min: 20)
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
-            try validate(documentClassifierName, name:"documentClassifierName", max: 63)
-            try validate(documentClassifierName, name:"documentClassifierName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try inputDataConfig.validate()
-            try outputDataConfig?.validate()
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, max: 2048)
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, min: 20)
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
+            try validate(documentClassifierName, name:"documentClassifierName", parent: name, max: 63)
+            try validate(documentClassifierName, name:"documentClassifierName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try inputDataConfig.validate(name: "\(name).inputDataConfig")
+            try outputDataConfig?.validate(name: "\(name).outputDataConfig")
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
-            try vpcConfig?.validate()
+            try validate(volumeKmsKeyId, name:"volumeKmsKeyId", parent: name, max: 2048)
+            try vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -588,21 +588,21 @@ extension Comprehend {
             self.vpcConfig = vpcConfig
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 64)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 1)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "^[a-zA-Z0-9-]+$")
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", max: 2048)
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", min: 20)
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
-            try inputDataConfig.validate()
-            try validate(recognizerName, name:"recognizerName", max: 63)
-            try validate(recognizerName, name:"recognizerName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, max: 2048)
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, min: 20)
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
+            try inputDataConfig.validate(name: "\(name).inputDataConfig")
+            try validate(recognizerName, name:"recognizerName", parent: name, max: 63)
+            try validate(recognizerName, name:"recognizerName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
-            try vpcConfig?.validate()
+            try validate(volumeKmsKeyId, name:"volumeKmsKeyId", parent: name, max: 2048)
+            try vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -646,9 +646,9 @@ extension Comprehend {
             self.documentClassifierArn = documentClassifierArn
         }
 
-        public func validate() throws {
-            try validate(documentClassifierArn, name:"documentClassifierArn", max: 256)
-            try validate(documentClassifierArn, name:"documentClassifierArn", pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        public func validate(name: String) throws {
+            try validate(documentClassifierArn, name:"documentClassifierArn", parent: name, max: 256)
+            try validate(documentClassifierArn, name:"documentClassifierArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -676,9 +676,9 @@ extension Comprehend {
             self.entityRecognizerArn = entityRecognizerArn
         }
 
-        public func validate() throws {
-            try validate(entityRecognizerArn, name:"entityRecognizerArn", max: 256)
-            try validate(entityRecognizerArn, name:"entityRecognizerArn", pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        public func validate(name: String) throws {
+            try validate(entityRecognizerArn, name:"entityRecognizerArn", parent: name, max: 256)
+            try validate(entityRecognizerArn, name:"entityRecognizerArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -706,10 +706,10 @@ extension Comprehend {
             self.jobId = jobId
         }
 
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 32)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        public func validate(name: String) throws {
+            try validate(jobId, name:"jobId", parent: name, max: 32)
+            try validate(jobId, name:"jobId", parent: name, min: 1)
+            try validate(jobId, name:"jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -746,9 +746,9 @@ extension Comprehend {
             self.documentClassifierArn = documentClassifierArn
         }
 
-        public func validate() throws {
-            try validate(documentClassifierArn, name:"documentClassifierArn", max: 256)
-            try validate(documentClassifierArn, name:"documentClassifierArn", pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        public func validate(name: String) throws {
+            try validate(documentClassifierArn, name:"documentClassifierArn", parent: name, max: 256)
+            try validate(documentClassifierArn, name:"documentClassifierArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -785,10 +785,10 @@ extension Comprehend {
             self.jobId = jobId
         }
 
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 32)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        public func validate(name: String) throws {
+            try validate(jobId, name:"jobId", parent: name, max: 32)
+            try validate(jobId, name:"jobId", parent: name, min: 1)
+            try validate(jobId, name:"jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -825,10 +825,10 @@ extension Comprehend {
             self.jobId = jobId
         }
 
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 32)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        public func validate(name: String) throws {
+            try validate(jobId, name:"jobId", parent: name, max: 32)
+            try validate(jobId, name:"jobId", parent: name, min: 1)
+            try validate(jobId, name:"jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -865,9 +865,9 @@ extension Comprehend {
             self.entityRecognizerArn = entityRecognizerArn
         }
 
-        public func validate() throws {
-            try validate(entityRecognizerArn, name:"entityRecognizerArn", max: 256)
-            try validate(entityRecognizerArn, name:"entityRecognizerArn", pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        public func validate(name: String) throws {
+            try validate(entityRecognizerArn, name:"entityRecognizerArn", parent: name, max: 256)
+            try validate(entityRecognizerArn, name:"entityRecognizerArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -904,10 +904,10 @@ extension Comprehend {
             self.jobId = jobId
         }
 
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 32)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        public func validate(name: String) throws {
+            try validate(jobId, name:"jobId", parent: name, max: 32)
+            try validate(jobId, name:"jobId", parent: name, min: 1)
+            try validate(jobId, name:"jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -944,10 +944,10 @@ extension Comprehend {
             self.jobId = jobId
         }
 
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 32)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        public func validate(name: String) throws {
+            try validate(jobId, name:"jobId", parent: name, max: 32)
+            try validate(jobId, name:"jobId", parent: name, min: 1)
+            try validate(jobId, name:"jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -984,10 +984,10 @@ extension Comprehend {
             self.jobId = jobId
         }
 
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 32)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        public func validate(name: String) throws {
+            try validate(jobId, name:"jobId", parent: name, max: 32)
+            try validate(jobId, name:"jobId", parent: name, min: 1)
+            try validate(jobId, name:"jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1024,8 +1024,8 @@ extension Comprehend {
             self.text = text
         }
 
-        public func validate() throws {
-            try validate(text, name:"text", min: 1)
+        public func validate(name: String) throws {
+            try validate(text, name:"text", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1066,8 +1066,8 @@ extension Comprehend {
             self.text = text
         }
 
-        public func validate() throws {
-            try validate(text, name:"text", min: 1)
+        public func validate(name: String) throws {
+            try validate(text, name:"text", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1109,8 +1109,8 @@ extension Comprehend {
             self.text = text
         }
 
-        public func validate() throws {
-            try validate(text, name:"text", min: 1)
+        public func validate(name: String) throws {
+            try validate(text, name:"text", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1152,8 +1152,8 @@ extension Comprehend {
             self.text = text
         }
 
-        public func validate() throws {
-            try validate(text, name:"text", min: 1)
+        public func validate(name: String) throws {
+            try validate(text, name:"text", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1200,8 +1200,8 @@ extension Comprehend {
             self.text = text
         }
 
-        public func validate() throws {
-            try validate(text, name:"text", min: 1)
+        public func validate(name: String) throws {
+            try validate(text, name:"text", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1251,10 +1251,10 @@ extension Comprehend {
             self.submitTimeBefore = submitTimeBefore
         }
 
-        public func validate() throws {
-            try validate(jobName, name:"jobName", max: 256)
-            try validate(jobName, name:"jobName", min: 1)
-            try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        public func validate(name: String) throws {
+            try validate(jobName, name:"jobName", parent: name, max: 256)
+            try validate(jobName, name:"jobName", parent: name, min: 1)
+            try validate(jobName, name:"jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1376,9 +1376,9 @@ extension Comprehend {
             self.s3Uri = s3Uri
         }
 
-        public func validate() throws {
-            try validate(s3Uri, name:"s3Uri", max: 1024)
-            try validate(s3Uri, name:"s3Uri", pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
+        public func validate(name: String) throws {
+            try validate(s3Uri, name:"s3Uri", parent: name, max: 1024)
+            try validate(s3Uri, name:"s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1402,10 +1402,10 @@ extension Comprehend {
             self.s3Uri = s3Uri
         }
 
-        public func validate() throws {
-            try validate(kmsKeyId, name:"kmsKeyId", max: 2048)
-            try validate(s3Uri, name:"s3Uri", max: 1024)
-            try validate(s3Uri, name:"s3Uri", pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
+        public func validate(name: String) throws {
+            try validate(kmsKeyId, name:"kmsKeyId", parent: name, max: 2048)
+            try validate(s3Uri, name:"s3Uri", parent: name, max: 1024)
+            try validate(s3Uri, name:"s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1542,10 +1542,10 @@ extension Comprehend {
             self.submitTimeBefore = submitTimeBefore
         }
 
-        public func validate() throws {
-            try validate(jobName, name:"jobName", max: 256)
-            try validate(jobName, name:"jobName", min: 1)
-            try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        public func validate(name: String) throws {
+            try validate(jobName, name:"jobName", parent: name, max: 256)
+            try validate(jobName, name:"jobName", parent: name, min: 1)
+            try validate(jobName, name:"jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1647,10 +1647,10 @@ extension Comprehend {
             self.submitTimeBefore = submitTimeBefore
         }
 
-        public func validate() throws {
-            try validate(jobName, name:"jobName", max: 256)
-            try validate(jobName, name:"jobName", min: 1)
-            try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        public func validate(name: String) throws {
+            try validate(jobName, name:"jobName", parent: name, max: 256)
+            try validate(jobName, name:"jobName", parent: name, min: 1)
+            try validate(jobName, name:"jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1787,9 +1787,9 @@ extension Comprehend {
             self.s3Uri = s3Uri
         }
 
-        public func validate() throws {
-            try validate(s3Uri, name:"s3Uri", max: 1024)
-            try validate(s3Uri, name:"s3Uri", pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
+        public func validate(name: String) throws {
+            try validate(s3Uri, name:"s3Uri", parent: name, max: 1024)
+            try validate(s3Uri, name:"s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1809,9 +1809,9 @@ extension Comprehend {
             self.s3Uri = s3Uri
         }
 
-        public func validate() throws {
-            try validate(s3Uri, name:"s3Uri", max: 1024)
-            try validate(s3Uri, name:"s3Uri", pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
+        public func validate(name: String) throws {
+            try validate(s3Uri, name:"s3Uri", parent: name, max: 1024)
+            try validate(s3Uri, name:"s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1831,9 +1831,9 @@ extension Comprehend {
             self.s3Uri = s3Uri
         }
 
-        public func validate() throws {
-            try validate(s3Uri, name:"s3Uri", max: 1024)
-            try validate(s3Uri, name:"s3Uri", pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
+        public func validate(name: String) throws {
+            try validate(s3Uri, name:"s3Uri", parent: name, max: 1024)
+            try validate(s3Uri, name:"s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1919,12 +1919,12 @@ extension Comprehend {
             self.entityTypes = entityTypes
         }
 
-        public func validate() throws {
-            try annotations?.validate()
-            try documents.validate()
-            try entityList?.validate()
+        public func validate(name: String) throws {
+            try annotations?.validate(name: "\(name).annotations")
+            try documents.validate(name: "\(name).documents")
+            try entityList?.validate(name: "\(name).entityList")
             try entityTypes.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).entityTypes[]")
             }
         }
 
@@ -2087,9 +2087,9 @@ extension Comprehend {
             self.`type` = `type`
         }
 
-        public func validate() throws {
-            try validate(`type`, name:"`type`", max: 64)
-            try validate(`type`, name:"`type`", pattern: "[_A-Z0-9]+")
+        public func validate(name: String) throws {
+            try validate(`type`, name:"`type`", parent: name, max: 64)
+            try validate(`type`, name:"`type`", parent: name, pattern: "[_A-Z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2113,9 +2113,9 @@ extension Comprehend {
             self.s3Uri = s3Uri
         }
 
-        public func validate() throws {
-            try validate(s3Uri, name:"s3Uri", max: 1024)
-            try validate(s3Uri, name:"s3Uri", pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
+        public func validate(name: String) throws {
+            try validate(s3Uri, name:"s3Uri", parent: name, max: 1024)
+            try validate(s3Uri, name:"s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2196,10 +2196,10 @@ extension Comprehend {
             self.submitTimeBefore = submitTimeBefore
         }
 
-        public func validate() throws {
-            try validate(jobName, name:"jobName", max: 256)
-            try validate(jobName, name:"jobName", min: 1)
-            try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        public func validate(name: String) throws {
+            try validate(jobName, name:"jobName", parent: name, max: 256)
+            try validate(jobName, name:"jobName", parent: name, min: 1)
+            try validate(jobName, name:"jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2312,11 +2312,11 @@ extension Comprehend {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try filter?.validate()
-            try validate(maxResults, name:"maxResults", max: 500)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try filter?.validate(name: "\(name).filter")
+            try validate(maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2368,10 +2368,10 @@ extension Comprehend {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 500)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2423,11 +2423,11 @@ extension Comprehend {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try filter?.validate()
-            try validate(maxResults, name:"maxResults", max: 500)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try filter?.validate(name: "\(name).filter")
+            try validate(maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2479,11 +2479,11 @@ extension Comprehend {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try filter?.validate()
-            try validate(maxResults, name:"maxResults", max: 500)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try filter?.validate(name: "\(name).filter")
+            try validate(maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2535,10 +2535,10 @@ extension Comprehend {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 500)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2590,11 +2590,11 @@ extension Comprehend {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try filter?.validate()
-            try validate(maxResults, name:"maxResults", max: 500)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try filter?.validate(name: "\(name).filter")
+            try validate(maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2646,11 +2646,11 @@ extension Comprehend {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try filter?.validate()
-            try validate(maxResults, name:"maxResults", max: 500)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try filter?.validate(name: "\(name).filter")
+            try validate(maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2694,9 +2694,9 @@ extension Comprehend {
             self.resourceArn = resourceArn
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 256)
-            try validate(resourceArn, name:"resourceArn", pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-]{1,64}/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 256)
+            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-]{1,64}/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2746,11 +2746,11 @@ extension Comprehend {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try filter?.validate()
-            try validate(maxResults, name:"maxResults", max: 500)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try filter?.validate(name: "\(name).filter")
+            try validate(maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2809,10 +2809,10 @@ extension Comprehend {
             self.s3Uri = s3Uri
         }
 
-        public func validate() throws {
-            try validate(kmsKeyId, name:"kmsKeyId", max: 2048)
-            try validate(s3Uri, name:"s3Uri", max: 1024)
-            try validate(s3Uri, name:"s3Uri", pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
+        public func validate(name: String) throws {
+            try validate(kmsKeyId, name:"kmsKeyId", parent: name, max: 2048)
+            try validate(s3Uri, name:"s3Uri", parent: name, max: 1024)
+            try validate(s3Uri, name:"s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2889,10 +2889,10 @@ extension Comprehend {
             self.submitTimeBefore = submitTimeBefore
         }
 
-        public func validate() throws {
-            try validate(jobName, name:"jobName", max: 256)
-            try validate(jobName, name:"jobName", min: 1)
-            try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        public func validate(name: String) throws {
+            try validate(jobName, name:"jobName", parent: name, max: 256)
+            try validate(jobName, name:"jobName", parent: name, min: 1)
+            try validate(jobName, name:"jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3055,22 +3055,22 @@ extension Comprehend {
             self.vpcConfig = vpcConfig
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 64)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 1)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "^[a-zA-Z0-9-]+$")
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", max: 2048)
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", min: 20)
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
-            try validate(documentClassifierArn, name:"documentClassifierArn", max: 256)
-            try validate(documentClassifierArn, name:"documentClassifierArn", pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try inputDataConfig.validate()
-            try validate(jobName, name:"jobName", max: 256)
-            try validate(jobName, name:"jobName", min: 1)
-            try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
-            try outputDataConfig.validate()
-            try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
-            try vpcConfig?.validate()
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, max: 2048)
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, min: 20)
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
+            try validate(documentClassifierArn, name:"documentClassifierArn", parent: name, max: 256)
+            try validate(documentClassifierArn, name:"documentClassifierArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try inputDataConfig.validate(name: "\(name).inputDataConfig")
+            try validate(jobName, name:"jobName", parent: name, max: 256)
+            try validate(jobName, name:"jobName", parent: name, min: 1)
+            try validate(jobName, name:"jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try validate(volumeKmsKeyId, name:"volumeKmsKeyId", parent: name, max: 2048)
+            try vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3143,20 +3143,20 @@ extension Comprehend {
             self.vpcConfig = vpcConfig
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 64)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 1)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "^[a-zA-Z0-9-]+$")
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", max: 2048)
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", min: 20)
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
-            try inputDataConfig.validate()
-            try validate(jobName, name:"jobName", max: 256)
-            try validate(jobName, name:"jobName", min: 1)
-            try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
-            try outputDataConfig.validate()
-            try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
-            try vpcConfig?.validate()
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, max: 2048)
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, min: 20)
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
+            try inputDataConfig.validate(name: "\(name).inputDataConfig")
+            try validate(jobName, name:"jobName", parent: name, max: 256)
+            try validate(jobName, name:"jobName", parent: name, min: 1)
+            try validate(jobName, name:"jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try validate(volumeKmsKeyId, name:"volumeKmsKeyId", parent: name, max: 2048)
+            try vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3236,22 +3236,22 @@ extension Comprehend {
             self.vpcConfig = vpcConfig
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 64)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 1)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "^[a-zA-Z0-9-]+$")
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", max: 2048)
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", min: 20)
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
-            try validate(entityRecognizerArn, name:"entityRecognizerArn", max: 256)
-            try validate(entityRecognizerArn, name:"entityRecognizerArn", pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try inputDataConfig.validate()
-            try validate(jobName, name:"jobName", max: 256)
-            try validate(jobName, name:"jobName", min: 1)
-            try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
-            try outputDataConfig.validate()
-            try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
-            try vpcConfig?.validate()
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, max: 2048)
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, min: 20)
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
+            try validate(entityRecognizerArn, name:"entityRecognizerArn", parent: name, max: 256)
+            try validate(entityRecognizerArn, name:"entityRecognizerArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try inputDataConfig.validate(name: "\(name).inputDataConfig")
+            try validate(jobName, name:"jobName", parent: name, max: 256)
+            try validate(jobName, name:"jobName", parent: name, min: 1)
+            try validate(jobName, name:"jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try validate(volumeKmsKeyId, name:"volumeKmsKeyId", parent: name, max: 2048)
+            try vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3329,20 +3329,20 @@ extension Comprehend {
             self.vpcConfig = vpcConfig
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 64)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 1)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "^[a-zA-Z0-9-]+$")
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", max: 2048)
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", min: 20)
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
-            try inputDataConfig.validate()
-            try validate(jobName, name:"jobName", max: 256)
-            try validate(jobName, name:"jobName", min: 1)
-            try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
-            try outputDataConfig.validate()
-            try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
-            try vpcConfig?.validate()
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, max: 2048)
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, min: 20)
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
+            try inputDataConfig.validate(name: "\(name).inputDataConfig")
+            try validate(jobName, name:"jobName", parent: name, max: 256)
+            try validate(jobName, name:"jobName", parent: name, min: 1)
+            try validate(jobName, name:"jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try validate(volumeKmsKeyId, name:"volumeKmsKeyId", parent: name, max: 2048)
+            try vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3419,20 +3419,20 @@ extension Comprehend {
             self.vpcConfig = vpcConfig
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 64)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 1)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "^[a-zA-Z0-9-]+$")
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", max: 2048)
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", min: 20)
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
-            try inputDataConfig.validate()
-            try validate(jobName, name:"jobName", max: 256)
-            try validate(jobName, name:"jobName", min: 1)
-            try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
-            try outputDataConfig.validate()
-            try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
-            try vpcConfig?.validate()
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, max: 2048)
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, min: 20)
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
+            try inputDataConfig.validate(name: "\(name).inputDataConfig")
+            try validate(jobName, name:"jobName", parent: name, max: 256)
+            try validate(jobName, name:"jobName", parent: name, min: 1)
+            try validate(jobName, name:"jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try validate(volumeKmsKeyId, name:"volumeKmsKeyId", parent: name, max: 2048)
+            try vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3509,22 +3509,22 @@ extension Comprehend {
             self.vpcConfig = vpcConfig
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 64)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 1)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "^[a-zA-Z0-9-]+$")
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", max: 2048)
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", min: 20)
-            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
-            try inputDataConfig.validate()
-            try validate(jobName, name:"jobName", max: 256)
-            try validate(jobName, name:"jobName", min: 1)
-            try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
-            try validate(numberOfTopics, name:"numberOfTopics", max: 100)
-            try validate(numberOfTopics, name:"numberOfTopics", min: 1)
-            try outputDataConfig.validate()
-            try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
-            try vpcConfig?.validate()
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, max: 2048)
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, min: 20)
+            try validate(dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
+            try inputDataConfig.validate(name: "\(name).inputDataConfig")
+            try validate(jobName, name:"jobName", parent: name, max: 256)
+            try validate(jobName, name:"jobName", parent: name, min: 1)
+            try validate(jobName, name:"jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try validate(numberOfTopics, name:"numberOfTopics", parent: name, max: 100)
+            try validate(numberOfTopics, name:"numberOfTopics", parent: name, min: 1)
+            try outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try validate(volumeKmsKeyId, name:"volumeKmsKeyId", parent: name, max: 2048)
+            try vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3573,10 +3573,10 @@ extension Comprehend {
             self.jobId = jobId
         }
 
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 32)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        public func validate(name: String) throws {
+            try validate(jobId, name:"jobId", parent: name, max: 32)
+            try validate(jobId, name:"jobId", parent: name, min: 1)
+            try validate(jobId, name:"jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3618,10 +3618,10 @@ extension Comprehend {
             self.jobId = jobId
         }
 
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 32)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        public func validate(name: String) throws {
+            try validate(jobId, name:"jobId", parent: name, max: 32)
+            try validate(jobId, name:"jobId", parent: name, min: 1)
+            try validate(jobId, name:"jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3663,10 +3663,10 @@ extension Comprehend {
             self.jobId = jobId
         }
 
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 32)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        public func validate(name: String) throws {
+            try validate(jobId, name:"jobId", parent: name, max: 32)
+            try validate(jobId, name:"jobId", parent: name, min: 1)
+            try validate(jobId, name:"jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3708,10 +3708,10 @@ extension Comprehend {
             self.jobId = jobId
         }
 
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 32)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        public func validate(name: String) throws {
+            try validate(jobId, name:"jobId", parent: name, max: 32)
+            try validate(jobId, name:"jobId", parent: name, min: 1)
+            try validate(jobId, name:"jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3753,9 +3753,9 @@ extension Comprehend {
             self.documentClassifierArn = documentClassifierArn
         }
 
-        public func validate() throws {
-            try validate(documentClassifierArn, name:"documentClassifierArn", max: 256)
-            try validate(documentClassifierArn, name:"documentClassifierArn", pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        public func validate(name: String) throws {
+            try validate(documentClassifierArn, name:"documentClassifierArn", parent: name, max: 256)
+            try validate(documentClassifierArn, name:"documentClassifierArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3783,9 +3783,9 @@ extension Comprehend {
             self.entityRecognizerArn = entityRecognizerArn
         }
 
-        public func validate() throws {
-            try validate(entityRecognizerArn, name:"entityRecognizerArn", max: 256)
-            try validate(entityRecognizerArn, name:"entityRecognizerArn", pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        public func validate(name: String) throws {
+            try validate(entityRecognizerArn, name:"entityRecognizerArn", parent: name, max: 256)
+            try validate(entityRecognizerArn, name:"entityRecognizerArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3864,11 +3864,11 @@ extension Comprehend {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 128)
-            try validate(key, name:"key", min: 1)
-            try validate(value, name:"value", max: 256)
-            try validate(value, name:"value", min: 0)
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3893,11 +3893,11 @@ extension Comprehend {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 256)
-            try validate(resourceArn, name:"resourceArn", pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-]{1,64}/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 256)
+            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-]{1,64}/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try tags.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
         }
 
@@ -3938,10 +3938,10 @@ extension Comprehend {
             self.submitTimeBefore = submitTimeBefore
         }
 
-        public func validate() throws {
-            try validate(jobName, name:"jobName", max: 256)
-            try validate(jobName, name:"jobName", min: 1)
-            try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        public func validate(name: String) throws {
+            try validate(jobName, name:"jobName", parent: name, max: 256)
+            try validate(jobName, name:"jobName", parent: name, min: 1)
+            try validate(jobName, name:"jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4040,12 +4040,12 @@ extension Comprehend {
             self.tagKeys = tagKeys
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 256)
-            try validate(resourceArn, name:"resourceArn", pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-]{1,64}/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 256)
+            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-]{1,64}/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try tagKeys.forEach {
-                try validate($0, name:"tagKeys[]", max: 128)
-                try validate($0, name:"tagKeys[]", min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
         }
 
@@ -4079,21 +4079,21 @@ extension Comprehend {
             self.subnets = subnets
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try securityGroupIds.forEach {
-                try validate($0, name:"securityGroupIds[]", max: 32)
-                try validate($0, name:"securityGroupIds[]", min: 1)
-                try validate($0, name:"securityGroupIds[]", pattern: "[-0-9a-zA-Z]+")
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 32)
+                try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "[-0-9a-zA-Z]+")
             }
-            try validate(securityGroupIds, name:"securityGroupIds", max: 5)
-            try validate(securityGroupIds, name:"securityGroupIds", min: 1)
+            try validate(securityGroupIds, name:"securityGroupIds", parent: name, max: 5)
+            try validate(securityGroupIds, name:"securityGroupIds", parent: name, min: 1)
             try subnets.forEach {
-                try validate($0, name:"subnets[]", max: 32)
-                try validate($0, name:"subnets[]", min: 1)
-                try validate($0, name:"subnets[]", pattern: "[-0-9a-zA-Z]+")
+                try validate($0, name: "subnets[]", parent: name, max: 32)
+                try validate($0, name: "subnets[]", parent: name, min: 1)
+                try validate($0, name: "subnets[]", parent: name, pattern: "[-0-9a-zA-Z]+")
             }
-            try validate(subnets, name:"subnets", max: 16)
-            try validate(subnets, name:"subnets", min: 1)
+            try validate(subnets, name:"subnets", parent: name, max: 16)
+            try validate(subnets, name:"subnets", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

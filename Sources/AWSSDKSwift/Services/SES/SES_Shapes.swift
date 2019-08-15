@@ -153,8 +153,8 @@ extension SES {
             self.replacementTemplateData = replacementTemplateData
         }
 
-        public func validate() throws {
-            try validate(replacementTemplateData, name:"replacementTemplateData", max: 262144)
+        public func validate(name: String) throws {
+            try validate(replacementTemplateData, name:"replacementTemplateData", parent: name, max: 262144)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -724,9 +724,9 @@ extension SES {
             self.policyName = policyName
         }
 
-        public func validate() throws {
-            try validate(policyName, name:"policyName", max: 64)
-            try validate(policyName, name:"policyName", min: 1)
+        public func validate(name: String) throws {
+            try validate(policyName, name:"policyName", parent: name, max: 64)
+            try validate(policyName, name:"policyName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1386,10 +1386,10 @@ extension SES {
             self.policyNames = policyNames
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try policyNames.forEach {
-                try validate($0, name:"policyNames[]", max: 64)
-                try validate($0, name:"policyNames[]", min: 1)
+                try validate($0, name: "policyNames[]", parent: name, max: 64)
+                try validate($0, name: "policyNames[]", parent: name, min: 1)
             }
         }
 
@@ -1771,9 +1771,9 @@ extension SES {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 50)
-            try validate(maxResults, name:"maxResults", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2140,10 +2140,10 @@ extension SES {
             self.policyName = policyName
         }
 
-        public func validate() throws {
-            try validate(policy, name:"policy", min: 1)
-            try validate(policyName, name:"policyName", max: 64)
-            try validate(policyName, name:"policyName", min: 1)
+        public func validate(name: String) throws {
+            try validate(policy, name:"policy", parent: name, min: 1)
+            try validate(policyName, name:"policyName", parent: name, max: 64)
+            try validate(policyName, name:"policyName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2631,10 +2631,10 @@ extension SES {
             self.templateArn = templateArn
         }
 
-        public func validate() throws {
-            try validate(defaultTemplateData, name:"defaultTemplateData", max: 262144)
+        public func validate(name: String) throws {
+            try validate(defaultTemplateData, name:"defaultTemplateData", parent: name, max: 262144)
             try destinations.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).destinations[]")
             }
         }
 
@@ -2946,8 +2946,8 @@ extension SES {
             self.templateData = templateData
         }
 
-        public func validate() throws {
-            try validate(templateData, name:"templateData", max: 262144)
+        public func validate(name: String) throws {
+            try validate(templateData, name:"templateData", parent: name, max: 262144)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3304,8 +3304,8 @@ extension SES {
             self.templateName = templateName
         }
 
-        public func validate() throws {
-            try validate(templateData, name:"templateData", max: 262144)
+        public func validate(name: String) throws {
+            try validate(templateData, name:"templateData", parent: name, max: 262144)
         }
 
         private enum CodingKeys: String, CodingKey {

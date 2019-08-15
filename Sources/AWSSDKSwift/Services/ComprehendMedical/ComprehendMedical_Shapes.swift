@@ -77,9 +77,9 @@ extension ComprehendMedical {
             self.text = text
         }
 
-        public func validate() throws {
-            try validate(text, name:"text", max: 20000)
-            try validate(text, name:"text", min: 1)
+        public func validate(name: String) throws {
+            try validate(text, name:"text", parent: name, max: 20000)
+            try validate(text, name:"text", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -126,9 +126,9 @@ extension ComprehendMedical {
             self.text = text
         }
 
-        public func validate() throws {
-            try validate(text, name:"text", max: 20000)
-            try validate(text, name:"text", min: 1)
+        public func validate(name: String) throws {
+            try validate(text, name:"text", parent: name, max: 20000)
+            try validate(text, name:"text", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

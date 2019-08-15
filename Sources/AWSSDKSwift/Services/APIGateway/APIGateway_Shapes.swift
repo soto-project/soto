@@ -696,8 +696,8 @@ extension APIGateway {
             self.restApiId = restApiId
         }
 
-        public func validate() throws {
-            try location.validate()
+        public func validate(name: String) throws {
+            try location.validate(name: "\(name).location")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1366,8 +1366,8 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
-        public func validate() throws {
-            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
+        public func validate(name: String) throws {
+            try validate(statusCode, name:"statusCode", parent: name, pattern: "[1-5]\\d\\d")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1429,8 +1429,8 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
-        public func validate() throws {
-            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
+        public func validate(name: String) throws {
+            try validate(statusCode, name:"statusCode", parent: name, pattern: "[1-5]\\d\\d")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1759,8 +1759,8 @@ extension APIGateway {
             self.`type` = `type`
         }
 
-        public func validate() throws {
-            try validate(statusCode, name:"statusCode", pattern: "^([1-5]\\d\\d|\\*|\\s*)$")
+        public func validate(name: String) throws {
+            try validate(statusCode, name:"statusCode", parent: name, pattern: "^([1-5]\\d\\d|\\*|\\s*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2725,8 +2725,8 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
-        public func validate() throws {
-            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
+        public func validate(name: String) throws {
+            try validate(statusCode, name:"statusCode", parent: name, pattern: "[1-5]\\d\\d")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2788,8 +2788,8 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
-        public func validate() throws {
-            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
+        public func validate(name: String) throws {
+            try validate(statusCode, name:"statusCode", parent: name, pattern: "[1-5]\\d\\d")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3876,8 +3876,8 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
-        public func validate() throws {
-            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
+        public func validate(name: String) throws {
+            try validate(statusCode, name:"statusCode", parent: name, pattern: "[1-5]\\d\\d")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4021,8 +4021,8 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
-        public func validate() throws {
-            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
+        public func validate(name: String) throws {
+            try validate(statusCode, name:"statusCode", parent: name, pattern: "[1-5]\\d\\d")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4136,8 +4136,8 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
-        public func validate() throws {
-            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
+        public func validate(name: String) throws {
+            try validate(statusCode, name:"statusCode", parent: name, pattern: "[1-5]\\d\\d")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5303,8 +5303,8 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
-        public func validate() throws {
-            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
+        public func validate(name: String) throws {
+            try validate(statusCode, name:"statusCode", parent: name, pattern: "[1-5]\\d\\d")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5376,8 +5376,8 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
-        public func validate() throws {
-            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
+        public func validate(name: String) throws {
+            try validate(statusCode, name:"statusCode", parent: name, pattern: "[1-5]\\d\\d")
         }
 
         private enum CodingKeys: String, CodingKey {

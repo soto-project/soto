@@ -41,18 +41,18 @@ extension Cloud9 {
             self.subnetId = subnetId
         }
 
-        public func validate() throws {
-            try validate(automaticStopTimeMinutes, name:"automaticStopTimeMinutes", max: 20160)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "[\\x20-\\x7E]{10,128}")
-            try validate(description, name:"description", max: 200)
-            try validate(instanceType, name:"instanceType", max: 20)
-            try validate(instanceType, name:"instanceType", min: 5)
-            try validate(instanceType, name:"instanceType", pattern: "^[a-z][1-9][.][a-z0-9]+$")
-            try validate(name, name:"name", max: 60)
-            try validate(name, name:"name", min: 1)
-            try validate(ownerArn, name:"ownerArn", pattern: "arn:aws:(iam|sts)::\\d+:(root|user|federated-user|assumed-role)\\/?\\S*")
-            try validate(subnetId, name:"subnetId", max: 30)
-            try validate(subnetId, name:"subnetId", min: 5)
+        public func validate(name: String) throws {
+            try validate(automaticStopTimeMinutes, name:"automaticStopTimeMinutes", parent: name, max: 20160)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[\\x20-\\x7E]{10,128}")
+            try validate(description, name:"description", parent: name, max: 200)
+            try validate(instanceType, name:"instanceType", parent: name, max: 20)
+            try validate(instanceType, name:"instanceType", parent: name, min: 5)
+            try validate(instanceType, name:"instanceType", parent: name, pattern: "^[a-z][1-9][.][a-z0-9]+$")
+            try validate(name, name:"name", parent: name, max: 60)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(ownerArn, name:"ownerArn", parent: name, pattern: "arn:aws:(iam|sts)::\\d+:(root|user|federated-user|assumed-role)\\/?\\S*")
+            try validate(subnetId, name:"subnetId", parent: name, max: 30)
+            try validate(subnetId, name:"subnetId", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -103,9 +103,9 @@ extension Cloud9 {
             self.userArn = userArn
         }
 
-        public func validate() throws {
-            try validate(environmentId, name:"environmentId", pattern: "^[a-zA-Z0-9]{8,32}$")
-            try validate(userArn, name:"userArn", pattern: "arn:aws:(iam|sts)::\\d+:(root|user|federated-user|assumed-role)\\/?\\S*")
+        public func validate(name: String) throws {
+            try validate(environmentId, name:"environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
+            try validate(userArn, name:"userArn", parent: name, pattern: "arn:aws:(iam|sts)::\\d+:(root|user|federated-user|assumed-role)\\/?\\S*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -148,9 +148,9 @@ extension Cloud9 {
             self.userArn = userArn
         }
 
-        public func validate() throws {
-            try validate(environmentId, name:"environmentId", pattern: "^[a-zA-Z0-9]{8,32}$")
-            try validate(userArn, name:"userArn", pattern: "arn:aws:(iam|sts)::\\d+:(root|user|federated-user|assumed-role)\\/?\\S*")
+        public func validate(name: String) throws {
+            try validate(environmentId, name:"environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
+            try validate(userArn, name:"userArn", parent: name, pattern: "arn:aws:(iam|sts)::\\d+:(root|user|federated-user|assumed-role)\\/?\\S*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -179,8 +179,8 @@ extension Cloud9 {
             self.environmentId = environmentId
         }
 
-        public func validate() throws {
-            try validate(environmentId, name:"environmentId", pattern: "^[a-zA-Z0-9]{8,32}$")
+        public func validate(name: String) throws {
+            try validate(environmentId, name:"environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -224,11 +224,11 @@ extension Cloud9 {
             self.userArn = userArn
         }
 
-        public func validate() throws {
-            try validate(environmentId, name:"environmentId", pattern: "^[a-zA-Z0-9]{8,32}$")
-            try validate(maxResults, name:"maxResults", max: 25)
-            try validate(maxResults, name:"maxResults", min: 0)
-            try validate(userArn, name:"userArn", pattern: "arn:aws:(iam|sts)::\\d+:(root|user|federated-user|assumed-role)\\/?\\S*")
+        public func validate(name: String) throws {
+            try validate(environmentId, name:"environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
+            try validate(maxResults, name:"maxResults", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(userArn, name:"userArn", parent: name, pattern: "arn:aws:(iam|sts)::\\d+:(root|user|federated-user|assumed-role)\\/?\\S*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -274,8 +274,8 @@ extension Cloud9 {
             self.environmentId = environmentId
         }
 
-        public func validate() throws {
-            try validate(environmentId, name:"environmentId", pattern: "^[a-zA-Z0-9]{8,32}$")
+        public func validate(name: String) throws {
+            try validate(environmentId, name:"environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -317,12 +317,12 @@ extension Cloud9 {
             self.environmentIds = environmentIds
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try environmentIds.forEach {
-                try validate($0, name:"environmentIds[]", pattern: "^[a-zA-Z0-9]{8,32}$")
+                try validate($0, name: "environmentIds[]", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
             }
-            try validate(environmentIds, name:"environmentIds", max: 25)
-            try validate(environmentIds, name:"environmentIds", min: 1)
+            try validate(environmentIds, name:"environmentIds", parent: name, max: 25)
+            try validate(environmentIds, name:"environmentIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -498,9 +498,9 @@ extension Cloud9 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 25)
-            try validate(maxResults, name:"maxResults", min: 0)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -564,9 +564,9 @@ extension Cloud9 {
             self.userArn = userArn
         }
 
-        public func validate() throws {
-            try validate(environmentId, name:"environmentId", pattern: "^[a-zA-Z0-9]{8,32}$")
-            try validate(userArn, name:"userArn", pattern: "arn:aws:(iam|sts)::\\d+:(root|user|federated-user|assumed-role)\\/?\\S*")
+        public func validate(name: String) throws {
+            try validate(environmentId, name:"environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
+            try validate(userArn, name:"userArn", parent: name, pattern: "arn:aws:(iam|sts)::\\d+:(root|user|federated-user|assumed-role)\\/?\\S*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -613,11 +613,11 @@ extension Cloud9 {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(description, name:"description", max: 200)
-            try validate(environmentId, name:"environmentId", pattern: "^[a-zA-Z0-9]{8,32}$")
-            try validate(name, name:"name", max: 60)
-            try validate(name, name:"name", min: 1)
+        public func validate(name: String) throws {
+            try validate(description, name:"description", parent: name, max: 200)
+            try validate(environmentId, name:"environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
+            try validate(name, name:"name", parent: name, max: 60)
+            try validate(name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

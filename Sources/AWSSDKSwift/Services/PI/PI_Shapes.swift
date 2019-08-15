@@ -79,11 +79,11 @@ extension PI {
             self.startTime = startTime
         }
 
-        public func validate() throws {
-            try groupBy.validate()
-            try validate(maxResults, name:"maxResults", max: 20)
-            try validate(maxResults, name:"maxResults", min: 0)
-            try partitionBy?.validate()
+        public func validate(name: String) throws {
+            try groupBy.validate(name: "\(name).groupBy")
+            try validate(maxResults, name:"maxResults", parent: name, max: 20)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try partitionBy?.validate(name: "\(name).partitionBy")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -158,11 +158,11 @@ extension PI {
             self.limit = limit
         }
 
-        public func validate() throws {
-            try validate(dimensions, name:"dimensions", max: 10)
-            try validate(dimensions, name:"dimensions", min: 1)
-            try validate(limit, name:"limit", max: 10)
-            try validate(limit, name:"limit", min: 1)
+        public func validate(name: String) throws {
+            try validate(dimensions, name:"dimensions", parent: name, max: 10)
+            try validate(dimensions, name:"dimensions", parent: name, min: 1)
+            try validate(limit, name:"limit", parent: name, max: 10)
+            try validate(limit, name:"limit", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -239,14 +239,14 @@ extension PI {
             self.startTime = startTime
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 20)
-            try validate(maxResults, name:"maxResults", min: 0)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 20)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
             try metricQueries.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).metricQueries[]")
             }
-            try validate(metricQueries, name:"metricQueries", max: 15)
-            try validate(metricQueries, name:"metricQueries", min: 1)
+            try validate(metricQueries, name:"metricQueries", parent: name, max: 15)
+            try validate(metricQueries, name:"metricQueries", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -340,8 +340,8 @@ extension PI {
             self.metric = metric
         }
 
-        public func validate() throws {
-            try groupBy?.validate()
+        public func validate(name: String) throws {
+            try groupBy?.validate(name: "\(name).groupBy")
         }
 
         private enum CodingKeys: String, CodingKey {

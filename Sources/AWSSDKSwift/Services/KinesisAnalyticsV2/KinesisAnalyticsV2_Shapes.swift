@@ -25,13 +25,13 @@ extension KinesisAnalyticsV2 {
             self.currentApplicationVersionId = currentApplicationVersionId
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 128)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
-            try cloudWatchLoggingOption.validate()
-            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", max: 999999999)
-            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", min: 1)
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try cloudWatchLoggingOption.validate(name: "\(name).cloudWatchLoggingOption")
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -92,16 +92,16 @@ extension KinesisAnalyticsV2 {
             self.inputProcessingConfiguration = inputProcessingConfiguration
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 128)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", max: 999999999)
-            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", min: 1)
-            try validate(inputId, name:"inputId", max: 50)
-            try validate(inputId, name:"inputId", min: 1)
-            try validate(inputId, name:"inputId", pattern: "[a-zA-Z0-9_.-]+")
-            try inputProcessingConfiguration.validate()
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
+            try validate(inputId, name:"inputId", parent: name, max: 50)
+            try validate(inputId, name:"inputId", parent: name, min: 1)
+            try validate(inputId, name:"inputId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try inputProcessingConfiguration.validate(name: "\(name).inputProcessingConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -164,13 +164,13 @@ extension KinesisAnalyticsV2 {
             self.input = input
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 128)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", max: 999999999)
-            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", min: 1)
-            try input.validate()
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
+            try input.validate(name: "\(name).input")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -227,13 +227,13 @@ extension KinesisAnalyticsV2 {
             self.output = output
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 128)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", max: 999999999)
-            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", min: 1)
-            try output.validate()
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
+            try output.validate(name: "\(name).output")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -290,13 +290,13 @@ extension KinesisAnalyticsV2 {
             self.referenceDataSource = referenceDataSource
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 128)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", max: 999999999)
-            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", min: 1)
-            try referenceDataSource.validate()
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
+            try referenceDataSource.validate(name: "\(name).referenceDataSource")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -349,8 +349,8 @@ extension KinesisAnalyticsV2 {
             self.codeContentType = codeContentType
         }
 
-        public func validate() throws {
-            try codeContent?.validate()
+        public func validate(name: String) throws {
+            try codeContent?.validate(name: "\(name).codeContent")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -397,8 +397,8 @@ extension KinesisAnalyticsV2 {
             self.codeContentUpdate = codeContentUpdate
         }
 
-        public func validate() throws {
-            try codeContentUpdate?.validate()
+        public func validate(name: String) throws {
+            try codeContentUpdate?.validate(name: "\(name).codeContentUpdate")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -435,11 +435,11 @@ extension KinesisAnalyticsV2 {
             self.sqlApplicationConfiguration = sqlApplicationConfiguration
         }
 
-        public func validate() throws {
-            try applicationCodeConfiguration.validate()
-            try environmentProperties?.validate()
-            try flinkApplicationConfiguration?.validate()
-            try sqlApplicationConfiguration?.validate()
+        public func validate(name: String) throws {
+            try applicationCodeConfiguration.validate(name: "\(name).applicationCodeConfiguration")
+            try environmentProperties?.validate(name: "\(name).environmentProperties")
+            try flinkApplicationConfiguration?.validate(name: "\(name).flinkApplicationConfiguration")
+            try sqlApplicationConfiguration?.validate(name: "\(name).sqlApplicationConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -521,11 +521,11 @@ extension KinesisAnalyticsV2 {
             self.sqlApplicationConfigurationUpdate = sqlApplicationConfigurationUpdate
         }
 
-        public func validate() throws {
-            try applicationCodeConfigurationUpdate?.validate()
-            try environmentPropertyUpdates?.validate()
-            try flinkApplicationConfigurationUpdate?.validate()
-            try sqlApplicationConfigurationUpdate?.validate()
+        public func validate(name: String) throws {
+            try applicationCodeConfigurationUpdate?.validate(name: "\(name).applicationCodeConfigurationUpdate")
+            try environmentPropertyUpdates?.validate(name: "\(name).environmentPropertyUpdates")
+            try flinkApplicationConfigurationUpdate?.validate(name: "\(name).flinkApplicationConfigurationUpdate")
+            try sqlApplicationConfigurationUpdate?.validate(name: "\(name).sqlApplicationConfigurationUpdate")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -620,10 +620,10 @@ extension KinesisAnalyticsV2 {
             self.snapshotName = snapshotName
         }
 
-        public func validate() throws {
-            try validate(snapshotName, name:"snapshotName", max: 128)
-            try validate(snapshotName, name:"snapshotName", min: 1)
-            try validate(snapshotName, name:"snapshotName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(snapshotName, name:"snapshotName", parent: name, max: 128)
+            try validate(snapshotName, name:"snapshotName", parent: name, min: 1)
+            try validate(snapshotName, name:"snapshotName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -753,9 +753,9 @@ extension KinesisAnalyticsV2 {
             self.recordRowDelimiter = recordRowDelimiter
         }
 
-        public func validate() throws {
-            try validate(recordColumnDelimiter, name:"recordColumnDelimiter", min: 1)
-            try validate(recordRowDelimiter, name:"recordRowDelimiter", min: 1)
+        public func validate(name: String) throws {
+            try validate(recordColumnDelimiter, name:"recordColumnDelimiter", parent: name, min: 1)
+            try validate(recordRowDelimiter, name:"recordRowDelimiter", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -788,9 +788,9 @@ extension KinesisAnalyticsV2 {
             self.minPauseBetweenCheckpoints = minPauseBetweenCheckpoints
         }
 
-        public func validate() throws {
-            try validate(checkpointInterval, name:"checkpointInterval", min: 0)
-            try validate(minPauseBetweenCheckpoints, name:"minPauseBetweenCheckpoints", min: 0)
+        public func validate(name: String) throws {
+            try validate(checkpointInterval, name:"checkpointInterval", parent: name, min: 0)
+            try validate(minPauseBetweenCheckpoints, name:"minPauseBetweenCheckpoints", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -857,9 +857,9 @@ extension KinesisAnalyticsV2 {
             self.minPauseBetweenCheckpointsUpdate = minPauseBetweenCheckpointsUpdate
         }
 
-        public func validate() throws {
-            try validate(checkpointIntervalUpdate, name:"checkpointIntervalUpdate", min: 0)
-            try validate(minPauseBetweenCheckpointsUpdate, name:"minPauseBetweenCheckpointsUpdate", min: 0)
+        public func validate(name: String) throws {
+            try validate(checkpointIntervalUpdate, name:"checkpointIntervalUpdate", parent: name, min: 0)
+            try validate(minPauseBetweenCheckpointsUpdate, name:"minPauseBetweenCheckpointsUpdate", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -882,10 +882,10 @@ extension KinesisAnalyticsV2 {
             self.logStreamARN = logStreamARN
         }
 
-        public func validate() throws {
-            try validate(logStreamARN, name:"logStreamARN", max: 2048)
-            try validate(logStreamARN, name:"logStreamARN", min: 1)
-            try validate(logStreamARN, name:"logStreamARN", pattern: "arn:.*")
+        public func validate(name: String) throws {
+            try validate(logStreamARN, name:"logStreamARN", parent: name, max: 2048)
+            try validate(logStreamARN, name:"logStreamARN", parent: name, min: 1)
+            try validate(logStreamARN, name:"logStreamARN", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -936,13 +936,13 @@ extension KinesisAnalyticsV2 {
             self.logStreamARNUpdate = logStreamARNUpdate
         }
 
-        public func validate() throws {
-            try validate(cloudWatchLoggingOptionId, name:"cloudWatchLoggingOptionId", max: 50)
-            try validate(cloudWatchLoggingOptionId, name:"cloudWatchLoggingOptionId", min: 1)
-            try validate(cloudWatchLoggingOptionId, name:"cloudWatchLoggingOptionId", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(logStreamARNUpdate, name:"logStreamARNUpdate", max: 2048)
-            try validate(logStreamARNUpdate, name:"logStreamARNUpdate", min: 1)
-            try validate(logStreamARNUpdate, name:"logStreamARNUpdate", pattern: "arn:.*")
+        public func validate(name: String) throws {
+            try validate(cloudWatchLoggingOptionId, name:"cloudWatchLoggingOptionId", parent: name, max: 50)
+            try validate(cloudWatchLoggingOptionId, name:"cloudWatchLoggingOptionId", parent: name, min: 1)
+            try validate(cloudWatchLoggingOptionId, name:"cloudWatchLoggingOptionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(logStreamARNUpdate, name:"logStreamARNUpdate", parent: name, max: 2048)
+            try validate(logStreamARNUpdate, name:"logStreamARNUpdate", parent: name, min: 1)
+            try validate(logStreamARNUpdate, name:"logStreamARNUpdate", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -971,12 +971,12 @@ extension KinesisAnalyticsV2 {
             self.zipFileContent = zipFileContent
         }
 
-        public func validate() throws {
-            try s3ContentLocation?.validate()
-            try validate(textContent, name:"textContent", max: 102400)
-            try validate(textContent, name:"textContent", min: 0)
-            try validate(zipFileContent, name:"zipFileContent", max: 52428800)
-            try validate(zipFileContent, name:"zipFileContent", min: 0)
+        public func validate(name: String) throws {
+            try s3ContentLocation?.validate(name: "\(name).s3ContentLocation")
+            try validate(textContent, name:"textContent", parent: name, max: 102400)
+            try validate(textContent, name:"textContent", parent: name, min: 0)
+            try validate(zipFileContent, name:"zipFileContent", parent: name, max: 52428800)
+            try validate(zipFileContent, name:"zipFileContent", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1044,12 +1044,12 @@ extension KinesisAnalyticsV2 {
             self.zipFileContentUpdate = zipFileContentUpdate
         }
 
-        public func validate() throws {
-            try s3ContentLocationUpdate?.validate()
-            try validate(textContentUpdate, name:"textContentUpdate", max: 102400)
-            try validate(textContentUpdate, name:"textContentUpdate", min: 0)
-            try validate(zipFileContentUpdate, name:"zipFileContentUpdate", max: 52428800)
-            try validate(zipFileContentUpdate, name:"zipFileContentUpdate", min: 0)
+        public func validate(name: String) throws {
+            try s3ContentLocationUpdate?.validate(name: "\(name).s3ContentLocationUpdate")
+            try validate(textContentUpdate, name:"textContentUpdate", parent: name, max: 102400)
+            try validate(textContentUpdate, name:"textContentUpdate", parent: name, min: 0)
+            try validate(zipFileContentUpdate, name:"zipFileContentUpdate", parent: name, max: 52428800)
+            try validate(zipFileContentUpdate, name:"zipFileContentUpdate", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1101,24 +1101,24 @@ extension KinesisAnalyticsV2 {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try applicationConfiguration?.validate()
-            try validate(applicationDescription, name:"applicationDescription", max: 1024)
-            try validate(applicationDescription, name:"applicationDescription", min: 0)
-            try validate(applicationName, name:"applicationName", max: 128)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try applicationConfiguration?.validate(name: "\(name).applicationConfiguration")
+            try validate(applicationDescription, name:"applicationDescription", parent: name, max: 1024)
+            try validate(applicationDescription, name:"applicationDescription", parent: name, min: 0)
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try cloudWatchLoggingOptions?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).cloudWatchLoggingOptions[]")
             }
-            try validate(serviceExecutionRole, name:"serviceExecutionRole", max: 2048)
-            try validate(serviceExecutionRole, name:"serviceExecutionRole", min: 1)
-            try validate(serviceExecutionRole, name:"serviceExecutionRole", pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+            try validate(serviceExecutionRole, name:"serviceExecutionRole", parent: name, max: 2048)
+            try validate(serviceExecutionRole, name:"serviceExecutionRole", parent: name, min: 1)
+            try validate(serviceExecutionRole, name:"serviceExecutionRole", parent: name, pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", max: 200)
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, max: 200)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1165,13 +1165,13 @@ extension KinesisAnalyticsV2 {
             self.snapshotName = snapshotName
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 128)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(snapshotName, name:"snapshotName", max: 128)
-            try validate(snapshotName, name:"snapshotName", min: 1)
-            try validate(snapshotName, name:"snapshotName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(snapshotName, name:"snapshotName", parent: name, max: 128)
+            try validate(snapshotName, name:"snapshotName", parent: name, min: 1)
+            try validate(snapshotName, name:"snapshotName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1208,15 +1208,15 @@ extension KinesisAnalyticsV2 {
             self.currentApplicationVersionId = currentApplicationVersionId
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 128)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(cloudWatchLoggingOptionId, name:"cloudWatchLoggingOptionId", max: 50)
-            try validate(cloudWatchLoggingOptionId, name:"cloudWatchLoggingOptionId", min: 1)
-            try validate(cloudWatchLoggingOptionId, name:"cloudWatchLoggingOptionId", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", max: 999999999)
-            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", min: 1)
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(cloudWatchLoggingOptionId, name:"cloudWatchLoggingOptionId", parent: name, max: 50)
+            try validate(cloudWatchLoggingOptionId, name:"cloudWatchLoggingOptionId", parent: name, min: 1)
+            try validate(cloudWatchLoggingOptionId, name:"cloudWatchLoggingOptionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1273,15 +1273,15 @@ extension KinesisAnalyticsV2 {
             self.inputId = inputId
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 128)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", max: 999999999)
-            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", min: 1)
-            try validate(inputId, name:"inputId", max: 50)
-            try validate(inputId, name:"inputId", min: 1)
-            try validate(inputId, name:"inputId", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
+            try validate(inputId, name:"inputId", parent: name, max: 50)
+            try validate(inputId, name:"inputId", parent: name, min: 1)
+            try validate(inputId, name:"inputId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1333,15 +1333,15 @@ extension KinesisAnalyticsV2 {
             self.outputId = outputId
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 128)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", max: 999999999)
-            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", min: 1)
-            try validate(outputId, name:"outputId", max: 50)
-            try validate(outputId, name:"outputId", min: 1)
-            try validate(outputId, name:"outputId", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
+            try validate(outputId, name:"outputId", parent: name, max: 50)
+            try validate(outputId, name:"outputId", parent: name, min: 1)
+            try validate(outputId, name:"outputId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1393,15 +1393,15 @@ extension KinesisAnalyticsV2 {
             self.referenceId = referenceId
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 128)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", max: 999999999)
-            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", min: 1)
-            try validate(referenceId, name:"referenceId", max: 50)
-            try validate(referenceId, name:"referenceId", min: 1)
-            try validate(referenceId, name:"referenceId", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
+            try validate(referenceId, name:"referenceId", parent: name, max: 50)
+            try validate(referenceId, name:"referenceId", parent: name, min: 1)
+            try validate(referenceId, name:"referenceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1449,10 +1449,10 @@ extension KinesisAnalyticsV2 {
             self.createTimestamp = createTimestamp
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 128)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1489,13 +1489,13 @@ extension KinesisAnalyticsV2 {
             self.snapshotName = snapshotName
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 128)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(snapshotName, name:"snapshotName", max: 128)
-            try validate(snapshotName, name:"snapshotName", min: 1)
-            try validate(snapshotName, name:"snapshotName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(snapshotName, name:"snapshotName", parent: name, max: 128)
+            try validate(snapshotName, name:"snapshotName", parent: name, min: 1)
+            try validate(snapshotName, name:"snapshotName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1529,10 +1529,10 @@ extension KinesisAnalyticsV2 {
             self.includeAdditionalDetails = includeAdditionalDetails
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 128)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1574,13 +1574,13 @@ extension KinesisAnalyticsV2 {
             self.snapshotName = snapshotName
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 128)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(snapshotName, name:"snapshotName", max: 128)
-            try validate(snapshotName, name:"snapshotName", min: 1)
-            try validate(snapshotName, name:"snapshotName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(snapshotName, name:"snapshotName", parent: name, max: 128)
+            try validate(snapshotName, name:"snapshotName", parent: name, min: 1)
+            try validate(snapshotName, name:"snapshotName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1651,15 +1651,15 @@ extension KinesisAnalyticsV2 {
             self.serviceExecutionRole = serviceExecutionRole
         }
 
-        public func validate() throws {
-            try inputProcessingConfiguration?.validate()
-            try validate(resourceARN, name:"resourceARN", max: 2048)
-            try validate(resourceARN, name:"resourceARN", min: 1)
-            try validate(resourceARN, name:"resourceARN", pattern: "arn:.*")
-            try s3Configuration?.validate()
-            try validate(serviceExecutionRole, name:"serviceExecutionRole", max: 2048)
-            try validate(serviceExecutionRole, name:"serviceExecutionRole", min: 1)
-            try validate(serviceExecutionRole, name:"serviceExecutionRole", pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+        public func validate(name: String) throws {
+            try inputProcessingConfiguration?.validate(name: "\(name).inputProcessingConfiguration")
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 2048)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, pattern: "arn:.*")
+            try s3Configuration?.validate(name: "\(name).s3Configuration")
+            try validate(serviceExecutionRole, name:"serviceExecutionRole", parent: name, max: 2048)
+            try validate(serviceExecutionRole, name:"serviceExecutionRole", parent: name, min: 1)
+            try validate(serviceExecutionRole, name:"serviceExecutionRole", parent: name, pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1715,11 +1715,11 @@ extension KinesisAnalyticsV2 {
             self.propertyGroups = propertyGroups
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try propertyGroups.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).propertyGroups[]")
             }
-            try validate(propertyGroups, name:"propertyGroups", max: 50)
+            try validate(propertyGroups, name:"propertyGroups", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1756,11 +1756,11 @@ extension KinesisAnalyticsV2 {
             self.propertyGroups = propertyGroups
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try propertyGroups.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).propertyGroups[]")
             }
-            try validate(propertyGroups, name:"propertyGroups", max: 50)
+            try validate(propertyGroups, name:"propertyGroups", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1788,9 +1788,9 @@ extension KinesisAnalyticsV2 {
             self.parallelismConfiguration = parallelismConfiguration
         }
 
-        public func validate() throws {
-            try checkpointConfiguration?.validate()
-            try parallelismConfiguration?.validate()
+        public func validate(name: String) throws {
+            try checkpointConfiguration?.validate(name: "\(name).checkpointConfiguration")
+            try parallelismConfiguration?.validate(name: "\(name).parallelismConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1852,9 +1852,9 @@ extension KinesisAnalyticsV2 {
             self.parallelismConfigurationUpdate = parallelismConfigurationUpdate
         }
 
-        public func validate() throws {
-            try checkpointConfigurationUpdate?.validate()
-            try parallelismConfigurationUpdate?.validate()
+        public func validate(name: String) throws {
+            try checkpointConfigurationUpdate?.validate(name: "\(name).checkpointConfigurationUpdate")
+            try parallelismConfigurationUpdate?.validate(name: "\(name).parallelismConfigurationUpdate")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1896,14 +1896,14 @@ extension KinesisAnalyticsV2 {
             self.namePrefix = namePrefix
         }
 
-        public func validate() throws {
-            try inputParallelism?.validate()
-            try inputProcessingConfiguration?.validate()
-            try inputSchema.validate()
-            try kinesisFirehoseInput?.validate()
-            try kinesisStreamsInput?.validate()
-            try validate(namePrefix, name:"namePrefix", max: 32)
-            try validate(namePrefix, name:"namePrefix", min: 1)
+        public func validate(name: String) throws {
+            try inputParallelism?.validate(name: "\(name).inputParallelism")
+            try inputProcessingConfiguration?.validate(name: "\(name).inputProcessingConfiguration")
+            try inputSchema.validate(name: "\(name).inputSchema")
+            try kinesisFirehoseInput?.validate(name: "\(name).kinesisFirehoseInput")
+            try kinesisStreamsInput?.validate(name: "\(name).kinesisStreamsInput")
+            try validate(namePrefix, name:"namePrefix", parent: name, max: 32)
+            try validate(namePrefix, name:"namePrefix", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1985,10 +1985,10 @@ extension KinesisAnalyticsV2 {
             self.resourceARN = resourceARN
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 2048)
-            try validate(resourceARN, name:"resourceARN", min: 1)
-            try validate(resourceARN, name:"resourceARN", pattern: "arn:.*")
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 2048)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2030,10 +2030,10 @@ extension KinesisAnalyticsV2 {
             self.resourceARNUpdate = resourceARNUpdate
         }
 
-        public func validate() throws {
-            try validate(resourceARNUpdate, name:"resourceARNUpdate", max: 2048)
-            try validate(resourceARNUpdate, name:"resourceARNUpdate", min: 1)
-            try validate(resourceARNUpdate, name:"resourceARNUpdate", pattern: "arn:.*")
+        public func validate(name: String) throws {
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, max: 2048)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, min: 1)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2053,9 +2053,9 @@ extension KinesisAnalyticsV2 {
             self.count = count
         }
 
-        public func validate() throws {
-            try validate(count, name:"count", max: 64)
-            try validate(count, name:"count", min: 1)
+        public func validate(name: String) throws {
+            try validate(count, name:"count", parent: name, max: 64)
+            try validate(count, name:"count", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2075,9 +2075,9 @@ extension KinesisAnalyticsV2 {
             self.countUpdate = countUpdate
         }
 
-        public func validate() throws {
-            try validate(countUpdate, name:"countUpdate", max: 64)
-            try validate(countUpdate, name:"countUpdate", min: 1)
+        public func validate(name: String) throws {
+            try validate(countUpdate, name:"countUpdate", parent: name, max: 64)
+            try validate(countUpdate, name:"countUpdate", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2097,8 +2097,8 @@ extension KinesisAnalyticsV2 {
             self.inputLambdaProcessor = inputLambdaProcessor
         }
 
-        public func validate() throws {
-            try inputLambdaProcessor.validate()
+        public func validate(name: String) throws {
+            try inputLambdaProcessor.validate(name: "\(name).inputLambdaProcessor")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2135,8 +2135,8 @@ extension KinesisAnalyticsV2 {
             self.inputLambdaProcessorUpdate = inputLambdaProcessorUpdate
         }
 
-        public func validate() throws {
-            try inputLambdaProcessorUpdate.validate()
+        public func validate(name: String) throws {
+            try inputLambdaProcessorUpdate.validate(name: "\(name).inputLambdaProcessorUpdate")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2164,14 +2164,14 @@ extension KinesisAnalyticsV2 {
             self.recordFormatUpdate = recordFormatUpdate
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try recordColumnUpdates?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).recordColumnUpdates[]")
             }
-            try validate(recordColumnUpdates, name:"recordColumnUpdates", max: 1000)
-            try validate(recordColumnUpdates, name:"recordColumnUpdates", min: 1)
-            try validate(recordEncodingUpdate, name:"recordEncodingUpdate", pattern: "UTF-8")
-            try recordFormatUpdate?.validate()
+            try validate(recordColumnUpdates, name:"recordColumnUpdates", parent: name, max: 1000)
+            try validate(recordColumnUpdates, name:"recordColumnUpdates", parent: name, min: 1)
+            try validate(recordEncodingUpdate, name:"recordEncodingUpdate", parent: name, pattern: "UTF-8")
+            try recordFormatUpdate?.validate(name: "\(name).recordFormatUpdate")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2241,17 +2241,17 @@ extension KinesisAnalyticsV2 {
             self.namePrefixUpdate = namePrefixUpdate
         }
 
-        public func validate() throws {
-            try validate(inputId, name:"inputId", max: 50)
-            try validate(inputId, name:"inputId", min: 1)
-            try validate(inputId, name:"inputId", pattern: "[a-zA-Z0-9_.-]+")
-            try inputParallelismUpdate?.validate()
-            try inputProcessingConfigurationUpdate?.validate()
-            try inputSchemaUpdate?.validate()
-            try kinesisFirehoseInputUpdate?.validate()
-            try kinesisStreamsInputUpdate?.validate()
-            try validate(namePrefixUpdate, name:"namePrefixUpdate", max: 32)
-            try validate(namePrefixUpdate, name:"namePrefixUpdate", min: 1)
+        public func validate(name: String) throws {
+            try validate(inputId, name:"inputId", parent: name, max: 50)
+            try validate(inputId, name:"inputId", parent: name, min: 1)
+            try validate(inputId, name:"inputId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try inputParallelismUpdate?.validate(name: "\(name).inputParallelismUpdate")
+            try inputProcessingConfigurationUpdate?.validate(name: "\(name).inputProcessingConfigurationUpdate")
+            try inputSchemaUpdate?.validate(name: "\(name).inputSchemaUpdate")
+            try kinesisFirehoseInputUpdate?.validate(name: "\(name).kinesisFirehoseInputUpdate")
+            try kinesisStreamsInputUpdate?.validate(name: "\(name).kinesisStreamsInputUpdate")
+            try validate(namePrefixUpdate, name:"namePrefixUpdate", parent: name, max: 32)
+            try validate(namePrefixUpdate, name:"namePrefixUpdate", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2277,8 +2277,8 @@ extension KinesisAnalyticsV2 {
             self.recordRowPath = recordRowPath
         }
 
-        public func validate() throws {
-            try validate(recordRowPath, name:"recordRowPath", min: 1)
+        public func validate(name: String) throws {
+            try validate(recordRowPath, name:"recordRowPath", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2298,10 +2298,10 @@ extension KinesisAnalyticsV2 {
             self.resourceARN = resourceARN
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 2048)
-            try validate(resourceARN, name:"resourceARN", min: 1)
-            try validate(resourceARN, name:"resourceARN", pattern: "arn:.*")
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 2048)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2343,10 +2343,10 @@ extension KinesisAnalyticsV2 {
             self.resourceARNUpdate = resourceARNUpdate
         }
 
-        public func validate() throws {
-            try validate(resourceARNUpdate, name:"resourceARNUpdate", max: 2048)
-            try validate(resourceARNUpdate, name:"resourceARNUpdate", min: 1)
-            try validate(resourceARNUpdate, name:"resourceARNUpdate", pattern: "arn:.*")
+        public func validate(name: String) throws {
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, max: 2048)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, min: 1)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2366,10 +2366,10 @@ extension KinesisAnalyticsV2 {
             self.resourceARN = resourceARN
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 2048)
-            try validate(resourceARN, name:"resourceARN", min: 1)
-            try validate(resourceARN, name:"resourceARN", pattern: "arn:.*")
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 2048)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2411,10 +2411,10 @@ extension KinesisAnalyticsV2 {
             self.resourceARNUpdate = resourceARNUpdate
         }
 
-        public func validate() throws {
-            try validate(resourceARNUpdate, name:"resourceARNUpdate", max: 2048)
-            try validate(resourceARNUpdate, name:"resourceARNUpdate", min: 1)
-            try validate(resourceARNUpdate, name:"resourceARNUpdate", pattern: "arn:.*")
+        public func validate(name: String) throws {
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, max: 2048)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, min: 1)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2434,10 +2434,10 @@ extension KinesisAnalyticsV2 {
             self.resourceARN = resourceARN
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 2048)
-            try validate(resourceARN, name:"resourceARN", min: 1)
-            try validate(resourceARN, name:"resourceARN", pattern: "arn:.*")
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 2048)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2479,10 +2479,10 @@ extension KinesisAnalyticsV2 {
             self.resourceARNUpdate = resourceARNUpdate
         }
 
-        public func validate() throws {
-            try validate(resourceARNUpdate, name:"resourceARNUpdate", max: 2048)
-            try validate(resourceARNUpdate, name:"resourceARNUpdate", min: 1)
-            try validate(resourceARNUpdate, name:"resourceARNUpdate", pattern: "arn:.*")
+        public func validate(name: String) throws {
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, max: 2048)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, min: 1)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2502,10 +2502,10 @@ extension KinesisAnalyticsV2 {
             self.resourceARN = resourceARN
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 2048)
-            try validate(resourceARN, name:"resourceARN", min: 1)
-            try validate(resourceARN, name:"resourceARN", pattern: "arn:.*")
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 2048)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2547,10 +2547,10 @@ extension KinesisAnalyticsV2 {
             self.resourceARNUpdate = resourceARNUpdate
         }
 
-        public func validate() throws {
-            try validate(resourceARNUpdate, name:"resourceARNUpdate", max: 2048)
-            try validate(resourceARNUpdate, name:"resourceARNUpdate", min: 1)
-            try validate(resourceARNUpdate, name:"resourceARNUpdate", pattern: "arn:.*")
+        public func validate(name: String) throws {
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, max: 2048)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, min: 1)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2570,10 +2570,10 @@ extension KinesisAnalyticsV2 {
             self.resourceARN = resourceARN
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 2048)
-            try validate(resourceARN, name:"resourceARN", min: 1)
-            try validate(resourceARN, name:"resourceARN", pattern: "arn:.*")
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 2048)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2615,10 +2615,10 @@ extension KinesisAnalyticsV2 {
             self.resourceARNUpdate = resourceARNUpdate
         }
 
-        public func validate() throws {
-            try validate(resourceARNUpdate, name:"resourceARNUpdate", max: 2048)
-            try validate(resourceARNUpdate, name:"resourceARNUpdate", min: 1)
-            try validate(resourceARNUpdate, name:"resourceARNUpdate", pattern: "arn:.*")
+        public func validate(name: String) throws {
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, max: 2048)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, min: 1)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2646,14 +2646,14 @@ extension KinesisAnalyticsV2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 128)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(limit, name:"limit", max: 50)
-            try validate(limit, name:"limit", min: 1)
-            try validate(nextToken, name:"nextToken", max: 512)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(limit, name:"limit", parent: name, max: 50)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 512)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2701,12 +2701,12 @@ extension KinesisAnalyticsV2 {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 50)
-            try validate(limit, name:"limit", min: 1)
-            try validate(nextToken, name:"nextToken", max: 128)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 50)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 128)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2749,10 +2749,10 @@ extension KinesisAnalyticsV2 {
             self.resourceARN = resourceARN
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 2048)
-            try validate(resourceARN, name:"resourceARN", min: 1)
-            try validate(resourceARN, name:"resourceARN", pattern: "arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\\d{1}+:\\d{12}+:application/[a-zA-Z0-9_.-]{1,128}")
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 2048)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, pattern: "arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\\d{1}+:\\d{12}+:application/[a-zA-Z0-9_.-]{1,128}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2801,9 +2801,9 @@ extension KinesisAnalyticsV2 {
             self.jSONMappingParameters = jSONMappingParameters
         }
 
-        public func validate() throws {
-            try cSVMappingParameters?.validate()
-            try jSONMappingParameters?.validate()
+        public func validate(name: String) throws {
+            try cSVMappingParameters?.validate(name: "\(name).cSVMappingParameters")
+            try jSONMappingParameters?.validate(name: "\(name).jSONMappingParameters")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2929,12 +2929,12 @@ extension KinesisAnalyticsV2 {
             self.name = name
         }
 
-        public func validate() throws {
-            try kinesisFirehoseOutput?.validate()
-            try kinesisStreamsOutput?.validate()
-            try lambdaOutput?.validate()
-            try validate(name, name:"name", max: 32)
-            try validate(name, name:"name", min: 1)
+        public func validate(name: String) throws {
+            try kinesisFirehoseOutput?.validate(name: "\(name).kinesisFirehoseOutput")
+            try kinesisStreamsOutput?.validate(name: "\(name).kinesisStreamsOutput")
+            try lambdaOutput?.validate(name: "\(name).lambdaOutput")
+            try validate(name, name:"name", parent: name, max: 32)
+            try validate(name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3020,15 +3020,15 @@ extension KinesisAnalyticsV2 {
             self.outputId = outputId
         }
 
-        public func validate() throws {
-            try kinesisFirehoseOutputUpdate?.validate()
-            try kinesisStreamsOutputUpdate?.validate()
-            try lambdaOutputUpdate?.validate()
-            try validate(nameUpdate, name:"nameUpdate", max: 32)
-            try validate(nameUpdate, name:"nameUpdate", min: 1)
-            try validate(outputId, name:"outputId", max: 50)
-            try validate(outputId, name:"outputId", min: 1)
-            try validate(outputId, name:"outputId", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try kinesisFirehoseOutputUpdate?.validate(name: "\(name).kinesisFirehoseOutputUpdate")
+            try kinesisStreamsOutputUpdate?.validate(name: "\(name).kinesisStreamsOutputUpdate")
+            try lambdaOutputUpdate?.validate(name: "\(name).lambdaOutputUpdate")
+            try validate(nameUpdate, name:"nameUpdate", parent: name, max: 32)
+            try validate(nameUpdate, name:"nameUpdate", parent: name, min: 1)
+            try validate(outputId, name:"outputId", parent: name, max: 50)
+            try validate(outputId, name:"outputId", parent: name, min: 1)
+            try validate(outputId, name:"outputId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3065,9 +3065,9 @@ extension KinesisAnalyticsV2 {
             self.parallelismPerKPU = parallelismPerKPU
         }
 
-        public func validate() throws {
-            try validate(parallelism, name:"parallelism", min: 1)
-            try validate(parallelismPerKPU, name:"parallelismPerKPU", min: 1)
+        public func validate(name: String) throws {
+            try validate(parallelism, name:"parallelism", parent: name, min: 1)
+            try validate(parallelismPerKPU, name:"parallelismPerKPU", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3139,9 +3139,9 @@ extension KinesisAnalyticsV2 {
             self.parallelismUpdate = parallelismUpdate
         }
 
-        public func validate() throws {
-            try validate(parallelismPerKPUUpdate, name:"parallelismPerKPUUpdate", min: 1)
-            try validate(parallelismUpdate, name:"parallelismUpdate", min: 1)
+        public func validate(name: String) throws {
+            try validate(parallelismPerKPUUpdate, name:"parallelismPerKPUUpdate", parent: name, min: 1)
+            try validate(parallelismUpdate, name:"parallelismUpdate", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3168,15 +3168,15 @@ extension KinesisAnalyticsV2 {
             self.propertyMap = propertyMap
         }
 
-        public func validate() throws {
-            try validate(propertyGroupId, name:"propertyGroupId", max: 50)
-            try validate(propertyGroupId, name:"propertyGroupId", min: 1)
-            try validate(propertyGroupId, name:"propertyGroupId", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(propertyGroupId, name:"propertyGroupId", parent: name, max: 50)
+            try validate(propertyGroupId, name:"propertyGroupId", parent: name, min: 1)
+            try validate(propertyGroupId, name:"propertyGroupId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try propertyMap.forEach {
-                try validate($0.key, name:"propertyMap[key:]", max: 2048)
-                try validate($0.key, name:"propertyMap[key:]", min: 1)
-                try validate($0.value, name:"propertyMap[:value]", max: 2048)
-                try validate($0.value, name:"propertyMap[:value]", min: 1)
+                try validate($0.key, name:"propertyMap.key", parent: name, max: 2048)
+                try validate($0.key, name:"propertyMap.key", parent: name, min: 1)
+                try validate($0.value, name:"propertyMap[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name:"propertyMap[\"\($0.key)\"]", parent: name, min: 1)
             }
         }
 
@@ -3206,8 +3206,8 @@ extension KinesisAnalyticsV2 {
             self.sqlType = sqlType
         }
 
-        public func validate() throws {
-            try validate(sqlType, name:"sqlType", min: 1)
+        public func validate(name: String) throws {
+            try validate(sqlType, name:"sqlType", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3233,8 +3233,8 @@ extension KinesisAnalyticsV2 {
             self.recordFormatType = recordFormatType
         }
 
-        public func validate() throws {
-            try mappingParameters?.validate()
+        public func validate(name: String) throws {
+            try mappingParameters?.validate(name: "\(name).mappingParameters")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3269,11 +3269,11 @@ extension KinesisAnalyticsV2 {
             self.tableName = tableName
         }
 
-        public func validate() throws {
-            try referenceSchema.validate()
-            try s3ReferenceDataSource?.validate()
-            try validate(tableName, name:"tableName", max: 32)
-            try validate(tableName, name:"tableName", min: 1)
+        public func validate(name: String) throws {
+            try referenceSchema.validate(name: "\(name).referenceSchema")
+            try s3ReferenceDataSource?.validate(name: "\(name).s3ReferenceDataSource")
+            try validate(tableName, name:"tableName", parent: name, max: 32)
+            try validate(tableName, name:"tableName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3339,14 +3339,14 @@ extension KinesisAnalyticsV2 {
             self.tableNameUpdate = tableNameUpdate
         }
 
-        public func validate() throws {
-            try validate(referenceId, name:"referenceId", max: 50)
-            try validate(referenceId, name:"referenceId", min: 1)
-            try validate(referenceId, name:"referenceId", pattern: "[a-zA-Z0-9_.-]+")
-            try referenceSchemaUpdate?.validate()
-            try s3ReferenceDataSourceUpdate?.validate()
-            try validate(tableNameUpdate, name:"tableNameUpdate", max: 32)
-            try validate(tableNameUpdate, name:"tableNameUpdate", min: 1)
+        public func validate(name: String) throws {
+            try validate(referenceId, name:"referenceId", parent: name, max: 50)
+            try validate(referenceId, name:"referenceId", parent: name, min: 1)
+            try validate(referenceId, name:"referenceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try referenceSchemaUpdate?.validate(name: "\(name).referenceSchemaUpdate")
+            try s3ReferenceDataSourceUpdate?.validate(name: "\(name).s3ReferenceDataSourceUpdate")
+            try validate(tableNameUpdate, name:"tableNameUpdate", parent: name, max: 32)
+            try validate(tableNameUpdate, name:"tableNameUpdate", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3373,10 +3373,10 @@ extension KinesisAnalyticsV2 {
             self.sqlRunConfigurations = sqlRunConfigurations
         }
 
-        public func validate() throws {
-            try applicationRestoreConfiguration?.validate()
+        public func validate(name: String) throws {
+            try applicationRestoreConfiguration?.validate(name: "\(name).applicationRestoreConfiguration")
             try sqlRunConfigurations?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).sqlRunConfigurations[]")
             }
         }
 
@@ -3415,8 +3415,8 @@ extension KinesisAnalyticsV2 {
             self.applicationRestoreConfiguration = applicationRestoreConfiguration
         }
 
-        public func validate() throws {
-            try applicationRestoreConfiguration?.validate()
+        public func validate(name: String) throws {
+            try applicationRestoreConfiguration?.validate(name: "\(name).applicationRestoreConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3473,12 +3473,12 @@ extension KinesisAnalyticsV2 {
             self.fileKey = fileKey
         }
 
-        public func validate() throws {
-            try validate(bucketARN, name:"bucketARN", max: 2048)
-            try validate(bucketARN, name:"bucketARN", min: 1)
-            try validate(bucketARN, name:"bucketARN", pattern: "arn:.*")
-            try validate(fileKey, name:"fileKey", max: 1024)
-            try validate(fileKey, name:"fileKey", min: 1)
+        public func validate(name: String) throws {
+            try validate(bucketARN, name:"bucketARN", parent: name, max: 2048)
+            try validate(bucketARN, name:"bucketARN", parent: name, min: 1)
+            try validate(bucketARN, name:"bucketARN", parent: name, pattern: "arn:.*")
+            try validate(fileKey, name:"fileKey", parent: name, max: 1024)
+            try validate(fileKey, name:"fileKey", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3507,12 +3507,12 @@ extension KinesisAnalyticsV2 {
             self.objectVersion = objectVersion
         }
 
-        public func validate() throws {
-            try validate(bucketARN, name:"bucketARN", max: 2048)
-            try validate(bucketARN, name:"bucketARN", min: 1)
-            try validate(bucketARN, name:"bucketARN", pattern: "arn:.*")
-            try validate(fileKey, name:"fileKey", max: 1024)
-            try validate(fileKey, name:"fileKey", min: 1)
+        public func validate(name: String) throws {
+            try validate(bucketARN, name:"bucketARN", parent: name, max: 2048)
+            try validate(bucketARN, name:"bucketARN", parent: name, min: 1)
+            try validate(bucketARN, name:"bucketARN", parent: name, pattern: "arn:.*")
+            try validate(fileKey, name:"fileKey", parent: name, max: 1024)
+            try validate(fileKey, name:"fileKey", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3542,12 +3542,12 @@ extension KinesisAnalyticsV2 {
             self.objectVersionUpdate = objectVersionUpdate
         }
 
-        public func validate() throws {
-            try validate(bucketARNUpdate, name:"bucketARNUpdate", max: 2048)
-            try validate(bucketARNUpdate, name:"bucketARNUpdate", min: 1)
-            try validate(bucketARNUpdate, name:"bucketARNUpdate", pattern: "arn:.*")
-            try validate(fileKeyUpdate, name:"fileKeyUpdate", max: 1024)
-            try validate(fileKeyUpdate, name:"fileKeyUpdate", min: 1)
+        public func validate(name: String) throws {
+            try validate(bucketARNUpdate, name:"bucketARNUpdate", parent: name, max: 2048)
+            try validate(bucketARNUpdate, name:"bucketARNUpdate", parent: name, min: 1)
+            try validate(bucketARNUpdate, name:"bucketARNUpdate", parent: name, pattern: "arn:.*")
+            try validate(fileKeyUpdate, name:"fileKeyUpdate", parent: name, max: 1024)
+            try validate(fileKeyUpdate, name:"fileKeyUpdate", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3573,12 +3573,12 @@ extension KinesisAnalyticsV2 {
             self.fileKey = fileKey
         }
 
-        public func validate() throws {
-            try validate(bucketARN, name:"bucketARN", max: 2048)
-            try validate(bucketARN, name:"bucketARN", min: 1)
-            try validate(bucketARN, name:"bucketARN", pattern: "arn:.*")
-            try validate(fileKey, name:"fileKey", max: 1024)
-            try validate(fileKey, name:"fileKey", min: 1)
+        public func validate(name: String) throws {
+            try validate(bucketARN, name:"bucketARN", parent: name, max: 2048)
+            try validate(bucketARN, name:"bucketARN", parent: name, min: 1)
+            try validate(bucketARN, name:"bucketARN", parent: name, pattern: "arn:.*")
+            try validate(fileKey, name:"fileKey", parent: name, max: 1024)
+            try validate(fileKey, name:"fileKey", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3630,12 +3630,12 @@ extension KinesisAnalyticsV2 {
             self.fileKeyUpdate = fileKeyUpdate
         }
 
-        public func validate() throws {
-            try validate(bucketARNUpdate, name:"bucketARNUpdate", max: 2048)
-            try validate(bucketARNUpdate, name:"bucketARNUpdate", min: 1)
-            try validate(bucketARNUpdate, name:"bucketARNUpdate", pattern: "arn:.*")
-            try validate(fileKeyUpdate, name:"fileKeyUpdate", max: 1024)
-            try validate(fileKeyUpdate, name:"fileKeyUpdate", min: 1)
+        public func validate(name: String) throws {
+            try validate(bucketARNUpdate, name:"bucketARNUpdate", parent: name, max: 2048)
+            try validate(bucketARNUpdate, name:"bucketARNUpdate", parent: name, min: 1)
+            try validate(bucketARNUpdate, name:"bucketARNUpdate", parent: name, pattern: "arn:.*")
+            try validate(fileKeyUpdate, name:"fileKeyUpdate", parent: name, max: 1024)
+            try validate(fileKeyUpdate, name:"fileKeyUpdate", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3704,14 +3704,14 @@ extension KinesisAnalyticsV2 {
             self.recordFormat = recordFormat
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try recordColumns.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).recordColumns[]")
             }
-            try validate(recordColumns, name:"recordColumns", max: 1000)
-            try validate(recordColumns, name:"recordColumns", min: 1)
-            try validate(recordEncoding, name:"recordEncoding", pattern: "UTF-8")
-            try recordFormat.validate()
+            try validate(recordColumns, name:"recordColumns", parent: name, max: 1000)
+            try validate(recordColumns, name:"recordColumns", parent: name, min: 1)
+            try validate(recordEncoding, name:"recordEncoding", parent: name, pattern: "UTF-8")
+            try recordFormat.validate(name: "\(name).recordFormat")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3741,15 +3741,15 @@ extension KinesisAnalyticsV2 {
             self.referenceDataSources = referenceDataSources
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try inputs?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).inputs[]")
             }
             try outputs?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).outputs[]")
             }
             try referenceDataSources?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).referenceDataSources[]")
             }
         }
 
@@ -3807,15 +3807,15 @@ extension KinesisAnalyticsV2 {
             self.referenceDataSourceUpdates = referenceDataSourceUpdates
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try inputUpdates?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).inputUpdates[]")
             }
             try outputUpdates?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).outputUpdates[]")
             }
             try referenceDataSourceUpdates?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).referenceDataSourceUpdates[]")
             }
         }
 
@@ -3842,10 +3842,10 @@ extension KinesisAnalyticsV2 {
             self.inputStartingPositionConfiguration = inputStartingPositionConfiguration
         }
 
-        public func validate() throws {
-            try validate(inputId, name:"inputId", max: 50)
-            try validate(inputId, name:"inputId", min: 1)
-            try validate(inputId, name:"inputId", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(inputId, name:"inputId", parent: name, max: 50)
+            try validate(inputId, name:"inputId", parent: name, min: 1)
+            try validate(inputId, name:"inputId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3870,11 +3870,11 @@ extension KinesisAnalyticsV2 {
             self.runConfiguration = runConfiguration
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 128)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
-            try runConfiguration.validate()
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try runConfiguration.validate(name: "\(name).runConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3903,10 +3903,10 @@ extension KinesisAnalyticsV2 {
             self.applicationName = applicationName
         }
 
-        public func validate() throws {
-            try validate(applicationName, name:"applicationName", max: 128)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3938,11 +3938,11 @@ extension KinesisAnalyticsV2 {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 128)
-            try validate(key, name:"key", min: 1)
-            try validate(value, name:"value", max: 256)
-            try validate(value, name:"value", min: 0)
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3967,15 +3967,15 @@ extension KinesisAnalyticsV2 {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 2048)
-            try validate(resourceARN, name:"resourceARN", min: 1)
-            try validate(resourceARN, name:"resourceARN", pattern: "arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\\d{1}+:\\d{12}+:application/[a-zA-Z0-9_.-]{1,128}")
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 2048)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, pattern: "arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\\d{1}+:\\d{12}+:application/[a-zA-Z0-9_.-]{1,128}")
             try tags.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", max: 200)
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, max: 200)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4008,16 +4008,16 @@ extension KinesisAnalyticsV2 {
             self.tagKeys = tagKeys
         }
 
-        public func validate() throws {
-            try validate(resourceARN, name:"resourceARN", max: 2048)
-            try validate(resourceARN, name:"resourceARN", min: 1)
-            try validate(resourceARN, name:"resourceARN", pattern: "arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\\d{1}+:\\d{12}+:application/[a-zA-Z0-9_.-]{1,128}")
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 2048)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, pattern: "arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\\d{1}+:\\d{12}+:application/[a-zA-Z0-9_.-]{1,128}")
             try tagKeys.forEach {
-                try validate($0, name:"tagKeys[]", max: 128)
-                try validate($0, name:"tagKeys[]", min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try validate(tagKeys, name:"tagKeys", max: 200)
-            try validate(tagKeys, name:"tagKeys", min: 1)
+            try validate(tagKeys, name:"tagKeys", parent: name, max: 200)
+            try validate(tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4066,20 +4066,20 @@ extension KinesisAnalyticsV2 {
             self.serviceExecutionRoleUpdate = serviceExecutionRoleUpdate
         }
 
-        public func validate() throws {
-            try applicationConfigurationUpdate?.validate()
-            try validate(applicationName, name:"applicationName", max: 128)
-            try validate(applicationName, name:"applicationName", min: 1)
-            try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try applicationConfigurationUpdate?.validate(name: "\(name).applicationConfigurationUpdate")
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try cloudWatchLoggingOptionUpdates?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).cloudWatchLoggingOptionUpdates[]")
             }
-            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", max: 999999999)
-            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", min: 1)
-            try runConfigurationUpdate?.validate()
-            try validate(serviceExecutionRoleUpdate, name:"serviceExecutionRoleUpdate", max: 2048)
-            try validate(serviceExecutionRoleUpdate, name:"serviceExecutionRoleUpdate", min: 1)
-            try validate(serviceExecutionRoleUpdate, name:"serviceExecutionRoleUpdate", pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
+            try runConfigurationUpdate?.validate(name: "\(name).runConfigurationUpdate")
+            try validate(serviceExecutionRoleUpdate, name:"serviceExecutionRoleUpdate", parent: name, max: 2048)
+            try validate(serviceExecutionRoleUpdate, name:"serviceExecutionRoleUpdate", parent: name, min: 1)
+            try validate(serviceExecutionRoleUpdate, name:"serviceExecutionRoleUpdate", parent: name, pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
         }
 
         private enum CodingKeys: String, CodingKey {

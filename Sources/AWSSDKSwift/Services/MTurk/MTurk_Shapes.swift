@@ -55,10 +55,10 @@ extension MTurk {
             self.requesterFeedback = requesterFeedback
         }
 
-        public func validate() throws {
-            try validate(assignmentId, name:"assignmentId", max: 64)
-            try validate(assignmentId, name:"assignmentId", min: 1)
-            try validate(assignmentId, name:"assignmentId", pattern: "^[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(assignmentId, name:"assignmentId", parent: name, max: 64)
+            try validate(assignmentId, name:"assignmentId", parent: name, min: 1)
+            try validate(assignmentId, name:"assignmentId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -179,13 +179,13 @@ extension MTurk {
             self.workerId = workerId
         }
 
-        public func validate() throws {
-            try validate(qualificationTypeId, name:"qualificationTypeId", max: 64)
-            try validate(qualificationTypeId, name:"qualificationTypeId", min: 1)
-            try validate(qualificationTypeId, name:"qualificationTypeId", pattern: "^[A-Z0-9]+$")
-            try validate(workerId, name:"workerId", max: 64)
-            try validate(workerId, name:"workerId", min: 1)
-            try validate(workerId, name:"workerId", pattern: "^A[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, max: 64)
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, min: 1)
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, pattern: "^[A-Z0-9]+$")
+            try validate(workerId, name:"workerId", parent: name, max: 64)
+            try validate(workerId, name:"workerId", parent: name, min: 1)
+            try validate(workerId, name:"workerId", parent: name, pattern: "^A[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -274,12 +274,12 @@ extension MTurk {
             self.uniqueRequestToken = uniqueRequestToken
         }
 
-        public func validate() throws {
-            try validate(hITId, name:"hITId", max: 64)
-            try validate(hITId, name:"hITId", min: 1)
-            try validate(hITId, name:"hITId", pattern: "^[A-Z0-9]+$")
-            try validate(uniqueRequestToken, name:"uniqueRequestToken", max: 64)
-            try validate(uniqueRequestToken, name:"uniqueRequestToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(hITId, name:"hITId", parent: name, max: 64)
+            try validate(hITId, name:"hITId", parent: name, min: 1)
+            try validate(hITId, name:"hITId", parent: name, pattern: "^[A-Z0-9]+$")
+            try validate(uniqueRequestToken, name:"uniqueRequestToken", parent: name, max: 64)
+            try validate(uniqueRequestToken, name:"uniqueRequestToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -369,16 +369,16 @@ extension MTurk {
             self.uniqueRequestToken = uniqueRequestToken
         }
 
-        public func validate() throws {
-            try validate(hITLayoutId, name:"hITLayoutId", max: 64)
-            try validate(hITLayoutId, name:"hITLayoutId", min: 1)
-            try validate(hITLayoutId, name:"hITLayoutId", pattern: "^[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(hITLayoutId, name:"hITLayoutId", parent: name, max: 64)
+            try validate(hITLayoutId, name:"hITLayoutId", parent: name, min: 1)
+            try validate(hITLayoutId, name:"hITLayoutId", parent: name, pattern: "^[A-Z0-9]+$")
             try qualificationRequirements?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).qualificationRequirements[]")
             }
-            try validate(reward, name:"reward", pattern: "^[0-9]+(\\.)?[0-9]{0,2}$")
-            try validate(uniqueRequestToken, name:"uniqueRequestToken", max: 64)
-            try validate(uniqueRequestToken, name:"uniqueRequestToken", min: 1)
+            try validate(reward, name:"reward", parent: name, pattern: "^[0-9]+(\\.)?[0-9]{0,2}$")
+            try validate(uniqueRequestToken, name:"uniqueRequestToken", parent: name, max: 64)
+            try validate(uniqueRequestToken, name:"uniqueRequestToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -454,11 +454,11 @@ extension MTurk {
             self.title = title
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try qualificationRequirements?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).qualificationRequirements[]")
             }
-            try validate(reward, name:"reward", pattern: "^[0-9]+(\\.)?[0-9]{0,2}$")
+            try validate(reward, name:"reward", parent: name, pattern: "^[0-9]+(\\.)?[0-9]{0,2}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -537,15 +537,15 @@ extension MTurk {
             self.uniqueRequestToken = uniqueRequestToken
         }
 
-        public func validate() throws {
-            try validate(hITLayoutId, name:"hITLayoutId", max: 64)
-            try validate(hITLayoutId, name:"hITLayoutId", min: 1)
-            try validate(hITLayoutId, name:"hITLayoutId", pattern: "^[A-Z0-9]+$")
-            try validate(hITTypeId, name:"hITTypeId", max: 64)
-            try validate(hITTypeId, name:"hITTypeId", min: 1)
-            try validate(hITTypeId, name:"hITTypeId", pattern: "^[A-Z0-9]+$")
-            try validate(uniqueRequestToken, name:"uniqueRequestToken", max: 64)
-            try validate(uniqueRequestToken, name:"uniqueRequestToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(hITLayoutId, name:"hITLayoutId", parent: name, max: 64)
+            try validate(hITLayoutId, name:"hITLayoutId", parent: name, min: 1)
+            try validate(hITLayoutId, name:"hITLayoutId", parent: name, pattern: "^[A-Z0-9]+$")
+            try validate(hITTypeId, name:"hITTypeId", parent: name, max: 64)
+            try validate(hITTypeId, name:"hITTypeId", parent: name, min: 1)
+            try validate(hITTypeId, name:"hITTypeId", parent: name, pattern: "^[A-Z0-9]+$")
+            try validate(uniqueRequestToken, name:"uniqueRequestToken", parent: name, max: 64)
+            try validate(uniqueRequestToken, name:"uniqueRequestToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -674,10 +674,10 @@ extension MTurk {
             self.workerId = workerId
         }
 
-        public func validate() throws {
-            try validate(workerId, name:"workerId", max: 64)
-            try validate(workerId, name:"workerId", min: 1)
-            try validate(workerId, name:"workerId", pattern: "^A[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(workerId, name:"workerId", parent: name, max: 64)
+            try validate(workerId, name:"workerId", parent: name, min: 1)
+            try validate(workerId, name:"workerId", parent: name, pattern: "^A[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -706,10 +706,10 @@ extension MTurk {
             self.hITId = hITId
         }
 
-        public func validate() throws {
-            try validate(hITId, name:"hITId", max: 64)
-            try validate(hITId, name:"hITId", min: 1)
-            try validate(hITId, name:"hITId", pattern: "^[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(hITId, name:"hITId", parent: name, max: 64)
+            try validate(hITId, name:"hITId", parent: name, min: 1)
+            try validate(hITId, name:"hITId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -737,10 +737,10 @@ extension MTurk {
             self.qualificationTypeId = qualificationTypeId
         }
 
-        public func validate() throws {
-            try validate(qualificationTypeId, name:"qualificationTypeId", max: 64)
-            try validate(qualificationTypeId, name:"qualificationTypeId", min: 1)
-            try validate(qualificationTypeId, name:"qualificationTypeId", pattern: "^[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, max: 64)
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, min: 1)
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -772,10 +772,10 @@ extension MTurk {
             self.workerId = workerId
         }
 
-        public func validate() throws {
-            try validate(workerId, name:"workerId", max: 64)
-            try validate(workerId, name:"workerId", min: 1)
-            try validate(workerId, name:"workerId", pattern: "^A[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(workerId, name:"workerId", parent: name, max: 64)
+            try validate(workerId, name:"workerId", parent: name, min: 1)
+            try validate(workerId, name:"workerId", parent: name, pattern: "^A[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -812,13 +812,13 @@ extension MTurk {
             self.workerId = workerId
         }
 
-        public func validate() throws {
-            try validate(qualificationTypeId, name:"qualificationTypeId", max: 64)
-            try validate(qualificationTypeId, name:"qualificationTypeId", min: 1)
-            try validate(qualificationTypeId, name:"qualificationTypeId", pattern: "^[A-Z0-9]+$")
-            try validate(workerId, name:"workerId", max: 64)
-            try validate(workerId, name:"workerId", min: 1)
-            try validate(workerId, name:"workerId", pattern: "^A[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, max: 64)
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, min: 1)
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, pattern: "^[A-Z0-9]+$")
+            try validate(workerId, name:"workerId", parent: name, max: 64)
+            try validate(workerId, name:"workerId", parent: name, min: 1)
+            try validate(workerId, name:"workerId", parent: name, pattern: "^A[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -892,10 +892,10 @@ extension MTurk {
             self.assignmentId = assignmentId
         }
 
-        public func validate() throws {
-            try validate(assignmentId, name:"assignmentId", max: 64)
-            try validate(assignmentId, name:"assignmentId", min: 1)
-            try validate(assignmentId, name:"assignmentId", pattern: "^[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(assignmentId, name:"assignmentId", parent: name, max: 64)
+            try validate(assignmentId, name:"assignmentId", parent: name, min: 1)
+            try validate(assignmentId, name:"assignmentId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -941,10 +941,10 @@ extension MTurk {
             self.questionIdentifier = questionIdentifier
         }
 
-        public func validate() throws {
-            try validate(assignmentId, name:"assignmentId", max: 64)
-            try validate(assignmentId, name:"assignmentId", min: 1)
-            try validate(assignmentId, name:"assignmentId", pattern: "^[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(assignmentId, name:"assignmentId", parent: name, max: 64)
+            try validate(assignmentId, name:"assignmentId", parent: name, min: 1)
+            try validate(assignmentId, name:"assignmentId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -982,10 +982,10 @@ extension MTurk {
             self.hITId = hITId
         }
 
-        public func validate() throws {
-            try validate(hITId, name:"hITId", max: 64)
-            try validate(hITId, name:"hITId", min: 1)
-            try validate(hITId, name:"hITId", pattern: "^[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(hITId, name:"hITId", parent: name, max: 64)
+            try validate(hITId, name:"hITId", parent: name, min: 1)
+            try validate(hITId, name:"hITId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1026,13 +1026,13 @@ extension MTurk {
             self.workerId = workerId
         }
 
-        public func validate() throws {
-            try validate(qualificationTypeId, name:"qualificationTypeId", max: 64)
-            try validate(qualificationTypeId, name:"qualificationTypeId", min: 1)
-            try validate(qualificationTypeId, name:"qualificationTypeId", pattern: "^[A-Z0-9]+$")
-            try validate(workerId, name:"workerId", max: 64)
-            try validate(workerId, name:"workerId", min: 1)
-            try validate(workerId, name:"workerId", pattern: "^A[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, max: 64)
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, min: 1)
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, pattern: "^[A-Z0-9]+$")
+            try validate(workerId, name:"workerId", parent: name, max: 64)
+            try validate(workerId, name:"workerId", parent: name, min: 1)
+            try validate(workerId, name:"workerId", parent: name, pattern: "^A[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1070,10 +1070,10 @@ extension MTurk {
             self.qualificationTypeId = qualificationTypeId
         }
 
-        public func validate() throws {
-            try validate(qualificationTypeId, name:"qualificationTypeId", max: 64)
-            try validate(qualificationTypeId, name:"qualificationTypeId", min: 1)
-            try validate(qualificationTypeId, name:"qualificationTypeId", pattern: "^[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, max: 64)
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, min: 1)
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1283,14 +1283,14 @@ extension MTurk {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(hITId, name:"hITId", max: 64)
-            try validate(hITId, name:"hITId", min: 1)
-            try validate(hITId, name:"hITId", pattern: "^[A-Z0-9]+$")
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(hITId, name:"hITId", parent: name, max: 64)
+            try validate(hITId, name:"hITId", parent: name, min: 1)
+            try validate(hITId, name:"hITId", parent: name, pattern: "^[A-Z0-9]+$")
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 255)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1350,17 +1350,17 @@ extension MTurk {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(assignmentId, name:"assignmentId", max: 64)
-            try validate(assignmentId, name:"assignmentId", min: 1)
-            try validate(assignmentId, name:"assignmentId", pattern: "^[A-Z0-9]+$")
-            try validate(hITId, name:"hITId", max: 64)
-            try validate(hITId, name:"hITId", min: 1)
-            try validate(hITId, name:"hITId", pattern: "^[A-Z0-9]+$")
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(assignmentId, name:"assignmentId", parent: name, max: 64)
+            try validate(assignmentId, name:"assignmentId", parent: name, min: 1)
+            try validate(assignmentId, name:"assignmentId", parent: name, pattern: "^[A-Z0-9]+$")
+            try validate(hITId, name:"hITId", parent: name, max: 64)
+            try validate(hITId, name:"hITId", parent: name, min: 1)
+            try validate(hITId, name:"hITId", parent: name, pattern: "^[A-Z0-9]+$")
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 255)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1417,14 +1417,14 @@ extension MTurk {
             self.qualificationTypeId = qualificationTypeId
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(qualificationTypeId, name:"qualificationTypeId", max: 64)
-            try validate(qualificationTypeId, name:"qualificationTypeId", min: 1)
-            try validate(qualificationTypeId, name:"qualificationTypeId", pattern: "^[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 255)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, max: 64)
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, min: 1)
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1475,11 +1475,11 @@ extension MTurk {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 255)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1533,14 +1533,14 @@ extension MTurk {
             self.qualificationTypeId = qualificationTypeId
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(qualificationTypeId, name:"qualificationTypeId", max: 64)
-            try validate(qualificationTypeId, name:"qualificationTypeId", min: 1)
-            try validate(qualificationTypeId, name:"qualificationTypeId", pattern: "^[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 255)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, max: 64)
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, min: 1)
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1603,11 +1603,11 @@ extension MTurk {
             self.query = query
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 255)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1677,14 +1677,14 @@ extension MTurk {
             self.retrieveResults = retrieveResults
         }
 
-        public func validate() throws {
-            try validate(hITId, name:"hITId", max: 64)
-            try validate(hITId, name:"hITId", min: 1)
-            try validate(hITId, name:"hITId", pattern: "^[A-Z0-9]+$")
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(hITId, name:"hITId", parent: name, max: 64)
+            try validate(hITId, name:"hITId", parent: name, min: 1)
+            try validate(hITId, name:"hITId", parent: name, pattern: "^[A-Z0-9]+$")
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 255)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1762,14 +1762,14 @@ extension MTurk {
             self.status = status
         }
 
-        public func validate() throws {
-            try validate(hITTypeId, name:"hITTypeId", max: 64)
-            try validate(hITTypeId, name:"hITTypeId", min: 1)
-            try validate(hITTypeId, name:"hITTypeId", pattern: "^[A-Z0-9]+$")
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(hITTypeId, name:"hITTypeId", parent: name, max: 64)
+            try validate(hITTypeId, name:"hITTypeId", parent: name, min: 1)
+            try validate(hITTypeId, name:"hITTypeId", parent: name, pattern: "^[A-Z0-9]+$")
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 255)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1821,11 +1821,11 @@ extension MTurk {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 255)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1884,14 +1884,14 @@ extension MTurk {
             self.status = status
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 255)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(qualificationTypeId, name:"qualificationTypeId", max: 64)
-            try validate(qualificationTypeId, name:"qualificationTypeId", min: 1)
-            try validate(qualificationTypeId, name:"qualificationTypeId", pattern: "^[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 255)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, max: 64)
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, min: 1)
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1944,11 +1944,11 @@ extension MTurk {
             self.subdivision = subdivision
         }
 
-        public func validate() throws {
-            try validate(country, name:"country", max: 2)
-            try validate(country, name:"country", min: 2)
-            try validate(subdivision, name:"subdivision", max: 2)
-            try validate(subdivision, name:"subdivision", min: 2)
+        public func validate(name: String) throws {
+            try validate(country, name:"country", parent: name, max: 2)
+            try validate(country, name:"country", parent: name, min: 2)
+            try validate(subdivision, name:"subdivision", parent: name, max: 2)
+            try validate(subdivision, name:"subdivision", parent: name, min: 2)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2049,11 +2049,11 @@ extension MTurk {
             self.workerIds = workerIds
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try workerIds.forEach {
-                try validate($0, name:"workerIds[]", max: 64)
-                try validate($0, name:"workerIds[]", min: 1)
-                try validate($0, name:"workerIds[]", pattern: "^A[A-Z0-9]+$")
+                try validate($0, name: "workerIds[]", parent: name, max: 64)
+                try validate($0, name: "workerIds[]", parent: name, min: 1)
+                try validate($0, name: "workerIds[]", parent: name, pattern: "^A[A-Z0-9]+$")
             }
         }
 
@@ -2241,9 +2241,9 @@ extension MTurk {
             self.qualificationTypeId = qualificationTypeId
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try localeValues?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).localeValues[]")
             }
         }
 
@@ -2361,10 +2361,10 @@ extension MTurk {
             self.requesterFeedback = requesterFeedback
         }
 
-        public func validate() throws {
-            try validate(assignmentId, name:"assignmentId", max: 64)
-            try validate(assignmentId, name:"assignmentId", min: 1)
-            try validate(assignmentId, name:"assignmentId", pattern: "^[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(assignmentId, name:"assignmentId", parent: name, max: 64)
+            try validate(assignmentId, name:"assignmentId", parent: name, min: 1)
+            try validate(assignmentId, name:"assignmentId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2597,16 +2597,16 @@ extension MTurk {
             self.workerId = workerId
         }
 
-        public func validate() throws {
-            try validate(assignmentId, name:"assignmentId", max: 64)
-            try validate(assignmentId, name:"assignmentId", min: 1)
-            try validate(assignmentId, name:"assignmentId", pattern: "^[A-Z0-9]+$")
-            try validate(bonusAmount, name:"bonusAmount", pattern: "^[0-9]+(\\.)?[0-9]{0,2}$")
-            try validate(uniqueRequestToken, name:"uniqueRequestToken", max: 64)
-            try validate(uniqueRequestToken, name:"uniqueRequestToken", min: 1)
-            try validate(workerId, name:"workerId", max: 64)
-            try validate(workerId, name:"workerId", min: 1)
-            try validate(workerId, name:"workerId", pattern: "^A[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(assignmentId, name:"assignmentId", parent: name, max: 64)
+            try validate(assignmentId, name:"assignmentId", parent: name, min: 1)
+            try validate(assignmentId, name:"assignmentId", parent: name, pattern: "^[A-Z0-9]+$")
+            try validate(bonusAmount, name:"bonusAmount", parent: name, pattern: "^[0-9]+(\\.)?[0-9]{0,2}$")
+            try validate(uniqueRequestToken, name:"uniqueRequestToken", parent: name, max: 64)
+            try validate(uniqueRequestToken, name:"uniqueRequestToken", parent: name, min: 1)
+            try validate(workerId, name:"workerId", parent: name, max: 64)
+            try validate(workerId, name:"workerId", parent: name, min: 1)
+            try validate(workerId, name:"workerId", parent: name, pattern: "^A[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2672,10 +2672,10 @@ extension MTurk {
             self.hITId = hITId
         }
 
-        public func validate() throws {
-            try validate(hITId, name:"hITId", max: 64)
-            try validate(hITId, name:"hITId", min: 1)
-            try validate(hITId, name:"hITId", pattern: "^[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(hITId, name:"hITId", parent: name, max: 64)
+            try validate(hITId, name:"hITId", parent: name, min: 1)
+            try validate(hITId, name:"hITId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2708,10 +2708,10 @@ extension MTurk {
             self.revert = revert
         }
 
-        public func validate() throws {
-            try validate(hITId, name:"hITId", max: 64)
-            try validate(hITId, name:"hITId", min: 1)
-            try validate(hITId, name:"hITId", pattern: "^[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(hITId, name:"hITId", parent: name, max: 64)
+            try validate(hITId, name:"hITId", parent: name, min: 1)
+            try validate(hITId, name:"hITId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2744,13 +2744,13 @@ extension MTurk {
             self.hITTypeId = hITTypeId
         }
 
-        public func validate() throws {
-            try validate(hITId, name:"hITId", max: 64)
-            try validate(hITId, name:"hITId", min: 1)
-            try validate(hITId, name:"hITId", pattern: "^[A-Z0-9]+$")
-            try validate(hITTypeId, name:"hITTypeId", max: 64)
-            try validate(hITTypeId, name:"hITTypeId", min: 1)
-            try validate(hITTypeId, name:"hITTypeId", pattern: "^[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(hITId, name:"hITId", parent: name, max: 64)
+            try validate(hITId, name:"hITId", parent: name, min: 1)
+            try validate(hITId, name:"hITId", parent: name, pattern: "^[A-Z0-9]+$")
+            try validate(hITTypeId, name:"hITTypeId", parent: name, max: 64)
+            try validate(hITTypeId, name:"hITTypeId", parent: name, min: 1)
+            try validate(hITTypeId, name:"hITTypeId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2787,10 +2787,10 @@ extension MTurk {
             self.notification = notification
         }
 
-        public func validate() throws {
-            try validate(hITTypeId, name:"hITTypeId", max: 64)
-            try validate(hITTypeId, name:"hITTypeId", min: 1)
-            try validate(hITTypeId, name:"hITTypeId", pattern: "^[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(hITTypeId, name:"hITTypeId", parent: name, max: 64)
+            try validate(hITTypeId, name:"hITTypeId", parent: name, min: 1)
+            try validate(hITTypeId, name:"hITTypeId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2852,10 +2852,10 @@ extension MTurk {
             self.testDurationInSeconds = testDurationInSeconds
         }
 
-        public func validate() throws {
-            try validate(qualificationTypeId, name:"qualificationTypeId", max: 64)
-            try validate(qualificationTypeId, name:"qualificationTypeId", min: 1)
-            try validate(qualificationTypeId, name:"qualificationTypeId", pattern: "^[A-Z0-9]+$")
+        public func validate(name: String) throws {
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, max: 64)
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, min: 1)
+            try validate(qualificationTypeId, name:"qualificationTypeId", parent: name, pattern: "^[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

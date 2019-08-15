@@ -25,15 +25,15 @@ extension WorkDocs {
             self.versionId = versionId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(documentId, name:"documentId", max: 128)
-            try validate(documentId, name:"documentId", min: 1)
-            try validate(documentId, name:"documentId", pattern: "[\\w+-.@]+")
-            try validate(versionId, name:"versionId", max: 128)
-            try validate(versionId, name:"versionId", min: 1)
-            try validate(versionId, name:"versionId", pattern: "[\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, max: 128)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(versionId, name:"versionId", parent: name, max: 128)
+            try validate(versionId, name:"versionId", parent: name, min: 1)
+            try validate(versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -59,12 +59,12 @@ extension WorkDocs {
             self.userId = userId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(userId, name:"userId", max: 256)
-            try validate(userId, name:"userId", min: 1)
-            try validate(userId, name:"userId", pattern: "[&\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, max: 256)
+            try validate(userId, name:"userId", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -208,16 +208,16 @@ extension WorkDocs {
             self.resourceId = resourceId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try notificationOptions?.validate()
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try notificationOptions?.validate(name: "\(name).notificationOptions")
             try principals.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).principals[]")
             }
-            try validate(resourceId, name:"resourceId", max: 128)
-            try validate(resourceId, name:"resourceId", min: 1)
-            try validate(resourceId, name:"resourceId", pattern: "[\\w+-.@]+")
+            try validate(resourceId, name:"resourceId", parent: name, max: 128)
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -398,23 +398,23 @@ extension WorkDocs {
             self.visibility = visibility
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(documentId, name:"documentId", max: 128)
-            try validate(documentId, name:"documentId", min: 1)
-            try validate(documentId, name:"documentId", pattern: "[\\w+-.@]+")
-            try validate(parentId, name:"parentId", max: 128)
-            try validate(parentId, name:"parentId", min: 1)
-            try validate(parentId, name:"parentId", pattern: "[\\w+-.@]+")
-            try validate(text, name:"text", max: 2048)
-            try validate(text, name:"text", min: 1)
-            try validate(threadId, name:"threadId", max: 128)
-            try validate(threadId, name:"threadId", min: 1)
-            try validate(threadId, name:"threadId", pattern: "[\\w+-.@]+")
-            try validate(versionId, name:"versionId", max: 128)
-            try validate(versionId, name:"versionId", min: 1)
-            try validate(versionId, name:"versionId", pattern: "[\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, max: 128)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(parentId, name:"parentId", parent: name, max: 128)
+            try validate(parentId, name:"parentId", parent: name, min: 1)
+            try validate(parentId, name:"parentId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(text, name:"text", parent: name, max: 2048)
+            try validate(text, name:"text", parent: name, min: 1)
+            try validate(threadId, name:"threadId", parent: name, max: 128)
+            try validate(threadId, name:"threadId", parent: name, min: 1)
+            try validate(threadId, name:"threadId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(versionId, name:"versionId", parent: name, max: 128)
+            try validate(versionId, name:"versionId", parent: name, min: 1)
+            try validate(versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -470,23 +470,23 @@ extension WorkDocs {
             self.versionId = versionId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
             try customMetadata.forEach {
-                try validate($0.key, name:"customMetadata[key:]", max: 56)
-                try validate($0.key, name:"customMetadata[key:]", min: 1)
-                try validate($0.key, name:"customMetadata[key:]", pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
-                try validate($0.value, name:"customMetadata[:value]", max: 256)
-                try validate($0.value, name:"customMetadata[:value]", min: 1)
-                try validate($0.value, name:"customMetadata[:value]", pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+                try validate($0.key, name:"customMetadata.key", parent: name, max: 56)
+                try validate($0.key, name:"customMetadata.key", parent: name, min: 1)
+                try validate($0.key, name:"customMetadata.key", parent: name, pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+                try validate($0.value, name:"customMetadata[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"customMetadata[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name:"customMetadata[\"\($0.key)\"]", parent: name, pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
             }
-            try validate(resourceId, name:"resourceId", max: 128)
-            try validate(resourceId, name:"resourceId", min: 1)
-            try validate(resourceId, name:"resourceId", pattern: "[\\w+-.@]+")
-            try validate(versionId, name:"versionId", max: 128)
-            try validate(versionId, name:"versionId", min: 1)
-            try validate(versionId, name:"versionId", pattern: "[\\w+-.@]+")
+            try validate(resourceId, name:"resourceId", parent: name, max: 128)
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(versionId, name:"versionId", parent: name, max: 128)
+            try validate(versionId, name:"versionId", parent: name, min: 1)
+            try validate(versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -525,15 +525,15 @@ extension WorkDocs {
             self.parentFolderId = parentFolderId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\u202D\\u202F-\\uFFFF]+")
-            try validate(parentFolderId, name:"parentFolderId", max: 128)
-            try validate(parentFolderId, name:"parentFolderId", min: 1)
-            try validate(parentFolderId, name:"parentFolderId", pattern: "[\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 255)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "[\\u0020-\\u202D\\u202F-\\uFFFF]+")
+            try validate(parentFolderId, name:"parentFolderId", parent: name, max: 128)
+            try validate(parentFolderId, name:"parentFolderId", parent: name, min: 1)
+            try validate(parentFolderId, name:"parentFolderId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -580,18 +580,18 @@ extension WorkDocs {
             self.resourceId = resourceId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
             try labels.forEach {
-                try validate($0, name:"labels[]", max: 32)
-                try validate($0, name:"labels[]", min: 1)
-                try validate($0, name:"labels[]", pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+                try validate($0, name: "labels[]", parent: name, max: 32)
+                try validate($0, name: "labels[]", parent: name, min: 1)
+                try validate($0, name: "labels[]", parent: name, pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
             }
-            try validate(labels, name:"labels", max: 20)
-            try validate(resourceId, name:"resourceId", max: 128)
-            try validate(resourceId, name:"resourceId", min: 1)
-            try validate(resourceId, name:"resourceId", pattern: "[\\w+-.@]+")
+            try validate(labels, name:"labels", parent: name, max: 20)
+            try validate(resourceId, name:"resourceId", parent: name, max: 128)
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -633,12 +633,12 @@ extension WorkDocs {
             self.subscriptionType = subscriptionType
         }
 
-        public func validate() throws {
-            try validate(endpoint, name:"endpoint", max: 256)
-            try validate(endpoint, name:"endpoint", min: 1)
-            try validate(organizationId, name:"organizationId", max: 256)
-            try validate(organizationId, name:"organizationId", min: 1)
-            try validate(organizationId, name:"organizationId", pattern: "[&\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(endpoint, name:"endpoint", parent: name, max: 256)
+            try validate(endpoint, name:"endpoint", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, max: 256)
+            try validate(organizationId, name:"organizationId", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -710,28 +710,28 @@ extension WorkDocs {
             self.username = username
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(emailAddress, name:"emailAddress", max: 256)
-            try validate(emailAddress, name:"emailAddress", min: 1)
-            try validate(emailAddress, name:"emailAddress", pattern: "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
-            try validate(givenName, name:"givenName", max: 64)
-            try validate(givenName, name:"givenName", min: 1)
-            try validate(organizationId, name:"organizationId", max: 256)
-            try validate(organizationId, name:"organizationId", min: 1)
-            try validate(organizationId, name:"organizationId", pattern: "[&\\w+-.@]+")
-            try validate(password, name:"password", max: 32)
-            try validate(password, name:"password", min: 4)
-            try validate(password, name:"password", pattern: "[\\u0020-\\u00FF]+")
-            try storageRule?.validate()
-            try validate(surname, name:"surname", max: 64)
-            try validate(surname, name:"surname", min: 1)
-            try validate(timeZoneId, name:"timeZoneId", max: 256)
-            try validate(timeZoneId, name:"timeZoneId", min: 1)
-            try validate(username, name:"username", max: 256)
-            try validate(username, name:"username", min: 1)
-            try validate(username, name:"username", pattern: "[\\w\\-+.]+(@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]+)?")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(emailAddress, name:"emailAddress", parent: name, max: 256)
+            try validate(emailAddress, name:"emailAddress", parent: name, min: 1)
+            try validate(emailAddress, name:"emailAddress", parent: name, pattern: "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
+            try validate(givenName, name:"givenName", parent: name, max: 64)
+            try validate(givenName, name:"givenName", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, max: 256)
+            try validate(organizationId, name:"organizationId", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, pattern: "[&\\w+-.@]+")
+            try validate(password, name:"password", parent: name, max: 32)
+            try validate(password, name:"password", parent: name, min: 4)
+            try validate(password, name:"password", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try storageRule?.validate(name: "\(name).storageRule")
+            try validate(surname, name:"surname", parent: name, max: 64)
+            try validate(surname, name:"surname", parent: name, min: 1)
+            try validate(timeZoneId, name:"timeZoneId", parent: name, max: 256)
+            try validate(timeZoneId, name:"timeZoneId", parent: name, min: 1)
+            try validate(username, name:"username", parent: name, max: 256)
+            try validate(username, name:"username", parent: name, min: 1)
+            try validate(username, name:"username", parent: name, pattern: "[\\w\\-+.]+(@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]+)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -780,12 +780,12 @@ extension WorkDocs {
             self.userId = userId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(userId, name:"userId", max: 256)
-            try validate(userId, name:"userId", min: 1)
-            try validate(userId, name:"userId", pattern: "[&\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, max: 256)
+            try validate(userId, name:"userId", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -818,18 +818,18 @@ extension WorkDocs {
             self.versionId = versionId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(commentId, name:"commentId", max: 128)
-            try validate(commentId, name:"commentId", min: 1)
-            try validate(commentId, name:"commentId", pattern: "[\\w+-.@]+")
-            try validate(documentId, name:"documentId", max: 128)
-            try validate(documentId, name:"documentId", min: 1)
-            try validate(documentId, name:"documentId", pattern: "[\\w+-.@]+")
-            try validate(versionId, name:"versionId", max: 128)
-            try validate(versionId, name:"versionId", min: 1)
-            try validate(versionId, name:"versionId", pattern: "[\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(commentId, name:"commentId", parent: name, max: 128)
+            try validate(commentId, name:"commentId", parent: name, min: 1)
+            try validate(commentId, name:"commentId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(documentId, name:"documentId", parent: name, max: 128)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(versionId, name:"versionId", parent: name, max: 128)
+            try validate(versionId, name:"versionId", parent: name, min: 1)
+            try validate(versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -868,21 +868,21 @@ extension WorkDocs {
             self.versionId = versionId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
             try keys?.forEach {
-                try validate($0, name:"keys[]", max: 56)
-                try validate($0, name:"keys[]", min: 1)
-                try validate($0, name:"keys[]", pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+                try validate($0, name: "keys[]", parent: name, max: 56)
+                try validate($0, name: "keys[]", parent: name, min: 1)
+                try validate($0, name: "keys[]", parent: name, pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
             }
-            try validate(keys, name:"keys", max: 8)
-            try validate(resourceId, name:"resourceId", max: 128)
-            try validate(resourceId, name:"resourceId", min: 1)
-            try validate(resourceId, name:"resourceId", pattern: "[\\w+-.@]+")
-            try validate(versionId, name:"versionId", max: 128)
-            try validate(versionId, name:"versionId", min: 1)
-            try validate(versionId, name:"versionId", pattern: "[\\w+-.@]+")
+            try validate(keys, name:"keys", parent: name, max: 8)
+            try validate(resourceId, name:"resourceId", parent: name, max: 128)
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(versionId, name:"versionId", parent: name, max: 128)
+            try validate(versionId, name:"versionId", parent: name, min: 1)
+            try validate(versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -918,12 +918,12 @@ extension WorkDocs {
             self.documentId = documentId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(documentId, name:"documentId", max: 128)
-            try validate(documentId, name:"documentId", min: 1)
-            try validate(documentId, name:"documentId", pattern: "[\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, max: 128)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -948,12 +948,12 @@ extension WorkDocs {
             self.folderId = folderId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(folderId, name:"folderId", max: 128)
-            try validate(folderId, name:"folderId", min: 1)
-            try validate(folderId, name:"folderId", pattern: "[\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, max: 128)
+            try validate(folderId, name:"folderId", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -978,12 +978,12 @@ extension WorkDocs {
             self.folderId = folderId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(folderId, name:"folderId", max: 128)
-            try validate(folderId, name:"folderId", min: 1)
-            try validate(folderId, name:"folderId", pattern: "[\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, max: 128)
+            try validate(folderId, name:"folderId", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1016,18 +1016,18 @@ extension WorkDocs {
             self.resourceId = resourceId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
             try labels?.forEach {
-                try validate($0, name:"labels[]", max: 32)
-                try validate($0, name:"labels[]", min: 1)
-                try validate($0, name:"labels[]", pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+                try validate($0, name: "labels[]", parent: name, max: 32)
+                try validate($0, name: "labels[]", parent: name, min: 1)
+                try validate($0, name: "labels[]", parent: name, pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
             }
-            try validate(labels, name:"labels", max: 20)
-            try validate(resourceId, name:"resourceId", max: 128)
-            try validate(resourceId, name:"resourceId", min: 1)
-            try validate(resourceId, name:"resourceId", pattern: "[\\w+-.@]+")
+            try validate(labels, name:"labels", parent: name, max: 20)
+            try validate(resourceId, name:"resourceId", parent: name, max: 128)
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1062,13 +1062,13 @@ extension WorkDocs {
             self.subscriptionId = subscriptionId
         }
 
-        public func validate() throws {
-            try validate(organizationId, name:"organizationId", max: 256)
-            try validate(organizationId, name:"organizationId", min: 1)
-            try validate(organizationId, name:"organizationId", pattern: "[&\\w+-.@]+")
-            try validate(subscriptionId, name:"subscriptionId", max: 256)
-            try validate(subscriptionId, name:"subscriptionId", min: 1)
-            try validate(subscriptionId, name:"subscriptionId", pattern: "[&\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(organizationId, name:"organizationId", parent: name, max: 256)
+            try validate(organizationId, name:"organizationId", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, pattern: "[&\\w+-.@]+")
+            try validate(subscriptionId, name:"subscriptionId", parent: name, max: 256)
+            try validate(subscriptionId, name:"subscriptionId", parent: name, min: 1)
+            try validate(subscriptionId, name:"subscriptionId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1093,12 +1093,12 @@ extension WorkDocs {
             self.userId = userId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(userId, name:"userId", max: 256)
-            try validate(userId, name:"userId", min: 1)
-            try validate(userId, name:"userId", pattern: "[&\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, max: 256)
+            try validate(userId, name:"userId", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1155,26 +1155,26 @@ extension WorkDocs {
             self.userId = userId
         }
 
-        public func validate() throws {
-            try validate(activityTypes, name:"activityTypes", max: 1024)
-            try validate(activityTypes, name:"activityTypes", min: 1)
-            try validate(activityTypes, name:"activityTypes", pattern: "[\\w,]+")
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(limit, name:"limit", max: 999)
-            try validate(limit, name:"limit", min: 1)
-            try validate(marker, name:"marker", max: 2048)
-            try validate(marker, name:"marker", min: 1)
-            try validate(marker, name:"marker", pattern: "[\\u0000-\\u00FF]+")
-            try validate(organizationId, name:"organizationId", max: 256)
-            try validate(organizationId, name:"organizationId", min: 1)
-            try validate(organizationId, name:"organizationId", pattern: "[&\\w+-.@]+")
-            try validate(resourceId, name:"resourceId", max: 256)
-            try validate(resourceId, name:"resourceId", min: 1)
-            try validate(resourceId, name:"resourceId", pattern: "[&\\w+-.@]+")
-            try validate(userId, name:"userId", max: 256)
-            try validate(userId, name:"userId", min: 1)
-            try validate(userId, name:"userId", pattern: "[&\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(activityTypes, name:"activityTypes", parent: name, max: 1024)
+            try validate(activityTypes, name:"activityTypes", parent: name, min: 1)
+            try validate(activityTypes, name:"activityTypes", parent: name, pattern: "[\\w,]+")
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, pattern: "[\\u0000-\\u00FF]+")
+            try validate(organizationId, name:"organizationId", parent: name, max: 256)
+            try validate(organizationId, name:"organizationId", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, pattern: "[&\\w+-.@]+")
+            try validate(resourceId, name:"resourceId", parent: name, max: 256)
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, pattern: "[&\\w+-.@]+")
+            try validate(userId, name:"userId", parent: name, max: 256)
+            try validate(userId, name:"userId", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1241,20 +1241,20 @@ extension WorkDocs {
             self.versionId = versionId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(documentId, name:"documentId", max: 128)
-            try validate(documentId, name:"documentId", min: 1)
-            try validate(documentId, name:"documentId", pattern: "[\\w+-.@]+")
-            try validate(limit, name:"limit", max: 999)
-            try validate(limit, name:"limit", min: 1)
-            try validate(marker, name:"marker", max: 2048)
-            try validate(marker, name:"marker", min: 1)
-            try validate(marker, name:"marker", pattern: "[\\u0000-\\u00FF]+")
-            try validate(versionId, name:"versionId", max: 128)
-            try validate(versionId, name:"versionId", min: 1)
-            try validate(versionId, name:"versionId", pattern: "[\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, max: 128)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, pattern: "[\\u0000-\\u00FF]+")
+            try validate(versionId, name:"versionId", parent: name, max: 128)
+            try validate(versionId, name:"versionId", parent: name, min: 1)
+            try validate(versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1320,22 +1320,22 @@ extension WorkDocs {
             self.marker = marker
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(documentId, name:"documentId", max: 128)
-            try validate(documentId, name:"documentId", min: 1)
-            try validate(documentId, name:"documentId", pattern: "[\\w+-.@]+")
-            try validate(fields, name:"fields", max: 256)
-            try validate(fields, name:"fields", min: 1)
-            try validate(fields, name:"fields", pattern: "[\\w,]+")
-            try validate(include, name:"include", max: 256)
-            try validate(include, name:"include", min: 1)
-            try validate(include, name:"include", pattern: "[\\w,]+")
-            try validate(limit, name:"limit", max: 999)
-            try validate(limit, name:"limit", min: 1)
-            try validate(marker, name:"marker", max: 2048)
-            try validate(marker, name:"marker", min: 1)
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, max: 128)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(fields, name:"fields", parent: name, max: 256)
+            try validate(fields, name:"fields", parent: name, min: 1)
+            try validate(fields, name:"fields", parent: name, pattern: "[\\w,]+")
+            try validate(include, name:"include", parent: name, max: 256)
+            try validate(include, name:"include", parent: name, min: 1)
+            try validate(include, name:"include", parent: name, pattern: "[\\w,]+")
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1410,19 +1410,19 @@ extension WorkDocs {
             self.`type` = `type`
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(folderId, name:"folderId", max: 128)
-            try validate(folderId, name:"folderId", min: 1)
-            try validate(folderId, name:"folderId", pattern: "[\\w+-.@]+")
-            try validate(include, name:"include", max: 256)
-            try validate(include, name:"include", min: 1)
-            try validate(include, name:"include", pattern: "[\\w,]+")
-            try validate(limit, name:"limit", max: 999)
-            try validate(limit, name:"limit", min: 1)
-            try validate(marker, name:"marker", max: 2048)
-            try validate(marker, name:"marker", min: 1)
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, max: 128)
+            try validate(folderId, name:"folderId", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(include, name:"include", parent: name, max: 256)
+            try validate(include, name:"include", parent: name, min: 1)
+            try validate(include, name:"include", parent: name, pattern: "[\\w,]+")
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1492,19 +1492,19 @@ extension WorkDocs {
             self.searchQuery = searchQuery
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(limit, name:"limit", min: 1)
-            try validate(marker, name:"marker", max: 2048)
-            try validate(marker, name:"marker", min: 1)
-            try validate(marker, name:"marker", pattern: "[\\u0000-\\u00FF]+")
-            try validate(organizationId, name:"organizationId", max: 256)
-            try validate(organizationId, name:"organizationId", min: 1)
-            try validate(organizationId, name:"organizationId", pattern: "[&\\w+-.@]+")
-            try validate(searchQuery, name:"searchQuery", max: 512)
-            try validate(searchQuery, name:"searchQuery", min: 1)
-            try validate(searchQuery, name:"searchQuery", pattern: "[\\u0020-\\uFFFF]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, pattern: "[\\u0000-\\u00FF]+")
+            try validate(organizationId, name:"organizationId", parent: name, max: 256)
+            try validate(organizationId, name:"organizationId", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, pattern: "[&\\w+-.@]+")
+            try validate(searchQuery, name:"searchQuery", parent: name, max: 512)
+            try validate(searchQuery, name:"searchQuery", parent: name, min: 1)
+            try validate(searchQuery, name:"searchQuery", parent: name, pattern: "[\\u0020-\\uFFFF]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1558,14 +1558,14 @@ extension WorkDocs {
             self.organizationId = organizationId
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", max: 999)
-            try validate(limit, name:"limit", min: 1)
-            try validate(marker, name:"marker", max: 2048)
-            try validate(marker, name:"marker", min: 1)
-            try validate(organizationId, name:"organizationId", max: 256)
-            try validate(organizationId, name:"organizationId", min: 1)
-            try validate(organizationId, name:"organizationId", pattern: "[&\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, max: 256)
+            try validate(organizationId, name:"organizationId", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1625,19 +1625,19 @@ extension WorkDocs {
             self.resourceId = resourceId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(limit, name:"limit", max: 999)
-            try validate(limit, name:"limit", min: 1)
-            try validate(marker, name:"marker", max: 2048)
-            try validate(marker, name:"marker", min: 1)
-            try validate(principalId, name:"principalId", max: 256)
-            try validate(principalId, name:"principalId", min: 1)
-            try validate(principalId, name:"principalId", pattern: "[&\\w+-.@]+")
-            try validate(resourceId, name:"resourceId", max: 128)
-            try validate(resourceId, name:"resourceId", min: 1)
-            try validate(resourceId, name:"resourceId", pattern: "[\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(principalId, name:"principalId", parent: name, max: 256)
+            try validate(principalId, name:"principalId", parent: name, min: 1)
+            try validate(principalId, name:"principalId", parent: name, pattern: "[&\\w+-.@]+")
+            try validate(resourceId, name:"resourceId", parent: name, max: 128)
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1691,13 +1691,13 @@ extension WorkDocs {
             self.marker = marker
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(limit, name:"limit", max: 999)
-            try validate(limit, name:"limit", min: 1)
-            try validate(marker, name:"marker", max: 2048)
-            try validate(marker, name:"marker", min: 1)
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1777,25 +1777,25 @@ extension WorkDocs {
             self.userIds = userIds
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(fields, name:"fields", max: 256)
-            try validate(fields, name:"fields", min: 1)
-            try validate(fields, name:"fields", pattern: "[\\w,]+")
-            try validate(limit, name:"limit", max: 999)
-            try validate(limit, name:"limit", min: 1)
-            try validate(marker, name:"marker", max: 2048)
-            try validate(marker, name:"marker", min: 1)
-            try validate(organizationId, name:"organizationId", max: 256)
-            try validate(organizationId, name:"organizationId", min: 1)
-            try validate(organizationId, name:"organizationId", pattern: "[&\\w+-.@]+")
-            try validate(query, name:"query", max: 512)
-            try validate(query, name:"query", min: 1)
-            try validate(query, name:"query", pattern: "[\\u0020-\\uFFFF]+")
-            try validate(userIds, name:"userIds", max: 2000)
-            try validate(userIds, name:"userIds", min: 1)
-            try validate(userIds, name:"userIds", pattern: "[&\\w+-.@, ]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(fields, name:"fields", parent: name, max: 256)
+            try validate(fields, name:"fields", parent: name, min: 1)
+            try validate(fields, name:"fields", parent: name, pattern: "[\\w,]+")
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, max: 256)
+            try validate(organizationId, name:"organizationId", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, pattern: "[&\\w+-.@]+")
+            try validate(query, name:"query", parent: name, max: 512)
+            try validate(query, name:"query", parent: name, min: 1)
+            try validate(query, name:"query", parent: name, pattern: "[\\u0020-\\uFFFF]+")
+            try validate(userIds, name:"userIds", parent: name, max: 2000)
+            try validate(userIds, name:"userIds", parent: name, min: 1)
+            try validate(userIds, name:"userIds", parent: name, pattern: "[&\\w+-.@, ]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2073,9 +2073,9 @@ extension WorkDocs {
             self.authenticationToken = authenticationToken
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2128,19 +2128,19 @@ extension WorkDocs {
             self.marker = marker
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(documentId, name:"documentId", max: 256)
-            try validate(documentId, name:"documentId", min: 1)
-            try validate(documentId, name:"documentId", pattern: "[&\\w+-.@]+")
-            try validate(fields, name:"fields", max: 256)
-            try validate(fields, name:"fields", min: 1)
-            try validate(fields, name:"fields", pattern: "[\\w,]+")
-            try validate(limit, name:"limit", max: 999)
-            try validate(limit, name:"limit", min: 1)
-            try validate(marker, name:"marker", max: 2048)
-            try validate(marker, name:"marker", min: 1)
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, max: 256)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[&\\w+-.@]+")
+            try validate(fields, name:"fields", parent: name, max: 256)
+            try validate(fields, name:"fields", parent: name, min: 1)
+            try validate(fields, name:"fields", parent: name, pattern: "[\\w,]+")
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2189,12 +2189,12 @@ extension WorkDocs {
             self.includeCustomMetadata = includeCustomMetadata
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(documentId, name:"documentId", max: 128)
-            try validate(documentId, name:"documentId", min: 1)
-            try validate(documentId, name:"documentId", pattern: "[\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, max: 128)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2254,18 +2254,18 @@ extension WorkDocs {
             self.versionId = versionId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(documentId, name:"documentId", max: 128)
-            try validate(documentId, name:"documentId", min: 1)
-            try validate(documentId, name:"documentId", pattern: "[\\w+-.@]+")
-            try validate(fields, name:"fields", max: 256)
-            try validate(fields, name:"fields", min: 1)
-            try validate(fields, name:"fields", pattern: "[\\w,]+")
-            try validate(versionId, name:"versionId", max: 128)
-            try validate(versionId, name:"versionId", min: 1)
-            try validate(versionId, name:"versionId", pattern: "[\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, max: 128)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(fields, name:"fields", parent: name, max: 256)
+            try validate(fields, name:"fields", parent: name, min: 1)
+            try validate(fields, name:"fields", parent: name, pattern: "[\\w,]+")
+            try validate(versionId, name:"versionId", parent: name, max: 128)
+            try validate(versionId, name:"versionId", parent: name, min: 1)
+            try validate(versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2327,19 +2327,19 @@ extension WorkDocs {
             self.marker = marker
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(fields, name:"fields", max: 256)
-            try validate(fields, name:"fields", min: 1)
-            try validate(fields, name:"fields", pattern: "[\\w,]+")
-            try validate(folderId, name:"folderId", max: 256)
-            try validate(folderId, name:"folderId", min: 1)
-            try validate(folderId, name:"folderId", pattern: "[&\\w+-.@]+")
-            try validate(limit, name:"limit", max: 999)
-            try validate(limit, name:"limit", min: 1)
-            try validate(marker, name:"marker", max: 2048)
-            try validate(marker, name:"marker", min: 1)
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(fields, name:"fields", parent: name, max: 256)
+            try validate(fields, name:"fields", parent: name, min: 1)
+            try validate(fields, name:"fields", parent: name, pattern: "[\\w,]+")
+            try validate(folderId, name:"folderId", parent: name, max: 256)
+            try validate(folderId, name:"folderId", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, pattern: "[&\\w+-.@]+")
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2388,12 +2388,12 @@ extension WorkDocs {
             self.includeCustomMetadata = includeCustomMetadata
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(folderId, name:"folderId", max: 128)
-            try validate(folderId, name:"folderId", min: 1)
-            try validate(folderId, name:"folderId", pattern: "[\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, max: 128)
+            try validate(folderId, name:"folderId", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2453,16 +2453,16 @@ extension WorkDocs {
             self.userId = userId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(limit, name:"limit", max: 999)
-            try validate(limit, name:"limit", min: 1)
-            try validate(marker, name:"marker", max: 2048)
-            try validate(marker, name:"marker", min: 1)
-            try validate(userId, name:"userId", max: 256)
-            try validate(userId, name:"userId", min: 1)
-            try validate(userId, name:"userId", pattern: "[&\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, max: 256)
+            try validate(userId, name:"userId", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2563,20 +2563,20 @@ extension WorkDocs {
             self.parentFolderId = parentFolderId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(contentType, name:"contentType", max: 128)
-            try validate(contentType, name:"contentType", min: 1)
-            try validate(id, name:"id", max: 128)
-            try validate(id, name:"id", min: 1)
-            try validate(id, name:"id", pattern: "[\\w+-.@]+")
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\u202D\\u202F-\\uFFFF]+")
-            try validate(parentFolderId, name:"parentFolderId", max: 128)
-            try validate(parentFolderId, name:"parentFolderId", min: 1)
-            try validate(parentFolderId, name:"parentFolderId", pattern: "[\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(contentType, name:"contentType", parent: name, max: 128)
+            try validate(contentType, name:"contentType", parent: name, min: 1)
+            try validate(id, name:"id", parent: name, max: 128)
+            try validate(id, name:"id", parent: name, min: 1)
+            try validate(id, name:"id", parent: name, pattern: "[\\w+-.@]+")
+            try validate(name, name:"name", parent: name, max: 255)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "[\\u0020-\\u202D\\u202F-\\uFFFF]+")
+            try validate(parentFolderId, name:"parentFolderId", parent: name, max: 128)
+            try validate(parentFolderId, name:"parentFolderId", parent: name, min: 1)
+            try validate(parentFolderId, name:"parentFolderId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2644,9 +2644,9 @@ extension WorkDocs {
             self.sendEmail = sendEmail
         }
 
-        public func validate() throws {
-            try validate(emailMessage, name:"emailMessage", max: 2048)
-            try validate(emailMessage, name:"emailMessage", min: 0)
+        public func validate(name: String) throws {
+            try validate(emailMessage, name:"emailMessage", parent: name, max: 2048)
+            try validate(emailMessage, name:"emailMessage", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2757,12 +2757,12 @@ extension WorkDocs {
             self.resourceId = resourceId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(resourceId, name:"resourceId", max: 128)
-            try validate(resourceId, name:"resourceId", min: 1)
-            try validate(resourceId, name:"resourceId", pattern: "[\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, max: 128)
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2795,15 +2795,15 @@ extension WorkDocs {
             self.resourceId = resourceId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(principalId, name:"principalId", max: 256)
-            try validate(principalId, name:"principalId", min: 1)
-            try validate(principalId, name:"principalId", pattern: "[&\\w+-.@]+")
-            try validate(resourceId, name:"resourceId", max: 128)
-            try validate(resourceId, name:"resourceId", min: 1)
-            try validate(resourceId, name:"resourceId", pattern: "[\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(principalId, name:"principalId", parent: name, max: 256)
+            try validate(principalId, name:"principalId", parent: name, min: 1)
+            try validate(principalId, name:"principalId", parent: name, pattern: "[&\\w+-.@]+")
+            try validate(resourceId, name:"resourceId", parent: name, max: 128)
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2959,10 +2959,10 @@ extension WorkDocs {
             self.`type` = `type`
         }
 
-        public func validate() throws {
-            try validate(id, name:"id", max: 256)
-            try validate(id, name:"id", min: 1)
-            try validate(id, name:"id", pattern: "[&\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(id, name:"id", parent: name, max: 256)
+            try validate(id, name:"id", parent: name, min: 1)
+            try validate(id, name:"id", parent: name, pattern: "[&\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3036,8 +3036,8 @@ extension WorkDocs {
             self.storageType = storageType
         }
 
-        public func validate() throws {
-            try validate(storageAllocatedInBytes, name:"storageAllocatedInBytes", min: 0)
+        public func validate(name: String) throws {
+            try validate(storageAllocatedInBytes, name:"storageAllocatedInBytes", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3117,18 +3117,18 @@ extension WorkDocs {
             self.resourceState = resourceState
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(documentId, name:"documentId", max: 128)
-            try validate(documentId, name:"documentId", min: 1)
-            try validate(documentId, name:"documentId", pattern: "[\\w+-.@]+")
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\u202D\\u202F-\\uFFFF]+")
-            try validate(parentFolderId, name:"parentFolderId", max: 128)
-            try validate(parentFolderId, name:"parentFolderId", min: 1)
-            try validate(parentFolderId, name:"parentFolderId", pattern: "[\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, max: 128)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(name, name:"name", parent: name, max: 255)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "[\\u0020-\\u202D\\u202F-\\uFFFF]+")
+            try validate(parentFolderId, name:"parentFolderId", parent: name, max: 128)
+            try validate(parentFolderId, name:"parentFolderId", parent: name, min: 1)
+            try validate(parentFolderId, name:"parentFolderId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3164,15 +3164,15 @@ extension WorkDocs {
             self.versionStatus = versionStatus
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(documentId, name:"documentId", max: 128)
-            try validate(documentId, name:"documentId", min: 1)
-            try validate(documentId, name:"documentId", pattern: "[\\w+-.@]+")
-            try validate(versionId, name:"versionId", max: 128)
-            try validate(versionId, name:"versionId", min: 1)
-            try validate(versionId, name:"versionId", pattern: "[\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, max: 128)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(versionId, name:"versionId", parent: name, max: 128)
+            try validate(versionId, name:"versionId", parent: name, min: 1)
+            try validate(versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3211,18 +3211,18 @@ extension WorkDocs {
             self.resourceState = resourceState
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(folderId, name:"folderId", max: 128)
-            try validate(folderId, name:"folderId", min: 1)
-            try validate(folderId, name:"folderId", pattern: "[\\w+-.@]+")
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0020-\\u202D\\u202F-\\uFFFF]+")
-            try validate(parentFolderId, name:"parentFolderId", max: 128)
-            try validate(parentFolderId, name:"parentFolderId", min: 1)
-            try validate(parentFolderId, name:"parentFolderId", pattern: "[\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, max: 128)
+            try validate(folderId, name:"folderId", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(name, name:"name", parent: name, max: 255)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "[\\u0020-\\u202D\\u202F-\\uFFFF]+")
+            try validate(parentFolderId, name:"parentFolderId", parent: name, max: 128)
+            try validate(parentFolderId, name:"parentFolderId", parent: name, min: 1)
+            try validate(parentFolderId, name:"parentFolderId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3278,19 +3278,19 @@ extension WorkDocs {
             self.userId = userId
         }
 
-        public func validate() throws {
-            try validate(authenticationToken, name:"authenticationToken", max: 8199)
-            try validate(authenticationToken, name:"authenticationToken", min: 1)
-            try validate(givenName, name:"givenName", max: 64)
-            try validate(givenName, name:"givenName", min: 1)
-            try storageRule?.validate()
-            try validate(surname, name:"surname", max: 64)
-            try validate(surname, name:"surname", min: 1)
-            try validate(timeZoneId, name:"timeZoneId", max: 256)
-            try validate(timeZoneId, name:"timeZoneId", min: 1)
-            try validate(userId, name:"userId", max: 256)
-            try validate(userId, name:"userId", min: 1)
-            try validate(userId, name:"userId", pattern: "[&\\w+-.@]+")
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(givenName, name:"givenName", parent: name, max: 64)
+            try validate(givenName, name:"givenName", parent: name, min: 1)
+            try storageRule?.validate(name: "\(name).storageRule")
+            try validate(surname, name:"surname", parent: name, max: 64)
+            try validate(surname, name:"surname", parent: name, min: 1)
+            try validate(timeZoneId, name:"timeZoneId", parent: name, max: 256)
+            try validate(timeZoneId, name:"timeZoneId", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, max: 256)
+            try validate(userId, name:"userId", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {

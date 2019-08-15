@@ -28,9 +28,9 @@ extension DynamoDB {
             self.attributeType = attributeType
         }
 
-        public func validate() throws {
-            try validate(attributeName, name:"attributeName", max: 255)
-            try validate(attributeName, name:"attributeName", min: 1)
+        public func validate(name: String) throws {
+            try validate(attributeName, name:"attributeName", parent: name, max: 255)
+            try validate(attributeName, name:"attributeName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -87,13 +87,13 @@ extension DynamoDB {
             self.ss = ss
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try l?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).l[]")
             }
             try m?.forEach {
-                try validate($0.key, name:"m[key:]", max: 65535)
-                try $0.value.validate()
+                try validate($0.key, name:"m.key", parent: name, max: 65535)
+                try $0.value.validate(name: "\(name).m[\"\($0.key)\"]")
             }
         }
 
@@ -127,8 +127,8 @@ extension DynamoDB {
             self.value = value
         }
 
-        public func validate() throws {
-            try value?.validate()
+        public func validate(name: String) throws {
+            try value?.validate(name: "\(name).value")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -175,10 +175,10 @@ extension DynamoDB {
             self.targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfiguration
         }
 
-        public func validate() throws {
-            try validate(policyName, name:"policyName", max: 256)
-            try validate(policyName, name:"policyName", min: 1)
-            try validate(policyName, name:"policyName", pattern: "\\p{Print}+")
+        public func validate(name: String) throws {
+            try validate(policyName, name:"policyName", parent: name, max: 256)
+            try validate(policyName, name:"policyName", parent: name, min: 1)
+            try validate(policyName, name:"policyName", parent: name, pattern: "\\p{Print}+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -252,13 +252,13 @@ extension DynamoDB {
             self.scalingPolicyUpdate = scalingPolicyUpdate
         }
 
-        public func validate() throws {
-            try validate(autoScalingRoleArn, name:"autoScalingRoleArn", max: 1600)
-            try validate(autoScalingRoleArn, name:"autoScalingRoleArn", min: 1)
-            try validate(autoScalingRoleArn, name:"autoScalingRoleArn", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(maximumUnits, name:"maximumUnits", min: 1)
-            try validate(minimumUnits, name:"minimumUnits", min: 1)
-            try scalingPolicyUpdate?.validate()
+        public func validate(name: String) throws {
+            try validate(autoScalingRoleArn, name:"autoScalingRoleArn", parent: name, max: 1600)
+            try validate(autoScalingRoleArn, name:"autoScalingRoleArn", parent: name, min: 1)
+            try validate(autoScalingRoleArn, name:"autoScalingRoleArn", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(maximumUnits, name:"maximumUnits", parent: name, min: 1)
+            try validate(minimumUnits, name:"minimumUnits", parent: name, min: 1)
+            try scalingPolicyUpdate?.validate(name: "\(name).scalingPolicyUpdate")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -507,12 +507,12 @@ extension DynamoDB {
             self.returnConsumedCapacity = returnConsumedCapacity
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try requestItems.forEach {
-                try validate($0.key, name:"requestItems[key:]", max: 255)
-                try validate($0.key, name:"requestItems[key:]", min: 3)
-                try validate($0.key, name:"requestItems[key:]", pattern: "[a-zA-Z0-9_.-]+")
-                try $0.value.validate()
+                try validate($0.key, name:"requestItems.key", parent: name, max: 255)
+                try validate($0.key, name:"requestItems.key", parent: name, min: 3)
+                try validate($0.key, name:"requestItems.key", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+                try $0.value.validate(name: "\(name).requestItems[\"\($0.key)\"]")
             }
         }
 
@@ -568,13 +568,13 @@ extension DynamoDB {
             self.returnItemCollectionMetrics = returnItemCollectionMetrics
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try requestItems.forEach {
-                try validate($0.key, name:"requestItems[key:]", max: 255)
-                try validate($0.key, name:"requestItems[key:]", min: 3)
-                try validate($0.key, name:"requestItems[key:]", pattern: "[a-zA-Z0-9_.-]+")
-                try validate($0.value, name:"requestItems[:value]", max: 25)
-                try validate($0.value, name:"requestItems[:value]", min: 1)
+                try validate($0.key, name:"requestItems.key", parent: name, max: 255)
+                try validate($0.key, name:"requestItems.key", parent: name, min: 3)
+                try validate($0.key, name:"requestItems.key", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+                try validate($0.value, name:"requestItems[\"\($0.key)\"]", parent: name, max: 25)
+                try validate($0.value, name:"requestItems[\"\($0.key)\"]", parent: name, min: 1)
             }
         }
 
@@ -700,9 +700,9 @@ extension DynamoDB {
             self.comparisonOperator = comparisonOperator
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try attributeValueList?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).attributeValueList[]")
             }
         }
 
@@ -744,20 +744,20 @@ extension DynamoDB {
             self.tableName = tableName
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[\"\($0.key)\"]", parent: name, max: 65535)
             }
             try expressionAttributeValues?.forEach {
-                try $0.value.validate()
+                try $0.value.validate(name: "\(name).expressionAttributeValues[\"\($0.key)\"]")
             }
             try key.forEach {
-                try validate($0.key, name:"key[key:]", max: 65535)
-                try $0.value.validate()
+                try validate($0.key, name:"key.key", parent: name, max: 65535)
+                try $0.value.validate(name: "\(name).key[\"\($0.key)\"]")
             }
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -867,13 +867,13 @@ extension DynamoDB {
             self.tableName = tableName
         }
 
-        public func validate() throws {
-            try validate(backupName, name:"backupName", max: 255)
-            try validate(backupName, name:"backupName", min: 3)
-            try validate(backupName, name:"backupName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(backupName, name:"backupName", parent: name, max: 255)
+            try validate(backupName, name:"backupName", parent: name, min: 3)
+            try validate(backupName, name:"backupName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -923,17 +923,17 @@ extension DynamoDB {
             self.provisionedThroughput = provisionedThroughput
         }
 
-        public func validate() throws {
-            try validate(indexName, name:"indexName", max: 255)
-            try validate(indexName, name:"indexName", min: 3)
-            try validate(indexName, name:"indexName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(indexName, name:"indexName", parent: name, max: 255)
+            try validate(indexName, name:"indexName", parent: name, min: 3)
+            try validate(indexName, name:"indexName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try keySchema.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).keySchema[]")
             }
-            try validate(keySchema, name:"keySchema", max: 2)
-            try validate(keySchema, name:"keySchema", min: 1)
-            try projection.validate()
-            try provisionedThroughput?.validate()
+            try validate(keySchema, name:"keySchema", parent: name, max: 2)
+            try validate(keySchema, name:"keySchema", parent: name, min: 1)
+            try projection.validate(name: "\(name).projection")
+            try provisionedThroughput?.validate(name: "\(name).provisionedThroughput")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -960,10 +960,10 @@ extension DynamoDB {
             self.replicationGroup = replicationGroup
         }
 
-        public func validate() throws {
-            try validate(globalTableName, name:"globalTableName", max: 255)
-            try validate(globalTableName, name:"globalTableName", min: 3)
-            try validate(globalTableName, name:"globalTableName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(globalTableName, name:"globalTableName", parent: name, max: 255)
+            try validate(globalTableName, name:"globalTableName", parent: name, min: 3)
+            try validate(globalTableName, name:"globalTableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1054,27 +1054,27 @@ extension DynamoDB {
             self.tags = tags
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try attributeDefinitions.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).attributeDefinitions[]")
             }
             try globalSecondaryIndexes?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).globalSecondaryIndexes[]")
             }
             try keySchema.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).keySchema[]")
             }
-            try validate(keySchema, name:"keySchema", max: 2)
-            try validate(keySchema, name:"keySchema", min: 1)
+            try validate(keySchema, name:"keySchema", parent: name, max: 2)
+            try validate(keySchema, name:"keySchema", parent: name, min: 1)
             try localSecondaryIndexes?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).localSecondaryIndexes[]")
             }
-            try provisionedThroughput?.validate()
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
+            try provisionedThroughput?.validate(name: "\(name).provisionedThroughput")
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
         }
 
@@ -1141,20 +1141,20 @@ extension DynamoDB {
             self.tableName = tableName
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[\"\($0.key)\"]", parent: name, max: 65535)
             }
             try expressionAttributeValues?.forEach {
-                try $0.value.validate()
+                try $0.value.validate(name: "\(name).expressionAttributeValues[\"\($0.key)\"]")
             }
             try key.forEach {
-                try validate($0.key, name:"key[key:]", max: 65535)
-                try $0.value.validate()
+                try validate($0.key, name:"key.key", parent: name, max: 65535)
+                try $0.value.validate(name: "\(name).key[\"\($0.key)\"]")
             }
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1179,9 +1179,9 @@ extension DynamoDB {
             self.backupArn = backupArn
         }
 
-        public func validate() throws {
-            try validate(backupArn, name:"backupArn", max: 1024)
-            try validate(backupArn, name:"backupArn", min: 37)
+        public func validate(name: String) throws {
+            try validate(backupArn, name:"backupArn", parent: name, max: 1024)
+            try validate(backupArn, name:"backupArn", parent: name, min: 37)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1218,10 +1218,10 @@ extension DynamoDB {
             self.indexName = indexName
         }
 
-        public func validate() throws {
-            try validate(indexName, name:"indexName", max: 255)
-            try validate(indexName, name:"indexName", min: 3)
-            try validate(indexName, name:"indexName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(indexName, name:"indexName", parent: name, max: 255)
+            try validate(indexName, name:"indexName", parent: name, min: 3)
+            try validate(indexName, name:"indexName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1276,24 +1276,24 @@ extension DynamoDB {
             self.tableName = tableName
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try expected?.forEach {
-                try validate($0.key, name:"expected[key:]", max: 65535)
-                try $0.value.validate()
+                try validate($0.key, name:"expected.key", parent: name, max: 65535)
+                try $0.value.validate(name: "\(name).expected[\"\($0.key)\"]")
             }
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[\"\($0.key)\"]", parent: name, max: 65535)
             }
             try expressionAttributeValues?.forEach {
-                try $0.value.validate()
+                try $0.value.validate(name: "\(name).expressionAttributeValues[\"\($0.key)\"]")
             }
             try key.forEach {
-                try validate($0.key, name:"key[key:]", max: 65535)
-                try $0.value.validate()
+                try validate($0.key, name:"key.key", parent: name, max: 65535)
+                try $0.value.validate(name: "\(name).key[\"\($0.key)\"]")
             }
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1366,10 +1366,10 @@ extension DynamoDB {
             self.key = key
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try key.forEach {
-                try validate($0.key, name:"key[key:]", max: 65535)
-                try $0.value.validate()
+                try validate($0.key, name:"key.key", parent: name, max: 65535)
+                try $0.value.validate(name: "\(name).key[\"\($0.key)\"]")
             }
         }
 
@@ -1390,10 +1390,10 @@ extension DynamoDB {
             self.tableName = tableName
         }
 
-        public func validate() throws {
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1430,9 +1430,9 @@ extension DynamoDB {
             self.backupArn = backupArn
         }
 
-        public func validate() throws {
-            try validate(backupArn, name:"backupArn", max: 1024)
-            try validate(backupArn, name:"backupArn", min: 37)
+        public func validate(name: String) throws {
+            try validate(backupArn, name:"backupArn", parent: name, max: 1024)
+            try validate(backupArn, name:"backupArn", parent: name, min: 37)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1469,10 +1469,10 @@ extension DynamoDB {
             self.tableName = tableName
         }
 
-        public func validate() throws {
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1534,10 +1534,10 @@ extension DynamoDB {
             self.globalTableName = globalTableName
         }
 
-        public func validate() throws {
-            try validate(globalTableName, name:"globalTableName", max: 255)
-            try validate(globalTableName, name:"globalTableName", min: 3)
-            try validate(globalTableName, name:"globalTableName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(globalTableName, name:"globalTableName", parent: name, max: 255)
+            try validate(globalTableName, name:"globalTableName", parent: name, min: 3)
+            try validate(globalTableName, name:"globalTableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1574,10 +1574,10 @@ extension DynamoDB {
             self.globalTableName = globalTableName
         }
 
-        public func validate() throws {
-            try validate(globalTableName, name:"globalTableName", max: 255)
-            try validate(globalTableName, name:"globalTableName", min: 3)
-            try validate(globalTableName, name:"globalTableName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(globalTableName, name:"globalTableName", parent: name, max: 255)
+            try validate(globalTableName, name:"globalTableName", parent: name, min: 3)
+            try validate(globalTableName, name:"globalTableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1659,10 +1659,10 @@ extension DynamoDB {
             self.tableName = tableName
         }
 
-        public func validate() throws {
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1699,10 +1699,10 @@ extension DynamoDB {
             self.tableName = tableName
         }
 
-        public func validate() throws {
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1772,11 +1772,11 @@ extension DynamoDB {
             self.value = value
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try attributeValueList?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).attributeValueList[]")
             }
-            try value?.validate()
+            try value?.validate(name: "\(name).value")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1811,17 +1811,17 @@ extension DynamoDB {
             self.tableName = tableName
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[\"\($0.key)\"]", parent: name, max: 65535)
             }
             try key.forEach {
-                try validate($0.key, name:"key[key:]", max: 65535)
-                try $0.value.validate()
+                try validate($0.key, name:"key.key", parent: name, max: 65535)
+                try $0.value.validate(name: "\(name).key[\"\($0.key)\"]")
             }
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1867,21 +1867,21 @@ extension DynamoDB {
             self.tableName = tableName
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try attributesToGet?.forEach {
-                try validate($0, name:"attributesToGet[]", max: 65535)
+                try validate($0, name: "attributesToGet[]", parent: name, max: 65535)
             }
-            try validate(attributesToGet, name:"attributesToGet", min: 1)
+            try validate(attributesToGet, name:"attributesToGet", parent: name, min: 1)
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[\"\($0.key)\"]", parent: name, max: 65535)
             }
             try key.forEach {
-                try validate($0.key, name:"key[key:]", max: 65535)
-                try $0.value.validate()
+                try validate($0.key, name:"key.key", parent: name, max: 65535)
+                try $0.value.validate(name: "\(name).key[\"\($0.key)\"]")
             }
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1941,17 +1941,17 @@ extension DynamoDB {
             self.provisionedThroughput = provisionedThroughput
         }
 
-        public func validate() throws {
-            try validate(indexName, name:"indexName", max: 255)
-            try validate(indexName, name:"indexName", min: 3)
-            try validate(indexName, name:"indexName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(indexName, name:"indexName", parent: name, max: 255)
+            try validate(indexName, name:"indexName", parent: name, min: 3)
+            try validate(indexName, name:"indexName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try keySchema.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).keySchema[]")
             }
-            try validate(keySchema, name:"keySchema", max: 2)
-            try validate(keySchema, name:"keySchema", min: 1)
-            try projection.validate()
-            try provisionedThroughput?.validate()
+            try validate(keySchema, name:"keySchema", parent: name, max: 2)
+            try validate(keySchema, name:"keySchema", parent: name, min: 1)
+            try projection.validate(name: "\(name).projection")
+            try provisionedThroughput?.validate(name: "\(name).provisionedThroughput")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2071,10 +2071,10 @@ extension DynamoDB {
             self.update = update
         }
 
-        public func validate() throws {
-            try create?.validate()
-            try delete?.validate()
-            try update?.validate()
+        public func validate(name: String) throws {
+            try create?.validate(name: "\(name).create")
+            try delete?.validate(name: "\(name).delete")
+            try update?.validate(name: "\(name).update")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2163,12 +2163,12 @@ extension DynamoDB {
             self.provisionedWriteCapacityUnits = provisionedWriteCapacityUnits
         }
 
-        public func validate() throws {
-            try validate(indexName, name:"indexName", max: 255)
-            try validate(indexName, name:"indexName", min: 3)
-            try validate(indexName, name:"indexName", pattern: "[a-zA-Z0-9_.-]+")
-            try provisionedWriteCapacityAutoScalingSettingsUpdate?.validate()
-            try validate(provisionedWriteCapacityUnits, name:"provisionedWriteCapacityUnits", min: 1)
+        public func validate(name: String) throws {
+            try validate(indexName, name:"indexName", parent: name, max: 255)
+            try validate(indexName, name:"indexName", parent: name, min: 3)
+            try validate(indexName, name:"indexName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try provisionedWriteCapacityAutoScalingSettingsUpdate?.validate(name: "\(name).provisionedWriteCapacityAutoScalingSettingsUpdate")
+            try validate(provisionedWriteCapacityUnits, name:"provisionedWriteCapacityUnits", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2249,9 +2249,9 @@ extension DynamoDB {
             self.keyType = keyType
         }
 
-        public func validate() throws {
-            try validate(attributeName, name:"attributeName", max: 255)
-            try validate(attributeName, name:"attributeName", min: 1)
+        public func validate(name: String) throws {
+            try validate(attributeName, name:"attributeName", parent: name, max: 255)
+            try validate(attributeName, name:"attributeName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2294,16 +2294,16 @@ extension DynamoDB {
             self.projectionExpression = projectionExpression
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try attributesToGet?.forEach {
-                try validate($0, name:"attributesToGet[]", max: 65535)
+                try validate($0, name: "attributesToGet[]", parent: name, max: 65535)
             }
-            try validate(attributesToGet, name:"attributesToGet", min: 1)
+            try validate(attributesToGet, name:"attributesToGet", parent: name, min: 1)
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[\"\($0.key)\"]", parent: name, max: 65535)
             }
-            try validate(keys, name:"keys", max: 100)
-            try validate(keys, name:"keys", min: 1)
+            try validate(keys, name:"keys", parent: name, max: 100)
+            try validate(keys, name:"keys", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2347,14 +2347,14 @@ extension DynamoDB {
             self.timeRangeUpperBound = timeRangeUpperBound
         }
 
-        public func validate() throws {
-            try validate(exclusiveStartBackupArn, name:"exclusiveStartBackupArn", max: 1024)
-            try validate(exclusiveStartBackupArn, name:"exclusiveStartBackupArn", min: 37)
-            try validate(limit, name:"limit", max: 100)
-            try validate(limit, name:"limit", min: 1)
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(exclusiveStartBackupArn, name:"exclusiveStartBackupArn", parent: name, max: 1024)
+            try validate(exclusiveStartBackupArn, name:"exclusiveStartBackupArn", parent: name, min: 37)
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2409,11 +2409,11 @@ extension DynamoDB {
             self.regionName = regionName
         }
 
-        public func validate() throws {
-            try validate(exclusiveStartGlobalTableName, name:"exclusiveStartGlobalTableName", max: 255)
-            try validate(exclusiveStartGlobalTableName, name:"exclusiveStartGlobalTableName", min: 3)
-            try validate(exclusiveStartGlobalTableName, name:"exclusiveStartGlobalTableName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(limit, name:"limit", min: 1)
+        public func validate(name: String) throws {
+            try validate(exclusiveStartGlobalTableName, name:"exclusiveStartGlobalTableName", parent: name, max: 255)
+            try validate(exclusiveStartGlobalTableName, name:"exclusiveStartGlobalTableName", parent: name, min: 3)
+            try validate(exclusiveStartGlobalTableName, name:"exclusiveStartGlobalTableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(limit, name:"limit", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2461,12 +2461,12 @@ extension DynamoDB {
             self.limit = limit
         }
 
-        public func validate() throws {
-            try validate(exclusiveStartTableName, name:"exclusiveStartTableName", max: 255)
-            try validate(exclusiveStartTableName, name:"exclusiveStartTableName", min: 3)
-            try validate(exclusiveStartTableName, name:"exclusiveStartTableName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(limit, name:"limit", max: 100)
-            try validate(limit, name:"limit", min: 1)
+        public func validate(name: String) throws {
+            try validate(exclusiveStartTableName, name:"exclusiveStartTableName", parent: name, max: 255)
+            try validate(exclusiveStartTableName, name:"exclusiveStartTableName", parent: name, min: 3)
+            try validate(exclusiveStartTableName, name:"exclusiveStartTableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2513,9 +2513,9 @@ extension DynamoDB {
             self.resourceArn = resourceArn
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 1283)
-            try validate(resourceArn, name:"resourceArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1283)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2566,16 +2566,16 @@ extension DynamoDB {
             self.projection = projection
         }
 
-        public func validate() throws {
-            try validate(indexName, name:"indexName", max: 255)
-            try validate(indexName, name:"indexName", min: 3)
-            try validate(indexName, name:"indexName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(indexName, name:"indexName", parent: name, max: 255)
+            try validate(indexName, name:"indexName", parent: name, min: 3)
+            try validate(indexName, name:"indexName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try keySchema.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).keySchema[]")
             }
-            try validate(keySchema, name:"keySchema", max: 2)
-            try validate(keySchema, name:"keySchema", min: 1)
-            try projection.validate()
+            try validate(keySchema, name:"keySchema", parent: name, max: 2)
+            try validate(keySchema, name:"keySchema", parent: name, min: 1)
+            try projection.validate(name: "\(name).projection")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2720,13 +2720,13 @@ extension DynamoDB {
             self.projectionType = projectionType
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try nonKeyAttributes?.forEach {
-                try validate($0, name:"nonKeyAttributes[]", max: 255)
-                try validate($0, name:"nonKeyAttributes[]", min: 1)
+                try validate($0, name: "nonKeyAttributes[]", parent: name, max: 255)
+                try validate($0, name: "nonKeyAttributes[]", parent: name, min: 1)
             }
-            try validate(nonKeyAttributes, name:"nonKeyAttributes", max: 20)
-            try validate(nonKeyAttributes, name:"nonKeyAttributes", min: 1)
+            try validate(nonKeyAttributes, name:"nonKeyAttributes", parent: name, max: 20)
+            try validate(nonKeyAttributes, name:"nonKeyAttributes", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2758,9 +2758,9 @@ extension DynamoDB {
             self.writeCapacityUnits = writeCapacityUnits
         }
 
-        public func validate() throws {
-            try validate(readCapacityUnits, name:"readCapacityUnits", min: 1)
-            try validate(writeCapacityUnits, name:"writeCapacityUnits", min: 1)
+        public func validate(name: String) throws {
+            try validate(readCapacityUnits, name:"readCapacityUnits", parent: name, min: 1)
+            try validate(writeCapacityUnits, name:"writeCapacityUnits", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2838,20 +2838,20 @@ extension DynamoDB {
             self.tableName = tableName
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[\"\($0.key)\"]", parent: name, max: 65535)
             }
             try expressionAttributeValues?.forEach {
-                try $0.value.validate()
+                try $0.value.validate(name: "\(name).expressionAttributeValues[\"\($0.key)\"]")
             }
             try item.forEach {
-                try validate($0.key, name:"item[key:]", max: 65535)
-                try $0.value.validate()
+                try validate($0.key, name:"item.key", parent: name, max: 65535)
+                try $0.value.validate(name: "\(name).item[\"\($0.key)\"]")
             }
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2911,24 +2911,24 @@ extension DynamoDB {
             self.tableName = tableName
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try expected?.forEach {
-                try validate($0.key, name:"expected[key:]", max: 65535)
-                try $0.value.validate()
+                try validate($0.key, name:"expected.key", parent: name, max: 65535)
+                try $0.value.validate(name: "\(name).expected[\"\($0.key)\"]")
             }
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[\"\($0.key)\"]", parent: name, max: 65535)
             }
             try expressionAttributeValues?.forEach {
-                try $0.value.validate()
+                try $0.value.validate(name: "\(name).expressionAttributeValues[\"\($0.key)\"]")
             }
             try item.forEach {
-                try validate($0.key, name:"item[key:]", max: 65535)
-                try $0.value.validate()
+                try validate($0.key, name:"item.key", parent: name, max: 65535)
+                try $0.value.validate(name: "\(name).item[\"\($0.key)\"]")
             }
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2984,10 +2984,10 @@ extension DynamoDB {
             self.item = item
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try item.forEach {
-                try validate($0.key, name:"item[key:]", max: 65535)
-                try $0.value.validate()
+                try validate($0.key, name:"item.key", parent: name, max: 65535)
+                try $0.value.validate(name: "\(name).item[\"\($0.key)\"]")
             }
         }
 
@@ -3071,36 +3071,36 @@ extension DynamoDB {
             self.tableName = tableName
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try attributesToGet?.forEach {
-                try validate($0, name:"attributesToGet[]", max: 65535)
+                try validate($0, name: "attributesToGet[]", parent: name, max: 65535)
             }
-            try validate(attributesToGet, name:"attributesToGet", min: 1)
+            try validate(attributesToGet, name:"attributesToGet", parent: name, min: 1)
             try exclusiveStartKey?.forEach {
-                try validate($0.key, name:"exclusiveStartKey[key:]", max: 65535)
-                try $0.value.validate()
+                try validate($0.key, name:"exclusiveStartKey.key", parent: name, max: 65535)
+                try $0.value.validate(name: "\(name).exclusiveStartKey[\"\($0.key)\"]")
             }
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[\"\($0.key)\"]", parent: name, max: 65535)
             }
             try expressionAttributeValues?.forEach {
-                try $0.value.validate()
+                try $0.value.validate(name: "\(name).expressionAttributeValues[\"\($0.key)\"]")
             }
-            try validate(indexName, name:"indexName", max: 255)
-            try validate(indexName, name:"indexName", min: 3)
-            try validate(indexName, name:"indexName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(indexName, name:"indexName", parent: name, max: 255)
+            try validate(indexName, name:"indexName", parent: name, min: 3)
+            try validate(indexName, name:"indexName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try keyConditions?.forEach {
-                try validate($0.key, name:"keyConditions[key:]", max: 65535)
-                try $0.value.validate()
+                try validate($0.key, name:"keyConditions.key", parent: name, max: 65535)
+                try $0.value.validate(name: "\(name).keyConditions[\"\($0.key)\"]")
             }
-            try validate(limit, name:"limit", min: 1)
+            try validate(limit, name:"limit", parent: name, min: 1)
             try queryFilter?.forEach {
-                try validate($0.key, name:"queryFilter[key:]", max: 65535)
-                try $0.value.validate()
+                try validate($0.key, name:"queryFilter.key", parent: name, max: 65535)
+                try $0.value.validate(name: "\(name).queryFilter[\"\($0.key)\"]")
             }
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3257,12 +3257,12 @@ extension DynamoDB {
             self.provisionedReadCapacityUnits = provisionedReadCapacityUnits
         }
 
-        public func validate() throws {
-            try validate(indexName, name:"indexName", max: 255)
-            try validate(indexName, name:"indexName", min: 3)
-            try validate(indexName, name:"indexName", pattern: "[a-zA-Z0-9_.-]+")
-            try provisionedReadCapacityAutoScalingSettingsUpdate?.validate()
-            try validate(provisionedReadCapacityUnits, name:"provisionedReadCapacityUnits", min: 1)
+        public func validate(name: String) throws {
+            try validate(indexName, name:"indexName", parent: name, max: 255)
+            try validate(indexName, name:"indexName", parent: name, min: 3)
+            try validate(indexName, name:"indexName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try provisionedReadCapacityAutoScalingSettingsUpdate?.validate(name: "\(name).provisionedReadCapacityAutoScalingSettingsUpdate")
+            try validate(provisionedReadCapacityUnits, name:"provisionedReadCapacityUnits", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3348,14 +3348,14 @@ extension DynamoDB {
             self.replicaProvisionedReadCapacityUnits = replicaProvisionedReadCapacityUnits
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try replicaGlobalSecondaryIndexSettingsUpdate?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).replicaGlobalSecondaryIndexSettingsUpdate[]")
             }
-            try validate(replicaGlobalSecondaryIndexSettingsUpdate, name:"replicaGlobalSecondaryIndexSettingsUpdate", max: 20)
-            try validate(replicaGlobalSecondaryIndexSettingsUpdate, name:"replicaGlobalSecondaryIndexSettingsUpdate", min: 1)
-            try replicaProvisionedReadCapacityAutoScalingSettingsUpdate?.validate()
-            try validate(replicaProvisionedReadCapacityUnits, name:"replicaProvisionedReadCapacityUnits", min: 1)
+            try validate(replicaGlobalSecondaryIndexSettingsUpdate, name:"replicaGlobalSecondaryIndexSettingsUpdate", parent: name, max: 20)
+            try validate(replicaGlobalSecondaryIndexSettingsUpdate, name:"replicaGlobalSecondaryIndexSettingsUpdate", parent: name, min: 1)
+            try replicaProvisionedReadCapacityAutoScalingSettingsUpdate?.validate(name: "\(name).replicaProvisionedReadCapacityAutoScalingSettingsUpdate")
+            try validate(replicaProvisionedReadCapacityUnits, name:"replicaProvisionedReadCapacityUnits", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3444,12 +3444,12 @@ extension DynamoDB {
             self.targetTableName = targetTableName
         }
 
-        public func validate() throws {
-            try validate(backupArn, name:"backupArn", max: 1024)
-            try validate(backupArn, name:"backupArn", min: 37)
-            try validate(targetTableName, name:"targetTableName", max: 255)
-            try validate(targetTableName, name:"targetTableName", min: 3)
-            try validate(targetTableName, name:"targetTableName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(backupArn, name:"backupArn", parent: name, max: 1024)
+            try validate(backupArn, name:"backupArn", parent: name, min: 37)
+            try validate(targetTableName, name:"targetTableName", parent: name, max: 255)
+            try validate(targetTableName, name:"targetTableName", parent: name, min: 3)
+            try validate(targetTableName, name:"targetTableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3499,13 +3499,13 @@ extension DynamoDB {
             self.useLatestRestorableTime = useLatestRestorableTime
         }
 
-        public func validate() throws {
-            try validate(sourceTableName, name:"sourceTableName", max: 255)
-            try validate(sourceTableName, name:"sourceTableName", min: 3)
-            try validate(sourceTableName, name:"sourceTableName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(targetTableName, name:"targetTableName", max: 255)
-            try validate(targetTableName, name:"targetTableName", min: 3)
-            try validate(targetTableName, name:"targetTableName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(sourceTableName, name:"sourceTableName", parent: name, max: 255)
+            try validate(sourceTableName, name:"sourceTableName", parent: name, min: 3)
+            try validate(sourceTableName, name:"sourceTableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(targetTableName, name:"targetTableName", parent: name, max: 255)
+            try validate(targetTableName, name:"targetTableName", parent: name, min: 3)
+            try validate(targetTableName, name:"targetTableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3708,36 +3708,36 @@ extension DynamoDB {
             self.totalSegments = totalSegments
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try attributesToGet?.forEach {
-                try validate($0, name:"attributesToGet[]", max: 65535)
+                try validate($0, name: "attributesToGet[]", parent: name, max: 65535)
             }
-            try validate(attributesToGet, name:"attributesToGet", min: 1)
+            try validate(attributesToGet, name:"attributesToGet", parent: name, min: 1)
             try exclusiveStartKey?.forEach {
-                try validate($0.key, name:"exclusiveStartKey[key:]", max: 65535)
-                try $0.value.validate()
+                try validate($0.key, name:"exclusiveStartKey.key", parent: name, max: 65535)
+                try $0.value.validate(name: "\(name).exclusiveStartKey[\"\($0.key)\"]")
             }
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[\"\($0.key)\"]", parent: name, max: 65535)
             }
             try expressionAttributeValues?.forEach {
-                try $0.value.validate()
+                try $0.value.validate(name: "\(name).expressionAttributeValues[\"\($0.key)\"]")
             }
-            try validate(indexName, name:"indexName", max: 255)
-            try validate(indexName, name:"indexName", min: 3)
-            try validate(indexName, name:"indexName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(limit, name:"limit", min: 1)
+            try validate(indexName, name:"indexName", parent: name, max: 255)
+            try validate(indexName, name:"indexName", parent: name, min: 3)
+            try validate(indexName, name:"indexName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(limit, name:"limit", parent: name, min: 1)
             try scanFilter?.forEach {
-                try validate($0.key, name:"scanFilter[key:]", max: 65535)
-                try $0.value.validate()
+                try validate($0.key, name:"scanFilter.key", parent: name, max: 65535)
+                try $0.value.validate(name: "\(name).scanFilter[\"\($0.key)\"]")
             }
-            try validate(segment, name:"segment", max: 999999)
-            try validate(segment, name:"segment", min: 0)
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
-            try validate(totalSegments, name:"totalSegments", max: 1000000)
-            try validate(totalSegments, name:"totalSegments", min: 1)
+            try validate(segment, name:"segment", parent: name, max: 999999)
+            try validate(segment, name:"segment", parent: name, min: 0)
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(totalSegments, name:"totalSegments", parent: name, max: 1000000)
+            try validate(totalSegments, name:"totalSegments", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4055,11 +4055,11 @@ extension DynamoDB {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 128)
-            try validate(key, name:"key", min: 1)
-            try validate(value, name:"value", max: 256)
-            try validate(value, name:"value", min: 0)
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4084,11 +4084,11 @@ extension DynamoDB {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 1283)
-            try validate(resourceArn, name:"resourceArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1283)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
             try tags.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
         }
 
@@ -4136,9 +4136,9 @@ extension DynamoDB {
             self.enabled = enabled
         }
 
-        public func validate() throws {
-            try validate(attributeName, name:"attributeName", max: 255)
-            try validate(attributeName, name:"attributeName", min: 1)
+        public func validate(name: String) throws {
+            try validate(attributeName, name:"attributeName", parent: name, max: 255)
+            try validate(attributeName, name:"attributeName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4167,8 +4167,8 @@ extension DynamoDB {
             self.get = get
         }
 
-        public func validate() throws {
-            try get.validate()
+        public func validate(name: String) throws {
+            try get.validate(name: "\(name).get")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4192,12 +4192,12 @@ extension DynamoDB {
             self.transactItems = transactItems
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try transactItems.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).transactItems[]")
             }
-            try validate(transactItems, name:"transactItems", max: 10)
-            try validate(transactItems, name:"transactItems", min: 1)
+            try validate(transactItems, name:"transactItems", parent: name, max: 10)
+            try validate(transactItems, name:"transactItems", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4252,11 +4252,11 @@ extension DynamoDB {
             self.update = update
         }
 
-        public func validate() throws {
-            try conditionCheck?.validate()
-            try delete?.validate()
-            try put?.validate()
-            try update?.validate()
+        public func validate(name: String) throws {
+            try conditionCheck?.validate(name: "\(name).conditionCheck")
+            try delete?.validate(name: "\(name).delete")
+            try put?.validate(name: "\(name).put")
+            try update?.validate(name: "\(name).update")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4290,14 +4290,14 @@ extension DynamoDB {
             self.transactItems = transactItems
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 36)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 36)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
             try transactItems.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).transactItems[]")
             }
-            try validate(transactItems, name:"transactItems", max: 10)
-            try validate(transactItems, name:"transactItems", min: 1)
+            try validate(transactItems, name:"transactItems", parent: name, max: 10)
+            try validate(transactItems, name:"transactItems", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4346,12 +4346,12 @@ extension DynamoDB {
             self.tagKeys = tagKeys
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 1283)
-            try validate(resourceArn, name:"resourceArn", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1283)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
             try tagKeys.forEach {
-                try validate($0, name:"tagKeys[]", max: 128)
-                try validate($0, name:"tagKeys[]", min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
         }
 
@@ -4397,20 +4397,20 @@ extension DynamoDB {
             self.updateExpression = updateExpression
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[\"\($0.key)\"]", parent: name, max: 65535)
             }
             try expressionAttributeValues?.forEach {
-                try $0.value.validate()
+                try $0.value.validate(name: "\(name).expressionAttributeValues[\"\($0.key)\"]")
             }
             try key.forEach {
-                try validate($0.key, name:"key[key:]", max: 65535)
-                try $0.value.validate()
+                try validate($0.key, name:"key.key", parent: name, max: 65535)
+                try $0.value.validate(name: "\(name).key[\"\($0.key)\"]")
             }
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4440,10 +4440,10 @@ extension DynamoDB {
             self.tableName = tableName
         }
 
-        public func validate() throws {
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4485,11 +4485,11 @@ extension DynamoDB {
             self.provisionedThroughput = provisionedThroughput
         }
 
-        public func validate() throws {
-            try validate(indexName, name:"indexName", max: 255)
-            try validate(indexName, name:"indexName", min: 3)
-            try validate(indexName, name:"indexName", pattern: "[a-zA-Z0-9_.-]+")
-            try provisionedThroughput.validate()
+        public func validate(name: String) throws {
+            try validate(indexName, name:"indexName", parent: name, max: 255)
+            try validate(indexName, name:"indexName", parent: name, min: 3)
+            try validate(indexName, name:"indexName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try provisionedThroughput.validate(name: "\(name).provisionedThroughput")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4514,10 +4514,10 @@ extension DynamoDB {
             self.replicaUpdates = replicaUpdates
         }
 
-        public func validate() throws {
-            try validate(globalTableName, name:"globalTableName", max: 255)
-            try validate(globalTableName, name:"globalTableName", min: 3)
-            try validate(globalTableName, name:"globalTableName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(globalTableName, name:"globalTableName", parent: name, max: 255)
+            try validate(globalTableName, name:"globalTableName", parent: name, min: 3)
+            try validate(globalTableName, name:"globalTableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4575,22 +4575,22 @@ extension DynamoDB {
             self.replicaSettingsUpdate = replicaSettingsUpdate
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try globalTableGlobalSecondaryIndexSettingsUpdate?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).globalTableGlobalSecondaryIndexSettingsUpdate[]")
             }
-            try validate(globalTableGlobalSecondaryIndexSettingsUpdate, name:"globalTableGlobalSecondaryIndexSettingsUpdate", max: 20)
-            try validate(globalTableGlobalSecondaryIndexSettingsUpdate, name:"globalTableGlobalSecondaryIndexSettingsUpdate", min: 1)
-            try validate(globalTableName, name:"globalTableName", max: 255)
-            try validate(globalTableName, name:"globalTableName", min: 3)
-            try validate(globalTableName, name:"globalTableName", pattern: "[a-zA-Z0-9_.-]+")
-            try globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate?.validate()
-            try validate(globalTableProvisionedWriteCapacityUnits, name:"globalTableProvisionedWriteCapacityUnits", min: 1)
+            try validate(globalTableGlobalSecondaryIndexSettingsUpdate, name:"globalTableGlobalSecondaryIndexSettingsUpdate", parent: name, max: 20)
+            try validate(globalTableGlobalSecondaryIndexSettingsUpdate, name:"globalTableGlobalSecondaryIndexSettingsUpdate", parent: name, min: 1)
+            try validate(globalTableName, name:"globalTableName", parent: name, max: 255)
+            try validate(globalTableName, name:"globalTableName", parent: name, min: 3)
+            try validate(globalTableName, name:"globalTableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate?.validate(name: "\(name).globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate")
+            try validate(globalTableProvisionedWriteCapacityUnits, name:"globalTableProvisionedWriteCapacityUnits", parent: name, min: 1)
             try replicaSettingsUpdate?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).replicaSettingsUpdate[]")
             }
-            try validate(replicaSettingsUpdate, name:"replicaSettingsUpdate", max: 50)
-            try validate(replicaSettingsUpdate, name:"replicaSettingsUpdate", min: 1)
+            try validate(replicaSettingsUpdate, name:"replicaSettingsUpdate", parent: name, max: 50)
+            try validate(replicaSettingsUpdate, name:"replicaSettingsUpdate", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4680,28 +4680,28 @@ extension DynamoDB {
             self.updateExpression = updateExpression
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try attributeUpdates?.forEach {
-                try validate($0.key, name:"attributeUpdates[key:]", max: 65535)
-                try $0.value.validate()
+                try validate($0.key, name:"attributeUpdates.key", parent: name, max: 65535)
+                try $0.value.validate(name: "\(name).attributeUpdates[\"\($0.key)\"]")
             }
             try expected?.forEach {
-                try validate($0.key, name:"expected[key:]", max: 65535)
-                try $0.value.validate()
+                try validate($0.key, name:"expected.key", parent: name, max: 65535)
+                try $0.value.validate(name: "\(name).expected[\"\($0.key)\"]")
             }
             try expressionAttributeNames?.forEach {
-                try validate($0.value, name:"expressionAttributeNames[:value]", max: 65535)
+                try validate($0.value, name:"expressionAttributeNames[\"\($0.key)\"]", parent: name, max: 65535)
             }
             try expressionAttributeValues?.forEach {
-                try $0.value.validate()
+                try $0.value.validate(name: "\(name).expressionAttributeValues[\"\($0.key)\"]")
             }
             try key.forEach {
-                try validate($0.key, name:"key[key:]", max: 65535)
-                try $0.value.validate()
+                try validate($0.key, name:"key.key", parent: name, max: 65535)
+                try $0.value.validate(name: "\(name).key[\"\($0.key)\"]")
             }
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4783,17 +4783,17 @@ extension DynamoDB {
             self.tableName = tableName
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try attributeDefinitions?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).attributeDefinitions[]")
             }
             try globalSecondaryIndexUpdates?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).globalSecondaryIndexUpdates[]")
             }
-            try provisionedThroughput?.validate()
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
+            try provisionedThroughput?.validate(name: "\(name).provisionedThroughput")
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4840,11 +4840,11 @@ extension DynamoDB {
             self.timeToLiveSpecification = timeToLiveSpecification
         }
 
-        public func validate() throws {
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
-            try timeToLiveSpecification.validate()
+        public func validate(name: String) throws {
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try timeToLiveSpecification.validate(name: "\(name).timeToLiveSpecification")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4886,9 +4886,9 @@ extension DynamoDB {
             self.putRequest = putRequest
         }
 
-        public func validate() throws {
-            try deleteRequest?.validate()
-            try putRequest?.validate()
+        public func validate(name: String) throws {
+            try deleteRequest?.validate(name: "\(name).deleteRequest")
+            try putRequest?.validate(name: "\(name).putRequest")
         }
 
         private enum CodingKeys: String, CodingKey {

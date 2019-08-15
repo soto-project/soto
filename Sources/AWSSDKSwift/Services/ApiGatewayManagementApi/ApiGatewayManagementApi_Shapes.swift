@@ -21,8 +21,8 @@ extension ApiGatewayManagementApi {
             self.data = data
         }
 
-        public func validate() throws {
-            try validate(data, name:"data", max: 131072)
+        public func validate(name: String) throws {
+            try validate(data, name:"data", parent: name, max: 131072)
         }
 
         private enum CodingKeys: String, CodingKey {

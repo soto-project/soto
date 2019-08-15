@@ -104,13 +104,13 @@ extension MarketplaceEntitlementService {
             self.productCode = productCode
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try filter?.forEach {
-                try validate($0.value, name:"filter[:value]", min: 1)
+                try validate($0.value, name:"filter[\"\($0.key)\"]", parent: name, min: 1)
             }
-            try validate(nextToken, name:"nextToken", pattern: "\\S+")
-            try validate(productCode, name:"productCode", max: 255)
-            try validate(productCode, name:"productCode", min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "\\S+")
+            try validate(productCode, name:"productCode", parent: name, max: 255)
+            try validate(productCode, name:"productCode", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

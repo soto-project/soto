@@ -87,12 +87,12 @@ extension DynamoDBStreams {
             self.streamArn = streamArn
         }
 
-        public func validate() throws {
-            try validate(exclusiveStartShardId, name:"exclusiveStartShardId", max: 65)
-            try validate(exclusiveStartShardId, name:"exclusiveStartShardId", min: 28)
-            try validate(limit, name:"limit", min: 1)
-            try validate(streamArn, name:"streamArn", max: 1024)
-            try validate(streamArn, name:"streamArn", min: 37)
+        public func validate(name: String) throws {
+            try validate(exclusiveStartShardId, name:"exclusiveStartShardId", parent: name, max: 65)
+            try validate(exclusiveStartShardId, name:"exclusiveStartShardId", parent: name, min: 28)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(streamArn, name:"streamArn", parent: name, max: 1024)
+            try validate(streamArn, name:"streamArn", parent: name, min: 37)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -135,10 +135,10 @@ extension DynamoDBStreams {
             self.shardIterator = shardIterator
         }
 
-        public func validate() throws {
-            try validate(limit, name:"limit", min: 1)
-            try validate(shardIterator, name:"shardIterator", max: 2048)
-            try validate(shardIterator, name:"shardIterator", min: 1)
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(shardIterator, name:"shardIterator", parent: name, max: 2048)
+            try validate(shardIterator, name:"shardIterator", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -193,13 +193,13 @@ extension DynamoDBStreams {
             self.streamArn = streamArn
         }
 
-        public func validate() throws {
-            try validate(sequenceNumber, name:"sequenceNumber", max: 40)
-            try validate(sequenceNumber, name:"sequenceNumber", min: 21)
-            try validate(shardId, name:"shardId", max: 65)
-            try validate(shardId, name:"shardId", min: 28)
-            try validate(streamArn, name:"streamArn", max: 1024)
-            try validate(streamArn, name:"streamArn", min: 37)
+        public func validate(name: String) throws {
+            try validate(sequenceNumber, name:"sequenceNumber", parent: name, max: 40)
+            try validate(sequenceNumber, name:"sequenceNumber", parent: name, min: 21)
+            try validate(shardId, name:"shardId", parent: name, max: 65)
+            try validate(shardId, name:"shardId", parent: name, min: 28)
+            try validate(streamArn, name:"streamArn", parent: name, max: 1024)
+            try validate(streamArn, name:"streamArn", parent: name, min: 37)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -297,13 +297,13 @@ extension DynamoDBStreams {
             self.tableName = tableName
         }
 
-        public func validate() throws {
-            try validate(exclusiveStartStreamArn, name:"exclusiveStartStreamArn", max: 1024)
-            try validate(exclusiveStartStreamArn, name:"exclusiveStartStreamArn", min: 37)
-            try validate(limit, name:"limit", min: 1)
-            try validate(tableName, name:"tableName", max: 255)
-            try validate(tableName, name:"tableName", min: 3)
-            try validate(tableName, name:"tableName", pattern: "[a-zA-Z0-9_.-]+")
+        public func validate(name: String) throws {
+            try validate(exclusiveStartStreamArn, name:"exclusiveStartStreamArn", parent: name, max: 1024)
+            try validate(exclusiveStartStreamArn, name:"exclusiveStartStreamArn", parent: name, min: 37)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(tableName, name:"tableName", parent: name, max: 255)
+            try validate(tableName, name:"tableName", parent: name, min: 3)
+            try validate(tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {

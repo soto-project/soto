@@ -41,11 +41,11 @@ extension ELBV2 {
             self.`type` = `type`
         }
 
-        public func validate() throws {
-            try fixedResponseConfig?.validate()
-            try validate(order, name:"order", max: 50000)
-            try validate(order, name:"order", min: 1)
-            try redirectConfig?.validate()
+        public func validate(name: String) throws {
+            try fixedResponseConfig?.validate(name: "\(name).fixedResponseConfig")
+            try validate(order, name:"order", parent: name, max: 50000)
+            try validate(order, name:"order", parent: name, min: 1)
+            try redirectConfig?.validate(name: "\(name).redirectConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -123,11 +123,11 @@ extension ELBV2 {
             self.tags = tags
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -385,12 +385,12 @@ extension ELBV2 {
             self.sslPolicy = sslPolicy
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try defaultActions.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).defaultActions[]")
             }
-            try validate(port, name:"port", max: 65535)
-            try validate(port, name:"port", min: 1)
+            try validate(port, name:"port", parent: name, max: 65535)
+            try validate(port, name:"port", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -460,11 +460,11 @@ extension ELBV2 {
             self.`type` = `type`
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -520,15 +520,15 @@ extension ELBV2 {
             self.priority = priority
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try actions.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).actions[]")
             }
             try conditions.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).conditions[]")
             }
-            try validate(priority, name:"priority", max: 50000)
-            try validate(priority, name:"priority", min: 1)
+            try validate(priority, name:"priority", parent: name, max: 50000)
+            try validate(priority, name:"priority", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -620,19 +620,19 @@ extension ELBV2 {
             self.vpcId = vpcId
         }
 
-        public func validate() throws {
-            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", max: 300)
-            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", min: 5)
-            try validate(healthCheckPath, name:"healthCheckPath", max: 1024)
-            try validate(healthCheckPath, name:"healthCheckPath", min: 1)
-            try validate(healthCheckTimeoutSeconds, name:"healthCheckTimeoutSeconds", max: 120)
-            try validate(healthCheckTimeoutSeconds, name:"healthCheckTimeoutSeconds", min: 2)
-            try validate(healthyThresholdCount, name:"healthyThresholdCount", max: 10)
-            try validate(healthyThresholdCount, name:"healthyThresholdCount", min: 2)
-            try validate(port, name:"port", max: 65535)
-            try validate(port, name:"port", min: 1)
-            try validate(unhealthyThresholdCount, name:"unhealthyThresholdCount", max: 10)
-            try validate(unhealthyThresholdCount, name:"unhealthyThresholdCount", min: 2)
+        public func validate(name: String) throws {
+            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", parent: name, max: 300)
+            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", parent: name, min: 5)
+            try validate(healthCheckPath, name:"healthCheckPath", parent: name, max: 1024)
+            try validate(healthCheckPath, name:"healthCheckPath", parent: name, min: 1)
+            try validate(healthCheckTimeoutSeconds, name:"healthCheckTimeoutSeconds", parent: name, max: 120)
+            try validate(healthCheckTimeoutSeconds, name:"healthCheckTimeoutSeconds", parent: name, min: 2)
+            try validate(healthyThresholdCount, name:"healthyThresholdCount", parent: name, max: 10)
+            try validate(healthyThresholdCount, name:"healthyThresholdCount", parent: name, min: 2)
+            try validate(port, name:"port", parent: name, max: 65535)
+            try validate(port, name:"port", parent: name, min: 1)
+            try validate(unhealthyThresholdCount, name:"unhealthyThresholdCount", parent: name, max: 10)
+            try validate(unhealthyThresholdCount, name:"unhealthyThresholdCount", parent: name, min: 2)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -786,9 +786,9 @@ extension ELBV2 {
             self.targets = targets
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try targets.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).targets[]")
             }
         }
 
@@ -822,9 +822,9 @@ extension ELBV2 {
             self.pageSize = pageSize
         }
 
-        public func validate() throws {
-            try validate(pageSize, name:"pageSize", max: 400)
-            try validate(pageSize, name:"pageSize", min: 1)
+        public func validate(name: String) throws {
+            try validate(pageSize, name:"pageSize", parent: name, max: 400)
+            try validate(pageSize, name:"pageSize", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -875,9 +875,9 @@ extension ELBV2 {
             self.pageSize = pageSize
         }
 
-        public func validate() throws {
-            try validate(pageSize, name:"pageSize", max: 400)
-            try validate(pageSize, name:"pageSize", min: 1)
+        public func validate(name: String) throws {
+            try validate(pageSize, name:"pageSize", parent: name, max: 400)
+            try validate(pageSize, name:"pageSize", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -933,9 +933,9 @@ extension ELBV2 {
             self.pageSize = pageSize
         }
 
-        public func validate() throws {
-            try validate(pageSize, name:"pageSize", max: 400)
-            try validate(pageSize, name:"pageSize", min: 1)
+        public func validate(name: String) throws {
+            try validate(pageSize, name:"pageSize", parent: name, max: 400)
+            try validate(pageSize, name:"pageSize", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1026,9 +1026,9 @@ extension ELBV2 {
             self.pageSize = pageSize
         }
 
-        public func validate() throws {
-            try validate(pageSize, name:"pageSize", max: 400)
-            try validate(pageSize, name:"pageSize", min: 1)
+        public func validate(name: String) throws {
+            try validate(pageSize, name:"pageSize", parent: name, max: 400)
+            try validate(pageSize, name:"pageSize", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1085,9 +1085,9 @@ extension ELBV2 {
             self.ruleArns = ruleArns
         }
 
-        public func validate() throws {
-            try validate(pageSize, name:"pageSize", max: 400)
-            try validate(pageSize, name:"pageSize", min: 1)
+        public func validate(name: String) throws {
+            try validate(pageSize, name:"pageSize", parent: name, max: 400)
+            try validate(pageSize, name:"pageSize", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1140,9 +1140,9 @@ extension ELBV2 {
             self.pageSize = pageSize
         }
 
-        public func validate() throws {
-            try validate(pageSize, name:"pageSize", max: 400)
-            try validate(pageSize, name:"pageSize", min: 1)
+        public func validate(name: String) throws {
+            try validate(pageSize, name:"pageSize", parent: name, max: 400)
+            try validate(pageSize, name:"pageSize", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1270,9 +1270,9 @@ extension ELBV2 {
             self.targetGroupArns = targetGroupArns
         }
 
-        public func validate() throws {
-            try validate(pageSize, name:"pageSize", max: 400)
-            try validate(pageSize, name:"pageSize", min: 1)
+        public func validate(name: String) throws {
+            try validate(pageSize, name:"pageSize", parent: name, max: 400)
+            try validate(pageSize, name:"pageSize", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1322,9 +1322,9 @@ extension ELBV2 {
             self.targets = targets
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try targets?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).targets[]")
             }
         }
 
@@ -1371,12 +1371,12 @@ extension ELBV2 {
             self.statusCode = statusCode
         }
 
-        public func validate() throws {
-            try validate(contentType, name:"contentType", max: 32)
-            try validate(contentType, name:"contentType", min: 0)
-            try validate(messageBody, name:"messageBody", max: 1024)
-            try validate(messageBody, name:"messageBody", min: 0)
-            try validate(statusCode, name:"statusCode", pattern: "^(2|4|5)\\d\\d$")
+        public func validate(name: String) throws {
+            try validate(contentType, name:"contentType", parent: name, max: 32)
+            try validate(contentType, name:"contentType", parent: name, min: 0)
+            try validate(messageBody, name:"messageBody", parent: name, max: 1024)
+            try validate(messageBody, name:"messageBody", parent: name, min: 0)
+            try validate(statusCode, name:"statusCode", parent: name, pattern: "^(2|4|5)\\d\\d$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1627,10 +1627,10 @@ extension ELBV2 {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 256)
-            try validate(key, name:"key", pattern: "^[a-zA-Z0-9._]+$")
-            try validate(value, name:"value", max: 1024)
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 256)
+            try validate(key, name:"key", parent: name, pattern: "^[a-zA-Z0-9._]+$")
+            try validate(value, name:"value", parent: name, max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1730,12 +1730,12 @@ extension ELBV2 {
             self.sslPolicy = sslPolicy
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try defaultActions?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).defaultActions[]")
             }
-            try validate(port, name:"port", max: 65535)
-            try validate(port, name:"port", min: 1)
+            try validate(port, name:"port", parent: name, max: 65535)
+            try validate(port, name:"port", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1781,11 +1781,11 @@ extension ELBV2 {
             self.loadBalancerArn = loadBalancerArn
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try attributes.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).attributes[]")
             }
-            try validate(attributes, name:"attributes", max: 20)
+            try validate(attributes, name:"attributes", parent: name, max: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1831,12 +1831,12 @@ extension ELBV2 {
             self.ruleArn = ruleArn
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try actions?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).actions[]")
             }
             try conditions?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).conditions[]")
             }
         }
 
@@ -1880,9 +1880,9 @@ extension ELBV2 {
             self.targetGroupArn = targetGroupArn
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try attributes.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).attributes[]")
             }
         }
 
@@ -1957,17 +1957,17 @@ extension ELBV2 {
             self.unhealthyThresholdCount = unhealthyThresholdCount
         }
 
-        public func validate() throws {
-            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", max: 300)
-            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", min: 5)
-            try validate(healthCheckPath, name:"healthCheckPath", max: 1024)
-            try validate(healthCheckPath, name:"healthCheckPath", min: 1)
-            try validate(healthCheckTimeoutSeconds, name:"healthCheckTimeoutSeconds", max: 120)
-            try validate(healthCheckTimeoutSeconds, name:"healthCheckTimeoutSeconds", min: 2)
-            try validate(healthyThresholdCount, name:"healthyThresholdCount", max: 10)
-            try validate(healthyThresholdCount, name:"healthyThresholdCount", min: 2)
-            try validate(unhealthyThresholdCount, name:"unhealthyThresholdCount", max: 10)
-            try validate(unhealthyThresholdCount, name:"unhealthyThresholdCount", min: 2)
+        public func validate(name: String) throws {
+            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", parent: name, max: 300)
+            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", parent: name, min: 5)
+            try validate(healthCheckPath, name:"healthCheckPath", parent: name, max: 1024)
+            try validate(healthCheckPath, name:"healthCheckPath", parent: name, min: 1)
+            try validate(healthCheckTimeoutSeconds, name:"healthCheckTimeoutSeconds", parent: name, max: 120)
+            try validate(healthCheckTimeoutSeconds, name:"healthCheckTimeoutSeconds", parent: name, min: 2)
+            try validate(healthyThresholdCount, name:"healthyThresholdCount", parent: name, max: 10)
+            try validate(healthyThresholdCount, name:"healthyThresholdCount", parent: name, min: 2)
+            try validate(unhealthyThresholdCount, name:"unhealthyThresholdCount", parent: name, max: 10)
+            try validate(unhealthyThresholdCount, name:"unhealthyThresholdCount", parent: name, min: 2)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2099,14 +2099,14 @@ extension ELBV2 {
             self.statusCode = statusCode
         }
 
-        public func validate() throws {
-            try validate(host, name:"host", max: 128)
-            try validate(host, name:"host", min: 1)
-            try validate(path, name:"path", max: 128)
-            try validate(path, name:"path", min: 1)
-            try validate(`protocol`, name:"`protocol`", pattern: "^(HTTPS?|#\\{protocol\\})$")
-            try validate(query, name:"query", max: 128)
-            try validate(query, name:"query", min: 0)
+        public func validate(name: String) throws {
+            try validate(host, name:"host", parent: name, max: 128)
+            try validate(host, name:"host", parent: name, min: 1)
+            try validate(path, name:"path", parent: name, max: 128)
+            try validate(path, name:"path", parent: name, min: 1)
+            try validate(`protocol`, name:"`protocol`", parent: name, pattern: "^(HTTPS?|#\\{protocol\\})$")
+            try validate(query, name:"query", parent: name, max: 128)
+            try validate(query, name:"query", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2141,9 +2141,9 @@ extension ELBV2 {
             self.targets = targets
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try targets.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).targets[]")
             }
         }
 
@@ -2207,11 +2207,11 @@ extension ELBV2 {
             self.tagKeys = tagKeys
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tagKeys.forEach {
-                try validate($0, name:"tagKeys[]", max: 128)
-                try validate($0, name:"tagKeys[]", min: 1)
-                try validate($0, name:"tagKeys[]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
         }
 
@@ -2306,8 +2306,8 @@ extension ELBV2 {
             self.values = values
         }
 
-        public func validate() throws {
-            try validate(field, name:"field", max: 64)
+        public func validate(name: String) throws {
+            try validate(field, name:"field", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2338,9 +2338,9 @@ extension ELBV2 {
             self.ruleArn = ruleArn
         }
 
-        public func validate() throws {
-            try validate(priority, name:"priority", max: 50000)
-            try validate(priority, name:"priority", min: 1)
+        public func validate(name: String) throws {
+            try validate(priority, name:"priority", parent: name, max: 50000)
+            try validate(priority, name:"priority", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2400,9 +2400,9 @@ extension ELBV2 {
             self.rulePriorities = rulePriorities
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try rulePriorities.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).rulePriorities[]")
             }
         }
 
@@ -2593,13 +2593,13 @@ extension ELBV2 {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 128)
-            try validate(key, name:"key", min: 1)
-            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try validate(value, name:"value", max: 256)
-            try validate(value, name:"value", min: 0)
-            try validate(value, name:"value", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, min: 0)
+            try validate(value, name:"value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2650,9 +2650,9 @@ extension ELBV2 {
             self.port = port
         }
 
-        public func validate() throws {
-            try validate(port, name:"port", max: 65535)
-            try validate(port, name:"port", min: 1)
+        public func validate(name: String) throws {
+            try validate(port, name:"port", parent: name, max: 65535)
+            try validate(port, name:"port", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2770,9 +2770,9 @@ extension ELBV2 {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 256)
-            try validate(key, name:"key", pattern: "^[a-zA-Z0-9._]+$")
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 256)
+            try validate(key, name:"key", parent: name, pattern: "^[a-zA-Z0-9._]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -41,16 +41,16 @@ extension ServiceQuotas {
             self.serviceCode = serviceCode
         }
 
-        public func validate() throws {
-            try validate(awsRegion, name:"awsRegion", max: 64)
-            try validate(awsRegion, name:"awsRegion", min: 1)
-            try validate(awsRegion, name:"awsRegion", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try validate(quotaCode, name:"quotaCode", max: 128)
-            try validate(quotaCode, name:"quotaCode", min: 1)
-            try validate(quotaCode, name:"quotaCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try validate(serviceCode, name:"serviceCode", max: 63)
-            try validate(serviceCode, name:"serviceCode", min: 1)
-            try validate(serviceCode, name:"serviceCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+        public func validate(name: String) throws {
+            try validate(awsRegion, name:"awsRegion", parent: name, max: 64)
+            try validate(awsRegion, name:"awsRegion", parent: name, min: 1)
+            try validate(awsRegion, name:"awsRegion", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(quotaCode, name:"quotaCode", parent: name, max: 128)
+            try validate(quotaCode, name:"quotaCode", parent: name, min: 1)
+            try validate(quotaCode, name:"quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -130,13 +130,13 @@ extension ServiceQuotas {
             self.serviceCode = serviceCode
         }
 
-        public func validate() throws {
-            try validate(quotaCode, name:"quotaCode", max: 128)
-            try validate(quotaCode, name:"quotaCode", min: 1)
-            try validate(quotaCode, name:"quotaCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try validate(serviceCode, name:"serviceCode", max: 63)
-            try validate(serviceCode, name:"serviceCode", min: 1)
-            try validate(serviceCode, name:"serviceCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+        public func validate(name: String) throws {
+            try validate(quotaCode, name:"quotaCode", parent: name, max: 128)
+            try validate(quotaCode, name:"quotaCode", parent: name, min: 1)
+            try validate(quotaCode, name:"quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -199,10 +199,10 @@ extension ServiceQuotas {
             self.requestId = requestId
         }
 
-        public func validate() throws {
-            try validate(requestId, name:"requestId", max: 128)
-            try validate(requestId, name:"requestId", min: 1)
-            try validate(requestId, name:"requestId", pattern: "[0-9a-zA-Z][a-zA-Z0-9-]{1,128}")
+        public func validate(name: String) throws {
+            try validate(requestId, name:"requestId", parent: name, max: 128)
+            try validate(requestId, name:"requestId", parent: name, min: 1)
+            try validate(requestId, name:"requestId", parent: name, pattern: "[0-9a-zA-Z][a-zA-Z0-9-]{1,128}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -247,16 +247,16 @@ extension ServiceQuotas {
             self.serviceCode = serviceCode
         }
 
-        public func validate() throws {
-            try validate(awsRegion, name:"awsRegion", max: 64)
-            try validate(awsRegion, name:"awsRegion", min: 1)
-            try validate(awsRegion, name:"awsRegion", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try validate(quotaCode, name:"quotaCode", max: 128)
-            try validate(quotaCode, name:"quotaCode", min: 1)
-            try validate(quotaCode, name:"quotaCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try validate(serviceCode, name:"serviceCode", max: 63)
-            try validate(serviceCode, name:"serviceCode", min: 1)
-            try validate(serviceCode, name:"serviceCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+        public func validate(name: String) throws {
+            try validate(awsRegion, name:"awsRegion", parent: name, max: 64)
+            try validate(awsRegion, name:"awsRegion", parent: name, min: 1)
+            try validate(awsRegion, name:"awsRegion", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(quotaCode, name:"quotaCode", parent: name, max: 128)
+            try validate(quotaCode, name:"quotaCode", parent: name, min: 1)
+            try validate(quotaCode, name:"quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -299,13 +299,13 @@ extension ServiceQuotas {
             self.serviceCode = serviceCode
         }
 
-        public func validate() throws {
-            try validate(quotaCode, name:"quotaCode", max: 128)
-            try validate(quotaCode, name:"quotaCode", min: 1)
-            try validate(quotaCode, name:"quotaCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try validate(serviceCode, name:"serviceCode", max: 63)
-            try validate(serviceCode, name:"serviceCode", min: 1)
-            try validate(serviceCode, name:"serviceCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+        public func validate(name: String) throws {
+            try validate(quotaCode, name:"quotaCode", parent: name, max: 128)
+            try validate(quotaCode, name:"quotaCode", parent: name, min: 1)
+            try validate(quotaCode, name:"quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -351,14 +351,14 @@ extension ServiceQuotas {
             self.serviceCode = serviceCode
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 2048)
-            try validate(nextToken, name:"nextToken", pattern: "^[a-zA-Z0-9/+]*={0,2}$")
-            try validate(serviceCode, name:"serviceCode", max: 63)
-            try validate(serviceCode, name:"serviceCode", min: 1)
-            try validate(serviceCode, name:"serviceCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -418,17 +418,17 @@ extension ServiceQuotas {
             self.status = status
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 2048)
-            try validate(nextToken, name:"nextToken", pattern: "^[a-zA-Z0-9/+]*={0,2}$")
-            try validate(quotaCode, name:"quotaCode", max: 128)
-            try validate(quotaCode, name:"quotaCode", min: 1)
-            try validate(quotaCode, name:"quotaCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try validate(serviceCode, name:"serviceCode", max: 63)
-            try validate(serviceCode, name:"serviceCode", min: 1)
-            try validate(serviceCode, name:"serviceCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
+            try validate(quotaCode, name:"quotaCode", parent: name, max: 128)
+            try validate(quotaCode, name:"quotaCode", parent: name, min: 1)
+            try validate(quotaCode, name:"quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -486,14 +486,14 @@ extension ServiceQuotas {
             self.status = status
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 2048)
-            try validate(nextToken, name:"nextToken", pattern: "^[a-zA-Z0-9/+]*={0,2}$")
-            try validate(serviceCode, name:"serviceCode", max: 63)
-            try validate(serviceCode, name:"serviceCode", min: 1)
-            try validate(serviceCode, name:"serviceCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -550,17 +550,17 @@ extension ServiceQuotas {
             self.serviceCode = serviceCode
         }
 
-        public func validate() throws {
-            try validate(awsRegion, name:"awsRegion", max: 64)
-            try validate(awsRegion, name:"awsRegion", min: 1)
-            try validate(awsRegion, name:"awsRegion", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 2048)
-            try validate(nextToken, name:"nextToken", pattern: "^[a-zA-Z0-9/+]*={0,2}$")
-            try validate(serviceCode, name:"serviceCode", max: 63)
-            try validate(serviceCode, name:"serviceCode", min: 1)
-            try validate(serviceCode, name:"serviceCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+        public func validate(name: String) throws {
+            try validate(awsRegion, name:"awsRegion", parent: name, max: 64)
+            try validate(awsRegion, name:"awsRegion", parent: name, min: 1)
+            try validate(awsRegion, name:"awsRegion", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -613,14 +613,14 @@ extension ServiceQuotas {
             self.serviceCode = serviceCode
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 2048)
-            try validate(nextToken, name:"nextToken", pattern: "^[a-zA-Z0-9/+]*={0,2}$")
-            try validate(serviceCode, name:"serviceCode", max: 63)
-            try validate(serviceCode, name:"serviceCode", min: 1)
-            try validate(serviceCode, name:"serviceCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -668,11 +668,11 @@ extension ServiceQuotas {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 2048)
-            try validate(nextToken, name:"nextToken", pattern: "^[a-zA-Z0-9/+]*={0,2}$")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -770,18 +770,18 @@ extension ServiceQuotas {
             self.serviceCode = serviceCode
         }
 
-        public func validate() throws {
-            try validate(awsRegion, name:"awsRegion", max: 64)
-            try validate(awsRegion, name:"awsRegion", min: 1)
-            try validate(awsRegion, name:"awsRegion", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try validate(desiredValue, name:"desiredValue", max: 10000000000)
-            try validate(desiredValue, name:"desiredValue", min: 0)
-            try validate(quotaCode, name:"quotaCode", max: 128)
-            try validate(quotaCode, name:"quotaCode", min: 1)
-            try validate(quotaCode, name:"quotaCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try validate(serviceCode, name:"serviceCode", max: 63)
-            try validate(serviceCode, name:"serviceCode", min: 1)
-            try validate(serviceCode, name:"serviceCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+        public func validate(name: String) throws {
+            try validate(awsRegion, name:"awsRegion", parent: name, max: 64)
+            try validate(awsRegion, name:"awsRegion", parent: name, min: 1)
+            try validate(awsRegion, name:"awsRegion", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(desiredValue, name:"desiredValue", parent: name, max: 10000000000)
+            try validate(desiredValue, name:"desiredValue", parent: name, min: 0)
+            try validate(quotaCode, name:"quotaCode", parent: name, max: 128)
+            try validate(quotaCode, name:"quotaCode", parent: name, min: 1)
+            try validate(quotaCode, name:"quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -851,15 +851,15 @@ extension ServiceQuotas {
             self.serviceCode = serviceCode
         }
 
-        public func validate() throws {
-            try validate(desiredValue, name:"desiredValue", max: 10000000000)
-            try validate(desiredValue, name:"desiredValue", min: 0)
-            try validate(quotaCode, name:"quotaCode", max: 128)
-            try validate(quotaCode, name:"quotaCode", min: 1)
-            try validate(quotaCode, name:"quotaCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try validate(serviceCode, name:"serviceCode", max: 63)
-            try validate(serviceCode, name:"serviceCode", min: 1)
-            try validate(serviceCode, name:"serviceCode", pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+        public func validate(name: String) throws {
+            try validate(desiredValue, name:"desiredValue", parent: name, max: 10000000000)
+            try validate(desiredValue, name:"desiredValue", parent: name, min: 0)
+            try validate(quotaCode, name:"quotaCode", parent: name, max: 128)
+            try validate(quotaCode, name:"quotaCode", parent: name, min: 1)
+            try validate(quotaCode, name:"quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
         }
 
         private enum CodingKeys: String, CodingKey {

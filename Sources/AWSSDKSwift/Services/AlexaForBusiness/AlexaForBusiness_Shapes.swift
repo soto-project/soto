@@ -71,8 +71,8 @@ extension AlexaForBusiness {
             self.skillId = skillId
         }
 
-        public func validate() throws {
-            try validate(skillId, name:"skillId", pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
+        public func validate(name: String) throws {
+            try validate(skillId, name:"skillId", parent: name, pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -104,9 +104,9 @@ extension AlexaForBusiness {
             self.contactArn = contactArn
         }
 
-        public func validate() throws {
-            try validate(addressBookArn, name:"addressBookArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(contactArn, name:"contactArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(addressBookArn, name:"addressBookArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(contactArn, name:"contactArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -139,9 +139,9 @@ extension AlexaForBusiness {
             self.networkProfileArn = networkProfileArn
         }
 
-        public func validate() throws {
-            try validate(deviceArn, name:"deviceArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(networkProfileArn, name:"networkProfileArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(deviceArn, name:"deviceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(networkProfileArn, name:"networkProfileArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -174,9 +174,9 @@ extension AlexaForBusiness {
             self.roomArn = roomArn
         }
 
-        public func validate() throws {
-            try validate(deviceArn, name:"deviceArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(roomArn, name:"roomArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(deviceArn, name:"deviceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(roomArn, name:"roomArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -209,9 +209,9 @@ extension AlexaForBusiness {
             self.skillGroupArn = skillGroupArn
         }
 
-        public func validate() throws {
-            try validate(roomArn, name:"roomArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(skillGroupArn, name:"skillGroupArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(roomArn, name:"roomArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(skillGroupArn, name:"skillGroupArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -244,9 +244,9 @@ extension AlexaForBusiness {
             self.skillId = skillId
         }
 
-        public func validate() throws {
-            try validate(skillGroupArn, name:"skillGroupArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(skillId, name:"skillId", pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
+        public func validate(name: String) throws {
+            try validate(skillGroupArn, name:"skillGroupArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(skillId, name:"skillId", parent: name, pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -275,8 +275,8 @@ extension AlexaForBusiness {
             self.skillId = skillId
         }
 
-        public func validate() throws {
-            try validate(skillId, name:"skillId", pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
+        public func validate(name: String) throws {
+            try validate(skillId, name:"skillId", parent: name, pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -308,10 +308,10 @@ extension AlexaForBusiness {
             self.location = location
         }
 
-        public func validate() throws {
-            try validate(location, name:"location", max: 1200)
-            try validate(location, name:"location", min: 0)
-            try validate(location, name:"location", pattern: "https://([A-Za-z0-9_.-]+)?(s3-[A-Za-z0-9-]+|s3\\.([A-Za-z0-9-])+|s3|s3.dualstack\\.([A-Za-z0-9-])+)+.amazonaws.com/.*")
+        public func validate(name: String) throws {
+            try validate(location, name:"location", parent: name, max: 1200)
+            try validate(location, name:"location", parent: name, min: 0)
+            try validate(location, name:"location", parent: name, pattern: "https://([A-Za-z0-9_.-]+)?(s3-[A-Za-z0-9-]+|s3\\.([A-Za-z0-9-])+|s3|s3.dualstack\\.([A-Za-z0-9-])+)+.amazonaws.com/.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -405,8 +405,8 @@ extension AlexaForBusiness {
             self.startDate = startDate
         }
 
-        public func validate() throws {
-            try validate(startDate, name:"startDate", pattern: "^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$")
+        public func validate(name: String) throws {
+            try validate(startDate, name:"startDate", parent: name, pattern: "^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -536,8 +536,8 @@ extension AlexaForBusiness {
             self.defaultConferenceProviderArn = defaultConferenceProviderArn
         }
 
-        public func validate() throws {
-            try validate(defaultConferenceProviderArn, name:"defaultConferenceProviderArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(defaultConferenceProviderArn, name:"defaultConferenceProviderArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -721,19 +721,19 @@ extension AlexaForBusiness {
             self.textList = textList
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try audioList?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).audioList[]")
             }
-            try validate(audioList, name:"audioList", max: 1)
+            try validate(audioList, name:"audioList", parent: name, max: 1)
             try ssmlList?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).ssmlList[]")
             }
-            try validate(ssmlList, name:"ssmlList", max: 1)
+            try validate(ssmlList, name:"ssmlList", parent: name, max: 1)
             try textList?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).textList[]")
             }
-            try validate(textList, name:"textList", max: 1)
+            try validate(textList, name:"textList", parent: name, max: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -763,16 +763,16 @@ extension AlexaForBusiness {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 150)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 10)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
-            try validate(description, name:"description", max: 200)
-            try validate(description, name:"description", min: 1)
-            try validate(description, name:"description", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try validate(name, name:"name", max: 100)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 150)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 10)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(description, name:"description", parent: name, max: 200)
+            try validate(description, name:"description", parent: name, min: 1)
+            try validate(description, name:"description", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -835,18 +835,18 @@ extension AlexaForBusiness {
             self.scheduleName = scheduleName
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 150)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 10)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
-            try recurrence?.validate()
-            try validate(s3BucketName, name:"s3BucketName", pattern: "[a-z0-9-\\.]{3,63}")
-            try validate(s3KeyPrefix, name:"s3KeyPrefix", max: 100)
-            try validate(s3KeyPrefix, name:"s3KeyPrefix", min: 0)
-            try validate(s3KeyPrefix, name:"s3KeyPrefix", pattern: "[A-Za-z0-9!_\\-\\.\\*'()/]*")
-            try validate(scheduleName, name:"scheduleName", max: 64)
-            try validate(scheduleName, name:"scheduleName", min: 0)
-            try validate(scheduleName, name:"scheduleName", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 150)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 10)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try recurrence?.validate(name: "\(name).recurrence")
+            try validate(s3BucketName, name:"s3BucketName", parent: name, pattern: "[a-z0-9-\\.]{3,63}")
+            try validate(s3KeyPrefix, name:"s3KeyPrefix", parent: name, max: 100)
+            try validate(s3KeyPrefix, name:"s3KeyPrefix", parent: name, min: 0)
+            try validate(s3KeyPrefix, name:"s3KeyPrefix", parent: name, pattern: "[A-Za-z0-9!_\\-\\.\\*'()/]*")
+            try validate(scheduleName, name:"scheduleName", parent: name, max: 64)
+            try validate(scheduleName, name:"scheduleName", parent: name, min: 0)
+            try validate(scheduleName, name:"scheduleName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -909,15 +909,15 @@ extension AlexaForBusiness {
             self.pSTNDialIn = pSTNDialIn
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 150)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 10)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
-            try validate(conferenceProviderName, name:"conferenceProviderName", max: 50)
-            try validate(conferenceProviderName, name:"conferenceProviderName", min: 1)
-            try validate(conferenceProviderName, name:"conferenceProviderName", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try iPDialIn?.validate()
-            try pSTNDialIn?.validate()
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 150)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 10)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(conferenceProviderName, name:"conferenceProviderName", parent: name, max: 50)
+            try validate(conferenceProviderName, name:"conferenceProviderName", parent: name, min: 1)
+            try validate(conferenceProviderName, name:"conferenceProviderName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try iPDialIn?.validate(name: "\(name).iPDialIn")
+            try pSTNDialIn?.validate(name: "\(name).pSTNDialIn")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -983,32 +983,32 @@ extension AlexaForBusiness {
             self.sipAddresses = sipAddresses
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 150)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 10)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
-            try validate(displayName, name:"displayName", max: 100)
-            try validate(displayName, name:"displayName", min: 1)
-            try validate(displayName, name:"displayName", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try validate(firstName, name:"firstName", max: 100)
-            try validate(firstName, name:"firstName", min: 1)
-            try validate(firstName, name:"firstName", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try validate(lastName, name:"lastName", max: 100)
-            try validate(lastName, name:"lastName", min: 1)
-            try validate(lastName, name:"lastName", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try validate(phoneNumber, name:"phoneNumber", max: 50)
-            try validate(phoneNumber, name:"phoneNumber", min: 0)
-            try validate(phoneNumber, name:"phoneNumber", pattern: "^[\\+0-9\\#\\,\\(][\\+0-9\\-\\.\\/\\(\\)\\,\\#\\s]+$")
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 150)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 10)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(displayName, name:"displayName", parent: name, max: 100)
+            try validate(displayName, name:"displayName", parent: name, min: 1)
+            try validate(displayName, name:"displayName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(firstName, name:"firstName", parent: name, max: 100)
+            try validate(firstName, name:"firstName", parent: name, min: 1)
+            try validate(firstName, name:"firstName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(lastName, name:"lastName", parent: name, max: 100)
+            try validate(lastName, name:"lastName", parent: name, min: 1)
+            try validate(lastName, name:"lastName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(phoneNumber, name:"phoneNumber", parent: name, max: 50)
+            try validate(phoneNumber, name:"phoneNumber", parent: name, min: 0)
+            try validate(phoneNumber, name:"phoneNumber", parent: name, pattern: "^[\\+0-9\\#\\,\\(][\\+0-9\\-\\.\\/\\(\\)\\,\\#\\s]+$")
             try phoneNumbers?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).phoneNumbers[]")
             }
-            try validate(phoneNumbers, name:"phoneNumbers", max: 3)
-            try validate(phoneNumbers, name:"phoneNumbers", min: 0)
+            try validate(phoneNumbers, name:"phoneNumbers", parent: name, max: 3)
+            try validate(phoneNumbers, name:"phoneNumbers", parent: name, min: 0)
             try sipAddresses?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).sipAddresses[]")
             }
-            try validate(sipAddresses, name:"sipAddresses", max: 1)
-            try validate(sipAddresses, name:"sipAddresses", min: 0)
+            try validate(sipAddresses, name:"sipAddresses", parent: name, max: 1)
+            try validate(sipAddresses, name:"sipAddresses", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1059,15 +1059,15 @@ extension AlexaForBusiness {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 150)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 10)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
-            try validate(description, name:"description", max: 200)
-            try validate(description, name:"description", min: 0)
-            try validate(name, name:"name", max: 100)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 150)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 10)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(description, name:"description", parent: name, max: 200)
+            try validate(description, name:"description", parent: name, min: 0)
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1141,31 +1141,31 @@ extension AlexaForBusiness {
             self.trustAnchors = trustAnchors
         }
 
-        public func validate() throws {
-            try validate(certificateAuthorityArn, name:"certificateAuthorityArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(clientRequestToken, name:"clientRequestToken", max: 150)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 10)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
-            try validate(currentPassword, name:"currentPassword", max: 128)
-            try validate(currentPassword, name:"currentPassword", min: 5)
-            try validate(currentPassword, name:"currentPassword", pattern: "[\\x00-\\x7F]*")
-            try validate(description, name:"description", max: 200)
-            try validate(description, name:"description", min: 0)
-            try validate(description, name:"description", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try validate(networkProfileName, name:"networkProfileName", max: 100)
-            try validate(networkProfileName, name:"networkProfileName", min: 1)
-            try validate(networkProfileName, name:"networkProfileName", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try validate(nextPassword, name:"nextPassword", max: 128)
-            try validate(nextPassword, name:"nextPassword", min: 0)
-            try validate(nextPassword, name:"nextPassword", pattern: "(^$)|([\\x00-\\x7F]{5,})")
-            try validate(ssid, name:"ssid", max: 32)
-            try validate(ssid, name:"ssid", min: 1)
-            try validate(ssid, name:"ssid", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+        public func validate(name: String) throws {
+            try validate(certificateAuthorityArn, name:"certificateAuthorityArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 150)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 10)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(currentPassword, name:"currentPassword", parent: name, max: 128)
+            try validate(currentPassword, name:"currentPassword", parent: name, min: 5)
+            try validate(currentPassword, name:"currentPassword", parent: name, pattern: "[\\x00-\\x7F]*")
+            try validate(description, name:"description", parent: name, max: 200)
+            try validate(description, name:"description", parent: name, min: 0)
+            try validate(description, name:"description", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(networkProfileName, name:"networkProfileName", parent: name, max: 100)
+            try validate(networkProfileName, name:"networkProfileName", parent: name, min: 1)
+            try validate(networkProfileName, name:"networkProfileName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(nextPassword, name:"nextPassword", parent: name, max: 128)
+            try validate(nextPassword, name:"nextPassword", parent: name, min: 0)
+            try validate(nextPassword, name:"nextPassword", parent: name, pattern: "(^$)|([\\x00-\\x7F]{5,})")
+            try validate(ssid, name:"ssid", parent: name, max: 32)
+            try validate(ssid, name:"ssid", parent: name, min: 1)
+            try validate(ssid, name:"ssid", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
             try trustAnchors?.forEach {
-                try validate($0, name:"trustAnchors[]", pattern: "-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?")
+                try validate($0, name: "trustAnchors[]", parent: name, pattern: "-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?")
             }
-            try validate(trustAnchors, name:"trustAnchors", max: 5)
-            try validate(trustAnchors, name:"trustAnchors", min: 1)
+            try validate(trustAnchors, name:"trustAnchors", parent: name, max: 5)
+            try validate(trustAnchors, name:"trustAnchors", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1247,17 +1247,17 @@ extension AlexaForBusiness {
             self.wakeWord = wakeWord
         }
 
-        public func validate() throws {
-            try validate(address, name:"address", max: 500)
-            try validate(address, name:"address", min: 1)
-            try validate(clientRequestToken, name:"clientRequestToken", max: 150)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 10)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
-            try validate(profileName, name:"profileName", max: 100)
-            try validate(profileName, name:"profileName", min: 1)
-            try validate(profileName, name:"profileName", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try validate(timezone, name:"timezone", max: 100)
-            try validate(timezone, name:"timezone", min: 1)
+        public func validate(name: String) throws {
+            try validate(address, name:"address", parent: name, max: 500)
+            try validate(address, name:"address", parent: name, min: 1)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 150)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 10)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(profileName, name:"profileName", parent: name, max: 100)
+            try validate(profileName, name:"profileName", parent: name, min: 1)
+            try validate(profileName, name:"profileName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(timezone, name:"timezone", parent: name, max: 100)
+            try validate(timezone, name:"timezone", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1323,21 +1323,21 @@ extension AlexaForBusiness {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 150)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 10)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
-            try validate(description, name:"description", max: 200)
-            try validate(description, name:"description", min: 1)
-            try validate(description, name:"description", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try validate(profileArn, name:"profileArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(providerCalendarId, name:"providerCalendarId", max: 100)
-            try validate(providerCalendarId, name:"providerCalendarId", min: 0)
-            try validate(roomName, name:"roomName", max: 100)
-            try validate(roomName, name:"roomName", min: 1)
-            try validate(roomName, name:"roomName", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 150)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 10)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(description, name:"description", parent: name, max: 200)
+            try validate(description, name:"description", parent: name, min: 1)
+            try validate(description, name:"description", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(profileArn, name:"profileArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(providerCalendarId, name:"providerCalendarId", parent: name, max: 100)
+            try validate(providerCalendarId, name:"providerCalendarId", parent: name, min: 0)
+            try validate(roomName, name:"roomName", parent: name, max: 100)
+            try validate(roomName, name:"roomName", parent: name, min: 1)
+            try validate(roomName, name:"roomName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
         }
 
@@ -1388,16 +1388,16 @@ extension AlexaForBusiness {
             self.skillGroupName = skillGroupName
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 150)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 10)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
-            try validate(description, name:"description", max: 200)
-            try validate(description, name:"description", min: 1)
-            try validate(description, name:"description", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try validate(skillGroupName, name:"skillGroupName", max: 100)
-            try validate(skillGroupName, name:"skillGroupName", min: 1)
-            try validate(skillGroupName, name:"skillGroupName", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 150)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 10)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(description, name:"description", parent: name, max: 200)
+            try validate(description, name:"description", parent: name, min: 1)
+            try validate(description, name:"description", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(skillGroupName, name:"skillGroupName", parent: name, max: 100)
+            try validate(skillGroupName, name:"skillGroupName", parent: name, min: 1)
+            try validate(skillGroupName, name:"skillGroupName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1456,25 +1456,25 @@ extension AlexaForBusiness {
             self.userId = userId
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 150)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 10)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
-            try validate(email, name:"email", max: 128)
-            try validate(email, name:"email", min: 1)
-            try validate(email, name:"email", pattern: "([0-9a-zA-Z]([+-.\\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\\w]*[0-9a-zA-Z]\\.)+[a-zA-Z]{2,9})")
-            try validate(firstName, name:"firstName", max: 30)
-            try validate(firstName, name:"firstName", min: 0)
-            try validate(firstName, name:"firstName", pattern: "([A-Za-z\\-' 0-9._]|\\p{IsLetter})*")
-            try validate(lastName, name:"lastName", max: 30)
-            try validate(lastName, name:"lastName", min: 0)
-            try validate(lastName, name:"lastName", pattern: "([A-Za-z\\-' 0-9._]|\\p{IsLetter})*")
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 150)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 10)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(email, name:"email", parent: name, max: 128)
+            try validate(email, name:"email", parent: name, min: 1)
+            try validate(email, name:"email", parent: name, pattern: "([0-9a-zA-Z]([+-.\\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\\w]*[0-9a-zA-Z]\\.)+[a-zA-Z]{2,9})")
+            try validate(firstName, name:"firstName", parent: name, max: 30)
+            try validate(firstName, name:"firstName", parent: name, min: 0)
+            try validate(firstName, name:"firstName", parent: name, pattern: "([A-Za-z\\-' 0-9._]|\\p{IsLetter})*")
+            try validate(lastName, name:"lastName", parent: name, max: 30)
+            try validate(lastName, name:"lastName", parent: name, min: 0)
+            try validate(lastName, name:"lastName", parent: name, pattern: "([A-Za-z\\-' 0-9._]|\\p{IsLetter})*")
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(userId, name:"userId", max: 128)
-            try validate(userId, name:"userId", min: 1)
-            try validate(userId, name:"userId", pattern: "[a-zA-Z0-9@_+.-]*")
+            try validate(userId, name:"userId", parent: name, max: 128)
+            try validate(userId, name:"userId", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, pattern: "[a-zA-Z0-9@_+.-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1516,8 +1516,8 @@ extension AlexaForBusiness {
             self.addressBookArn = addressBookArn
         }
 
-        public func validate() throws {
-            try validate(addressBookArn, name:"addressBookArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(addressBookArn, name:"addressBookArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1545,8 +1545,8 @@ extension AlexaForBusiness {
             self.scheduleArn = scheduleArn
         }
 
-        public func validate() throws {
-            try validate(scheduleArn, name:"scheduleArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(scheduleArn, name:"scheduleArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1574,8 +1574,8 @@ extension AlexaForBusiness {
             self.conferenceProviderArn = conferenceProviderArn
         }
 
-        public func validate() throws {
-            try validate(conferenceProviderArn, name:"conferenceProviderArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(conferenceProviderArn, name:"conferenceProviderArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1603,8 +1603,8 @@ extension AlexaForBusiness {
             self.contactArn = contactArn
         }
 
-        public func validate() throws {
-            try validate(contactArn, name:"contactArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(contactArn, name:"contactArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1632,8 +1632,8 @@ extension AlexaForBusiness {
             self.deviceArn = deviceArn
         }
 
-        public func validate() throws {
-            try validate(deviceArn, name:"deviceArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(deviceArn, name:"deviceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1665,8 +1665,8 @@ extension AlexaForBusiness {
             self.deviceUsageType = deviceUsageType
         }
 
-        public func validate() throws {
-            try validate(deviceArn, name:"deviceArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(deviceArn, name:"deviceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1695,8 +1695,8 @@ extension AlexaForBusiness {
             self.gatewayGroupArn = gatewayGroupArn
         }
 
-        public func validate() throws {
-            try validate(gatewayGroupArn, name:"gatewayGroupArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(gatewayGroupArn, name:"gatewayGroupArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1724,8 +1724,8 @@ extension AlexaForBusiness {
             self.networkProfileArn = networkProfileArn
         }
 
-        public func validate() throws {
-            try validate(networkProfileArn, name:"networkProfileArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(networkProfileArn, name:"networkProfileArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1753,8 +1753,8 @@ extension AlexaForBusiness {
             self.profileArn = profileArn
         }
 
-        public func validate() throws {
-            try validate(profileArn, name:"profileArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(profileArn, name:"profileArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1782,8 +1782,8 @@ extension AlexaForBusiness {
             self.roomArn = roomArn
         }
 
-        public func validate() throws {
-            try validate(roomArn, name:"roomArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(roomArn, name:"roomArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1819,11 +1819,11 @@ extension AlexaForBusiness {
             self.skillId = skillId
         }
 
-        public func validate() throws {
-            try validate(parameterKey, name:"parameterKey", max: 256)
-            try validate(parameterKey, name:"parameterKey", min: 1)
-            try validate(roomArn, name:"roomArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(skillId, name:"skillId", pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
+        public func validate(name: String) throws {
+            try validate(parameterKey, name:"parameterKey", parent: name, max: 256)
+            try validate(parameterKey, name:"parameterKey", parent: name, min: 1)
+            try validate(roomArn, name:"roomArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(skillId, name:"skillId", parent: name, pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1857,9 +1857,9 @@ extension AlexaForBusiness {
             self.skillId = skillId
         }
 
-        public func validate() throws {
-            try validate(roomArn, name:"roomArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(skillId, name:"skillId", pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
+        public func validate(name: String) throws {
+            try validate(roomArn, name:"roomArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(skillId, name:"skillId", parent: name, pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1888,8 +1888,8 @@ extension AlexaForBusiness {
             self.skillGroupArn = skillGroupArn
         }
 
-        public func validate() throws {
-            try validate(skillGroupArn, name:"skillGroupArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(skillGroupArn, name:"skillGroupArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1921,10 +1921,10 @@ extension AlexaForBusiness {
             self.userArn = userArn
         }
 
-        public func validate() throws {
-            try validate(enrollmentId, name:"enrollmentId", max: 128)
-            try validate(enrollmentId, name:"enrollmentId", min: 0)
-            try validate(userArn, name:"userArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(enrollmentId, name:"enrollmentId", parent: name, max: 128)
+            try validate(enrollmentId, name:"enrollmentId", parent: name, min: 0)
+            try validate(userArn, name:"userArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2260,9 +2260,9 @@ extension AlexaForBusiness {
             self.contactArn = contactArn
         }
 
-        public func validate() throws {
-            try validate(addressBookArn, name:"addressBookArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(contactArn, name:"contactArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(addressBookArn, name:"addressBookArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(contactArn, name:"contactArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2291,8 +2291,8 @@ extension AlexaForBusiness {
             self.deviceArn = deviceArn
         }
 
-        public func validate() throws {
-            try validate(deviceArn, name:"deviceArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(deviceArn, name:"deviceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2324,9 +2324,9 @@ extension AlexaForBusiness {
             self.skillId = skillId
         }
 
-        public func validate() throws {
-            try validate(skillGroupArn, name:"skillGroupArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(skillId, name:"skillId", pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
+        public func validate(name: String) throws {
+            try validate(skillGroupArn, name:"skillGroupArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(skillId, name:"skillId", parent: name, pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2355,8 +2355,8 @@ extension AlexaForBusiness {
             self.skillId = skillId
         }
 
-        public func validate() throws {
-            try validate(skillId, name:"skillId", pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
+        public func validate(name: String) throws {
+            try validate(skillId, name:"skillId", parent: name, pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2388,9 +2388,9 @@ extension AlexaForBusiness {
             self.skillGroupArn = skillGroupArn
         }
 
-        public func validate() throws {
-            try validate(roomArn, name:"roomArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(skillGroupArn, name:"skillGroupArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(roomArn, name:"roomArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(skillGroupArn, name:"skillGroupArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2462,14 +2462,14 @@ extension AlexaForBusiness {
             self.values = values
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 500)
-            try validate(key, name:"key", min: 1)
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 500)
+            try validate(key, name:"key", parent: name, min: 1)
             try values.forEach {
-                try validate($0, name:"values[]", max: 500)
-                try validate($0, name:"values[]", min: 1)
+                try validate($0, name: "values[]", parent: name, max: 500)
+                try validate($0, name: "values[]", parent: name, min: 1)
             }
-            try validate(values, name:"values", max: 50)
+            try validate(values, name:"values", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2490,8 +2490,8 @@ extension AlexaForBusiness {
             self.roomArn = roomArn
         }
 
-        public func validate() throws {
-            try validate(roomArn, name:"roomArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(roomArn, name:"roomArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2647,8 +2647,8 @@ extension AlexaForBusiness {
             self.addressBookArn = addressBookArn
         }
 
-        public func validate() throws {
-            try validate(addressBookArn, name:"addressBookArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(addressBookArn, name:"addressBookArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2710,8 +2710,8 @@ extension AlexaForBusiness {
             self.conferenceProviderArn = conferenceProviderArn
         }
 
-        public func validate() throws {
-            try validate(conferenceProviderArn, name:"conferenceProviderArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(conferenceProviderArn, name:"conferenceProviderArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2748,8 +2748,8 @@ extension AlexaForBusiness {
             self.contactArn = contactArn
         }
 
-        public func validate() throws {
-            try validate(contactArn, name:"contactArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(contactArn, name:"contactArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2786,8 +2786,8 @@ extension AlexaForBusiness {
             self.deviceArn = deviceArn
         }
 
-        public func validate() throws {
-            try validate(deviceArn, name:"deviceArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(deviceArn, name:"deviceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2824,8 +2824,8 @@ extension AlexaForBusiness {
             self.gatewayGroupArn = gatewayGroupArn
         }
 
-        public func validate() throws {
-            try validate(gatewayGroupArn, name:"gatewayGroupArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(gatewayGroupArn, name:"gatewayGroupArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2861,8 +2861,8 @@ extension AlexaForBusiness {
             self.gatewayArn = gatewayArn
         }
 
-        public func validate() throws {
-            try validate(gatewayArn, name:"gatewayArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(gatewayArn, name:"gatewayArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2934,8 +2934,8 @@ extension AlexaForBusiness {
             self.networkProfileArn = networkProfileArn
         }
 
-        public func validate() throws {
-            try validate(networkProfileArn, name:"networkProfileArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(networkProfileArn, name:"networkProfileArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2972,8 +2972,8 @@ extension AlexaForBusiness {
             self.profileArn = profileArn
         }
 
-        public func validate() throws {
-            try validate(profileArn, name:"profileArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(profileArn, name:"profileArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3010,8 +3010,8 @@ extension AlexaForBusiness {
             self.roomArn = roomArn
         }
 
-        public func validate() throws {
-            try validate(roomArn, name:"roomArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(roomArn, name:"roomArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3056,11 +3056,11 @@ extension AlexaForBusiness {
             self.skillId = skillId
         }
 
-        public func validate() throws {
-            try validate(parameterKey, name:"parameterKey", max: 256)
-            try validate(parameterKey, name:"parameterKey", min: 1)
-            try validate(roomArn, name:"roomArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(skillId, name:"skillId", pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
+        public func validate(name: String) throws {
+            try validate(parameterKey, name:"parameterKey", parent: name, max: 256)
+            try validate(parameterKey, name:"parameterKey", parent: name, min: 1)
+            try validate(roomArn, name:"roomArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(skillId, name:"skillId", parent: name, pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3099,8 +3099,8 @@ extension AlexaForBusiness {
             self.skillGroupArn = skillGroupArn
         }
 
-        public func validate() throws {
-            try validate(skillGroupArn, name:"skillGroupArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(skillGroupArn, name:"skillGroupArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3141,9 +3141,9 @@ extension AlexaForBusiness {
             self.endpoint = endpoint
         }
 
-        public func validate() throws {
-            try validate(endpoint, name:"endpoint", max: 256)
-            try validate(endpoint, name:"endpoint", min: 1)
+        public func validate(name: String) throws {
+            try validate(endpoint, name:"endpoint", parent: name, max: 256)
+            try validate(endpoint, name:"endpoint", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3168,11 +3168,11 @@ extension AlexaForBusiness {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 50)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 1100)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1100)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3219,11 +3219,11 @@ extension AlexaForBusiness {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 50)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 1100)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1100)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3278,12 +3278,12 @@ extension AlexaForBusiness {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(deviceArn, name:"deviceArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(maxResults, name:"maxResults", max: 50)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 1100)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(deviceArn, name:"deviceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1100)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3332,11 +3332,11 @@ extension AlexaForBusiness {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 50)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 1100)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1100)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3387,12 +3387,12 @@ extension AlexaForBusiness {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(gatewayGroupArn, name:"gatewayGroupArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(maxResults, name:"maxResults", max: 50)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 1100)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(gatewayGroupArn, name:"gatewayGroupArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1100)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3452,12 +3452,12 @@ extension AlexaForBusiness {
             self.skillType = skillType
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 10)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 1100)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(skillGroupArn, name:"skillGroupArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 10)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1100)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(skillGroupArn, name:"skillGroupArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3507,11 +3507,11 @@ extension AlexaForBusiness {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 50)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 1100)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1100)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3562,12 +3562,12 @@ extension AlexaForBusiness {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(categoryId, name:"categoryId", min: 1)
-            try validate(maxResults, name:"maxResults", max: 10)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 1100)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(categoryId, name:"categoryId", parent: name, min: 1)
+            try validate(maxResults, name:"maxResults", parent: name, max: 10)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1100)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3619,12 +3619,12 @@ extension AlexaForBusiness {
             self.roomArn = roomArn
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 50)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 1100)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(roomArn, name:"roomArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1100)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(roomArn, name:"roomArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3676,12 +3676,12 @@ extension AlexaForBusiness {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(maxResults, name:"maxResults", max: 50)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 1100)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1100)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3882,13 +3882,13 @@ extension AlexaForBusiness {
             self.phoneNumber = phoneNumber
         }
 
-        public func validate() throws {
-            try validate(countryCode, name:"countryCode", pattern: "\\d{1,3}")
-            try validate(oneClickIdDelay, name:"oneClickIdDelay", max: 2)
-            try validate(oneClickIdDelay, name:"oneClickIdDelay", min: 1)
-            try validate(oneClickPinDelay, name:"oneClickPinDelay", max: 2)
-            try validate(oneClickPinDelay, name:"oneClickPinDelay", min: 1)
-            try validate(phoneNumber, name:"phoneNumber", pattern: "\\d{10}")
+        public func validate(name: String) throws {
+            try validate(countryCode, name:"countryCode", parent: name, pattern: "\\d{1,3}")
+            try validate(oneClickIdDelay, name:"oneClickIdDelay", parent: name, max: 2)
+            try validate(oneClickIdDelay, name:"oneClickIdDelay", parent: name, min: 1)
+            try validate(oneClickPinDelay, name:"oneClickPinDelay", parent: name, max: 2)
+            try validate(oneClickPinDelay, name:"oneClickPinDelay", parent: name, min: 1)
+            try validate(phoneNumber, name:"phoneNumber", parent: name, pattern: "\\d{10}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3915,10 +3915,10 @@ extension AlexaForBusiness {
             self.`type` = `type`
         }
 
-        public func validate() throws {
-            try validate(number, name:"number", max: 50)
-            try validate(number, name:"number", min: 0)
-            try validate(number, name:"number", pattern: "^[\\+0-9\\#\\,\\(][\\+0-9\\-\\.\\/\\(\\)\\,\\#\\s]+$")
+        public func validate(name: String) throws {
+            try validate(number, name:"number", parent: name, max: 50)
+            try validate(number, name:"number", parent: name, min: 0)
+            try validate(number, name:"number", parent: name, pattern: "^[\\+0-9\\#\\,\\(][\\+0-9\\-\\.\\/\\(\\)\\,\\#\\s]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4070,8 +4070,8 @@ extension AlexaForBusiness {
             self.conferencePreference = conferencePreference
         }
 
-        public func validate() throws {
-            try conferencePreference.validate()
+        public func validate(name: String) throws {
+            try conferencePreference.validate(name: "\(name).conferencePreference")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4107,18 +4107,18 @@ extension AlexaForBusiness {
             self.privateSkillIds = privateSkillIds
         }
 
-        public func validate() throws {
-            try validate(contactEmail, name:"contactEmail", max: 128)
-            try validate(contactEmail, name:"contactEmail", min: 1)
-            try validate(contactEmail, name:"contactEmail", pattern: "([0-9a-zA-Z]([+-.\\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\\w]*[0-9a-zA-Z]\\.)+[a-zA-Z]{2,9})")
-            try validate(organizationName, name:"organizationName", max: 100)
-            try validate(organizationName, name:"organizationName", min: 1)
-            try validate(organizationName, name:"organizationName", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+        public func validate(name: String) throws {
+            try validate(contactEmail, name:"contactEmail", parent: name, max: 128)
+            try validate(contactEmail, name:"contactEmail", parent: name, min: 1)
+            try validate(contactEmail, name:"contactEmail", parent: name, pattern: "([0-9a-zA-Z]([+-.\\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\\w]*[0-9a-zA-Z]\\.)+[a-zA-Z]{2,9})")
+            try validate(organizationName, name:"organizationName", parent: name, max: 100)
+            try validate(organizationName, name:"organizationName", parent: name, min: 1)
+            try validate(organizationName, name:"organizationName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
             try privateSkillIds?.forEach {
-                try validate($0, name:"privateSkillIds[]", pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
+                try validate($0, name: "privateSkillIds[]", parent: name, pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
             }
-            try validate(privateSkillIds, name:"privateSkillIds", max: 3)
-            try validate(privateSkillIds, name:"privateSkillIds", min: 0)
+            try validate(privateSkillIds, name:"privateSkillIds", parent: name, max: 3)
+            try validate(privateSkillIds, name:"privateSkillIds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4156,10 +4156,10 @@ extension AlexaForBusiness {
             self.skillId = skillId
         }
 
-        public func validate() throws {
-            try validate(roomArn, name:"roomArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try roomSkillParameter.validate()
-            try validate(skillId, name:"skillId", pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
+        public func validate(name: String) throws {
+            try validate(roomArn, name:"roomArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try roomSkillParameter.validate(name: "\(name).roomSkillParameter")
+            try validate(skillId, name:"skillId", parent: name, pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4197,13 +4197,13 @@ extension AlexaForBusiness {
             self.skillId = skillId
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try authorizationResult.forEach {
-                try validate($0.key, name:"authorizationResult[key:]", min: 1)
-                try validate($0.value, name:"authorizationResult[:value]", min: 1)
+                try validate($0.key, name:"authorizationResult.key", parent: name, min: 1)
+                try validate($0.value, name:"authorizationResult[\"\($0.key)\"]", parent: name, min: 1)
             }
-            try validate(roomArn, name:"roomArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(skillId, name:"skillId", pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
+            try validate(roomArn, name:"roomArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(skillId, name:"skillId", parent: name, pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4249,13 +4249,13 @@ extension AlexaForBusiness {
             self.userCode = userCode
         }
 
-        public func validate() throws {
-            try validate(amazonId, name:"amazonId", pattern: "[a-zA-Z0-9]{1,18}")
-            try validate(clientId, name:"clientId", pattern: "^\\S+{1,256}$")
-            try validate(deviceSerialNumber, name:"deviceSerialNumber", pattern: "^[a-zA-Z0-9]{1,50}$")
-            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_]{1,256}$")
-            try validate(userCode, name:"userCode", max: 128)
-            try validate(userCode, name:"userCode", min: 1)
+        public func validate(name: String) throws {
+            try validate(amazonId, name:"amazonId", parent: name, pattern: "[a-zA-Z0-9]{1,18}")
+            try validate(clientId, name:"clientId", parent: name, pattern: "^\\S+{1,256}$")
+            try validate(deviceSerialNumber, name:"deviceSerialNumber", parent: name, pattern: "^[a-zA-Z0-9]{1,50}$")
+            try validate(productId, name:"productId", parent: name, pattern: "^[a-zA-Z0-9_]{1,256}$")
+            try validate(userCode, name:"userCode", parent: name, max: 128)
+            try validate(userCode, name:"userCode", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4296,8 +4296,8 @@ extension AlexaForBusiness {
             self.skillId = skillId
         }
 
-        public func validate() throws {
-            try validate(skillId, name:"skillId", pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
+        public func validate(name: String) throws {
+            try validate(skillId, name:"skillId", parent: name, pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4336,9 +4336,9 @@ extension AlexaForBusiness {
             self.userId = userId
         }
 
-        public func validate() throws {
-            try validate(skillId, name:"skillId", pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
-            try validate(userId, name:"userId", pattern: "amzn1\\.[A-Za-z0-9+-\\/=.]{1,300}")
+        public func validate(name: String) throws {
+            try validate(skillId, name:"skillId", parent: name, pattern: "(^amzn1\\.ask\\.skill\\.[0-9a-f\\-]{1,200})|(^amzn1\\.echo-sdk-ams\\.app\\.[0-9a-f\\-]{1,200})")
+            try validate(userId, name:"userId", parent: name, pattern: "amzn1\\.[A-Za-z0-9+-\\/=.]{1,300}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4390,10 +4390,10 @@ extension AlexaForBusiness {
             self.userArn = userArn
         }
 
-        public func validate() throws {
-            try validate(enrollmentId, name:"enrollmentId", max: 128)
-            try validate(enrollmentId, name:"enrollmentId", min: 0)
-            try validate(userArn, name:"userArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(enrollmentId, name:"enrollmentId", parent: name, max: 128)
+            try validate(enrollmentId, name:"enrollmentId", parent: name, min: 0)
+            try validate(userArn, name:"userArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4505,11 +4505,11 @@ extension AlexaForBusiness {
             self.parameterValue = parameterValue
         }
 
-        public func validate() throws {
-            try validate(parameterKey, name:"parameterKey", max: 256)
-            try validate(parameterKey, name:"parameterKey", min: 1)
-            try validate(parameterValue, name:"parameterValue", max: 512)
-            try validate(parameterValue, name:"parameterValue", min: 1)
+        public func validate(name: String) throws {
+            try validate(parameterKey, name:"parameterKey", parent: name, max: 256)
+            try validate(parameterKey, name:"parameterKey", parent: name, min: 1)
+            try validate(parameterValue, name:"parameterValue", parent: name, max: 512)
+            try validate(parameterValue, name:"parameterValue", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4542,19 +4542,19 @@ extension AlexaForBusiness {
             self.sortCriteria = sortCriteria
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try filters?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", max: 25)
-            try validate(maxResults, name:"maxResults", max: 50)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 1100)
-            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(filters, name:"filters", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1100)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
             try sortCriteria?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).sortCriteria[]")
             }
-            try validate(sortCriteria, name:"sortCriteria", max: 25)
+            try validate(sortCriteria, name:"sortCriteria", parent: name, max: 25)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4616,19 +4616,19 @@ extension AlexaForBusiness {
             self.sortCriteria = sortCriteria
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try filters?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", max: 25)
-            try validate(maxResults, name:"maxResults", max: 50)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 1100)
-            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(filters, name:"filters", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1100)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
             try sortCriteria?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).sortCriteria[]")
             }
-            try validate(sortCriteria, name:"sortCriteria", max: 25)
+            try validate(sortCriteria, name:"sortCriteria", parent: name, max: 25)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4690,19 +4690,19 @@ extension AlexaForBusiness {
             self.sortCriteria = sortCriteria
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try filters?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", max: 25)
-            try validate(maxResults, name:"maxResults", max: 50)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 1100)
-            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(filters, name:"filters", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1100)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
             try sortCriteria?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).sortCriteria[]")
             }
-            try validate(sortCriteria, name:"sortCriteria", max: 25)
+            try validate(sortCriteria, name:"sortCriteria", parent: name, max: 25)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4764,19 +4764,19 @@ extension AlexaForBusiness {
             self.sortCriteria = sortCriteria
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try filters?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", max: 25)
-            try validate(maxResults, name:"maxResults", max: 50)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 1100)
-            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(filters, name:"filters", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1100)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
             try sortCriteria?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).sortCriteria[]")
             }
-            try validate(sortCriteria, name:"sortCriteria", max: 25)
+            try validate(sortCriteria, name:"sortCriteria", parent: name, max: 25)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4838,19 +4838,19 @@ extension AlexaForBusiness {
             self.sortCriteria = sortCriteria
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try filters?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", max: 25)
-            try validate(maxResults, name:"maxResults", max: 50)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 1100)
-            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(filters, name:"filters", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1100)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
             try sortCriteria?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).sortCriteria[]")
             }
-            try validate(sortCriteria, name:"sortCriteria", max: 25)
+            try validate(sortCriteria, name:"sortCriteria", parent: name, max: 25)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4912,19 +4912,19 @@ extension AlexaForBusiness {
             self.sortCriteria = sortCriteria
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try filters?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", max: 25)
-            try validate(maxResults, name:"maxResults", max: 50)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 1100)
-            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(filters, name:"filters", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1100)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
             try sortCriteria?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).sortCriteria[]")
             }
-            try validate(sortCriteria, name:"sortCriteria", max: 25)
+            try validate(sortCriteria, name:"sortCriteria", parent: name, max: 25)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4986,19 +4986,19 @@ extension AlexaForBusiness {
             self.sortCriteria = sortCriteria
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try filters?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", max: 25)
-            try validate(maxResults, name:"maxResults", max: 50)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 1100)
-            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(filters, name:"filters", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1100)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
             try sortCriteria?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).sortCriteria[]")
             }
-            try validate(sortCriteria, name:"sortCriteria", max: 25)
+            try validate(sortCriteria, name:"sortCriteria", parent: name, max: 25)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5060,19 +5060,19 @@ extension AlexaForBusiness {
             self.sortCriteria = sortCriteria
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try filters?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", max: 25)
-            try validate(maxResults, name:"maxResults", max: 50)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 1100)
-            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(filters, name:"filters", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1100)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
             try sortCriteria?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).sortCriteria[]")
             }
-            try validate(sortCriteria, name:"sortCriteria", max: 25)
+            try validate(sortCriteria, name:"sortCriteria", parent: name, max: 25)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5134,17 +5134,17 @@ extension AlexaForBusiness {
             self.timeToLiveInSeconds = timeToLiveInSeconds
         }
 
-        public func validate() throws {
-            try validate(clientRequestToken, name:"clientRequestToken", max: 150)
-            try validate(clientRequestToken, name:"clientRequestToken", min: 10)
-            try validate(clientRequestToken, name:"clientRequestToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
-            try content.validate()
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 150)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 10)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try content.validate(name: "\(name).content")
             try roomFilters.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).roomFilters[]")
             }
-            try validate(roomFilters, name:"roomFilters", max: 25)
-            try validate(timeToLiveInSeconds, name:"timeToLiveInSeconds", max: 3600)
-            try validate(timeToLiveInSeconds, name:"timeToLiveInSeconds", min: 1)
+            try validate(roomFilters, name:"roomFilters", parent: name, max: 25)
+            try validate(timeToLiveInSeconds, name:"timeToLiveInSeconds", parent: name, max: 3600)
+            try validate(timeToLiveInSeconds, name:"timeToLiveInSeconds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5184,8 +5184,8 @@ extension AlexaForBusiness {
             self.userArn = userArn
         }
 
-        public func validate() throws {
-            try validate(userArn, name:"userArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(userArn, name:"userArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5217,10 +5217,10 @@ extension AlexaForBusiness {
             self.uri = uri
         }
 
-        public func validate() throws {
-            try validate(uri, name:"uri", max: 256)
-            try validate(uri, name:"uri", min: 1)
-            try validate(uri, name:"uri", pattern: "^sip[s]?:([^@:]+)\\@([^@]+)$")
+        public func validate(name: String) throws {
+            try validate(uri, name:"uri", parent: name, max: 256)
+            try validate(uri, name:"uri", parent: name, min: 1)
+            try validate(uri, name:"uri", parent: name, pattern: "^sip[s]?:([^@:]+)\\@([^@]+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5490,9 +5490,9 @@ extension AlexaForBusiness {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 500)
-            try validate(key, name:"key", min: 1)
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 500)
+            try validate(key, name:"key", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5523,10 +5523,10 @@ extension AlexaForBusiness {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(value, name:"value", max: 4096)
-            try validate(value, name:"value", min: 0)
-            try validate(value, name:"value", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+        public func validate(name: String) throws {
+            try validate(value, name:"value", parent: name, max: 4096)
+            try validate(value, name:"value", parent: name, min: 0)
+            try validate(value, name:"value", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5555,9 +5555,9 @@ extension AlexaForBusiness {
             self.roomArn = roomArn
         }
 
-        public func validate() throws {
-            try validate(deviceArn, name:"deviceArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(roomArn, name:"roomArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(deviceArn, name:"deviceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(roomArn, name:"roomArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5587,8 +5587,8 @@ extension AlexaForBusiness {
             self.roomArn = roomArn
         }
 
-        public func validate() throws {
-            try validate(roomArn, name:"roomArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(roomArn, name:"roomArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5620,13 +5620,13 @@ extension AlexaForBusiness {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 128)
-            try validate(key, name:"key", min: 1)
-            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try validate(value, name:"value", max: 256)
-            try validate(value, name:"value", min: 0)
-            try validate(value, name:"value", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, min: 0)
+            try validate(value, name:"value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5651,10 +5651,10 @@ extension AlexaForBusiness {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try tags.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
         }
 
@@ -5694,10 +5694,10 @@ extension AlexaForBusiness {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(value, name:"value", max: 4096)
-            try validate(value, name:"value", min: 0)
-            try validate(value, name:"value", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+        public func validate(name: String) throws {
+            try validate(value, name:"value", parent: name, max: 4096)
+            try validate(value, name:"value", parent: name, min: 0)
+            try validate(value, name:"value", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5722,12 +5722,12 @@ extension AlexaForBusiness {
             self.tagKeys = tagKeys
         }
 
-        public func validate() throws {
-            try validate(arn, name:"arn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try tagKeys.forEach {
-                try validate($0, name:"tagKeys[]", max: 128)
-                try validate($0, name:"tagKeys[]", min: 1)
-                try validate($0, name:"tagKeys[]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
         }
 
@@ -5765,14 +5765,14 @@ extension AlexaForBusiness {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(addressBookArn, name:"addressBookArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(description, name:"description", max: 200)
-            try validate(description, name:"description", min: 1)
-            try validate(description, name:"description", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try validate(name, name:"name", max: 100)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+        public func validate(name: String) throws {
+            try validate(addressBookArn, name:"addressBookArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(description, name:"description", parent: name, max: 200)
+            try validate(description, name:"description", parent: name, min: 1)
+            try validate(description, name:"description", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5822,16 +5822,16 @@ extension AlexaForBusiness {
             self.scheduleName = scheduleName
         }
 
-        public func validate() throws {
-            try recurrence?.validate()
-            try validate(s3BucketName, name:"s3BucketName", pattern: "[a-z0-9-\\.]{3,63}")
-            try validate(s3KeyPrefix, name:"s3KeyPrefix", max: 100)
-            try validate(s3KeyPrefix, name:"s3KeyPrefix", min: 0)
-            try validate(s3KeyPrefix, name:"s3KeyPrefix", pattern: "[A-Za-z0-9!_\\-\\.\\*'()/]*")
-            try validate(scheduleArn, name:"scheduleArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(scheduleName, name:"scheduleName", max: 64)
-            try validate(scheduleName, name:"scheduleName", min: 0)
-            try validate(scheduleName, name:"scheduleName", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+        public func validate(name: String) throws {
+            try recurrence?.validate(name: "\(name).recurrence")
+            try validate(s3BucketName, name:"s3BucketName", parent: name, pattern: "[a-z0-9-\\.]{3,63}")
+            try validate(s3KeyPrefix, name:"s3KeyPrefix", parent: name, max: 100)
+            try validate(s3KeyPrefix, name:"s3KeyPrefix", parent: name, min: 0)
+            try validate(s3KeyPrefix, name:"s3KeyPrefix", parent: name, pattern: "[A-Za-z0-9!_\\-\\.\\*'()/]*")
+            try validate(scheduleArn, name:"scheduleArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(scheduleName, name:"scheduleName", parent: name, max: 64)
+            try validate(scheduleName, name:"scheduleName", parent: name, min: 0)
+            try validate(scheduleName, name:"scheduleName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5880,10 +5880,10 @@ extension AlexaForBusiness {
             self.pSTNDialIn = pSTNDialIn
         }
 
-        public func validate() throws {
-            try validate(conferenceProviderArn, name:"conferenceProviderArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try iPDialIn?.validate()
-            try pSTNDialIn?.validate()
+        public func validate(name: String) throws {
+            try validate(conferenceProviderArn, name:"conferenceProviderArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try iPDialIn?.validate(name: "\(name).iPDialIn")
+            try pSTNDialIn?.validate(name: "\(name).pSTNDialIn")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5939,30 +5939,30 @@ extension AlexaForBusiness {
             self.sipAddresses = sipAddresses
         }
 
-        public func validate() throws {
-            try validate(contactArn, name:"contactArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(displayName, name:"displayName", max: 100)
-            try validate(displayName, name:"displayName", min: 1)
-            try validate(displayName, name:"displayName", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try validate(firstName, name:"firstName", max: 100)
-            try validate(firstName, name:"firstName", min: 1)
-            try validate(firstName, name:"firstName", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try validate(lastName, name:"lastName", max: 100)
-            try validate(lastName, name:"lastName", min: 1)
-            try validate(lastName, name:"lastName", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try validate(phoneNumber, name:"phoneNumber", max: 50)
-            try validate(phoneNumber, name:"phoneNumber", min: 0)
-            try validate(phoneNumber, name:"phoneNumber", pattern: "^[\\+0-9\\#\\,\\(][\\+0-9\\-\\.\\/\\(\\)\\,\\#\\s]+$")
+        public func validate(name: String) throws {
+            try validate(contactArn, name:"contactArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(displayName, name:"displayName", parent: name, max: 100)
+            try validate(displayName, name:"displayName", parent: name, min: 1)
+            try validate(displayName, name:"displayName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(firstName, name:"firstName", parent: name, max: 100)
+            try validate(firstName, name:"firstName", parent: name, min: 1)
+            try validate(firstName, name:"firstName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(lastName, name:"lastName", parent: name, max: 100)
+            try validate(lastName, name:"lastName", parent: name, min: 1)
+            try validate(lastName, name:"lastName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(phoneNumber, name:"phoneNumber", parent: name, max: 50)
+            try validate(phoneNumber, name:"phoneNumber", parent: name, min: 0)
+            try validate(phoneNumber, name:"phoneNumber", parent: name, pattern: "^[\\+0-9\\#\\,\\(][\\+0-9\\-\\.\\/\\(\\)\\,\\#\\s]+$")
             try phoneNumbers?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).phoneNumbers[]")
             }
-            try validate(phoneNumbers, name:"phoneNumbers", max: 3)
-            try validate(phoneNumbers, name:"phoneNumbers", min: 0)
+            try validate(phoneNumbers, name:"phoneNumbers", parent: name, max: 3)
+            try validate(phoneNumbers, name:"phoneNumbers", parent: name, min: 0)
             try sipAddresses?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).sipAddresses[]")
             }
-            try validate(sipAddresses, name:"sipAddresses", max: 1)
-            try validate(sipAddresses, name:"sipAddresses", min: 0)
+            try validate(sipAddresses, name:"sipAddresses", parent: name, max: 1)
+            try validate(sipAddresses, name:"sipAddresses", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6000,11 +6000,11 @@ extension AlexaForBusiness {
             self.deviceName = deviceName
         }
 
-        public func validate() throws {
-            try validate(deviceArn, name:"deviceArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(deviceName, name:"deviceName", max: 100)
-            try validate(deviceName, name:"deviceName", min: 2)
-            try validate(deviceName, name:"deviceName", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+        public func validate(name: String) throws {
+            try validate(deviceArn, name:"deviceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(deviceName, name:"deviceName", parent: name, max: 100)
+            try validate(deviceName, name:"deviceName", parent: name, min: 2)
+            try validate(deviceName, name:"deviceName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6041,13 +6041,13 @@ extension AlexaForBusiness {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(description, name:"description", max: 200)
-            try validate(description, name:"description", min: 0)
-            try validate(gatewayGroupArn, name:"gatewayGroupArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(name, name:"name", max: 100)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+        public func validate(name: String) throws {
+            try validate(description, name:"description", parent: name, max: 200)
+            try validate(description, name:"description", parent: name, min: 0)
+            try validate(gatewayGroupArn, name:"gatewayGroupArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6089,16 +6089,16 @@ extension AlexaForBusiness {
             self.softwareVersion = softwareVersion
         }
 
-        public func validate() throws {
-            try validate(description, name:"description", max: 200)
-            try validate(description, name:"description", min: 0)
-            try validate(description, name:"description", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try validate(gatewayArn, name:"gatewayArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(name, name:"name", max: 253)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try validate(softwareVersion, name:"softwareVersion", max: 50)
-            try validate(softwareVersion, name:"softwareVersion", min: 1)
+        public func validate(name: String) throws {
+            try validate(description, name:"description", parent: name, max: 200)
+            try validate(description, name:"description", parent: name, min: 0)
+            try validate(description, name:"description", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(gatewayArn, name:"gatewayArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(name, name:"name", parent: name, max: 253)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(softwareVersion, name:"softwareVersion", parent: name, max: 50)
+            try validate(softwareVersion, name:"softwareVersion", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6153,26 +6153,26 @@ extension AlexaForBusiness {
             self.trustAnchors = trustAnchors
         }
 
-        public func validate() throws {
-            try validate(certificateAuthorityArn, name:"certificateAuthorityArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(currentPassword, name:"currentPassword", max: 128)
-            try validate(currentPassword, name:"currentPassword", min: 5)
-            try validate(currentPassword, name:"currentPassword", pattern: "[\\x00-\\x7F]*")
-            try validate(description, name:"description", max: 200)
-            try validate(description, name:"description", min: 0)
-            try validate(description, name:"description", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try validate(networkProfileArn, name:"networkProfileArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(networkProfileName, name:"networkProfileName", max: 100)
-            try validate(networkProfileName, name:"networkProfileName", min: 1)
-            try validate(networkProfileName, name:"networkProfileName", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try validate(nextPassword, name:"nextPassword", max: 128)
-            try validate(nextPassword, name:"nextPassword", min: 0)
-            try validate(nextPassword, name:"nextPassword", pattern: "(^$)|([\\x00-\\x7F]{5,})")
+        public func validate(name: String) throws {
+            try validate(certificateAuthorityArn, name:"certificateAuthorityArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(currentPassword, name:"currentPassword", parent: name, max: 128)
+            try validate(currentPassword, name:"currentPassword", parent: name, min: 5)
+            try validate(currentPassword, name:"currentPassword", parent: name, pattern: "[\\x00-\\x7F]*")
+            try validate(description, name:"description", parent: name, max: 200)
+            try validate(description, name:"description", parent: name, min: 0)
+            try validate(description, name:"description", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(networkProfileArn, name:"networkProfileArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(networkProfileName, name:"networkProfileName", parent: name, max: 100)
+            try validate(networkProfileName, name:"networkProfileName", parent: name, min: 1)
+            try validate(networkProfileName, name:"networkProfileName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(nextPassword, name:"nextPassword", parent: name, max: 128)
+            try validate(nextPassword, name:"nextPassword", parent: name, min: 0)
+            try validate(nextPassword, name:"nextPassword", parent: name, pattern: "(^$)|([\\x00-\\x7F]{5,})")
             try trustAnchors?.forEach {
-                try validate($0, name:"trustAnchors[]", pattern: "-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?")
+                try validate($0, name: "trustAnchors[]", parent: name, pattern: "-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?")
             }
-            try validate(trustAnchors, name:"trustAnchors", max: 5)
-            try validate(trustAnchors, name:"trustAnchors", min: 1)
+            try validate(trustAnchors, name:"trustAnchors", parent: name, max: 5)
+            try validate(trustAnchors, name:"trustAnchors", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6246,15 +6246,15 @@ extension AlexaForBusiness {
             self.wakeWord = wakeWord
         }
 
-        public func validate() throws {
-            try validate(address, name:"address", max: 500)
-            try validate(address, name:"address", min: 1)
-            try validate(profileArn, name:"profileArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(profileName, name:"profileName", max: 100)
-            try validate(profileName, name:"profileName", min: 1)
-            try validate(profileName, name:"profileName", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try validate(timezone, name:"timezone", max: 100)
-            try validate(timezone, name:"timezone", min: 1)
+        public func validate(name: String) throws {
+            try validate(address, name:"address", parent: name, max: 500)
+            try validate(address, name:"address", parent: name, min: 1)
+            try validate(profileArn, name:"profileArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(profileName, name:"profileName", parent: name, max: 100)
+            try validate(profileName, name:"profileName", parent: name, min: 1)
+            try validate(profileName, name:"profileName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(timezone, name:"timezone", parent: name, max: 100)
+            try validate(timezone, name:"timezone", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6308,17 +6308,17 @@ extension AlexaForBusiness {
             self.roomName = roomName
         }
 
-        public func validate() throws {
-            try validate(description, name:"description", max: 200)
-            try validate(description, name:"description", min: 1)
-            try validate(description, name:"description", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try validate(profileArn, name:"profileArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(providerCalendarId, name:"providerCalendarId", max: 100)
-            try validate(providerCalendarId, name:"providerCalendarId", min: 0)
-            try validate(roomArn, name:"roomArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(roomName, name:"roomName", max: 100)
-            try validate(roomName, name:"roomName", min: 1)
-            try validate(roomName, name:"roomName", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+        public func validate(name: String) throws {
+            try validate(description, name:"description", parent: name, max: 200)
+            try validate(description, name:"description", parent: name, min: 1)
+            try validate(description, name:"description", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(profileArn, name:"profileArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(providerCalendarId, name:"providerCalendarId", parent: name, max: 100)
+            try validate(providerCalendarId, name:"providerCalendarId", parent: name, min: 0)
+            try validate(roomArn, name:"roomArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(roomName, name:"roomName", parent: name, max: 100)
+            try validate(roomName, name:"roomName", parent: name, min: 1)
+            try validate(roomName, name:"roomName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6358,14 +6358,14 @@ extension AlexaForBusiness {
             self.skillGroupName = skillGroupName
         }
 
-        public func validate() throws {
-            try validate(description, name:"description", max: 200)
-            try validate(description, name:"description", min: 1)
-            try validate(description, name:"description", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
-            try validate(skillGroupArn, name:"skillGroupArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
-            try validate(skillGroupName, name:"skillGroupName", max: 100)
-            try validate(skillGroupName, name:"skillGroupName", min: 1)
-            try validate(skillGroupName, name:"skillGroupName", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+        public func validate(name: String) throws {
+            try validate(description, name:"description", parent: name, max: 200)
+            try validate(description, name:"description", parent: name, min: 1)
+            try validate(description, name:"description", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(skillGroupArn, name:"skillGroupArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(skillGroupName, name:"skillGroupName", parent: name, max: 100)
+            try validate(skillGroupName, name:"skillGroupName", parent: name, min: 1)
+            try validate(skillGroupName, name:"skillGroupName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
         }
 
         private enum CodingKeys: String, CodingKey {

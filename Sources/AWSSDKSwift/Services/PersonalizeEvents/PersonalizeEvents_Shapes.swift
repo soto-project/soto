@@ -29,13 +29,13 @@ extension PersonalizeEvents {
             self.sentAt = sentAt
         }
 
-        public func validate() throws {
-            try validate(eventId, name:"eventId", max: 256)
-            try validate(eventId, name:"eventId", min: 1)
-            try validate(eventType, name:"eventType", max: 256)
-            try validate(eventType, name:"eventType", min: 1)
-            try validate(properties, name:"properties", max: 1024)
-            try validate(properties, name:"properties", min: 1)
+        public func validate(name: String) throws {
+            try validate(eventId, name:"eventId", parent: name, max: 256)
+            try validate(eventId, name:"eventId", parent: name, min: 1)
+            try validate(eventType, name:"eventType", parent: name, max: 256)
+            try validate(eventType, name:"eventType", parent: name, min: 1)
+            try validate(properties, name:"properties", parent: name, max: 1024)
+            try validate(properties, name:"properties", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -70,18 +70,18 @@ extension PersonalizeEvents {
             self.userId = userId
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try eventList.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).eventList[]")
             }
-            try validate(eventList, name:"eventList", max: 10)
-            try validate(eventList, name:"eventList", min: 1)
-            try validate(sessionId, name:"sessionId", max: 256)
-            try validate(sessionId, name:"sessionId", min: 1)
-            try validate(trackingId, name:"trackingId", max: 256)
-            try validate(trackingId, name:"trackingId", min: 1)
-            try validate(userId, name:"userId", max: 256)
-            try validate(userId, name:"userId", min: 1)
+            try validate(eventList, name:"eventList", parent: name, max: 10)
+            try validate(eventList, name:"eventList", parent: name, min: 1)
+            try validate(sessionId, name:"sessionId", parent: name, max: 256)
+            try validate(sessionId, name:"sessionId", parent: name, min: 1)
+            try validate(trackingId, name:"trackingId", parent: name, max: 256)
+            try validate(trackingId, name:"trackingId", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, max: 256)
+            try validate(userId, name:"userId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

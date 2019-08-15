@@ -120,9 +120,9 @@ extension GlobalAccelerator {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(idempotencyToken, name:"idempotencyToken", max: 255)
-            try validate(name, name:"name", max: 255)
+        public func validate(name: String) throws {
+            try validate(idempotencyToken, name:"idempotencyToken", parent: name, max: 255)
+            try validate(name, name:"name", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -198,24 +198,24 @@ extension GlobalAccelerator {
             self.trafficDialPercentage = trafficDialPercentage
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try endpointConfigurations?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).endpointConfigurations[]")
             }
-            try validate(endpointConfigurations, name:"endpointConfigurations", max: 10)
-            try validate(endpointConfigurations, name:"endpointConfigurations", min: 0)
-            try validate(endpointGroupRegion, name:"endpointGroupRegion", max: 255)
-            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", max: 30)
-            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", min: 10)
-            try validate(healthCheckPath, name:"healthCheckPath", max: 255)
-            try validate(healthCheckPort, name:"healthCheckPort", max: 65535)
-            try validate(healthCheckPort, name:"healthCheckPort", min: 1)
-            try validate(idempotencyToken, name:"idempotencyToken", max: 255)
-            try validate(listenerArn, name:"listenerArn", max: 255)
-            try validate(thresholdCount, name:"thresholdCount", max: 10)
-            try validate(thresholdCount, name:"thresholdCount", min: 1)
-            try validate(trafficDialPercentage, name:"trafficDialPercentage", max: 100)
-            try validate(trafficDialPercentage, name:"trafficDialPercentage", min: 0)
+            try validate(endpointConfigurations, name:"endpointConfigurations", parent: name, max: 10)
+            try validate(endpointConfigurations, name:"endpointConfigurations", parent: name, min: 0)
+            try validate(endpointGroupRegion, name:"endpointGroupRegion", parent: name, max: 255)
+            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", parent: name, max: 30)
+            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", parent: name, min: 10)
+            try validate(healthCheckPath, name:"healthCheckPath", parent: name, max: 255)
+            try validate(healthCheckPort, name:"healthCheckPort", parent: name, max: 65535)
+            try validate(healthCheckPort, name:"healthCheckPort", parent: name, min: 1)
+            try validate(idempotencyToken, name:"idempotencyToken", parent: name, max: 255)
+            try validate(listenerArn, name:"listenerArn", parent: name, max: 255)
+            try validate(thresholdCount, name:"thresholdCount", parent: name, max: 10)
+            try validate(thresholdCount, name:"thresholdCount", parent: name, min: 1)
+            try validate(trafficDialPercentage, name:"trafficDialPercentage", parent: name, max: 100)
+            try validate(trafficDialPercentage, name:"trafficDialPercentage", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -277,14 +277,14 @@ extension GlobalAccelerator {
             self.`protocol` = `protocol`
         }
 
-        public func validate() throws {
-            try validate(acceleratorArn, name:"acceleratorArn", max: 255)
-            try validate(idempotencyToken, name:"idempotencyToken", max: 255)
+        public func validate(name: String) throws {
+            try validate(acceleratorArn, name:"acceleratorArn", parent: name, max: 255)
+            try validate(idempotencyToken, name:"idempotencyToken", parent: name, max: 255)
             try portRanges.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).portRanges[]")
             }
-            try validate(portRanges, name:"portRanges", max: 10)
-            try validate(portRanges, name:"portRanges", min: 1)
+            try validate(portRanges, name:"portRanges", parent: name, max: 10)
+            try validate(portRanges, name:"portRanges", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -325,8 +325,8 @@ extension GlobalAccelerator {
             self.acceleratorArn = acceleratorArn
         }
 
-        public func validate() throws {
-            try validate(acceleratorArn, name:"acceleratorArn", max: 255)
+        public func validate(name: String) throws {
+            try validate(acceleratorArn, name:"acceleratorArn", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -346,8 +346,8 @@ extension GlobalAccelerator {
             self.endpointGroupArn = endpointGroupArn
         }
 
-        public func validate() throws {
-            try validate(endpointGroupArn, name:"endpointGroupArn", max: 255)
+        public func validate(name: String) throws {
+            try validate(endpointGroupArn, name:"endpointGroupArn", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -367,8 +367,8 @@ extension GlobalAccelerator {
             self.listenerArn = listenerArn
         }
 
-        public func validate() throws {
-            try validate(listenerArn, name:"listenerArn", max: 255)
+        public func validate(name: String) throws {
+            try validate(listenerArn, name:"listenerArn", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -388,8 +388,8 @@ extension GlobalAccelerator {
             self.acceleratorArn = acceleratorArn
         }
 
-        public func validate() throws {
-            try validate(acceleratorArn, name:"acceleratorArn", max: 255)
+        public func validate(name: String) throws {
+            try validate(acceleratorArn, name:"acceleratorArn", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -426,8 +426,8 @@ extension GlobalAccelerator {
             self.acceleratorArn = acceleratorArn
         }
 
-        public func validate() throws {
-            try validate(acceleratorArn, name:"acceleratorArn", max: 255)
+        public func validate(name: String) throws {
+            try validate(acceleratorArn, name:"acceleratorArn", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -464,8 +464,8 @@ extension GlobalAccelerator {
             self.endpointGroupArn = endpointGroupArn
         }
 
-        public func validate() throws {
-            try validate(endpointGroupArn, name:"endpointGroupArn", max: 255)
+        public func validate(name: String) throws {
+            try validate(endpointGroupArn, name:"endpointGroupArn", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -502,8 +502,8 @@ extension GlobalAccelerator {
             self.listenerArn = listenerArn
         }
 
-        public func validate() throws {
-            try validate(listenerArn, name:"listenerArn", max: 255)
+        public func validate(name: String) throws {
+            try validate(listenerArn, name:"listenerArn", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -544,10 +544,10 @@ extension GlobalAccelerator {
             self.weight = weight
         }
 
-        public func validate() throws {
-            try validate(endpointId, name:"endpointId", max: 255)
-            try validate(weight, name:"weight", max: 255)
-            try validate(weight, name:"weight", min: 0)
+        public func validate(name: String) throws {
+            try validate(endpointId, name:"endpointId", parent: name, max: 255)
+            try validate(weight, name:"weight", parent: name, max: 255)
+            try validate(weight, name:"weight", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -702,10 +702,10 @@ extension GlobalAccelerator {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 255)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -756,11 +756,11 @@ extension GlobalAccelerator {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(listenerArn, name:"listenerArn", max: 255)
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 255)
+        public func validate(name: String) throws {
+            try validate(listenerArn, name:"listenerArn", parent: name, max: 255)
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -812,11 +812,11 @@ extension GlobalAccelerator {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(acceleratorArn, name:"acceleratorArn", max: 255)
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 255)
+        public func validate(name: String) throws {
+            try validate(acceleratorArn, name:"acceleratorArn", parent: name, max: 255)
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -896,11 +896,11 @@ extension GlobalAccelerator {
             self.toPort = toPort
         }
 
-        public func validate() throws {
-            try validate(fromPort, name:"fromPort", max: 65535)
-            try validate(fromPort, name:"fromPort", min: 1)
-            try validate(toPort, name:"toPort", max: 65535)
-            try validate(toPort, name:"toPort", min: 1)
+        public func validate(name: String) throws {
+            try validate(fromPort, name:"fromPort", parent: name, max: 65535)
+            try validate(fromPort, name:"fromPort", parent: name, min: 1)
+            try validate(toPort, name:"toPort", parent: name, max: 65535)
+            try validate(toPort, name:"toPort", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -939,10 +939,10 @@ extension GlobalAccelerator {
             self.flowLogsS3Prefix = flowLogsS3Prefix
         }
 
-        public func validate() throws {
-            try validate(acceleratorArn, name:"acceleratorArn", max: 255)
-            try validate(flowLogsS3Bucket, name:"flowLogsS3Bucket", max: 255)
-            try validate(flowLogsS3Prefix, name:"flowLogsS3Prefix", max: 255)
+        public func validate(name: String) throws {
+            try validate(acceleratorArn, name:"acceleratorArn", parent: name, max: 255)
+            try validate(flowLogsS3Bucket, name:"flowLogsS3Bucket", parent: name, max: 255)
+            try validate(flowLogsS3Prefix, name:"flowLogsS3Prefix", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -994,9 +994,9 @@ extension GlobalAccelerator {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(acceleratorArn, name:"acceleratorArn", max: 255)
-            try validate(name, name:"name", max: 255)
+        public func validate(name: String) throws {
+            try validate(acceleratorArn, name:"acceleratorArn", parent: name, max: 255)
+            try validate(name, name:"name", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1064,22 +1064,22 @@ extension GlobalAccelerator {
             self.trafficDialPercentage = trafficDialPercentage
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try endpointConfigurations?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).endpointConfigurations[]")
             }
-            try validate(endpointConfigurations, name:"endpointConfigurations", max: 10)
-            try validate(endpointConfigurations, name:"endpointConfigurations", min: 0)
-            try validate(endpointGroupArn, name:"endpointGroupArn", max: 255)
-            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", max: 30)
-            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", min: 10)
-            try validate(healthCheckPath, name:"healthCheckPath", max: 255)
-            try validate(healthCheckPort, name:"healthCheckPort", max: 65535)
-            try validate(healthCheckPort, name:"healthCheckPort", min: 1)
-            try validate(thresholdCount, name:"thresholdCount", max: 10)
-            try validate(thresholdCount, name:"thresholdCount", min: 1)
-            try validate(trafficDialPercentage, name:"trafficDialPercentage", max: 100)
-            try validate(trafficDialPercentage, name:"trafficDialPercentage", min: 0)
+            try validate(endpointConfigurations, name:"endpointConfigurations", parent: name, max: 10)
+            try validate(endpointConfigurations, name:"endpointConfigurations", parent: name, min: 0)
+            try validate(endpointGroupArn, name:"endpointGroupArn", parent: name, max: 255)
+            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", parent: name, max: 30)
+            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", parent: name, min: 10)
+            try validate(healthCheckPath, name:"healthCheckPath", parent: name, max: 255)
+            try validate(healthCheckPort, name:"healthCheckPort", parent: name, max: 65535)
+            try validate(healthCheckPort, name:"healthCheckPort", parent: name, min: 1)
+            try validate(thresholdCount, name:"thresholdCount", parent: name, max: 10)
+            try validate(thresholdCount, name:"thresholdCount", parent: name, min: 1)
+            try validate(trafficDialPercentage, name:"trafficDialPercentage", parent: name, max: 100)
+            try validate(trafficDialPercentage, name:"trafficDialPercentage", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1135,13 +1135,13 @@ extension GlobalAccelerator {
             self.`protocol` = `protocol`
         }
 
-        public func validate() throws {
-            try validate(listenerArn, name:"listenerArn", max: 255)
+        public func validate(name: String) throws {
+            try validate(listenerArn, name:"listenerArn", parent: name, max: 255)
             try portRanges?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).portRanges[]")
             }
-            try validate(portRanges, name:"portRanges", max: 10)
-            try validate(portRanges, name:"portRanges", min: 1)
+            try validate(portRanges, name:"portRanges", parent: name, max: 10)
+            try validate(portRanges, name:"portRanges", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -73,11 +73,11 @@ extension Support {
             self.communicationBody = communicationBody
         }
 
-        public func validate() throws {
-            try validate(ccEmailAddresses, name:"ccEmailAddresses", max: 10)
-            try validate(ccEmailAddresses, name:"ccEmailAddresses", min: 0)
-            try validate(communicationBody, name:"communicationBody", max: 8000)
-            try validate(communicationBody, name:"communicationBody", min: 1)
+        public func validate(name: String) throws {
+            try validate(ccEmailAddresses, name:"ccEmailAddresses", parent: name, max: 10)
+            try validate(ccEmailAddresses, name:"ccEmailAddresses", parent: name, min: 0)
+            try validate(communicationBody, name:"communicationBody", parent: name, max: 8000)
+            try validate(communicationBody, name:"communicationBody", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -324,11 +324,11 @@ extension Support {
             self.subject = subject
         }
 
-        public func validate() throws {
-            try validate(ccEmailAddresses, name:"ccEmailAddresses", max: 10)
-            try validate(ccEmailAddresses, name:"ccEmailAddresses", min: 0)
-            try validate(communicationBody, name:"communicationBody", max: 8000)
-            try validate(communicationBody, name:"communicationBody", min: 1)
+        public func validate(name: String) throws {
+            try validate(ccEmailAddresses, name:"ccEmailAddresses", parent: name, max: 10)
+            try validate(ccEmailAddresses, name:"ccEmailAddresses", parent: name, min: 0)
+            try validate(communicationBody, name:"communicationBody", parent: name, max: 8000)
+            try validate(communicationBody, name:"communicationBody", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -439,11 +439,11 @@ extension Support {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(caseIdList, name:"caseIdList", max: 100)
-            try validate(caseIdList, name:"caseIdList", min: 0)
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 10)
+        public func validate(name: String) throws {
+            try validate(caseIdList, name:"caseIdList", parent: name, max: 100)
+            try validate(caseIdList, name:"caseIdList", parent: name, min: 0)
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 10)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -509,9 +509,9 @@ extension Support {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 10)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 10)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -561,9 +561,9 @@ extension Support {
             self.serviceCodeList = serviceCodeList
         }
 
-        public func validate() throws {
-            try validate(serviceCodeList, name:"serviceCodeList", max: 100)
-            try validate(serviceCodeList, name:"serviceCodeList", min: 0)
+        public func validate(name: String) throws {
+            try validate(serviceCodeList, name:"serviceCodeList", parent: name, max: 100)
+            try validate(serviceCodeList, name:"serviceCodeList", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

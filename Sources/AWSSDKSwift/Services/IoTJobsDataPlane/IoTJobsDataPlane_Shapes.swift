@@ -29,11 +29,11 @@ extension IoTJobsDataPlane {
             self.thingName = thingName
         }
 
-        public func validate() throws {
-            try validate(jobId, name:"jobId", pattern: "[a-zA-Z0-9_-]+|^\\$next")
-            try validate(thingName, name:"thingName", max: 128)
-            try validate(thingName, name:"thingName", min: 1)
-            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
+        public func validate(name: String) throws {
+            try validate(jobId, name:"jobId", parent: name, pattern: "[a-zA-Z0-9_-]+|^\\$next")
+            try validate(thingName, name:"thingName", parent: name, max: 128)
+            try validate(thingName, name:"thingName", parent: name, min: 1)
+            try validate(thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -73,10 +73,10 @@ extension IoTJobsDataPlane {
             self.thingName = thingName
         }
 
-        public func validate() throws {
-            try validate(thingName, name:"thingName", max: 128)
-            try validate(thingName, name:"thingName", min: 1)
-            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
+        public func validate(name: String) throws {
+            try validate(thingName, name:"thingName", parent: name, max: 128)
+            try validate(thingName, name:"thingName", parent: name, min: 1)
+            try validate(thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -274,18 +274,18 @@ extension IoTJobsDataPlane {
             self.thingName = thingName
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try statusDetails?.forEach {
-                try validate($0.key, name:"statusDetails[key:]", max: 128)
-                try validate($0.key, name:"statusDetails[key:]", min: 1)
-                try validate($0.key, name:"statusDetails[key:]", pattern: "[a-zA-Z0-9:_-]+")
-                try validate($0.value, name:"statusDetails[:value]", max: 1024)
-                try validate($0.value, name:"statusDetails[:value]", min: 1)
-                try validate($0.value, name:"statusDetails[:value]", pattern: "[^\\p{C}]*+")
+                try validate($0.key, name:"statusDetails.key", parent: name, max: 128)
+                try validate($0.key, name:"statusDetails.key", parent: name, min: 1)
+                try validate($0.key, name:"statusDetails.key", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+                try validate($0.value, name:"statusDetails[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name:"statusDetails[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name:"statusDetails[\"\($0.key)\"]", parent: name, pattern: "[^\\p{C}]*+")
             }
-            try validate(thingName, name:"thingName", max: 128)
-            try validate(thingName, name:"thingName", min: 1)
-            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
+            try validate(thingName, name:"thingName", parent: name, max: 128)
+            try validate(thingName, name:"thingName", parent: name, min: 1)
+            try validate(thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -356,21 +356,21 @@ extension IoTJobsDataPlane {
             self.thingName = thingName
         }
 
-        public func validate() throws {
-            try validate(jobId, name:"jobId", max: 64)
-            try validate(jobId, name:"jobId", min: 1)
-            try validate(jobId, name:"jobId", pattern: "[a-zA-Z0-9_-]+")
+        public func validate(name: String) throws {
+            try validate(jobId, name:"jobId", parent: name, max: 64)
+            try validate(jobId, name:"jobId", parent: name, min: 1)
+            try validate(jobId, name:"jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
             try statusDetails?.forEach {
-                try validate($0.key, name:"statusDetails[key:]", max: 128)
-                try validate($0.key, name:"statusDetails[key:]", min: 1)
-                try validate($0.key, name:"statusDetails[key:]", pattern: "[a-zA-Z0-9:_-]+")
-                try validate($0.value, name:"statusDetails[:value]", max: 1024)
-                try validate($0.value, name:"statusDetails[:value]", min: 1)
-                try validate($0.value, name:"statusDetails[:value]", pattern: "[^\\p{C}]*+")
+                try validate($0.key, name:"statusDetails.key", parent: name, max: 128)
+                try validate($0.key, name:"statusDetails.key", parent: name, min: 1)
+                try validate($0.key, name:"statusDetails.key", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+                try validate($0.value, name:"statusDetails[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name:"statusDetails[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name:"statusDetails[\"\($0.key)\"]", parent: name, pattern: "[^\\p{C}]*+")
             }
-            try validate(thingName, name:"thingName", max: 128)
-            try validate(thingName, name:"thingName", min: 1)
-            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
+            try validate(thingName, name:"thingName", parent: name, max: 128)
+            try validate(thingName, name:"thingName", parent: name, min: 1)
+            try validate(thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {

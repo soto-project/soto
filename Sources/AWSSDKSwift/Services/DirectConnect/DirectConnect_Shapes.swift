@@ -128,11 +128,11 @@ extension DirectConnect {
             self.vlan = vlan
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -165,8 +165,8 @@ extension DirectConnect {
             self.ownerAccount = ownerAccount
         }
 
-        public func validate() throws {
-            try newPrivateVirtualInterfaceAllocation.validate()
+        public func validate(name: String) throws {
+            try newPrivateVirtualInterfaceAllocation.validate(name: "\(name).newPrivateVirtualInterfaceAllocation")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -196,8 +196,8 @@ extension DirectConnect {
             self.ownerAccount = ownerAccount
         }
 
-        public func validate() throws {
-            try newPublicVirtualInterfaceAllocation.validate()
+        public func validate(name: String) throws {
+            try newPublicVirtualInterfaceAllocation.validate(name: "\(name).newPublicVirtualInterfaceAllocation")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -227,8 +227,8 @@ extension DirectConnect {
             self.ownerAccount = ownerAccount
         }
 
-        public func validate() throws {
-            try newTransitVirtualInterfaceAllocation.validate()
+        public func validate(name: String) throws {
+            try newTransitVirtualInterfaceAllocation.validate(name: "\(name).newTransitVirtualInterfaceAllocation")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -765,11 +765,11 @@ extension DirectConnect {
             self.tags = tags
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -951,11 +951,11 @@ extension DirectConnect {
             self.tags = tags
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1003,15 +1003,15 @@ extension DirectConnect {
             self.tags = tags
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try childConnectionTags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).childConnectionTags[]")
             }
-            try validate(childConnectionTags, name:"childConnectionTags", min: 1)
+            try validate(childConnectionTags, name:"childConnectionTags", parent: name, min: 1)
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1041,8 +1041,8 @@ extension DirectConnect {
             self.newPrivateVirtualInterface = newPrivateVirtualInterface
         }
 
-        public func validate() throws {
-            try newPrivateVirtualInterface.validate()
+        public func validate(name: String) throws {
+            try newPrivateVirtualInterface.validate(name: "\(name).newPrivateVirtualInterface")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1067,8 +1067,8 @@ extension DirectConnect {
             self.newPublicVirtualInterface = newPublicVirtualInterface
         }
 
-        public func validate() throws {
-            try newPublicVirtualInterface.validate()
+        public func validate(name: String) throws {
+            try newPublicVirtualInterface.validate(name: "\(name).newPublicVirtualInterface")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1093,8 +1093,8 @@ extension DirectConnect {
             self.newTransitVirtualInterface = newTransitVirtualInterface
         }
 
-        public func validate() throws {
-            try newTransitVirtualInterface.validate()
+        public func validate(name: String) throws {
+            try newTransitVirtualInterface.validate(name: "\(name).newTransitVirtualInterface")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2525,11 +2525,11 @@ extension DirectConnect {
             self.vlan = vlan
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2591,11 +2591,11 @@ extension DirectConnect {
             self.vlan = vlan
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2655,11 +2655,11 @@ extension DirectConnect {
             self.vlan = vlan
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2719,11 +2719,11 @@ extension DirectConnect {
             self.vlan = vlan
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2787,11 +2787,11 @@ extension DirectConnect {
             self.vlan = vlan
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2852,11 +2852,11 @@ extension DirectConnect {
             self.vlan = vlan
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2927,13 +2927,13 @@ extension DirectConnect {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 128)
-            try validate(key, name:"key", min: 1)
-            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try validate(value, name:"value", max: 256)
-            try validate(value, name:"value", min: 0)
-            try validate(value, name:"value", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, min: 0)
+            try validate(value, name:"value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2958,11 +2958,11 @@ extension DirectConnect {
             self.tags = tags
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2995,11 +2995,11 @@ extension DirectConnect {
             self.tagKeys = tagKeys
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tagKeys.forEach {
-                try validate($0, name:"tagKeys[]", max: 128)
-                try validate($0, name:"tagKeys[]", min: 1)
-                try validate($0, name:"tagKeys[]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
         }
 

@@ -129,10 +129,10 @@ extension LexRuntimeService {
             self.userId = userId
         }
 
-        public func validate() throws {
-            try validate(userId, name:"userId", max: 100)
-            try validate(userId, name:"userId", min: 2)
-            try validate(userId, name:"userId", pattern: "[0-9a-zA-Z._:-]+")
+        public func validate(name: String) throws {
+            try validate(userId, name:"userId", parent: name, max: 100)
+            try validate(userId, name:"userId", parent: name, min: 2)
+            try validate(userId, name:"userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -243,12 +243,12 @@ extension LexRuntimeService {
             self.userId = userId
         }
 
-        public func validate() throws {
-            try validate(inputText, name:"inputText", max: 1024)
-            try validate(inputText, name:"inputText", min: 1)
-            try validate(userId, name:"userId", max: 100)
-            try validate(userId, name:"userId", min: 2)
-            try validate(userId, name:"userId", pattern: "[0-9a-zA-Z._:-]+")
+        public func validate(name: String) throws {
+            try validate(inputText, name:"inputText", parent: name, max: 1024)
+            try validate(inputText, name:"inputText", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, max: 100)
+            try validate(userId, name:"userId", parent: name, min: 2)
+            try validate(userId, name:"userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
         }
 
         private enum CodingKeys: String, CodingKey {

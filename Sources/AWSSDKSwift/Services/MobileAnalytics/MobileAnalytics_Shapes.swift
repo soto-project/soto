@@ -37,22 +37,22 @@ extension MobileAnalytics {
             self.version = version
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try attributes?.forEach {
-                try validate($0.key, name:"attributes[key:]", max: 50)
-                try validate($0.key, name:"attributes[key:]", min: 1)
-                try validate($0.value, name:"attributes[:value]", max: 1000)
-                try validate($0.value, name:"attributes[:value]", min: 0)
+                try validate($0.key, name:"attributes.key", parent: name, max: 50)
+                try validate($0.key, name:"attributes.key", parent: name, min: 1)
+                try validate($0.value, name:"attributes[\"\($0.key)\"]", parent: name, max: 1000)
+                try validate($0.value, name:"attributes[\"\($0.key)\"]", parent: name, min: 0)
             }
-            try validate(eventType, name:"eventType", max: 50)
-            try validate(eventType, name:"eventType", min: 1)
+            try validate(eventType, name:"eventType", parent: name, max: 50)
+            try validate(eventType, name:"eventType", parent: name, min: 1)
             try metrics?.forEach {
-                try validate($0.key, name:"metrics[key:]", max: 50)
-                try validate($0.key, name:"metrics[key:]", min: 1)
+                try validate($0.key, name:"metrics.key", parent: name, max: 50)
+                try validate($0.key, name:"metrics.key", parent: name, min: 1)
             }
-            try session?.validate()
-            try validate(version, name:"version", max: 10)
-            try validate(version, name:"version", min: 1)
+            try session?.validate(name: "\(name).session")
+            try validate(version, name:"version", parent: name, max: 10)
+            try validate(version, name:"version", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -85,9 +85,9 @@ extension MobileAnalytics {
             self.events = events
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try events.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).events[]")
             }
         }
 
@@ -122,9 +122,9 @@ extension MobileAnalytics {
             self.stopTimestamp = stopTimestamp
         }
 
-        public func validate() throws {
-            try validate(id, name:"id", max: 50)
-            try validate(id, name:"id", min: 1)
+        public func validate(name: String) throws {
+            try validate(id, name:"id", parent: name, max: 50)
+            try validate(id, name:"id", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

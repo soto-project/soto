@@ -92,11 +92,11 @@ extension ELB {
             self.tags = tags
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -129,11 +129,11 @@ extension ELB {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 256)
-            try validate(key, name:"key", pattern: "^[a-zA-Z0-9.]+$")
-            try validate(value, name:"value", max: 256)
-            try validate(value, name:"value", pattern: "^[a-zA-Z0-9.]+$")
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 256)
+            try validate(key, name:"key", parent: name, pattern: "^[a-zA-Z0-9.]+$")
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, pattern: "^[a-zA-Z0-9.]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -280,8 +280,8 @@ extension ELB {
             self.loadBalancerName = loadBalancerName
         }
 
-        public func validate() throws {
-            try healthCheck.validate()
+        public func validate(name: String) throws {
+            try healthCheck.validate(name: "\(name).healthCheck")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -341,9 +341,9 @@ extension ELB {
             self.idleTimeout = idleTimeout
         }
 
-        public func validate() throws {
-            try validate(idleTimeout, name:"idleTimeout", max: 3600)
-            try validate(idleTimeout, name:"idleTimeout", min: 1)
+        public func validate(name: String) throws {
+            try validate(idleTimeout, name:"idleTimeout", parent: name, max: 3600)
+            try validate(idleTimeout, name:"idleTimeout", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -387,14 +387,14 @@ extension ELB {
             self.tags = tags
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try listeners.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).listeners[]")
             }
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -511,9 +511,9 @@ extension ELB {
             self.loadBalancerName = loadBalancerName
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try listeners.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).listeners[]")
             }
         }
 
@@ -732,9 +732,9 @@ extension ELB {
             self.pageSize = pageSize
         }
 
-        public func validate() throws {
-            try validate(pageSize, name:"pageSize", max: 400)
-            try validate(pageSize, name:"pageSize", min: 1)
+        public func validate(name: String) throws {
+            try validate(pageSize, name:"pageSize", parent: name, max: 400)
+            try validate(pageSize, name:"pageSize", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -782,9 +782,9 @@ extension ELB {
             self.pageSize = pageSize
         }
 
-        public func validate() throws {
-            try validate(pageSize, name:"pageSize", max: 400)
-            try validate(pageSize, name:"pageSize", min: 1)
+        public func validate(name: String) throws {
+            try validate(pageSize, name:"pageSize", parent: name, max: 400)
+            try validate(pageSize, name:"pageSize", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -973,9 +973,9 @@ extension ELB {
             self.loadBalancerNames = loadBalancerNames
         }
 
-        public func validate() throws {
-            try validate(loadBalancerNames, name:"loadBalancerNames", max: 20)
-            try validate(loadBalancerNames, name:"loadBalancerNames", min: 1)
+        public func validate(name: String) throws {
+            try validate(loadBalancerNames, name:"loadBalancerNames", parent: name, max: 20)
+            try validate(loadBalancerNames, name:"loadBalancerNames", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1067,15 +1067,15 @@ extension ELB {
             self.unhealthyThreshold = unhealthyThreshold
         }
 
-        public func validate() throws {
-            try validate(healthyThreshold, name:"healthyThreshold", max: 10)
-            try validate(healthyThreshold, name:"healthyThreshold", min: 2)
-            try validate(interval, name:"interval", max: 300)
-            try validate(interval, name:"interval", min: 5)
-            try validate(timeout, name:"timeout", max: 60)
-            try validate(timeout, name:"timeout", min: 2)
-            try validate(unhealthyThreshold, name:"unhealthyThreshold", max: 10)
-            try validate(unhealthyThreshold, name:"unhealthyThreshold", min: 2)
+        public func validate(name: String) throws {
+            try validate(healthyThreshold, name:"healthyThreshold", parent: name, max: 10)
+            try validate(healthyThreshold, name:"healthyThreshold", parent: name, min: 2)
+            try validate(interval, name:"interval", parent: name, max: 300)
+            try validate(interval, name:"interval", parent: name, min: 5)
+            try validate(timeout, name:"timeout", parent: name, max: 60)
+            try validate(timeout, name:"timeout", parent: name, min: 2)
+            try validate(unhealthyThreshold, name:"unhealthyThreshold", parent: name, max: 10)
+            try validate(unhealthyThreshold, name:"unhealthyThreshold", parent: name, min: 2)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1208,9 +1208,9 @@ extension ELB {
             self.sSLCertificateId = sSLCertificateId
         }
 
-        public func validate() throws {
-            try validate(instancePort, name:"instancePort", max: 65535)
-            try validate(instancePort, name:"instancePort", min: 1)
+        public func validate(name: String) throws {
+            try validate(instancePort, name:"instancePort", parent: name, max: 65535)
+            try validate(instancePort, name:"instancePort", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1272,12 +1272,12 @@ extension ELB {
             self.crossZoneLoadBalancing = crossZoneLoadBalancing
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try additionalAttributes?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).additionalAttributes[]")
             }
-            try validate(additionalAttributes, name:"additionalAttributes", max: 10)
-            try connectionSettings?.validate()
+            try validate(additionalAttributes, name:"additionalAttributes", parent: name, max: 10)
+            try connectionSettings?.validate(name: "\(name).connectionSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1397,8 +1397,8 @@ extension ELB {
             self.loadBalancerName = loadBalancerName
         }
 
-        public func validate() throws {
-            try loadBalancerAttributes.validate()
+        public func validate(name: String) throws {
+            try loadBalancerAttributes.validate(name: "\(name).loadBalancerAttributes")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1685,11 +1685,11 @@ extension ELB {
             self.tags = tags
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", min: 1)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1849,13 +1849,13 @@ extension ELB {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 128)
-            try validate(key, name:"key", min: 1)
-            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try validate(value, name:"value", max: 256)
-            try validate(value, name:"value", min: 0)
-            try validate(value, name:"value", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, min: 0)
+            try validate(value, name:"value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1898,10 +1898,10 @@ extension ELB {
             self.key = key
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 128)
-            try validate(key, name:"key", min: 1)
-            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {

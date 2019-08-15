@@ -158,15 +158,15 @@ extension Amplify {
             self.stage = stage
         }
 
-        public func validate() throws {
-            try validate(basicAuthCredentials, name:"basicAuthCredentials", max: 2000)
-            try validate(buildSpec, name:"buildSpec", max: 25000)
-            try validate(buildSpec, name:"buildSpec", min: 1)
+        public func validate(name: String) throws {
+            try validate(basicAuthCredentials, name:"basicAuthCredentials", parent: name, max: 2000)
+            try validate(buildSpec, name:"buildSpec", parent: name, max: 25000)
+            try validate(buildSpec, name:"buildSpec", parent: name, min: 1)
             try environmentVariables?.forEach {
-                try validate($0.key, name:"environmentVariables[key:]", max: 255)
-                try validate($0.value, name:"environmentVariables[:value]", max: 1000)
+                try validate($0.key, name:"environmentVariables.key", parent: name, max: 255)
+                try validate($0.value, name:"environmentVariables[\"\($0.key)\"]", parent: name, max: 1000)
             }
-            try validate(framework, name:"framework", max: 255)
+            try validate(framework, name:"framework", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -373,36 +373,36 @@ extension Amplify {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(accessToken, name:"accessToken", max: 255)
-            try validate(accessToken, name:"accessToken", min: 1)
-            try autoBranchCreationConfig?.validate()
+        public func validate(name: String) throws {
+            try validate(accessToken, name:"accessToken", parent: name, max: 255)
+            try validate(accessToken, name:"accessToken", parent: name, min: 1)
+            try autoBranchCreationConfig?.validate(name: "\(name).autoBranchCreationConfig")
             try autoBranchCreationPatterns?.forEach {
-                try validate($0, name:"autoBranchCreationPatterns[]", max: 2048)
-                try validate($0, name:"autoBranchCreationPatterns[]", min: 1)
+                try validate($0, name: "autoBranchCreationPatterns[]", parent: name, max: 2048)
+                try validate($0, name: "autoBranchCreationPatterns[]", parent: name, min: 1)
             }
-            try validate(basicAuthCredentials, name:"basicAuthCredentials", max: 2000)
-            try validate(buildSpec, name:"buildSpec", max: 25000)
-            try validate(buildSpec, name:"buildSpec", min: 1)
+            try validate(basicAuthCredentials, name:"basicAuthCredentials", parent: name, max: 2000)
+            try validate(buildSpec, name:"buildSpec", parent: name, max: 25000)
+            try validate(buildSpec, name:"buildSpec", parent: name, min: 1)
             try customRules?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).customRules[]")
             }
-            try validate(description, name:"description", max: 1000)
+            try validate(description, name:"description", parent: name, max: 1000)
             try environmentVariables?.forEach {
-                try validate($0.key, name:"environmentVariables[key:]", max: 255)
-                try validate($0.value, name:"environmentVariables[:value]", max: 1000)
+                try validate($0.key, name:"environmentVariables.key", parent: name, max: 255)
+                try validate($0.value, name:"environmentVariables[\"\($0.key)\"]", parent: name, max: 1000)
             }
-            try validate(iamServiceRoleArn, name:"iamServiceRoleArn", max: 1000)
-            try validate(iamServiceRoleArn, name:"iamServiceRoleArn", min: 1)
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
-            try validate(oauthToken, name:"oauthToken", max: 100)
-            try validate(repository, name:"repository", max: 1000)
+            try validate(iamServiceRoleArn, name:"iamServiceRoleArn", parent: name, max: 1000)
+            try validate(iamServiceRoleArn, name:"iamServiceRoleArn", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 255)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(oauthToken, name:"oauthToken", parent: name, max: 100)
+            try validate(repository, name:"repository", parent: name, max: 1000)
             try tags?.forEach {
-                try validate($0.key, name:"tags[key:]", max: 128)
-                try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
-                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
             }
         }
 
@@ -507,26 +507,26 @@ extension Amplify {
             self.ttl = ttl
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
-            try validate(basicAuthCredentials, name:"basicAuthCredentials", max: 2000)
-            try validate(branchName, name:"branchName", max: 255)
-            try validate(branchName, name:"branchName", min: 1)
-            try validate(buildSpec, name:"buildSpec", max: 25000)
-            try validate(buildSpec, name:"buildSpec", min: 1)
-            try validate(description, name:"description", max: 1000)
-            try validate(displayName, name:"displayName", max: 255)
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
+            try validate(basicAuthCredentials, name:"basicAuthCredentials", parent: name, max: 2000)
+            try validate(branchName, name:"branchName", parent: name, max: 255)
+            try validate(branchName, name:"branchName", parent: name, min: 1)
+            try validate(buildSpec, name:"buildSpec", parent: name, max: 25000)
+            try validate(buildSpec, name:"buildSpec", parent: name, min: 1)
+            try validate(description, name:"description", parent: name, max: 1000)
+            try validate(displayName, name:"displayName", parent: name, max: 255)
             try environmentVariables?.forEach {
-                try validate($0.key, name:"environmentVariables[key:]", max: 255)
-                try validate($0.value, name:"environmentVariables[:value]", max: 1000)
+                try validate($0.key, name:"environmentVariables.key", parent: name, max: 255)
+                try validate($0.value, name:"environmentVariables[\"\($0.key)\"]", parent: name, max: 1000)
             }
-            try validate(framework, name:"framework", max: 255)
+            try validate(framework, name:"framework", parent: name, max: 255)
             try tags?.forEach {
-                try validate($0.key, name:"tags[key:]", max: 128)
-                try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
-                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
             }
         }
 
@@ -585,14 +585,14 @@ extension Amplify {
             self.fileMap = fileMap
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
-            try validate(branchName, name:"branchName", max: 255)
-            try validate(branchName, name:"branchName", min: 1)
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
+            try validate(branchName, name:"branchName", parent: name, max: 255)
+            try validate(branchName, name:"branchName", parent: name, min: 1)
             try fileMap?.forEach {
-                try validate($0.key, name:"fileMap[key:]", max: 255)
-                try validate($0.value, name:"fileMap[:value]", max: 32)
+                try validate($0.key, name:"fileMap.key", parent: name, max: 255)
+                try validate($0.value, name:"fileMap[\"\($0.key)\"]", parent: name, max: 32)
             }
         }
 
@@ -654,14 +654,14 @@ extension Amplify {
             self.subDomainSettings = subDomainSettings
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
-            try validate(domainName, name:"domainName", max: 255)
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
+            try validate(domainName, name:"domainName", parent: name, max: 255)
             try subDomainSettings.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).subDomainSettings[]")
             }
-            try validate(subDomainSettings, name:"subDomainSettings", max: 255)
+            try validate(subDomainSettings, name:"subDomainSettings", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -709,12 +709,12 @@ extension Amplify {
             self.description = description
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
-            try validate(branchName, name:"branchName", max: 255)
-            try validate(branchName, name:"branchName", min: 1)
-            try validate(description, name:"description", max: 1000)
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
+            try validate(branchName, name:"branchName", parent: name, max: 255)
+            try validate(branchName, name:"branchName", parent: name, min: 1)
+            try validate(description, name:"description", parent: name, max: 1000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -765,15 +765,15 @@ extension Amplify {
             self.target = target
         }
 
-        public func validate() throws {
-            try validate(condition, name:"condition", max: 2048)
-            try validate(condition, name:"condition", min: 1)
-            try validate(source, name:"source", max: 2048)
-            try validate(source, name:"source", min: 1)
-            try validate(status, name:"status", max: 3)
-            try validate(status, name:"status", min: 3)
-            try validate(target, name:"target", max: 2048)
-            try validate(target, name:"target", min: 1)
+        public func validate(name: String) throws {
+            try validate(condition, name:"condition", parent: name, max: 2048)
+            try validate(condition, name:"condition", parent: name, min: 1)
+            try validate(source, name:"source", parent: name, max: 2048)
+            try validate(source, name:"source", parent: name, min: 1)
+            try validate(status, name:"status", parent: name, max: 3)
+            try validate(status, name:"status", parent: name, min: 3)
+            try validate(target, name:"target", parent: name, max: 2048)
+            try validate(target, name:"target", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -796,9 +796,9 @@ extension Amplify {
             self.appId = appId
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -838,11 +838,11 @@ extension Amplify {
             self.branchName = branchName
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
-            try validate(branchName, name:"branchName", max: 255)
-            try validate(branchName, name:"branchName", min: 1)
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
+            try validate(branchName, name:"branchName", parent: name, max: 255)
+            try validate(branchName, name:"branchName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -884,10 +884,10 @@ extension Amplify {
             self.domainName = domainName
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
-            try validate(domainName, name:"domainName", max: 255)
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
+            try validate(domainName, name:"domainName", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -932,12 +932,12 @@ extension Amplify {
             self.jobId = jobId
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
-            try validate(branchName, name:"branchName", max: 255)
-            try validate(branchName, name:"branchName", min: 1)
-            try validate(jobId, name:"jobId", max: 255)
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
+            try validate(branchName, name:"branchName", parent: name, max: 255)
+            try validate(branchName, name:"branchName", parent: name, min: 1)
+            try validate(jobId, name:"jobId", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -975,8 +975,8 @@ extension Amplify {
             self.webhookId = webhookId
         }
 
-        public func validate() throws {
-            try validate(webhookId, name:"webhookId", max: 255)
+        public func validate(name: String) throws {
+            try validate(webhookId, name:"webhookId", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1072,9 +1072,9 @@ extension Amplify {
             self.appId = appId
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1114,11 +1114,11 @@ extension Amplify {
             self.branchName = branchName
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
-            try validate(branchName, name:"branchName", max: 255)
-            try validate(branchName, name:"branchName", min: 1)
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
+            try validate(branchName, name:"branchName", parent: name, max: 255)
+            try validate(branchName, name:"branchName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1159,10 +1159,10 @@ extension Amplify {
             self.domainName = domainName
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
-            try validate(domainName, name:"domainName", max: 255)
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
+            try validate(domainName, name:"domainName", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1208,12 +1208,12 @@ extension Amplify {
             self.jobId = jobId
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
-            try validate(branchName, name:"branchName", max: 255)
-            try validate(branchName, name:"branchName", min: 1)
-            try validate(jobId, name:"jobId", max: 255)
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
+            try validate(branchName, name:"branchName", parent: name, max: 255)
+            try validate(branchName, name:"branchName", parent: name, min: 1)
+            try validate(jobId, name:"jobId", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1251,8 +1251,8 @@ extension Amplify {
             self.webhookId = webhookId
         }
 
-        public func validate() throws {
-            try validate(webhookId, name:"webhookId", max: 255)
+        public func validate(name: String) throws {
+            try validate(webhookId, name:"webhookId", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1391,10 +1391,10 @@ extension Amplify {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 2000)
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1445,12 +1445,12 @@ extension Amplify {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 2000)
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1502,12 +1502,12 @@ extension Amplify {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 2000)
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1563,14 +1563,14 @@ extension Amplify {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
-            try validate(branchName, name:"branchName", max: 255)
-            try validate(branchName, name:"branchName", min: 1)
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 2000)
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
+            try validate(branchName, name:"branchName", parent: name, max: 255)
+            try validate(branchName, name:"branchName", parent: name, min: 1)
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1615,8 +1615,8 @@ extension Amplify {
             self.resourceArn = resourceArn
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", pattern: "^arn:aws:amplify:.*")
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:amplify:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1661,12 +1661,12 @@ extension Amplify {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
-            try validate(maxResults, name:"maxResults", max: 100)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 2000)
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1767,13 +1767,13 @@ extension Amplify {
             self.sourceUrl = sourceUrl
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
-            try validate(branchName, name:"branchName", max: 255)
-            try validate(branchName, name:"branchName", min: 1)
-            try validate(jobId, name:"jobId", max: 255)
-            try validate(sourceUrl, name:"sourceUrl", max: 1000)
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
+            try validate(branchName, name:"branchName", parent: name, max: 255)
+            try validate(branchName, name:"branchName", parent: name, min: 1)
+            try validate(jobId, name:"jobId", parent: name, max: 255)
+            try validate(sourceUrl, name:"sourceUrl", parent: name, max: 1000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1841,15 +1841,15 @@ extension Amplify {
             self.jobType = jobType
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
-            try validate(branchName, name:"branchName", max: 255)
-            try validate(branchName, name:"branchName", min: 1)
-            try validate(commitId, name:"commitId", max: 255)
-            try validate(commitMessage, name:"commitMessage", max: 10000)
-            try validate(jobId, name:"jobId", max: 255)
-            try validate(jobReason, name:"jobReason", max: 255)
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
+            try validate(branchName, name:"branchName", parent: name, max: 255)
+            try validate(branchName, name:"branchName", parent: name, min: 1)
+            try validate(commitId, name:"commitId", parent: name, max: 255)
+            try validate(commitMessage, name:"commitMessage", parent: name, max: 10000)
+            try validate(jobId, name:"jobId", parent: name, max: 255)
+            try validate(jobReason, name:"jobReason", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1958,12 +1958,12 @@ extension Amplify {
             self.jobId = jobId
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
-            try validate(branchName, name:"branchName", max: 255)
-            try validate(branchName, name:"branchName", min: 1)
-            try validate(jobId, name:"jobId", max: 255)
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
+            try validate(branchName, name:"branchName", parent: name, max: 255)
+            try validate(branchName, name:"branchName", parent: name, min: 1)
+            try validate(jobId, name:"jobId", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2033,10 +2033,10 @@ extension Amplify {
             self.prefix = prefix
         }
 
-        public func validate() throws {
-            try validate(branchName, name:"branchName", max: 255)
-            try validate(branchName, name:"branchName", min: 1)
-            try validate(prefix, name:"prefix", max: 255)
+        public func validate(name: String) throws {
+            try validate(branchName, name:"branchName", parent: name, max: 255)
+            try validate(branchName, name:"branchName", parent: name, min: 1)
+            try validate(prefix, name:"prefix", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2061,13 +2061,13 @@ extension Amplify {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", pattern: "^arn:aws:amplify:.*")
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:amplify:.*")
             try tags.forEach {
-                try validate($0.key, name:"tags[key:]", max: 128)
-                try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
-                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
             }
         }
 
@@ -2101,15 +2101,15 @@ extension Amplify {
             self.tagKeys = tagKeys
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", pattern: "^arn:aws:amplify:.*")
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:amplify:.*")
             try tagKeys.forEach {
-                try validate($0, name:"tagKeys[]", max: 128)
-                try validate($0, name:"tagKeys[]", min: 1)
-                try validate($0, name:"tagKeys[]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
             }
-            try validate(tagKeys, name:"tagKeys", max: 50)
-            try validate(tagKeys, name:"tagKeys", min: 1)
+            try validate(tagKeys, name:"tagKeys", parent: name, max: 50)
+            try validate(tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2190,29 +2190,29 @@ extension Amplify {
             self.platform = platform
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
-            try autoBranchCreationConfig?.validate()
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
+            try autoBranchCreationConfig?.validate(name: "\(name).autoBranchCreationConfig")
             try autoBranchCreationPatterns?.forEach {
-                try validate($0, name:"autoBranchCreationPatterns[]", max: 2048)
-                try validate($0, name:"autoBranchCreationPatterns[]", min: 1)
+                try validate($0, name: "autoBranchCreationPatterns[]", parent: name, max: 2048)
+                try validate($0, name: "autoBranchCreationPatterns[]", parent: name, min: 1)
             }
-            try validate(basicAuthCredentials, name:"basicAuthCredentials", max: 2000)
-            try validate(buildSpec, name:"buildSpec", max: 25000)
-            try validate(buildSpec, name:"buildSpec", min: 1)
+            try validate(basicAuthCredentials, name:"basicAuthCredentials", parent: name, max: 2000)
+            try validate(buildSpec, name:"buildSpec", parent: name, max: 25000)
+            try validate(buildSpec, name:"buildSpec", parent: name, min: 1)
             try customRules?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).customRules[]")
             }
-            try validate(description, name:"description", max: 1000)
+            try validate(description, name:"description", parent: name, max: 1000)
             try environmentVariables?.forEach {
-                try validate($0.key, name:"environmentVariables[key:]", max: 255)
-                try validate($0.value, name:"environmentVariables[:value]", max: 1000)
+                try validate($0.key, name:"environmentVariables.key", parent: name, max: 255)
+                try validate($0.value, name:"environmentVariables[\"\($0.key)\"]", parent: name, max: 1000)
             }
-            try validate(iamServiceRoleArn, name:"iamServiceRoleArn", max: 1000)
-            try validate(iamServiceRoleArn, name:"iamServiceRoleArn", min: 1)
-            try validate(name, name:"name", max: 255)
-            try validate(name, name:"name", min: 1)
+            try validate(iamServiceRoleArn, name:"iamServiceRoleArn", parent: name, max: 1000)
+            try validate(iamServiceRoleArn, name:"iamServiceRoleArn", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 255)
+            try validate(name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2310,21 +2310,21 @@ extension Amplify {
             self.ttl = ttl
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
-            try validate(basicAuthCredentials, name:"basicAuthCredentials", max: 2000)
-            try validate(branchName, name:"branchName", max: 255)
-            try validate(branchName, name:"branchName", min: 1)
-            try validate(buildSpec, name:"buildSpec", max: 25000)
-            try validate(buildSpec, name:"buildSpec", min: 1)
-            try validate(description, name:"description", max: 1000)
-            try validate(displayName, name:"displayName", max: 255)
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
+            try validate(basicAuthCredentials, name:"basicAuthCredentials", parent: name, max: 2000)
+            try validate(branchName, name:"branchName", parent: name, max: 255)
+            try validate(branchName, name:"branchName", parent: name, min: 1)
+            try validate(buildSpec, name:"buildSpec", parent: name, max: 25000)
+            try validate(buildSpec, name:"buildSpec", parent: name, min: 1)
+            try validate(description, name:"description", parent: name, max: 1000)
+            try validate(displayName, name:"displayName", parent: name, max: 255)
             try environmentVariables?.forEach {
-                try validate($0.key, name:"environmentVariables[key:]", max: 255)
-                try validate($0.value, name:"environmentVariables[:value]", max: 1000)
+                try validate($0.key, name:"environmentVariables.key", parent: name, max: 255)
+                try validate($0.value, name:"environmentVariables[\"\($0.key)\"]", parent: name, max: 1000)
             }
-            try validate(framework, name:"framework", max: 255)
+            try validate(framework, name:"framework", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2385,14 +2385,14 @@ extension Amplify {
             self.subDomainSettings = subDomainSettings
         }
 
-        public func validate() throws {
-            try validate(appId, name:"appId", max: 255)
-            try validate(appId, name:"appId", min: 1)
-            try validate(domainName, name:"domainName", max: 255)
+        public func validate(name: String) throws {
+            try validate(appId, name:"appId", parent: name, max: 255)
+            try validate(appId, name:"appId", parent: name, min: 1)
+            try validate(domainName, name:"domainName", parent: name, max: 255)
             try subDomainSettings.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).subDomainSettings[]")
             }
-            try validate(subDomainSettings, name:"subDomainSettings", max: 255)
+            try validate(subDomainSettings, name:"subDomainSettings", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2440,11 +2440,11 @@ extension Amplify {
             self.webhookId = webhookId
         }
 
-        public func validate() throws {
-            try validate(branchName, name:"branchName", max: 255)
-            try validate(branchName, name:"branchName", min: 1)
-            try validate(description, name:"description", max: 1000)
-            try validate(webhookId, name:"webhookId", max: 255)
+        public func validate(name: String) throws {
+            try validate(branchName, name:"branchName", parent: name, max: 255)
+            try validate(branchName, name:"branchName", parent: name, min: 1)
+            try validate(description, name:"description", parent: name, max: 1000)
+            try validate(webhookId, name:"webhookId", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {

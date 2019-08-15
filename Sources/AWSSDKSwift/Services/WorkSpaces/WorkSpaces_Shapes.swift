@@ -63,10 +63,10 @@ extension WorkSpaces {
             self.groupIds = groupIds
         }
 
-        public func validate() throws {
-            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{8,63}$")
+        public func validate(name: String) throws {
+            try validate(directoryId, name:"directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
             try groupIds.forEach {
-                try validate($0, name:"groupIds[]", pattern: "wsipg-[0-9a-z]{8,63}$")
+                try validate($0, name: "groupIds[]", parent: name, pattern: "wsipg-[0-9a-z]{8,63}$")
             }
         }
 
@@ -100,8 +100,8 @@ extension WorkSpaces {
             self.userRules = userRules
         }
 
-        public func validate() throws {
-            try validate(groupId, name:"groupId", pattern: "wsipg-[0-9a-z]{8,63}$")
+        public func validate(name: String) throws {
+            try validate(groupId, name:"groupId", parent: name, pattern: "wsipg-[0-9a-z]{8,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -220,19 +220,19 @@ extension WorkSpaces {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(description, name:"description", max: 256)
-            try validate(description, name:"description", min: 1)
-            try validate(description, name:"description", pattern: "^[a-zA-Z0-9_./() -]+$")
-            try validate(name, name:"name", max: 64)
-            try validate(name, name:"name", min: 1)
-            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_./()\\\\-]+$")
-            try validate(sourceImageId, name:"sourceImageId", pattern: "wsi-[0-9a-z]{9,63}$")
-            try validate(sourceRegion, name:"sourceRegion", max: 31)
-            try validate(sourceRegion, name:"sourceRegion", min: 1)
-            try validate(sourceRegion, name:"sourceRegion", pattern: "^[-0-9a-z]{1,31}$")
+        public func validate(name: String) throws {
+            try validate(description, name:"description", parent: name, max: 256)
+            try validate(description, name:"description", parent: name, min: 1)
+            try validate(description, name:"description", parent: name, pattern: "^[a-zA-Z0-9_./() -]+$")
+            try validate(name, name:"name", parent: name, max: 64)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_./()\\\\-]+$")
+            try validate(sourceImageId, name:"sourceImageId", parent: name, pattern: "wsi-[0-9a-z]{9,63}$")
+            try validate(sourceRegion, name:"sourceRegion", parent: name, max: 31)
+            try validate(sourceRegion, name:"sourceRegion", parent: name, min: 1)
+            try validate(sourceRegion, name:"sourceRegion", parent: name, pattern: "^[-0-9a-z]{1,31}$")
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
         }
 
@@ -286,9 +286,9 @@ extension WorkSpaces {
             self.userRules = userRules
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
         }
 
@@ -333,10 +333,10 @@ extension WorkSpaces {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(resourceId, name:"resourceId", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
             try tags.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
         }
 
@@ -366,12 +366,12 @@ extension WorkSpaces {
             self.workspaces = workspaces
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try workspaces.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).workspaces[]")
             }
-            try validate(workspaces, name:"workspaces", max: 25)
-            try validate(workspaces, name:"workspaces", min: 1)
+            try validate(workspaces, name:"workspaces", parent: name, max: 25)
+            try validate(workspaces, name:"workspaces", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -468,8 +468,8 @@ extension WorkSpaces {
             self.groupId = groupId
         }
 
-        public func validate() throws {
-            try validate(groupId, name:"groupId", pattern: "wsipg-[0-9a-z]{8,63}$")
+        public func validate(name: String) throws {
+            try validate(groupId, name:"groupId", parent: name, pattern: "wsipg-[0-9a-z]{8,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -501,10 +501,10 @@ extension WorkSpaces {
             self.tagKeys = tagKeys
         }
 
-        public func validate() throws {
-            try validate(resourceId, name:"resourceId", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
             try tagKeys.forEach {
-                try validate($0, name:"tagKeys[]", min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
         }
 
@@ -534,8 +534,8 @@ extension WorkSpaces {
             self.imageId = imageId
         }
 
-        public func validate() throws {
-            try validate(imageId, name:"imageId", pattern: "wsi-[0-9a-z]{9,63}$")
+        public func validate(name: String) throws {
+            try validate(imageId, name:"imageId", parent: name, pattern: "wsi-[0-9a-z]{9,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -563,9 +563,9 @@ extension WorkSpaces {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 63)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(nextToken, name:"nextToken", parent: name, max: 63)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -637,12 +637,12 @@ extension WorkSpaces {
             self.resourceIds = resourceIds
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try resourceIds.forEach {
-                try validate($0, name:"resourceIds[]", min: 1)
+                try validate($0, name: "resourceIds[]", parent: name, min: 1)
             }
-            try validate(resourceIds, name:"resourceIds", max: 25)
-            try validate(resourceIds, name:"resourceIds", min: 1)
+            try validate(resourceIds, name:"resourceIds", parent: name, max: 25)
+            try validate(resourceIds, name:"resourceIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -687,14 +687,14 @@ extension WorkSpaces {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try groupIds?.forEach {
-                try validate($0, name:"groupIds[]", pattern: "wsipg-[0-9a-z]{8,63}$")
+                try validate($0, name: "groupIds[]", parent: name, pattern: "wsipg-[0-9a-z]{8,63}$")
             }
-            try validate(maxResults, name:"maxResults", max: 25)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 63)
-            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(maxResults, name:"maxResults", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 63)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -738,8 +738,8 @@ extension WorkSpaces {
             self.resourceId = resourceId
         }
 
-        public func validate() throws {
-            try validate(resourceId, name:"resourceId", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -784,14 +784,14 @@ extension WorkSpaces {
             self.owner = owner
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try bundleIds?.forEach {
-                try validate($0, name:"bundleIds[]", pattern: "^wsb-[0-9a-z]{8,63}$")
+                try validate($0, name: "bundleIds[]", parent: name, pattern: "^wsb-[0-9a-z]{8,63}$")
             }
-            try validate(bundleIds, name:"bundleIds", max: 25)
-            try validate(bundleIds, name:"bundleIds", min: 1)
-            try validate(nextToken, name:"nextToken", max: 63)
-            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(bundleIds, name:"bundleIds", parent: name, max: 25)
+            try validate(bundleIds, name:"bundleIds", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 63)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -839,14 +839,14 @@ extension WorkSpaces {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try directoryIds?.forEach {
-                try validate($0, name:"directoryIds[]", pattern: "^d-[0-9a-f]{8,63}$")
+                try validate($0, name: "directoryIds[]", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
             }
-            try validate(directoryIds, name:"directoryIds", max: 25)
-            try validate(directoryIds, name:"directoryIds", min: 1)
-            try validate(nextToken, name:"nextToken", max: 63)
-            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(directoryIds, name:"directoryIds", parent: name, max: 25)
+            try validate(directoryIds, name:"directoryIds", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 63)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -897,16 +897,16 @@ extension WorkSpaces {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try imageIds?.forEach {
-                try validate($0, name:"imageIds[]", pattern: "wsi-[0-9a-z]{9,63}$")
+                try validate($0, name: "imageIds[]", parent: name, pattern: "wsi-[0-9a-z]{9,63}$")
             }
-            try validate(imageIds, name:"imageIds", max: 25)
-            try validate(imageIds, name:"imageIds", min: 1)
-            try validate(maxResults, name:"maxResults", max: 25)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 63)
-            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(imageIds, name:"imageIds", parent: name, max: 25)
+            try validate(imageIds, name:"imageIds", parent: name, min: 1)
+            try validate(maxResults, name:"maxResults", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 63)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -954,14 +954,14 @@ extension WorkSpaces {
             self.workspaceIds = workspaceIds
         }
 
-        public func validate() throws {
-            try validate(nextToken, name:"nextToken", max: 63)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(nextToken, name:"nextToken", parent: name, max: 63)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
             try workspaceIds?.forEach {
-                try validate($0, name:"workspaceIds[]", pattern: "^ws-[0-9a-z]{8,63}$")
+                try validate($0, name: "workspaceIds[]", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
             }
-            try validate(workspaceIds, name:"workspaceIds", max: 25)
-            try validate(workspaceIds, name:"workspaceIds", min: 1)
+            try validate(workspaceIds, name:"workspaceIds", parent: name, max: 25)
+            try validate(workspaceIds, name:"workspaceIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1024,20 +1024,20 @@ extension WorkSpaces {
             self.workspaceIds = workspaceIds
         }
 
-        public func validate() throws {
-            try validate(bundleId, name:"bundleId", pattern: "^wsb-[0-9a-z]{8,63}$")
-            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{8,63}$")
-            try validate(limit, name:"limit", max: 25)
-            try validate(limit, name:"limit", min: 1)
-            try validate(nextToken, name:"nextToken", max: 63)
-            try validate(nextToken, name:"nextToken", min: 1)
-            try validate(userName, name:"userName", max: 63)
-            try validate(userName, name:"userName", min: 1)
+        public func validate(name: String) throws {
+            try validate(bundleId, name:"bundleId", parent: name, pattern: "^wsb-[0-9a-z]{8,63}$")
+            try validate(directoryId, name:"directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try validate(limit, name:"limit", parent: name, max: 25)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 63)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(userName, name:"userName", parent: name, max: 63)
+            try validate(userName, name:"userName", parent: name, min: 1)
             try workspaceIds?.forEach {
-                try validate($0, name:"workspaceIds[]", pattern: "^ws-[0-9a-z]{8,63}$")
+                try validate($0, name: "workspaceIds[]", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
             }
-            try validate(workspaceIds, name:"workspaceIds", max: 25)
-            try validate(workspaceIds, name:"workspaceIds", min: 1)
+            try validate(workspaceIds, name:"workspaceIds", parent: name, max: 25)
+            try validate(workspaceIds, name:"workspaceIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1088,10 +1088,10 @@ extension WorkSpaces {
             self.groupIds = groupIds
         }
 
-        public func validate() throws {
-            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{8,63}$")
+        public func validate(name: String) throws {
+            try validate(directoryId, name:"directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
             try groupIds.forEach {
-                try validate($0, name:"groupIds[]", pattern: "wsipg-[0-9a-z]{8,63}$")
+                try validate($0, name: "groupIds[]", parent: name, pattern: "wsipg-[0-9a-z]{8,63}$")
             }
         }
 
@@ -1191,16 +1191,16 @@ extension WorkSpaces {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(ec2ImageId, name:"ec2ImageId", pattern: "^ami\\-([a-f0-9]{8}|[a-f0-9]{17})$")
-            try validate(imageDescription, name:"imageDescription", max: 256)
-            try validate(imageDescription, name:"imageDescription", min: 1)
-            try validate(imageDescription, name:"imageDescription", pattern: "^[a-zA-Z0-9_./() -]+$")
-            try validate(imageName, name:"imageName", max: 64)
-            try validate(imageName, name:"imageName", min: 1)
-            try validate(imageName, name:"imageName", pattern: "^[a-zA-Z0-9_./()\\\\-]+$")
+        public func validate(name: String) throws {
+            try validate(ec2ImageId, name:"ec2ImageId", parent: name, pattern: "^ami\\-([a-f0-9]{8}|[a-f0-9]{17})$")
+            try validate(imageDescription, name:"imageDescription", parent: name, max: 256)
+            try validate(imageDescription, name:"imageDescription", parent: name, min: 1)
+            try validate(imageDescription, name:"imageDescription", parent: name, pattern: "^[a-zA-Z0-9_./() -]+$")
+            try validate(imageName, name:"imageName", parent: name, max: 64)
+            try validate(imageName, name:"imageName", parent: name, min: 1)
+            try validate(imageName, name:"imageName", parent: name, pattern: "^[a-zA-Z0-9_./()\\\\-]+$")
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
         }
 
@@ -1272,12 +1272,12 @@ extension WorkSpaces {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(managementCidrRangeConstraint, name:"managementCidrRangeConstraint", pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(3[0-2]|[1-2][0-9]|[0-9]))$")
-            try validate(maxResults, name:"maxResults", max: 5)
-            try validate(maxResults, name:"maxResults", min: 1)
-            try validate(nextToken, name:"nextToken", max: 63)
-            try validate(nextToken, name:"nextToken", min: 1)
+        public func validate(name: String) throws {
+            try validate(managementCidrRangeConstraint, name:"managementCidrRangeConstraint", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(3[0-2]|[1-2][0-9]|[0-9]))$")
+            try validate(maxResults, name:"maxResults", parent: name, max: 5)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 63)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1360,8 +1360,8 @@ extension WorkSpaces {
             self.dedicatedTenancySupport = dedicatedTenancySupport
         }
 
-        public func validate() throws {
-            try validate(dedicatedTenancyManagementCidrRange, name:"dedicatedTenancyManagementCidrRange", pattern: "(^([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.0\\.0)(\\/(16$))$")
+        public func validate(name: String) throws {
+            try validate(dedicatedTenancyManagementCidrRange, name:"dedicatedTenancyManagementCidrRange", parent: name, pattern: "(^([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.0\\.0)(\\/(16$))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1394,8 +1394,8 @@ extension WorkSpaces {
             self.resourceId = resourceId
         }
 
-        public func validate() throws {
-            try validate(resourceId, name:"resourceId", min: 1)
+        public func validate(name: String) throws {
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1428,8 +1428,8 @@ extension WorkSpaces {
             self.workspaceProperties = workspaceProperties
         }
 
-        public func validate() throws {
-            try validate(workspaceId, name:"workspaceId", pattern: "^ws-[0-9a-z]{8,63}$")
+        public func validate(name: String) throws {
+            try validate(workspaceId, name:"workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1462,8 +1462,8 @@ extension WorkSpaces {
             self.workspaceState = workspaceState
         }
 
-        public func validate() throws {
-            try validate(workspaceId, name:"workspaceId", pattern: "^ws-[0-9a-z]{8,63}$")
+        public func validate(name: String) throws {
+            try validate(workspaceId, name:"workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1515,8 +1515,8 @@ extension WorkSpaces {
             self.workspaceId = workspaceId
         }
 
-        public func validate() throws {
-            try validate(workspaceId, name:"workspaceId", pattern: "^ws-[0-9a-z]{8,63}$")
+        public func validate(name: String) throws {
+            try validate(workspaceId, name:"workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1536,12 +1536,12 @@ extension WorkSpaces {
             self.rebootWorkspaceRequests = rebootWorkspaceRequests
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try rebootWorkspaceRequests.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).rebootWorkspaceRequests[]")
             }
-            try validate(rebootWorkspaceRequests, name:"rebootWorkspaceRequests", max: 25)
-            try validate(rebootWorkspaceRequests, name:"rebootWorkspaceRequests", min: 1)
+            try validate(rebootWorkspaceRequests, name:"rebootWorkspaceRequests", parent: name, max: 25)
+            try validate(rebootWorkspaceRequests, name:"rebootWorkspaceRequests", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1578,8 +1578,8 @@ extension WorkSpaces {
             self.workspaceId = workspaceId
         }
 
-        public func validate() throws {
-            try validate(workspaceId, name:"workspaceId", pattern: "^ws-[0-9a-z]{8,63}$")
+        public func validate(name: String) throws {
+            try validate(workspaceId, name:"workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1599,12 +1599,12 @@ extension WorkSpaces {
             self.rebuildWorkspaceRequests = rebuildWorkspaceRequests
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try rebuildWorkspaceRequests.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).rebuildWorkspaceRequests[]")
             }
-            try validate(rebuildWorkspaceRequests, name:"rebuildWorkspaceRequests", max: 1)
-            try validate(rebuildWorkspaceRequests, name:"rebuildWorkspaceRequests", min: 1)
+            try validate(rebuildWorkspaceRequests, name:"rebuildWorkspaceRequests", parent: name, max: 1)
+            try validate(rebuildWorkspaceRequests, name:"rebuildWorkspaceRequests", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1651,8 +1651,8 @@ extension WorkSpaces {
             self.userRules = userRules
         }
 
-        public func validate() throws {
-            try validate(groupId, name:"groupId", pattern: "wsipg-[0-9a-z]{8,63}$")
+        public func validate(name: String) throws {
+            try validate(groupId, name:"groupId", parent: name, pattern: "wsipg-[0-9a-z]{8,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1704,8 +1704,8 @@ extension WorkSpaces {
             self.workspaceId = workspaceId
         }
 
-        public func validate() throws {
-            try validate(workspaceId, name:"workspaceId", pattern: "^ws-[0-9a-z]{8,63}$")
+        public func validate(name: String) throws {
+            try validate(workspaceId, name:"workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1725,12 +1725,12 @@ extension WorkSpaces {
             self.startWorkspaceRequests = startWorkspaceRequests
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try startWorkspaceRequests.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).startWorkspaceRequests[]")
             }
-            try validate(startWorkspaceRequests, name:"startWorkspaceRequests", max: 25)
-            try validate(startWorkspaceRequests, name:"startWorkspaceRequests", min: 1)
+            try validate(startWorkspaceRequests, name:"startWorkspaceRequests", parent: name, max: 25)
+            try validate(startWorkspaceRequests, name:"startWorkspaceRequests", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1767,8 +1767,8 @@ extension WorkSpaces {
             self.workspaceId = workspaceId
         }
 
-        public func validate() throws {
-            try validate(workspaceId, name:"workspaceId", pattern: "^ws-[0-9a-z]{8,63}$")
+        public func validate(name: String) throws {
+            try validate(workspaceId, name:"workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1788,12 +1788,12 @@ extension WorkSpaces {
             self.stopWorkspaceRequests = stopWorkspaceRequests
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try stopWorkspaceRequests.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).stopWorkspaceRequests[]")
             }
-            try validate(stopWorkspaceRequests, name:"stopWorkspaceRequests", max: 25)
-            try validate(stopWorkspaceRequests, name:"stopWorkspaceRequests", min: 1)
+            try validate(stopWorkspaceRequests, name:"stopWorkspaceRequests", parent: name, max: 25)
+            try validate(stopWorkspaceRequests, name:"stopWorkspaceRequests", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1834,10 +1834,10 @@ extension WorkSpaces {
             self.value = value
         }
 
-        public func validate() throws {
-            try validate(key, name:"key", max: 127)
-            try validate(key, name:"key", min: 1)
-            try validate(value, name:"value", max: 255)
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 127)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(value, name:"value", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1864,8 +1864,8 @@ extension WorkSpaces {
             self.workspaceId = workspaceId
         }
 
-        public func validate() throws {
-            try validate(workspaceId, name:"workspaceId", pattern: "^ws-[0-9a-z]{8,63}$")
+        public func validate(name: String) throws {
+            try validate(workspaceId, name:"workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1885,12 +1885,12 @@ extension WorkSpaces {
             self.terminateWorkspaceRequests = terminateWorkspaceRequests
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try terminateWorkspaceRequests.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).terminateWorkspaceRequests[]")
             }
-            try validate(terminateWorkspaceRequests, name:"terminateWorkspaceRequests", max: 25)
-            try validate(terminateWorkspaceRequests, name:"terminateWorkspaceRequests", min: 1)
+            try validate(terminateWorkspaceRequests, name:"terminateWorkspaceRequests", parent: name, max: 25)
+            try validate(terminateWorkspaceRequests, name:"terminateWorkspaceRequests", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1931,8 +1931,8 @@ extension WorkSpaces {
             self.userRules = userRules
         }
 
-        public func validate() throws {
-            try validate(groupId, name:"groupId", pattern: "wsipg-[0-9a-z]{8,63}$")
+        public func validate(name: String) throws {
+            try validate(groupId, name:"groupId", parent: name, pattern: "wsipg-[0-9a-z]{8,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2373,14 +2373,14 @@ extension WorkSpaces {
             self.workspaceProperties = workspaceProperties
         }
 
-        public func validate() throws {
-            try validate(bundleId, name:"bundleId", pattern: "^wsb-[0-9a-z]{8,63}$")
-            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{8,63}$")
+        public func validate(name: String) throws {
+            try validate(bundleId, name:"bundleId", parent: name, pattern: "^wsb-[0-9a-z]{8,63}$")
+            try validate(directoryId, name:"directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
             try tags?.forEach {
-                try $0.validate()
+                try $0.validate(name: "\(name).tags[]")
             }
-            try validate(userName, name:"userName", max: 63)
-            try validate(userName, name:"userName", min: 1)
+            try validate(userName, name:"userName", parent: name, max: 63)
+            try validate(userName, name:"userName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

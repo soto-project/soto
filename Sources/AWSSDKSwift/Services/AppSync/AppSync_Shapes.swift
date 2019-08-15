@@ -235,8 +235,8 @@ extension AppSync {
             self.`type` = `type`
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -306,13 +306,13 @@ extension AppSync {
             self.responseMappingTemplate = responseMappingTemplate
         }
 
-        public func validate() throws {
-            try validate(dataSourceName, name:"dataSourceName", pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try validate(name, name:"name", pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try validate(requestMappingTemplate, name:"requestMappingTemplate", max: 65536)
-            try validate(requestMappingTemplate, name:"requestMappingTemplate", min: 1)
-            try validate(responseMappingTemplate, name:"responseMappingTemplate", max: 65536)
-            try validate(responseMappingTemplate, name:"responseMappingTemplate", min: 1)
+        public func validate(name: String) throws {
+            try validate(dataSourceName, name:"dataSourceName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(requestMappingTemplate, name:"requestMappingTemplate", parent: name, max: 65536)
+            try validate(requestMappingTemplate, name:"requestMappingTemplate", parent: name, min: 1)
+            try validate(responseMappingTemplate, name:"responseMappingTemplate", parent: name, max: 65536)
+            try validate(responseMappingTemplate, name:"responseMappingTemplate", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -379,12 +379,12 @@ extension AppSync {
             self.userPoolConfig = userPoolConfig
         }
 
-        public func validate() throws {
+        public func validate(name: String) throws {
             try tags?.forEach {
-                try validate($0.key, name:"tags[key:]", max: 128)
-                try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
-                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
             }
         }
 
@@ -456,14 +456,14 @@ extension AppSync {
             self.typeName = typeName
         }
 
-        public func validate() throws {
-            try validate(dataSourceName, name:"dataSourceName", pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try validate(fieldName, name:"fieldName", pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try validate(requestMappingTemplate, name:"requestMappingTemplate", max: 65536)
-            try validate(requestMappingTemplate, name:"requestMappingTemplate", min: 1)
-            try validate(responseMappingTemplate, name:"responseMappingTemplate", max: 65536)
-            try validate(responseMappingTemplate, name:"responseMappingTemplate", min: 1)
-            try validate(typeName, name:"typeName", pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        public func validate(name: String) throws {
+            try validate(dataSourceName, name:"dataSourceName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(fieldName, name:"fieldName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(requestMappingTemplate, name:"requestMappingTemplate", parent: name, max: 65536)
+            try validate(requestMappingTemplate, name:"requestMappingTemplate", parent: name, min: 1)
+            try validate(responseMappingTemplate, name:"responseMappingTemplate", parent: name, max: 65536)
+            try validate(responseMappingTemplate, name:"responseMappingTemplate", parent: name, min: 1)
+            try validate(typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -663,8 +663,8 @@ extension AppSync {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -697,8 +697,8 @@ extension AppSync {
             self.functionId = functionId
         }
 
-        public func validate() throws {
-            try validate(functionId, name:"functionId", pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        public func validate(name: String) throws {
+            try validate(functionId, name:"functionId", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -760,9 +760,9 @@ extension AppSync {
             self.typeName = typeName
         }
 
-        public func validate() throws {
-            try validate(fieldName, name:"fieldName", pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try validate(typeName, name:"typeName", pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        public func validate(name: String) throws {
+            try validate(fieldName, name:"fieldName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -796,8 +796,8 @@ extension AppSync {
             self.typeName = typeName
         }
 
-        public func validate() throws {
-            try validate(typeName, name:"typeName", pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        public func validate(name: String) throws {
+            try validate(typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -938,8 +938,8 @@ extension AppSync {
             self.name = name
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -981,8 +981,8 @@ extension AppSync {
             self.functionId = functionId
         }
 
-        public func validate() throws {
-            try validate(functionId, name:"functionId", pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        public func validate(name: String) throws {
+            try validate(functionId, name:"functionId", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1108,9 +1108,9 @@ extension AppSync {
             self.typeName = typeName
         }
 
-        public func validate() throws {
-            try validate(fieldName, name:"fieldName", pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try validate(typeName, name:"typeName", pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        public func validate(name: String) throws {
+            try validate(fieldName, name:"fieldName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1196,8 +1196,8 @@ extension AppSync {
             self.typeName = typeName
         }
 
-        public func validate() throws {
-            try validate(typeName, name:"typeName", pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        public func validate(name: String) throws {
+            try validate(typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1345,10 +1345,10 @@ extension AppSync {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 25)
-            try validate(maxResults, name:"maxResults", min: 0)
-            try validate(nextToken, name:"nextToken", pattern: "[\\\\S]+")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1400,10 +1400,10 @@ extension AppSync {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 25)
-            try validate(maxResults, name:"maxResults", min: 0)
-            try validate(nextToken, name:"nextToken", pattern: "[\\\\S]+")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1455,10 +1455,10 @@ extension AppSync {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 25)
-            try validate(maxResults, name:"maxResults", min: 0)
-            try validate(nextToken, name:"nextToken", pattern: "[\\\\S]+")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1506,10 +1506,10 @@ extension AppSync {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 25)
-            try validate(maxResults, name:"maxResults", min: 0)
-            try validate(nextToken, name:"nextToken", pattern: "[\\\\S]+")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1564,10 +1564,10 @@ extension AppSync {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 25)
-            try validate(maxResults, name:"maxResults", min: 0)
-            try validate(nextToken, name:"nextToken", pattern: "[\\\\S]+")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1624,10 +1624,10 @@ extension AppSync {
             self.typeName = typeName
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 25)
-            try validate(maxResults, name:"maxResults", min: 0)
-            try validate(nextToken, name:"nextToken", pattern: "[\\\\S]+")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1672,10 +1672,10 @@ extension AppSync {
             self.resourceArn = resourceArn
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 75)
-            try validate(resourceArn, name:"resourceArn", min: 70)
-            try validate(resourceArn, name:"resourceArn", pattern: "^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\\d{12}:apis/[0-9A-Za-z_-]{26}$")
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 75)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 70)
+            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\\d{12}:apis/[0-9A-Za-z_-]{26}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1724,10 +1724,10 @@ extension AppSync {
             self.nextToken = nextToken
         }
 
-        public func validate() throws {
-            try validate(maxResults, name:"maxResults", max: 25)
-            try validate(maxResults, name:"maxResults", min: 0)
-            try validate(nextToken, name:"nextToken", pattern: "[\\\\S]+")
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2024,15 +2024,15 @@ extension AppSync {
             self.tags = tags
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 75)
-            try validate(resourceArn, name:"resourceArn", min: 70)
-            try validate(resourceArn, name:"resourceArn", pattern: "^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\\d{12}:apis/[0-9A-Za-z_-]{26}$")
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 75)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 70)
+            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\\d{12}:apis/[0-9A-Za-z_-]{26}$")
             try tags.forEach {
-                try validate($0.key, name:"tags[key:]", max: 128)
-                try validate($0.key, name:"tags[key:]", min: 1)
-                try validate($0.key, name:"tags[key:]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
-                try validate($0.value, name:"tags[:value]", max: 256)
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
             }
         }
 
@@ -2109,17 +2109,17 @@ extension AppSync {
             self.tagKeys = tagKeys
         }
 
-        public func validate() throws {
-            try validate(resourceArn, name:"resourceArn", max: 75)
-            try validate(resourceArn, name:"resourceArn", min: 70)
-            try validate(resourceArn, name:"resourceArn", pattern: "^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\\d{12}:apis/[0-9A-Za-z_-]{26}$")
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 75)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 70)
+            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\\d{12}:apis/[0-9A-Za-z_-]{26}$")
             try tagKeys.forEach {
-                try validate($0, name:"tagKeys[]", max: 128)
-                try validate($0, name:"tagKeys[]", min: 1)
-                try validate($0, name:"tagKeys[]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
             }
-            try validate(tagKeys, name:"tagKeys", max: 50)
-            try validate(tagKeys, name:"tagKeys", min: 1)
+            try validate(tagKeys, name:"tagKeys", parent: name, max: 50)
+            try validate(tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2233,8 +2233,8 @@ extension AppSync {
             self.`type` = `type`
         }
 
-        public func validate() throws {
-            try validate(name, name:"name", pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2308,14 +2308,14 @@ extension AppSync {
             self.responseMappingTemplate = responseMappingTemplate
         }
 
-        public func validate() throws {
-            try validate(dataSourceName, name:"dataSourceName", pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try validate(functionId, name:"functionId", pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try validate(name, name:"name", pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try validate(requestMappingTemplate, name:"requestMappingTemplate", max: 65536)
-            try validate(requestMappingTemplate, name:"requestMappingTemplate", min: 1)
-            try validate(responseMappingTemplate, name:"responseMappingTemplate", max: 65536)
-            try validate(responseMappingTemplate, name:"responseMappingTemplate", min: 1)
+        public func validate(name: String) throws {
+            try validate(dataSourceName, name:"dataSourceName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(functionId, name:"functionId", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(requestMappingTemplate, name:"requestMappingTemplate", parent: name, max: 65536)
+            try validate(requestMappingTemplate, name:"requestMappingTemplate", parent: name, min: 1)
+            try validate(responseMappingTemplate, name:"responseMappingTemplate", parent: name, max: 65536)
+            try validate(responseMappingTemplate, name:"responseMappingTemplate", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2451,14 +2451,14 @@ extension AppSync {
             self.typeName = typeName
         }
 
-        public func validate() throws {
-            try validate(dataSourceName, name:"dataSourceName", pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try validate(fieldName, name:"fieldName", pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try validate(requestMappingTemplate, name:"requestMappingTemplate", max: 65536)
-            try validate(requestMappingTemplate, name:"requestMappingTemplate", min: 1)
-            try validate(responseMappingTemplate, name:"responseMappingTemplate", max: 65536)
-            try validate(responseMappingTemplate, name:"responseMappingTemplate", min: 1)
-            try validate(typeName, name:"typeName", pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        public func validate(name: String) throws {
+            try validate(dataSourceName, name:"dataSourceName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(fieldName, name:"fieldName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(requestMappingTemplate, name:"requestMappingTemplate", parent: name, max: 65536)
+            try validate(requestMappingTemplate, name:"requestMappingTemplate", parent: name, min: 1)
+            try validate(responseMappingTemplate, name:"responseMappingTemplate", parent: name, max: 65536)
+            try validate(responseMappingTemplate, name:"responseMappingTemplate", parent: name, min: 1)
+            try validate(typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2514,8 +2514,8 @@ extension AppSync {
             self.typeName = typeName
         }
 
-        public func validate() throws {
-            try validate(typeName, name:"typeName", pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        public func validate(name: String) throws {
+            try validate(typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
         private enum CodingKeys: String, CodingKey {
