@@ -1,7 +1,7 @@
 import Foundation
 import AWSSDKSwiftCore
 
-public struct S3RequestMiddleware: AWSRequestMiddleware {
+public struct S3RequestMiddleware: AWSServiceMiddleware {
 
     public init () {}
 
@@ -67,5 +67,20 @@ public struct S3RequestMiddleware: AWSRequestMiddleware {
         }
 
         return request
+    }
+    
+    
+    public func chain(responseBody: Body) throws -> Body {
+        switch responseBody {
+        case .xml(let element):
+            if element.name == "LocationConstraint" {
+                let parentElement = XML.Element(name: "BucketLocation")
+                parentElement.addChild(element)
+                return .xml(parentElement)
+            }
+        default:
+            break
+        }
+        return responseBody
     }
 }
