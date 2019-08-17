@@ -1,0 +1,45 @@
+{# Template for a AWSShape #}
+    public {{struct.object}} {{struct.name}}: AWSShape {
+{%if struct.payload %}
+        /// The key for the payload
+        public static let payloadPath: String? = "{{struct.payload}}"
+{%endif %}
+{%if struct.namespace %}
+        public static let _xmlNamespace: String? = "{{struct.namespace}}"
+{%endif %}
+{# AWSShapeMember array #}
+{%if struct.members.count > 0%}
+        public static var _members: [AWSShapeMember] = [
+{%for member in struct.members %}
+            AWSShapeMember(label: "{{member.name}}", {%if member.location %}location: {{member.location}}, {%endif %}required: {{member.required}}, type: .{{member.typeEnum}}{%if member.encoding %}, encoding: {{member.encoding}}{%endif %}){%if not forloop.last %}, {%endif +%}
+{%endfor %}
+        ]
+{%endif %}
+{# Member variables #}
+{%for member in struct.members %}
+{%for comment in member.comment %}
+        /// {{comment}}
+{%endfor %}
+        public let {{member.variable}}: {{member.type}}
+{%endfor %}
+
+{# init() function #}
+        public init({%for member in struct.members %}{{member.parameter}}: {{member.type}}{%if not member.required %} = nil{%endif %}{%if not forloop.last %}, {%endif %}{%endfor %}) {
+{%for member in struct.members %}
+            self.{{member.variable}} = {{member.variable}}
+{%endfor %}
+        }
+
+{# CodingKeys enum #}
+{%if struct.members.count > 0%}
+        private enum CodingKeys: String, CodingKey {
+{%for member in struct.members %}
+{%if member.duplicate %}
+            case {{member.variable}} = "_{{member.locationPath}}" // TODO this is temporary measure for avoiding CodingKey duplication.
+{%else %}
+            case {{member.variable}} = "{{member.locationPath}}"
+{%endif %}
+{%endfor %}
+        }
+{%endif %}
+    }

@@ -31,7 +31,17 @@ let servicePatches : [String: [Patch]] = [
     ],
     "S3": [
         Patch(operation:.replace, entry:["shapes","ReplicationStatus","enum",0], value:"COMPLETED", originalValue:"COMPLETE"),
-        Patch(operation:.replace, entry:["shapes","Size","type"], value:"long", originalValue:"integer")
+        Patch(operation:.replace, entry:["shapes","Size","type"], value:"long", originalValue:"integer"),
+        Patch(operation:.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"us-east-2"),
+        Patch(operation:.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"eu-west-2"),
+        Patch(operation:.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"eu-west-3"),
+        Patch(operation:.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"eu-north-1"),
+        Patch(operation:.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"ap-east-1"),
+        Patch(operation:.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"ap-northeast-2"),
+        Patch(operation:.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"ap-northeast-3"),
+        Patch(operation:.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"ca-central-1"),
+        Patch(operation:.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"cn-northwest-1"),
+        Patch(operation:.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"me-south-1")
     ]
 ]
 
