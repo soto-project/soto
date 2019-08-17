@@ -28,9 +28,8 @@ public extension S3 {
     ///     - expires: The amount of time before the url expires. Defaults to 1 hour
     /// - returns: A pre-signed url
     func presignedGetObject(bucket: String, key: String, expires: Int = 3600) throws -> URL {
-        let signer = try Signers.V4(credential: SharedCredential(), region: .euwest1, service: "s3", endpoint: nil)
         let urlToSign = URL(string: "https://\(bucket).s3.amazonaws.com/\(key)")!
-        let presignedURL = signer.signedURL(url: urlToSign,  method: "GET", date: Date(), expires: expires)
+        let presignedURL = client.signer.signedURL(url: urlToSign,  method: "GET", date: Date(), expires: expires)
         return presignedURL
     }
     
@@ -42,9 +41,8 @@ public extension S3 {
     ///     - expires: The amount of time before the url expires. Defaults to 1 hour
     /// - returns: A pre-signed url
     func presignedPutObject(bucket: String, key: String, expires: Int = 3600) throws -> URL {
-        let signer = try Signers.V4(credential: SharedCredential(), region: .euwest1, service: "s3", endpoint: nil)
         let urlToSign = URL(string: "https://\(bucket).s3.amazonaws.com/\(key)")!
-        let presignedURL = signer.signedURL(url: urlToSign,  method: "PUT", date: Date(), expires: expires)
+        let presignedURL = client.signer.signedURL(url: urlToSign,  method: "PUT", date: Date(), expires: expires)
         return presignedURL
     }
     
