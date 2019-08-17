@@ -21,11 +21,11 @@
       },
       {
         "package": "Stencil",
-        "repositoryURL": "https://github.com/adam-fowler/Stencil.git",
+        "repositoryURL": "https://github.com/swift-aws/Stencil.git",
         "state": {
           "branch": null,
-          "revision": "928250a31483d3ad5bfa9111d24404bbe2119255",
-          "version": "0.13.4"
+          "revision": "3fff29f0140dcbabae6b5966ba99322dd169fe95",
+          "version": "0.13.2"
         }
       },
       {
