@@ -8,7 +8,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/IBM-Swift/SwiftyJSON.git", .upToNextMajor(from: "17.0.2")),
-        .package(url: "https://github.com/adam-fowler/Stencil.git", .upToNextMajor(from: "0.13.4"))
+        .package(url: "https://github.com/swift-aws/Stencil.git", .upToNextMajor(from: "0.13.2"))
     ],
     targets: [
         .target(name: "CodeGenerator", dependencies: ["SwiftyJSON", "Stencil"])
