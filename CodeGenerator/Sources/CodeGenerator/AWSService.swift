@@ -8,7 +8,23 @@
 
 import Foundation
 import SwiftyJSON
-import AWSSDKSwiftCore
+
+/*
+ List of model tags we are currently not processing:
+ exception: This appears to be used to tag errors returned by AWS
+ synthetic: not dealt with, always seems to pair up with "exception"
+ error: details http return status for error, also can include a "code" and flag "senderFault"
+ fault: not sure how this is different from "exception". Looks to be server issues, most return 5xx http status
+ sensitive: indicates sensitive data
+ wrapper: not sure what this is
+ box: not sure what this is
+ streaming:
+ eventstream:
+ event: pairs with "eventstream"
+ xmlOrder: defines order of members in xml (GetMetricStatisticsInput,PutMetricAlarmInput)
+ timestampFormat: need to deal with "unixTimestamp" for MediaConvert
+ documentation: additional documentation, only used once in apigateway
+ */
 
 enum AWSServiceError: Error {
     case eventStreamingCodeGenerationsAreUnsupported
@@ -68,6 +84,9 @@ struct AWSService {
         endpoint["endpoints"].dictionaryValue.forEach {
             if let hostname = $0.value["hostname"].string {
                 endpointMap[$0.key] = hostname
+            } else if partitionEndpoint != nil {
+                // if there is a partition endpoint, then default this regions endpoint to ensure partition endpoint doesn't override it. Only an issue for S3 at the moment.
+                endpointMap[$0.key] = "\(endpointPrefix).\($0.key).amazonaws.com"
             }
         }
         return endpointMap
@@ -123,7 +142,9 @@ struct AWSService {
             let shapeJSON = apiJSON["shapes"][json["member"]["shape"].stringValue]
             let _type = try shapeType(from: shapeJSON, level: level+1)
             let shape = Shape(name: json["member"]["shape"].stringValue, type: _type)
-            type = .list(shape)
+            let max = json["max"].int
+            let min = json["min"].int
+            type = .list(shape, max: max, min: min)
 
         case "structure":
             // Note that we need to do some extra preprocessing to clean up the formatting of the structure. Sometimes we have a "flattened" object which does not have extra fields (typically named `members`) wrapping the contents. Other times we do, and need to clear that out.
@@ -133,7 +154,10 @@ struct AWSService {
                 structure[_struct["shape"].stringValue] = try shapeType(from: shapeJSON, level: level+1)
             }
 
-            let members: [Member] = try json["members"].dictionaryValue.map { name, memberJSON in
+            let members: [Member] = try json["members"].dictionaryValue.compactMap { name, memberJSON in
+                if memberJSON["deprecated"].bool == true {
+                    return nil
+                }
                 let name = name
                 let memberDict = try JSONSerialization.jsonObject(with: memberJSON.rawData(), options: []) as? [String: Any] ?? [:]
                 let shapeName = memberJSON["shape"].stringValue
@@ -163,7 +187,7 @@ struct AWSService {
                             }
                         }
                     }
-                    
+
                 default:
                     break
                 }
@@ -172,6 +196,14 @@ struct AWSService {
                     location = Location(json: shapeJSON["member"])
                     locationName = memberLocationName
                 }
+                var options : Member.Options = []
+                if memberJSON["streaming"].bool == true {
+                    options.insert(.streaming)
+                }
+                if memberJSON["idempotencyToken"].bool == true {
+                    options.insert(.idempotencyToken)
+                }
+
                 return Member(
                     name: name,
                     required: requireds.contains(name),
@@ -180,11 +212,13 @@ struct AWSService {
                     locationName: locationName,
                     shapeEncoding: encoding,
                     xmlNamespace: XMLNamespace(dictionary: memberDict),
-                    isStreaming: memberJSON["streaming"].bool ?? false
+                    options: options
                 )
-            }.sorted{ $0.name < $1.name }
+            }.sorted{ $0.name.lowercased() < $1.name.lowercased() }
 
-            let shape = StructureShape(members: members, payload: json["payload"].string)
+            let payloadMember = members.first(where:{$0.name == json["payload"].string})
+            let xmlNamespace = payloadMember?.xmlNamespace?.attributeMap["uri"] as? String
+            let shape = StructureShape(members: members, payload: json["payload"].string, xmlNamespace: xmlNamespace)
             type = .structure(shape)
 
         case "map":
@@ -267,6 +301,42 @@ struct AWSService {
         return shapes.sorted{ $0.name < $1.name }
     }
 
+    /// flag which shape are used as input shapes and output shapes
+    private func setShapeUsed(shape: Shape, inInput: Bool = false, inOutput: Bool = false) {
+        if inInput {
+            // if value is already set then don't set again. This avoids recursive loops where shapes reference themselves
+            guard shape.usedInInput != true else {return}
+            shape.usedInInput = true
+        }
+        if inOutput {
+            // if value is already set then don't set again. This avoids recursive loops where shapes reference themselves
+            guard shape.usedInOutput != true else {return}
+            shape.usedInOutput = true
+        }
+
+        // cannot just set children shapes to be used. The shapes that are actually output are the top level shapes. Instead I need to find the top level shape with the same name. If there isn't a toplevel shape then I use the child shape to ensure the values are propagated to any children of that child.
+        switch shape.type {
+        case .structure(let shape):
+            shape.members.forEach { member in
+                let memberShape = shapes.first(where: {$0.name == member.shape.name}) ?? member.shape
+                setShapeUsed(shape: memberShape, inInput: inInput, inOutput: inOutput)
+            }
+        case .list(let shape,_,_):
+            let memberShape = shapes.first(where: {$0.name == shape.name}) ?? shape
+            setShapeUsed(shape: memberShape, inInput: inInput, inOutput: inOutput)
+
+        case .map(let key, let value):
+            let keyShape = shapes.first(where: {$0.name == key.name}) ?? key
+            setShapeUsed(shape: keyShape, inInput: inInput, inOutput: inOutput)
+
+            let valueShape = shapes.first(where: {$0.name == value.name}) ?? value
+            setShapeUsed(shape: valueShape, inInput: inInput, inOutput: inOutput)
+
+        default:
+            break
+        }
+    }
+
     private func parseOperation(shapes: [Shape]) throws -> ([Operation], [String])  {
         var operations: [Operation] = []
         var errorShapeNames: [String] = []
@@ -278,9 +348,19 @@ struct AWSService {
                 }
             }
 
+            var deprecatedMessage : String? = nil
+            if json["deprecated"].bool == true {
+                if let message = json["deprecatedMessage"].string {
+                    deprecatedMessage = message
+                } else {
+                    deprecatedMessage = "\(json["name"].stringValue) is deprecated."
+                }
+            }
+
             var inputShape: Shape?
             if let inputShapeName = json["input"]["shape"].string {
                 if let index = shapes.firstIndex(where: { inputShapeName == $0.name }) {
+                    setShapeUsed(shape: shapes[index], inInput: true)
                     inputShape = shapes[index]
                 }
             }
@@ -288,6 +368,7 @@ struct AWSService {
             var outputShape: Shape?
             if let outputShapeName = json["output"]["shape"].string {
                 if let index = shapes.firstIndex(where: { outputShapeName == $0.name }) {
+                    setShapeUsed(shape: shapes[index], inOutput: true)
                     outputShape = shapes[index]
                 }
             }
@@ -297,7 +378,8 @@ struct AWSService {
                 httpMethod: json["http"]["method"].stringValue,
                 path: json["http"]["requestUri"].stringValue,
                 inputShape: inputShape,
-                outputShape: outputShape
+                outputShape: outputShape,
+                deprecatedMessage: deprecatedMessage
             )
 
             operations.append(operation)

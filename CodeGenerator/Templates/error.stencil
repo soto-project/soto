@@ -1,0 +1,26 @@
+{%include "header.stencil" %}
+
+import AWSSDKSwiftCore
+
+/// Error enum for {{name}}
+public enum {{errorName}}: AWSErrorType {
+{%for error in errors %}
+    case {{error.enum}}(message: String?)
+{% endfor %}}
+
+extension {{errorName}} {
+    public init?(errorCode: String, message: String?){
+        var errorCode = errorCode
+        if let index = errorCode.index(of: "#") {
+            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
+        }
+        switch errorCode {
+{%for error in errors %}
+        case "{{error.string}}":
+            self = .{{error.enum}}(message: message)
+{% endfor %}
+        default:
+            return nil
+        }
+    }
+}
