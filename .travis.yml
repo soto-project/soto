@@ -15,6 +15,9 @@ addons:
     - uuid-dev
     - pkg-config
     - libssl-dev
+  homebrew:
+    packages:
+    - libressl
 
 install:
   - source scripts/install-swift.sh
