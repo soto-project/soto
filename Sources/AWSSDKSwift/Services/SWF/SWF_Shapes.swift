@@ -1867,13 +1867,13 @@ extension SWF {
         /// Specifies the workflow execution for which to return the history.
         public let execution: WorkflowExecution
         /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results. 
-        public let maximumPageSize: Int32?
+        public let maximumPageSize: Int?
         /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime".  The configured maximumPageSize determines how many results can be returned in a single call. 
         public let nextPageToken: String?
         /// When set to true, returns the events in reverse order. By default the results are returned in ascending order of the eventTimeStamp of the events.
         public let reverseOrder: Bool?
 
-        public init(domain: String, execution: WorkflowExecution, maximumPageSize: Int32? = nil, nextPageToken: String? = nil, reverseOrder: Bool? = nil) {
+        public init(domain: String, execution: WorkflowExecution, maximumPageSize: Int? = nil, nextPageToken: String? = nil, reverseOrder: Bool? = nil) {
             self.domain = domain
             self.execution = execution
             self.maximumPageSize = maximumPageSize
@@ -2381,7 +2381,7 @@ extension SWF {
         /// The name of the domain in which the activity types have been registered.
         public let domain: String
         /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results. 
-        public let maximumPageSize: Int32?
+        public let maximumPageSize: Int?
         /// If specified, only lists the activity types that have this name.
         public let name: String?
         /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime".  The configured maximumPageSize determines how many results can be returned in a single call. 
@@ -2391,7 +2391,7 @@ extension SWF {
         /// When set to true, returns the results in reverse order. By default, the results are returned in ascending alphabetical order by name of the activity types.
         public let reverseOrder: Bool?
 
-        public init(domain: String, maximumPageSize: Int32? = nil, name: String? = nil, nextPageToken: String? = nil, registrationStatus: RegistrationStatus, reverseOrder: Bool? = nil) {
+        public init(domain: String, maximumPageSize: Int? = nil, name: String? = nil, nextPageToken: String? = nil, registrationStatus: RegistrationStatus, reverseOrder: Bool? = nil) {
             self.domain = domain
             self.maximumPageSize = maximumPageSize
             self.name = name
@@ -2443,7 +2443,7 @@ extension SWF {
         /// If specified, only workflow executions matching the workflow ID specified in the filter are returned.   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let executionFilter: WorkflowExecutionFilter?
         /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results. 
-        public let maximumPageSize: Int32?
+        public let maximumPageSize: Int?
         /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime".  The configured maximumPageSize determines how many results can be returned in a single call. 
         public let nextPageToken: String?
         /// When set to true, returns the results in reverse order. By default the results are returned in descending order of the start or the close time of the executions.
@@ -2455,7 +2455,7 @@ extension SWF {
         /// If specified, only executions of the type specified in the filter are returned.   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let typeFilter: WorkflowTypeFilter?
 
-        public init(closeStatusFilter: CloseStatusFilter? = nil, closeTimeFilter: ExecutionTimeFilter? = nil, domain: String, executionFilter: WorkflowExecutionFilter? = nil, maximumPageSize: Int32? = nil, nextPageToken: String? = nil, reverseOrder: Bool? = nil, startTimeFilter: ExecutionTimeFilter? = nil, tagFilter: TagFilter? = nil, typeFilter: WorkflowTypeFilter? = nil) {
+        public init(closeStatusFilter: CloseStatusFilter? = nil, closeTimeFilter: ExecutionTimeFilter? = nil, domain: String, executionFilter: WorkflowExecutionFilter? = nil, maximumPageSize: Int? = nil, nextPageToken: String? = nil, reverseOrder: Bool? = nil, startTimeFilter: ExecutionTimeFilter? = nil, tagFilter: TagFilter? = nil, typeFilter: WorkflowTypeFilter? = nil) {
             self.closeStatusFilter = closeStatusFilter
             self.closeTimeFilter = closeTimeFilter
             self.domain = domain
@@ -2502,7 +2502,7 @@ extension SWF {
         ]
 
         /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results. 
-        public let maximumPageSize: Int32?
+        public let maximumPageSize: Int?
         /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime".  The configured maximumPageSize determines how many results can be returned in a single call. 
         public let nextPageToken: String?
         /// Specifies the registration status of the domains to list.
@@ -2510,7 +2510,7 @@ extension SWF {
         /// When set to true, returns the results in reverse order. By default, the results are returned in ascending alphabetical order by name of the domains.
         public let reverseOrder: Bool?
 
-        public init(maximumPageSize: Int32? = nil, nextPageToken: String? = nil, registrationStatus: RegistrationStatus, reverseOrder: Bool? = nil) {
+        public init(maximumPageSize: Int? = nil, nextPageToken: String? = nil, registrationStatus: RegistrationStatus, reverseOrder: Bool? = nil) {
             self.maximumPageSize = maximumPageSize
             self.nextPageToken = nextPageToken
             self.registrationStatus = registrationStatus
@@ -2548,7 +2548,7 @@ extension SWF {
         /// If specified, only workflow executions matching the workflow ID specified in the filter are returned.   executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let executionFilter: WorkflowExecutionFilter?
         /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results. 
-        public let maximumPageSize: Int32?
+        public let maximumPageSize: Int?
         /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime".  The configured maximumPageSize determines how many results can be returned in a single call. 
         public let nextPageToken: String?
         /// When set to true, returns the results in reverse order. By default the results are returned in descending order of the start time of the executions.
@@ -2560,7 +2560,7 @@ extension SWF {
         /// If specified, only executions of the type specified in the filter are returned.   executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let typeFilter: WorkflowTypeFilter?
 
-        public init(domain: String, executionFilter: WorkflowExecutionFilter? = nil, maximumPageSize: Int32? = nil, nextPageToken: String? = nil, reverseOrder: Bool? = nil, startTimeFilter: ExecutionTimeFilter, tagFilter: TagFilter? = nil, typeFilter: WorkflowTypeFilter? = nil) {
+        public init(domain: String, executionFilter: WorkflowExecutionFilter? = nil, maximumPageSize: Int? = nil, nextPageToken: String? = nil, reverseOrder: Bool? = nil, startTimeFilter: ExecutionTimeFilter, tagFilter: TagFilter? = nil, typeFilter: WorkflowTypeFilter? = nil) {
             self.domain = domain
             self.executionFilter = executionFilter
             self.maximumPageSize = maximumPageSize
@@ -2646,7 +2646,7 @@ extension SWF {
         /// The name of the domain in which the workflow types have been registered.
         public let domain: String
         /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results. 
-        public let maximumPageSize: Int32?
+        public let maximumPageSize: Int?
         /// If specified, lists the workflow type with this name.
         public let name: String?
         /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime".  The configured maximumPageSize determines how many results can be returned in a single call. 
@@ -2656,7 +2656,7 @@ extension SWF {
         /// When set to true, returns the results in reverse order. By default the results are returned in ascending alphabetical order of the name of the workflow types.
         public let reverseOrder: Bool?
 
-        public init(domain: String, maximumPageSize: Int32? = nil, name: String? = nil, nextPageToken: String? = nil, registrationStatus: RegistrationStatus, reverseOrder: Bool? = nil) {
+        public init(domain: String, maximumPageSize: Int? = nil, name: String? = nil, nextPageToken: String? = nil, registrationStatus: RegistrationStatus, reverseOrder: Bool? = nil) {
             self.domain = domain
             self.maximumPageSize = maximumPageSize
             self.name = name
@@ -2719,11 +2719,11 @@ extension SWF {
         ]
 
         /// The number of tasks in the task list.
-        public let count: Int32
+        public let count: Int
         /// If set to true, indicates that the actual count was more than the maximum supported by this API and the count returned is the truncated value.
         public let truncated: Bool?
 
-        public init(count: Int32, truncated: Bool? = nil) {
+        public init(count: Int, truncated: Bool? = nil) {
             self.count = count
             self.truncated = truncated
         }
@@ -2783,7 +2783,7 @@ extension SWF {
         /// Identity of the decider making the request, which is recorded in the DecisionTaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user defined.
         public let identity: String?
         /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results.  This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
-        public let maximumPageSize: Int32?
+        public let maximumPageSize: Int?
         /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime".  The configured maximumPageSize determines how many results can be returned in a single call.   The nextPageToken returned by this action cannot be used with GetWorkflowExecutionHistory to get the next page. You must call PollForDecisionTask again (with the nextPageToken) to retrieve the next page of history records. Calling PollForDecisionTask with a nextPageToken doesn't return a new decision task. 
         public let nextPageToken: String?
         /// When set to true, returns the events in reverse order. By default the results are returned in ascending order of the eventTimestamp of the events.
@@ -2791,7 +2791,7 @@ extension SWF {
         /// Specifies the task list to poll for decision tasks. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
         public let taskList: TaskList
 
-        public init(domain: String, identity: String? = nil, maximumPageSize: Int32? = nil, nextPageToken: String? = nil, reverseOrder: Bool? = nil, taskList: TaskList) {
+        public init(domain: String, identity: String? = nil, maximumPageSize: Int? = nil, nextPageToken: String? = nil, reverseOrder: Bool? = nil, taskList: TaskList) {
             self.domain = domain
             self.identity = identity
             self.maximumPageSize = maximumPageSize
@@ -4822,11 +4822,11 @@ extension SWF {
         ]
 
         /// The number of workflow executions.
-        public let count: Int32
+        public let count: Int
         /// If set to true, indicates that the actual count was more than the maximum supported by this API and the count returned is the truncated value.
         public let truncated: Bool?
 
-        public init(count: Int32, truncated: Bool? = nil) {
+        public init(count: Int, truncated: Bool? = nil) {
             self.count = count
             self.truncated = truncated
         }
@@ -5012,17 +5012,17 @@ extension SWF {
         ]
 
         /// The count of activity tasks whose status is OPEN.
-        public let openActivityTasks: Int32
+        public let openActivityTasks: Int
         /// The count of child workflow executions whose status is OPEN.
-        public let openChildWorkflowExecutions: Int32
+        public let openChildWorkflowExecutions: Int
         /// The count of decision tasks whose status is OPEN. A workflow execution can have at most one open decision task.
-        public let openDecisionTasks: Int32
+        public let openDecisionTasks: Int
         /// The count of Lambda tasks whose status is OPEN.
-        public let openLambdaFunctions: Int32?
+        public let openLambdaFunctions: Int?
         /// The count of timers started by this workflow execution that have not fired yet.
-        public let openTimers: Int32
+        public let openTimers: Int
 
-        public init(openActivityTasks: Int32, openChildWorkflowExecutions: Int32, openDecisionTasks: Int32, openLambdaFunctions: Int32? = nil, openTimers: Int32) {
+        public init(openActivityTasks: Int, openChildWorkflowExecutions: Int, openDecisionTasks: Int, openLambdaFunctions: Int? = nil, openTimers: Int) {
             self.openActivityTasks = openActivityTasks
             self.openChildWorkflowExecutions = openChildWorkflowExecutions
             self.openDecisionTasks = openDecisionTasks

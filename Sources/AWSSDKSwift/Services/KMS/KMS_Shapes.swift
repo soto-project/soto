@@ -583,11 +583,11 @@ extension KMS {
         /// Gets only information about the specified custom key store. Enter the friendly name of the custom key store. By default, this operation gets information about all custom key stores in the account and region. To limit the output to a particular custom key store, you can use either the CustomKeyStoreId or CustomKeyStoreName parameter, but not both.
         public let customKeyStoreName: String?
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer.
-        public let limit: Int32?
+        public let limit: Int?
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
 
-        public init(customKeyStoreId: String? = nil, customKeyStoreName: String? = nil, limit: Int32? = nil, marker: String? = nil) {
+        public init(customKeyStoreId: String? = nil, customKeyStoreName: String? = nil, limit: Int? = nil, marker: String? = nil) {
             self.customKeyStoreId = customKeyStoreId
             self.customKeyStoreName = customKeyStoreName
             self.limit = limit
@@ -900,9 +900,9 @@ extension KMS {
         /// The length of the data key. Use AES_128 to generate a 128-bit symmetric key, or AES_256 to generate a 256-bit symmetric key.
         public let keySpec: DataKeySpec?
         /// The length of the data key in bytes. For example, use the value 64 to generate a 512-bit data key (64 bytes is 512 bits). For common key lengths (128-bit and 256-bit symmetric keys), we recommend that you use the KeySpec field instead of this one.
-        public let numberOfBytes: Int32?
+        public let numberOfBytes: Int?
 
-        public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keySpec: DataKeySpec? = nil, numberOfBytes: Int32? = nil) {
+        public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keySpec: DataKeySpec? = nil, numberOfBytes: Int? = nil) {
             self.encryptionContext = encryptionContext
             self.grantTokens = grantTokens
             self.keyId = keyId
@@ -977,9 +977,9 @@ extension KMS {
         /// The length of the data key. Use AES_128 to generate a 128-bit symmetric key, or AES_256 to generate a 256-bit symmetric key.
         public let keySpec: DataKeySpec?
         /// The length of the data key in bytes. For example, use the value 64 to generate a 512-bit data key (64 bytes is 512 bits). For common key lengths (128-bit and 256-bit symmetric keys), we recommend that you use the KeySpec field instead of this one.
-        public let numberOfBytes: Int32?
+        public let numberOfBytes: Int?
 
-        public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keySpec: DataKeySpec? = nil, numberOfBytes: Int32? = nil) {
+        public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keySpec: DataKeySpec? = nil, numberOfBytes: Int? = nil) {
             self.encryptionContext = encryptionContext
             self.grantTokens = grantTokens
             self.keyId = keyId
@@ -1040,9 +1040,9 @@ extension KMS {
         /// Generates the random byte string in the AWS CloudHSM cluster that is associated with the specified custom key store. To find the ID of a custom key store, use the DescribeCustomKeyStores operation.
         public let customKeyStoreId: String?
         /// The length of the byte string.
-        public let numberOfBytes: Int32?
+        public let numberOfBytes: Int?
 
-        public init(customKeyStoreId: String? = nil, numberOfBytes: Int32? = nil) {
+        public init(customKeyStoreId: String? = nil, numberOfBytes: Int? = nil) {
             self.customKeyStoreId = customKeyStoreId
             self.numberOfBytes = numberOfBytes
         }
@@ -1512,11 +1512,11 @@ extension KMS {
         /// Lists only aliases that refer to the specified CMK. The value of this parameter can be the ID or Amazon Resource Name (ARN) of a CMK in the caller's account and region. You cannot use an alias name or alias ARN in this value. This parameter is optional. If you omit it, ListAliases returns all aliases in the account and region.
         public let keyId: String?
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
-        public let limit: Int32?
+        public let limit: Int?
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
 
-        public init(keyId: String? = nil, limit: Int32? = nil, marker: String? = nil) {
+        public init(keyId: String? = nil, limit: Int? = nil, marker: String? = nil) {
             self.keyId = keyId
             self.limit = limit
             self.marker = marker
@@ -1576,11 +1576,11 @@ extension KMS {
         /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify a CMK in a different AWS account, you must use the key ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
-        public let limit: Int32?
+        public let limit: Int?
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
 
-        public init(keyId: String, limit: Int32? = nil, marker: String? = nil) {
+        public init(keyId: String, limit: Int? = nil, marker: String? = nil) {
             self.keyId = keyId
             self.limit = limit
             self.marker = marker
@@ -1640,11 +1640,11 @@ extension KMS {
         /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 1000, inclusive. If you do not include a value, it defaults to 100. Only one policy can be attached to a key.
-        public let limit: Int32?
+        public let limit: Int?
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
 
-        public init(keyId: String, limit: Int32? = nil, marker: String? = nil) {
+        public init(keyId: String, limit: Int? = nil, marker: String? = nil) {
             self.keyId = keyId
             self.limit = limit
             self.marker = marker
@@ -1701,11 +1701,11 @@ extension KMS {
         ]
 
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 1000, inclusive. If you do not include a value, it defaults to 100.
-        public let limit: Int32?
+        public let limit: Int?
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
 
-        public init(limit: Int32? = nil, marker: String? = nil) {
+        public init(limit: Int? = nil, marker: String? = nil) {
             self.limit = limit
             self.marker = marker
         }
@@ -1761,11 +1761,11 @@ extension KMS {
         /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 50, inclusive. If you do not include a value, it defaults to 50.
-        public let limit: Int32?
+        public let limit: Int?
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received. Do not attempt to construct this value. Use only the value of NextMarker from the truncated response you just received.
         public let marker: String?
 
-        public init(keyId: String, limit: Int32? = nil, marker: String? = nil) {
+        public init(keyId: String, limit: Int? = nil, marker: String? = nil) {
             self.keyId = keyId
             self.limit = limit
             self.marker = marker
@@ -1823,13 +1823,13 @@ extension KMS {
         ]
 
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
-        public let limit: Int32?
+        public let limit: Int?
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
         /// The retiring principal for which to list grants. To specify the retiring principal, use the Amazon Resource Name (ARN) of an AWS principal. Valid AWS principals include AWS accounts (root), IAM users, federated users, and assumed role users. For examples of the ARN syntax for specifying a principal, see AWS Identity and Access Management (IAM) in the Example ARNs section of the Amazon Web Services General Reference.
         public let retiringPrincipal: String
 
-        public init(limit: Int32? = nil, marker: String? = nil, retiringPrincipal: String) {
+        public init(limit: Int? = nil, marker: String? = nil, retiringPrincipal: String) {
             self.limit = limit
             self.marker = marker
             self.retiringPrincipal = retiringPrincipal
@@ -2054,9 +2054,9 @@ extension KMS {
         /// The unique identifier of the customer master key (CMK) to delete. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// The waiting period, specified in number of days. After the waiting period ends, AWS KMS deletes the customer master key (CMK). This value is optional. If you include a value, it must be between 7 and 30, inclusive. If you do not include a value, it defaults to 30.
-        public let pendingWindowInDays: Int32?
+        public let pendingWindowInDays: Int?
 
-        public init(keyId: String, pendingWindowInDays: Int32? = nil) {
+        public init(keyId: String, pendingWindowInDays: Int? = nil) {
             self.keyId = keyId
             self.pendingWindowInDays = pendingWindowInDays
         }

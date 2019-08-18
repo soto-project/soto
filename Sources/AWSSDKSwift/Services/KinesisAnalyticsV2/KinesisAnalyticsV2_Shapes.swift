@@ -2047,9 +2047,9 @@ extension KinesisAnalyticsV2 {
         ]
 
         /// The number of in-application streams to create.
-        public let count: Int32?
+        public let count: Int?
 
-        public init(count: Int32? = nil) {
+        public init(count: Int? = nil) {
             self.count = count
         }
 
@@ -2069,9 +2069,9 @@ extension KinesisAnalyticsV2 {
         ]
 
         /// The number of in-application streams to create for the specified streaming source.
-        public let countUpdate: Int32
+        public let countUpdate: Int
 
-        public init(countUpdate: Int32) {
+        public init(countUpdate: Int) {
             self.countUpdate = countUpdate
         }
 
@@ -2636,11 +2636,11 @@ extension KinesisAnalyticsV2 {
         /// The name of an existing application.
         public let applicationName: String
         /// The maximum number of application snapshots to list.
-        public let limit: Int32?
+        public let limit: Int?
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from. 
         public let nextToken: String?
 
-        public init(applicationName: String, limit: Int32? = nil, nextToken: String? = nil) {
+        public init(applicationName: String, limit: Int? = nil, nextToken: String? = nil) {
             self.applicationName = applicationName
             self.limit = limit
             self.nextToken = nextToken
@@ -2692,11 +2692,11 @@ extension KinesisAnalyticsV2 {
         ]
 
         /// The maximum number of applications to list.
-        public let limit: Int32?
+        public let limit: Int?
         /// If a previous command returned a pagination token, pass it into this value to retrieve the next set of results. For more information about pagination, see Using the AWS Command Line Interface's Pagination Options.
         public let nextToken: String?
 
-        public init(limit: Int32? = nil, nextToken: String? = nil) {
+        public init(limit: Int? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
         }
@@ -3054,11 +3054,11 @@ extension KinesisAnalyticsV2 {
         /// Describes whether the application uses the default parallelism for the Kinesis Data Analytics service.
         public let configurationType: ConfigurationType
         /// Describes the initial number of parallel tasks that a Java-based Kinesis Data Analytics application can perform. The Kinesis Data Analytics service can increase this number automatically if ParallelismConfiguration$AutoScalingEnabled is set to true.
-        public let parallelism: Int32?
+        public let parallelism: Int?
         /// Describes the number of parallel tasks that a Java-based Kinesis Data Analytics application can perform per Kinesis Processing Unit (KPU) used by the application. For more information about KPUs, see Amazon Kinesis Data Analytics Pricing.
-        public let parallelismPerKPU: Int32?
+        public let parallelismPerKPU: Int?
 
-        public init(autoScalingEnabled: Bool? = nil, configurationType: ConfigurationType, parallelism: Int32? = nil, parallelismPerKPU: Int32? = nil) {
+        public init(autoScalingEnabled: Bool? = nil, configurationType: ConfigurationType, parallelism: Int? = nil, parallelismPerKPU: Int? = nil) {
             self.autoScalingEnabled = autoScalingEnabled
             self.configurationType = configurationType
             self.parallelism = parallelism
@@ -3092,13 +3092,13 @@ extension KinesisAnalyticsV2 {
         /// Describes whether the application uses the default parallelism for the Kinesis Data Analytics service. 
         public let configurationType: ConfigurationType?
         /// Describes the current number of parallel tasks that a Java-based Kinesis Data Analytics application can perform.
-        public let currentParallelism: Int32?
+        public let currentParallelism: Int?
         /// Describes the initial number of parallel tasks that a Java-based Kinesis Data Analytics application can perform. 
-        public let parallelism: Int32?
+        public let parallelism: Int?
         /// Describes the number of parallel tasks that a Java-based Kinesis Data Analytics application can perform per Kinesis Processing Unit (KPU) used by the application.
-        public let parallelismPerKPU: Int32?
+        public let parallelismPerKPU: Int?
 
-        public init(autoScalingEnabled: Bool? = nil, configurationType: ConfigurationType? = nil, currentParallelism: Int32? = nil, parallelism: Int32? = nil, parallelismPerKPU: Int32? = nil) {
+        public init(autoScalingEnabled: Bool? = nil, configurationType: ConfigurationType? = nil, currentParallelism: Int? = nil, parallelism: Int? = nil, parallelismPerKPU: Int? = nil) {
             self.autoScalingEnabled = autoScalingEnabled
             self.configurationType = configurationType
             self.currentParallelism = currentParallelism
@@ -3128,11 +3128,11 @@ extension KinesisAnalyticsV2 {
         /// Describes updates to whether the application uses the default parallelism for the Kinesis Data Analytics service, or if a custom parallelism is used.
         public let configurationTypeUpdate: ConfigurationType?
         /// Describes updates to the number of parallel tasks an application can perform per Kinesis Processing Unit (KPU) used by the application.
-        public let parallelismPerKPUUpdate: Int32?
+        public let parallelismPerKPUUpdate: Int?
         /// Describes updates to the initial number of parallel tasks an application can perform.
-        public let parallelismUpdate: Int32?
+        public let parallelismUpdate: Int?
 
-        public init(autoScalingEnabledUpdate: Bool? = nil, configurationTypeUpdate: ConfigurationType? = nil, parallelismPerKPUUpdate: Int32? = nil, parallelismUpdate: Int32? = nil) {
+        public init(autoScalingEnabledUpdate: Bool? = nil, configurationTypeUpdate: ConfigurationType? = nil, parallelismPerKPUUpdate: Int? = nil, parallelismUpdate: Int? = nil) {
             self.autoScalingEnabledUpdate = autoScalingEnabledUpdate
             self.configurationTypeUpdate = configurationTypeUpdate
             self.parallelismPerKPUUpdate = parallelismPerKPUUpdate

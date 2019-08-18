@@ -747,13 +747,13 @@ extension Route53Resolver {
         ]
 
         /// The maximum number of IP addresses that you want to return in the response to a ListResolverEndpointIpAddresses request. If you don't specify a value for MaxResults, Resolver returns up to 100 IP addresses. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// For the first ListResolverEndpointIpAddresses request, omit this value. If the specified resolver endpoint has more than MaxResults IP addresses, you can submit another ListResolverEndpointIpAddresses request to get the next group of IP addresses. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
         /// The ID of the resolver endpoint that you want to get IP addresses for.
         public let resolverEndpointId: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resolverEndpointId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resolverEndpointId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resolverEndpointId = resolverEndpointId
@@ -783,11 +783,11 @@ extension Route53Resolver {
         /// The IP addresses that DNS queries pass through on their way to your network (outbound endpoint) or on the way to Resolver (inbound endpoint).
         public let ipAddresses: [IpAddressResponse]?
         /// The value that you specified for MaxResults in the request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If the specified endpoint has more than MaxResults IP addresses, you can submit another ListResolverEndpointIpAddresses request to get the next group of IP addresses. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
 
-        public init(ipAddresses: [IpAddressResponse]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(ipAddresses: [IpAddressResponse]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.ipAddresses = ipAddresses
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -810,11 +810,11 @@ extension Route53Resolver {
         /// An optional specification to return a subset of resolver endpoints, such as all inbound resolver endpoints.  If you submit a second or subsequent ListResolverEndpoints request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
         public let filters: [Filter]?
         /// The maximum number of resolver endpoints that you want to return in the response to a ListResolverEndpoints request. If you don't specify a value for MaxResults, Resolver returns up to 100 resolver endpoints. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// For the first ListResolverEndpoints request, omit this value. If you have more than MaxResults resolver endpoints, you can submit another ListResolverEndpoints request to get the next group of resolver endpoints. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -843,13 +843,13 @@ extension Route53Resolver {
         ]
 
         /// The value that you specified for MaxResults in the request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If more than MaxResults IP addresses match the specified criteria, you can submit another ListResolverEndpoint request to get the next group of results. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
         /// The resolver endpoints that were created by using the current AWS account, and that match the specified filters, if any.
         public let resolverEndpoints: [ResolverEndpoint]?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resolverEndpoints: [ResolverEndpoint]? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resolverEndpoints: [ResolverEndpoint]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resolverEndpoints = resolverEndpoints
@@ -872,11 +872,11 @@ extension Route53Resolver {
         /// An optional specification to return a subset of resolver rules, such as resolver rules that are associated with the same VPC ID.  If you submit a second or subsequent ListResolverRuleAssociations request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
         public let filters: [Filter]?
         /// The maximum number of rule associations that you want to return in the response to a ListResolverRuleAssociations request. If you don't specify a value for MaxResults, Resolver returns up to 100 rule associations. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// For the first ListResolverRuleAssociation request, omit this value. If you have more than MaxResults rule associations, you can submit another ListResolverRuleAssociation request to get the next group of rule associations. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -905,13 +905,13 @@ extension Route53Resolver {
         ]
 
         /// The value that you specified for MaxResults in the request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If more than MaxResults rule associations match the specified criteria, you can submit another ListResolverRuleAssociation request to get the next group of results. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
         /// The associations that were created between resolver rules and VPCs using the current AWS account, and that match the specified filters, if any.
         public let resolverRuleAssociations: [ResolverRuleAssociation]?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resolverRuleAssociations: [ResolverRuleAssociation]? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resolverRuleAssociations: [ResolverRuleAssociation]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resolverRuleAssociations = resolverRuleAssociations
@@ -934,11 +934,11 @@ extension Route53Resolver {
         /// An optional specification to return a subset of resolver rules, such as all resolver rules that are associated with the same resolver endpoint.  If you submit a second or subsequent ListResolverRules request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
         public let filters: [Filter]?
         /// The maximum number of resolver rules that you want to return in the response to a ListResolverRules request. If you don't specify a value for MaxResults, Resolver returns up to 100 resolver rules.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// For the first ListResolverRules request, omit this value. If you have more than MaxResults resolver rules, you can submit another ListResolverRules request to get the next group of resolver rules. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -967,13 +967,13 @@ extension Route53Resolver {
         ]
 
         /// The value that you specified for MaxResults in the request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If more than MaxResults resolver rules match the specified criteria, you can submit another ListResolverRules request to get the next group of results. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
         /// The resolver rules that were created using the current AWS account and that match the specified filters, if any.
         public let resolverRules: [ResolverRule]?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resolverRules: [ResolverRule]? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resolverRules: [ResolverRule]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resolverRules = resolverRules
@@ -994,13 +994,13 @@ extension Route53Resolver {
         ]
 
         /// The maximum number of tags that you want to return in the response to a ListTagsForResource request. If you don't specify a value for MaxResults, Resolver returns up to 100 tags.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// For the first ListTagsForResource request, omit this value. If you have more than MaxResults tags, you can submit another ListTagsForResource request to get the next group of tags for the resource. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) for the resource that you want to list tags for.
         public let resourceArn: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -1116,7 +1116,7 @@ extension Route53Resolver {
         /// The ID of the resolver endpoint.
         public let id: String?
         /// The number of IP addresses that the resolver endpoint can use for DNS queries.
-        public let ipAddressCount: Int32?
+        public let ipAddressCount: Int?
         /// The date and time that the endpoint was last modified, in Unix time format and Coordinated Universal Time (UTC).
         public let modificationTime: String?
         /// The name that you assigned to the resolver endpoint when you submitted a CreateResolverEndpoint request.
@@ -1128,7 +1128,7 @@ extension Route53Resolver {
         /// A detailed description of the status of the resolver endpoint.
         public let statusMessage: String?
 
-        public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, direction: ResolverEndpointDirection? = nil, hostVPCId: String? = nil, id: String? = nil, ipAddressCount: Int32? = nil, modificationTime: String? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: ResolverEndpointStatus? = nil, statusMessage: String? = nil) {
+        public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, direction: ResolverEndpointDirection? = nil, hostVPCId: String? = nil, id: String? = nil, ipAddressCount: Int? = nil, modificationTime: String? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: ResolverEndpointStatus? = nil, statusMessage: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
@@ -1424,9 +1424,9 @@ extension Route53Resolver {
         /// One IP address that you want to forward DNS queries to. You can specify only IPv4 addresses.
         public let ip: String
         /// The port at Ip that you want to forward DNS queries to.
-        public let port: Int32?
+        public let port: Int?
 
-        public init(ip: String, port: Int32? = nil) {
+        public init(ip: String, port: Int? = nil) {
             self.ip = ip
             self.port = port
         }

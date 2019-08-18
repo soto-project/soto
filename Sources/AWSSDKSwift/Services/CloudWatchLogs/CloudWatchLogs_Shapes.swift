@@ -396,11 +396,11 @@ extension CloudWatchLogs {
         /// The prefix to match. If you don't specify a value, no prefix filter is applied.
         public let destinationNamePrefix: String?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        public let limit: Int32?
+        public let limit: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(destinationNamePrefix: String? = nil, limit: Int32? = nil, nextToken: String? = nil) {
+        public init(destinationNamePrefix: String? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.destinationNamePrefix = destinationNamePrefix
             self.limit = limit
             self.nextToken = nextToken
@@ -452,7 +452,7 @@ extension CloudWatchLogs {
         ]
 
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        public let limit: Int32?
+        public let limit: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The status code of the export task. Specifying a status code filters the results to zero or more export tasks.
@@ -460,7 +460,7 @@ extension CloudWatchLogs {
         /// The ID of the export task. Specifying a task ID filters the results to zero or one export tasks.
         public let taskId: String?
 
-        public init(limit: Int32? = nil, nextToken: String? = nil, statusCode: ExportTaskStatusCode? = nil, taskId: String? = nil) {
+        public init(limit: Int? = nil, nextToken: String? = nil, statusCode: ExportTaskStatusCode? = nil, taskId: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
             self.statusCode = statusCode
@@ -512,13 +512,13 @@ extension CloudWatchLogs {
         ]
 
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        public let limit: Int32?
+        public let limit: Int?
         /// The prefix to match.
         public let logGroupNamePrefix: String?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(limit: Int32? = nil, logGroupNamePrefix: String? = nil, nextToken: String? = nil) {
+        public init(limit: Int? = nil, logGroupNamePrefix: String? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.logGroupNamePrefix = logGroupNamePrefix
             self.nextToken = nextToken
@@ -574,7 +574,7 @@ extension CloudWatchLogs {
         /// If the value is true, results are returned in descending order. If the value is to false, results are returned in ascending order. The default value is false.
         public let descending: Bool?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        public let limit: Int32?
+        public let limit: Int?
         /// The name of the log group.
         public let logGroupName: String
         /// The prefix to match. If orderBy is LastEventTime,you cannot specify this parameter.
@@ -584,7 +584,7 @@ extension CloudWatchLogs {
         /// If the value is LogStreamName, the results are ordered by log stream name. If the value is LastEventTime, the results are ordered by the event time. The default value is LogStreamName. If you order the results by event time, you cannot specify the logStreamNamePrefix parameter. lastEventTimestamp represents the time of the most recent log event in the log stream in CloudWatch Logs. This number is expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. lastEventTimeStamp updates on an eventual consistency basis. It typically updates in less than an hour from ingestion, but may take longer in some rare situations.
         public let orderBy: OrderBy?
 
-        public init(descending: Bool? = nil, limit: Int32? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, nextToken: String? = nil, orderBy: OrderBy? = nil) {
+        public init(descending: Bool? = nil, limit: Int? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, nextToken: String? = nil, orderBy: OrderBy? = nil) {
             self.descending = descending
             self.limit = limit
             self.logGroupName = logGroupName
@@ -649,7 +649,7 @@ extension CloudWatchLogs {
         /// The prefix to match.
         public let filterNamePrefix: String?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        public let limit: Int32?
+        public let limit: Int?
         /// The name of the log group.
         public let logGroupName: String?
         /// Filters results to include only those with the specified metric name. If you include this parameter in your request, you must also include the metricNamespace parameter.
@@ -659,7 +659,7 @@ extension CloudWatchLogs {
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(filterNamePrefix: String? = nil, limit: Int32? = nil, logGroupName: String? = nil, metricName: String? = nil, metricNamespace: String? = nil, nextToken: String? = nil) {
+        public init(filterNamePrefix: String? = nil, limit: Int? = nil, logGroupName: String? = nil, metricName: String? = nil, metricNamespace: String? = nil, nextToken: String? = nil) {
             self.filterNamePrefix = filterNamePrefix
             self.limit = limit
             self.logGroupName = logGroupName
@@ -726,12 +726,12 @@ extension CloudWatchLogs {
         /// Limits the returned queries to only those for the specified log group.
         public let logGroupName: String?
         /// Limits the number of returned queries to the specified number.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
         /// Limits the returned queries to only those that have the specified status. Valid values are Cancelled, Complete, Failed, Running, and Scheduled.
         public let status: QueryStatus?
 
-        public init(logGroupName: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, status: QueryStatus? = nil) {
+        public init(logGroupName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: QueryStatus? = nil) {
             self.logGroupName = logGroupName
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -783,10 +783,10 @@ extension CloudWatchLogs {
         ]
 
         /// The maximum number of resource policies to be displayed with one call of this API.
-        public let limit: Int32?
+        public let limit: Int?
         public let nextToken: String?
 
-        public init(limit: Int32? = nil, nextToken: String? = nil) {
+        public init(limit: Int? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
         }
@@ -835,13 +835,13 @@ extension CloudWatchLogs {
         /// The prefix to match. If you don't specify a value, no prefix filter is applied.
         public let filterNamePrefix: String?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        public let limit: Int32?
+        public let limit: Int?
         /// The name of the log group.
         public let logGroupName: String
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(filterNamePrefix: String? = nil, limit: Int32? = nil, logGroupName: String, nextToken: String? = nil) {
+        public init(filterNamePrefix: String? = nil, limit: Int? = nil, logGroupName: String, nextToken: String? = nil) {
             self.filterNamePrefix = filterNamePrefix
             self.limit = limit
             self.logGroupName = logGroupName
@@ -1091,7 +1091,7 @@ extension CloudWatchLogs {
         /// If the value is true, the operation makes a best effort to provide responses that contain events from multiple log streams within the log group, interleaved in a single response. If the value is false, all the matched log events in the first log stream are searched first, then those in the next log stream, and so on. The default is false.  IMPORTANT: Starting on June 17, 2019, this parameter will be ignored and the value will be assumed to be true. The response from this operation will always interleave events from multiple log streams within a log group.
         public let interleaved: Bool?
         /// The maximum number of events to return. The default is 10,000 events.
-        public let limit: Int32?
+        public let limit: Int?
         /// The name of the log group to search.
         public let logGroupName: String
         /// Filters the results to include only events from log streams that have names starting with this prefix. If you specify a value for both logStreamNamePrefix and logStreamNames, but the value for logStreamNamePrefix does not match any log stream names specified in logStreamNames, the action returns an InvalidParameterException error.
@@ -1103,7 +1103,7 @@ extension CloudWatchLogs {
         /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
         public let startTime: Int64?
 
-        public init(endTime: Int64? = nil, filterPattern: String? = nil, interleaved: Bool? = nil, limit: Int32? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, logStreamNames: [String]? = nil, nextToken: String? = nil, startTime: Int64? = nil) {
+        public init(endTime: Int64? = nil, filterPattern: String? = nil, interleaved: Bool? = nil, limit: Int? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, logStreamNames: [String]? = nil, nextToken: String? = nil, startTime: Int64? = nil) {
             self.endTime = endTime
             self.filterPattern = filterPattern
             self.interleaved = interleaved
@@ -1229,7 +1229,7 @@ extension CloudWatchLogs {
         /// The end of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to or later than this time are not included.
         public let endTime: Int64?
         /// The maximum number of log events returned. If you don't specify a value, the maximum is as many log events as can fit in a response size of 1 MB, up to 10,000 log events.
-        public let limit: Int32?
+        public let limit: Int?
         /// The name of the log group.
         public let logGroupName: String
         /// The name of the log stream.
@@ -1241,7 +1241,7 @@ extension CloudWatchLogs {
         /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to this time or later than this time are included. Events with a timestamp earlier than this time are not included.
         public let startTime: Int64?
 
-        public init(endTime: Int64? = nil, limit: Int32? = nil, logGroupName: String, logStreamName: String, nextToken: String? = nil, startFromHead: Bool? = nil, startTime: Int64? = nil) {
+        public init(endTime: Int64? = nil, limit: Int? = nil, logGroupName: String, logStreamName: String, nextToken: String? = nil, startFromHead: Bool? = nil, startTime: Int64? = nil) {
             self.endTime = endTime
             self.limit = limit
             self.logGroupName = logGroupName
@@ -1519,12 +1519,12 @@ extension CloudWatchLogs {
         /// The name of the log group.
         public let logGroupName: String?
         /// The number of metric filters.
-        public let metricFilterCount: Int32?
-        public let retentionInDays: Int32?
+        public let metricFilterCount: Int?
+        public let retentionInDays: Int?
         /// The number of bytes stored.
         public let storedBytes: Int64?
 
-        public init(arn: String? = nil, creationTime: Int64? = nil, kmsKeyId: String? = nil, logGroupName: String? = nil, metricFilterCount: Int32? = nil, retentionInDays: Int32? = nil, storedBytes: Int64? = nil) {
+        public init(arn: String? = nil, creationTime: Int64? = nil, kmsKeyId: String? = nil, logGroupName: String? = nil, metricFilterCount: Int? = nil, retentionInDays: Int? = nil, storedBytes: Int64? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.kmsKeyId = kmsKeyId
@@ -1554,9 +1554,9 @@ extension CloudWatchLogs {
         /// The name of a log field.
         public let name: String?
         /// The percentage of log events queried that contained the field.
-        public let percent: Int32?
+        public let percent: Int?
 
-        public init(name: String? = nil, percent: Int32? = nil) {
+        public init(name: String? = nil, percent: Int? = nil) {
             self.name = name
             self.percent = percent
         }
@@ -2005,9 +2005,9 @@ extension CloudWatchLogs {
 
         /// The name of the log group.
         public let logGroupName: String
-        public let retentionInDays: Int32
+        public let retentionInDays: Int
 
-        public init(logGroupName: String, retentionInDays: Int32) {
+        public init(logGroupName: String, retentionInDays: Int) {
             self.logGroupName = logGroupName
             self.retentionInDays = retentionInDays
         }
@@ -2160,13 +2160,13 @@ extension CloudWatchLogs {
         ]
 
         /// The expired log events.
-        public let expiredLogEventEndIndex: Int32?
+        public let expiredLogEventEndIndex: Int?
         /// The log events that are too new.
-        public let tooNewLogEventStartIndex: Int32?
+        public let tooNewLogEventStartIndex: Int?
         /// The log events that are too old.
-        public let tooOldLogEventEndIndex: Int32?
+        public let tooOldLogEventEndIndex: Int?
 
-        public init(expiredLogEventEndIndex: Int32? = nil, tooNewLogEventStartIndex: Int32? = nil, tooOldLogEventEndIndex: Int32? = nil) {
+        public init(expiredLogEventEndIndex: Int? = nil, tooNewLogEventStartIndex: Int? = nil, tooOldLogEventEndIndex: Int? = nil) {
             self.expiredLogEventEndIndex = expiredLogEventEndIndex
             self.tooNewLogEventStartIndex = tooNewLogEventStartIndex
             self.tooOldLogEventEndIndex = tooOldLogEventEndIndex
@@ -2262,7 +2262,7 @@ extension CloudWatchLogs {
         /// The end of the time range to query. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
         public let endTime: Int64
         /// The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned.
-        public let limit: Int32?
+        public let limit: Int?
         /// The log group on which to perform the query.
         public let logGroupName: String
         /// The query string to use. For more information, see CloudWatch Logs Insights Query Syntax.
@@ -2270,7 +2270,7 @@ extension CloudWatchLogs {
         /// The beginning of the time range to query. The range is inclusive, so the specified start time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
         public let startTime: Int64
 
-        public init(endTime: Int64, limit: Int32? = nil, logGroupName: String, queryString: String, startTime: Int64) {
+        public init(endTime: Int64, limit: Int? = nil, logGroupName: String, queryString: String, startTime: Int64) {
             self.endTime = endTime
             self.limit = limit
             self.logGroupName = logGroupName

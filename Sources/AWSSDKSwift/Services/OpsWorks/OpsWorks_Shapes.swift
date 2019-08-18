@@ -238,17 +238,17 @@ extension OpsWorks {
         /// The CPU utilization threshold, as a percent of the available CPU. A value of -1 disables the threshold.
         public let cpuThreshold: Double?
         /// The amount of time (in minutes) after a scaling event occurs that AWS OpsWorks Stacks should ignore metrics and suppress additional scaling events. For example, AWS OpsWorks Stacks adds new instances following an upscaling event but the instances won't start reducing the load until they have been booted and configured. There is no point in raising additional scaling events during that operation, which typically takes several minutes. IgnoreMetricsTime allows you to direct AWS OpsWorks Stacks to suppress scaling events long enough to get the new instances online.
-        public let ignoreMetricsTime: Int32?
+        public let ignoreMetricsTime: Int?
         /// The number of instances to add or remove when the load exceeds a threshold.
-        public let instanceCount: Int32?
+        public let instanceCount: Int?
         /// The load threshold. A value of -1 disables the threshold. For more information about how load is computed, see Load (computing).
         public let loadThreshold: Double?
         /// The memory utilization threshold, as a percent of the available memory. A value of -1 disables the threshold.
         public let memoryThreshold: Double?
         /// The amount of time, in minutes, that the load must exceed a threshold before more instances are added or removed.
-        public let thresholdsWaitTime: Int32?
+        public let thresholdsWaitTime: Int?
 
-        public init(alarms: [String]? = nil, cpuThreshold: Double? = nil, ignoreMetricsTime: Int32? = nil, instanceCount: Int32? = nil, loadThreshold: Double? = nil, memoryThreshold: Double? = nil, thresholdsWaitTime: Int32? = nil) {
+        public init(alarms: [String]? = nil, cpuThreshold: Double? = nil, ignoreMetricsTime: Int? = nil, instanceCount: Int? = nil, loadThreshold: Double? = nil, memoryThreshold: Double? = nil, thresholdsWaitTime: Int? = nil) {
             self.alarms = alarms
             self.cpuThreshold = cpuThreshold
             self.ignoreMetricsTime = ignoreMetricsTime
@@ -615,11 +615,11 @@ extension OpsWorks {
         ]
 
         /// Specifies the max number of log events in a batch, up to 10000. The default value is 1000.
-        public let batchCount: Int32?
+        public let batchCount: Int?
         /// Specifies the maximum size of log events in a batch, in bytes, up to 1048576 bytes. The default value is 32768 bytes. This size is calculated as the sum of all event messages in UTF-8, plus 26 bytes for each log event.
-        public let batchSize: Int32?
+        public let batchSize: Int?
         /// Specifies the time duration for the batching of log events. The minimum value is 5000ms and default value is 5000ms.
-        public let bufferDuration: Int32?
+        public let bufferDuration: Int?
         /// Specifies how the time stamp is extracted from logs. For more information, see the CloudWatch Logs Agent Reference.
         public let datetimeFormat: String?
         /// Specifies the encoding of the log file so that the file can be read correctly. The default is utf_8. Encodings supported by Python codecs.decode() can be used here.
@@ -637,7 +637,7 @@ extension OpsWorks {
         /// Specifies the time zone of log event time stamps.
         public let timeZone: CloudWatchLogsTimeZone?
 
-        public init(batchCount: Int32? = nil, batchSize: Int32? = nil, bufferDuration: Int32? = nil, datetimeFormat: String? = nil, encoding: CloudWatchLogsEncoding? = nil, file: String? = nil, fileFingerprintLines: String? = nil, initialPosition: CloudWatchLogsInitialPosition? = nil, logGroupName: String? = nil, multiLineStartPattern: String? = nil, timeZone: CloudWatchLogsTimeZone? = nil) {
+        public init(batchCount: Int? = nil, batchSize: Int? = nil, bufferDuration: Int? = nil, datetimeFormat: String? = nil, encoding: CloudWatchLogsEncoding? = nil, file: String? = nil, fileFingerprintLines: String? = nil, initialPosition: CloudWatchLogsInitialPosition? = nil, logGroupName: String? = nil, multiLineStartPattern: String? = nil, timeZone: CloudWatchLogsTimeZone? = nil) {
             self.batchCount = batchCount
             self.batchSize = batchSize
             self.bufferDuration = bufferDuration
@@ -697,7 +697,7 @@ extension OpsWorks {
         /// The command deployment ID.
         public let deploymentId: String?
         /// The command exit code.
-        public let exitCode: Int32?
+        public let exitCode: Int?
         /// The ID of the instance where the command was executed.
         public let instanceId: String?
         /// The URL of the command log.
@@ -707,7 +707,7 @@ extension OpsWorks {
         /// The command type:    configure     deploy     execute_recipes     install_dependencies     restart     rollback     setup     start     stop     undeploy     update_custom_cookbooks     update_dependencies   
         public let `type`: String?
 
-        public init(acknowledgedAt: String? = nil, commandId: String? = nil, completedAt: String? = nil, createdAt: String? = nil, deploymentId: String? = nil, exitCode: Int32? = nil, instanceId: String? = nil, logUrl: String? = nil, status: String? = nil, type: String? = nil) {
+        public init(acknowledgedAt: String? = nil, commandId: String? = nil, completedAt: String? = nil, createdAt: String? = nil, deploymentId: String? = nil, exitCode: Int? = nil, instanceId: String? = nil, logUrl: String? = nil, status: String? = nil, type: String? = nil) {
             self.acknowledgedAt = acknowledgedAt
             self.commandId = commandId
             self.completedAt = completedAt
@@ -1451,7 +1451,7 @@ extension OpsWorks {
         /// The deployment ID.
         public let deploymentId: String?
         /// The deployment duration.
-        public let duration: Int32?
+        public let duration: Int?
         /// The user's IAM ARN.
         public let iamUserArn: String?
         /// The IDs of the target instances.
@@ -1461,7 +1461,7 @@ extension OpsWorks {
         /// The deployment status:   running   successful   failed  
         public let status: String?
 
-        public init(appId: String? = nil, command: DeploymentCommand? = nil, comment: String? = nil, completedAt: String? = nil, createdAt: String? = nil, customJson: String? = nil, deploymentId: String? = nil, duration: Int32? = nil, iamUserArn: String? = nil, instanceIds: [String]? = nil, stackId: String? = nil, status: String? = nil) {
+        public init(appId: String? = nil, command: DeploymentCommand? = nil, comment: String? = nil, completedAt: String? = nil, createdAt: String? = nil, customJson: String? = nil, deploymentId: String? = nil, duration: Int? = nil, iamUserArn: String? = nil, instanceIds: [String]? = nil, stackId: String? = nil, status: String? = nil) {
             self.appId = appId
             self.command = command
             self.comment = comment
@@ -1792,13 +1792,13 @@ extension OpsWorks {
         /// A list of ARNs, one for each cluster to be described.
         public let ecsClusterArns: [String]?
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If the previous paginated request did not return all of the remaining results, the response object'sNextToken parameter value is set to a token. To retrieve the next set of results, call DescribeEcsClusters again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
         public let nextToken: String?
         /// A stack ID. DescribeEcsClusters returns a description of the cluster that is registered with the stack.
         public let stackId: String?
 
-        public init(ecsClusterArns: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, stackId: String? = nil) {
+        public init(ecsClusterArns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, stackId: String? = nil) {
             self.ecsClusterArns = ecsClusterArns
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2510,15 +2510,15 @@ extension OpsWorks {
         /// Whether the volume is deleted on instance termination.
         public let deleteOnTermination: Bool?
         /// The number of I/O operations per second (IOPS) that the volume supports. For more information, see EbsBlockDevice.
-        public let iops: Int32?
+        public let iops: Int?
         /// The snapshot ID.
         public let snapshotId: String?
         /// The volume size, in GiB. For more information, see EbsBlockDevice.
-        public let volumeSize: Int32?
+        public let volumeSize: Int?
         /// The volume type. gp2 for General Purpose (SSD) volumes, io1 for Provisioned IOPS (SSD) volumes, st1 for Throughput Optimized hard disk drives (HDD), sc1 for Cold HDD,and standard for Magnetic volumes. If you specify the io1 volume type, you must also specify a value for the Iops attribute. The maximum ratio of provisioned IOPS to requested volume size (in GiB) is 50:1. AWS uses the default volume size (in GiB) specified in the AMI attributes to set IOPS to 50 x (volume size).
         public let volumeType: VolumeType?
 
-        public init(deleteOnTermination: Bool? = nil, iops: Int32? = nil, snapshotId: String? = nil, volumeSize: Int32? = nil, volumeType: VolumeType? = nil) {
+        public init(deleteOnTermination: Bool? = nil, iops: Int? = nil, snapshotId: String? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
             self.deleteOnTermination = deleteOnTermination
             self.iops = iops
             self.snapshotId = snapshotId
@@ -2736,9 +2736,9 @@ extension OpsWorks {
         /// The instance's AWS OpsWorks Stacks ID.
         public let instanceId: String
         /// The length of time (in minutes) that the grant is valid. When the grant expires at the end of this period, the user will no longer be able to use the credentials to log in. If the user is logged in at the time, he or she automatically will be logged out.
-        public let validForInMinutes: Int32?
+        public let validForInMinutes: Int?
 
-        public init(instanceId: String, validForInMinutes: Int32? = nil) {
+        public init(instanceId: String, validForInMinutes: Int? = nil) {
             self.instanceId = instanceId
             self.validForInMinutes = validForInMinutes
         }
@@ -3035,47 +3035,47 @@ extension OpsWorks {
         ]
 
         /// The number of instances in the Assigning state.
-        public let assigning: Int32?
+        public let assigning: Int?
         /// The number of instances with booting status.
-        public let booting: Int32?
+        public let booting: Int?
         /// The number of instances with connection_lost status.
-        public let connectionLost: Int32?
+        public let connectionLost: Int?
         /// The number of instances in the Deregistering state.
-        public let deregistering: Int32?
+        public let deregistering: Int?
         /// The number of instances with online status.
-        public let online: Int32?
+        public let online: Int?
         /// The number of instances with pending status.
-        public let pending: Int32?
+        public let pending: Int?
         /// The number of instances with rebooting status.
-        public let rebooting: Int32?
+        public let rebooting: Int?
         /// The number of instances in the Registered state.
-        public let registered: Int32?
+        public let registered: Int?
         /// The number of instances in the Registering state.
-        public let registering: Int32?
+        public let registering: Int?
         /// The number of instances with requested status.
-        public let requested: Int32?
+        public let requested: Int?
         /// The number of instances with running_setup status.
-        public let runningSetup: Int32?
+        public let runningSetup: Int?
         /// The number of instances with setup_failed status.
-        public let setupFailed: Int32?
+        public let setupFailed: Int?
         /// The number of instances with shutting_down status.
-        public let shuttingDown: Int32?
+        public let shuttingDown: Int?
         /// The number of instances with start_failed status.
-        public let startFailed: Int32?
+        public let startFailed: Int?
         /// The number of instances with stop_failed status.
-        public let stopFailed: Int32?
+        public let stopFailed: Int?
         /// The number of instances with stopped status.
-        public let stopped: Int32?
+        public let stopped: Int?
         /// The number of instances with stopping status.
-        public let stopping: Int32?
+        public let stopping: Int?
         /// The number of instances with terminated status.
-        public let terminated: Int32?
+        public let terminated: Int?
         /// The number of instances with terminating status.
-        public let terminating: Int32?
+        public let terminating: Int?
         /// The number of instances in the Unassigning state.
-        public let unassigning: Int32?
+        public let unassigning: Int?
 
-        public init(assigning: Int32? = nil, booting: Int32? = nil, connectionLost: Int32? = nil, deregistering: Int32? = nil, online: Int32? = nil, pending: Int32? = nil, rebooting: Int32? = nil, registered: Int32? = nil, registering: Int32? = nil, requested: Int32? = nil, runningSetup: Int32? = nil, setupFailed: Int32? = nil, shuttingDown: Int32? = nil, startFailed: Int32? = nil, stopFailed: Int32? = nil, stopped: Int32? = nil, stopping: Int32? = nil, terminated: Int32? = nil, terminating: Int32? = nil, unassigning: Int32? = nil) {
+        public init(assigning: Int? = nil, booting: Int? = nil, connectionLost: Int? = nil, deregistering: Int? = nil, online: Int? = nil, pending: Int? = nil, rebooting: Int? = nil, registered: Int? = nil, registering: Int? = nil, requested: Int? = nil, runningSetup: Int? = nil, setupFailed: Int? = nil, shuttingDown: Int? = nil, startFailed: Int? = nil, stopFailed: Int? = nil, stopped: Int? = nil, stopping: Int? = nil, terminated: Int? = nil, terminating: Int? = nil, unassigning: Int? = nil) {
             self.assigning = assigning
             self.booting = booting
             self.connectionLost = connectionLost
@@ -3319,13 +3319,13 @@ extension OpsWorks {
         ]
 
         /// Do not use. A validation exception occurs if you add a MaxResults parameter to a ListTagsRequest call. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Do not use. A validation exception occurs if you add a NextToken parameter to a ListTagsRequest call. 
         public let nextToken: String?
         /// The stack or layer's Amazon Resource Number (ARN).
         public let resourceArn: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -3524,25 +3524,25 @@ extension OpsWorks {
         /// The instance ID.
         public let instanceId: String?
         /// For PIOPS volumes, the IOPS per disk.
-        public let iops: Int32?
+        public let iops: Int?
         /// The array's mount point.
         public let mountPoint: String?
         /// The array name.
         public let name: String?
         /// The number of disks in the array.
-        public let numberOfDisks: Int32?
+        public let numberOfDisks: Int?
         /// The array ID.
         public let raidArrayId: String?
         /// The RAID level.
-        public let raidLevel: Int32?
+        public let raidLevel: Int?
         /// The array's size.
-        public let size: Int32?
+        public let size: Int?
         /// The stack ID.
         public let stackId: String?
         /// The volume type, standard or PIOPS.
         public let volumeType: String?
 
-        public init(availabilityZone: String? = nil, createdAt: String? = nil, device: String? = nil, instanceId: String? = nil, iops: Int32? = nil, mountPoint: String? = nil, name: String? = nil, numberOfDisks: Int32? = nil, raidArrayId: String? = nil, raidLevel: Int32? = nil, size: Int32? = nil, stackId: String? = nil, volumeType: String? = nil) {
+        public init(availabilityZone: String? = nil, createdAt: String? = nil, device: String? = nil, instanceId: String? = nil, iops: Int? = nil, mountPoint: String? = nil, name: String? = nil, numberOfDisks: Int? = nil, raidArrayId: String? = nil, raidLevel: Int? = nil, size: Int? = nil, stackId: String? = nil, volumeType: String? = nil) {
             self.availabilityZone = availabilityZone
             self.createdAt = createdAt
             self.device = device
@@ -4111,9 +4111,9 @@ extension OpsWorks {
         /// Whether to enable Elastic Load Balancing connection draining. For more information, see Connection Draining 
         public let delayUntilElbConnectionsDrained: Bool?
         /// The time, in seconds, that AWS OpsWorks Stacks will wait after triggering a Shutdown event before shutting down an instance.
-        public let executionTimeout: Int32?
+        public let executionTimeout: Int?
 
-        public init(delayUntilElbConnectionsDrained: Bool? = nil, executionTimeout: Int32? = nil) {
+        public init(delayUntilElbConnectionsDrained: Bool? = nil, executionTimeout: Int? = nil) {
             self.delayUntilElbConnectionsDrained = delayUntilElbConnectionsDrained
             self.executionTimeout = executionTimeout
         }
@@ -4361,19 +4361,19 @@ extension OpsWorks {
         ]
 
         /// The number of apps.
-        public let appsCount: Int32?
+        public let appsCount: Int?
         /// The stack's ARN.
         public let arn: String?
         /// An InstancesCount object with the number of instances in each status.
         public let instancesCount: InstancesCount?
         /// The number of layers.
-        public let layersCount: Int32?
+        public let layersCount: Int?
         /// The stack name.
         public let name: String?
         /// The stack ID.
         public let stackId: String?
 
-        public init(appsCount: Int32? = nil, arn: String? = nil, instancesCount: InstancesCount? = nil, layersCount: Int32? = nil, name: String? = nil, stackId: String? = nil) {
+        public init(appsCount: Int? = nil, arn: String? = nil, instancesCount: InstancesCount? = nil, layersCount: Int? = nil, name: String? = nil, stackId: String? = nil) {
             self.appsCount = appsCount
             self.arn = arn
             self.instancesCount = instancesCount
@@ -4502,9 +4502,9 @@ extension OpsWorks {
         /// The user name.
         public let username: String?
         /// The length of time (in minutes) that the grant is valid. When the grant expires, at the end of this period, the user will no longer be able to use the credentials to log in. If they are logged in at the time, they will be automatically logged out.
-        public let validForInMinutes: Int32?
+        public let validForInMinutes: Int?
 
-        public init(instanceId: String? = nil, password: String? = nil, username: String? = nil, validForInMinutes: Int32? = nil) {
+        public init(instanceId: String? = nil, password: String? = nil, username: String? = nil, validForInMinutes: Int? = nil) {
             self.instanceId = instanceId
             self.password = password
             self.username = username
@@ -5131,7 +5131,7 @@ extension OpsWorks {
         /// The instance ID.
         public let instanceId: String?
         /// For PIOPS volumes, the IOPS per disk.
-        public let iops: Int32?
+        public let iops: Int?
         /// The volume mount point. For example, "/mnt/disk1".
         public let mountPoint: String?
         /// The volume name.
@@ -5141,7 +5141,7 @@ extension OpsWorks {
         /// The AWS region. For more information about AWS regions, see Regions and Endpoints.
         public let region: String?
         /// The volume size.
-        public let size: Int32?
+        public let size: Int?
         /// The value returned by DescribeVolumes.
         public let status: String?
         /// The volume ID.
@@ -5149,7 +5149,7 @@ extension OpsWorks {
         /// The volume type. For more information, see  Amazon EBS Volume Types.    standard - Magnetic. Magnetic volumes must have a minimum size of 1 GiB and a maximum size of 1024 GiB.    io1 - Provisioned IOPS (SSD). PIOPS volumes must have a minimum size of 4 GiB and a maximum size of 16384 GiB.    gp2 - General Purpose (SSD). General purpose volumes must have a minimum size of 1 GiB and a maximum size of 16384 GiB.    st1 - Throughput Optimized hard disk drive (HDD). Throughput optimized HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.    sc1 - Cold HDD. Cold HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.  
         public let volumeType: String?
 
-        public init(availabilityZone: String? = nil, device: String? = nil, ec2VolumeId: String? = nil, encrypted: Bool? = nil, instanceId: String? = nil, iops: Int32? = nil, mountPoint: String? = nil, name: String? = nil, raidArrayId: String? = nil, region: String? = nil, size: Int32? = nil, status: String? = nil, volumeId: String? = nil, volumeType: String? = nil) {
+        public init(availabilityZone: String? = nil, device: String? = nil, ec2VolumeId: String? = nil, encrypted: Bool? = nil, instanceId: String? = nil, iops: Int? = nil, mountPoint: String? = nil, name: String? = nil, raidArrayId: String? = nil, region: String? = nil, size: Int? = nil, status: String? = nil, volumeId: String? = nil, volumeType: String? = nil) {
             self.availabilityZone = availabilityZone
             self.device = device
             self.ec2VolumeId = ec2VolumeId
@@ -5198,19 +5198,19 @@ extension OpsWorks {
         /// Specifies whether an Amazon EBS volume is encrypted. For more information, see Amazon EBS Encryption.
         public let encrypted: Bool?
         /// For PIOPS volumes, the IOPS per disk.
-        public let iops: Int32?
+        public let iops: Int?
         /// The volume mount point. For example "/dev/sdh".
         public let mountPoint: String
         /// The number of disks in the volume.
-        public let numberOfDisks: Int32
+        public let numberOfDisks: Int
         /// The volume RAID level.
-        public let raidLevel: Int32?
+        public let raidLevel: Int?
         /// The volume size.
-        public let size: Int32
+        public let size: Int
         /// The volume type. For more information, see  Amazon EBS Volume Types.    standard - Magnetic. Magnetic volumes must have a minimum size of 1 GiB and a maximum size of 1024 GiB.    io1 - Provisioned IOPS (SSD). PIOPS volumes must have a minimum size of 4 GiB and a maximum size of 16384 GiB.    gp2 - General Purpose (SSD). General purpose volumes must have a minimum size of 1 GiB and a maximum size of 16384 GiB.    st1 - Throughput Optimized hard disk drive (HDD). Throughput optimized HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.    sc1 - Cold HDD. Cold HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.  
         public let volumeType: String?
 
-        public init(encrypted: Bool? = nil, iops: Int32? = nil, mountPoint: String, numberOfDisks: Int32, raidLevel: Int32? = nil, size: Int32, volumeType: String? = nil) {
+        public init(encrypted: Bool? = nil, iops: Int? = nil, mountPoint: String, numberOfDisks: Int, raidLevel: Int? = nil, size: Int, volumeType: String? = nil) {
             self.encrypted = encrypted
             self.iops = iops
             self.mountPoint = mountPoint

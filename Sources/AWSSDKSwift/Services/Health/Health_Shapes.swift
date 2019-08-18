@@ -91,11 +91,11 @@ extension Health {
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
         public let locale: String?
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
-        public init(filter: EntityFilter, locale: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filter: EntityFilter, locale: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.locale = locale
             self.maxResults = maxResults
@@ -197,11 +197,11 @@ extension Health {
         /// Values to narrow the results returned.
         public let filter: EventFilter?
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
-        public init(aggregateField: EventAggregateField, filter: EventFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(aggregateField: EventAggregateField, filter: EventFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.aggregateField = aggregateField
             self.filter = filter
             self.maxResults = maxResults
@@ -313,11 +313,11 @@ extension Health {
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
         public let locale: String?
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
-        public init(filter: EventTypeFilter? = nil, locale: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filter: EventTypeFilter? = nil, locale: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.locale = locale
             self.maxResults = maxResults
@@ -376,11 +376,11 @@ extension Health {
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
         public let locale: String?
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
-        public init(filter: EventFilter? = nil, locale: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filter: EventFilter? = nil, locale: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.locale = locale
             self.maxResults = maxResults
@@ -433,11 +433,11 @@ extension Health {
         ]
 
         /// The number entities that match the criteria for the specified events.
-        public let count: Int32?
+        public let count: Int?
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
         public let eventArn: String?
 
-        public init(count: Int32? = nil, eventArn: String? = nil) {
+        public init(count: Int? = nil, eventArn: String? = nil) {
             self.count = count
             self.eventArn = eventArn
         }
@@ -585,9 +585,9 @@ extension Health {
         /// The issue type for the associated count.
         public let aggregateValue: String?
         /// The number of events of the associated issue type.
-        public let count: Int32?
+        public let count: Int?
 
-        public init(aggregateValue: String? = nil, count: Int32? = nil) {
+        public init(aggregateValue: String? = nil, count: Int? = nil) {
             self.aggregateValue = aggregateValue
             self.count = count
         }

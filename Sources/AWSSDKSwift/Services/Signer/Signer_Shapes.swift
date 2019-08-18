@@ -206,7 +206,7 @@ extension Signer {
         /// The display name of the target signing platform.
         public let displayName: String?
         /// The maximum size (in MB) of the payload that can be signed by the target platform.
-        public let maxSizeInMB: Int32?
+        public let maxSizeInMB: Int?
         /// A list of partner entities that use the target signing platform.
         public let partner: String?
         /// The ID of the target signing platform.
@@ -218,7 +218,7 @@ extension Signer {
         /// The validation template that is used by the target signing platform.
         public let target: String?
 
-        public init(category: Category? = nil, displayName: String? = nil, maxSizeInMB: Int32? = nil, partner: String? = nil, platformId: String? = nil, signingConfiguration: SigningConfiguration? = nil, signingImageFormat: SigningImageFormat? = nil, target: String? = nil) {
+        public init(category: Category? = nil, displayName: String? = nil, maxSizeInMB: Int? = nil, partner: String? = nil, platformId: String? = nil, signingConfiguration: SigningConfiguration? = nil, signingImageFormat: SigningImageFormat? = nil, target: String? = nil) {
             self.category = category
             self.displayName = displayName
             self.maxSizeInMB = maxSizeInMB
@@ -349,7 +349,7 @@ extension Signer {
         ]
 
         /// Specifies the maximum number of items to return in the response. Use this parameter when paginating results. If additional items exist beyond the number you specify, the nextToken element is set in the response. Use the nextToken value in a subsequent request to retrieve additional items. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// String for specifying the next set of paginated results to return. After you receive a response with truncated results, use this parameter in a subsequent request. Set it to the value of nextToken from the response that you just received.
         public let nextToken: String?
         /// The ID of microcontroller platform that you specified for the distribution of your code image.
@@ -359,7 +359,7 @@ extension Signer {
         /// A status value with which to filter your results.
         public let status: SigningStatus?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, platformId: String? = nil, requestedBy: String? = nil, status: SigningStatus? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, platformId: String? = nil, requestedBy: String? = nil, status: SigningStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.platformId = platformId
@@ -415,7 +415,7 @@ extension Signer {
         /// The category type of a signing platform.
         public let category: String?
         /// The maximum number of results to be returned by this operation.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Value for specifying the next set of paginated results to return. After you receive a response with truncated results, use this parameter in a subsequent request. Set it to the value of nextToken from the response that you just received.
         public let nextToken: String?
         /// Any partner entities connected to a signing platform.
@@ -423,7 +423,7 @@ extension Signer {
         /// The validation template that is used by the target signing platform.
         public let target: String?
 
-        public init(category: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, partner: String? = nil, target: String? = nil) {
+        public init(category: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, partner: String? = nil, target: String? = nil) {
             self.category = category
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -477,11 +477,11 @@ extension Signer {
         /// Designates whether to include profiles with the status of CANCELED.
         public let includeCanceled: Bool?
         /// The maximum number of profiles to be returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Value for specifying the next set of paginated results to return. After you receive a response with truncated results, use this parameter in a subsequent request. Set it to the value of nextToken from the response that you just received.
         public let nextToken: String?
 
-        public init(includeCanceled: Bool? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(includeCanceled: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.includeCanceled = includeCanceled
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -811,7 +811,7 @@ extension Signer {
         /// The display name of an AWS Signer platform.
         public let displayName: String?
         /// The maximum size (in MB) of code that can be signed by a AWS Signer platform.
-        public let maxSizeInMB: Int32?
+        public let maxSizeInMB: Int?
         /// Any partner entities linked to an AWS Signer platform.
         public let partner: String?
         /// The ID of an AWS Signer platform.
@@ -823,7 +823,7 @@ extension Signer {
         /// The types of targets that can be signed by an AWS Signer platform.
         public let target: String?
 
-        public init(category: Category? = nil, displayName: String? = nil, maxSizeInMB: Int32? = nil, partner: String? = nil, platformId: String? = nil, signingConfiguration: SigningConfiguration? = nil, signingImageFormat: SigningImageFormat? = nil, target: String? = nil) {
+        public init(category: Category? = nil, displayName: String? = nil, maxSizeInMB: Int? = nil, partner: String? = nil, platformId: String? = nil, signingConfiguration: SigningConfiguration? = nil, signingImageFormat: SigningImageFormat? = nil, target: String? = nil) {
             self.category = category
             self.displayName = displayName
             self.maxSizeInMB = maxSizeInMB

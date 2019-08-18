@@ -1554,11 +1554,11 @@ extension IoTAnalytics {
         ]
 
         /// The number of seconds of estimated "in flight" lag time of message data. When you create data set contents using message data from a specified time frame, some message data may still be "in flight" when processing begins, and so will not arrive in time to be processed. Use this field to make allowances for the "in flight" time of your message data, so that data not processed from a previous time frame will be included with the next time frame. Without this, missed message data would be excluded from processing during the next time frame as well, because its timestamp places it within the previous time frame.
-        public let offsetSeconds: Int32
+        public let offsetSeconds: Int
         /// An expression by which the time of the message data may be determined. This may be the name of a timestamp field, or a SQL expression which is used to derive the time the message data was generated.
         public let timeExpression: String
 
-        public init(offsetSeconds: Int32, timeExpression: String) {
+        public init(offsetSeconds: Int, timeExpression: String) {
             self.offsetSeconds = offsetSeconds
             self.timeExpression = timeExpression
         }
@@ -2059,7 +2059,7 @@ extension IoTAnalytics {
         ]
 
         /// The number of messages passed to the Lambda function for processing. The AWS Lambda function must be able to process all of these messages within five minutes, which is the maximum timeout duration for Lambda functions.
-        public let batchSize: Int32
+        public let batchSize: Int
         /// The name of the Lambda function that is run on the message.
         public let lambdaName: String
         /// The name of the 'lambda' activity.
@@ -2067,7 +2067,7 @@ extension IoTAnalytics {
         /// The next activity in the pipeline.
         public let next: String?
 
-        public init(batchSize: Int32, lambdaName: String, name: String, next: String? = nil) {
+        public init(batchSize: Int, lambdaName: String, name: String, next: String? = nil) {
             self.batchSize = batchSize
             self.lambdaName = lambdaName
             self.name = name
@@ -2101,11 +2101,11 @@ extension IoTAnalytics {
         ]
 
         /// The maximum number of results to return in this request. The default value is 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2155,7 +2155,7 @@ extension IoTAnalytics {
         /// The name of the data set whose contents information you want to list.
         public let datasetName: String
         /// The maximum number of results to return in this request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
         /// A filter to limit results to those data set contents whose creation is scheduled before the given time. See the field triggers.schedule in the CreateDataset request. (timestamp)
@@ -2163,7 +2163,7 @@ extension IoTAnalytics {
         /// A filter to limit results to those data set contents whose creation is scheduled on or after the given time. See the field triggers.schedule in the CreateDataset request. (timestamp)
         public let scheduledOnOrAfter: TimeStamp?
 
-        public init(datasetName: String, maxResults: Int32? = nil, nextToken: String? = nil, scheduledBefore: TimeStamp? = nil, scheduledOnOrAfter: TimeStamp? = nil) {
+        public init(datasetName: String, maxResults: Int? = nil, nextToken: String? = nil, scheduledBefore: TimeStamp? = nil, scheduledOnOrAfter: TimeStamp? = nil) {
             self.datasetName = datasetName
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2217,11 +2217,11 @@ extension IoTAnalytics {
         ]
 
         /// The maximum number of results to return in this request. The default value is 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2266,11 +2266,11 @@ extension IoTAnalytics {
         ]
 
         /// The maximum number of results to return in this request. The default value is 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2315,11 +2315,11 @@ extension IoTAnalytics {
         ]
 
         /// The maximum number of results to return in this request. The default value is 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2795,9 +2795,9 @@ extension IoTAnalytics {
         /// The type of the compute resource used to execute the "containerAction". Possible values are: ACU_1 (vCPU=4, memory=16GiB) or ACU_2 (vCPU=8, memory=32GiB).
         public let computeType: ComputeType
         /// The size (in GB) of the persistent storage available to the resource instance used to execute the "containerAction" (min: 1, max: 50).
-        public let volumeSizeInGB: Int32
+        public let volumeSizeInGB: Int
 
-        public init(computeType: ComputeType, volumeSizeInGB: Int32) {
+        public init(computeType: ComputeType, volumeSizeInGB: Int) {
             self.computeType = computeType
             self.volumeSizeInGB = volumeSizeInGB
         }
@@ -2820,11 +2820,11 @@ extension IoTAnalytics {
         ]
 
         /// The number of days that message data is kept. The "unlimited" parameter must be false.
-        public let numberOfDays: Int32?
+        public let numberOfDays: Int?
         /// If true, message data is kept indefinitely.
         public let unlimited: Bool?
 
-        public init(numberOfDays: Int32? = nil, unlimited: Bool? = nil) {
+        public init(numberOfDays: Int? = nil, unlimited: Bool? = nil) {
             self.numberOfDays = numberOfDays
             self.unlimited = unlimited
         }
@@ -2946,11 +2946,11 @@ extension IoTAnalytics {
         /// The end of the time window from which sample messages are retrieved.
         public let endTime: TimeStamp?
         /// The number of sample messages to be retrieved. The limit is 10, the default is also 10.
-        public let maxMessages: Int32?
+        public let maxMessages: Int?
         /// The start of the time window from which sample messages are retrieved.
         public let startTime: TimeStamp?
 
-        public init(channelName: String, endTime: TimeStamp? = nil, maxMessages: Int32? = nil, startTime: TimeStamp? = nil) {
+        public init(channelName: String, endTime: TimeStamp? = nil, maxMessages: Int? = nil, startTime: TimeStamp? = nil) {
             self.channelName = channelName
             self.endTime = endTime
             self.maxMessages = maxMessages
@@ -3510,11 +3510,11 @@ extension IoTAnalytics {
         ]
 
         /// How many versions of data set contents will be kept. The "unlimited" parameter must be false.
-        public let maxVersions: Int32?
+        public let maxVersions: Int?
         /// If true, unlimited versions of data set contents will be kept.
         public let unlimited: Bool?
 
-        public init(maxVersions: Int32? = nil, unlimited: Bool? = nil) {
+        public init(maxVersions: Int? = nil, unlimited: Bool? = nil) {
             self.maxVersions = maxVersions
             self.unlimited = unlimited
         }

@@ -219,9 +219,9 @@ extension CognitoIdentityProvider {
         /// The message template to be used for the welcome message to new users. See also Customizing User Invitation Messages.
         public let inviteMessageTemplate: MessageTemplateType?
         /// The user account expiration limit, in days, after which the account is no longer usable. To reset the account after that time limit, you must call AdminCreateUser again, specifying "RESEND" for the MessageAction parameter. The default value for this parameter is 7.   If you set a value for TemporaryPasswordValidityDays in PasswordPolicy, that value will be used and UnusedAccountValidityDays will be deprecated for that user pool.  
-        public let unusedAccountValidityDays: Int32?
+        public let unusedAccountValidityDays: Int?
 
-        public init(allowAdminCreateUserOnly: Bool? = nil, inviteMessageTemplate: MessageTemplateType? = nil, unusedAccountValidityDays: Int32? = nil) {
+        public init(allowAdminCreateUserOnly: Bool? = nil, inviteMessageTemplate: MessageTemplateType? = nil, unusedAccountValidityDays: Int? = nil) {
             self.allowAdminCreateUserOnly = allowAdminCreateUserOnly
             self.inviteMessageTemplate = inviteMessageTemplate
             self.unusedAccountValidityDays = unusedAccountValidityDays
@@ -839,7 +839,7 @@ extension CognitoIdentityProvider {
         ]
 
         /// The limit of the devices request.
-        public let limit: Int32?
+        public let limit: Int?
         /// The pagination token.
         public let paginationToken: String?
         /// The user name.
@@ -847,7 +847,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
-        public init(limit: Int32? = nil, paginationToken: String? = nil, username: String, userPoolId: String) {
+        public init(limit: Int? = nil, paginationToken: String? = nil, username: String, userPoolId: String) {
             self.limit = limit
             self.paginationToken = paginationToken
             self.username = username
@@ -906,7 +906,7 @@ extension CognitoIdentityProvider {
         ]
 
         /// The limit of the request to list groups.
-        public let limit: Int32?
+        public let limit: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
         /// The username for the user.
@@ -914,7 +914,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
-        public init(limit: Int32? = nil, nextToken: String? = nil, username: String, userPoolId: String) {
+        public init(limit: Int? = nil, nextToken: String? = nil, username: String, userPoolId: String) {
             self.limit = limit
             self.nextToken = nextToken
             self.username = username
@@ -973,7 +973,7 @@ extension CognitoIdentityProvider {
         ]
 
         /// The maximum number of authentication events to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A pagination token.
         public let nextToken: String?
         /// The user pool username or an alias.
@@ -981,7 +981,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, username: String, userPoolId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, username: String, userPoolId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.username = username
@@ -1765,7 +1765,7 @@ extension CognitoIdentityProvider {
         /// The access token.
         public let accessToken: String?
         /// The expiration period of the authentication result in seconds.
-        public let expiresIn: Int32?
+        public let expiresIn: Int?
         /// The ID token.
         public let idToken: String?
         /// The new device metadata from an authentication result.
@@ -1775,7 +1775,7 @@ extension CognitoIdentityProvider {
         /// The token type.
         public let tokenType: String?
 
-        public init(accessToken: String? = nil, expiresIn: Int32? = nil, idToken: String? = nil, newDeviceMetadata: NewDeviceMetadataType? = nil, refreshToken: String? = nil, tokenType: String? = nil) {
+        public init(accessToken: String? = nil, expiresIn: Int? = nil, idToken: String? = nil, newDeviceMetadata: NewDeviceMetadataType? = nil, refreshToken: String? = nil, tokenType: String? = nil) {
             self.accessToken = accessToken
             self.expiresIn = expiresIn
             self.idToken = idToken
@@ -2211,13 +2211,13 @@ extension CognitoIdentityProvider {
         /// The name of the group. Must be unique.
         public let groupName: String
         /// A nonnegative integer value that specifies the precedence of this group relative to the other groups that a user can belong to in the user pool. Zero is the highest precedence value. Groups with lower Precedence values take precedence over groups with higher or null Precedence values. If a user belongs to two or more groups, it is the group with the lowest precedence value whose role ARN will be used in the cognito:roles and cognito:preferred_role claims in the user's tokens. Two groups can have the same Precedence value. If this happens, neither group takes precedence over the other. If two groups with the same Precedence have the same role ARN, that role is used in the cognito:preferred_role claim in tokens for users in each group. If the two groups have different role ARNs, the cognito:preferred_role claim is not set in users' tokens. The default Precedence value is null.
-        public let precedence: Int32?
+        public let precedence: Int?
         /// The role ARN for the group.
         public let roleArn: String?
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
-        public init(description: String? = nil, groupName: String, precedence: Int32? = nil, roleArn: String? = nil, userPoolId: String) {
+        public init(description: String? = nil, groupName: String, precedence: Int? = nil, roleArn: String? = nil, userPoolId: String) {
             self.description = description
             self.groupName = groupName
             self.precedence = precedence
@@ -2507,7 +2507,7 @@ extension CognitoIdentityProvider {
         /// The read attributes.
         public let readAttributes: [String]?
         /// The time limit, in days, after which the refresh token is no longer valid and cannot be used.
-        public let refreshTokenValidity: Int32?
+        public let refreshTokenValidity: Int?
         /// A list of provider names for the identity providers that are supported on this client. The following are supported: COGNITO, Facebook, Google and LoginWithAmazon.
         public let supportedIdentityProviders: [String]?
         /// The user pool ID for the user pool where you want to create a user pool client.
@@ -2515,7 +2515,7 @@ extension CognitoIdentityProvider {
         /// The user pool attributes that the app client can write to. If your app client allows users to sign in through an identity provider, this array must include all attributes that are mapped to identity provider attributes. Amazon Cognito updates mapped attributes when users sign in to your application through an identity provider. If your app client lacks write access to a mapped attribute, Amazon Cognito throws an error when it attempts to update the attribute. For more information, see Specifying Identity Provider Attribute Mappings for Your User Pool.
         public let writeAttributes: [String]?
 
-        public init(allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientName: String, defaultRedirectURI: String? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, generateSecret: Bool? = nil, logoutURLs: [String]? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int32? = nil, supportedIdentityProviders: [String]? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
+        public init(allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientName: String, defaultRedirectURI: String? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, generateSecret: Bool? = nil, logoutURLs: [String]? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
             self.allowedOAuthFlows = allowedOAuthFlows
             self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
             self.allowedOAuthScopes = allowedOAuthScopes
@@ -4313,13 +4313,13 @@ extension CognitoIdentityProvider {
         /// The date the group was last modified.
         public let lastModifiedDate: TimeStamp?
         /// A nonnegative integer value that specifies the precedence of this group relative to the other groups that a user can belong to in the user pool. If a user belongs to two or more groups, it is the group with the highest precedence whose role ARN will be used in the cognito:roles and cognito:preferred_role claims in the user's tokens. Groups with higher Precedence values take precedence over groups with lower Precedence values or with null Precedence values. Two groups can have the same Precedence value. If this happens, neither group takes precedence over the other. If two groups with the same Precedence have the same role ARN, that role is used in the cognito:preferred_role claim in tokens for users in each group. If the two groups have different role ARNs, the cognito:preferred_role claim is not set in users' tokens. The default Precedence value is null.
-        public let precedence: Int32?
+        public let precedence: Int?
         /// The role ARN for the group.
         public let roleArn: String?
         /// The user pool ID for the user pool.
         public let userPoolId: String?
 
-        public init(creationDate: TimeStamp? = nil, description: String? = nil, groupName: String? = nil, lastModifiedDate: TimeStamp? = nil, precedence: Int32? = nil, roleArn: String? = nil, userPoolId: String? = nil) {
+        public init(creationDate: TimeStamp? = nil, description: String? = nil, groupName: String? = nil, lastModifiedDate: TimeStamp? = nil, precedence: Int? = nil, roleArn: String? = nil, userPoolId: String? = nil) {
             self.creationDate = creationDate
             self.description = description
             self.groupName = groupName
@@ -4608,11 +4608,11 @@ extension CognitoIdentityProvider {
         /// The access tokens for the request to list devices.
         public let accessToken: String
         /// The limit of the device request.
-        public let limit: Int32?
+        public let limit: Int?
         /// The pagination token for the list request.
         public let paginationToken: String?
 
-        public init(accessToken: String, limit: Int32? = nil, paginationToken: String? = nil) {
+        public init(accessToken: String, limit: Int? = nil, paginationToken: String? = nil) {
             self.accessToken = accessToken
             self.limit = limit
             self.paginationToken = paginationToken
@@ -4663,13 +4663,13 @@ extension CognitoIdentityProvider {
         ]
 
         /// The limit of the request to list groups.
-        public let limit: Int32?
+        public let limit: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
-        public init(limit: Int32? = nil, nextToken: String? = nil, userPoolId: String) {
+        public init(limit: Int? = nil, nextToken: String? = nil, userPoolId: String) {
             self.limit = limit
             self.nextToken = nextToken
             self.userPoolId = userPoolId
@@ -4722,13 +4722,13 @@ extension CognitoIdentityProvider {
         ]
 
         /// The maximum number of identity providers to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A pagination token.
         public let nextToken: String?
         /// The user pool ID.
         public let userPoolId: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, userPoolId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, userPoolId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.userPoolId = userPoolId
@@ -4781,13 +4781,13 @@ extension CognitoIdentityProvider {
         ]
 
         /// The maximum number of resource servers to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A pagination token.
         public let nextToken: String?
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, userPoolId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, userPoolId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.userPoolId = userPoolId
@@ -4880,13 +4880,13 @@ extension CognitoIdentityProvider {
         ]
 
         /// The maximum number of import jobs you want the request to return.
-        public let maxResults: Int32
+        public let maxResults: Int
         /// An identifier that was returned from the previous call to ListUserImportJobs, which can be used to return the next set of import jobs in the list.
         public let paginationToken: String?
         /// The user pool ID for the user pool that the users are being imported into.
         public let userPoolId: String
 
-        public init(maxResults: Int32, paginationToken: String? = nil, userPoolId: String) {
+        public init(maxResults: Int, paginationToken: String? = nil, userPoolId: String) {
             self.maxResults = maxResults
             self.paginationToken = paginationToken
             self.userPoolId = userPoolId
@@ -4939,13 +4939,13 @@ extension CognitoIdentityProvider {
         ]
 
         /// The maximum number of results you want the request to return when listing the user pool clients.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
         /// The user pool ID for the user pool where you want to list user pool clients.
         public let userPoolId: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, userPoolId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, userPoolId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.userPoolId = userPoolId
@@ -4997,11 +4997,11 @@ extension CognitoIdentityProvider {
         ]
 
         /// The maximum number of results you want the request to return when listing the user pools.
-        public let maxResults: Int32
+        public let maxResults: Int
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
-        public init(maxResults: Int32, nextToken: String? = nil) {
+        public init(maxResults: Int, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -5052,13 +5052,13 @@ extension CognitoIdentityProvider {
         /// The name of the group.
         public let groupName: String
         /// The limit of the request to list users.
-        public let limit: Int32?
+        public let limit: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
-        public init(groupName: String, limit: Int32? = nil, nextToken: String? = nil, userPoolId: String) {
+        public init(groupName: String, limit: Int? = nil, nextToken: String? = nil, userPoolId: String) {
             self.groupName = groupName
             self.limit = limit
             self.nextToken = nextToken
@@ -5122,13 +5122,13 @@ extension CognitoIdentityProvider {
         /// A filter string of the form "AttributeName Filter-Type "AttributeValue"". Quotation marks within the filter string must be escaped using the backslash (\) character. For example, "family_name = \"Reddy\"".    AttributeName: The name of the attribute to search for. You can only search for one attribute at a time.    Filter-Type: For an exact match, use =, for example, "given_name = \"Jon\"". For a prefix ("starts with") match, use ^=, for example, "given_name ^= \"Jon\"".     AttributeValue: The attribute value that must be matched for each user.   If the filter string is empty, ListUsers returns all users in the user pool. You can only search for the following standard attributes:    username (case-sensitive)    email     phone_number     name     given_name     family_name     preferred_username     cognito:user_status (called Status in the Console) (case-insensitive)    status (called Enabled in the Console) (case-sensitive)     sub    Custom attributes are not searchable. For more information, see Searching for Users Using the ListUsers API and Examples of Using the ListUsers API in the Amazon Cognito Developer Guide.
         public let filter: String?
         /// Maximum number of users to be returned.
-        public let limit: Int32?
+        public let limit: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let paginationToken: String?
         /// The user pool ID for the user pool on which the search should be performed.
         public let userPoolId: String
 
-        public init(attributesToGet: [String]? = nil, filter: String? = nil, limit: Int32? = nil, paginationToken: String? = nil, userPoolId: String) {
+        public init(attributesToGet: [String]? = nil, filter: String? = nil, limit: Int? = nil, paginationToken: String? = nil, userPoolId: String) {
             self.attributesToGet = attributesToGet
             self.filter = filter
             self.limit = limit
@@ -5408,7 +5408,7 @@ extension CognitoIdentityProvider {
         ]
 
         /// The minimum length of the password policy that you have set. Cannot be less than 6.
-        public let minimumLength: Int32?
+        public let minimumLength: Int?
         /// In the password policy that you have set, refers to whether you have required users to use at least one lowercase letter in their password.
         public let requireLowercase: Bool?
         /// In the password policy that you have set, refers to whether you have required users to use at least one number in their password.
@@ -5417,9 +5417,9 @@ extension CognitoIdentityProvider {
         public let requireSymbols: Bool?
         /// In the password policy that you have set, refers to whether you have required users to use at least one uppercase letter in their password.
         public let requireUppercase: Bool?
-        public let temporaryPasswordValidityDays: Int32?
+        public let temporaryPasswordValidityDays: Int?
 
-        public init(minimumLength: Int32? = nil, requireLowercase: Bool? = nil, requireNumbers: Bool? = nil, requireSymbols: Bool? = nil, requireUppercase: Bool? = nil, temporaryPasswordValidityDays: Int32? = nil) {
+        public init(minimumLength: Int? = nil, requireLowercase: Bool? = nil, requireNumbers: Bool? = nil, requireSymbols: Bool? = nil, requireUppercase: Bool? = nil, temporaryPasswordValidityDays: Int? = nil) {
             self.minimumLength = minimumLength
             self.requireLowercase = requireLowercase
             self.requireNumbers = requireNumbers
@@ -6706,13 +6706,13 @@ extension CognitoIdentityProvider {
         /// The name of the group.
         public let groupName: String
         /// The new precedence value for the group. For more information about this parameter, see .
-        public let precedence: Int32?
+        public let precedence: Int?
         /// The new role ARN for the group. This is used for setting the cognito:roles and cognito:preferred_role claims in the token.
         public let roleArn: String?
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
-        public init(description: String? = nil, groupName: String, precedence: Int32? = nil, roleArn: String? = nil, userPoolId: String) {
+        public init(description: String? = nil, groupName: String, precedence: Int? = nil, roleArn: String? = nil, userPoolId: String) {
             self.description = description
             self.groupName = groupName
             self.precedence = precedence
@@ -6987,7 +6987,7 @@ extension CognitoIdentityProvider {
         /// The read-only attributes of the user pool.
         public let readAttributes: [String]?
         /// The time limit, in days, after which the refresh token is no longer valid and cannot be used.
-        public let refreshTokenValidity: Int32?
+        public let refreshTokenValidity: Int?
         /// A list of provider names for the identity providers that are supported on this client.
         public let supportedIdentityProviders: [String]?
         /// The user pool ID for the user pool where you want to update the user pool client.
@@ -6995,7 +6995,7 @@ extension CognitoIdentityProvider {
         /// The writeable attributes of the user pool.
         public let writeAttributes: [String]?
 
-        public init(allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientId: String, clientName: String? = nil, defaultRedirectURI: String? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, logoutURLs: [String]? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int32? = nil, supportedIdentityProviders: [String]? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
+        public init(allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientId: String, clientName: String? = nil, defaultRedirectURI: String? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, logoutURLs: [String]? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
             self.allowedOAuthFlows = allowedOAuthFlows
             self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
             self.allowedOAuthScopes = allowedOAuthScopes
@@ -7487,7 +7487,7 @@ extension CognitoIdentityProvider {
         /// The Read-only attributes.
         public let readAttributes: [String]?
         /// The time limit, in days, after which the refresh token is no longer valid and cannot be used.
-        public let refreshTokenValidity: Int32?
+        public let refreshTokenValidity: Int?
         /// A list of provider names for the identity providers that are supported on this client.
         public let supportedIdentityProviders: [String]?
         /// The user pool ID for the user pool client.
@@ -7495,7 +7495,7 @@ extension CognitoIdentityProvider {
         /// The writeable attributes.
         public let writeAttributes: [String]?
 
-        public init(allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientId: String? = nil, clientName: String? = nil, clientSecret: String? = nil, creationDate: TimeStamp? = nil, defaultRedirectURI: String? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, lastModifiedDate: TimeStamp? = nil, logoutURLs: [String]? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int32? = nil, supportedIdentityProviders: [String]? = nil, userPoolId: String? = nil, writeAttributes: [String]? = nil) {
+        public init(allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientId: String? = nil, clientName: String? = nil, clientSecret: String? = nil, creationDate: TimeStamp? = nil, defaultRedirectURI: String? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, lastModifiedDate: TimeStamp? = nil, logoutURLs: [String]? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, userPoolId: String? = nil, writeAttributes: [String]? = nil) {
             self.allowedOAuthFlows = allowedOAuthFlows
             self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
             self.allowedOAuthScopes = allowedOAuthScopes
@@ -7666,7 +7666,7 @@ extension CognitoIdentityProvider {
         /// The subject of the email verification message.
         public let emailVerificationSubject: String?
         /// A number estimating the size of the user pool.
-        public let estimatedNumberOfUsers: Int32?
+        public let estimatedNumberOfUsers: Int?
         /// The ID of the user pool.
         public let id: String?
         /// The AWS Lambda triggers associated with the user pool.
@@ -7700,7 +7700,7 @@ extension CognitoIdentityProvider {
         /// The template for verification messages.
         public let verificationMessageTemplate: VerificationMessageTemplateType?
 
-        public init(adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, arn: String? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, creationDate: TimeStamp? = nil, customDomain: String? = nil, deviceConfiguration: DeviceConfigurationType? = nil, domain: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailConfigurationFailure: String? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, estimatedNumberOfUsers: Int32? = nil, id: String? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: TimeStamp? = nil, mfaConfiguration: UserPoolMfaType? = nil, name: String? = nil, policies: UserPoolPolicyType? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsConfigurationFailure: String? = nil, smsVerificationMessage: String? = nil, status: StatusType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
+        public init(adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, arn: String? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, creationDate: TimeStamp? = nil, customDomain: String? = nil, deviceConfiguration: DeviceConfigurationType? = nil, domain: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailConfigurationFailure: String? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, estimatedNumberOfUsers: Int? = nil, id: String? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: TimeStamp? = nil, mfaConfiguration: UserPoolMfaType? = nil, name: String? = nil, policies: UserPoolPolicyType? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsConfigurationFailure: String? = nil, smsVerificationMessage: String? = nil, status: StatusType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
             self.adminCreateUserConfig = adminCreateUserConfig
             self.aliasAttributes = aliasAttributes
             self.arn = arn

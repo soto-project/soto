@@ -1016,11 +1016,11 @@ extension DataSync {
         ]
 
         /// The maximum number of agents to list.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An opaque string that indicates the position at which to begin the next list of agents.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1067,11 +1067,11 @@ extension DataSync {
         ]
 
         /// The maximum number of locations to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An opaque string that indicates the position at which to begin the next list of locations.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1119,13 +1119,13 @@ extension DataSync {
         ]
 
         /// The maximum number of locations to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An opaque string that indicates the position at which to begin the next list of locations.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the resource whose tags to list.
         public let resourceArn: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -1177,13 +1177,13 @@ extension DataSync {
         ]
 
         /// The maximum number of executed tasks to list.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An opaque string that indicates the position at which to begin the next list of the executed tasks.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the task whose tasks you want to list.
         public let taskArn: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, taskArn: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, taskArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.taskArn = taskArn
@@ -1234,11 +1234,11 @@ extension DataSync {
         ]
 
         /// The maximum number of tasks to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An opaque string that indicates the position at which to begin the next list of tasks.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }

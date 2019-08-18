@@ -555,11 +555,11 @@ extension CostExplorer {
         /// Which metric Cost Explorer uses to create your forecast. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values for a GetCostForecast call are the following:   AMORTIZED_COST   BLENDED_COST   NET_AMORTIZED_COST   NET_UNBLENDED_COST   UNBLENDED_COST  
         public let metric: Metric
         /// Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
-        public let predictionIntervalLevel: Int32?
+        public let predictionIntervalLevel: Int?
         /// The period of time that you want the forecast to cover.
         public let timePeriod: DateInterval
 
-        public init(filter: Expression? = nil, granularity: Granularity, metric: Metric, predictionIntervalLevel: Int32? = nil, timePeriod: DateInterval) {
+        public init(filter: Expression? = nil, granularity: Granularity, metric: Metric, predictionIntervalLevel: Int? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
             self.metric = metric
@@ -658,11 +658,11 @@ extension CostExplorer {
         /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
         /// The number of results that AWS returned at one time.
-        public let returnSize: Int32
+        public let returnSize: Int
         /// The total number of search results.
-        public let totalSize: Int32
+        public let totalSize: Int
 
-        public init(dimensionValues: [DimensionValuesWithAttributes], nextPageToken: String? = nil, returnSize: Int32, totalSize: Int32) {
+        public init(dimensionValues: [DimensionValuesWithAttributes], nextPageToken: String? = nil, returnSize: Int, totalSize: Int) {
             self.dimensionValues = dimensionValues
             self.nextPageToken = nextPageToken
             self.returnSize = returnSize
@@ -772,7 +772,7 @@ extension CostExplorer {
         /// The pagination token that indicates the next set of results that you want to retrieve.
         public let nextPageToken: String?
         /// The number of recommendations that you want returned in a single response object.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The reservation purchase option that you want recommendations for.
         public let paymentOption: PaymentOption?
         /// The specific service that you want recommendations for.
@@ -782,7 +782,7 @@ extension CostExplorer {
         /// The reservation term that you want recommendations for.
         public let termInYears: TermInYears?
 
-        public init(accountId: String? = nil, accountScope: AccountScope? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, nextPageToken: String? = nil, pageSize: Int32? = nil, paymentOption: PaymentOption? = nil, service: String, serviceSpecification: ServiceSpecification? = nil, termInYears: TermInYears? = nil) {
+        public init(accountId: String? = nil, accountScope: AccountScope? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, nextPageToken: String? = nil, pageSize: Int? = nil, paymentOption: PaymentOption? = nil, service: String, serviceSpecification: ServiceSpecification? = nil, termInYears: TermInYears? = nil) {
             self.accountId = accountId
             self.accountScope = accountScope
             self.lookbackPeriodInDays = lookbackPeriodInDays
@@ -953,13 +953,13 @@ extension CostExplorer {
         /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
         /// The number of query results that AWS returns at a time.
-        public let returnSize: Int32
+        public let returnSize: Int
         /// The tags that match your request.
         public let tags: [String]
         /// The total number of query results.
-        public let totalSize: Int32
+        public let totalSize: Int
 
-        public init(nextPageToken: String? = nil, returnSize: Int32, tags: [String], totalSize: Int32) {
+        public init(nextPageToken: String? = nil, returnSize: Int, tags: [String], totalSize: Int) {
             self.nextPageToken = nextPageToken
             self.returnSize = returnSize
             self.tags = tags
@@ -990,11 +990,11 @@ extension CostExplorer {
         /// Which metric Cost Explorer uses to create your forecast. Valid values for a GetUsageForecast call are the following:   USAGE_QUANTITY   NORMALIZED_USAGE_AMOUNT  
         public let metric: Metric
         /// Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
-        public let predictionIntervalLevel: Int32?
+        public let predictionIntervalLevel: Int?
         /// The start and end dates of the period that you want to retrieve usage forecast for. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
-        public init(filter: Expression? = nil, granularity: Granularity, metric: Metric, predictionIntervalLevel: Int32? = nil, timePeriod: DateInterval) {
+        public init(filter: Expression? = nil, granularity: Granularity, metric: Metric, predictionIntervalLevel: Int? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
             self.metric = metric

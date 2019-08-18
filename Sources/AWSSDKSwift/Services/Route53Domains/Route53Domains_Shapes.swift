@@ -970,9 +970,9 @@ extension Route53Domains {
         /// If OnlyAvailable is true, Amazon Route 53 returns only domain names that are available. If OnlyAvailable is false, Amazon Route 53 returns domain names without checking whether they're available to be registered. To determine whether the domain is available, you can call checkDomainAvailability for each suggestion.
         public let onlyAvailable: Bool
         /// The number of suggested domain names that you want Amazon Route 53 to return.
-        public let suggestionCount: Int32
+        public let suggestionCount: Int
 
-        public init(domainName: String, onlyAvailable: Bool, suggestionCount: Int32) {
+        public init(domainName: String, onlyAvailable: Bool, suggestionCount: Int) {
             self.domainName = domainName
             self.onlyAvailable = onlyAvailable
             self.suggestionCount = suggestionCount
@@ -1078,9 +1078,9 @@ extension Route53Domains {
         /// For an initial request for a list of domains, omit this element. If the number of domains that are associated with the current AWS account is greater than the value that you specified for MaxItems, you can use Marker to return additional domains. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element. Constraints: The marker must match the value specified in the previous request.
         public let marker: String?
         /// Number of domains to be returned. Default: 20
-        public let maxItems: Int32?
+        public let maxItems: Int?
 
-        public init(marker: String? = nil, maxItems: Int32? = nil) {
+        public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
         }
@@ -1128,11 +1128,11 @@ extension Route53Domains {
         /// For an initial request for a list of operations, omit this element. If the number of operations that are not yet complete is greater than the value that you specified for MaxItems, you can use Marker to return additional operations. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.
         public let marker: String?
         /// Number of domains to be returned. Default: 20
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// An optional parameter that lets you get information about all the operations that you submitted after a specified date and time. Specify the date and time in Coordinated Universal time (UTC).
         public let submittedSince: TimeStamp?
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, submittedSince: TimeStamp? = nil) {
+        public init(marker: String? = nil, maxItems: Int? = nil, submittedSince: TimeStamp? = nil) {
             self.marker = marker
             self.maxItems = maxItems
             self.submittedSince = submittedSince
@@ -1329,7 +1329,7 @@ extension Route53Domains {
         /// The domain name that you want to register. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
         public let domainName: String
         /// The number of years that you want to register the domain for. Domains are registered for a minimum of one year. The maximum period depends on the top-level domain. For the range of valid values for your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide. Default: 1
-        public let durationInYears: Int32
+        public let durationInYears: Int
         /// Reserved for future use.
         public let idnLangCode: String?
         /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the admin contact. Default: true 
@@ -1343,7 +1343,7 @@ extension Route53Domains {
         /// Provides detailed contact information.
         public let techContact: ContactDetail
 
-        public init(adminContact: ContactDetail, autoRenew: Bool? = nil, domainName: String, durationInYears: Int32, idnLangCode: String? = nil, privacyProtectAdminContact: Bool? = nil, privacyProtectRegistrantContact: Bool? = nil, privacyProtectTechContact: Bool? = nil, registrantContact: ContactDetail, techContact: ContactDetail) {
+        public init(adminContact: ContactDetail, autoRenew: Bool? = nil, domainName: String, durationInYears: Int, idnLangCode: String? = nil, privacyProtectAdminContact: Bool? = nil, privacyProtectRegistrantContact: Bool? = nil, privacyProtectTechContact: Bool? = nil, registrantContact: ContactDetail, techContact: ContactDetail) {
             self.adminContact = adminContact
             self.autoRenew = autoRenew
             self.domainName = domainName
@@ -1405,13 +1405,13 @@ extension Route53Domains {
         ]
 
         /// The year when the registration for the domain is set to expire. This value must match the current expiration date for the domain.
-        public let currentExpiryYear: Int32
+        public let currentExpiryYear: Int
         /// The name of the domain that you want to renew.
         public let domainName: String
         /// The number of years that you want to renew the domain for. The maximum number of years depends on the top-level domain. For the range of valid values for your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide. Default: 1
-        public let durationInYears: Int32?
+        public let durationInYears: Int?
 
-        public init(currentExpiryYear: Int32, domainName: String, durationInYears: Int32? = nil) {
+        public init(currentExpiryYear: Int, domainName: String, durationInYears: Int? = nil) {
             self.currentExpiryYear = currentExpiryYear
             self.domainName = domainName
             self.durationInYears = durationInYears
@@ -1580,7 +1580,7 @@ extension Route53Domains {
         /// The name of the domain that you want to transfer to Amazon Route 53. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
         public let domainName: String
         /// The number of years that you want to register the domain for. Domains are registered for a minimum of one year. The maximum period depends on the top-level domain. Default: 1
-        public let durationInYears: Int32
+        public let durationInYears: Int
         /// Reserved for future use.
         public let idnLangCode: String?
         /// Contains details for the host and glue IP addresses.
@@ -1596,7 +1596,7 @@ extension Route53Domains {
         /// Provides detailed contact information.
         public let techContact: ContactDetail
 
-        public init(adminContact: ContactDetail, authCode: String? = nil, autoRenew: Bool? = nil, domainName: String, durationInYears: Int32, idnLangCode: String? = nil, nameservers: [Nameserver]? = nil, privacyProtectAdminContact: Bool? = nil, privacyProtectRegistrantContact: Bool? = nil, privacyProtectTechContact: Bool? = nil, registrantContact: ContactDetail, techContact: ContactDetail) {
+        public init(adminContact: ContactDetail, authCode: String? = nil, autoRenew: Bool? = nil, domainName: String, durationInYears: Int, idnLangCode: String? = nil, nameservers: [Nameserver]? = nil, privacyProtectAdminContact: Bool? = nil, privacyProtectRegistrantContact: Bool? = nil, privacyProtectTechContact: Bool? = nil, registrantContact: ContactDetail, techContact: ContactDetail) {
             self.adminContact = adminContact
             self.authCode = authCode
             self.autoRenew = autoRenew
@@ -1867,11 +1867,11 @@ extension Route53Domains {
         /// For an initial request for a list of billing records, omit this element. If the number of billing records that are associated with the current AWS account during the specified period is greater than the value that you specified for MaxItems, you can use Marker to return additional billing records. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.  Constraints: The marker must match the value of NextPageMarker that was returned in the previous response.
         public let marker: String?
         /// The number of billing records to be returned. Default: 20
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// The beginning date and time for the time period for which you want a list of billing records. Specify the date and time in Coordinated Universal time (UTC).
         public let start: TimeStamp?
 
-        public init(end: TimeStamp? = nil, marker: String? = nil, maxItems: Int32? = nil, start: TimeStamp? = nil) {
+        public init(end: TimeStamp? = nil, marker: String? = nil, maxItems: Int? = nil, start: TimeStamp? = nil) {
             self.end = end
             self.marker = marker
             self.maxItems = maxItems

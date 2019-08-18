@@ -68,13 +68,13 @@ extension DLM {
         ]
 
         /// The interval between snapshots. The supported values are 2, 3, 4, 6, 8, 12, and 24.
-        public let interval: Int32
+        public let interval: Int
         /// The interval unit.
         public let intervalUnit: IntervalUnitValues
         /// The time, in UTC, to start the operation. The supported format is hh:mm. The operation occurs within a one-hour window following the specified time.
         public let times: [String]?
 
-        public init(interval: Int32, intervalUnit: IntervalUnitValues, times: [String]? = nil) {
+        public init(interval: Int, intervalUnit: IntervalUnitValues, times: [String]? = nil) {
             self.interval = interval
             self.intervalUnit = intervalUnit
             self.times = times
@@ -386,9 +386,9 @@ extension DLM {
         ]
 
         /// The number of snapshots to keep for each volume, up to a maximum of 1000.
-        public let count: Int32
+        public let count: Int
 
-        public init(count: Int32) {
+        public init(count: Int) {
             self.count = count
         }
 

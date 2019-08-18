@@ -313,7 +313,7 @@ extension FMS {
         /// The end of the time period to query for the attacks. This is a timestamp type. The sample request above indicates a number type because the default used by AWS Firewall Manager is Unix time in seconds. However, any valid timestamp format is allowed.
         public let endTime: TimeStamp?
         /// Specifies the number of objects that you want AWS Firewall Manager to return for this request. If you have more objects than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of objects.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The AWS account that is in scope of the policy that you want to get the details for.
         public let memberAccountId: String?
         /// If you specify a value for MaxResults and you have more objects than the number that you specify for MaxResults, AWS Firewall Manager returns a NextToken value in the response that allows you to list another group of objects. For the second and subsequent GetProtectionStatus requests, specify the value of NextToken from the previous response to get information about another batch of objects.
@@ -323,7 +323,7 @@ extension FMS {
         /// The start of the time period to query for the attacks. This is a timestamp type. The sample request above indicates a number type because the default used by AWS Firewall Manager is Unix time in seconds. However, any valid timestamp format is allowed.
         public let startTime: TimeStamp?
 
-        public init(endTime: TimeStamp? = nil, maxResults: Int32? = nil, memberAccountId: String? = nil, nextToken: String? = nil, policyId: String, startTime: TimeStamp? = nil) {
+        public init(endTime: TimeStamp? = nil, maxResults: Int? = nil, memberAccountId: String? = nil, nextToken: String? = nil, policyId: String, startTime: TimeStamp? = nil) {
             self.endTime = endTime
             self.maxResults = maxResults
             self.memberAccountId = memberAccountId
@@ -395,13 +395,13 @@ extension FMS {
         ]
 
         /// Specifies the number of PolicyComplianceStatus objects that you want AWS Firewall Manager to return for this request. If you have more PolicyComplianceStatus objects than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of PolicyComplianceStatus objects.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If you specify a value for MaxResults and you have more PolicyComplianceStatus objects than the number that you specify for MaxResults, AWS Firewall Manager returns a NextToken value in the response that allows you to list another group of PolicyComplianceStatus objects. For the second and subsequent ListComplianceStatus requests, specify the value of NextToken from the previous response to get information about another batch of PolicyComplianceStatus objects.
         public let nextToken: String?
         /// The ID of the AWS Firewall Manager policy that you want the details for.
         public let policyId: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, policyId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, policyId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.policyId = policyId
@@ -453,11 +453,11 @@ extension FMS {
         ]
 
         /// Specifies the number of member account IDs that you want AWS Firewall Manager to return for this request. If you have more IDs than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of member account IDs.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If you specify a value for MaxResults and you have more account IDs than the number that you specify for MaxResults, AWS Firewall Manager returns a NextToken value in the response that allows you to list another group of IDs. For the second and subsequent ListMemberAccountsRequest requests, specify the value of NextToken from the previous response to get information about another batch of member account IDs.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -504,11 +504,11 @@ extension FMS {
         ]
 
         /// Specifies the number of PolicySummary objects that you want AWS Firewall Manager to return for this request. If you have more PolicySummary objects than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of PolicySummary objects.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If you specify a value for MaxResults and you have more PolicySummary objects than the number that you specify for MaxResults, AWS Firewall Manager returns a NextToken value in the response that allows you to list another group of PolicySummary objects. For the second and subsequent ListPolicies requests, specify the value of NextToken from the previous response to get information about another batch of PolicySummary objects.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }

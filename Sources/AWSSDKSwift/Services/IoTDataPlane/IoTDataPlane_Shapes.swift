@@ -101,11 +101,11 @@ extension IoTDataPlane {
         /// The state information, in JSON format.
         public let payload: Data?
         /// The Quality of Service (QoS) level.
-        public let qos: Int32?
+        public let qos: Int?
         /// The name of the MQTT topic.
         public let topic: String
 
-        public init(payload: Data? = nil, qos: Int32? = nil, topic: String) {
+        public init(payload: Data? = nil, qos: Int? = nil, topic: String) {
             self.payload = payload
             self.qos = qos
             self.topic = topic

@@ -955,7 +955,7 @@ extension DataPipeline {
         ]
 
         /// The maximum number of object names that QueryObjects will return in a single call. The default value is 100. 
-        public let limit: Int32?
+        public let limit: Int?
         /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call QueryObjects with the marker value from the previous call to retrieve the next set of results.
         public let marker: String?
         /// The ID of the pipeline.
@@ -965,7 +965,7 @@ extension DataPipeline {
         /// Indicates whether the query applies to components or instances. The possible values are: COMPONENT, INSTANCE, and ATTEMPT.
         public let sphere: String
 
-        public init(limit: Int32? = nil, marker: String? = nil, pipelineId: String, query: Query? = nil, sphere: String) {
+        public init(limit: Int? = nil, marker: String? = nil, pipelineId: String, query: Query? = nil, sphere: String) {
             self.limit = limit
             self.marker = marker
             self.pipelineId = pipelineId

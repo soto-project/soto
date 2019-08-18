@@ -17,7 +17,7 @@ extension Cloud9 {
         ]
 
         /// The number of minutes until the running instance is shut down after the environment has last been used.
-        public let automaticStopTimeMinutes: Int32?
+        public let automaticStopTimeMinutes: Int?
         /// A unique, case-sensitive string that helps AWS Cloud9 to ensure this operation completes no more than one time. For more information, see Client Tokens in the Amazon EC2 API Reference.
         public let clientRequestToken: String?
         /// The description of the environment to create.
@@ -31,7 +31,7 @@ extension Cloud9 {
         /// The ID of the subnet in Amazon VPC that AWS Cloud9 will use to communicate with the Amazon EC2 instance.
         public let subnetId: String?
 
-        public init(automaticStopTimeMinutes: Int32? = nil, clientRequestToken: String? = nil, description: String? = nil, instanceType: String, name: String, ownerArn: String? = nil, subnetId: String? = nil) {
+        public init(automaticStopTimeMinutes: Int? = nil, clientRequestToken: String? = nil, description: String? = nil, instanceType: String, name: String, ownerArn: String? = nil, subnetId: String? = nil) {
             self.automaticStopTimeMinutes = automaticStopTimeMinutes
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -208,7 +208,7 @@ extension Cloud9 {
         /// The ID of the environment to get environment member information about.
         public let environmentId: String?
         /// The maximum number of environment members to get information about.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// During a previous call, if there are more than 25 items in the list, only the first 25 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
         /// The type of environment member permissions to get information about. Available values include:    owner: Owns the environment.    read-only: Has read-only access to the environment.    read-write: Has read-write access to the environment.   If no value is specified, information about all environment members are returned.
@@ -216,7 +216,7 @@ extension Cloud9 {
         /// The Amazon Resource Name (ARN) of an individual environment member to get information about. If no value is specified, information about all environment members are returned.
         public let userArn: String?
 
-        public init(environmentId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, permissions: [Permissions]? = nil, userArn: String? = nil) {
+        public init(environmentId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, permissions: [Permissions]? = nil, userArn: String? = nil) {
             self.environmentId = environmentId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -489,11 +489,11 @@ extension Cloud9 {
         ]
 
         /// The maximum number of environments to get identifiers for.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// During a previous call, if there are more than 25 items in the list, only the first 25 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }

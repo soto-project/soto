@@ -186,9 +186,9 @@ extension Inspector {
         /// A Boolean value (true or false) that specifies whether the process of collecting data from the agents is completed.
         public let dataCollected: Bool
         /// The duration of the assessment run.
-        public let durationInSeconds: Int32
+        public let durationInSeconds: Int
         /// Provides a total count of generated findings per severity.
-        public let findingCounts: [Severity: Int32]
+        public let findingCounts: [Severity: Int]
         /// The auto-generated name for the assessment run.
         public let name: String
         /// A list of notifications for the event subscriptions. A notification about a particular generated finding is added to this list only once.
@@ -206,7 +206,7 @@ extension Inspector {
         /// The user-defined attributes that are assigned to every generated finding.
         public let userAttributesForFindings: [Attribute]
 
-        public init(arn: String, assessmentTemplateArn: String, completedAt: TimeStamp? = nil, createdAt: TimeStamp, dataCollected: Bool, durationInSeconds: Int32, findingCounts: [Severity: Int32], name: String, notifications: [AssessmentRunNotification], rulesPackageArns: [String], startedAt: TimeStamp? = nil, state: AssessmentRunState, stateChangedAt: TimeStamp, stateChanges: [AssessmentRunStateChange], userAttributesForFindings: [Attribute]) {
+        public init(arn: String, assessmentTemplateArn: String, completedAt: TimeStamp? = nil, createdAt: TimeStamp, dataCollected: Bool, durationInSeconds: Int, findingCounts: [Severity: Int], name: String, notifications: [AssessmentRunNotification], rulesPackageArns: [String], startedAt: TimeStamp? = nil, state: AssessmentRunState, stateChangedAt: TimeStamp, stateChanges: [AssessmentRunStateChange], userAttributesForFindings: [Attribute]) {
             self.arn = arn
             self.assessmentTemplateArn = assessmentTemplateArn
             self.completedAt = completedAt
@@ -515,13 +515,13 @@ extension Inspector {
         /// The ARN of the assessment template.
         public let arn: String
         /// The number of existing assessment runs associated with this assessment template. This value can be zero or a positive integer.
-        public let assessmentRunCount: Int32
+        public let assessmentRunCount: Int
         /// The ARN of the assessment target that corresponds to this assessment template.
         public let assessmentTargetArn: String
         /// The time at which the assessment template is created.
         public let createdAt: TimeStamp
         /// The duration in seconds specified for this assessment template. The default value is 3600 seconds (one hour). The maximum value is 86400 seconds (one day).
-        public let durationInSeconds: Int32
+        public let durationInSeconds: Int
         /// The Amazon Resource Name (ARN) of the most recent assessment run associated with this assessment template. This value exists only when the value of assessmentRunCount is greaterpa than zero.
         public let lastAssessmentRunArn: String?
         /// The name of the assessment template.
@@ -531,7 +531,7 @@ extension Inspector {
         /// The user-defined attributes that are assigned to every generated finding from the assessment run that uses this assessment template.
         public let userAttributesForFindings: [Attribute]
 
-        public init(arn: String, assessmentRunCount: Int32, assessmentTargetArn: String, createdAt: TimeStamp, durationInSeconds: Int32, lastAssessmentRunArn: String? = nil, name: String, rulesPackageArns: [String], userAttributesForFindings: [Attribute]) {
+        public init(arn: String, assessmentRunCount: Int, assessmentTargetArn: String, createdAt: TimeStamp, durationInSeconds: Int, lastAssessmentRunArn: String? = nil, name: String, rulesPackageArns: [String], userAttributesForFindings: [Attribute]) {
             self.arn = arn
             self.assessmentRunCount = assessmentRunCount
             self.assessmentTargetArn = assessmentTargetArn
@@ -620,11 +620,11 @@ extension Inspector {
         /// An array of the network interfaces interacting with the EC2 instance where the finding is generated.
         public let networkInterfaces: [NetworkInterface]?
         /// The schema version of this data type.
-        public let schemaVersion: Int32
+        public let schemaVersion: Int
         /// The tags related to the EC2 instance where the finding is generated.
         public let tags: [Tag]?
 
-        public init(agentId: String? = nil, amiId: String? = nil, autoScalingGroup: String? = nil, hostname: String? = nil, ipv4Addresses: [String]? = nil, networkInterfaces: [NetworkInterface]? = nil, schemaVersion: Int32, tags: [Tag]? = nil) {
+        public init(agentId: String? = nil, amiId: String? = nil, autoScalingGroup: String? = nil, hostname: String? = nil, ipv4Addresses: [String]? = nil, networkInterfaces: [NetworkInterface]? = nil, schemaVersion: Int, tags: [Tag]? = nil) {
             self.agentId = agentId
             self.amiId = amiId
             self.autoScalingGroup = autoScalingGroup
@@ -741,13 +741,13 @@ extension Inspector {
         /// The user-defined name that identifies the assessment template that you want to create. You can create several assessment templates for an assessment target. The names of the assessment templates that correspond to a particular assessment target must be unique.
         public let assessmentTemplateName: String
         /// The duration of the assessment run in seconds.
-        public let durationInSeconds: Int32
+        public let durationInSeconds: Int
         /// The ARNs that specify the rules packages that you want to attach to the assessment template.
         public let rulesPackageArns: [String]
         /// The user-defined attributes that are assigned to every finding that is generated by the assessment run that uses this assessment template. An attribute is a key and value pair (an Attribute object). Within an assessment template, each key must be unique.
         public let userAttributesForFindings: [Attribute]?
 
-        public init(assessmentTargetArn: String, assessmentTemplateName: String, durationInSeconds: Int32, rulesPackageArns: [String], userAttributesForFindings: [Attribute]? = nil) {
+        public init(assessmentTargetArn: String, assessmentTemplateName: String, durationInSeconds: Int, rulesPackageArns: [String], userAttributesForFindings: [Attribute]? = nil) {
             self.assessmentTargetArn = assessmentTargetArn
             self.assessmentTemplateName = assessmentTemplateName
             self.durationInSeconds = durationInSeconds
@@ -1332,11 +1332,11 @@ extension Inspector {
         ]
 
         /// The maximum value of the duration range. Must be less than or equal to 604800 seconds (1 week).
-        public let maxSeconds: Int32?
+        public let maxSeconds: Int?
         /// The minimum value of the duration range. Must be greater than zero.
-        public let minSeconds: Int32?
+        public let minSeconds: Int?
 
-        public init(maxSeconds: Int32? = nil, minSeconds: Int32? = nil) {
+        public init(maxSeconds: Int? = nil, minSeconds: Int? = nil) {
             self.maxSeconds = maxSeconds
             self.minSeconds = minSeconds
         }
@@ -1518,7 +1518,7 @@ extension Inspector {
         /// The system-defined attributes for the finding.
         public let attributes: [Attribute]
         /// This data element is currently not used.
-        public let confidence: Int32?
+        public let confidence: Int?
         /// The time when the finding was generated.
         public let createdAt: TimeStamp
         /// The description of the finding.
@@ -1532,7 +1532,7 @@ extension Inspector {
         /// The recommendation for the finding.
         public let recommendation: String?
         /// The schema version of this data type.
-        public let schemaVersion: Int32?
+        public let schemaVersion: Int?
         /// The data element is set to "Inspector".
         public let service: String?
         /// This data type is used in the Finding data type.
@@ -1546,7 +1546,7 @@ extension Inspector {
         /// The user-defined attributes that are assigned to the finding.
         public let userAttributes: [Attribute]
 
-        public init(arn: String, assetAttributes: AssetAttributes? = nil, assetType: AssetType? = nil, attributes: [Attribute], confidence: Int32? = nil, createdAt: TimeStamp, description: String? = nil, id: String? = nil, indicatorOfCompromise: Bool? = nil, numericSeverity: Double? = nil, recommendation: String? = nil, schemaVersion: Int32? = nil, service: String? = nil, serviceAttributes: InspectorServiceAttributes? = nil, severity: Severity? = nil, title: String? = nil, updatedAt: TimeStamp, userAttributes: [Attribute]) {
+        public init(arn: String, assetAttributes: AssetAttributes? = nil, assetType: AssetType? = nil, attributes: [Attribute], confidence: Int? = nil, createdAt: TimeStamp, description: String? = nil, id: String? = nil, indicatorOfCompromise: Bool? = nil, numericSeverity: Double? = nil, recommendation: String? = nil, schemaVersion: Int? = nil, service: String? = nil, serviceAttributes: InspectorServiceAttributes? = nil, severity: Severity? = nil, title: String? = nil, updatedAt: TimeStamp, userAttributes: [Attribute]) {
             self.arn = arn
             self.assetAttributes = assetAttributes
             self.assetType = assetType
@@ -1747,13 +1747,13 @@ extension Inspector {
         /// The locale into which you want to translate the exclusion's title, description, and recommendation.
         public let locale: Locale?
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 100. The maximum value is 500.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the GetExclusionsPreviewRequest action. Subsequent calls to the action fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
         public let nextToken: String?
         /// The unique identifier associated of the exclusions preview.
         public let previewToken: String
 
-        public init(assessmentTemplateArn: String, locale: Locale? = nil, maxResults: Int32? = nil, nextToken: String? = nil, previewToken: String) {
+        public init(assessmentTemplateArn: String, locale: Locale? = nil, maxResults: Int? = nil, nextToken: String? = nil, previewToken: String) {
             self.assessmentTemplateArn = assessmentTemplateArn
             self.locale = locale
             self.maxResults = maxResults
@@ -1865,9 +1865,9 @@ extension Inspector {
         /// The ARN of the rules package that is used to generate the finding.
         public let rulesPackageArn: String?
         /// The schema version of this data type.
-        public let schemaVersion: Int32
+        public let schemaVersion: Int
 
-        public init(assessmentRunArn: String? = nil, rulesPackageArn: String? = nil, schemaVersion: Int32) {
+        public init(assessmentRunArn: String? = nil, rulesPackageArn: String? = nil, schemaVersion: Int) {
             self.assessmentRunArn = assessmentRunArn
             self.rulesPackageArn = rulesPackageArn
             self.schemaVersion = schemaVersion
@@ -1893,11 +1893,11 @@ extension Inspector {
         /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
         public let filter: AgentFilter?
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 10. The maximum value is 500.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentRunAgents action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
-        public init(assessmentRunArn: String, filter: AgentFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(assessmentRunArn: String, filter: AgentFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentRunArn = assessmentRunArn
             self.filter = filter
             self.maxResults = maxResults
@@ -1955,11 +1955,11 @@ extension Inspector {
         /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
         public let filter: AssessmentRunFilter?
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 10. The maximum value is 500.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentRuns action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
-        public init(assessmentTemplateArns: [String]? = nil, filter: AssessmentRunFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(assessmentTemplateArns: [String]? = nil, filter: AssessmentRunFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentTemplateArns = assessmentTemplateArns
             self.filter = filter
             self.maxResults = maxResults
@@ -2018,11 +2018,11 @@ extension Inspector {
         /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
         public let filter: AssessmentTargetFilter?
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentTargets action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
-        public init(filter: AssessmentTargetFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filter: AssessmentTargetFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2076,11 +2076,11 @@ extension Inspector {
         /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
         public let filter: AssessmentTemplateFilter?
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentTemplates action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
-        public init(assessmentTargetArns: [String]? = nil, filter: AssessmentTemplateFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(assessmentTargetArns: [String]? = nil, filter: AssessmentTemplateFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentTargetArns = assessmentTargetArns
             self.filter = filter
             self.maxResults = maxResults
@@ -2137,13 +2137,13 @@ extension Inspector {
         ]
 
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListEventSubscriptions action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
         /// The ARN of the assessment template for which you want to list the existing event subscriptions.
         public let resourceArn: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -2195,11 +2195,11 @@ extension Inspector {
         /// The ARN of the assessment run that generated the exclusions that you want to list.
         public let assessmentRunArn: String
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 100. The maximum value is 500.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListExclusionsRequest action. Subsequent calls to the action fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
         public let nextToken: String?
 
-        public init(assessmentRunArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(assessmentRunArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentRunArn = assessmentRunArn
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2254,11 +2254,11 @@ extension Inspector {
         /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
         public let filter: FindingFilter?
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListFindings action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
-        public init(assessmentRunArns: [String]? = nil, filter: FindingFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(assessmentRunArns: [String]? = nil, filter: FindingFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentRunArns = assessmentRunArns
             self.filter = filter
             self.maxResults = maxResults
@@ -2314,11 +2314,11 @@ extension Inspector {
         ]
 
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListRulesPackages action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2470,13 +2470,13 @@ extension Inspector {
         ]
 
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the PreviewAgents action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
         /// The ARN of the assessment target whose agents you want to preview.
         public let previewAgentsArn: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, previewAgentsArn: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, previewAgentsArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.previewAgentsArn = previewAgentsArn

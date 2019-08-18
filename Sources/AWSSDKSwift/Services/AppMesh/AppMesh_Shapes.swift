@@ -1042,7 +1042,7 @@ extension AppMesh {
 
         /// The number of consecutive successful health checks that must occur before declaring
         ///          listener healthy.
-        public let healthyThreshold: Int32
+        public let healthyThreshold: Int
         /// The time period in milliseconds between each health check execution.
         public let intervalMillis: Int64
         /// The destination path for the health check request. This is required only if the
@@ -1050,7 +1050,7 @@ extension AppMesh {
         public let path: String?
         /// The destination port for the health check request. This port must match the port defined
         ///          in the PortMapping for the listener.
-        public let port: Int32?
+        public let port: Int?
         /// The protocol for the health check request.
         public let `protocol`: PortProtocol
         /// The amount of time to wait when receiving a response from the health check, in
@@ -1058,9 +1058,9 @@ extension AppMesh {
         public let timeoutMillis: Int64
         /// The number of consecutive failed health checks that must occur before declaring a
         ///          virtual node unhealthy. 
-        public let unhealthyThreshold: Int32
+        public let unhealthyThreshold: Int
 
-        public init(healthyThreshold: Int32, intervalMillis: Int64, path: String? = nil, port: Int32? = nil, protocol: PortProtocol, timeoutMillis: Int64, unhealthyThreshold: Int32) {
+        public init(healthyThreshold: Int, intervalMillis: Int64, path: String? = nil, port: Int? = nil, protocol: PortProtocol, timeoutMillis: Int64, unhealthyThreshold: Int) {
             self.healthyThreshold = healthyThreshold
             self.intervalMillis = intervalMillis
             self.path = path
@@ -1182,7 +1182,7 @@ extension AppMesh {
         ///          1 and 100. If you don't use this parameter,
         ///             ListMeshes returns up to 100 results and a
         ///             nextToken value if applicable.
-        public let limit: Int32?
+        public let limit: Int?
         /// The nextToken value returned from a previous paginated
         ///             ListMeshes request where limit was used and the results
         ///          exceeded the value of that parameter. Pagination continues from the end of the previous
@@ -1193,7 +1193,7 @@ extension AppMesh {
         ///         
         public let nextToken: String?
 
-        public init(limit: Int32? = nil, nextToken: String? = nil) {
+        public init(limit: Int? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
         }
@@ -1250,7 +1250,7 @@ extension AppMesh {
         ///          1 and 100. If you don't use this parameter,
         ///             ListRoutes returns up to 100 results and a
         ///             nextToken value if applicable.
-        public let limit: Int32?
+        public let limit: Int?
         /// The name of the service mesh to list routes in.
         public let meshName: String
         /// The nextToken value returned from a previous paginated
@@ -1261,7 +1261,7 @@ extension AppMesh {
         /// The name of the virtual router to list routes in.
         public let virtualRouterName: String
 
-        public init(limit: Int32? = nil, meshName: String, nextToken: String? = nil, virtualRouterName: String) {
+        public init(limit: Int? = nil, meshName: String, nextToken: String? = nil, virtualRouterName: String) {
             self.limit = limit
             self.meshName = meshName
             self.nextToken = nextToken
@@ -1325,7 +1325,7 @@ extension AppMesh {
         ///          value. This value can be between 1 and 100. If you don't use
         ///          this parameter, ListTagsForResource returns up to 100
         ///          results and a nextToken value if applicable.
-        public let limit: Int32?
+        public let limit: Int?
         /// The nextToken value returned from a previous paginated
         ///             ListTagsForResource request where limit was used and the
         ///          results exceeded the value of that parameter. Pagination continues from the end of the
@@ -1334,7 +1334,7 @@ extension AppMesh {
         /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for.
         public let resourceArn: String
 
-        public init(limit: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
+        public init(limit: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.limit = limit
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -1392,7 +1392,7 @@ extension AppMesh {
         ///          This value can be between 1 and 100. If you don't use this
         ///          parameter, ListVirtualNodes returns up to 100 results and a
         ///             nextToken value if applicable.
-        public let limit: Int32?
+        public let limit: Int?
         /// The name of the service mesh to list virtual nodes in.
         public let meshName: String
         /// The nextToken value returned from a previous paginated
@@ -1401,7 +1401,7 @@ extension AppMesh {
         ///          results that returned the nextToken value.
         public let nextToken: String?
 
-        public init(limit: Int32? = nil, meshName: String, nextToken: String? = nil) {
+        public init(limit: Int? = nil, meshName: String, nextToken: String? = nil) {
             self.limit = limit
             self.meshName = meshName
             self.nextToken = nextToken
@@ -1461,7 +1461,7 @@ extension AppMesh {
         ///          This value can be between 1 and 100. If you don't use this
         ///          parameter, ListVirtualRouters returns up to 100 results and
         ///          a nextToken value if applicable.
-        public let limit: Int32?
+        public let limit: Int?
         /// The name of the service mesh to list virtual routers in.
         public let meshName: String
         /// The nextToken value returned from a previous paginated
@@ -1470,7 +1470,7 @@ extension AppMesh {
         ///          previous results that returned the nextToken value.
         public let nextToken: String?
 
-        public init(limit: Int32? = nil, meshName: String, nextToken: String? = nil) {
+        public init(limit: Int? = nil, meshName: String, nextToken: String? = nil) {
             self.limit = limit
             self.meshName = meshName
             self.nextToken = nextToken
@@ -1530,7 +1530,7 @@ extension AppMesh {
         ///          This value can be between 1 and 100. If you don't use this
         ///          parameter, ListVirtualServices returns up to 100 results and
         ///          a nextToken value if applicable.
-        public let limit: Int32?
+        public let limit: Int?
         /// The name of the service mesh to list virtual services in.
         public let meshName: String
         /// The nextToken value returned from a previous paginated
@@ -1539,7 +1539,7 @@ extension AppMesh {
         ///          previous results that returned the nextToken value.
         public let nextToken: String?
 
-        public init(limit: Int32? = nil, meshName: String, nextToken: String? = nil) {
+        public init(limit: Int? = nil, meshName: String, nextToken: String? = nil) {
             self.limit = limit
             self.meshName = meshName
             self.nextToken = nextToken
@@ -1734,11 +1734,11 @@ extension AppMesh {
         ]
 
         /// The port used for the port mapping.
-        public let port: Int32
+        public let port: Int
         /// The protocol used for the port mapping.
         public let `protocol`: PortProtocol
 
-        public init(port: Int32, protocol: PortProtocol) {
+        public init(port: Int, protocol: PortProtocol) {
             self.port = port
             self.`protocol` = `protocol`
         }
@@ -2877,9 +2877,9 @@ extension AppMesh {
         /// The virtual node to associate with the weighted target.
         public let virtualNode: String
         /// The relative weight of the weighted target.
-        public let weight: Int32
+        public let weight: Int
 
-        public init(virtualNode: String, weight: Int32) {
+        public init(virtualNode: String, weight: Int) {
             self.virtualNode = virtualNode
             self.weight = weight
         }

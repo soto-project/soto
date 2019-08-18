@@ -39,9 +39,9 @@ extension IoT1ClickDevicesService {
         public let claimCode: String?
         /// The total number of devices associated with the claim code that has been processed in
         ///  the claim request.
-        public let total: Int32?
+        public let total: Int?
 
-        public init(claimCode: String? = nil, total: Int32? = nil) {
+        public init(claimCode: String? = nil, total: Int? = nil) {
             self.claimCode = claimCode
             self.total = total
         }
@@ -359,11 +359,11 @@ extension IoT1ClickDevicesService {
 
         public let deviceId: String
         public let fromTimeStamp: TimeStamp
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
         public let toTimeStamp: TimeStamp
 
-        public init(deviceId: String, fromTimeStamp: TimeStamp, maxResults: Int32? = nil, nextToken: String? = nil, toTimeStamp: TimeStamp) {
+        public init(deviceId: String, fromTimeStamp: TimeStamp, maxResults: Int? = nil, nextToken: String? = nil, toTimeStamp: TimeStamp) {
             self.deviceId = deviceId
             self.fromTimeStamp = fromTimeStamp
             self.maxResults = maxResults
@@ -413,10 +413,10 @@ extension IoT1ClickDevicesService {
         ]
 
         public let deviceType: String?
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(deviceType: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(deviceType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.deviceType = deviceType
             self.maxResults = maxResults
             self.nextToken = nextToken

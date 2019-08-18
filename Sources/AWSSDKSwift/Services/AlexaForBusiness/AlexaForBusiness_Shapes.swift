@@ -1220,7 +1220,7 @@ extension AlexaForBusiness {
         /// The distance unit to be used by devices in the profile.
         public let distanceUnit: DistanceUnit
         /// The maximum volume limit for a room profile.
-        public let maxVolumeLimit: Int32?
+        public let maxVolumeLimit: Int?
         /// The name of a room profile.
         public let profileName: String
         /// Whether PSTN calling is enabled.
@@ -1234,7 +1234,7 @@ extension AlexaForBusiness {
         /// A wake word for Alexa, Echo, Amazon, or a computer.
         public let wakeWord: WakeWord
 
-        public init(address: String, clientRequestToken: String? = CreateProfileRequest.idempotencyToken(), distanceUnit: DistanceUnit, maxVolumeLimit: Int32? = nil, profileName: String, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit, timezone: String, wakeWord: WakeWord) {
+        public init(address: String, clientRequestToken: String? = CreateProfileRequest.idempotencyToken(), distanceUnit: DistanceUnit, maxVolumeLimit: Int? = nil, profileName: String, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit, timezone: String, wakeWord: WakeWord) {
             self.address = address
             self.clientRequestToken = clientRequestToken
             self.distanceUnit = distanceUnit
@@ -3159,11 +3159,11 @@ extension AlexaForBusiness {
         ]
 
         /// The maximum number of schedules listed in the call.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token used to list the remaining schedules from the previous API call.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -3210,11 +3210,11 @@ extension AlexaForBusiness {
         ]
 
         /// The maximum number of conference providers to be returned, per paginated calls.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The tokens used for pagination.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -3267,11 +3267,11 @@ extension AlexaForBusiness {
         /// The event type to filter device events. If EventType isn't specified, this returns a list of all device events in reverse chronological order. If EventType is specified, this returns a list of device events for that EventType in reverse chronological order. 
         public let eventType: DeviceEventType?
         /// The maximum number of results to include in the response. The default value is 50. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response only includes results beyond the token, up to the value specified by MaxResults. When the end of results is reached, the response has a value of null.
         public let nextToken: String?
 
-        public init(deviceArn: String, eventType: DeviceEventType? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(deviceArn: String, eventType: DeviceEventType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.deviceArn = deviceArn
             self.eventType = eventType
             self.maxResults = maxResults
@@ -3323,11 +3323,11 @@ extension AlexaForBusiness {
         ]
 
         /// The maximum number of gateway group summaries to return. The default is 50.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token used to paginate though multiple pages of gateway group summaries.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -3377,11 +3377,11 @@ extension AlexaForBusiness {
         /// The gateway group ARN for which to list gateways.
         public let gatewayGroupArn: String?
         /// The maximum number of gateway summaries to return. The default is 50.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token used to paginate though multiple pages of gateway summaries.
         public let nextToken: String?
 
-        public init(gatewayGroupArn: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(gatewayGroupArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.gatewayGroupArn = gatewayGroupArn
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3436,7 +3436,7 @@ extension AlexaForBusiness {
         /// Whether the skill is enabled under the user's account, or if it requires linking to be used.
         public let enablementType: EnablementTypeFilter?
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. Required.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. Required.
         public let nextToken: String?
         /// The ARN of the skill group for which to list enabled skills. Required.
@@ -3444,7 +3444,7 @@ extension AlexaForBusiness {
         /// Whether the skill is publicly available or is a private skill.
         public let skillType: SkillTypeFilter?
 
-        public init(enablementType: EnablementTypeFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil, skillGroupArn: String? = nil, skillType: SkillTypeFilter? = nil) {
+        public init(enablementType: EnablementTypeFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, skillGroupArn: String? = nil, skillType: SkillTypeFilter? = nil) {
             self.enablementType = enablementType
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3498,11 +3498,11 @@ extension AlexaForBusiness {
         ]
 
         /// The maximum number of categories returned, per paginated calls.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The tokens used for pagination.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -3552,11 +3552,11 @@ extension AlexaForBusiness {
         /// The category ID for which the skills are being retrieved from the skill store.
         public let categoryId: Int64
         /// The maximum number of skills returned per paginated calls.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The tokens used for pagination.
         public let nextToken: String?
 
-        public init(categoryId: Int64, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(categoryId: Int64, maxResults: Int? = nil, nextToken: String? = nil) {
             self.categoryId = categoryId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3607,13 +3607,13 @@ extension AlexaForBusiness {
         ]
 
         /// The maximum number of appliances to be returned, per paginated calls.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The tokens used for pagination.
         public let nextToken: String?
         /// The room that the appliances are associated with.
         public let roomArn: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, roomArn: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, roomArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.roomArn = roomArn
@@ -3666,11 +3666,11 @@ extension AlexaForBusiness {
         /// The ARN of the specified resource for which to list tags.
         public let arn: String
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. 
         public let nextToken: String?
 
-        public init(arn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(arn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.arn = arn
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3959,7 +3959,7 @@ extension AlexaForBusiness {
         /// Retrieves if the profile is default or not.
         public let isDefault: Bool?
         /// The max volume limit of a room profile.
-        public let maxVolumeLimit: Int32?
+        public let maxVolumeLimit: Int?
         /// The ARN of a room profile.
         public let profileArn: String?
         /// The name of a room profile.
@@ -3975,7 +3975,7 @@ extension AlexaForBusiness {
         /// The wake word of a room profile.
         public let wakeWord: WakeWord?
 
-        public init(address: String? = nil, addressBookArn: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, maxVolumeLimit: Int32? = nil, profileArn: String? = nil, profileName: String? = nil, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
+        public init(address: String? = nil, addressBookArn: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, maxVolumeLimit: Int? = nil, profileArn: String? = nil, profileName: String? = nil, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
             self.address = address
             self.addressBookArn = addressBookArn
             self.distanceUnit = distanceUnit
@@ -4529,13 +4529,13 @@ extension AlexaForBusiness {
         /// The filters to use to list a specified set of address books. The supported filter key is AddressBookName.
         public let filters: [Filter]?
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response only includes results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
         /// The sort order to use in listing the specified set of address books. The supported sort key is AddressBookName.
         public let sortCriteria: [Sort]?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4577,9 +4577,9 @@ extension AlexaForBusiness {
         /// The token returned to indicate that there is more data available.
         public let nextToken: String?
         /// The total number of address books returned.
-        public let totalCount: Int32?
+        public let totalCount: Int?
 
-        public init(addressBooks: [AddressBookData]? = nil, nextToken: String? = nil, totalCount: Int32? = nil) {
+        public init(addressBooks: [AddressBookData]? = nil, nextToken: String? = nil, totalCount: Int? = nil) {
             self.addressBooks = addressBooks
             self.nextToken = nextToken
             self.totalCount = totalCount
@@ -4603,13 +4603,13 @@ extension AlexaForBusiness {
         /// The filters to use to list a specified set of address books. The supported filter keys are DisplayName, FirstName, LastName, and AddressBookArns.
         public let filters: [Filter]?
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response only includes results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
         /// The sort order to use in listing the specified set of contacts. The supported sort keys are DisplayName, FirstName, and LastName.
         public let sortCriteria: [Sort]?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4651,9 +4651,9 @@ extension AlexaForBusiness {
         /// The token returned to indicate that there is more data available.
         public let nextToken: String?
         /// The total number of contacts returned.
-        public let totalCount: Int32?
+        public let totalCount: Int?
 
-        public init(contacts: [ContactData]? = nil, nextToken: String? = nil, totalCount: Int32? = nil) {
+        public init(contacts: [ContactData]? = nil, nextToken: String? = nil, totalCount: Int? = nil) {
             self.contacts = contacts
             self.nextToken = nextToken
             self.totalCount = totalCount
@@ -4677,13 +4677,13 @@ extension AlexaForBusiness {
         /// The filters to use to list a specified set of devices. Supported filter keys are DeviceName, DeviceStatus, DeviceStatusDetailCode, RoomName, DeviceType, DeviceSerialNumber, UnassociatedOnly, ConnectionStatus (ONLINE and OFFLINE), NetworkProfileName, NetworkProfileArn, Feature, and FailureCode.
         public let filters: [Filter]?
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
         /// The sort order to use in listing the specified set of devices. Supported sort keys are DeviceName, DeviceStatus, RoomName, DeviceType, DeviceSerialNumber, ConnectionStatus, NetworkProfileName, NetworkProfileArn, Feature, and FailureCode.
         public let sortCriteria: [Sort]?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4725,9 +4725,9 @@ extension AlexaForBusiness {
         /// The token returned to indicate that there is more data available.
         public let nextToken: String?
         /// The total number of devices returned.
-        public let totalCount: Int32?
+        public let totalCount: Int?
 
-        public init(devices: [DeviceData]? = nil, nextToken: String? = nil, totalCount: Int32? = nil) {
+        public init(devices: [DeviceData]? = nil, nextToken: String? = nil, totalCount: Int? = nil) {
             self.devices = devices
             self.nextToken = nextToken
             self.totalCount = totalCount
@@ -4751,13 +4751,13 @@ extension AlexaForBusiness {
         /// The filters to use to list a specified set of network profiles. Valid filters are NetworkProfileName, Ssid, and SecurityType.
         public let filters: [Filter]?
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. 
         public let nextToken: String?
         /// The sort order to use to list the specified set of network profiles. Valid sort criteria includes NetworkProfileName, Ssid, and SecurityType.
         public let sortCriteria: [Sort]?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4799,9 +4799,9 @@ extension AlexaForBusiness {
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
         /// The total number of network profiles returned.
-        public let totalCount: Int32?
+        public let totalCount: Int?
 
-        public init(networkProfiles: [NetworkProfileData]? = nil, nextToken: String? = nil, totalCount: Int32? = nil) {
+        public init(networkProfiles: [NetworkProfileData]? = nil, nextToken: String? = nil, totalCount: Int? = nil) {
             self.networkProfiles = networkProfiles
             self.nextToken = nextToken
             self.totalCount = totalCount
@@ -4825,13 +4825,13 @@ extension AlexaForBusiness {
         /// The filters to use to list a specified set of room profiles. Supported filter keys are ProfileName and Address. Required. 
         public let filters: [Filter]?
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
         /// The sort order to use in listing the specified set of room profiles. Supported sort keys are ProfileName and Address.
         public let sortCriteria: [Sort]?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4873,9 +4873,9 @@ extension AlexaForBusiness {
         /// The profiles that meet the specified set of filter criteria, in sort order.
         public let profiles: [ProfileData]?
         /// The total number of room profiles returned.
-        public let totalCount: Int32?
+        public let totalCount: Int?
 
-        public init(nextToken: String? = nil, profiles: [ProfileData]? = nil, totalCount: Int32? = nil) {
+        public init(nextToken: String? = nil, profiles: [ProfileData]? = nil, totalCount: Int? = nil) {
             self.nextToken = nextToken
             self.profiles = profiles
             self.totalCount = totalCount
@@ -4899,13 +4899,13 @@ extension AlexaForBusiness {
         /// The filters to use to list a specified set of rooms. The supported filter keys are RoomName and ProfileName.
         public let filters: [Filter]?
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
         /// The sort order to use in listing the specified set of rooms. The supported sort keys are RoomName and ProfileName.
         public let sortCriteria: [Sort]?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4947,9 +4947,9 @@ extension AlexaForBusiness {
         /// The rooms that meet the specified set of filter criteria, in sort order.
         public let rooms: [RoomData]?
         /// The total number of rooms returned.
-        public let totalCount: Int32?
+        public let totalCount: Int?
 
-        public init(nextToken: String? = nil, rooms: [RoomData]? = nil, totalCount: Int32? = nil) {
+        public init(nextToken: String? = nil, rooms: [RoomData]? = nil, totalCount: Int? = nil) {
             self.nextToken = nextToken
             self.rooms = rooms
             self.totalCount = totalCount
@@ -4973,13 +4973,13 @@ extension AlexaForBusiness {
         /// The filters to use to list a specified set of skill groups. The supported filter key is SkillGroupName. 
         public let filters: [Filter]?
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. Required.
         public let nextToken: String?
         /// The sort order to use in listing the specified set of skill groups. The supported sort key is SkillGroupName. 
         public let sortCriteria: [Sort]?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5021,9 +5021,9 @@ extension AlexaForBusiness {
         /// The skill groups that meet the filter criteria, in sort order.
         public let skillGroups: [SkillGroupData]?
         /// The total number of skill groups returned.
-        public let totalCount: Int32?
+        public let totalCount: Int?
 
-        public init(nextToken: String? = nil, skillGroups: [SkillGroupData]? = nil, totalCount: Int32? = nil) {
+        public init(nextToken: String? = nil, skillGroups: [SkillGroupData]? = nil, totalCount: Int? = nil) {
             self.nextToken = nextToken
             self.skillGroups = skillGroups
             self.totalCount = totalCount
@@ -5047,13 +5047,13 @@ extension AlexaForBusiness {
         /// The filters to use for listing a specific set of users. Required. Supported filter keys are UserId, FirstName, LastName, Email, and EnrollmentStatus.
         public let filters: [Filter]?
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. Required.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. Required.
         public let nextToken: String?
         /// The sort order to use in listing the filtered set of users. Required. Supported sort keys are UserId, FirstName, LastName, Email, and EnrollmentStatus.
         public let sortCriteria: [Sort]?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5093,11 +5093,11 @@ extension AlexaForBusiness {
         /// The token returned to indicate that there is more data available.
         public let nextToken: String?
         /// The total number of users returned.
-        public let totalCount: Int32?
+        public let totalCount: Int?
         /// The users that meet the specified set of filter criteria, in sort order.
         public let users: [UserData]?
 
-        public init(nextToken: String? = nil, totalCount: Int32? = nil, users: [UserData]? = nil) {
+        public init(nextToken: String? = nil, totalCount: Int? = nil, users: [UserData]? = nil) {
             self.nextToken = nextToken
             self.totalCount = totalCount
             self.users = users
@@ -5125,9 +5125,9 @@ extension AlexaForBusiness {
         /// The filters to use to send an announcement to a specified list of rooms. The supported filter keys are RoomName, ProfileName, RoomArn, and ProfileArn. To send to all rooms, specify an empty RoomFilters list.
         public let roomFilters: [Filter]
         /// The time to live for an announcement. Default is 300. If delivery doesn't occur within this time, the announcement is not delivered.
-        public let timeToLiveInSeconds: Int32?
+        public let timeToLiveInSeconds: Int?
 
-        public init(clientRequestToken: String = SendAnnouncementRequest.idempotencyToken(), content: Content, roomFilters: [Filter], timeToLiveInSeconds: Int32? = nil) {
+        public init(clientRequestToken: String = SendAnnouncementRequest.idempotencyToken(), content: Content, roomFilters: [Filter], timeToLiveInSeconds: Int? = nil) {
             self.clientRequestToken = clientRequestToken
             self.content = content
             self.roomFilters = roomFilters
@@ -6216,7 +6216,7 @@ extension AlexaForBusiness {
         /// Sets the profile as default if selected. If this is missing, no update is done to the default status.
         public let isDefault: Bool?
         /// The updated maximum volume limit for the room profile.
-        public let maxVolumeLimit: Int32?
+        public let maxVolumeLimit: Int?
         /// The ARN of the room profile to update. Required.
         public let profileArn: String?
         /// The updated name for the room profile.
@@ -6232,7 +6232,7 @@ extension AlexaForBusiness {
         /// The updated wake word for the room profile.
         public let wakeWord: WakeWord?
 
-        public init(address: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, maxVolumeLimit: Int32? = nil, profileArn: String? = nil, profileName: String? = nil, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
+        public init(address: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, maxVolumeLimit: Int? = nil, profileArn: String? = nil, profileName: String? = nil, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
             self.address = address
             self.distanceUnit = distanceUnit
             self.isDefault = isDefault

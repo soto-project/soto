@@ -246,7 +246,7 @@ extension DocDB {
         /// A list of Amazon EC2 Availability Zones that instances in the DB cluster can be created in.
         public let availabilityZones: [String]?
         /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35.  
-        public let backupRetentionPeriod: Int32?
+        public let backupRetentionPeriod: Int?
         /// The DB cluster identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster 
         public let dBClusterIdentifier: String
         ///  The name of the DB cluster parameter group to associate with this DB cluster.
@@ -268,7 +268,7 @@ extension DocDB {
         /// The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 41 characters.
         public let masterUserPassword: String
         /// The port number on which the instances in the DB cluster accept connections.
-        public let port: Int32?
+        public let port: Int?
         /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
         public let preferredBackupWindow: String?
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
@@ -280,7 +280,7 @@ extension DocDB {
         /// A list of EC2 VPC security groups to associate with this DB cluster.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int32? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String, masterUserPassword: String, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String, masterUserPassword: String, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
             self.dBClusterIdentifier = dBClusterIdentifier
@@ -458,11 +458,11 @@ extension DocDB {
         /// The time range each week during which system maintenance can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week.  Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid values: 0-15
-        public let promotionTier: Int32?
+        public let promotionTier: Int?
         /// The tags to be assigned to the DB instance.
         public let tags: [Tag]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dBClusterIdentifier: String, dBInstanceClass: String, dBInstanceIdentifier: String, engine: String, preferredMaintenanceWindow: String? = nil, promotionTier: Int32? = nil, tags: [Tag]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dBClusterIdentifier: String, dBInstanceClass: String, dBInstanceIdentifier: String, engine: String, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, tags: [Tag]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.dBClusterIdentifier = dBClusterIdentifier
@@ -589,7 +589,7 @@ extension DocDB {
         /// Provides the list of Amazon EC2 Availability Zones that instances in the DB cluster can be created in.
         public let availabilityZones: [String]?
         /// Specifies the number of days for which automatic DB snapshots are retained.
-        public let backupRetentionPeriod: Int32?
+        public let backupRetentionPeriod: Int?
         /// Specifies the time when the DB cluster was created, in Universal Coordinated Time (UTC).
         public let clusterCreateTime: TimeStamp?
         /// The Amazon Resource Name (ARN) for the DB cluster.
@@ -629,7 +629,7 @@ extension DocDB {
         /// Specifies the progress of the operation as a percentage.
         public let percentProgress: String?
         /// Specifies the port that the database engine is listening on.
-        public let port: Int32?
+        public let port: Int?
         /// Specifies the daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod. 
         public let preferredBackupWindow: String?
         /// Specifies the weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).
@@ -643,7 +643,7 @@ extension DocDB {
         /// Provides a list of virtual private cloud (VPC) security groups that the DB cluster belongs to.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int32? = nil, clusterCreateTime: TimeStamp? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: TimeStamp? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, clusterCreateTime: TimeStamp? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: TimeStamp? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.associatedRoles = associatedRoles
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -723,9 +723,9 @@ extension DocDB {
         /// A value that is true if the cluster member is the primary instance for the DB cluster and false otherwise.
         public let isClusterWriter: Bool?
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance. 
-        public let promotionTier: Int32?
+        public let promotionTier: Int?
 
-        public init(dBClusterParameterGroupStatus: String? = nil, dBInstanceIdentifier: String? = nil, isClusterWriter: Bool? = nil, promotionTier: Int32? = nil) {
+        public init(dBClusterParameterGroupStatus: String? = nil, dBInstanceIdentifier: String? = nil, isClusterWriter: Bool? = nil, promotionTier: Int? = nil) {
             self.dBClusterParameterGroupStatus = dBClusterParameterGroupStatus
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.isClusterWriter = isClusterWriter
@@ -917,9 +917,9 @@ extension DocDB {
         /// Provides the master user name for the DB cluster snapshot.
         public let masterUsername: String?
         /// Specifies the percentage of the estimated data that has been transferred.
-        public let percentProgress: Int32?
+        public let percentProgress: Int?
         /// Specifies the port that the DB cluster was listening on at the time of the snapshot.
-        public let port: Int32?
+        public let port: Int?
         /// Provides the time when the snapshot was taken, in UTC.
         public let snapshotCreateTime: TimeStamp?
         /// Provides the type of the DB cluster snapshot.
@@ -933,7 +933,7 @@ extension DocDB {
         /// Provides the virtual private cloud (VPC) ID that is associated with the DB cluster snapshot.
         public let vpcId: String?
 
-        public init(availabilityZones: [String]? = nil, clusterCreateTime: TimeStamp? = nil, dBClusterIdentifier: String? = nil, dBClusterSnapshotArn: String? = nil, dBClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, percentProgress: Int32? = nil, port: Int32? = nil, snapshotCreateTime: TimeStamp? = nil, snapshotType: String? = nil, sourceDBClusterSnapshotArn: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcId: String? = nil) {
+        public init(availabilityZones: [String]? = nil, clusterCreateTime: TimeStamp? = nil, dBClusterIdentifier: String? = nil, dBClusterSnapshotArn: String? = nil, dBClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, percentProgress: Int? = nil, port: Int? = nil, snapshotCreateTime: TimeStamp? = nil, snapshotType: String? = nil, sourceDBClusterSnapshotArn: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.clusterCreateTime = clusterCreateTime
             self.dBClusterIdentifier = dBClusterIdentifier
@@ -1148,7 +1148,7 @@ extension DocDB {
         /// Specifies the name of the Availability Zone that the DB instance is located in.
         public let availabilityZone: String?
         /// Specifies the number of days for which automatic DB snapshots are retained.
-        public let backupRetentionPeriod: Int32?
+        public let backupRetentionPeriod: Int?
         /// Contains the name of the DB cluster that the DB instance is a member of if the DB instance is a member of a DB cluster.
         public let dBClusterIdentifier: String?
         /// The Amazon Resource Name (ARN) for the DB instance.
@@ -1184,7 +1184,7 @@ extension DocDB {
         /// Specifies the weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).
         public let preferredMaintenanceWindow: String?
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance.
-        public let promotionTier: Int32?
+        public let promotionTier: Int?
         /// Specifies the availability options for the DB instance. A value of true specifies an internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address.
         public let publiclyAccessible: Bool?
         /// The status of a read replica. If the instance is not a read replica, this is blank.
@@ -1194,7 +1194,7 @@ extension DocDB {
         /// Provides a list of VPC security group elements that the DB instance belongs to.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int32? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dBInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBSubnetGroup: DBSubnetGroup? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, instanceCreateTime: TimeStamp? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int32? = nil, publiclyAccessible: Bool? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dBInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBSubnetGroup: DBSubnetGroup? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, instanceCreateTime: TimeStamp? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -1527,9 +1527,9 @@ extension DocDB {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(dBClusterParameterGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(dBClusterParameterGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.filters = filters
             self.marker = marker
@@ -1560,11 +1560,11 @@ extension DocDB {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         ///  A value that indicates to return only parameters for a specific source. Parameter sources can be engine, service, or customer. 
         public let source: String?
 
-        public init(dBClusterParameterGroupName: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, source: String? = nil) {
+        public init(dBClusterParameterGroupName: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, source: String? = nil) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.filters = filters
             self.marker = marker
@@ -1639,11 +1639,11 @@ extension DocDB {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The type of DB cluster snapshots to be returned. You can specify one of the following values:    automated - Return all DB cluster snapshots that Amazon DocumentDB has automatically created for your AWS account.    manual - Return all DB cluster snapshots that you have manually created for your AWS account.    shared - Return all manual DB cluster snapshots that have been shared to your AWS account.    public - Return all DB cluster snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual DB cluster snapshots are returned. You can include shared DB cluster snapshots with these results by setting the IncludeShared parameter to true. You can include public DB cluster snapshots with these results by setting the IncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
         public let snapshotType: String?
 
-        public init(dBClusterIdentifier: String? = nil, dBClusterSnapshotIdentifier: String? = nil, filters: [Filter]? = nil, includePublic: Bool? = nil, includeShared: Bool? = nil, marker: String? = nil, maxRecords: Int32? = nil, snapshotType: String? = nil) {
+        public init(dBClusterIdentifier: String? = nil, dBClusterSnapshotIdentifier: String? = nil, filters: [Filter]? = nil, includePublic: Bool? = nil, includeShared: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil, snapshotType: String? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
             self.filters = filters
@@ -1681,9 +1681,9 @@ extension DocDB {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(dBClusterIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(dBClusterIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.filters = filters
             self.marker = marker
@@ -1728,9 +1728,9 @@ extension DocDB {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(dBParameterGroupFamily: String? = nil, defaultOnly: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, filters: [Filter]? = nil, listSupportedCharacterSets: Bool? = nil, listSupportedTimezones: Bool? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(dBParameterGroupFamily: String? = nil, defaultOnly: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, filters: [Filter]? = nil, listSupportedCharacterSets: Bool? = nil, listSupportedTimezones: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
             self.defaultOnly = defaultOnly
             self.engine = engine
@@ -1770,9 +1770,9 @@ extension DocDB {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(dBInstanceIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(dBInstanceIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.filters = filters
             self.marker = marker
@@ -1802,9 +1802,9 @@ extension DocDB {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(dBSubnetGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(dBSubnetGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dBSubnetGroupName = dBSubnetGroupName
             self.filters = filters
             self.marker = marker
@@ -1834,9 +1834,9 @@ extension DocDB {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(dBParameterGroupFamily: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(dBParameterGroupFamily: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
             self.filters = filters
             self.marker = marker
@@ -1903,7 +1903,7 @@ extension DocDB {
         ]
 
         /// The number of minutes to retrieve events for. Default: 60
-        public let duration: Int32?
+        public let duration: Int?
         ///  The end of the time interval for which to retrieve events, specified in ISO 8601 format.  Example: 2009-07-08T18:00Z
         public let endTime: TimeStamp?
         /// A list of event categories that trigger notifications for an event notification subscription.
@@ -1913,7 +1913,7 @@ extension DocDB {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The identifier of the event source for which events are returned. If not specified, then all sources are included in the response. Constraints:   If SourceIdentifier is provided, SourceType must also be provided.   If the source type is DBInstance, a DBInstanceIdentifier must be provided.   If the source type is DBSecurityGroup, a DBSecurityGroupName must be provided.   If the source type is DBParameterGroup, a DBParameterGroupName must be provided.   If the source type is DBSnapshot, a DBSnapshotIdentifier must be provided.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let sourceIdentifier: String?
         /// The event source to retrieve events for. If no value is specified, all events are returned.
@@ -1921,7 +1921,7 @@ extension DocDB {
         ///  The beginning of the time interval to retrieve events for, specified in ISO 8601 format.  Example: 2009-07-08T18:00Z
         public let startTime: TimeStamp?
 
-        public init(duration: Int32? = nil, endTime: TimeStamp? = nil, eventCategories: [String]? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
+        public init(duration: Int? = nil, endTime: TimeStamp? = nil, eventCategories: [String]? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
             self.duration = duration
             self.endTime = endTime
             self.eventCategories = eventCategories
@@ -1971,11 +1971,11 @@ extension DocDB {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The virtual private cloud (VPC) filter value. Specify this parameter to show only the available VPC or non-VPC offerings.
         public let vpc: Bool?
 
-        public init(dBInstanceClass: String? = nil, engine: String, engineVersion: String? = nil, filters: [Filter]? = nil, licenseModel: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, vpc: Bool? = nil) {
+        public init(dBInstanceClass: String? = nil, engine: String, engineVersion: String? = nil, filters: [Filter]? = nil, licenseModel: String? = nil, marker: String? = nil, maxRecords: Int? = nil, vpc: Bool? = nil) {
             self.dBInstanceClass = dBInstanceClass
             self.engine = engine
             self.engineVersion = engineVersion
@@ -2011,11 +2011,11 @@ extension DocDB {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The ARN of a resource to return pending maintenance actions for.
         public let resourceIdentifier: String?
 
-        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, resourceIdentifier: String? = nil) {
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, resourceIdentifier: String? = nil) {
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2042,9 +2042,9 @@ extension DocDB {
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
         public let hostedZoneId: String?
         /// Specifies the port that the database engine is listening on.
-        public let port: Int32?
+        public let port: Int?
 
-        public init(address: String? = nil, hostedZoneId: String? = nil, port: Int32? = nil) {
+        public init(address: String? = nil, hostedZoneId: String? = nil, port: Int? = nil) {
             self.address = address
             self.hostedZoneId = hostedZoneId
             self.port = port
@@ -2289,7 +2289,7 @@ extension DocDB {
         /// A value that specifies whether the changes in this request and any pending changes are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is set to false, changes to the DB cluster are applied during the next maintenance window. The ApplyImmediately parameter affects only the NewDBClusterIdentifier and MasterUserPassword values. If you set this parameter value to false, the changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false 
         public let applyImmediately: Bool?
         /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35.  
-        public let backupRetentionPeriod: Int32?
+        public let backupRetentionPeriod: Int?
         /// The configuration setting for the log types to be enabled for export to Amazon CloudWatch Logs for a specific DB instance or DB cluster. The EnableLogTypes and DisableLogTypes arrays determine which logs are exported (or not exported) to CloudWatch Logs.
         public let cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration?
         /// The DB cluster identifier for the cluster that is being modified. This parameter is not case sensitive. Constraints:   Must match the identifier of an existing DBCluster.  
@@ -2305,7 +2305,7 @@ extension DocDB {
         /// The new DB cluster identifier for the DB cluster when renaming a DB cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster2 
         public let newDBClusterIdentifier: String?
         /// The port number on which the DB cluster accepts connections. Constraints: Must be a value from 1150 to 65535.  Default: The same port as the original DB cluster.
-        public let port: Int32?
+        public let port: Int?
         /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
         public let preferredBackupWindow: String?
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week.  Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
@@ -2313,7 +2313,7 @@ extension DocDB {
         /// A list of virtual private cloud (VPC) security groups that the DB cluster will belong to.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(applyImmediately: Bool? = nil, backupRetentionPeriod: Int32? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, deletionProtection: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, deletionProtection: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.applyImmediately = applyImmediately
             self.backupRetentionPeriod = backupRetentionPeriod
             self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
@@ -2456,9 +2456,9 @@ extension DocDB {
         /// The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter doesn't result in an outage except in the following situation, and the change is asynchronously applied as soon as possible. If there are pending actions that cause a reboot, and the maintenance window is changed to include the current time, changing this parameter causes a reboot of the DB instance. If you are moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure that pending changes are applied. Default: Uses existing setting. Format: ddd:hh24:mi-ddd:hh24:mi  Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Must be at least 30 minutes.
         public let preferredMaintenanceWindow: String?
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid values: 0-15
-        public let promotionTier: Int32?
+        public let promotionTier: Int?
 
-        public init(applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, newDBInstanceIdentifier: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int32? = nil) {
+        public init(applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, newDBInstanceIdentifier: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil) {
             self.applyImmediately = applyImmediately
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.dBInstanceClass = dBInstanceClass
@@ -2769,9 +2769,9 @@ extension DocDB {
         ]
 
         ///  Contains the new AllocatedStorage size for the DB instance that will be applied or is currently being applied. 
-        public let allocatedStorage: Int32?
+        public let allocatedStorage: Int?
         /// Specifies the pending number of days for which automated backups are retained.
-        public let backupRetentionPeriod: Int32?
+        public let backupRetentionPeriod: Int?
         /// Specifies the identifier of the certificate authority (CA) certificate for the DB instance.
         public let cACertificateIdentifier: String?
         ///  Contains the new DBInstanceClass for the DB instance that will be applied or is currently being applied. 
@@ -2783,7 +2783,7 @@ extension DocDB {
         /// Indicates the database engine version.
         public let engineVersion: String?
         /// Specifies the new Provisioned IOPS value for the DB instance that will be applied or is currently being applied.
-        public let iops: Int32?
+        public let iops: Int?
         /// The license model for the DB instance. Valid values: license-included, bring-your-own-license, general-public-license 
         public let licenseModel: String?
         /// Contains the pending or currently in-progress change of the master credentials for the DB instance.
@@ -2793,11 +2793,11 @@ extension DocDB {
         /// A list of the log types whose configuration is still pending. These log types are in the process of being activated or deactivated.
         public let pendingCloudwatchLogsExports: PendingCloudwatchLogsExports?
         /// Specifies the pending port for the DB instance.
-        public let port: Int32?
+        public let port: Int?
         /// Specifies the storage type to be associated with the DB instance.
         public let storageType: String?
 
-        public init(allocatedStorage: Int32? = nil, backupRetentionPeriod: Int32? = nil, cACertificateIdentifier: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dBSubnetGroupName: String? = nil, engineVersion: String? = nil, iops: Int32? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, pendingCloudwatchLogsExports: PendingCloudwatchLogsExports? = nil, port: Int32? = nil, storageType: String? = nil) {
+        public init(allocatedStorage: Int? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dBSubnetGroupName: String? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, pendingCloudwatchLogsExports: PendingCloudwatchLogsExports? = nil, port: Int? = nil, storageType: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.backupRetentionPeriod = backupRetentionPeriod
             self.cACertificateIdentifier = cACertificateIdentifier
@@ -2974,7 +2974,7 @@ extension DocDB {
         /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from a DB snapshot or DB cluster snapshot. The AWS KMS key identifier is the Amazon Resource Name (ARN) for the AWS KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the AWS KMS encryption key used to encrypt the new DB cluster, then you can use the AWS KMS key alias instead of the ARN for the AWS KMS encryption key. If you do not specify a value for the KmsKeyId parameter, then the following occurs:   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is encrypted, then the restored DB cluster is encrypted using the AWS KMS key that was used to encrypt the DB snapshot or the DB cluster snapshot.   If the DB snapshot or the DB cluster snapshot in SnapshotIdentifier is not encrypted, then the restored DB cluster is not encrypted.  
         public let kmsKeyId: String?
         /// The port number on which the new DB cluster accepts connections. Constraints: Must be a value from 1150 to 65535. Default: The same port as the original DB cluster.
-        public let port: Int32?
+        public let port: Int?
         /// The identifier for the DB snapshot or DB cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a DB cluster snapshot. However, you can use only the ARN to specify a DB snapshot. Constraints:   Must match the identifier of an existing snapshot.  
         public let snapshotIdentifier: String
         /// The tags to be assigned to the restored DB cluster.
@@ -2982,7 +2982,7 @@ extension DocDB {
         /// A list of virtual private cloud (VPC) security groups that the new DB cluster will belong to.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(availabilityZones: [String]? = nil, dBClusterIdentifier: String, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, port: Int32? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, dBClusterIdentifier: String, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, port: Int? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBSubnetGroupName = dBSubnetGroupName
@@ -3055,7 +3055,7 @@ extension DocDB {
         /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The AWS KMS key identifier is the Amazon Resource Name (ARN) for the AWS KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the AWS KMS encryption key used to encrypt the new DB cluster, then you can use the AWS KMS key alias instead of the ARN for the AWS KMS encryption key. You can restore to a new DB cluster and encrypt the new DB cluster with an AWS KMS key that is different from the AWS KMS key used to encrypt the source DB cluster. The new DB cluster is encrypted with the AWS KMS key identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the following occurs:   If the DB cluster is encrypted, then the restored DB cluster is encrypted using the AWS KMS key that was used to encrypt the source DB cluster.   If the DB cluster is not encrypted, then the restored DB cluster is not encrypted.   If DBClusterIdentifier refers to a DB cluster that is not encrypted, then the restore request is rejected.
         public let kmsKeyId: String?
         /// The port number on which the new DB cluster accepts connections. Constraints: Must be a value from 1150 to 65535.  Default: The default port for the engine.
-        public let port: Int32?
+        public let port: Int?
         /// The date and time to restore the DB cluster to. Valid values: A time in Universal Coordinated Time (UTC) format. Constraints:   Must be before the latest restorable time for the DB instance.   Must be specified if the UseLatestRestorableTime parameter is not provided.   Cannot be specified if the UseLatestRestorableTime parameter is true.   Cannot be specified if the RestoreType parameter is copy-on-write.   Example: 2015-03-07T23:45:00Z 
         public let restoreToTime: TimeStamp?
         /// The identifier of the source DB cluster from which to restore. Constraints:   Must match the identifier of an existing DBCluster.  
@@ -3067,7 +3067,7 @@ extension DocDB {
         /// A list of VPC security groups that the new DB cluster belongs to.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(dBClusterIdentifier: String, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, kmsKeyId: String? = nil, port: Int32? = nil, restoreToTime: TimeStamp? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(dBClusterIdentifier: String, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, kmsKeyId: String? = nil, port: Int? = nil, restoreToTime: TimeStamp? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBSubnetGroupName = dBSubnetGroupName
             self.deletionProtection = deletionProtection

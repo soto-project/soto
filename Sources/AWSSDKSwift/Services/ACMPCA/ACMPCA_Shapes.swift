@@ -439,11 +439,11 @@ extension ACMPCA {
         /// Boolean value that specifies whether certificate revocation lists (CRLs) are enabled. You can use this value to enable certificate revocation for a new CA when you call the CreateCertificateAuthority action or for an existing CA when you call the UpdateCertificateAuthority action. 
         public let enabled: Bool
         /// Number of days until a certificate expires.
-        public let expirationInDays: Int32?
+        public let expirationInDays: Int?
         /// Name of the S3 bucket that contains the CRL. If you do not provide a value for the CustomCname argument, the name of your S3 bucket is placed into the CRL Distribution Points extension of the issued certificate. You can change the name of your bucket by calling the UpdateCertificateAuthority action. You must specify a bucket policy that allows ACM Private CA to write the CRL to your bucket.
         public let s3BucketName: String?
 
-        public init(customCname: String? = nil, enabled: Bool, expirationInDays: Int32? = nil, s3BucketName: String? = nil) {
+        public init(customCname: String? = nil, enabled: Bool, expirationInDays: Int? = nil, s3BucketName: String? = nil) {
             self.customCname = customCname
             self.enabled = enabled
             self.expirationInDays = expirationInDays
@@ -476,9 +476,9 @@ extension ACMPCA {
         /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
         public let certificateAuthorityArn: String
         /// The number of days to make a CA restorable after it has been deleted. This can be anywhere from 7 to 30 days, with 30 being the default.
-        public let permanentDeletionTimeInDays: Int32?
+        public let permanentDeletionTimeInDays: Int?
 
-        public init(certificateAuthorityArn: String, permanentDeletionTimeInDays: Int32? = nil) {
+        public init(certificateAuthorityArn: String, permanentDeletionTimeInDays: Int? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.permanentDeletionTimeInDays = permanentDeletionTimeInDays
         }
@@ -910,11 +910,11 @@ extension ACMPCA {
         ]
 
         /// Use this parameter when paginating results to specify the maximum number of items to return in the response on each page. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Use this parameter when paginating results in a subsequent request after you receive a response with truncated results. Set it to the value of the NextToken parameter from the response you just received.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -964,11 +964,11 @@ extension ACMPCA {
         /// The Amazon Resource Number (ARN) of the private CA to inspect. You can find the ARN by calling the ListCertificateAuthorities action. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 You can get a private CA's ARN by running the ListCertificateAuthorities action.
         public let certificateAuthorityArn: String
         /// When paginating results, use this parameter to specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// When paginating results, use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the response you just received.
         public let nextToken: String?
 
-        public init(certificateAuthorityArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(certificateAuthorityArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1023,11 +1023,11 @@ extension ACMPCA {
         /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
         public let certificateAuthorityArn: String
         /// Use this parameter when paginating results to specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Use this parameter when paginating results in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the response you just received.
         public let nextToken: String?
 
-        public init(certificateAuthorityArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(certificateAuthorityArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.maxResults = maxResults
             self.nextToken = nextToken

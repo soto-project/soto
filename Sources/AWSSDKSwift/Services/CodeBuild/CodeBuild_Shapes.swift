@@ -233,7 +233,7 @@ extension CodeBuild {
         /// The name of the AWS CodeBuild project.
         public let projectName: String?
         ///  The number of minutes a build is allowed to be queued before it times out. 
-        public let queuedTimeoutInMinutes: Int32?
+        public let queuedTimeoutInMinutes: Int?
         ///  An identifier for the version of this build's source code.     For AWS CodeCommit, GitHub, GitHub Enterprise, and BitBucket, the commit ID.     For AWS CodePipeline, the source revision provided by AWS CodePipeline.     For Amazon Simple Storage Service (Amazon S3), this does not apply.   
         public let resolvedSourceVersion: String?
         ///  An array of ProjectArtifacts objects. 
@@ -251,11 +251,11 @@ extension CodeBuild {
         /// When the build process started, expressed in Unix time format.
         public let startTime: TimeStamp?
         /// How long, in minutes, for AWS CodeBuild to wait before timing out this build if it does not get marked as completed.
-        public let timeoutInMinutes: Int32?
+        public let timeoutInMinutes: Int?
         /// If your AWS CodeBuild project accesses resources in an Amazon VPC, you provide this parameter that identifies the VPC ID and the list of security group IDs and subnet IDs. The security groups and subnets must belong to the same VPC. You must provide at least one security group and one subnet ID.
         public let vpcConfig: VpcConfig?
 
-        public init(arn: String? = nil, artifacts: BuildArtifacts? = nil, buildComplete: Bool? = nil, buildStatus: StatusType? = nil, cache: ProjectCache? = nil, currentPhase: String? = nil, encryptionKey: String? = nil, endTime: TimeStamp? = nil, environment: ProjectEnvironment? = nil, id: String? = nil, initiator: String? = nil, logs: LogsLocation? = nil, networkInterface: NetworkInterface? = nil, phases: [BuildPhase]? = nil, projectName: String? = nil, queuedTimeoutInMinutes: Int32? = nil, resolvedSourceVersion: String? = nil, secondaryArtifacts: [BuildArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, startTime: TimeStamp? = nil, timeoutInMinutes: Int32? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String? = nil, artifacts: BuildArtifacts? = nil, buildComplete: Bool? = nil, buildStatus: StatusType? = nil, cache: ProjectCache? = nil, currentPhase: String? = nil, encryptionKey: String? = nil, endTime: TimeStamp? = nil, environment: ProjectEnvironment? = nil, id: String? = nil, initiator: String? = nil, logs: LogsLocation? = nil, networkInterface: NetworkInterface? = nil, phases: [BuildPhase]? = nil, projectName: String? = nil, queuedTimeoutInMinutes: Int? = nil, resolvedSourceVersion: String? = nil, secondaryArtifacts: [BuildArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, startTime: TimeStamp? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.artifacts = artifacts
             self.buildComplete = buildComplete
@@ -522,7 +522,7 @@ extension CodeBuild {
         /// The name of the build project.
         public let name: String
         ///  The number of minutes a build is allowed to be queued before it times out. 
-        public let queuedTimeoutInMinutes: Int32?
+        public let queuedTimeoutInMinutes: Int?
         ///  An array of ProjectArtifacts objects. 
         public let secondaryArtifacts: [ProjectArtifacts]?
         ///  An array of ProjectSource objects. 
@@ -538,11 +538,11 @@ extension CodeBuild {
         /// A set of tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
         public let tags: [Tag]?
         /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before it times out any build that has not been marked as completed. The default is 60 minutes.
-        public let timeoutInMinutes: Int32?
+        public let timeoutInMinutes: Int?
         /// VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(artifacts: ProjectArtifacts, badgeEnabled: Bool? = nil, cache: ProjectCache? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int32? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String, source: ProjectSource, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int32? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(artifacts: ProjectArtifacts, badgeEnabled: Bool? = nil, cache: ProjectCache? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String, source: ProjectSource, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
             self.artifacts = artifacts
             self.badgeEnabled = badgeEnabled
             self.cache = cache
@@ -1391,7 +1391,7 @@ extension CodeBuild {
         /// The name of the build project.
         public let name: String?
         ///  The number of minutes a build is allowed to be queued before it times out. 
-        public let queuedTimeoutInMinutes: Int32?
+        public let queuedTimeoutInMinutes: Int?
         ///  An array of ProjectArtifacts objects. 
         public let secondaryArtifacts: [ProjectArtifacts]?
         ///  An array of ProjectSource objects. 
@@ -1407,13 +1407,13 @@ extension CodeBuild {
         /// The tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
         public let tags: [Tag]?
         /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before timing out any related build that did not get marked as completed. The default is 60 minutes.
-        public let timeoutInMinutes: Int32?
+        public let timeoutInMinutes: Int?
         /// Information about the VPC configuration that AWS CodeBuild accesses.
         public let vpcConfig: VpcConfig?
         /// Information about a webhook that connects repository events to a build project in AWS CodeBuild.
         public let webhook: Webhook?
 
-        public init(arn: String? = nil, artifacts: ProjectArtifacts? = nil, badge: ProjectBadge? = nil, cache: ProjectCache? = nil, created: TimeStamp? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, lastModified: TimeStamp? = nil, logsConfig: LogsConfig? = nil, name: String? = nil, queuedTimeoutInMinutes: Int32? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int32? = nil, vpcConfig: VpcConfig? = nil, webhook: Webhook? = nil) {
+        public init(arn: String? = nil, artifacts: ProjectArtifacts? = nil, badge: ProjectBadge? = nil, cache: ProjectCache? = nil, created: TimeStamp? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, lastModified: TimeStamp? = nil, logsConfig: LogsConfig? = nil, name: String? = nil, queuedTimeoutInMinutes: Int? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil, webhook: Webhook? = nil) {
             self.arn = arn
             self.artifacts = artifacts
             self.badge = badge
@@ -1655,7 +1655,7 @@ extension CodeBuild {
         /// The build spec declaration to use for the builds in this build project. If this value is not specified, a build spec must be included along with the source code to be built.
         public let buildspec: String?
         /// Information about the Git clone depth for the build project.
-        public let gitCloneDepth: Int32?
+        public let gitCloneDepth: Int?
         ///  Information about the Git submodules configuration for the build project. 
         public let gitSubmodulesConfig: GitSubmodulesConfig?
         /// Enable this flag to ignore SSL warnings while connecting to the project source code.
@@ -1669,7 +1669,7 @@ extension CodeBuild {
         /// The type of repository that contains the source code to be built. Valid values include:    BITBUCKET: The source code is in a Bitbucket repository.    CODECOMMIT: The source code is in an AWS CodeCommit repository.    CODEPIPELINE: The source code settings are specified in the source action of a pipeline in AWS CodePipeline.    GITHUB: The source code is in a GitHub repository.    NO_SOURCE: The project does not have input source code.    S3: The source code is in an Amazon Simple Storage Service (Amazon S3) input bucket.  
         public let `type`: SourceType
 
-        public init(auth: SourceAuth? = nil, buildspec: String? = nil, gitCloneDepth: Int32? = nil, gitSubmodulesConfig: GitSubmodulesConfig? = nil, insecureSsl: Bool? = nil, location: String? = nil, reportBuildStatus: Bool? = nil, sourceIdentifier: String? = nil, type: SourceType) {
+        public init(auth: SourceAuth? = nil, buildspec: String? = nil, gitCloneDepth: Int? = nil, gitSubmodulesConfig: GitSubmodulesConfig? = nil, insecureSsl: Bool? = nil, location: String? = nil, reportBuildStatus: Bool? = nil, sourceIdentifier: String? = nil, type: SourceType) {
             self.auth = auth
             self.buildspec = buildspec
             self.gitCloneDepth = gitCloneDepth
@@ -1898,7 +1898,7 @@ extension CodeBuild {
         /// A set of environment variables that overrides, for this build only, the latest ones already defined in the build project.
         public let environmentVariablesOverride: [EnvironmentVariable]?
         /// The user-defined depth of history, with a minimum value of 0, that overrides, for this build only, any previous depth of history defined in the build project.
-        public let gitCloneDepthOverride: Int32?
+        public let gitCloneDepthOverride: Int?
         ///  Information about the Git submodules configuration for this build of an AWS CodeBuild build project. 
         public let gitSubmodulesConfigOverride: GitSubmodulesConfig?
         /// A unique, case sensitive identifier you provide to ensure the idempotency of the StartBuild request. The token is included in the StartBuild request and is valid for 12 hours. If you repeat the StartBuild request with the same token, but change a parameter, AWS CodeBuild returns a parameter mismatch error. 
@@ -1916,7 +1916,7 @@ extension CodeBuild {
         /// The name of the AWS CodeBuild build project to start running a build.
         public let projectName: String
         ///  The number of minutes a build is allowed to be queued before it times out. 
-        public let queuedTimeoutInMinutesOverride: Int32?
+        public let queuedTimeoutInMinutesOverride: Int?
         ///  The credentials for access to a private registry. 
         public let registryCredentialOverride: RegistryCredential?
         ///  Set to true to report to your source provider the status of a build's start and completion. If you use this option with a source provider other than GitHub, GitHub Enterprise, or Bitbucket, an invalidInputException is thrown. 
@@ -1938,9 +1938,9 @@ extension CodeBuild {
         /// A version of the build input to be built, for this build only. If not specified, the latest version is used. If specified, must be one of:   For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    If sourceVersion is specified at the project level, then this sourceVersion (at the build level) takes precedence.   For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
         public let sourceVersion: String?
         /// The number of build timeout minutes, from 5 to 480 (8 hours), that overrides, for this build only, the latest setting already defined in the build project.
-        public let timeoutInMinutesOverride: Int32?
+        public let timeoutInMinutesOverride: Int?
 
-        public init(artifactsOverride: ProjectArtifacts? = nil, buildspecOverride: String? = nil, cacheOverride: ProjectCache? = nil, certificateOverride: String? = nil, computeTypeOverride: ComputeType? = nil, environmentTypeOverride: EnvironmentType? = nil, environmentVariablesOverride: [EnvironmentVariable]? = nil, gitCloneDepthOverride: Int32? = nil, gitSubmodulesConfigOverride: GitSubmodulesConfig? = nil, idempotencyToken: String? = nil, imageOverride: String? = nil, imagePullCredentialsTypeOverride: ImagePullCredentialsType? = nil, insecureSslOverride: Bool? = nil, logsConfigOverride: LogsConfig? = nil, privilegedModeOverride: Bool? = nil, projectName: String, queuedTimeoutInMinutesOverride: Int32? = nil, registryCredentialOverride: RegistryCredential? = nil, reportBuildStatusOverride: Bool? = nil, secondaryArtifactsOverride: [ProjectArtifacts]? = nil, secondarySourcesOverride: [ProjectSource]? = nil, secondarySourcesVersionOverride: [ProjectSourceVersion]? = nil, serviceRoleOverride: String? = nil, sourceAuthOverride: SourceAuth? = nil, sourceLocationOverride: String? = nil, sourceTypeOverride: SourceType? = nil, sourceVersion: String? = nil, timeoutInMinutesOverride: Int32? = nil) {
+        public init(artifactsOverride: ProjectArtifacts? = nil, buildspecOverride: String? = nil, cacheOverride: ProjectCache? = nil, certificateOverride: String? = nil, computeTypeOverride: ComputeType? = nil, environmentTypeOverride: EnvironmentType? = nil, environmentVariablesOverride: [EnvironmentVariable]? = nil, gitCloneDepthOverride: Int? = nil, gitSubmodulesConfigOverride: GitSubmodulesConfig? = nil, idempotencyToken: String? = nil, imageOverride: String? = nil, imagePullCredentialsTypeOverride: ImagePullCredentialsType? = nil, insecureSslOverride: Bool? = nil, logsConfigOverride: LogsConfig? = nil, privilegedModeOverride: Bool? = nil, projectName: String, queuedTimeoutInMinutesOverride: Int? = nil, registryCredentialOverride: RegistryCredential? = nil, reportBuildStatusOverride: Bool? = nil, secondaryArtifactsOverride: [ProjectArtifacts]? = nil, secondarySourcesOverride: [ProjectSource]? = nil, secondarySourcesVersionOverride: [ProjectSourceVersion]? = nil, serviceRoleOverride: String? = nil, sourceAuthOverride: SourceAuth? = nil, sourceLocationOverride: String? = nil, sourceTypeOverride: SourceType? = nil, sourceVersion: String? = nil, timeoutInMinutesOverride: Int? = nil) {
             self.artifactsOverride = artifactsOverride
             self.buildspecOverride = buildspecOverride
             self.cacheOverride = cacheOverride
@@ -2162,7 +2162,7 @@ extension CodeBuild {
         /// The name of the build project.  You cannot change a build project's name. 
         public let name: String
         ///  The number of minutes a build is allowed to be queued before it times out. 
-        public let queuedTimeoutInMinutes: Int32?
+        public let queuedTimeoutInMinutes: Int?
         ///  An array of ProjectSource objects. 
         public let secondaryArtifacts: [ProjectArtifacts]?
         ///  An array of ProjectSource objects. 
@@ -2178,11 +2178,11 @@ extension CodeBuild {
         /// The replacement set of tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
         public let tags: [Tag]?
         /// The replacement value in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before timing out any related build that did not get marked as completed.
-        public let timeoutInMinutes: Int32?
+        public let timeoutInMinutes: Int?
         /// VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(artifacts: ProjectArtifacts? = nil, badgeEnabled: Bool? = nil, cache: ProjectCache? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int32? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int32? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(artifacts: ProjectArtifacts? = nil, badgeEnabled: Bool? = nil, cache: ProjectCache? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
             self.artifacts = artifacts
             self.badgeEnabled = badgeEnabled
             self.cache = cache

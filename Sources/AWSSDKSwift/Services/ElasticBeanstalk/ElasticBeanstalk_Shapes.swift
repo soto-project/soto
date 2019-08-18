@@ -149,15 +149,15 @@ extension ElasticBeanstalk {
         ]
 
         /// The amount of time that the metrics cover (usually 10 seconds). For example, you might have 5 requests (request_count) within the most recent time slice of 10 seconds (duration).
-        public let duration: Int32?
+        public let duration: Int?
         /// Represents the average latency for the slowest X percent of requests over the last 10 seconds. Latencies are in seconds with one millisecond resolution.
         public let latency: Latency?
         /// Average number of requests handled by the web server per second over the last 10 seconds.
-        public let requestCount: Int32?
+        public let requestCount: Int?
         /// Represents the percentage of requests over the last 10 seconds that resulted in each type of status code response.
         public let statusCodes: StatusCodes?
 
-        public init(duration: Int32? = nil, latency: Latency? = nil, requestCount: Int32? = nil, statusCodes: StatusCodes? = nil) {
+        public init(duration: Int? = nil, latency: Latency? = nil, requestCount: Int? = nil, statusCodes: StatusCodes? = nil) {
             self.duration = duration
             self.latency = latency
             self.requestCount = requestCount
@@ -442,9 +442,9 @@ extension ElasticBeanstalk {
         /// The ID of the Docker image to use for this build project.
         public let image: String
         /// How long in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait until timing out any related build that does not get marked as completed. The default is 60 minutes.
-        public let timeoutInMinutes: Int32?
+        public let timeoutInMinutes: Int?
 
-        public init(artifactName: String? = nil, codeBuildServiceRole: String, computeType: ComputeType? = nil, image: String, timeoutInMinutes: Int32? = nil) {
+        public init(artifactName: String? = nil, codeBuildServiceRole: String, computeType: ComputeType? = nil, image: String, timeoutInMinutes: Int? = nil) {
             self.artifactName = artifactName
             self.codeBuildServiceRole = codeBuildServiceRole
             self.computeType = computeType
@@ -651,11 +651,11 @@ extension ElasticBeanstalk {
         /// The default value for this configuration option.
         public let defaultValue: String?
         /// If specified, the configuration option must be a string value no longer than this value.
-        public let maxLength: Int32?
+        public let maxLength: Int?
         /// If specified, the configuration option must be a numeric value less than this value.
-        public let maxValue: Int32?
+        public let maxValue: Int?
         /// If specified, the configuration option must be a numeric value greater than this value.
-        public let minValue: Int32?
+        public let minValue: Int?
         /// The name of the configuration option.
         public let name: String?
         /// A unique namespace identifying the option's associated AWS resource.
@@ -669,7 +669,7 @@ extension ElasticBeanstalk {
         /// An indication of which type of values this option has and whether it is allowable to select one or more than one of the possible values:    Scalar : Values for this option are a single selection from the possible values, or an unformatted string, or numeric value governed by the MIN/MAX/Regex constraints.    List : Values for this option are multiple selections from the possible values.    Boolean : Values for this option are either true or false .    Json : Values for this option are a JSON representation of a ConfigDocument.  
         public let valueType: ConfigurationOptionValueType?
 
-        public init(changeSeverity: String? = nil, defaultValue: String? = nil, maxLength: Int32? = nil, maxValue: Int32? = nil, minValue: Int32? = nil, name: String? = nil, namespace: String? = nil, regex: OptionRestrictionRegex? = nil, userDefined: Bool? = nil, valueOptions: [String]? = nil, valueType: ConfigurationOptionValueType? = nil) {
+        public init(changeSeverity: String? = nil, defaultValue: String? = nil, maxLength: Int? = nil, maxValue: Int? = nil, minValue: Int? = nil, name: String? = nil, namespace: String? = nil, regex: OptionRestrictionRegex? = nil, userDefined: Bool? = nil, valueOptions: [String]? = nil, valueType: ConfigurationOptionValueType? = nil) {
             self.changeSeverity = changeSeverity
             self.defaultValue = defaultValue
             self.maxLength = maxLength
@@ -1478,13 +1478,13 @@ extension ElasticBeanstalk {
         /// Specify an application name to show only application versions for that application.
         public let applicationName: String?
         /// For a paginated request. Specify a maximum number of application versions to include in each response. If no MaxRecords is specified, all available application versions are retrieved in a single response.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// For a paginated request. Specify a token from a previous response page to retrieve the next response page. All other parameter values must be identical to the ones specified in the initial request. If no NextToken is specified, the first page is retrieved.
         public let nextToken: String?
         /// Specify a version label to show a specific application version.
         public let versionLabels: [String]?
 
-        public init(applicationName: String? = nil, maxRecords: Int32? = nil, nextToken: String? = nil, versionLabels: [String]? = nil) {
+        public init(applicationName: String? = nil, maxRecords: Int? = nil, nextToken: String? = nil, versionLabels: [String]? = nil) {
             self.applicationName = applicationName
             self.maxRecords = maxRecords
             self.nextToken = nextToken
@@ -1721,11 +1721,11 @@ extension ElasticBeanstalk {
         /// The name of the target environment.
         public let environmentName: String?
         /// The maximum number of items to return for a single request.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// The pagination token returned by a previous request.
         public let nextToken: String?
 
-        public init(environmentId: String? = nil, environmentName: String? = nil, maxItems: Int32? = nil, nextToken: String? = nil) {
+        public init(environmentId: String? = nil, environmentName: String? = nil, maxItems: Int? = nil, nextToken: String? = nil) {
             self.environmentId = environmentId
             self.environmentName = environmentName
             self.maxItems = maxItems
@@ -1861,13 +1861,13 @@ extension ElasticBeanstalk {
         /// Indicates whether to include deleted environments:  true: Environments that have been deleted after IncludedDeletedBackTo are displayed.  false: Do not include deleted environments.
         public let includeDeleted: Bool?
         /// For a paginated request. Specify a maximum number of environments to include in each response. If no MaxRecords is specified, all available environments are retrieved in a single response.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// For a paginated request. Specify a token from a previous response page to retrieve the next response page. All other parameter values must be identical to the ones specified in the initial request. If no NextToken is specified, the first page is retrieved.
         public let nextToken: String?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application version.
         public let versionLabel: String?
 
-        public init(applicationName: String? = nil, environmentIds: [String]? = nil, environmentNames: [String]? = nil, includedDeletedBackTo: TimeStamp? = nil, includeDeleted: Bool? = nil, maxRecords: Int32? = nil, nextToken: String? = nil, versionLabel: String? = nil) {
+        public init(applicationName: String? = nil, environmentIds: [String]? = nil, environmentNames: [String]? = nil, includedDeletedBackTo: TimeStamp? = nil, includeDeleted: Bool? = nil, maxRecords: Int? = nil, nextToken: String? = nil, versionLabel: String? = nil) {
             self.applicationName = applicationName
             self.environmentIds = environmentIds
             self.environmentNames = environmentNames
@@ -1928,7 +1928,7 @@ extension ElasticBeanstalk {
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
         public let environmentName: String?
         /// Specifies the maximum number of events that can be returned, beginning with the most recent event.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// Pagination token. If specified, the events return the next batch of results.
         public let nextToken: String?
         /// The ARN of the version of the custom platform.
@@ -1944,7 +1944,7 @@ extension ElasticBeanstalk {
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this application version.
         public let versionLabel: String?
 
-        public init(applicationName: String? = nil, endTime: TimeStamp? = nil, environmentId: String? = nil, environmentName: String? = nil, maxRecords: Int32? = nil, nextToken: String? = nil, platformArn: String? = nil, requestId: String? = nil, severity: EventSeverity? = nil, startTime: TimeStamp? = nil, templateName: String? = nil, versionLabel: String? = nil) {
+        public init(applicationName: String? = nil, endTime: TimeStamp? = nil, environmentId: String? = nil, environmentName: String? = nil, maxRecords: Int? = nil, nextToken: String? = nil, platformArn: String? = nil, requestId: String? = nil, severity: EventSeverity? = nil, startTime: TimeStamp? = nil, templateName: String? = nil, versionLabel: String? = nil) {
             self.applicationName = applicationName
             self.endTime = endTime
             self.environmentId = environmentId
@@ -2567,23 +2567,23 @@ extension ElasticBeanstalk {
         ]
 
         ///  Red. The health agent is reporting a high number of request failures or other issues for an instance or environment.
-        public let degraded: Int32?
+        public let degraded: Int?
         ///  Green. An operation is in progress on an instance.
-        public let info: Int32?
+        public let info: Int?
         ///  Grey. AWS Elastic Beanstalk and the health agent are reporting no data on an instance.
-        public let noData: Int32?
+        public let noData: Int?
         ///  Green. An instance is passing health checks and the health agent is not reporting any problems.
-        public let ok: Int32?
+        public let ok: Int?
         ///  Grey. An operation is in progress on an instance within the command timeout.
-        public let pending: Int32?
+        public let pending: Int?
         ///  Red. The health agent is reporting a very high number of request failures or other issues for an instance or environment.
-        public let severe: Int32?
+        public let severe: Int?
         ///  Grey. AWS Elastic Beanstalk and the health agent are reporting an insufficient amount of data on an instance.
-        public let unknown: Int32?
+        public let unknown: Int?
         ///  Yellow. The health agent is reporting a moderate number of request failures or other issues for an instance or environment.
-        public let warning: Int32?
+        public let warning: Int?
 
-        public init(degraded: Int32? = nil, info: Int32? = nil, noData: Int32? = nil, ok: Int32? = nil, pending: Int32? = nil, severe: Int32? = nil, unknown: Int32? = nil, warning: Int32? = nil) {
+        public init(degraded: Int? = nil, info: Int? = nil, noData: Int? = nil, ok: Int? = nil, pending: Int? = nil, severe: Int? = nil, unknown: Int? = nil, warning: Int? = nil) {
             self.degraded = degraded
             self.info = info
             self.noData = noData
@@ -2739,11 +2739,11 @@ extension ElasticBeanstalk {
         /// List only the platforms where the platform member value relates to one of the supplied values.
         public let filters: [PlatformFilter]?
         /// The maximum number of platform values returned in one call.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The starting index into the remaining list of platforms. Use the NextToken value from a previous ListPlatformVersion call.
         public let nextToken: String?
 
-        public init(filters: [PlatformFilter]? = nil, maxRecords: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [PlatformFilter]? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxRecords = maxRecords
             self.nextToken = nextToken
@@ -2806,11 +2806,11 @@ extension ElasticBeanstalk {
         ]
 
         /// The port that is used by the Listener.
-        public let port: Int32?
+        public let port: Int?
         /// The protocol that is used by the Listener.
         public let `protocol`: String?
 
-        public init(port: Int32? = nil, protocol: String? = nil) {
+        public init(port: Int? = nil, protocol: String? = nil) {
             self.port = port
             self.`protocol` = `protocol`
         }
@@ -2966,9 +2966,9 @@ extension ElasticBeanstalk {
         /// Specify true to apply the rule, or false to disable it.
         public let enabled: Bool
         /// Specify the number of days to retain an application versions.
-        public let maxAgeInDays: Int32?
+        public let maxAgeInDays: Int?
 
-        public init(deleteSourceFromS3: Bool? = nil, enabled: Bool, maxAgeInDays: Int32? = nil) {
+        public init(deleteSourceFromS3: Bool? = nil, enabled: Bool, maxAgeInDays: Int? = nil) {
             self.deleteSourceFromS3 = deleteSourceFromS3
             self.enabled = enabled
             self.maxAgeInDays = maxAgeInDays
@@ -2993,9 +2993,9 @@ extension ElasticBeanstalk {
         /// Specify true to apply the rule, or false to disable it.
         public let enabled: Bool
         /// Specify the maximum number of application versions to retain.
-        public let maxCount: Int32?
+        public let maxCount: Int?
 
-        public init(deleteSourceFromS3: Bool? = nil, enabled: Bool, maxCount: Int32? = nil) {
+        public init(deleteSourceFromS3: Bool? = nil, enabled: Bool, maxCount: Int? = nil) {
             self.deleteSourceFromS3 = deleteSourceFromS3
             self.enabled = enabled
             self.maxCount = maxCount
@@ -3383,9 +3383,9 @@ extension ElasticBeanstalk {
         ]
 
         /// The maximum number of instances of this Elastic Beanstalk resource type that an AWS account can use.
-        public let maximum: Int32?
+        public let maximum: Int?
 
-        public init(maximum: Int32? = nil) {
+        public init(maximum: Int? = nil) {
             self.maximum = maximum
         }
 
@@ -3723,15 +3723,15 @@ extension ElasticBeanstalk {
         ]
 
         /// The percentage of requests over the last 10 seconds that resulted in a 2xx (200, 201, etc.) status code.
-        public let status2xx: Int32?
+        public let status2xx: Int?
         /// The percentage of requests over the last 10 seconds that resulted in a 3xx (300, 301, etc.) status code.
-        public let status3xx: Int32?
+        public let status3xx: Int?
         /// The percentage of requests over the last 10 seconds that resulted in a 4xx (400, 401, etc.) status code.
-        public let status4xx: Int32?
+        public let status4xx: Int?
         /// The percentage of requests over the last 10 seconds that resulted in a 5xx (500, 501, etc.) status code.
-        public let status5xx: Int32?
+        public let status5xx: Int?
 
-        public init(status2xx: Int32? = nil, status3xx: Int32? = nil, status4xx: Int32? = nil, status5xx: Int32? = nil) {
+        public init(status2xx: Int? = nil, status3xx: Int? = nil, status4xx: Int? = nil, status5xx: Int? = nil) {
             self.status2xx = status2xx
             self.status3xx = status3xx
             self.status4xx = status4xx

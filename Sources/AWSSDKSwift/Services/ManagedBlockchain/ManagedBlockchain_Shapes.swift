@@ -13,13 +13,13 @@ extension ManagedBlockchain {
         ]
 
         /// The duration from the time that a proposal is created until it expires. If members cast neither the required number of YES votes to approve the proposal nor the number of NO votes required to reject it before the duration expires, the proposal is EXPIRED and ProposalActions are not carried out.
-        public let proposalDurationInHours: Int32?
+        public let proposalDurationInHours: Int?
         /// Determines whether the vote percentage must be greater than the ThresholdPercentage or must be greater than or equal to the ThreholdPercentage to be approved.
         public let thresholdComparator: ThresholdComparator?
         /// The percentage of votes among all members that must be YES for a proposal to be approved. For example, a ThresholdPercentage value of 50 indicates 50%. The ThresholdComparator determines the precise comparison. If a ThresholdPercentage value of 50 is specified on a network with 10 members, along with a ThresholdComparator value of GREATER_THAN, this indicates that 6 YES votes are required for the proposal to be approved.
-        public let thresholdPercentage: Int32?
+        public let thresholdPercentage: Int?
 
-        public init(proposalDurationInHours: Int32? = nil, thresholdComparator: ThresholdComparator? = nil, thresholdPercentage: Int32? = nil) {
+        public init(proposalDurationInHours: Int? = nil, thresholdComparator: ThresholdComparator? = nil, thresholdPercentage: Int? = nil) {
             self.proposalDurationInHours = proposalDurationInHours
             self.thresholdComparator = thresholdComparator
             self.thresholdPercentage = thresholdPercentage
@@ -653,11 +653,11 @@ extension ManagedBlockchain {
         ]
 
         /// The maximum number of invitations to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -709,7 +709,7 @@ extension ManagedBlockchain {
         /// An optional Boolean value. If provided, the request is limited either to members that the current AWS account owns (true) or that other AWS accounts own (false). If omitted, all members are listed.
         public let isOwned: Bool?
         /// The maximum number of members to return in the request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The optional name of the member to list.
         public let name: String?
         /// The unique identifier of the network for which to list members.
@@ -719,7 +719,7 @@ extension ManagedBlockchain {
         /// An optional status specifier. If provided, only members currently in this status are listed.
         public let status: MemberStatus?
 
-        public init(isOwned: Bool? = nil, maxResults: Int32? = nil, name: String? = nil, networkId: String, nextToken: String? = nil, status: MemberStatus? = nil) {
+        public init(isOwned: Bool? = nil, maxResults: Int? = nil, name: String? = nil, networkId: String, nextToken: String? = nil, status: MemberStatus? = nil) {
             self.isOwned = isOwned
             self.maxResults = maxResults
             self.name = name
@@ -780,7 +780,7 @@ extension ManagedBlockchain {
         /// An optional framework specifier. If provided, only networks of this framework type are listed.
         public let framework: Framework?
         /// The maximum number of networks to list.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The name of the network.
         public let name: String?
         /// The pagination token that indicates the next set of results to retrieve.
@@ -788,7 +788,7 @@ extension ManagedBlockchain {
         /// An optional status specifier. If provided, only networks currently in this status are listed.
         public let status: NetworkStatus?
 
-        public init(framework: Framework? = nil, maxResults: Int32? = nil, name: String? = nil, nextToken: String? = nil, status: NetworkStatus? = nil) {
+        public init(framework: Framework? = nil, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, status: NetworkStatus? = nil) {
             self.framework = framework
             self.maxResults = maxResults
             self.name = name
@@ -843,7 +843,7 @@ extension ManagedBlockchain {
         ]
 
         /// The maximum number of nodes to list.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The unique identifier of the member who owns the nodes to list.
         public let memberId: String
         /// The unique identifier of the network for which to list nodes.
@@ -853,7 +853,7 @@ extension ManagedBlockchain {
         /// An optional status specifier. If provided, only nodes currently in this status are listed.
         public let status: NodeStatus?
 
-        public init(maxResults: Int32? = nil, memberId: String, networkId: String, nextToken: String? = nil, status: NodeStatus? = nil) {
+        public init(maxResults: Int? = nil, memberId: String, networkId: String, nextToken: String? = nil, status: NodeStatus? = nil) {
             self.maxResults = maxResults
             self.memberId = memberId
             self.networkId = networkId
@@ -911,7 +911,7 @@ extension ManagedBlockchain {
         ]
 
         ///  The maximum number of votes to return. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         ///  The unique identifier of the network. 
         public let networkId: String
         ///  The pagination token that indicates the next set of results to retrieve. 
@@ -919,7 +919,7 @@ extension ManagedBlockchain {
         ///  The unique identifier of the proposal. 
         public let proposalId: String
 
-        public init(maxResults: Int32? = nil, networkId: String, nextToken: String? = nil, proposalId: String) {
+        public init(maxResults: Int? = nil, networkId: String, nextToken: String? = nil, proposalId: String) {
             self.maxResults = maxResults
             self.networkId = networkId
             self.nextToken = nextToken
@@ -974,13 +974,13 @@ extension ManagedBlockchain {
         ]
 
         ///  The maximum number of proposals to return. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         ///  The unique identifier of the network. 
         public let networkId: String
         ///  The pagination token that indicates the next set of results to retrieve. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, networkId: String, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, networkId: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.networkId = networkId
             self.nextToken = nextToken
@@ -1625,9 +1625,9 @@ extension ManagedBlockchain {
         /// The unique identifier of the network for which the proposal is made.
         public let networkId: String?
         ///  The current total of NO votes cast on the proposal by members. 
-        public let noVoteCount: Int32?
+        public let noVoteCount: Int?
         ///  The number of votes remaining to be cast on the proposal by members. In other words, the number of members minus the sum of YES votes and NO votes. 
-        public let outstandingVoteCount: Int32?
+        public let outstandingVoteCount: Int?
         /// The unique identifier of the proposal.
         public let proposalId: String?
         /// The unique identifier of the member that created the proposal.
@@ -1637,9 +1637,9 @@ extension ManagedBlockchain {
         /// The status of the proposal. Values are as follows:    IN_PROGRESS - The proposal is active and open for member voting.    APPROVED - The proposal was approved with sufficient YES votes among members according to the VotingPolicy specified for the Network. The specified proposal actions are carried out.    REJECTED - The proposal was rejected with insufficient YES votes among members according to the VotingPolicy specified for the Network. The specified ProposalActions are not carried out.    EXPIRED - Members did not cast the number of votes required to determine the proposal outcome before the proposal expired. The specified ProposalActions are not carried out.    ACTION_FAILED - One or more of the specified ProposalActions in a proposal that was approved could not be completed because of an error.  
         public let status: ProposalStatus?
         ///  The current total of YES votes cast on the proposal by members. 
-        public let yesVoteCount: Int32?
+        public let yesVoteCount: Int?
 
-        public init(actions: ProposalActions? = nil, creationDate: TimeStamp? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, networkId: String? = nil, noVoteCount: Int32? = nil, outstandingVoteCount: Int32? = nil, proposalId: String? = nil, proposedByMemberId: String? = nil, proposedByMemberName: String? = nil, status: ProposalStatus? = nil, yesVoteCount: Int32? = nil) {
+        public init(actions: ProposalActions? = nil, creationDate: TimeStamp? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, networkId: String? = nil, noVoteCount: Int? = nil, outstandingVoteCount: Int? = nil, proposalId: String? = nil, proposedByMemberId: String? = nil, proposedByMemberName: String? = nil, status: ProposalStatus? = nil, yesVoteCount: Int? = nil) {
             self.actions = actions
             self.creationDate = creationDate
             self.description = description

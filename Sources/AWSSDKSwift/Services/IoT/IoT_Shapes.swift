@@ -47,11 +47,11 @@ extension IoT {
         /// The type of job execution failure to define a rule to initiate a job abort.
         public let failureType: JobExecutionFailureType
         /// Minimum number of executed things before evaluating an abort rule.
-        public let minNumberOfExecutedThings: Int32
+        public let minNumberOfExecutedThings: Int
         /// The threshold as a percentage of the total number of executed things that will initiate a job abort. AWS IoT supports up to two digits after the decimal (for example, 10.9 and 10.99, but not 10.999).
         public let thresholdPercentage: Double
 
-        public init(action: AbortAction, failureType: JobExecutionFailureType, minNumberOfExecutedThings: Int32, thresholdPercentage: Double) {
+        public init(action: AbortAction, failureType: JobExecutionFailureType, minNumberOfExecutedThings: Int, thresholdPercentage: Double) {
             self.action = action
             self.failureType = failureType
             self.minNumberOfExecutedThings = minNumberOfExecutedThings
@@ -1005,9 +1005,9 @@ extension IoT {
         ]
 
         /// The maximum number of OTA update job executions started per minute.
-        public let maximumPerMinute: Int32?
+        public let maximumPerMinute: Int?
 
-        public init(maximumPerMinute: Int32? = nil) {
+        public init(maximumPerMinute: Int? = nil) {
             self.maximumPerMinute = maximumPerMinute
         }
 
@@ -1068,17 +1068,17 @@ extension IoT {
         /// The operator that relates the thing measured (metric) to the criteria (containing a value or statisticalThreshold).
         public let comparisonOperator: ComparisonOperator?
         /// If a device is in violation of the behavior for the specified number of consecutive datapoints, an alarm occurs. If not specified, the default is 1.
-        public let consecutiveDatapointsToAlarm: Int32?
+        public let consecutiveDatapointsToAlarm: Int?
         /// If an alarm has occurred and the offending device is no longer in violation of the behavior for the specified number of consecutive datapoints, the alarm is cleared. If not specified, the default is 1.
-        public let consecutiveDatapointsToClear: Int32?
+        public let consecutiveDatapointsToClear: Int?
         /// Use this to specify the time duration over which the behavior is evaluated, for those criteria which have a time dimension (for example, NUM_MESSAGES_SENT). For a statisticalThreshhold metric comparison, measurements from all devices are accumulated over this time duration before being used to calculate percentiles, and later, measurements from an individual device are also accumulated over this time duration before being given a percentile rank.
-        public let durationSeconds: Int32?
+        public let durationSeconds: Int?
         /// A statistical ranking (percentile) which indicates a threshold value by which a behavior is determined to be in compliance or in violation of the behavior.
         public let statisticalThreshold: StatisticalThreshold?
         /// The value to be compared with the metric.
         public let value: MetricValue?
 
-        public init(comparisonOperator: ComparisonOperator? = nil, consecutiveDatapointsToAlarm: Int32? = nil, consecutiveDatapointsToClear: Int32? = nil, durationSeconds: Int32? = nil, statisticalThreshold: StatisticalThreshold? = nil, value: MetricValue? = nil) {
+        public init(comparisonOperator: ComparisonOperator? = nil, consecutiveDatapointsToAlarm: Int? = nil, consecutiveDatapointsToClear: Int? = nil, durationSeconds: Int? = nil, statisticalThreshold: StatisticalThreshold? = nil, value: MetricValue? = nil) {
             self.comparisonOperator = comparisonOperator
             self.consecutiveDatapointsToAlarm = consecutiveDatapointsToAlarm
             self.consecutiveDatapointsToClear = consecutiveDatapointsToClear
@@ -1203,7 +1203,7 @@ extension IoT {
         /// The date the CA certificate was created.
         public let creationDate: TimeStamp?
         /// The customer version of the CA certificate.
-        public let customerVersion: Int32?
+        public let customerVersion: Int?
         /// The generation ID of the CA certificate.
         public let generationId: String?
         /// The date the CA certificate was last modified.
@@ -1215,7 +1215,7 @@ extension IoT {
         /// When the CA certificate is valid.
         public let validity: CertificateValidity?
 
-        public init(autoRegistrationStatus: AutoRegistrationStatus? = nil, certificateArn: String? = nil, certificateId: String? = nil, certificatePem: String? = nil, creationDate: TimeStamp? = nil, customerVersion: Int32? = nil, generationId: String? = nil, lastModifiedDate: TimeStamp? = nil, ownedBy: String? = nil, status: CACertificateStatus? = nil, validity: CertificateValidity? = nil) {
+        public init(autoRegistrationStatus: AutoRegistrationStatus? = nil, certificateArn: String? = nil, certificateId: String? = nil, certificatePem: String? = nil, creationDate: TimeStamp? = nil, customerVersion: Int? = nil, generationId: String? = nil, lastModifiedDate: TimeStamp? = nil, ownedBy: String? = nil, status: CACertificateStatus? = nil, validity: CertificateValidity? = nil) {
             self.autoRegistrationStatus = autoRegistrationStatus
             self.certificateArn = certificateArn
             self.certificateId = certificateId
@@ -1499,7 +1499,7 @@ extension IoT {
         /// The date and time the certificate was created.
         public let creationDate: TimeStamp?
         /// The customer version of the certificate.
-        public let customerVersion: Int32?
+        public let customerVersion: Int?
         /// The generation ID of the certificate.
         public let generationId: String?
         /// The date and time the certificate was last modified.
@@ -1515,7 +1515,7 @@ extension IoT {
         /// When the certificate is valid.
         public let validity: CertificateValidity?
 
-        public init(caCertificateId: String? = nil, certificateArn: String? = nil, certificateId: String? = nil, certificatePem: String? = nil, creationDate: TimeStamp? = nil, customerVersion: Int32? = nil, generationId: String? = nil, lastModifiedDate: TimeStamp? = nil, ownedBy: String? = nil, previousOwnedBy: String? = nil, status: CertificateStatus? = nil, transferData: TransferData? = nil, validity: CertificateValidity? = nil) {
+        public init(caCertificateId: String? = nil, certificateArn: String? = nil, certificateId: String? = nil, certificatePem: String? = nil, creationDate: TimeStamp? = nil, customerVersion: Int? = nil, generationId: String? = nil, lastModifiedDate: TimeStamp? = nil, ownedBy: String? = nil, previousOwnedBy: String? = nil, status: CertificateStatus? = nil, transferData: TransferData? = nil, validity: CertificateValidity? = nil) {
             self.caCertificateId = caCertificateId
             self.certificateArn = certificateArn
             self.certificateId = certificateId
@@ -2454,13 +2454,13 @@ extension IoT {
         ]
 
         /// How long (in seconds) the credentials will be valid.
-        public let credentialDurationSeconds: Int32?
+        public let credentialDurationSeconds: Int?
         /// The role alias that points to a role ARN. This allows you to change the role without having to update the device.
         public let roleAlias: String
         /// The role ARN.
         public let roleArn: String
 
-        public init(credentialDurationSeconds: Int32? = nil, roleAlias: String, roleArn: String) {
+        public init(credentialDurationSeconds: Int? = nil, roleAlias: String, roleArn: String) {
             self.credentialDurationSeconds = credentialDurationSeconds
             self.roleAlias = roleAlias
             self.roleArn = roleArn
@@ -2717,9 +2717,9 @@ extension IoT {
         /// The stream ID.
         public let streamId: String?
         /// The version of the stream.
-        public let streamVersion: Int32?
+        public let streamVersion: Int?
 
-        public init(description: String? = nil, streamArn: String? = nil, streamId: String? = nil, streamVersion: Int32? = nil) {
+        public init(description: String? = nil, streamArn: String? = nil, streamId: String? = nil, streamVersion: Int? = nil) {
             self.description = description
             self.streamArn = streamArn
             self.streamId = streamId
@@ -4597,7 +4597,7 @@ extension IoT {
         /// The task creation date.
         public let creationDate: TimeStamp?
         /// The number of things that failed to be provisioned.
-        public let failureCount: Int32?
+        public let failureCount: Int?
         /// The S3 bucket that contains the input file.
         public let inputFileBucket: String?
         /// The input file key.
@@ -4607,19 +4607,19 @@ extension IoT {
         /// The message.
         public let message: String?
         /// The progress of the bulk provisioning task expressed as a percentage.
-        public let percentageProgress: Int32?
+        public let percentageProgress: Int?
         /// The role ARN that grants access to the input file bucket.
         public let roleArn: String?
         /// The status of the bulk thing provisioning task.
         public let status: Status?
         /// The number of things successfully provisioned.
-        public let successCount: Int32?
+        public let successCount: Int?
         /// The task ID.
         public let taskId: String?
         /// The task's template.
         public let templateBody: String?
 
-        public init(creationDate: TimeStamp? = nil, failureCount: Int32? = nil, inputFileBucket: String? = nil, inputFileKey: String? = nil, lastModifiedDate: TimeStamp? = nil, message: String? = nil, percentageProgress: Int32? = nil, roleArn: String? = nil, status: Status? = nil, successCount: Int32? = nil, taskId: String? = nil, templateBody: String? = nil) {
+        public init(creationDate: TimeStamp? = nil, failureCount: Int? = nil, inputFileBucket: String? = nil, inputFileKey: String? = nil, lastModifiedDate: TimeStamp? = nil, message: String? = nil, percentageProgress: Int? = nil, roleArn: String? = nil, status: Status? = nil, successCount: Int? = nil, taskId: String? = nil, templateBody: String? = nil) {
             self.creationDate = creationDate
             self.failureCount = failureCount
             self.inputFileBucket = inputFileBucket
@@ -5207,13 +5207,13 @@ extension IoT {
         ]
 
         /// The minimum number of things that will be notified of a pending job, per minute at the start of job rollout. This parameter allows you to define the initial rate of rollout.
-        public let baseRatePerMinute: Int32
+        public let baseRatePerMinute: Int
         /// The exponential factor to increase the rate of rollout for a job.
         public let incrementFactor: Double
         /// The criteria to initiate the increase in rate of rollout for a job. AWS IoT supports up to one digit after the decimal (for example, 1.5, but not 1.55).
         public let rateIncreaseCriteria: RateIncreaseCriteria
 
-        public init(baseRatePerMinute: Int32, incrementFactor: Double, rateIncreaseCriteria: RateIncreaseCriteria) {
+        public init(baseRatePerMinute: Int, incrementFactor: Double, rateIncreaseCriteria: RateIncreaseCriteria) {
             self.baseRatePerMinute = baseRatePerMinute
             self.incrementFactor = incrementFactor
             self.rateIncreaseCriteria = rateIncreaseCriteria
@@ -6192,9 +6192,9 @@ extension IoT {
         /// The rate of increase for a job rollout. This parameter allows you to define an exponential rate for a job rollout.
         public let exponentialRate: ExponentialRolloutRate?
         /// The maximum number of things that will be notified of a pending job, per minute. This parameter allows you to create a staged rollout.
-        public let maximumPerMinute: Int32?
+        public let maximumPerMinute: Int?
 
-        public init(exponentialRate: ExponentialRolloutRate? = nil, maximumPerMinute: Int32? = nil) {
+        public init(exponentialRate: ExponentialRolloutRate? = nil, maximumPerMinute: Int? = nil) {
             self.exponentialRate = exponentialRate
             self.maximumPerMinute = maximumPerMinute
         }
@@ -6224,25 +6224,25 @@ extension IoT {
         ]
 
         /// The number of things that cancelled the job.
-        public let numberOfCanceledThings: Int32?
+        public let numberOfCanceledThings: Int?
         /// The number of things that failed executing the job.
-        public let numberOfFailedThings: Int32?
+        public let numberOfFailedThings: Int?
         /// The number of things currently executing the job.
-        public let numberOfInProgressThings: Int32?
+        public let numberOfInProgressThings: Int?
         /// The number of things that are awaiting execution of the job.
-        public let numberOfQueuedThings: Int32?
+        public let numberOfQueuedThings: Int?
         /// The number of things that rejected the job.
-        public let numberOfRejectedThings: Int32?
+        public let numberOfRejectedThings: Int?
         /// The number of things that are no longer scheduled to execute the job because they have been deleted or have been removed from the group that was a target of the job.
-        public let numberOfRemovedThings: Int32?
+        public let numberOfRemovedThings: Int?
         /// The number of things which successfully completed the job.
-        public let numberOfSucceededThings: Int32?
+        public let numberOfSucceededThings: Int?
         /// The number of things whose job execution status is TIMED_OUT.
-        public let numberOfTimedOutThings: Int32?
+        public let numberOfTimedOutThings: Int?
         /// The target devices to which the job execution is being rolled out. This value will be null after the job execution has finished rolling out to all the target devices.
         public let processingTargets: [String]?
 
-        public init(numberOfCanceledThings: Int32? = nil, numberOfFailedThings: Int32? = nil, numberOfInProgressThings: Int32? = nil, numberOfQueuedThings: Int32? = nil, numberOfRejectedThings: Int32? = nil, numberOfRemovedThings: Int32? = nil, numberOfSucceededThings: Int32? = nil, numberOfTimedOutThings: Int32? = nil, processingTargets: [String]? = nil) {
+        public init(numberOfCanceledThings: Int? = nil, numberOfFailedThings: Int? = nil, numberOfInProgressThings: Int? = nil, numberOfQueuedThings: Int? = nil, numberOfRejectedThings: Int? = nil, numberOfRemovedThings: Int? = nil, numberOfSucceededThings: Int? = nil, numberOfTimedOutThings: Int? = nil, processingTargets: [String]? = nil) {
             self.numberOfCanceledThings = numberOfCanceledThings
             self.numberOfFailedThings = numberOfFailedThings
             self.numberOfInProgressThings = numberOfInProgressThings
@@ -6402,7 +6402,7 @@ extension IoT {
         ]
 
         /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
         /// The name of the Device Defender security profile for which violations are listed.
@@ -6410,7 +6410,7 @@ extension IoT {
         /// The name of the thing whose active violations are listed.
         public let thingName: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, securityProfileName: String? = nil, thingName: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, securityProfileName: String? = nil, thingName: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.securityProfileName = securityProfileName
@@ -6469,13 +6469,13 @@ extension IoT {
         /// The token to retrieve the next set of results.
         public let marker: String?
         /// The maximum number of results to be returned per request.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// When true, recursively list attached policies.
         public let recursive: Bool?
         /// The group for which the policies will be listed.
         public let target: String
 
-        public init(marker: String? = nil, pageSize: Int32? = nil, recursive: Bool? = nil, target: String) {
+        public init(marker: String? = nil, pageSize: Int? = nil, recursive: Bool? = nil, target: String) {
             self.marker = marker
             self.pageSize = pageSize
             self.recursive = recursive
@@ -6534,7 +6534,7 @@ extension IoT {
         /// A filter to limit results to those found before the specified time. You must specify either the startTime and endTime or the taskId, but not both.
         public let endTime: TimeStamp?
         /// The maximum number of results to return at one time. The default is 25.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
         /// Information identifying the non-compliant resource.
@@ -6544,7 +6544,7 @@ extension IoT {
         /// A filter to limit results to the audit with the specified ID. You must specify either the taskId or the startTime and endTime, but not both.
         public let taskId: String?
 
-        public init(checkName: String? = nil, endTime: TimeStamp? = nil, maxResults: Int32? = nil, nextToken: String? = nil, resourceIdentifier: ResourceIdentifier? = nil, startTime: TimeStamp? = nil, taskId: String? = nil) {
+        public init(checkName: String? = nil, endTime: TimeStamp? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceIdentifier: ResourceIdentifier? = nil, startTime: TimeStamp? = nil, taskId: String? = nil) {
             self.checkName = checkName
             self.endTime = endTime
             self.maxResults = maxResults
@@ -6609,7 +6609,7 @@ extension IoT {
         /// The end of the time period.
         public let endTime: TimeStamp
         /// The maximum number of results to return at one time. The default is 25.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
         /// The beginning of the time period. Note that audit information is retained for a limited time (180 days). Requesting a start time prior to what is retained results in an "InvalidRequestException".
@@ -6619,7 +6619,7 @@ extension IoT {
         /// A filter to limit the output to the specified type of audit: can be one of "ON_DEMAND_AUDIT_TASK" or "SCHEDULED__AUDIT_TASK".
         public let taskType: AuditTaskType?
 
-        public init(endTime: TimeStamp, maxResults: Int32? = nil, nextToken: String? = nil, startTime: TimeStamp, taskStatus: AuditTaskStatus? = nil, taskType: AuditTaskType? = nil) {
+        public init(endTime: TimeStamp, maxResults: Int? = nil, nextToken: String? = nil, startTime: TimeStamp, taskStatus: AuditTaskStatus? = nil, taskType: AuditTaskType? = nil) {
             self.endTime = endTime
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6678,11 +6678,11 @@ extension IoT {
         /// A marker used to get the next set of results.
         public let marker: String?
         /// The maximum number of results to return at one time.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The status of the list authorizers request.
         public let status: AuthorizerStatus?
 
-        public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int32? = nil, status: AuthorizerStatus? = nil) {
+        public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int? = nil, status: AuthorizerStatus? = nil) {
             self.ascendingOrder = ascendingOrder
             self.marker = marker
             self.pageSize = pageSize
@@ -6733,13 +6733,13 @@ extension IoT {
         ]
 
         /// The maximum number of results to return per request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Limit the results to billing groups whose names have the given prefix.
         public let namePrefixFilter: String?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, namePrefixFilter: String? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, namePrefixFilter: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.namePrefixFilter = namePrefixFilter
             self.nextToken = nextToken
@@ -6794,9 +6794,9 @@ extension IoT {
         /// The marker for the next set of results.
         public let marker: String?
         /// The result page size.
-        public let pageSize: Int32?
+        public let pageSize: Int?
 
-        public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int32? = nil) {
+        public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int? = nil) {
             self.ascendingOrder = ascendingOrder
             self.marker = marker
             self.pageSize = pageSize
@@ -6852,9 +6852,9 @@ extension IoT {
         /// The marker for the next set of results.
         public let marker: String?
         /// The result page size.
-        public let pageSize: Int32?
+        public let pageSize: Int?
 
-        public init(ascendingOrder: Bool? = nil, caCertificateId: String, marker: String? = nil, pageSize: Int32? = nil) {
+        public init(ascendingOrder: Bool? = nil, caCertificateId: String, marker: String? = nil, pageSize: Int? = nil) {
             self.ascendingOrder = ascendingOrder
             self.caCertificateId = caCertificateId
             self.marker = marker
@@ -6912,9 +6912,9 @@ extension IoT {
         /// The marker for the next set of results.
         public let marker: String?
         /// The result page size.
-        public let pageSize: Int32?
+        public let pageSize: Int?
 
-        public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int32? = nil) {
+        public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int? = nil) {
             self.ascendingOrder = ascendingOrder
             self.marker = marker
             self.pageSize = pageSize
@@ -6962,11 +6962,11 @@ extension IoT {
         ]
 
         /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -7015,13 +7015,13 @@ extension IoT {
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String
         /// The maximum number of results to be returned per request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
         /// The status of the job.
         public let status: JobExecutionStatus?
 
-        public init(jobId: String, maxResults: Int32? = nil, nextToken: String? = nil, status: JobExecutionStatus? = nil) {
+        public init(jobId: String, maxResults: Int? = nil, nextToken: String? = nil, status: JobExecutionStatus? = nil) {
             self.jobId = jobId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -7075,7 +7075,7 @@ extension IoT {
         ]
 
         /// The maximum number of results to be returned per request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
         /// An optional filter that lets you search for jobs that have the specified status.
@@ -7083,7 +7083,7 @@ extension IoT {
         /// The thing name.
         public let thingName: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, status: JobExecutionStatus? = nil, thingName: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, status: JobExecutionStatus? = nil, thingName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
@@ -7139,7 +7139,7 @@ extension IoT {
         ]
 
         /// The maximum number of results to return per request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
         /// An optional filter that lets you search for jobs that have the specified status.
@@ -7151,7 +7151,7 @@ extension IoT {
         /// A filter that limits the returned jobs to those for the specified group.
         public let thingGroupName: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, status: JobStatus? = nil, targetSelection: TargetSelection? = nil, thingGroupId: String? = nil, thingGroupName: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, status: JobStatus? = nil, targetSelection: TargetSelection? = nil, thingGroupId: String? = nil, thingGroupName: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
@@ -7211,13 +7211,13 @@ extension IoT {
         ]
 
         /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token used to retrieve the next set of results.
         public let nextToken: String?
         /// The OTA update job status.
         public let otaUpdateStatus: OTAUpdateStatus?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, otaUpdateStatus: OTAUpdateStatus? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, otaUpdateStatus: OTAUpdateStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.otaUpdateStatus = otaUpdateStatus
@@ -7269,9 +7269,9 @@ extension IoT {
         /// The marker for the next set of results.
         public let marker: String?
         /// The result page size.
-        public let pageSize: Int32?
+        public let pageSize: Int?
 
-        public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int32? = nil) {
+        public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int? = nil) {
             self.ascendingOrder = ascendingOrder
             self.marker = marker
             self.pageSize = pageSize
@@ -7324,9 +7324,9 @@ extension IoT {
         /// The marker for the next set of results.
         public let marker: String?
         /// The result page size.
-        public let pageSize: Int32?
+        public let pageSize: Int?
 
-        public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int32? = nil) {
+        public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int? = nil) {
             self.ascendingOrder = ascendingOrder
             self.marker = marker
             self.pageSize = pageSize
@@ -7380,11 +7380,11 @@ extension IoT {
         /// The marker for the next set of results.
         public let marker: String?
         /// The result page size.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The policy name.
         public let policyName: String
 
-        public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int32? = nil, policyName: String) {
+        public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int? = nil, policyName: String) {
             self.ascendingOrder = ascendingOrder
             self.marker = marker
             self.pageSize = pageSize
@@ -7483,11 +7483,11 @@ extension IoT {
         /// The marker for the next set of results.
         public let marker: String?
         /// The result page size.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The principal.
         public let principal: String
 
-        public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int32? = nil, principal: String) {
+        public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int? = nil, principal: String) {
             self.ascendingOrder = ascendingOrder
             self.marker = marker
             self.pageSize = pageSize
@@ -7538,13 +7538,13 @@ extension IoT {
         ]
 
         /// The maximum number of results to return in this operation.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
         /// The principal.
         public let principal: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, principal: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, principal: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.principal = principal
@@ -7596,9 +7596,9 @@ extension IoT {
         /// A marker used to get the next set of results.
         public let marker: String?
         /// The maximum number of results to return at one time.
-        public let pageSize: Int32?
+        public let pageSize: Int?
 
-        public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int32? = nil) {
+        public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int? = nil) {
             self.ascendingOrder = ascendingOrder
             self.marker = marker
             self.pageSize = pageSize
@@ -7646,11 +7646,11 @@ extension IoT {
         ]
 
         /// The maximum number of results to return at one time. The default is 25.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -7697,7 +7697,7 @@ extension IoT {
         ]
 
         /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
         /// If true, return child groups as well.
@@ -7705,7 +7705,7 @@ extension IoT {
         /// The ARN of the target (thing group) whose attached security profiles you want to get.
         public let securityProfileTargetArn: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, recursive: Bool? = nil, securityProfileTargetArn: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, recursive: Bool? = nil, securityProfileTargetArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.recursive = recursive
@@ -7754,11 +7754,11 @@ extension IoT {
         ]
 
         /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -7806,11 +7806,11 @@ extension IoT {
         /// Set to true to return the list of streams in ascending order.
         public let ascendingOrder: Bool?
         /// The maximum number of results to return at a time.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token used to get the next set of results.
         public let nextToken: String?
 
-        public init(ascendingOrder: Bool? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(ascendingOrder: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.ascendingOrder = ascendingOrder
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -7904,11 +7904,11 @@ extension IoT {
         /// A marker used to get the next set of results.
         public let marker: String?
         /// The maximum number of results to return at one time.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The policy name.
         public let policyName: String
 
-        public init(marker: String? = nil, pageSize: Int32? = nil, policyName: String) {
+        public init(marker: String? = nil, pageSize: Int? = nil, policyName: String) {
             self.marker = marker
             self.pageSize = pageSize
             self.policyName = policyName
@@ -7960,13 +7960,13 @@ extension IoT {
         ]
 
         /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
         /// The security profile.
         public let securityProfileName: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, securityProfileName: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, securityProfileName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.securityProfileName = securityProfileName
@@ -8017,13 +8017,13 @@ extension IoT {
         ]
 
         /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
         /// The thing name.
         public let thingName: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, thingName: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, thingName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.thingName = thingName
@@ -8076,7 +8076,7 @@ extension IoT {
         ]
 
         /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A filter that limits the results to those with the specified name prefix.
         public let namePrefixFilter: String?
         /// The token to retrieve the next set of results.
@@ -8086,7 +8086,7 @@ extension IoT {
         /// If true, return child groups as well.
         public let recursive: Bool?
 
-        public init(maxResults: Int32? = nil, namePrefixFilter: String? = nil, nextToken: String? = nil, parentGroup: String? = nil, recursive: Bool? = nil) {
+        public init(maxResults: Int? = nil, namePrefixFilter: String? = nil, nextToken: String? = nil, parentGroup: String? = nil, recursive: Bool? = nil) {
             self.maxResults = maxResults
             self.namePrefixFilter = namePrefixFilter
             self.nextToken = nextToken
@@ -8185,7 +8185,7 @@ extension IoT {
         ]
 
         /// The maximum number of results to return per request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
         /// The type of task report.
@@ -8193,7 +8193,7 @@ extension IoT {
         /// The id of the task.
         public let taskId: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, reportType: ReportType, taskId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, reportType: ReportType, taskId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.reportType = reportType
@@ -8249,13 +8249,13 @@ extension IoT {
         ]
 
         /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
         /// The status of the bulk thing provisioning task.
         public let status: Status?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, status: Status? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, status: Status? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
@@ -8303,13 +8303,13 @@ extension IoT {
         ]
 
         /// The maximum number of results to return in this operation.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
         /// The name of the thing type.
         public let thingTypeName: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, thingTypeName: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, thingTypeName: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.thingTypeName = thingTypeName
@@ -8362,11 +8362,11 @@ extension IoT {
         /// The name of the billing group.
         public let billingGroupName: String
         /// The maximum number of results to return per request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(billingGroupName: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(billingGroupName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.billingGroupName = billingGroupName
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -8418,7 +8418,7 @@ extension IoT {
         ]
 
         /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
         /// When true, list things in this thing group and in all child groups as well.
@@ -8426,7 +8426,7 @@ extension IoT {
         /// The thing group name.
         public let thingGroupName: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, recursive: Bool? = nil, thingGroupName: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, recursive: Bool? = nil, thingGroupName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.recursive = recursive
@@ -8485,13 +8485,13 @@ extension IoT {
         /// The attribute value used to search for things.
         public let attributeValue: String?
         /// The maximum number of results to return in this operation.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
         /// The name of the thing type used to search for things.
         public let thingTypeName: String?
 
-        public init(attributeName: String? = nil, attributeValue: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, thingTypeName: String? = nil) {
+        public init(attributeName: String? = nil, attributeValue: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, thingTypeName: String? = nil) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
             self.maxResults = maxResults
@@ -8551,7 +8551,7 @@ extension IoT {
         ]
 
         /// The maximum number of results to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token used to retrieve the next value.
         public let nextToken: String?
         /// Specifies whether the rule is disabled.
@@ -8559,7 +8559,7 @@ extension IoT {
         /// The topic.
         public let topic: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, ruleDisabled: Bool? = nil, topic: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, ruleDisabled: Bool? = nil, topic: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.ruleDisabled = ruleDisabled
@@ -8609,13 +8609,13 @@ extension IoT {
         ]
 
         /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
         /// The type of resource for which you are configuring logging. Must be THING_Group.
         public let targetType: LogTargetType?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, targetType: LogTargetType? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, targetType: LogTargetType? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.targetType = targetType
@@ -8668,7 +8668,7 @@ extension IoT {
         /// The end time for the alerts to be listed.
         public let endTime: TimeStamp
         /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
         /// A filter to limit results to those alerts generated by the specified security profile.
@@ -8678,7 +8678,7 @@ extension IoT {
         /// A filter to limit results to those alerts caused by the specified thing.
         public let thingName: String?
 
-        public init(endTime: TimeStamp, maxResults: Int32? = nil, nextToken: String? = nil, securityProfileName: String? = nil, startTime: TimeStamp, thingName: String? = nil) {
+        public init(endTime: TimeStamp, maxResults: Int? = nil, nextToken: String? = nil, securityProfileName: String? = nil, startTime: TimeStamp, thingName: String? = nil) {
             self.endTime = endTime
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -8829,9 +8829,9 @@ extension IoT {
         /// If the comparisonOperator calls for a numeric value, use this to specify that numeric value to be compared with the metric.
         public let count: Int64?
         /// If the comparisonOperator calls for a set of ports, use this to specify that set to be compared with the metric.
-        public let ports: [Int32]?
+        public let ports: [Int]?
 
-        public init(cidrs: [String]? = nil, count: Int64? = nil, ports: [Int32]? = nil) {
+        public init(cidrs: [String]? = nil, count: Int64? = nil, ports: [Int]? = nil) {
             self.cidrs = cidrs
             self.count = count
             self.ports = ports
@@ -9216,11 +9216,11 @@ extension IoT {
         ]
 
         /// The threshold for number of notified things that will initiate the increase in rate of rollout.
-        public let numberOfNotifiedThings: Int32?
+        public let numberOfNotifiedThings: Int?
         /// The threshold for number of succeeded things that will initiate the increase in rate of rollout.
-        public let numberOfSucceededThings: Int32?
+        public let numberOfSucceededThings: Int?
 
-        public init(numberOfNotifiedThings: Int32? = nil, numberOfSucceededThings: Int32? = nil) {
+        public init(numberOfNotifiedThings: Int? = nil, numberOfSucceededThings: Int? = nil) {
             self.numberOfNotifiedThings = numberOfNotifiedThings
             self.numberOfSucceededThings = numberOfSucceededThings
         }
@@ -9722,7 +9722,7 @@ extension IoT {
         /// The UNIX timestamp of when the role alias was created.
         public let creationDate: TimeStamp?
         /// The number of seconds for which the credential is valid.
-        public let credentialDurationSeconds: Int32?
+        public let credentialDurationSeconds: Int?
         /// The UNIX timestamp of when the role alias was last modified.
         public let lastModifiedDate: TimeStamp?
         /// The role alias owner.
@@ -9734,7 +9734,7 @@ extension IoT {
         /// The role ARN.
         public let roleArn: String?
 
-        public init(creationDate: TimeStamp? = nil, credentialDurationSeconds: Int32? = nil, lastModifiedDate: TimeStamp? = nil, owner: String? = nil, roleAlias: String? = nil, roleAliasArn: String? = nil, roleArn: String? = nil) {
+        public init(creationDate: TimeStamp? = nil, credentialDurationSeconds: Int? = nil, lastModifiedDate: TimeStamp? = nil, owner: String? = nil, roleAlias: String? = nil, roleAliasArn: String? = nil, roleArn: String? = nil) {
             self.creationDate = creationDate
             self.credentialDurationSeconds = credentialDurationSeconds
             self.lastModifiedDate = lastModifiedDate
@@ -9922,7 +9922,7 @@ extension IoT {
         /// The search index name.
         public let indexName: String?
         /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
         /// The search query string.
@@ -9930,7 +9930,7 @@ extension IoT {
         /// The query version.
         public let queryVersion: String?
 
-        public init(indexName: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, queryString: String, queryVersion: String? = nil) {
+        public init(indexName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, queryString: String, queryVersion: String? = nil) {
             self.indexName = indexName
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -10419,9 +10419,9 @@ extension IoT {
         ]
 
         /// The count of things that match the query.
-        public let count: Int32?
+        public let count: Int?
 
-        public init(count: Int32? = nil) {
+        public init(count: Int? = nil) {
             self.count = count
         }
 
@@ -10502,11 +10502,11 @@ extension IoT {
         ]
 
         /// The ID of a file associated with a stream.
-        public let fileId: Int32?
+        public let fileId: Int?
         /// The stream ID.
         public let streamId: String?
 
-        public init(fileId: Int32? = nil, streamId: String? = nil) {
+        public init(fileId: Int? = nil, streamId: String? = nil) {
             self.fileId = fileId
             self.streamId = streamId
         }
@@ -10532,11 +10532,11 @@ extension IoT {
         ]
 
         /// The file ID.
-        public let fileId: Int32?
+        public let fileId: Int?
         /// The location of the file in S3.
         public let s3Location: S3Location?
 
-        public init(fileId: Int32? = nil, s3Location: S3Location? = nil) {
+        public init(fileId: Int? = nil, s3Location: S3Location? = nil) {
             self.fileId = fileId
             self.s3Location = s3Location
         }
@@ -10580,9 +10580,9 @@ extension IoT {
         /// The stream ID.
         public let streamId: String?
         /// The stream version.
-        public let streamVersion: Int32?
+        public let streamVersion: Int?
 
-        public init(createdAt: TimeStamp? = nil, description: String? = nil, files: [StreamFile]? = nil, lastUpdatedAt: TimeStamp? = nil, roleArn: String? = nil, streamArn: String? = nil, streamId: String? = nil, streamVersion: Int32? = nil) {
+        public init(createdAt: TimeStamp? = nil, description: String? = nil, files: [StreamFile]? = nil, lastUpdatedAt: TimeStamp? = nil, roleArn: String? = nil, streamArn: String? = nil, streamId: String? = nil, streamVersion: Int? = nil) {
             self.createdAt = createdAt
             self.description = description
             self.files = files
@@ -10620,9 +10620,9 @@ extension IoT {
         /// The stream ID.
         public let streamId: String?
         /// The stream version.
-        public let streamVersion: Int32?
+        public let streamVersion: Int?
 
-        public init(description: String? = nil, streamArn: String? = nil, streamId: String? = nil, streamVersion: Int32? = nil) {
+        public init(description: String? = nil, streamArn: String? = nil, streamId: String? = nil, streamVersion: Int? = nil) {
             self.description = description
             self.streamArn = streamArn
             self.streamId = streamId
@@ -10707,21 +10707,21 @@ extension IoT {
         ]
 
         /// The number of checks that did not run because the audit was canceled.
-        public let canceledChecks: Int32?
+        public let canceledChecks: Int?
         /// The number of checks that found compliant resources.
-        public let compliantChecks: Int32?
+        public let compliantChecks: Int?
         /// The number of checks 
-        public let failedChecks: Int32?
+        public let failedChecks: Int?
         /// The number of checks in progress.
-        public let inProgressChecks: Int32?
+        public let inProgressChecks: Int?
         /// The number of checks that found non-compliant resources.
-        public let nonCompliantChecks: Int32?
+        public let nonCompliantChecks: Int?
         /// The number of checks in this audit.
-        public let totalChecks: Int32?
+        public let totalChecks: Int?
         /// The number of checks waiting for data collection.
-        public let waitingForDataCollectionChecks: Int32?
+        public let waitingForDataCollectionChecks: Int?
 
-        public init(canceledChecks: Int32? = nil, compliantChecks: Int32? = nil, failedChecks: Int32? = nil, inProgressChecks: Int32? = nil, nonCompliantChecks: Int32? = nil, totalChecks: Int32? = nil, waitingForDataCollectionChecks: Int32? = nil) {
+        public init(canceledChecks: Int? = nil, compliantChecks: Int? = nil, failedChecks: Int? = nil, inProgressChecks: Int? = nil, nonCompliantChecks: Int? = nil, totalChecks: Int? = nil, waitingForDataCollectionChecks: Int? = nil) {
             self.canceledChecks = canceledChecks
             self.compliantChecks = compliantChecks
             self.failedChecks = failedChecks
@@ -10864,7 +10864,7 @@ extension IoT {
         ]
 
         /// The number of seconds after which the connection is terminated.
-        public let disconnectAfterInSeconds: Int32?
+        public let disconnectAfterInSeconds: Int?
         /// True if the token is authenticated, otherwise false.
         public let isAuthenticated: Bool?
         /// IAM policy documents.
@@ -10872,9 +10872,9 @@ extension IoT {
         /// The principal ID.
         public let principalId: String?
         /// The number of seconds after which the temporary credentials are refreshed.
-        public let refreshAfterInSeconds: Int32?
+        public let refreshAfterInSeconds: Int?
 
-        public init(disconnectAfterInSeconds: Int32? = nil, isAuthenticated: Bool? = nil, policyDocuments: [String]? = nil, principalId: String? = nil, refreshAfterInSeconds: Int32? = nil) {
+        public init(disconnectAfterInSeconds: Int? = nil, isAuthenticated: Bool? = nil, policyDocuments: [String]? = nil, principalId: String? = nil, refreshAfterInSeconds: Int? = nil) {
             self.disconnectAfterInSeconds = disconnectAfterInSeconds
             self.isAuthenticated = isAuthenticated
             self.policyDocuments = policyDocuments
@@ -11941,13 +11941,13 @@ extension IoT {
         ]
 
         /// The number of seconds the credential will be valid.
-        public let credentialDurationSeconds: Int32?
+        public let credentialDurationSeconds: Int?
         /// The role alias to update.
         public let roleAlias: String
         /// The role ARN.
         public let roleArn: String?
 
-        public init(credentialDurationSeconds: Int32? = nil, roleAlias: String, roleArn: String? = nil) {
+        public init(credentialDurationSeconds: Int? = nil, roleAlias: String, roleArn: String? = nil) {
             self.credentialDurationSeconds = credentialDurationSeconds
             self.roleAlias = roleAlias
             self.roleArn = roleArn
@@ -12244,9 +12244,9 @@ extension IoT {
         /// The stream ID.
         public let streamId: String?
         /// The stream version.
-        public let streamVersion: Int32?
+        public let streamVersion: Int?
 
-        public init(description: String? = nil, streamArn: String? = nil, streamId: String? = nil, streamVersion: Int32? = nil) {
+        public init(description: String? = nil, streamArn: String? = nil, streamId: String? = nil, streamVersion: Int? = nil) {
             self.description = description
             self.streamArn = streamArn
             self.streamId = streamId
