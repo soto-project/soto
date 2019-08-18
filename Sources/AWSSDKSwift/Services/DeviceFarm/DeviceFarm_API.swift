@@ -9,7 +9,7 @@ AWS Device Farm is a service that enables mobile app developers to test Android,
 */
 public struct DeviceFarm {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

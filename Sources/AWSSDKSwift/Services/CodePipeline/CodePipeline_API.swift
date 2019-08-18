@@ -9,7 +9,7 @@ AWS CodePipeline  Overview  This is the AWS CodePipeline API Reference. This gui
 */
 public struct CodePipeline {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

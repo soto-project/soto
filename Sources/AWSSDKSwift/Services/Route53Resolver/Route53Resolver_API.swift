@@ -9,7 +9,7 @@ Here's how you set up to query an Amazon Route 53 private hosted zone from your 
 */
 public struct Route53Resolver {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

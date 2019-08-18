@@ -9,7 +9,7 @@ AWS Certificate Manager Welcome to the AWS Certificate Manager (ACM) API documen
 */
 public struct ACM {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

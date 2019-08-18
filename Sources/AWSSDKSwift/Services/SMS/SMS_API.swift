@@ -9,7 +9,7 @@ AAWS Sever Migration Service This is the AWS Sever Migration Service API Referen
 */
 public struct SMS {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

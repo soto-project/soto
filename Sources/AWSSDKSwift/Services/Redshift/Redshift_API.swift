@@ -9,7 +9,7 @@ Amazon Redshift  Overview  This is an interface reference for Amazon Redshift. I
 */
 public struct Redshift {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

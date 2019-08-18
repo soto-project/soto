@@ -9,7 +9,7 @@ AWS Config AWS Config provides a way to keep track of the configurations of all 
 */
 public struct ConfigService {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

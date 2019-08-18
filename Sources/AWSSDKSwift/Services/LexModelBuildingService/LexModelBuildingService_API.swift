@@ -9,7 +9,7 @@ Amazon Lex Build-Time Actions  Amazon Lex is an AWS service for building convers
 */
 public struct LexModelBuildingService {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

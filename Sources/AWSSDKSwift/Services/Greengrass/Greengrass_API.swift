@@ -9,7 +9,7 @@ AWS IoT Greengrass seamlessly extends AWS onto physical devices so they can act 
 */
 public struct Greengrass {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

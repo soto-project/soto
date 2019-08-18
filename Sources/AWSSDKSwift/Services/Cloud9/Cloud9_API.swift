@@ -9,7 +9,7 @@ AWS Cloud9 AWS Cloud9 is a collection of tools that you can use to code, build, 
 */
 public struct Cloud9 {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

@@ -9,7 +9,7 @@ Amazon Kinesis Analytics  Overview   This documentation is for version 1 of the 
 */
 public struct KinesisAnalytics {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

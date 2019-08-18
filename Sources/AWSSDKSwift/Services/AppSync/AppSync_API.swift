@@ -9,7 +9,7 @@ AWS AppSync provides API actions for creating and interacting with data sources 
 */
 public struct AppSync {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

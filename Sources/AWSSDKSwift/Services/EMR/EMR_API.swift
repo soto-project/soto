@@ -9,7 +9,7 @@ Amazon EMR is a web service that makes it easy to process large amounts of data 
 */
 public struct EMR {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

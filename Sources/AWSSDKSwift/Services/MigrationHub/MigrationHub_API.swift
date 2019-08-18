@@ -9,7 +9,7 @@ The AWS Migration Hub API methods help to obtain server and application migratio
 */
 public struct MigrationHub {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

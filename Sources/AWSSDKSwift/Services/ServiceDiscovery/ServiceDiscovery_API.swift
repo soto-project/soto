@@ -9,7 +9,7 @@ AWS Cloud Map lets you configure public DNS, private DNS, or HTTP namespaces tha
 */
 public struct ServiceDiscovery {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

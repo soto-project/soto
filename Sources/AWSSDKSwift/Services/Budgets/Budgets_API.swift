@@ -9,7 +9,7 @@ The AWS Budgets API enables you to use AWS Budgets to plan your service usage, s
 */
 public struct Budgets {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

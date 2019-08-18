@@ -9,7 +9,7 @@ Alexa for Business helps you use Alexa in your organization. Alexa for Business 
 */
 public struct AlexaForBusiness {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

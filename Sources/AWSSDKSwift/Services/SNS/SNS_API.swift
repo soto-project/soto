@@ -9,7 +9,7 @@ Amazon Simple Notification Service Amazon Simple Notification Service (Amazon SN
 */
 public struct SNS {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

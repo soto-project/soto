@@ -9,7 +9,7 @@ Amazon GuardDuty is a continuous security monitoring service that analyzes and p
 */
 public struct GuardDuty {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

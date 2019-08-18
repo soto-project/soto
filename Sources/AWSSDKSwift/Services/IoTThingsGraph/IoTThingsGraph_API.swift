@@ -9,7 +9,7 @@ AWS IoT Things Graph AWS IoT Things Graph provides an integrated set of tools th
 */
 public struct IoTThingsGraph {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

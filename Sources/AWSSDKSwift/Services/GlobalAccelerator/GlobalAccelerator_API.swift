@@ -9,7 +9,7 @@ AWS Global Accelerator This is the AWS Global Accelerator API Reference. This gu
 */
 public struct GlobalAccelerator {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

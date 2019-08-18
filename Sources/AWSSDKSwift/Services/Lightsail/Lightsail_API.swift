@@ -9,7 +9,7 @@ Amazon Lightsail is the easiest way to get started with AWS for developers who j
 */
 public struct Lightsail {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

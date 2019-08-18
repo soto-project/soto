@@ -21,7 +21,7 @@ AWS App Mesh is a service mesh based on the Envoy proxy that makes it easy to mo
 */
 public struct AppMesh {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

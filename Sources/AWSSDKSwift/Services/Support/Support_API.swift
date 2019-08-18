@@ -9,7 +9,7 @@ AWS Support The AWS Support API reference is intended for programmers who need d
 */
 public struct Support {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

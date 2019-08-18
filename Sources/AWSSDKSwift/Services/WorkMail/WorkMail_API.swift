@@ -9,7 +9,7 @@ Amazon WorkMail is a secure, managed business email and calendaring service with
 */
 public struct WorkMail {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

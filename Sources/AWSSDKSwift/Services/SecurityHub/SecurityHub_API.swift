@@ -9,7 +9,7 @@ Security Hub provides you with a comprehensive view of the security state of you
 */
 public struct SecurityHub {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

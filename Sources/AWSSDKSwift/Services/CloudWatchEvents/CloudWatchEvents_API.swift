@@ -9,7 +9,7 @@ Amazon CloudWatch Events helps you to respond to state changes in your AWS resou
 */
 public struct CloudWatchEvents {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

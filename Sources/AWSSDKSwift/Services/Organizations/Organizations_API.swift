@@ -9,7 +9,7 @@ AWS Organizations API Reference AWS Organizations is a web service that enables 
 */
 public struct Organizations {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(
