@@ -14,6 +14,7 @@ extension Mobile {
             AWSShapeMember(label: "title", required: false, type: .string), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         public let availablePlatforms: [Platform]?
         public let bundleId: String?
         public let description: String?
@@ -49,6 +50,7 @@ extension Mobile {
             AWSShapeMember(label: "region", location: .querystring(locationName: "region"), required: false, type: .string), 
             AWSShapeMember(label: "snapshotId", location: .querystring(locationName: "snapshotId"), required: false, type: .string)
         ]
+
         ///  ZIP or YAML file which contains configuration settings to be used when creating the project. This may be the contents of the file downloaded from the URL provided in an export project operation. 
         public let contents: Data?
         ///  Name of the project. 
@@ -77,6 +79,7 @@ extension Mobile {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .structure)
         ]
+
         ///  Detailed information about the created AWS Mobile Hub project. 
         public let details: ProjectDetails?
 
@@ -93,6 +96,7 @@ extension Mobile {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "projectId", location: .uri(locationName: "projectId"), required: true, type: .string)
         ]
+
         ///  Unique project identifier. 
         public let projectId: String
 
@@ -110,6 +114,7 @@ extension Mobile {
             AWSShapeMember(label: "deletedResources", required: false, type: .list), 
             AWSShapeMember(label: "orphanedResources", required: false, type: .list)
         ]
+
         ///  Resources which were deleted. 
         public let deletedResources: [Resource]?
         ///  Resources which were not deleted, due to a risk of losing potentially important data or files. 
@@ -130,6 +135,7 @@ extension Mobile {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "bundleId", location: .uri(locationName: "bundleId"), required: true, type: .string)
         ]
+
         ///  Unique bundle identifier. 
         public let bundleId: String
 
@@ -146,6 +152,7 @@ extension Mobile {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .structure)
         ]
+
         ///  The details of the bundle. 
         public let details: BundleDetails?
 
@@ -163,6 +170,7 @@ extension Mobile {
             AWSShapeMember(label: "projectId", location: .querystring(locationName: "projectId"), required: true, type: .string), 
             AWSShapeMember(label: "syncFromResources", location: .querystring(locationName: "syncFromResources"), required: false, type: .boolean)
         ]
+
         ///  Unique project identifier. 
         public let projectId: String
         ///  If set to true, causes AWS Mobile Hub to synchronize information from other services, e.g., update state of AWS CloudFormation stacks in the AWS Mobile Hub project. 
@@ -183,6 +191,7 @@ extension Mobile {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .structure)
         ]
+
         public let details: ProjectDetails?
 
         public init(details: ProjectDetails? = nil) {
@@ -200,6 +209,7 @@ extension Mobile {
             AWSShapeMember(label: "platform", location: .querystring(locationName: "platform"), required: false, type: .enum), 
             AWSShapeMember(label: "projectId", location: .querystring(locationName: "projectId"), required: false, type: .string)
         ]
+
         ///  Unique bundle identifier. 
         public let bundleId: String
         ///  Developer desktop or target application platform. 
@@ -224,6 +234,7 @@ extension Mobile {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "downloadUrl", required: false, type: .string)
         ]
+
         ///  URL which contains the custom-generated SDK and tool packages used to integrate the client mobile app or web app with the AWS resources created by the AWS Mobile Hub project. 
         public let downloadUrl: String?
 
@@ -240,6 +251,7 @@ extension Mobile {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "projectId", location: .uri(locationName: "projectId"), required: true, type: .string)
         ]
+
         ///  Unique project identifier. 
         public let projectId: String
 
@@ -258,6 +270,7 @@ extension Mobile {
             AWSShapeMember(label: "shareUrl", required: false, type: .string), 
             AWSShapeMember(label: "snapshotId", required: false, type: .string)
         ]
+
         ///  URL which can be used to download the exported project configuation file(s). 
         public let downloadUrl: String?
         ///  URL which can be shared to allow other AWS users to create their own project in AWS Mobile Hub with the same configuration as the specified project. This URL pertains to a snapshot in time of the project configuration that is created when this API is called. If you want to share additional changes to your project configuration, then you will need to create and share a new snapshot by calling this method again. 
@@ -283,6 +296,7 @@ extension Mobile {
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         ///  Maximum number of records to list in a single response. 
         public let maxResults: Int32?
         ///  Pagination token. Set to null to start listing bundles from start. If non-null pagination token is returned in a result, then pass its value in here in another request to list more bundles. 
@@ -304,6 +318,7 @@ extension Mobile {
             AWSShapeMember(label: "bundleList", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         ///  A list of bundles. 
         public let bundleList: [BundleDetails]?
         ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
@@ -325,6 +340,7 @@ extension Mobile {
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         ///  Maximum number of records to list in a single response. 
         public let maxResults: Int32?
         ///  Pagination token. Set to null to start listing projects from start. If non-null pagination token is returned in a result, then pass its value in here in another request to list more projects. 
@@ -346,6 +362,7 @@ extension Mobile {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "projects", required: false, type: .list)
         ]
+
         public let nextToken: String?
         public let projects: [ProjectSummary]?
 
@@ -382,6 +399,7 @@ extension Mobile {
             AWSShapeMember(label: "resources", required: false, type: .list), 
             AWSShapeMember(label: "state", required: false, type: .enum)
         ]
+
         ///  Website URL for this project in the AWS Mobile Hub console. 
         public let consoleUrl: String?
         ///  Date the project was created. 
@@ -429,6 +447,7 @@ extension Mobile {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "projectId", required: false, type: .string)
         ]
+
         ///  Name of the project. 
         public let name: String?
         ///  Unique project identifier. 
@@ -453,6 +472,7 @@ extension Mobile {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "type", required: false, type: .string)
         ]
+
         public let arn: String?
         public let attributes: [String: String]?
         public let feature: String?
@@ -483,6 +503,7 @@ extension Mobile {
             AWSShapeMember(label: "contents", required: false, type: .blob), 
             AWSShapeMember(label: "projectId", location: .querystring(locationName: "projectId"), required: true, type: .string)
         ]
+
         ///  ZIP or YAML file which contains project configuration to be updated. This should be the contents of the file downloaded from the URL provided in an export project operation. 
         public let contents: Data?
         ///  Unique project identifier. 
@@ -503,6 +524,7 @@ extension Mobile {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .structure)
         ]
+
         ///  Detailed information about the updated AWS Mobile Hub project. 
         public let details: ProjectDetails?
 

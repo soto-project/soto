@@ -10,6 +10,7 @@ extension ACM {
             AWSShapeMember(label: "CertificateArn", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
+
         /// String that contains the ARN of the ACM certificate to which the tag is to be applied. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces. 
         public let certificateArn: String
         /// The key-value pair that defines the tag. The tag value is optional.
@@ -18,6 +19,17 @@ extension ACM {
         public init(certificateArn: String, tags: [Tag]) {
             self.certificateArn = certificateArn
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(certificateArn, name:"certificateArn", parent: name, max: 2048)
+            try validate(certificateArn, name:"certificateArn", parent: name, min: 20)
+            try validate(certificateArn, name:"certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
+            try tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, max: 50)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -55,6 +67,7 @@ extension ACM {
             AWSShapeMember(label: "SubjectAlternativeNames", required: false, type: .list), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The Amazon Resource Name (ARN) of the certificate. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let certificateArn: String?
         /// The Amazon Resource Name (ARN) of the ACM PCA private certificate authority (CA) that issued the certificate. This has the following format:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 
@@ -171,6 +184,7 @@ extension ACM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateTransparencyLoggingPreference", required: false, type: .enum)
         ]
+
         /// You can opt out of certificate transparency logging by specifying the DISABLED option. Opt in by specifying ENABLED. 
         public let certificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference?
 
@@ -199,6 +213,7 @@ extension ACM {
             AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
             AWSShapeMember(label: "DomainName", required: false, type: .string)
         ]
+
         /// Amazon Resource Name (ARN) of the certificate. This is of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces. 
         public let certificateArn: String?
         /// Fully qualified domain name (FQDN), such as www.example.com or example.com, for the certificate.
@@ -232,11 +247,18 @@ extension ACM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateArn", required: true, type: .string)
         ]
+
         /// String that contains the ARN of the ACM certificate to be deleted. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let certificateArn: String
 
         public init(certificateArn: String) {
             self.certificateArn = certificateArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(certificateArn, name:"certificateArn", parent: name, max: 2048)
+            try validate(certificateArn, name:"certificateArn", parent: name, min: 20)
+            try validate(certificateArn, name:"certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -248,11 +270,18 @@ extension ACM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the ACM certificate. The ARN must have the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let certificateArn: String
 
         public init(certificateArn: String) {
             self.certificateArn = certificateArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(certificateArn, name:"certificateArn", parent: name, max: 2048)
+            try validate(certificateArn, name:"certificateArn", parent: name, min: 20)
+            try validate(certificateArn, name:"certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -264,6 +293,7 @@ extension ACM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Certificate", required: false, type: .structure)
         ]
+
         /// Metadata about an ACM certificate.
         public let certificate: CertificateDetail?
 
@@ -292,6 +322,7 @@ extension ACM {
             AWSShapeMember(label: "ValidationMethod", required: false, type: .enum), 
             AWSShapeMember(label: "ValidationStatus", required: false, type: .enum)
         ]
+
         /// A fully qualified domain name (FQDN) in the certificate. For example, www.example.com or example.com. 
         public let domainName: String
         /// Contains the CNAME record that you add to your DNS database for domain validation. For more information, see Use DNS to Validate Domain Ownership.
@@ -329,6 +360,7 @@ extension ACM {
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "ValidationDomain", required: true, type: .string)
         ]
+
         /// A fully qualified domain name (FQDN) in the certificate request.
         public let domainName: String
         /// The domain name that you want ACM to use to send you validation emails. This domain name is the suffix of the email addresses that you want ACM to use. This must be the same as the DomainName value or a superdomain of the DomainName value. For example, if you request a certificate for testing.example.com, you can specify example.com for this value. In that case, ACM sends domain validation emails to the following five addresses:   admin@example.com   administrator@example.com   hostmaster@example.com   postmaster@example.com   webmaster@example.com  
@@ -337,6 +369,15 @@ extension ACM {
         public init(domainName: String, validationDomain: String) {
             self.domainName = domainName
             self.validationDomain = validationDomain
+        }
+
+        public func validate(name: String) throws {
+            try validate(domainName, name:"domainName", parent: name, max: 253)
+            try validate(domainName, name:"domainName", parent: name, min: 1)
+            try validate(domainName, name:"domainName", parent: name, pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
+            try validate(validationDomain, name:"validationDomain", parent: name, max: 253)
+            try validate(validationDomain, name:"validationDomain", parent: name, min: 1)
+            try validate(validationDomain, name:"validationDomain", parent: name, pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -350,6 +391,7 @@ extension ACM {
             AWSShapeMember(label: "CertificateArn", required: true, type: .string), 
             AWSShapeMember(label: "Passphrase", required: true, type: .blob)
         ]
+
         /// An Amazon Resource Name (ARN) of the issued certificate. This must be of the form:  arn:aws:acm:region:account:certificate/12345678-1234-1234-1234-123456789012 
         public let certificateArn: String
         /// Passphrase to associate with the encrypted exported private key. If you want to later decrypt the private key, you must have the passphrase. You can use the following OpenSSL command to decrypt a private key:   openssl rsa -in encrypted_key.pem -out decrypted_key.pem 
@@ -358,6 +400,14 @@ extension ACM {
         public init(certificateArn: String, passphrase: Data) {
             self.certificateArn = certificateArn
             self.passphrase = passphrase
+        }
+
+        public func validate(name: String) throws {
+            try validate(certificateArn, name:"certificateArn", parent: name, max: 2048)
+            try validate(certificateArn, name:"certificateArn", parent: name, min: 20)
+            try validate(certificateArn, name:"certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
+            try validate(passphrase, name:"passphrase", parent: name, max: 128)
+            try validate(passphrase, name:"passphrase", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -372,6 +422,7 @@ extension ACM {
             AWSShapeMember(label: "CertificateChain", required: false, type: .string), 
             AWSShapeMember(label: "PrivateKey", required: false, type: .string)
         ]
+
         /// The base64 PEM-encoded certificate.
         public let certificate: String?
         /// The base64 PEM-encoded certificate chain. This does not include the certificate that you are exporting.
@@ -397,6 +448,7 @@ extension ACM {
             AWSShapeMember(label: "Name", required: false, type: .enum), 
             AWSShapeMember(label: "OID", required: false, type: .string)
         ]
+
         /// The name of an Extended Key Usage value.
         public let name: ExtendedKeyUsageName?
         /// An object identifier (OID) for the extension value. OIDs are strings of numbers separated by periods. The following OIDs are defined in RFC 3280 and RFC 5280.     1.3.6.1.5.5.7.3.1 (TLS_WEB_SERVER_AUTHENTICATION)     1.3.6.1.5.5.7.3.2 (TLS_WEB_CLIENT_AUTHENTICATION)     1.3.6.1.5.5.7.3.3 (CODE_SIGNING)     1.3.6.1.5.5.7.3.4 (EMAIL_PROTECTION)     1.3.6.1.5.5.7.3.8 (TIME_STAMPING)     1.3.6.1.5.5.7.3.9 (OCSP_SIGNING)     1.3.6.1.5.5.7.3.5 (IPSEC_END_SYSTEM)     1.3.6.1.5.5.7.3.6 (IPSEC_TUNNEL)     1.3.6.1.5.5.7.3.7 (IPSEC_USER)   
@@ -454,6 +506,7 @@ extension ACM {
             AWSShapeMember(label: "keyTypes", required: false, type: .list), 
             AWSShapeMember(label: "keyUsage", required: false, type: .list)
         ]
+
         /// Specify one or more ExtendedKeyUsage extension values.
         public let extendedKeyUsage: [ExtendedKeyUsageName]?
         /// Specify one or more algorithms that can be used to generate key pairs.
@@ -478,11 +531,18 @@ extension ACM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateArn", required: true, type: .string)
         ]
+
         /// String that contains a certificate ARN in the following format:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let certificateArn: String
 
         public init(certificateArn: String) {
             self.certificateArn = certificateArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(certificateArn, name:"certificateArn", parent: name, max: 2048)
+            try validate(certificateArn, name:"certificateArn", parent: name, min: 20)
+            try validate(certificateArn, name:"certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -495,6 +555,7 @@ extension ACM {
             AWSShapeMember(label: "Certificate", required: false, type: .string), 
             AWSShapeMember(label: "CertificateChain", required: false, type: .string)
         ]
+
         /// String that contains the ACM certificate represented by the ARN specified at input.
         public let certificate: String?
         /// The certificate chain that contains the root certificate issued by the certificate authority (CA).
@@ -518,6 +579,7 @@ extension ACM {
             AWSShapeMember(label: "CertificateChain", required: false, type: .blob), 
             AWSShapeMember(label: "PrivateKey", required: true, type: .blob)
         ]
+
         /// The certificate to import.
         public let certificate: Data
         /// The Amazon Resource Name (ARN) of an imported certificate to replace. To import a new certificate, omit this field. 
@@ -534,6 +596,18 @@ extension ACM {
             self.privateKey = privateKey
         }
 
+        public func validate(name: String) throws {
+            try validate(certificate, name:"certificate", parent: name, max: 32768)
+            try validate(certificate, name:"certificate", parent: name, min: 1)
+            try validate(certificateArn, name:"certificateArn", parent: name, max: 2048)
+            try validate(certificateArn, name:"certificateArn", parent: name, min: 20)
+            try validate(certificateArn, name:"certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
+            try validate(certificateChain, name:"certificateChain", parent: name, max: 2097152)
+            try validate(certificateChain, name:"certificateChain", parent: name, min: 1)
+            try validate(privateKey, name:"privateKey", parent: name, max: 524288)
+            try validate(privateKey, name:"privateKey", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case certificate = "Certificate"
             case certificateArn = "CertificateArn"
@@ -546,6 +620,7 @@ extension ACM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateArn", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the imported certificate.
         public let certificateArn: String?
 
@@ -572,6 +647,7 @@ extension ACM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .enum)
         ]
+
         /// A string value that contains a Key Usage extension name.
         public let name: KeyUsageName?
 
@@ -606,6 +682,7 @@ extension ACM {
             AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Filter the certificate list by status value.
         public let certificateStatuses: [CertificateStatus]?
         /// Filter the certificate list. For more information, see the Filters structure.
@@ -622,6 +699,14 @@ extension ACM {
             self.nextToken = nextToken
         }
 
+        public func validate(name: String) throws {
+            try validate(maxItems, name:"maxItems", parent: name, max: 1000)
+            try validate(maxItems, name:"maxItems", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 320)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case certificateStatuses = "CertificateStatuses"
             case includes = "Includes"
@@ -635,6 +720,7 @@ extension ACM {
             AWSShapeMember(label: "CertificateSummaryList", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of ACM certificates.
         public let certificateSummaryList: [CertificateSummary]?
         /// When the list is truncated, this value is present and contains the value to use for the NextToken parameter in a subsequent pagination request.
@@ -655,11 +741,18 @@ extension ACM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateArn", required: true, type: .string)
         ]
+
         /// String that contains the ARN of the ACM certificate for which you want to list the tags. This must have the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces. 
         public let certificateArn: String
 
         public init(certificateArn: String) {
             self.certificateArn = certificateArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(certificateArn, name:"certificateArn", parent: name, max: 2048)
+            try validate(certificateArn, name:"certificateArn", parent: name, min: 20)
+            try validate(certificateArn, name:"certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -671,6 +764,7 @@ extension ACM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// The key-value pairs that define the applied tags.
         public let tags: [Tag]?
 
@@ -693,6 +787,7 @@ extension ACM {
             AWSShapeMember(label: "CertificateArn", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
+
         /// String that contains the ARN of the ACM Certificate with one or more tags that you want to remove. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces. 
         public let certificateArn: String
         /// The key-value pair that defines the tag to remove.
@@ -701,6 +796,17 @@ extension ACM {
         public init(certificateArn: String, tags: [Tag]) {
             self.certificateArn = certificateArn
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(certificateArn, name:"certificateArn", parent: name, max: 2048)
+            try validate(certificateArn, name:"certificateArn", parent: name, min: 20)
+            try validate(certificateArn, name:"certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
+            try tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, max: 50)
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -713,11 +819,18 @@ extension ACM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateArn", required: true, type: .string)
         ]
+
         /// String that contains the ARN of the ACM certificate to be renewed. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let certificateArn: String
 
         public init(certificateArn: String) {
             self.certificateArn = certificateArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(certificateArn, name:"certificateArn", parent: name, max: 2048)
+            try validate(certificateArn, name:"certificateArn", parent: name, min: 20)
+            try validate(certificateArn, name:"certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -746,6 +859,7 @@ extension ACM {
             AWSShapeMember(label: "RenewalStatusReason", required: false, type: .enum), 
             AWSShapeMember(label: "UpdatedAt", required: true, type: .timestamp)
         ]
+
         /// Contains information about the validation of each domain name in the certificate, as it pertains to ACM's managed renewal. This is different from the initial validation that occurs as a result of the RequestCertificate request. This field exists only when the certificate type is AMAZON_ISSUED.
         public let domainValidationOptions: [DomainValidation]
         /// The status of ACM's managed renewal of the certificate.
@@ -780,6 +894,7 @@ extension ACM {
             AWSShapeMember(label: "SubjectAlternativeNames", required: false, type: .list), 
             AWSShapeMember(label: "ValidationMethod", required: false, type: .enum)
         ]
+
         /// The Amazon Resource Name (ARN) of the private certificate authority (CA) that will be used to issue the certificate. If you do not provide an ARN and you are trying to request a private certificate, ACM will attempt to issue a public certificate. For more information about private CAs, see the AWS Certificate Manager Private Certificate Authority (PCA) user guide. The ARN must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 
         public let certificateAuthorityArn: String?
         ///  Fully qualified domain name (FQDN), such as www.example.com, that you want to secure with an ACM certificate. Use an asterisk (*) to create a wildcard certificate that protects several sites in the same domain. For example, *.example.com protects www.example.com, site.example.com, and images.example.com.   The first domain name you enter cannot exceed 63 octets, including periods. Each subsequent Subject Alternative Name (SAN), however, can be up to 253 octets in length. 
@@ -805,6 +920,30 @@ extension ACM {
             self.validationMethod = validationMethod
         }
 
+        public func validate(name: String) throws {
+            try validate(certificateAuthorityArn, name:"certificateAuthorityArn", parent: name, max: 2048)
+            try validate(certificateAuthorityArn, name:"certificateAuthorityArn", parent: name, min: 20)
+            try validate(certificateAuthorityArn, name:"certificateAuthorityArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
+            try validate(domainName, name:"domainName", parent: name, max: 253)
+            try validate(domainName, name:"domainName", parent: name, min: 1)
+            try validate(domainName, name:"domainName", parent: name, pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
+            try domainValidationOptions?.forEach {
+                try $0.validate(name: "\(name).domainValidationOptions[]")
+            }
+            try validate(domainValidationOptions, name:"domainValidationOptions", parent: name, max: 100)
+            try validate(domainValidationOptions, name:"domainValidationOptions", parent: name, min: 1)
+            try validate(idempotencyToken, name:"idempotencyToken", parent: name, max: 32)
+            try validate(idempotencyToken, name:"idempotencyToken", parent: name, min: 1)
+            try validate(idempotencyToken, name:"idempotencyToken", parent: name, pattern: "\\w+")
+            try subjectAlternativeNames?.forEach {
+                try validate($0, name: "subjectAlternativeNames[]", parent: name, max: 253)
+                try validate($0, name: "subjectAlternativeNames[]", parent: name, min: 1)
+                try validate($0, name: "subjectAlternativeNames[]", parent: name, pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
+            }
+            try validate(subjectAlternativeNames, name:"subjectAlternativeNames", parent: name, max: 100)
+            try validate(subjectAlternativeNames, name:"subjectAlternativeNames", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case certificateAuthorityArn = "CertificateAuthorityArn"
             case domainName = "DomainName"
@@ -820,6 +959,7 @@ extension ACM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateArn", required: false, type: .string)
         ]
+
         /// String that contains the ARN of the issued certificate. This must be of the form:  arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012 
         public let certificateArn: String?
 
@@ -838,6 +978,7 @@ extension ACM {
             AWSShapeMember(label: "Domain", required: true, type: .string), 
             AWSShapeMember(label: "ValidationDomain", required: true, type: .string)
         ]
+
         /// String that contains the ARN of the requested certificate. The certificate ARN is generated and returned by the RequestCertificate action as soon as the request is made. By default, using this parameter causes email to be sent to all top-level domains you specified in the certificate request. The ARN must be of the form:   arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012 
         public let certificateArn: String
         /// The fully qualified domain name (FQDN) of the certificate that needs to be validated.
@@ -849,6 +990,18 @@ extension ACM {
             self.certificateArn = certificateArn
             self.domain = domain
             self.validationDomain = validationDomain
+        }
+
+        public func validate(name: String) throws {
+            try validate(certificateArn, name:"certificateArn", parent: name, max: 2048)
+            try validate(certificateArn, name:"certificateArn", parent: name, min: 20)
+            try validate(certificateArn, name:"certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
+            try validate(domain, name:"domain", parent: name, max: 253)
+            try validate(domain, name:"domain", parent: name, min: 1)
+            try validate(domain, name:"domain", parent: name, pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
+            try validate(validationDomain, name:"validationDomain", parent: name, max: 253)
+            try validate(validationDomain, name:"validationDomain", parent: name, min: 1)
+            try validate(validationDomain, name:"validationDomain", parent: name, pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -864,6 +1017,7 @@ extension ACM {
             AWSShapeMember(label: "Type", required: true, type: .enum), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         /// The name of the DNS record to create in your domain. This is supplied by ACM.
         public let name: String
         /// The type of DNS record. Currently this can be CNAME.
@@ -903,6 +1057,7 @@ extension ACM {
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The key of the tag.
         public let key: String
         /// The value of the tag.
@@ -911,6 +1066,15 @@ extension ACM {
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(key, name:"key", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]*")
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, min: 0)
+            try validate(value, name:"value", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -924,6 +1088,7 @@ extension ACM {
             AWSShapeMember(label: "CertificateArn", required: true, type: .string), 
             AWSShapeMember(label: "Options", required: true, type: .structure)
         ]
+
         /// ARN of the requested certificate to update. This must be of the form:  arn:aws:acm:us-east-1:account:certificate/12345678-1234-1234-1234-123456789012  
         public let certificateArn: String
         /// Use to update the options for your certificate. Currently, you can specify whether to add your certificate to a transparency log. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser. 
@@ -932,6 +1097,12 @@ extension ACM {
         public init(certificateArn: String, options: CertificateOptions) {
             self.certificateArn = certificateArn
             self.options = options
+        }
+
+        public func validate(name: String) throws {
+            try validate(certificateArn, name:"certificateArn", parent: name, max: 2048)
+            try validate(certificateArn, name:"certificateArn", parent: name, min: 20)
+            try validate(certificateArn, name:"certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {

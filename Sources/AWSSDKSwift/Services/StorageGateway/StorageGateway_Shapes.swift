@@ -16,6 +16,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "TapeDriveType", required: false, type: .string)
         ]
+
         /// Your gateway activation key. You can obtain the activation key by sending an HTTP GET request with redirects enabled to the gateway IP address (port 80). The redirect URL returned in the response provides you the activation key for your gateway in the query string parameter activationKey. It may also include other activation-related parameters, however, these are merely defaults -- the arguments you pass to the ActivateGateway API call determine the actual configuration of your gateway.  For more information, see https://docs.aws.amazon.com/storagegateway/latest/userguide/get-activation-key.html in the Storage Gateway User Guide.
         public let activationKey: String
         /// The name you configured for your gateway.
@@ -44,6 +45,27 @@ extension StorageGateway {
             self.tapeDriveType = tapeDriveType
         }
 
+        public func validate(name: String) throws {
+            try validate(activationKey, name:"activationKey", parent: name, max: 50)
+            try validate(activationKey, name:"activationKey", parent: name, min: 1)
+            try validate(gatewayName, name:"gatewayName", parent: name, max: 255)
+            try validate(gatewayName, name:"gatewayName", parent: name, min: 2)
+            try validate(gatewayName, name:"gatewayName", parent: name, pattern: "^[ -\\.0-\\[\\]-~]*[!-\\.0-\\[\\]-~][ -\\.0-\\[\\]-~]*$")
+            try validate(gatewayRegion, name:"gatewayRegion", parent: name, max: 25)
+            try validate(gatewayRegion, name:"gatewayRegion", parent: name, min: 1)
+            try validate(gatewayTimezone, name:"gatewayTimezone", parent: name, max: 10)
+            try validate(gatewayTimezone, name:"gatewayTimezone", parent: name, min: 3)
+            try validate(gatewayType, name:"gatewayType", parent: name, max: 20)
+            try validate(gatewayType, name:"gatewayType", parent: name, min: 2)
+            try validate(mediumChangerType, name:"mediumChangerType", parent: name, max: 50)
+            try validate(mediumChangerType, name:"mediumChangerType", parent: name, min: 2)
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tapeDriveType, name:"tapeDriveType", parent: name, max: 50)
+            try validate(tapeDriveType, name:"tapeDriveType", parent: name, min: 2)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case activationKey = "ActivationKey"
             case gatewayName = "GatewayName"
@@ -60,6 +82,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
+
         public let gatewayARN: String?
 
         public init(gatewayARN: String? = nil) {
@@ -76,6 +99,7 @@ extension StorageGateway {
             AWSShapeMember(label: "DiskIds", required: true, type: .list), 
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
+
         /// An array of strings that identify disks that are to be configured as working storage. Each string have a minimum length of 1 and maximum length of 300. You can get the disk IDs from the ListLocalDisks API.
         public let diskIds: [String]
         public let gatewayARN: String
@@ -83,6 +107,15 @@ extension StorageGateway {
         public init(diskIds: [String], gatewayARN: String) {
             self.diskIds = diskIds
             self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try diskIds.forEach {
+                try validate($0, name: "diskIds[]", parent: name, max: 300)
+                try validate($0, name: "diskIds[]", parent: name, min: 1)
+            }
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -95,6 +128,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
+
         public let gatewayARN: String?
 
         public init(gatewayARN: String? = nil) {
@@ -111,6 +145,7 @@ extension StorageGateway {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
+
         /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
         public let resourceARN: String
         /// The key-value pair that represents the tag you want to add to the resource. The value can be an empty string.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. 
@@ -119,6 +154,14 @@ extension StorageGateway {
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 500)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 50)
+            try tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -131,6 +174,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
         public let resourceARN: String?
 
@@ -148,6 +192,7 @@ extension StorageGateway {
             AWSShapeMember(label: "DiskIds", required: true, type: .list), 
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
+
         /// An array of strings that identify disks that are to be configured as working storage. Each string have a minimum length of 1 and maximum length of 300. You can get the disk IDs from the ListLocalDisks API.
         public let diskIds: [String]
         public let gatewayARN: String
@@ -155,6 +200,15 @@ extension StorageGateway {
         public init(diskIds: [String], gatewayARN: String) {
             self.diskIds = diskIds
             self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try diskIds.forEach {
+                try validate($0, name: "diskIds[]", parent: name, max: 300)
+                try validate($0, name: "diskIds[]", parent: name, min: 1)
+            }
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -167,6 +221,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
+
         public let gatewayARN: String?
 
         public init(gatewayARN: String? = nil) {
@@ -183,6 +238,7 @@ extension StorageGateway {
             AWSShapeMember(label: "DiskIds", required: true, type: .list), 
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
+
         /// An array of strings that identify disks that are to be configured as working storage. Each string have a minimum length of 1 and maximum length of 300. You can get the disk IDs from the ListLocalDisks API.
         public let diskIds: [String]
         public let gatewayARN: String
@@ -190,6 +246,15 @@ extension StorageGateway {
         public init(diskIds: [String], gatewayARN: String) {
             self.diskIds = diskIds
             self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try diskIds.forEach {
+                try validate($0, name: "diskIds[]", parent: name, max: 300)
+                try validate($0, name: "diskIds[]", parent: name, min: 1)
+            }
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -202,6 +267,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
+
         public let gatewayARN: String?
 
         public init(gatewayARN: String? = nil) {
@@ -218,6 +284,7 @@ extension StorageGateway {
             AWSShapeMember(label: "PoolId", required: true, type: .string), 
             AWSShapeMember(label: "TapeARN", required: true, type: .string)
         ]
+
         /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (Glacier or Deep Archive) that corresponds to the pool. Valid values: "GLACIER", "DEEP_ARCHIVE"
         public let poolId: String
         /// The unique Amazon Resource Name (ARN) of the virtual tape that you want to add to the tape pool.
@@ -226,6 +293,14 @@ extension StorageGateway {
         public init(poolId: String, tapeARN: String) {
             self.poolId = poolId
             self.tapeARN = tapeARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(poolId, name:"poolId", parent: name, max: 100)
+            try validate(poolId, name:"poolId", parent: name, min: 1)
+            try validate(tapeARN, name:"tapeARN", parent: name, max: 500)
+            try validate(tapeARN, name:"tapeARN", parent: name, min: 50)
+            try validate(tapeARN, name:"tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -238,6 +313,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
+
         /// The unique Amazon Resource Names (ARN) of the virtual tape that was added to the tape pool.
         public let tapeARN: String?
 
@@ -258,6 +334,7 @@ extension StorageGateway {
             AWSShapeMember(label: "TargetName", required: false, type: .string), 
             AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
+
         /// The unique device ID or other distinguishing data that identifies the local disk used to create the volume. This value is only required when you are attaching a stored volume.
         public let diskId: String?
         /// The Amazon Resource Name (ARN) of the gateway that you want to attach the volume to.
@@ -277,6 +354,19 @@ extension StorageGateway {
             self.volumeARN = volumeARN
         }
 
+        public func validate(name: String) throws {
+            try validate(diskId, name:"diskId", parent: name, max: 300)
+            try validate(diskId, name:"diskId", parent: name, min: 1)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(networkInterfaceId, name:"networkInterfaceId", parent: name, pattern: "\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z")
+            try validate(targetName, name:"targetName", parent: name, max: 200)
+            try validate(targetName, name:"targetName", parent: name, min: 1)
+            try validate(targetName, name:"targetName", parent: name, pattern: "^[-\\.;a-z0-9]+$")
+            try validate(volumeARN, name:"volumeARN", parent: name, max: 500)
+            try validate(volumeARN, name:"volumeARN", parent: name, min: 50)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case diskId = "DiskId"
             case gatewayARN = "GatewayARN"
@@ -291,6 +381,7 @@ extension StorageGateway {
             AWSShapeMember(label: "TargetARN", required: false, type: .string), 
             AWSShapeMember(label: "VolumeARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the volume target, which includes the iSCSI name for the initiator that was used to connect to the target.
         public let targetARN: String?
         /// The Amazon Resource Name (ARN) of the volume that was attached to the gateway.
@@ -323,6 +414,7 @@ extension StorageGateway {
             AWSShapeMember(label: "VolumeType", required: false, type: .string), 
             AWSShapeMember(label: "VolumeUsedInBytes", required: false, type: .long)
         ]
+
         /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this time stamp.
         public let createdDate: TimeStamp?
         public let kMSKey: String?
@@ -387,6 +479,7 @@ extension StorageGateway {
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "TapeARN", required: true, type: .string)
         ]
+
         public let gatewayARN: String
         /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel archiving for.
         public let tapeARN: String
@@ -394,6 +487,14 @@ extension StorageGateway {
         public init(gatewayARN: String, tapeARN: String) {
             self.gatewayARN = gatewayARN
             self.tapeARN = tapeARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(tapeARN, name:"tapeARN", parent: name, max: 500)
+            try validate(tapeARN, name:"tapeARN", parent: name, min: 50)
+            try validate(tapeARN, name:"tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -406,6 +507,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the virtual tape for which archiving was canceled.
         public let tapeARN: String?
 
@@ -423,6 +525,7 @@ extension StorageGateway {
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "TapeARN", required: true, type: .string)
         ]
+
         public let gatewayARN: String
         /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel retrieval for.
         public let tapeARN: String
@@ -430,6 +533,14 @@ extension StorageGateway {
         public init(gatewayARN: String, tapeARN: String) {
             self.gatewayARN = gatewayARN
             self.tapeARN = tapeARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(tapeARN, name:"tapeARN", parent: name, max: 500)
+            try validate(tapeARN, name:"tapeARN", parent: name, min: 50)
+            try validate(tapeARN, name:"tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -442,6 +553,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the virtual tape for which retrieval was canceled.
         public let tapeARN: String?
 
@@ -461,6 +573,7 @@ extension StorageGateway {
             AWSShapeMember(label: "SecretToAuthenticateTarget", required: false, type: .string), 
             AWSShapeMember(label: "TargetARN", required: false, type: .string)
         ]
+
         /// The iSCSI initiator that connects to the target.
         public let initiatorName: String?
         /// The secret key that the initiator (for example, the Windows client) must provide to participate in mutual CHAP with the target.
@@ -498,6 +611,7 @@ extension StorageGateway {
             AWSShapeMember(label: "TargetName", required: true, type: .string), 
             AWSShapeMember(label: "VolumeSizeInBytes", required: true, type: .long)
         ]
+
         /// A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial request.
         public let clientToken: String
         public let gatewayARN: String
@@ -531,6 +645,25 @@ extension StorageGateway {
             self.volumeSizeInBytes = volumeSizeInBytes
         }
 
+        public func validate(name: String) throws {
+            try validate(clientToken, name:"clientToken", parent: name, max: 100)
+            try validate(clientToken, name:"clientToken", parent: name, min: 5)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(kMSKey, name:"kMSKey", parent: name, max: 2048)
+            try validate(kMSKey, name:"kMSKey", parent: name, min: 7)
+            try validate(networkInterfaceId, name:"networkInterfaceId", parent: name, pattern: "\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z")
+            try validate(snapshotId, name:"snapshotId", parent: name, pattern: "\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z")
+            try validate(sourceVolumeARN, name:"sourceVolumeARN", parent: name, max: 500)
+            try validate(sourceVolumeARN, name:"sourceVolumeARN", parent: name, min: 50)
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(targetName, name:"targetName", parent: name, max: 200)
+            try validate(targetName, name:"targetName", parent: name, min: 1)
+            try validate(targetName, name:"targetName", parent: name, pattern: "^[-\\.;a-z0-9]+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case gatewayARN = "GatewayARN"
@@ -550,6 +683,7 @@ extension StorageGateway {
             AWSShapeMember(label: "TargetARN", required: false, type: .string), 
             AWSShapeMember(label: "VolumeARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the volume target, which includes the iSCSI name that initiators can use to connect to the target.
         public let targetARN: String?
         /// The Amazon Resource Name (ARN) of the configured volume.
@@ -584,6 +718,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Squash", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// The list of clients that are allowed to access the file gateway. The list must contain either valid IP addresses or valid CIDR blocks. 
         public let clientList: [String]?
         /// A unique string value that you supply that is used by file gateway to ensure idempotent file share creation.
@@ -633,6 +768,32 @@ extension StorageGateway {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try clientList?.forEach {
+                try validate($0, name: "clientList[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))?$")
+            }
+            try validate(clientList, name:"clientList", parent: name, max: 100)
+            try validate(clientList, name:"clientList", parent: name, min: 1)
+            try validate(clientToken, name:"clientToken", parent: name, max: 100)
+            try validate(clientToken, name:"clientToken", parent: name, min: 5)
+            try validate(defaultStorageClass, name:"defaultStorageClass", parent: name, max: 20)
+            try validate(defaultStorageClass, name:"defaultStorageClass", parent: name, min: 5)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(kMSKey, name:"kMSKey", parent: name, max: 2048)
+            try validate(kMSKey, name:"kMSKey", parent: name, min: 7)
+            try validate(locationARN, name:"locationARN", parent: name, max: 310)
+            try validate(locationARN, name:"locationARN", parent: name, min: 16)
+            try nFSFileShareDefaults?.validate(name: "\(name).nFSFileShareDefaults")
+            try validate(role, name:"role", parent: name, max: 2048)
+            try validate(role, name:"role", parent: name, min: 20)
+            try validate(squash, name:"squash", parent: name, max: 15)
+            try validate(squash, name:"squash", parent: name, min: 5)
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clientList = "ClientList"
             case clientToken = "ClientToken"
@@ -656,6 +817,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileShareARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the newly created file share. 
         public let fileShareARN: String?
 
@@ -688,6 +850,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "ValidUserList", required: false, type: .list)
         ]
+
         /// A list of users or groups in the Active Directory that have administrator rights to the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
         public let adminUserList: [String]?
         /// The authentication method that users use to access the file share. Valid values are ActiveDirectory or GuestAccess. The default is ActiveDirectory.
@@ -743,6 +906,44 @@ extension StorageGateway {
             self.validUserList = validUserList
         }
 
+        public func validate(name: String) throws {
+            try adminUserList?.forEach {
+                try validate($0, name: "adminUserList[]", parent: name, max: 64)
+                try validate($0, name: "adminUserList[]", parent: name, min: 1)
+            }
+            try validate(adminUserList, name:"adminUserList", parent: name, max: 100)
+            try validate(adminUserList, name:"adminUserList", parent: name, min: 0)
+            try validate(authentication, name:"authentication", parent: name, max: 15)
+            try validate(authentication, name:"authentication", parent: name, min: 5)
+            try validate(clientToken, name:"clientToken", parent: name, max: 100)
+            try validate(clientToken, name:"clientToken", parent: name, min: 5)
+            try validate(defaultStorageClass, name:"defaultStorageClass", parent: name, max: 20)
+            try validate(defaultStorageClass, name:"defaultStorageClass", parent: name, min: 5)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try invalidUserList?.forEach {
+                try validate($0, name: "invalidUserList[]", parent: name, max: 64)
+                try validate($0, name: "invalidUserList[]", parent: name, min: 1)
+            }
+            try validate(invalidUserList, name:"invalidUserList", parent: name, max: 100)
+            try validate(invalidUserList, name:"invalidUserList", parent: name, min: 0)
+            try validate(kMSKey, name:"kMSKey", parent: name, max: 2048)
+            try validate(kMSKey, name:"kMSKey", parent: name, min: 7)
+            try validate(locationARN, name:"locationARN", parent: name, max: 310)
+            try validate(locationARN, name:"locationARN", parent: name, min: 16)
+            try validate(role, name:"role", parent: name, max: 2048)
+            try validate(role, name:"role", parent: name, min: 20)
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validUserList?.forEach {
+                try validate($0, name: "validUserList[]", parent: name, max: 64)
+                try validate($0, name: "validUserList[]", parent: name, min: 1)
+            }
+            try validate(validUserList, name:"validUserList", parent: name, max: 100)
+            try validate(validUserList, name:"validUserList", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case adminUserList = "AdminUserList"
             case authentication = "Authentication"
@@ -768,6 +969,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileShareARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the newly created file share. 
         public let fileShareARN: String?
 
@@ -785,6 +987,7 @@ extension StorageGateway {
             AWSShapeMember(label: "SnapshotDescription", required: true, type: .string), 
             AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
+
         /// Textual description of the snapshot that appears in the Amazon EC2 console, Elastic Block Store snapshots panel in the Description field, and in the AWS Storage Gateway snapshot Details pane, Description field
         public let snapshotDescription: String
         /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN.
@@ -793,6 +996,13 @@ extension StorageGateway {
         public init(snapshotDescription: String, volumeARN: String) {
             self.snapshotDescription = snapshotDescription
             self.volumeARN = volumeARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(snapshotDescription, name:"snapshotDescription", parent: name, max: 255)
+            try validate(snapshotDescription, name:"snapshotDescription", parent: name, min: 1)
+            try validate(volumeARN, name:"volumeARN", parent: name, max: 500)
+            try validate(volumeARN, name:"volumeARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -807,6 +1017,7 @@ extension StorageGateway {
             AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
             AWSShapeMember(label: "VolumeRecoveryPointTime", required: false, type: .string)
         ]
+
         /// The ID of the snapshot.
         public let snapshotId: String?
         /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN.
@@ -833,6 +1044,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
+
         /// Textual description of the snapshot that appears in the Amazon EC2 console, Elastic Block Store snapshots panel in the Description field, and in the AWS Storage Gateway snapshot Details pane, Description field
         public let snapshotDescription: String
         /// A list of up to 50 tags that can be assigned to a snapshot. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. 
@@ -844,6 +1056,16 @@ extension StorageGateway {
             self.snapshotDescription = snapshotDescription
             self.tags = tags
             self.volumeARN = volumeARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(snapshotDescription, name:"snapshotDescription", parent: name, max: 255)
+            try validate(snapshotDescription, name:"snapshotDescription", parent: name, min: 1)
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(volumeARN, name:"volumeARN", parent: name, max: 500)
+            try validate(volumeARN, name:"volumeARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -858,6 +1080,7 @@ extension StorageGateway {
             AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
             AWSShapeMember(label: "VolumeARN", required: false, type: .string)
         ]
+
         /// The snapshot ID that is used to refer to the snapshot in future operations such as describing snapshots (Amazon Elastic Compute Cloud API DescribeSnapshots) or creating a volume from a snapshot (CreateStorediSCSIVolume).
         public let snapshotId: String?
         /// The Amazon Resource Name (ARN) of the volume of which the snapshot was taken.
@@ -886,6 +1109,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "TargetName", required: true, type: .string)
         ]
+
         /// The unique identifier for the gateway local disk that is configured as a stored volume. Use ListLocalDisks to list disk IDs for a gateway.
         public let diskId: String
         public let gatewayARN: String
@@ -916,6 +1140,23 @@ extension StorageGateway {
             self.targetName = targetName
         }
 
+        public func validate(name: String) throws {
+            try validate(diskId, name:"diskId", parent: name, max: 300)
+            try validate(diskId, name:"diskId", parent: name, min: 1)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(kMSKey, name:"kMSKey", parent: name, max: 2048)
+            try validate(kMSKey, name:"kMSKey", parent: name, min: 7)
+            try validate(networkInterfaceId, name:"networkInterfaceId", parent: name, pattern: "\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z")
+            try validate(snapshotId, name:"snapshotId", parent: name, pattern: "\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z")
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(targetName, name:"targetName", parent: name, max: 200)
+            try validate(targetName, name:"targetName", parent: name, min: 1)
+            try validate(targetName, name:"targetName", parent: name, pattern: "^[-\\.;a-z0-9]+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case diskId = "DiskId"
             case gatewayARN = "GatewayARN"
@@ -935,6 +1176,7 @@ extension StorageGateway {
             AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
             AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long)
         ]
+
         /// The Amazon Resource Name (ARN) of the volume target, which includes the iSCSI name that initiators can use to connect to the target.
         public let targetARN: String?
         /// The Amazon Resource Name (ARN) of the configured volume.
@@ -965,6 +1207,7 @@ extension StorageGateway {
             AWSShapeMember(label: "TapeBarcode", required: true, type: .string), 
             AWSShapeMember(label: "TapeSizeInBytes", required: true, type: .long)
         ]
+
         /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tape with. Use the ListGateways operation to return a list of gateways for your account and region.
         public let gatewayARN: String
         /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
@@ -990,6 +1233,21 @@ extension StorageGateway {
             self.tapeSizeInBytes = tapeSizeInBytes
         }
 
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(kMSKey, name:"kMSKey", parent: name, max: 2048)
+            try validate(kMSKey, name:"kMSKey", parent: name, min: 7)
+            try validate(poolId, name:"poolId", parent: name, max: 100)
+            try validate(poolId, name:"poolId", parent: name, min: 1)
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tapeBarcode, name:"tapeBarcode", parent: name, max: 16)
+            try validate(tapeBarcode, name:"tapeBarcode", parent: name, min: 7)
+            try validate(tapeBarcode, name:"tapeBarcode", parent: name, pattern: "^[A-Z0-9]*$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
             case kMSEncrypted = "KMSEncrypted"
@@ -1005,6 +1263,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
+
         /// A unique Amazon Resource Name (ARN) that represents the virtual tape that was created.
         public let tapeARN: String?
 
@@ -1029,6 +1288,7 @@ extension StorageGateway {
             AWSShapeMember(label: "TapeBarcodePrefix", required: true, type: .string), 
             AWSShapeMember(label: "TapeSizeInBytes", required: true, type: .long)
         ]
+
         /// A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial request.  Using the same ClientToken prevents creating the tape multiple times. 
         public let clientToken: String
         /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tapes with. Use the ListGateways operation to return a list of gateways for your account and region.
@@ -1060,6 +1320,25 @@ extension StorageGateway {
             self.tapeSizeInBytes = tapeSizeInBytes
         }
 
+        public func validate(name: String) throws {
+            try validate(clientToken, name:"clientToken", parent: name, max: 100)
+            try validate(clientToken, name:"clientToken", parent: name, min: 5)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(kMSKey, name:"kMSKey", parent: name, max: 2048)
+            try validate(kMSKey, name:"kMSKey", parent: name, min: 7)
+            try validate(numTapesToCreate, name:"numTapesToCreate", parent: name, max: 10)
+            try validate(numTapesToCreate, name:"numTapesToCreate", parent: name, min: 1)
+            try validate(poolId, name:"poolId", parent: name, max: 100)
+            try validate(poolId, name:"poolId", parent: name, min: 1)
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tapeBarcodePrefix, name:"tapeBarcodePrefix", parent: name, max: 4)
+            try validate(tapeBarcodePrefix, name:"tapeBarcodePrefix", parent: name, min: 1)
+            try validate(tapeBarcodePrefix, name:"tapeBarcodePrefix", parent: name, pattern: "^[A-Z]*$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case gatewayARN = "GatewayARN"
@@ -1077,6 +1356,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARNs", required: false, type: .list)
         ]
+
         /// A list of unique Amazon Resource Names (ARNs) that represents the virtual tapes that were created.
         public let tapeARNs: [String]?
 
@@ -1094,6 +1374,7 @@ extension StorageGateway {
             AWSShapeMember(label: "BandwidthType", required: true, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
+
         /// One of the BandwidthType values that indicates the gateway bandwidth rate limit to delete. Valid Values: Upload, Download, All.
         public let bandwidthType: String
         public let gatewayARN: String
@@ -1101,6 +1382,13 @@ extension StorageGateway {
         public init(bandwidthType: String, gatewayARN: String) {
             self.bandwidthType = bandwidthType
             self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(bandwidthType, name:"bandwidthType", parent: name, max: 25)
+            try validate(bandwidthType, name:"bandwidthType", parent: name, min: 3)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1113,6 +1401,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
+
         public let gatewayARN: String?
 
         public init(gatewayARN: String? = nil) {
@@ -1129,6 +1418,7 @@ extension StorageGateway {
             AWSShapeMember(label: "InitiatorName", required: true, type: .string), 
             AWSShapeMember(label: "TargetARN", required: true, type: .string)
         ]
+
         /// The iSCSI initiator that connects to the target.
         public let initiatorName: String
         /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN.
@@ -1137,6 +1427,14 @@ extension StorageGateway {
         public init(initiatorName: String, targetARN: String) {
             self.initiatorName = initiatorName
             self.targetARN = targetARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(initiatorName, name:"initiatorName", parent: name, max: 255)
+            try validate(initiatorName, name:"initiatorName", parent: name, min: 1)
+            try validate(initiatorName, name:"initiatorName", parent: name, pattern: "[0-9a-z:.-]+")
+            try validate(targetARN, name:"targetARN", parent: name, max: 800)
+            try validate(targetARN, name:"targetARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1150,6 +1448,7 @@ extension StorageGateway {
             AWSShapeMember(label: "InitiatorName", required: false, type: .string), 
             AWSShapeMember(label: "TargetARN", required: false, type: .string)
         ]
+
         /// The iSCSI initiator that connects to the target.
         public let initiatorName: String?
         /// The Amazon Resource Name (ARN) of the target.
@@ -1171,6 +1470,7 @@ extension StorageGateway {
             AWSShapeMember(label: "FileShareARN", required: true, type: .string), 
             AWSShapeMember(label: "ForceDelete", required: false, type: .boolean)
         ]
+
         /// The Amazon Resource Name (ARN) of the file share to be deleted. 
         public let fileShareARN: String
         /// If this value is set to true, the operation deletes a file share immediately and aborts all data uploads to AWS. Otherwise, the file share is not deleted until all data is uploaded to AWS. This process aborts the data upload process, and the file share enters the FORCE_DELETING status.
@@ -1179,6 +1479,11 @@ extension StorageGateway {
         public init(fileShareARN: String, forceDelete: Bool? = nil) {
             self.fileShareARN = fileShareARN
             self.forceDelete = forceDelete
+        }
+
+        public func validate(name: String) throws {
+            try validate(fileShareARN, name:"fileShareARN", parent: name, max: 500)
+            try validate(fileShareARN, name:"fileShareARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1191,6 +1496,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileShareARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the deleted file share. 
         public let fileShareARN: String?
 
@@ -1207,10 +1513,16 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
+
         public let gatewayARN: String
 
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1222,6 +1534,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
+
         public let gatewayARN: String?
 
         public init(gatewayARN: String? = nil) {
@@ -1237,11 +1550,17 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
+
         /// The volume which snapshot schedule to delete.
         public let volumeARN: String
 
         public init(volumeARN: String) {
             self.volumeARN = volumeARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(volumeARN, name:"volumeARN", parent: name, max: 500)
+            try validate(volumeARN, name:"volumeARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1253,6 +1572,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeARN", required: false, type: .string)
         ]
+
         /// The volume which snapshot schedule was deleted.
         public let volumeARN: String?
 
@@ -1269,11 +1589,18 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the virtual tape to delete from the virtual tape shelf (VTS).
         public let tapeARN: String
 
         public init(tapeARN: String) {
             self.tapeARN = tapeARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(tapeARN, name:"tapeARN", parent: name, max: 500)
+            try validate(tapeARN, name:"tapeARN", parent: name, min: 50)
+            try validate(tapeARN, name:"tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1285,6 +1612,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the virtual tape that was deleted from the virtual tape shelf (VTS).
         public let tapeARN: String?
 
@@ -1302,6 +1630,7 @@ extension StorageGateway {
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "TapeARN", required: true, type: .string)
         ]
+
         /// The unique Amazon Resource Name (ARN) of the gateway that the virtual tape to delete is associated with. Use the ListGateways operation to return a list of gateways for your account and region.
         public let gatewayARN: String
         /// The Amazon Resource Name (ARN) of the virtual tape to delete.
@@ -1310,6 +1639,14 @@ extension StorageGateway {
         public init(gatewayARN: String, tapeARN: String) {
             self.gatewayARN = gatewayARN
             self.tapeARN = tapeARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(tapeARN, name:"tapeARN", parent: name, max: 500)
+            try validate(tapeARN, name:"tapeARN", parent: name, min: 50)
+            try validate(tapeARN, name:"tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1322,6 +1659,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the deleted virtual tape.
         public let tapeARN: String?
 
@@ -1338,11 +1676,17 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
         public let volumeARN: String
 
         public init(volumeARN: String) {
             self.volumeARN = volumeARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(volumeARN, name:"volumeARN", parent: name, max: 500)
+            try validate(volumeARN, name:"volumeARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1354,6 +1698,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the storage volume that was deleted. It is the same ARN you provided in the request.
         public let volumeARN: String?
 
@@ -1370,10 +1715,16 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
+
         public let gatewayARN: String
 
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1387,6 +1738,7 @@ extension StorageGateway {
             AWSShapeMember(label: "AverageUploadRateLimitInBitsPerSec", required: false, type: .long), 
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
+
         /// The average download bandwidth rate limit in bits per second. This field does not appear in the response if the download rate limit is not set.
         public let averageDownloadRateLimitInBitsPerSec: Int64?
         /// The average upload bandwidth rate limit in bits per second. This field does not appear in the response if the upload rate limit is not set.
@@ -1410,10 +1762,16 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
+
         public let gatewayARN: String
 
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1431,6 +1789,7 @@ extension StorageGateway {
             AWSShapeMember(label: "DiskIds", required: false, type: .list), 
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
+
         /// The amount of cache in bytes allocated to the a gateway.
         public let cacheAllocatedInBytes: Int64?
         /// The file share's contribution to the overall percentage of the gateway's cache that has not been persisted to AWS. The sample is taken at the end of the reporting period.
@@ -1470,11 +1829,19 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeARNs", required: true, type: .list)
         ]
+
         /// An array of strings where each string represents the Amazon Resource Name (ARN) of a cached volume. All of the specified cached volumes must from the same gateway. Use ListVolumes to get volume ARNs for a gateway.
         public let volumeARNs: [String]
 
         public init(volumeARNs: [String]) {
             self.volumeARNs = volumeARNs
+        }
+
+        public func validate(name: String) throws {
+            try volumeARNs.forEach {
+                try validate($0, name: "volumeARNs[]", parent: name, max: 500)
+                try validate($0, name: "volumeARNs[]", parent: name, min: 50)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1486,6 +1853,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CachediSCSIVolumes", required: false, type: .list)
         ]
+
         /// An array of objects where each object contains metadata about one cached volume.
         public let cachediSCSIVolumes: [CachediSCSIVolume]?
 
@@ -1502,11 +1870,17 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetARN", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN.
         public let targetARN: String
 
         public init(targetARN: String) {
             self.targetARN = targetARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(targetARN, name:"targetARN", parent: name, max: 800)
+            try validate(targetARN, name:"targetARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1518,6 +1892,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChapCredentials", required: false, type: .list)
         ]
+
         /// An array of ChapInfo objects that represent CHAP credentials. Each object in the array contains CHAP credential information for one target-initiator pair. If no CHAP credentials are set, an empty array is returned. CHAP credential information is provided in a JSON object with the following fields:    InitiatorName: The iSCSI initiator that connects to the target.    SecretToAuthenticateInitiator: The secret key that the initiator (for example, the Windows client) must provide to participate in mutual CHAP with the target.    SecretToAuthenticateTarget: The secret key that the target must provide to participate in mutual CHAP with the initiator (e.g. Windows client).    TargetARN: The Amazon Resource Name (ARN) of the storage volume.  
         public let chapCredentials: [ChapInfo]?
 
@@ -1534,10 +1909,16 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
+
         public let gatewayARN: String
 
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1561,6 +1942,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "VPCEndpoint", required: false, type: .string)
         ]
+
         /// The ID of the Amazon EC2 instance that was used to launch the gateway.
         public let ec2InstanceId: String?
         /// The AWS Region where the Amazon EC2 instance is located.
@@ -1624,10 +2006,16 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
+
         public let gatewayARN: String
 
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1644,6 +2032,7 @@ extension StorageGateway {
             AWSShapeMember(label: "MinuteOfHour", required: false, type: .integer), 
             AWSShapeMember(label: "Timezone", required: false, type: .string)
         ]
+
         /// The day of the month component of the maintenance start time represented as an ordinal number from 1 to 28, where 1 represents the first day of the month and 28 represents the last day of the month.  This value is only available for tape and volume gateways. 
         public let dayOfMonth: Int32?
         /// An ordinal number between 0 and 6 that represents the day of the week, where 0 represents Sunday and 6 represents Saturday. The day of week is in the time zone of the gateway.
@@ -1679,11 +2068,21 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileShareARNList", required: true, type: .list)
         ]
+
         /// An array containing the Amazon Resource Name (ARN) of each file share to be described. 
         public let fileShareARNList: [String]
 
         public init(fileShareARNList: [String]) {
             self.fileShareARNList = fileShareARNList
+        }
+
+        public func validate(name: String) throws {
+            try fileShareARNList.forEach {
+                try validate($0, name: "fileShareARNList[]", parent: name, max: 500)
+                try validate($0, name: "fileShareARNList[]", parent: name, min: 50)
+            }
+            try validate(fileShareARNList, name:"fileShareARNList", parent: name, max: 10)
+            try validate(fileShareARNList, name:"fileShareARNList", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1695,6 +2094,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NFSFileShareInfoList", required: false, type: .list)
         ]
+
         /// An array containing a description for each requested file share. 
         public let nFSFileShareInfoList: [NFSFileShareInfo]?
 
@@ -1711,11 +2111,21 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileShareARNList", required: true, type: .list)
         ]
+
         /// An array containing the Amazon Resource Name (ARN) of each file share to be described. 
         public let fileShareARNList: [String]
 
         public init(fileShareARNList: [String]) {
             self.fileShareARNList = fileShareARNList
+        }
+
+        public func validate(name: String) throws {
+            try fileShareARNList.forEach {
+                try validate($0, name: "fileShareARNList[]", parent: name, max: 500)
+                try validate($0, name: "fileShareARNList[]", parent: name, min: 50)
+            }
+            try validate(fileShareARNList, name:"fileShareARNList", parent: name, max: 10)
+            try validate(fileShareARNList, name:"fileShareARNList", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1727,6 +2137,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SMBFileShareInfoList", required: false, type: .list)
         ]
+
         /// An array containing a description for each requested file share. 
         public let sMBFileShareInfoList: [SMBFileShareInfo]?
 
@@ -1743,10 +2154,16 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
+
         public let gatewayARN: String
 
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1761,6 +2178,7 @@ extension StorageGateway {
             AWSShapeMember(label: "SMBGuestPasswordSet", required: false, type: .boolean), 
             AWSShapeMember(label: "SMBSecurityStrategy", required: false, type: .enum)
         ]
+
         /// The name of the domain that the gateway is joined to.
         public let domainName: String?
         public let gatewayARN: String?
@@ -1788,11 +2206,17 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
         public let volumeARN: String
 
         public init(volumeARN: String) {
             self.volumeARN = volumeARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(volumeARN, name:"volumeARN", parent: name, max: 500)
+            try validate(volumeARN, name:"volumeARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1808,6 +2232,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Timezone", required: false, type: .string), 
             AWSShapeMember(label: "VolumeARN", required: false, type: .string)
         ]
+
         /// The snapshot description.
         public let description: String?
         /// The number of hours between snapshots.
@@ -1840,11 +2265,19 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeARNs", required: true, type: .list)
         ]
+
         /// An array of strings where each string represents the Amazon Resource Name (ARN) of a stored volume. All of the specified stored volumes must from the same gateway. Use ListVolumes to get volume ARNs for a gateway.
         public let volumeARNs: [String]
 
         public init(volumeARNs: [String]) {
             self.volumeARNs = volumeARNs
+        }
+
+        public func validate(name: String) throws {
+            try volumeARNs.forEach {
+                try validate($0, name: "volumeARNs[]", parent: name, max: 500)
+                try validate($0, name: "volumeARNs[]", parent: name, min: 50)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1856,6 +2289,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StorediSCSIVolumes", required: false, type: .list)
         ]
+
         /// Describes a single unit of output from DescribeStorediSCSIVolumes. The following fields are returned:    ChapEnabled: Indicates whether mutual CHAP is enabled for the iSCSI target.    LunNumber: The logical disk number.    NetworkInterfaceId: The network interface ID of the stored volume that initiator use to map the stored volume as an iSCSI target.    NetworkInterfacePort: The port used to communicate with iSCSI targets.    PreservedExistingData: Indicates if when the stored volume was created, existing data on the underlying local disk was preserved.    SourceSnapshotId: If the stored volume was created from a snapshot, this field contains the snapshot ID used, e.g. snap-1122aabb. Otherwise, this field is not included.    StorediSCSIVolumes: An array of StorediSCSIVolume objects where each object contains metadata about one stored volume.    TargetARN: The Amazon Resource Name (ARN) of the volume target.    VolumeARN: The Amazon Resource Name (ARN) of the stored volume.    VolumeDiskId: The disk ID of the local disk that was specified in the CreateStorediSCSIVolume operation.    VolumeId: The unique identifier of the storage volume, e.g. vol-1122AABB.    VolumeiSCSIAttributes: An VolumeiSCSIAttributes object that represents a collection of iSCSI attributes for one stored volume.    VolumeProgress: Represents the percentage complete if the volume is restoring or bootstrapping that represents the percent of data transferred. This field does not appear in the response if the stored volume is not restoring or bootstrapping.    VolumeSizeInBytes: The size of the volume in bytes.    VolumeStatus: One of the VolumeStatus values that indicates the state of the volume.    VolumeType: One of the enumeration values describing the type of the volume. Currently, on STORED volumes are supported.  
         public let storediSCSIVolumes: [StorediSCSIVolume]?
 
@@ -1874,6 +2308,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "TapeARNs", required: false, type: .list)
         ]
+
         /// Specifies that the number of virtual tapes descried be limited to the specified number.
         public let limit: Int32?
         /// An opaque string that indicates the position at which to begin describing virtual tapes.
@@ -1885,6 +2320,17 @@ extension StorageGateway {
             self.limit = limit
             self.marker = marker
             self.tapeARNs = tapeARNs
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 1000)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try tapeARNs?.forEach {
+                try validate($0, name: "tapeARNs[]", parent: name, max: 500)
+                try validate($0, name: "tapeARNs[]", parent: name, min: 50)
+                try validate($0, name: "tapeARNs[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1899,6 +2345,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "TapeArchives", required: false, type: .list)
         ]
+
         /// An opaque string that indicates the position at which the virtual tapes that were fetched for description ended. Use this marker in your next request to fetch the next set of virtual tapes in the virtual tape shelf (VTS). If there are no more virtual tapes to describe, this field does not appear in the response.
         public let marker: String?
         /// An array of virtual tape objects in the virtual tape shelf (VTS). The description includes of the Amazon Resource Name (ARN) of the virtual tapes. The information returned includes the Amazon Resource Names (ARNs) of the tapes, size of the tapes, status of the tapes, progress of the description and tape barcode.
@@ -1921,6 +2368,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         public let gatewayARN: String
         /// Specifies that the number of virtual tape recovery points that are described be limited to the specified number.
         public let limit: Int32?
@@ -1931,6 +2379,14 @@ extension StorageGateway {
             self.gatewayARN = gatewayARN
             self.limit = limit
             self.marker = marker
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 1000)
+            try validate(marker, name:"marker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1946,6 +2402,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "TapeRecoveryPointInfos", required: false, type: .list)
         ]
+
         public let gatewayARN: String?
         /// An opaque string that indicates the position at which the virtual tape recovery points that were listed for description ended. Use this marker in your next request to list the next set of virtual tape recovery points in the list. If there are no more recovery points to describe, this field does not appear in the response.
         public let marker: String?
@@ -1972,6 +2429,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "TapeARNs", required: false, type: .list)
         ]
+
         public let gatewayARN: String
         /// Specifies that the number of virtual tapes described be limited to the specified number.  Amazon Web Services may impose its own limit, if this field is not set. 
         public let limit: Int32?
@@ -1987,6 +2445,19 @@ extension StorageGateway {
             self.tapeARNs = tapeARNs
         }
 
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 1000)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try tapeARNs?.forEach {
+                try validate($0, name: "tapeARNs[]", parent: name, max: 500)
+                try validate($0, name: "tapeARNs[]", parent: name, min: 50)
+                try validate($0, name: "tapeARNs[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
             case limit = "Limit"
@@ -2000,6 +2471,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Tapes", required: false, type: .list)
         ]
+
         /// An opaque string which can be used as part of a subsequent DescribeTapes call to retrieve the next page of results. If a response does not contain a marker, then there are no more results to be retrieved.
         public let marker: String?
         /// An array of virtual tape descriptions.
@@ -2020,10 +2492,16 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
+
         public let gatewayARN: String
 
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2038,6 +2516,7 @@ extension StorageGateway {
             AWSShapeMember(label: "UploadBufferAllocatedInBytes", required: false, type: .long), 
             AWSShapeMember(label: "UploadBufferUsedInBytes", required: false, type: .long)
         ]
+
         /// An array of the gateway's local disk IDs that are configured as working storage. Each local disk ID is specified as a string (minimum length of 1 and maximum length of 300). If no local disks are configured as working storage, then the DiskIds array is empty.
         public let diskIds: [String]?
         public let gatewayARN: String?
@@ -2068,6 +2547,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "VTLDeviceARNs", required: false, type: .list)
         ]
+
         public let gatewayARN: String
         /// Specifies that the number of VTL devices described be limited to the specified number.
         public let limit: Int32?
@@ -2081,6 +2561,18 @@ extension StorageGateway {
             self.limit = limit
             self.marker = marker
             self.vTLDeviceARNs = vTLDeviceARNs
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 1000)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try vTLDeviceARNs?.forEach {
+                try validate($0, name: "vTLDeviceARNs[]", parent: name, max: 500)
+                try validate($0, name: "vTLDeviceARNs[]", parent: name, min: 50)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2097,6 +2589,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "VTLDevices", required: false, type: .list)
         ]
+
         public let gatewayARN: String?
         /// An opaque string that indicates the position at which the VTL devices that were fetched for description ended. Use the marker in your next request to fetch the next set of VTL devices in the list. If there are no more VTL devices to describe, this field does not appear in the response.
         public let marker: String?
@@ -2120,10 +2613,16 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
+
         public let gatewayARN: String
 
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2138,6 +2637,7 @@ extension StorageGateway {
             AWSShapeMember(label: "WorkingStorageAllocatedInBytes", required: false, type: .long), 
             AWSShapeMember(label: "WorkingStorageUsedInBytes", required: false, type: .long)
         ]
+
         /// An array of the gateway's local disk IDs that are configured as working storage. Each local disk ID is specified as a string (minimum length of 1 and maximum length of 300). If no local disks are configured as working storage, then the DiskIds array is empty.
         public let diskIds: [String]?
         public let gatewayARN: String?
@@ -2166,6 +2666,7 @@ extension StorageGateway {
             AWSShapeMember(label: "ForceDetach", required: false, type: .boolean), 
             AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
+
         /// Set to true to forcibly remove the iSCSI connection of the target volume and detach the volume. The default is false. If this value is set to false, you must manually disconnect the iSCSI connection from the target volume.
         public let forceDetach: Bool?
         /// The Amazon Resource Name (ARN) of the volume to detach from the gateway.
@@ -2174,6 +2675,11 @@ extension StorageGateway {
         public init(forceDetach: Bool? = nil, volumeARN: String) {
             self.forceDetach = forceDetach
             self.volumeARN = volumeARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(volumeARN, name:"volumeARN", parent: name, max: 500)
+            try validate(volumeARN, name:"volumeARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2186,6 +2692,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the volume that was detached.
         public let volumeARN: String?
 
@@ -2205,6 +2712,7 @@ extension StorageGateway {
             AWSShapeMember(label: "NetworkInterfacePort", required: false, type: .integer), 
             AWSShapeMember(label: "TargetARN", required: false, type: .string)
         ]
+
         /// Indicates whether mutual CHAP is enabled for the iSCSI target.
         public let chapEnabled: Bool?
         /// The network interface identifier of the VTL device.
@@ -2233,10 +2741,16 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
+
         public let gatewayARN: String
 
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2248,6 +2762,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
+
         /// The unique Amazon Resource Name (ARN) of the disabled gateway.
         public let gatewayARN: String?
 
@@ -2271,6 +2786,7 @@ extension StorageGateway {
             AWSShapeMember(label: "DiskSizeInBytes", required: false, type: .long), 
             AWSShapeMember(label: "DiskStatus", required: false, type: .string)
         ]
+
         /// The iSCSI qualified name (IQN) that is defined for a disk. This field is not included in the response if the local disk is not defined as an iSCSI target. The format of this field is targetIqn::LUNNumber::region-volumeId. 
         public let diskAllocationResource: String?
         public let diskAllocationType: String?
@@ -2309,71 +2825,6 @@ extension StorageGateway {
         }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case activationkeyexpired = "ActivationKeyExpired"
-        case activationkeyinvalid = "ActivationKeyInvalid"
-        case activationkeynotfound = "ActivationKeyNotFound"
-        case gatewayinternalerror = "GatewayInternalError"
-        case gatewaynotconnected = "GatewayNotConnected"
-        case gatewaynotfound = "GatewayNotFound"
-        case gatewayproxynetworkconnectionbusy = "GatewayProxyNetworkConnectionBusy"
-        case authenticationfailure = "AuthenticationFailure"
-        case bandwidththrottleschedulenotfound = "BandwidthThrottleScheduleNotFound"
-        case blocked = "Blocked"
-        case cannotexportsnapshot = "CannotExportSnapshot"
-        case chapcredentialnotfound = "ChapCredentialNotFound"
-        case diskalreadyallocated = "DiskAlreadyAllocated"
-        case diskdoesnotexist = "DiskDoesNotExist"
-        case disksizegreaterthanvolumemaxsize = "DiskSizeGreaterThanVolumeMaxSize"
-        case disksizelessthanvolumesize = "DiskSizeLessThanVolumeSize"
-        case disksizenotgigaligned = "DiskSizeNotGigAligned"
-        case duplicatecertificateinfo = "DuplicateCertificateInfo"
-        case duplicateschedule = "DuplicateSchedule"
-        case endpointnotfound = "EndpointNotFound"
-        case iamnotsupported = "IAMNotSupported"
-        case initiatorinvalid = "InitiatorInvalid"
-        case initiatornotfound = "InitiatorNotFound"
-        case internalerror = "InternalError"
-        case invalidgateway = "InvalidGateway"
-        case invalidendpoint = "InvalidEndpoint"
-        case invalidparameters = "InvalidParameters"
-        case invalidschedule = "InvalidSchedule"
-        case localstoragelimitexceeded = "LocalStorageLimitExceeded"
-        case lunalreadyallocated = "LunAlreadyAllocated "
-        case luninvalid = "LunInvalid"
-        case maximumcontentlengthexceeded = "MaximumContentLengthExceeded"
-        case maximumtapecartridgecountexceeded = "MaximumTapeCartridgeCountExceeded"
-        case maximumvolumecountexceeded = "MaximumVolumeCountExceeded"
-        case networkconfigurationchanged = "NetworkConfigurationChanged"
-        case nodisksavailable = "NoDisksAvailable"
-        case notimplemented = "NotImplemented"
-        case notsupported = "NotSupported"
-        case operationaborted = "OperationAborted"
-        case outdatedgateway = "OutdatedGateway"
-        case parametersnotimplemented = "ParametersNotImplemented"
-        case regioninvalid = "RegionInvalid"
-        case requesttimeout = "RequestTimeout"
-        case serviceunavailable = "ServiceUnavailable"
-        case snapshotdeleted = "SnapshotDeleted"
-        case snapshotidinvalid = "SnapshotIdInvalid"
-        case snapshotinprogress = "SnapshotInProgress"
-        case snapshotnotfound = "SnapshotNotFound"
-        case snapshotschedulenotfound = "SnapshotScheduleNotFound"
-        case stagingareafull = "StagingAreaFull"
-        case storagefailure = "StorageFailure"
-        case tapecartridgenotfound = "TapeCartridgeNotFound"
-        case targetalreadyexists = "TargetAlreadyExists"
-        case targetinvalid = "TargetInvalid"
-        case targetnotfound = "TargetNotFound"
-        case unauthorizedoperation = "UnauthorizedOperation"
-        case volumealreadyexists = "VolumeAlreadyExists"
-        case volumeidinvalid = "VolumeIdInvalid"
-        case volumeinuse = "VolumeInUse"
-        case volumenotfound = "VolumeNotFound"
-        case volumenotready = "VolumeNotReady"
-        public var description: String { return self.rawValue }
-    }
-
     public struct FileShareInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileShareARN", required: false, type: .string), 
@@ -2382,6 +2833,7 @@ extension StorageGateway {
             AWSShapeMember(label: "FileShareType", required: false, type: .enum), 
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
+
         public let fileShareARN: String?
         public let fileShareId: String?
         public let fileShareStatus: String?
@@ -2421,6 +2873,7 @@ extension StorageGateway {
             AWSShapeMember(label: "GatewayOperationalState", required: false, type: .string), 
             AWSShapeMember(label: "GatewayType", required: false, type: .string)
         ]
+
         /// The ID of the Amazon EC2 instance that was used to launch the gateway.
         public let ec2InstanceId: String?
         /// The AWS Region where the Amazon EC2 instance is located.
@@ -2466,6 +2919,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Password", required: true, type: .string), 
             AWSShapeMember(label: "UserName", required: true, type: .string)
         ]
+
         /// List of IPv4 addresses, NetBIOS names, or host names of your domain server. If you need to specify the port number include it after the colon (“:”). For example, mydc.mydomain.com:389.
         public let domainControllers: [String]?
         /// The name of the domain that you want the gateway to join.
@@ -2488,6 +2942,25 @@ extension StorageGateway {
             self.userName = userName
         }
 
+        public func validate(name: String) throws {
+            try domainControllers?.forEach {
+                try validate($0, name: "domainControllers[]", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])(:(\\d+))?$")
+            }
+            try validate(domainName, name:"domainName", parent: name, max: 1024)
+            try validate(domainName, name:"domainName", parent: name, min: 1)
+            try validate(domainName, name:"domainName", parent: name, pattern: "^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z]{2,}$")
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(organizationalUnit, name:"organizationalUnit", parent: name, max: 1024)
+            try validate(organizationalUnit, name:"organizationalUnit", parent: name, min: 1)
+            try validate(password, name:"password", parent: name, max: 1024)
+            try validate(password, name:"password", parent: name, min: 1)
+            try validate(password, name:"password", parent: name, pattern: "^[ -~]+$")
+            try validate(userName, name:"userName", parent: name, max: 1024)
+            try validate(userName, name:"userName", parent: name, min: 1)
+            try validate(userName, name:"userName", parent: name, pattern: "^\\w[\\w\\.\\- ]*$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case domainControllers = "DomainControllers"
             case domainName = "DomainName"
@@ -2502,6 +2975,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
+
         /// The unique Amazon Resource Name (ARN) of the gateway that joined the domain.
         public let gatewayARN: String?
 
@@ -2520,6 +2994,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// The Amazon resource Name (ARN) of the gateway whose file shares you want to list. If this field is not present, all file shares under your account are listed.
         public let gatewayARN: String?
         /// The maximum number of file shares to return in the response. The value must be an integer with a value greater than zero. Optional.
@@ -2531,6 +3006,14 @@ extension StorageGateway {
             self.gatewayARN = gatewayARN
             self.limit = limit
             self.marker = marker
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 1000)
+            try validate(marker, name:"marker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2546,6 +3029,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// An array of information about the file gateway's file shares. 
         public let fileShareInfoList: [FileShareInfo]?
         /// If the request includes Marker, the response returns that value in this field. 
@@ -2571,6 +3055,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// Specifies that the list of gateways returned be limited to the specified number of items.
         public let limit: Int32?
         /// An opaque string that indicates the position at which to begin the returned list of gateways.
@@ -2579,6 +3064,12 @@ extension StorageGateway {
         public init(limit: Int32? = nil, marker: String? = nil) {
             self.limit = limit
             self.marker = marker
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 1000)
+            try validate(marker, name:"marker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2592,6 +3083,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Gateways", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// An array of GatewayInfo objects.
         public let gateways: [GatewayInfo]?
         /// Use the marker in your next request to fetch the next set of gateways in the list. If there are no more gateways to list, this field does not appear in the response.
@@ -2612,10 +3104,16 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
+
         public let gatewayARN: String
 
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2628,6 +3126,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Disks", required: false, type: .list), 
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
+
         /// A JSON object containing the following fields:    ListLocalDisksOutput$Disks   
         public let disks: [Disk]?
         public let gatewayARN: String?
@@ -2649,6 +3148,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "ResourceARN", required: true, type: .string)
         ]
+
         /// Specifies that the list of tags returned be limited to the specified number of items.
         public let limit: Int32?
         /// An opaque string that indicates the position at which to begin returning the list of tags.
@@ -2660,6 +3160,14 @@ extension StorageGateway {
             self.limit = limit
             self.marker = marker
             self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 1000)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 500)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2675,6 +3183,7 @@ extension StorageGateway {
             AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// An opaque string that indicates the position at which to stop returning the list of tags.
         public let marker: String?
         /// he Amazon Resource Name (ARN) of the resource for which you want to list tags.
@@ -2701,6 +3210,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "TapeARNs", required: false, type: .list)
         ]
+
         /// An optional number limit for the tapes in the list returned by this call.
         public let limit: Int32?
         /// A string that indicates the position at which to begin the returned list of tapes.
@@ -2711,6 +3221,17 @@ extension StorageGateway {
             self.limit = limit
             self.marker = marker
             self.tapeARNs = tapeARNs
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 1000)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try tapeARNs?.forEach {
+                try validate($0, name: "tapeARNs[]", parent: name, max: 500)
+                try validate($0, name: "tapeARNs[]", parent: name, min: 50)
+                try validate($0, name: "tapeARNs[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2725,6 +3246,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "TapeInfos", required: false, type: .list)
         ]
+
         /// A string that indicates the position at which to begin returning the next list of tapes. Use the marker in your next request to continue pagination of tapes. If there are no more tapes to list, this element does not appear in the response body.
         public let marker: String?
         public let tapeInfos: [TapeInfo]?
@@ -2744,11 +3266,17 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes for the gateway.
         public let volumeARN: String
 
         public init(volumeARN: String) {
             self.volumeARN = volumeARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(volumeARN, name:"volumeARN", parent: name, max: 500)
+            try validate(volumeARN, name:"volumeARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2760,6 +3288,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Initiators", required: false, type: .list)
         ]
+
         /// The host names and port numbers of all iSCSI initiators that are connected to the gateway.
         public let initiators: [String]?
 
@@ -2776,10 +3305,16 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
+
         public let gatewayARN: String
 
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2792,6 +3327,7 @@ extension StorageGateway {
             AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
             AWSShapeMember(label: "VolumeRecoveryPointInfos", required: false, type: .list)
         ]
+
         public let gatewayARN: String?
         /// An array of VolumeRecoveryPointInfo objects.
         public let volumeRecoveryPointInfos: [VolumeRecoveryPointInfo]?
@@ -2813,6 +3349,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         public let gatewayARN: String?
         /// Specifies that the list of volumes returned be limited to the specified number of items.
         public let limit: Int32?
@@ -2823,6 +3360,14 @@ extension StorageGateway {
             self.gatewayARN = gatewayARN
             self.limit = limit
             self.marker = marker
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 1000)
+            try validate(marker, name:"marker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2838,6 +3383,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "VolumeInfos", required: false, type: .list)
         ]
+
         public let gatewayARN: String?
         /// Use the marker in your next request to continue pagination of iSCSI volumes. If there are no more volumes to list, this field does not appear in the response body.
         public let marker: String?
@@ -2864,6 +3410,7 @@ extension StorageGateway {
             AWSShapeMember(label: "GroupId", required: false, type: .long), 
             AWSShapeMember(label: "OwnerId", required: false, type: .long)
         ]
+
         /// The Unix directory mode in the form "nnnn". For example, "0666" represents the default access mode for all directories inside the file share. The default value is 0777.
         public let directoryMode: String?
         /// The Unix file mode in the form "nnnn". For example, "0666" represents the default file mode inside the file share. The default value is 0666. 
@@ -2878,6 +3425,19 @@ extension StorageGateway {
             self.fileMode = fileMode
             self.groupId = groupId
             self.ownerId = ownerId
+        }
+
+        public func validate(name: String) throws {
+            try validate(directoryMode, name:"directoryMode", parent: name, max: 4)
+            try validate(directoryMode, name:"directoryMode", parent: name, min: 1)
+            try validate(directoryMode, name:"directoryMode", parent: name, pattern: "^[0-7]{4}$")
+            try validate(fileMode, name:"fileMode", parent: name, max: 4)
+            try validate(fileMode, name:"fileMode", parent: name, min: 1)
+            try validate(fileMode, name:"fileMode", parent: name, pattern: "^[0-7]{4}$")
+            try validate(groupId, name:"groupId", parent: name, max: 4294967294)
+            try validate(groupId, name:"groupId", parent: name, min: 0)
+            try validate(ownerId, name:"ownerId", parent: name, max: 4294967294)
+            try validate(ownerId, name:"ownerId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2909,6 +3469,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Squash", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         public let clientList: [String]?
         /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. Possible values are S3_STANDARD, S3_STANDARD_IA, or S3_ONEZONE_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
         public let defaultStorageClass: String?
@@ -2983,6 +3544,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Ipv6Address", required: false, type: .string), 
             AWSShapeMember(label: "MacAddress", required: false, type: .string)
         ]
+
         /// The Internet Protocol version 4 (IPv4) address of the interface.
         public let ipv4Address: String?
         /// The Internet Protocol version 6 (IPv6) address of the interface. Currently not supported.
@@ -3007,10 +3569,16 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileShareARN", required: true, type: .string)
         ]
+
         public let fileShareARN: String
 
         public init(fileShareARN: String) {
             self.fileShareARN = fileShareARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(fileShareARN, name:"fileShareARN", parent: name, max: 500)
+            try validate(fileShareARN, name:"fileShareARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3023,6 +3591,7 @@ extension StorageGateway {
             AWSShapeMember(label: "FileShareARN", required: false, type: .string), 
             AWSShapeMember(label: "NotificationId", required: false, type: .string)
         ]
+
         public let fileShareARN: String?
         public let notificationId: String?
 
@@ -3054,6 +3623,7 @@ extension StorageGateway {
             AWSShapeMember(label: "FolderList", required: false, type: .list), 
             AWSShapeMember(label: "Recursive", required: false, type: .boolean)
         ]
+
         /// The Amazon Resource Name (ARN) of the file share you want to refresh.
         public let fileShareARN: String
         /// A comma-separated list of the paths of folders to refresh in the cache. The default is ["/"]. The default refreshes objects and folders at the root of the Amazon S3 bucket. If Recursive is set to "true", the entire S3 bucket that the file share has access to is refreshed.
@@ -3065,6 +3635,17 @@ extension StorageGateway {
             self.fileShareARN = fileShareARN
             self.folderList = folderList
             self.recursive = recursive
+        }
+
+        public func validate(name: String) throws {
+            try validate(fileShareARN, name:"fileShareARN", parent: name, max: 500)
+            try validate(fileShareARN, name:"fileShareARN", parent: name, min: 50)
+            try folderList?.forEach {
+                try validate($0, name: "folderList[]", parent: name, max: 1024)
+                try validate($0, name: "folderList[]", parent: name, min: 1)
+            }
+            try validate(folderList, name:"folderList", parent: name, max: 50)
+            try validate(folderList, name:"folderList", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3079,6 +3660,7 @@ extension StorageGateway {
             AWSShapeMember(label: "FileShareARN", required: false, type: .string), 
             AWSShapeMember(label: "NotificationId", required: false, type: .string)
         ]
+
         public let fileShareARN: String?
         public let notificationId: String?
 
@@ -3098,6 +3680,7 @@ extension StorageGateway {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
+
         /// The Amazon Resource Name (ARN) of the resource you want to remove the tags from.
         public let resourceARN: String
         /// The keys of the tags you want to remove from the specified resource. A tag is composed of a key/value pair.
@@ -3106,6 +3689,16 @@ extension StorageGateway {
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 500)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 50)
+            try tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3118,6 +3711,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the resource that the tags were removed from.
         public let resourceARN: String?
 
@@ -3134,10 +3728,16 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
+
         public let gatewayARN: String
 
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3149,6 +3749,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
+
         public let gatewayARN: String?
 
         public init(gatewayARN: String? = nil) {
@@ -3165,6 +3766,7 @@ extension StorageGateway {
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "TapeARN", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the gateway you want to retrieve the virtual tape to. Use the ListGateways operation to return a list of gateways for your account and region. You retrieve archived virtual tapes to only one gateway and the gateway must be a tape gateway.
         public let gatewayARN: String
         /// The Amazon Resource Name (ARN) of the virtual tape you want to retrieve from the virtual tape shelf (VTS).
@@ -3173,6 +3775,14 @@ extension StorageGateway {
         public init(gatewayARN: String, tapeARN: String) {
             self.gatewayARN = gatewayARN
             self.tapeARN = tapeARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(tapeARN, name:"tapeARN", parent: name, max: 500)
+            try validate(tapeARN, name:"tapeARN", parent: name, min: 50)
+            try validate(tapeARN, name:"tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3185,6 +3795,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the retrieved virtual tape.
         public let tapeARN: String?
 
@@ -3202,6 +3813,7 @@ extension StorageGateway {
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "TapeARN", required: true, type: .string)
         ]
+
         public let gatewayARN: String
         /// The Amazon Resource Name (ARN) of the virtual tape for which you want to retrieve the recovery point.
         public let tapeARN: String
@@ -3209,6 +3821,14 @@ extension StorageGateway {
         public init(gatewayARN: String, tapeARN: String) {
             self.gatewayARN = gatewayARN
             self.tapeARN = tapeARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(tapeARN, name:"tapeARN", parent: name, max: 500)
+            try validate(tapeARN, name:"tapeARN", parent: name, min: 50)
+            try validate(tapeARN, name:"tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3221,6 +3841,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the virtual tape for which the recovery point was retrieved.
         public let tapeARN: String?
 
@@ -3256,6 +3877,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "ValidUserList", required: false, type: .list)
         ]
+
         /// A list of users or groups in the Active Directory that have administrator rights to the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
         public let adminUserList: [String]?
         public let authentication: String?
@@ -3347,6 +3969,7 @@ extension StorageGateway {
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "LocalConsolePassword", required: true, type: .string)
         ]
+
         public let gatewayARN: String
         /// The password you want to set for your VM local console.
         public let localConsolePassword: String
@@ -3354,6 +3977,14 @@ extension StorageGateway {
         public init(gatewayARN: String, localConsolePassword: String) {
             self.gatewayARN = gatewayARN
             self.localConsolePassword = localConsolePassword
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(localConsolePassword, name:"localConsolePassword", parent: name, max: 512)
+            try validate(localConsolePassword, name:"localConsolePassword", parent: name, min: 6)
+            try validate(localConsolePassword, name:"localConsolePassword", parent: name, pattern: "^[ -~]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3366,6 +3997,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
+
         public let gatewayARN: String?
 
         public init(gatewayARN: String? = nil) {
@@ -3382,6 +4014,7 @@ extension StorageGateway {
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "Password", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the file gateway the SMB file share is associated with.
         public let gatewayARN: String
         /// The password that you want to set for your SMB Server.
@@ -3390,6 +4023,14 @@ extension StorageGateway {
         public init(gatewayARN: String, password: String) {
             self.gatewayARN = gatewayARN
             self.password = password
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(password, name:"password", parent: name, max: 512)
+            try validate(password, name:"password", parent: name, min: 6)
+            try validate(password, name:"password", parent: name, pattern: "^[ -~]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3402,6 +4043,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
+
         public let gatewayARN: String?
 
         public init(gatewayARN: String? = nil) {
@@ -3417,10 +4059,16 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
+
         public let gatewayARN: String
 
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3432,6 +4080,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
+
         public let gatewayARN: String?
 
         public init(gatewayARN: String? = nil) {
@@ -3447,10 +4096,16 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
+
         public let gatewayARN: String
 
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3462,6 +4117,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
+
         public let gatewayARN: String?
 
         public init(gatewayARN: String? = nil) {
@@ -3470,27 +4126,6 @@ extension StorageGateway {
 
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct StorageGatewayError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errorCode", required: false, type: .enum), 
-            AWSShapeMember(label: "errorDetails", required: false, type: .map)
-        ]
-        /// Additional information about the error.
-        public let errorCode: ErrorCode?
-        /// Human-readable text that provides detail about the error that occurred.
-        public let errorDetails: [String: String]?
-
-        public init(errorCode: ErrorCode? = nil, errorDetails: [String: String]? = nil) {
-            self.errorCode = errorCode
-            self.errorDetails = errorDetails
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case errorDetails = "errorDetails"
         }
     }
 
@@ -3512,6 +4147,7 @@ extension StorageGateway {
             AWSShapeMember(label: "VolumeType", required: false, type: .string), 
             AWSShapeMember(label: "VolumeUsedInBytes", required: false, type: .long)
         ]
+
         /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this time stamp.
         public let createdDate: TimeStamp?
         public let kMSKey: String?
@@ -3584,6 +4220,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         /// Tag key (String). The key can't start with aws:. 
         public let key: String
         /// Value of the tag key.
@@ -3592,6 +4229,13 @@ extension StorageGateway {
         public init(key: String, value: String) {
             self.key = key
             self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(value, name:"value", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3613,6 +4257,7 @@ extension StorageGateway {
             AWSShapeMember(label: "TapeUsedInBytes", required: false, type: .long), 
             AWSShapeMember(label: "VTLDevice", required: false, type: .string)
         ]
+
         public let kMSKey: String?
         /// The ID of the pool that contains tapes that will be archived. The tapes in this pool are archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (Glacier or Deep Archive) that corresponds to the pool. Valid values: "GLACIER", "DEEP_ARCHIVE"
         public let poolId: String?
@@ -3673,6 +4318,7 @@ extension StorageGateway {
             AWSShapeMember(label: "TapeStatus", required: false, type: .string), 
             AWSShapeMember(label: "TapeUsedInBytes", required: false, type: .long)
         ]
+
         /// The time that the archiving of the virtual tape was completed. The default time stamp format is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
         public let completionTime: TimeStamp?
         public let kMSKey: String?
@@ -3729,6 +4375,7 @@ extension StorageGateway {
             AWSShapeMember(label: "TapeSizeInBytes", required: false, type: .long), 
             AWSShapeMember(label: "TapeStatus", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and region.
         public let gatewayARN: String?
         /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (Glacier or Deep Archive) that corresponds to the pool. Valid values: "GLACIER", "DEEP_ARCHIVE"
@@ -3768,6 +4415,7 @@ extension StorageGateway {
             AWSShapeMember(label: "TapeSizeInBytes", required: false, type: .long), 
             AWSShapeMember(label: "TapeStatus", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the virtual tape.
         public let tapeARN: String?
         /// The time when the point-in-time view of the virtual tape was replicated for later recovery. The default time stamp format of the tape recovery point time is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
@@ -3798,6 +4446,7 @@ extension StorageGateway {
             AWSShapeMember(label: "AverageUploadRateLimitInBitsPerSec", required: false, type: .long), 
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
+
         /// The average download bandwidth rate limit in bits per second.
         public let averageDownloadRateLimitInBitsPerSec: Int64?
         /// The average upload bandwidth rate limit in bits per second.
@@ -3808,6 +4457,13 @@ extension StorageGateway {
             self.averageDownloadRateLimitInBitsPerSec = averageDownloadRateLimitInBitsPerSec
             self.averageUploadRateLimitInBitsPerSec = averageUploadRateLimitInBitsPerSec
             self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(averageDownloadRateLimitInBitsPerSec, name:"averageDownloadRateLimitInBitsPerSec", parent: name, min: 102400)
+            try validate(averageUploadRateLimitInBitsPerSec, name:"averageUploadRateLimitInBitsPerSec", parent: name, min: 51200)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3821,6 +4477,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
+
         public let gatewayARN: String?
 
         public init(gatewayARN: String? = nil) {
@@ -3839,6 +4496,7 @@ extension StorageGateway {
             AWSShapeMember(label: "SecretToAuthenticateTarget", required: false, type: .string), 
             AWSShapeMember(label: "TargetARN", required: true, type: .string)
         ]
+
         /// The iSCSI initiator that connects to the target.
         public let initiatorName: String
         /// The secret key that the initiator (for example, the Windows client) must provide to participate in mutual CHAP with the target.  The secret key must be between 12 and 16 bytes when encoded in UTF-8. 
@@ -3855,6 +4513,18 @@ extension StorageGateway {
             self.targetARN = targetARN
         }
 
+        public func validate(name: String) throws {
+            try validate(initiatorName, name:"initiatorName", parent: name, max: 255)
+            try validate(initiatorName, name:"initiatorName", parent: name, min: 1)
+            try validate(initiatorName, name:"initiatorName", parent: name, pattern: "[0-9a-z:.-]+")
+            try validate(secretToAuthenticateInitiator, name:"secretToAuthenticateInitiator", parent: name, max: 100)
+            try validate(secretToAuthenticateInitiator, name:"secretToAuthenticateInitiator", parent: name, min: 1)
+            try validate(secretToAuthenticateTarget, name:"secretToAuthenticateTarget", parent: name, max: 100)
+            try validate(secretToAuthenticateTarget, name:"secretToAuthenticateTarget", parent: name, min: 1)
+            try validate(targetARN, name:"targetARN", parent: name, max: 800)
+            try validate(targetARN, name:"targetARN", parent: name, min: 50)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case initiatorName = "InitiatorName"
             case secretToAuthenticateInitiator = "SecretToAuthenticateInitiator"
@@ -3868,6 +4538,7 @@ extension StorageGateway {
             AWSShapeMember(label: "InitiatorName", required: false, type: .string), 
             AWSShapeMember(label: "TargetARN", required: false, type: .string)
         ]
+
         /// The iSCSI initiator that connects to the target. This is the same initiator name specified in the request.
         public let initiatorName: String?
         /// The Amazon Resource Name (ARN) of the target. This is the same target specified in the request.
@@ -3890,6 +4561,7 @@ extension StorageGateway {
             AWSShapeMember(label: "GatewayName", required: false, type: .string), 
             AWSShapeMember(label: "GatewayTimezone", required: false, type: .string)
         ]
+
         public let gatewayARN: String
         public let gatewayName: String?
         /// A value that indicates the time zone of the gateway.
@@ -3899,6 +4571,16 @@ extension StorageGateway {
             self.gatewayARN = gatewayARN
             self.gatewayName = gatewayName
             self.gatewayTimezone = gatewayTimezone
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(gatewayName, name:"gatewayName", parent: name, max: 255)
+            try validate(gatewayName, name:"gatewayName", parent: name, min: 2)
+            try validate(gatewayName, name:"gatewayName", parent: name, pattern: "^[ -\\.0-\\[\\]-~]*[!-\\.0-\\[\\]-~][ -\\.0-\\[\\]-~]*$")
+            try validate(gatewayTimezone, name:"gatewayTimezone", parent: name, max: 10)
+            try validate(gatewayTimezone, name:"gatewayTimezone", parent: name, min: 3)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3913,6 +4595,7 @@ extension StorageGateway {
             AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
             AWSShapeMember(label: "GatewayName", required: false, type: .string)
         ]
+
         public let gatewayARN: String?
         /// The name you configured for your gateway.
         public let gatewayName: String?
@@ -3932,10 +4615,16 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
+
         public let gatewayARN: String
 
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3947,6 +4636,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
+
         public let gatewayARN: String?
 
         public init(gatewayARN: String? = nil) {
@@ -3966,6 +4656,7 @@ extension StorageGateway {
             AWSShapeMember(label: "HourOfDay", required: true, type: .integer), 
             AWSShapeMember(label: "MinuteOfHour", required: true, type: .integer)
         ]
+
         /// The day of the month component of the maintenance start time represented as an ordinal number from 1 to 28, where 1 represents the first day of the month and 28 represents the last day of the month.  This value is only available for tape and volume gateways. 
         public let dayOfMonth: Int32?
         /// The day of the week component of the maintenance start time week represented as an ordinal number from 0 to 6, where 0 represents Sunday and 6 Saturday.
@@ -3984,6 +4675,19 @@ extension StorageGateway {
             self.minuteOfHour = minuteOfHour
         }
 
+        public func validate(name: String) throws {
+            try validate(dayOfMonth, name:"dayOfMonth", parent: name, max: 28)
+            try validate(dayOfMonth, name:"dayOfMonth", parent: name, min: 1)
+            try validate(dayOfWeek, name:"dayOfWeek", parent: name, max: 6)
+            try validate(dayOfWeek, name:"dayOfWeek", parent: name, min: 0)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(hourOfDay, name:"hourOfDay", parent: name, max: 23)
+            try validate(hourOfDay, name:"hourOfDay", parent: name, min: 0)
+            try validate(minuteOfHour, name:"minuteOfHour", parent: name, max: 59)
+            try validate(minuteOfHour, name:"minuteOfHour", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dayOfMonth = "DayOfMonth"
             case dayOfWeek = "DayOfWeek"
@@ -3997,6 +4701,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
+
         public let gatewayARN: String?
 
         public init(gatewayARN: String? = nil) {
@@ -4022,6 +4727,7 @@ extension StorageGateway {
             AWSShapeMember(label: "RequesterPays", required: false, type: .boolean), 
             AWSShapeMember(label: "Squash", required: false, type: .string)
         ]
+
         /// The list of clients that are allowed to access the file gateway. The list must contain either valid IP addresses or valid CIDR blocks.
         public let clientList: [String]?
         /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. Possible values are S3_STANDARD, S3_STANDARD_IA, or S3_ONEZONE_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
@@ -4059,6 +4765,23 @@ extension StorageGateway {
             self.squash = squash
         }
 
+        public func validate(name: String) throws {
+            try clientList?.forEach {
+                try validate($0, name: "clientList[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))?$")
+            }
+            try validate(clientList, name:"clientList", parent: name, max: 100)
+            try validate(clientList, name:"clientList", parent: name, min: 1)
+            try validate(defaultStorageClass, name:"defaultStorageClass", parent: name, max: 20)
+            try validate(defaultStorageClass, name:"defaultStorageClass", parent: name, min: 5)
+            try validate(fileShareARN, name:"fileShareARN", parent: name, max: 500)
+            try validate(fileShareARN, name:"fileShareARN", parent: name, min: 50)
+            try validate(kMSKey, name:"kMSKey", parent: name, max: 2048)
+            try validate(kMSKey, name:"kMSKey", parent: name, min: 7)
+            try nFSFileShareDefaults?.validate(name: "\(name).nFSFileShareDefaults")
+            try validate(squash, name:"squash", parent: name, max: 15)
+            try validate(squash, name:"squash", parent: name, min: 5)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clientList = "ClientList"
             case defaultStorageClass = "DefaultStorageClass"
@@ -4078,6 +4801,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileShareARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the updated file share. 
         public let fileShareARN: String?
 
@@ -4105,6 +4829,7 @@ extension StorageGateway {
             AWSShapeMember(label: "SMBACLEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "ValidUserList", required: false, type: .list)
         ]
+
         /// A list of users or groups in the Active Directory that have administrator rights to the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
         public let adminUserList: [String]?
         /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. Possible values are S3_STANDARD, S3_STANDARD_IA, or S3_ONEZONE_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
@@ -4145,6 +4870,33 @@ extension StorageGateway {
             self.validUserList = validUserList
         }
 
+        public func validate(name: String) throws {
+            try adminUserList?.forEach {
+                try validate($0, name: "adminUserList[]", parent: name, max: 64)
+                try validate($0, name: "adminUserList[]", parent: name, min: 1)
+            }
+            try validate(adminUserList, name:"adminUserList", parent: name, max: 100)
+            try validate(adminUserList, name:"adminUserList", parent: name, min: 0)
+            try validate(defaultStorageClass, name:"defaultStorageClass", parent: name, max: 20)
+            try validate(defaultStorageClass, name:"defaultStorageClass", parent: name, min: 5)
+            try validate(fileShareARN, name:"fileShareARN", parent: name, max: 500)
+            try validate(fileShareARN, name:"fileShareARN", parent: name, min: 50)
+            try invalidUserList?.forEach {
+                try validate($0, name: "invalidUserList[]", parent: name, max: 64)
+                try validate($0, name: "invalidUserList[]", parent: name, min: 1)
+            }
+            try validate(invalidUserList, name:"invalidUserList", parent: name, max: 100)
+            try validate(invalidUserList, name:"invalidUserList", parent: name, min: 0)
+            try validate(kMSKey, name:"kMSKey", parent: name, max: 2048)
+            try validate(kMSKey, name:"kMSKey", parent: name, min: 7)
+            try validUserList?.forEach {
+                try validate($0, name: "validUserList[]", parent: name, max: 64)
+                try validate($0, name: "validUserList[]", parent: name, min: 1)
+            }
+            try validate(validUserList, name:"validUserList", parent: name, max: 100)
+            try validate(validUserList, name:"validUserList", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case adminUserList = "AdminUserList"
             case defaultStorageClass = "DefaultStorageClass"
@@ -4165,6 +4917,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileShareARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the updated SMB file share. 
         public let fileShareARN: String?
 
@@ -4182,6 +4935,7 @@ extension StorageGateway {
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "SMBSecurityStrategy", required: true, type: .enum)
         ]
+
         public let gatewayARN: String
         /// Specifies the type of security strategy. ClientSpecified: SMBv1 is enabled, SMB signing is offered but not required, SMB encryption is offered but not required. MandatorySigning: SMBv1 is disabled, SMB signing is required, SMB encryption is offered but not required. MandatoryEncryption: SMBv1 is disabled, SMB signing is offered but not required, SMB encryption is required.
         public let sMBSecurityStrategy: SMBSecurityStrategy
@@ -4189,6 +4943,11 @@ extension StorageGateway {
         public init(gatewayARN: String, sMBSecurityStrategy: SMBSecurityStrategy) {
             self.gatewayARN = gatewayARN
             self.sMBSecurityStrategy = sMBSecurityStrategy
+        }
+
+        public func validate(name: String) throws {
+            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4201,6 +4960,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
+
         public let gatewayARN: String?
 
         public init(gatewayARN: String? = nil) {
@@ -4220,6 +4980,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
+
         /// Optional description of the snapshot that overwrites the existing description.
         public let description: String?
         /// Frequency of snapshots. Specify the number of hours between snapshots.
@@ -4239,6 +5000,20 @@ extension StorageGateway {
             self.volumeARN = volumeARN
         }
 
+        public func validate(name: String) throws {
+            try validate(description, name:"description", parent: name, max: 255)
+            try validate(description, name:"description", parent: name, min: 1)
+            try validate(recurrenceInHours, name:"recurrenceInHours", parent: name, max: 24)
+            try validate(recurrenceInHours, name:"recurrenceInHours", parent: name, min: 1)
+            try validate(startAt, name:"startAt", parent: name, max: 23)
+            try validate(startAt, name:"startAt", parent: name, min: 0)
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(volumeARN, name:"volumeARN", parent: name, max: 500)
+            try validate(volumeARN, name:"volumeARN", parent: name, min: 50)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case recurrenceInHours = "RecurrenceInHours"
@@ -4252,6 +5027,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
         public let volumeARN: String?
 
@@ -4269,6 +5045,7 @@ extension StorageGateway {
             AWSShapeMember(label: "DeviceType", required: true, type: .string), 
             AWSShapeMember(label: "VTLDeviceARN", required: true, type: .string)
         ]
+
         /// The type of medium changer you want to select.  Valid Values: "STK-L700", "AWS-Gateway-VTL"
         public let deviceType: String
         /// The Amazon Resource Name (ARN) of the medium changer you want to select.
@@ -4277,6 +5054,13 @@ extension StorageGateway {
         public init(deviceType: String, vTLDeviceARN: String) {
             self.deviceType = deviceType
             self.vTLDeviceARN = vTLDeviceARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(deviceType, name:"deviceType", parent: name, max: 50)
+            try validate(deviceType, name:"deviceType", parent: name, min: 2)
+            try validate(vTLDeviceARN, name:"vTLDeviceARN", parent: name, max: 500)
+            try validate(vTLDeviceARN, name:"vTLDeviceARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4289,6 +5073,7 @@ extension StorageGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VTLDeviceARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the medium changer you have selected.
         public let vTLDeviceARN: String?
 
@@ -4309,6 +5094,7 @@ extension StorageGateway {
             AWSShapeMember(label: "VTLDeviceType", required: false, type: .string), 
             AWSShapeMember(label: "VTLDeviceVendor", required: false, type: .string)
         ]
+
         /// A list of iSCSI information about a VTL device.
         public let deviceiSCSIAttributes: DeviceiSCSIAttributes?
         /// Specifies the unique Amazon Resource Name (ARN) of the device (tape drive or media changer).
@@ -4347,6 +5133,7 @@ extension StorageGateway {
             AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long), 
             AWSShapeMember(label: "VolumeType", required: false, type: .string)
         ]
+
         public let gatewayARN: String?
         /// The unique identifier assigned to your gateway during activation. This ID becomes part of the gateway Amazon Resource Name (ARN), which you use as input for other operations.  Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
         public let gatewayId: String?
@@ -4389,6 +5176,7 @@ extension StorageGateway {
             AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long), 
             AWSShapeMember(label: "VolumeUsageInBytes", required: false, type: .long)
         ]
+
         /// The Amazon Resource Name (ARN) of the volume target.
         public let volumeARN: String?
         /// The time the recovery point was taken.
@@ -4421,6 +5209,7 @@ extension StorageGateway {
             AWSShapeMember(label: "NetworkInterfacePort", required: false, type: .integer), 
             AWSShapeMember(label: "TargetARN", required: false, type: .string)
         ]
+
         /// Indicates whether mutual CHAP is enabled for the iSCSI target.
         public let chapEnabled: Bool?
         /// The logical disk number.

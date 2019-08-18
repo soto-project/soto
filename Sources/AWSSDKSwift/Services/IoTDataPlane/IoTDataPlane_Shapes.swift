@@ -9,11 +9,18 @@ extension IoTDataPlane {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
+
         /// The name of the thing.
         public let thingName: String
 
         public init(thingName: String) {
             self.thingName = thingName
+        }
+
+        public func validate(name: String) throws {
+            try validate(thingName, name:"thingName", parent: name, max: 128)
+            try validate(thingName, name:"thingName", parent: name, min: 1)
+            try validate(thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -27,6 +34,7 @@ extension IoTDataPlane {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "payload", required: true, type: .blob)
         ]
+
         /// The state information, in JSON format.
         public let payload: Data
 
@@ -43,11 +51,18 @@ extension IoTDataPlane {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
+
         /// The name of the thing.
         public let thingName: String
 
         public init(thingName: String) {
             self.thingName = thingName
+        }
+
+        public func validate(name: String) throws {
+            try validate(thingName, name:"thingName", parent: name, max: 128)
+            try validate(thingName, name:"thingName", parent: name, min: 1)
+            try validate(thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -61,6 +76,7 @@ extension IoTDataPlane {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "payload", required: false, type: .blob)
         ]
+
         /// The state information, in JSON format.
         public let payload: Data?
 
@@ -81,6 +97,7 @@ extension IoTDataPlane {
             AWSShapeMember(label: "qos", location: .querystring(locationName: "qos"), required: false, type: .integer), 
             AWSShapeMember(label: "topic", location: .uri(locationName: "topic"), required: true, type: .string)
         ]
+
         /// The state information, in JSON format.
         public let payload: Data?
         /// The Quality of Service (QoS) level.
@@ -92,6 +109,11 @@ extension IoTDataPlane {
             self.payload = payload
             self.qos = qos
             self.topic = topic
+        }
+
+        public func validate(name: String) throws {
+            try validate(qos, name:"qos", parent: name, max: 1)
+            try validate(qos, name:"qos", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -108,6 +130,7 @@ extension IoTDataPlane {
             AWSShapeMember(label: "payload", required: true, type: .blob), 
             AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
+
         /// The state information, in JSON format.
         public let payload: Data
         /// The name of the thing.
@@ -116,6 +139,12 @@ extension IoTDataPlane {
         public init(payload: Data, thingName: String) {
             self.payload = payload
             self.thingName = thingName
+        }
+
+        public func validate(name: String) throws {
+            try validate(thingName, name:"thingName", parent: name, max: 128)
+            try validate(thingName, name:"thingName", parent: name, min: 1)
+            try validate(thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -130,6 +159,7 @@ extension IoTDataPlane {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "payload", required: false, type: .blob)
         ]
+
         /// The state information, in JSON format.
         public let payload: Data?
 

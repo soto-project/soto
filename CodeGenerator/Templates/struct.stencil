@@ -15,6 +15,7 @@
 {%endfor %}
         ]
 {%endif %}
+
 {# Member variables #}
 {%for member in struct.members %}
 {%for comment in member.comment %}
@@ -24,12 +25,55 @@
 {%endfor %}
 
 {# init() function #}
-        public init({%for member in struct.members %}{{member.parameter}}: {{member.type}}{%if not member.required %} = nil{%endif %}{%if not forloop.last %}, {%endif %}{%endfor %}) {
+        public init({%for member in struct.members %}{{member.parameter}}: {{member.type}}{%if member.default %} = {{member.default}}{%endif %}{%if not forloop.last %}, {%endif %}{%endfor %}) {
 {%for member in struct.members %}
             self.{{member.variable}} = {{member.variable}}
 {%endfor %}
         }
 
+{# validate() function #}
+{%if struct.validation.count > 0 %}
+        public func validate(name: String) throws {
+{%for v in struct.validation %}
+{%if v.shape %}
+            try {{v.name}}{%if not v.required %}?{%endif %}.validate(name: "\(name).{{v.name}}")
+{%elif v.member %}
+{# validate array members #}
+            try {{v.name}}{%if not v.required %}?{%endif %}.forEach {
+{%if v.member.shape %}
+                try $0.validate(name: "\(name).{{v.member.name}}[]")
+{%endif %}
+{%for req,var in v.member.reqs %}
+                try validate($0, name: "{{v.member.name}}[]", parent: name, {{req}}: {{var}})
+{%endfor %}
+            }
+{%elif v.key or v.value %}
+{# validate dictionary members #}
+            try {{v.name}}{%if not v.required %}?{%endif %}.forEach {
+{# validate dictionary keys #}
+{%if v.key.shape %}
+                try $0.key.validate(name: "\(name).{{v.key.name}}.key")
+{%endif %}
+{%for req,var in v.key.reqs %}
+                try validate($0.key, name:"{{v.key.name}}.key", parent: name, {{req}}: {{var}})
+{%endfor %}
+{# validate dictionary values #}
+{%if v.value.shape %}
+                try $0.value.validate(name: "\(name).{{v.value.name}}[\"\($0.key)\"]")
+{%endif %}
+{%for req,var in v.value.reqs %}
+                try validate($0.value, name:"{{v.value.name}}[\"\($0.key)\"]", parent: name, {{req}}: {{var}})
+{%endfor %}
+            }
+{%endif %}
+{# validate min,max,pattern #}
+{%for req,var in v.reqs %}
+            try validate({{v.name}}, name:"{{v.name}}", parent: name, {{req}}: {{var}})
+{%endfor %}
+{%endfor %}
+        }
+
+{%endif %}
 {# CodingKeys enum #}
 {%if struct.members.count > 0%}
         private enum CodingKeys: String, CodingKey {

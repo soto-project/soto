@@ -11,6 +11,7 @@ extension WorkDocs {
             AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
             AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -22,6 +23,17 @@ extension WorkDocs {
             self.authenticationToken = authenticationToken
             self.documentId = documentId
             self.versionId = versionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, max: 128)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(versionId, name:"versionId", parent: name, max: 128)
+            try validate(versionId, name:"versionId", parent: name, min: 1)
+            try validate(versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -36,6 +48,7 @@ extension WorkDocs {
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
             AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the user.
@@ -44,6 +57,14 @@ extension WorkDocs {
         public init(authenticationToken: String? = nil, userId: String) {
             self.authenticationToken = authenticationToken
             self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, max: 256)
+            try validate(userId, name:"userId", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -56,6 +77,7 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "User", required: false, type: .structure)
         ]
+
         /// The user information.
         public let user: User?
 
@@ -80,6 +102,7 @@ extension WorkDocs {
             AWSShapeMember(label: "TimeStamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// Metadata of the commenting activity. This is an optional field and is filled for commenting activities.
         public let commentMetadata: CommentMetadata?
         /// The user who performed the action.
@@ -168,6 +191,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Principals", required: true, type: .list), 
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The notification options.
@@ -184,6 +208,18 @@ extension WorkDocs {
             self.resourceId = resourceId
         }
 
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try notificationOptions?.validate(name: "\(name).notificationOptions")
+            try principals.forEach {
+                try $0.validate(name: "\(name).principals[]")
+            }
+            try validate(resourceId, name:"resourceId", parent: name, max: 128)
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case notificationOptions = "NotificationOptions"
@@ -196,6 +232,7 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ShareResults", required: false, type: .list)
         ]
+
         /// The share results.
         public let shareResults: [ShareResult]?
 
@@ -226,6 +263,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ThreadId", required: false, type: .string), 
             AWSShapeMember(label: "Visibility", required: false, type: .enum)
         ]
+
         /// The ID of the comment.
         public let commentId: String
         /// The details of the user who made the comment.
@@ -278,6 +316,7 @@ extension WorkDocs {
             AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "RecipientId", required: false, type: .string)
         ]
+
         /// The ID of the comment.
         public let commentId: String?
         /// The status of the comment.
@@ -330,6 +369,7 @@ extension WorkDocs {
             AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
             AWSShapeMember(label: "Visibility", required: false, type: .enum)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -358,6 +398,25 @@ extension WorkDocs {
             self.visibility = visibility
         }
 
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, max: 128)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(parentId, name:"parentId", parent: name, max: 128)
+            try validate(parentId, name:"parentId", parent: name, min: 1)
+            try validate(parentId, name:"parentId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(text, name:"text", parent: name, max: 2048)
+            try validate(text, name:"text", parent: name, min: 1)
+            try validate(threadId, name:"threadId", parent: name, max: 128)
+            try validate(threadId, name:"threadId", parent: name, min: 1)
+            try validate(threadId, name:"threadId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(versionId, name:"versionId", parent: name, max: 128)
+            try validate(versionId, name:"versionId", parent: name, min: 1)
+            try validate(versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case documentId = "DocumentId"
@@ -374,6 +433,7 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Comment", required: false, type: .structure)
         ]
+
         /// The comment that has been created.
         public let comment: Comment?
 
@@ -393,6 +453,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionid"), required: false, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// Custom metadata in the form of name-value pairs.
@@ -409,6 +470,25 @@ extension WorkDocs {
             self.versionId = versionId
         }
 
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try customMetadata.forEach {
+                try validate($0.key, name:"customMetadata.key", parent: name, max: 56)
+                try validate($0.key, name:"customMetadata.key", parent: name, min: 1)
+                try validate($0.key, name:"customMetadata.key", parent: name, pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+                try validate($0.value, name:"customMetadata[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"customMetadata[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name:"customMetadata[\"\($0.key)\"]", parent: name, pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+            }
+            try validate(resourceId, name:"resourceId", parent: name, max: 128)
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(versionId, name:"versionId", parent: name, max: 128)
+            try validate(versionId, name:"versionId", parent: name, min: 1)
+            try validate(versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case customMetadata = "CustomMetadata"
@@ -418,6 +498,7 @@ extension WorkDocs {
     }
 
     public struct CreateCustomMetadataResponse: AWSShape {
+
 
         public init() {
         }
@@ -430,6 +511,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "ParentFolderId", required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The name of the new folder.
@@ -443,6 +525,17 @@ extension WorkDocs {
             self.parentFolderId = parentFolderId
         }
 
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 255)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "[\\u0020-\\u202D\\u202F-\\uFFFF]+")
+            try validate(parentFolderId, name:"parentFolderId", parent: name, max: 128)
+            try validate(parentFolderId, name:"parentFolderId", parent: name, min: 1)
+            try validate(parentFolderId, name:"parentFolderId", parent: name, pattern: "[\\w+-.@]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case name = "Name"
@@ -454,6 +547,7 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Metadata", required: false, type: .structure)
         ]
+
         /// The metadata of the folder.
         public let metadata: FolderMetadata?
 
@@ -472,6 +566,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Labels", required: true, type: .list), 
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// List of labels to add to the resource.
@@ -485,6 +580,20 @@ extension WorkDocs {
             self.resourceId = resourceId
         }
 
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try labels.forEach {
+                try validate($0, name: "labels[]", parent: name, max: 32)
+                try validate($0, name: "labels[]", parent: name, min: 1)
+                try validate($0, name: "labels[]", parent: name, pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+            }
+            try validate(labels, name:"labels", parent: name, max: 20)
+            try validate(resourceId, name:"resourceId", parent: name, max: 128)
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case labels = "Labels"
@@ -493,6 +602,7 @@ extension WorkDocs {
     }
 
     public struct CreateLabelsResponse: AWSShape {
+
 
         public init() {
         }
@@ -506,6 +616,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Protocol", required: true, type: .enum), 
             AWSShapeMember(label: "SubscriptionType", required: true, type: .enum)
         ]
+
         /// The endpoint to receive the notifications. If the protocol is HTTPS, the endpoint is a URL that begins with https.
         public let endpoint: String
         /// The ID of the organization.
@@ -522,6 +633,14 @@ extension WorkDocs {
             self.subscriptionType = subscriptionType
         }
 
+        public func validate(name: String) throws {
+            try validate(endpoint, name:"endpoint", parent: name, max: 256)
+            try validate(endpoint, name:"endpoint", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, max: 256)
+            try validate(organizationId, name:"organizationId", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, pattern: "[&\\w+-.@]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case endpoint = "Endpoint"
             case organizationId = "OrganizationId"
@@ -534,6 +653,7 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Subscription", required: false, type: .structure)
         ]
+
         /// The subscription.
         public let subscription: Subscription?
 
@@ -558,6 +678,7 @@ extension WorkDocs {
             AWSShapeMember(label: "TimeZoneId", required: false, type: .string), 
             AWSShapeMember(label: "Username", required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The email address of the user.
@@ -589,6 +710,30 @@ extension WorkDocs {
             self.username = username
         }
 
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(emailAddress, name:"emailAddress", parent: name, max: 256)
+            try validate(emailAddress, name:"emailAddress", parent: name, min: 1)
+            try validate(emailAddress, name:"emailAddress", parent: name, pattern: "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
+            try validate(givenName, name:"givenName", parent: name, max: 64)
+            try validate(givenName, name:"givenName", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, max: 256)
+            try validate(organizationId, name:"organizationId", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, pattern: "[&\\w+-.@]+")
+            try validate(password, name:"password", parent: name, max: 32)
+            try validate(password, name:"password", parent: name, min: 4)
+            try validate(password, name:"password", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try storageRule?.validate(name: "\(name).storageRule")
+            try validate(surname, name:"surname", parent: name, max: 64)
+            try validate(surname, name:"surname", parent: name, min: 1)
+            try validate(timeZoneId, name:"timeZoneId", parent: name, max: 256)
+            try validate(timeZoneId, name:"timeZoneId", parent: name, min: 1)
+            try validate(username, name:"username", parent: name, max: 256)
+            try validate(username, name:"username", parent: name, min: 1)
+            try validate(username, name:"username", parent: name, pattern: "[\\w\\-+.]+(@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]+)?")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case emailAddress = "EmailAddress"
@@ -606,6 +751,7 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "User", required: false, type: .structure)
         ]
+
         /// The user information.
         public let user: User?
 
@@ -623,6 +769,7 @@ extension WorkDocs {
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
             AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the user.
@@ -631,6 +778,14 @@ extension WorkDocs {
         public init(authenticationToken: String? = nil, userId: String) {
             self.authenticationToken = authenticationToken
             self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, max: 256)
+            try validate(userId, name:"userId", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -646,6 +801,7 @@ extension WorkDocs {
             AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
             AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the comment.
@@ -660,6 +816,20 @@ extension WorkDocs {
             self.commentId = commentId
             self.documentId = documentId
             self.versionId = versionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(commentId, name:"commentId", parent: name, max: 128)
+            try validate(commentId, name:"commentId", parent: name, min: 1)
+            try validate(commentId, name:"commentId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(documentId, name:"documentId", parent: name, max: 128)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(versionId, name:"versionId", parent: name, max: 128)
+            try validate(versionId, name:"versionId", parent: name, min: 1)
+            try validate(versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -678,6 +848,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// Flag to indicate removal of all custom metadata properties from the specified resource.
@@ -697,6 +868,23 @@ extension WorkDocs {
             self.versionId = versionId
         }
 
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try keys?.forEach {
+                try validate($0, name: "keys[]", parent: name, max: 56)
+                try validate($0, name: "keys[]", parent: name, min: 1)
+                try validate($0, name: "keys[]", parent: name, pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+            }
+            try validate(keys, name:"keys", parent: name, max: 8)
+            try validate(resourceId, name:"resourceId", parent: name, max: 128)
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(versionId, name:"versionId", parent: name, max: 128)
+            try validate(versionId, name:"versionId", parent: name, min: 1)
+            try validate(versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case deleteAll = "deleteAll"
@@ -708,6 +896,7 @@ extension WorkDocs {
 
     public struct DeleteCustomMetadataResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -718,6 +907,7 @@ extension WorkDocs {
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
             AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -726,6 +916,14 @@ extension WorkDocs {
         public init(authenticationToken: String? = nil, documentId: String) {
             self.authenticationToken = authenticationToken
             self.documentId = documentId
+        }
+
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, max: 128)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -739,6 +937,7 @@ extension WorkDocs {
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
             AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the folder.
@@ -747,6 +946,14 @@ extension WorkDocs {
         public init(authenticationToken: String? = nil, folderId: String) {
             self.authenticationToken = authenticationToken
             self.folderId = folderId
+        }
+
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, max: 128)
+            try validate(folderId, name:"folderId", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -760,6 +967,7 @@ extension WorkDocs {
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
             AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the folder.
@@ -768,6 +976,14 @@ extension WorkDocs {
         public init(authenticationToken: String? = nil, folderId: String) {
             self.authenticationToken = authenticationToken
             self.folderId = folderId
+        }
+
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, max: 128)
+            try validate(folderId, name:"folderId", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -783,6 +999,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Labels", location: .querystring(locationName: "labels"), required: false, type: .list), 
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// Flag to request removal of all labels from the specified resource.
@@ -799,6 +1016,20 @@ extension WorkDocs {
             self.resourceId = resourceId
         }
 
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try labels?.forEach {
+                try validate($0, name: "labels[]", parent: name, max: 32)
+                try validate($0, name: "labels[]", parent: name, min: 1)
+                try validate($0, name: "labels[]", parent: name, pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+            }
+            try validate(labels, name:"labels", parent: name, max: 20)
+            try validate(resourceId, name:"resourceId", parent: name, max: 128)
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case deleteAll = "deleteAll"
@@ -808,6 +1039,7 @@ extension WorkDocs {
     }
 
     public struct DeleteLabelsResponse: AWSShape {
+
 
         public init() {
         }
@@ -819,6 +1051,7 @@ extension WorkDocs {
             AWSShapeMember(label: "OrganizationId", location: .uri(locationName: "OrganizationId"), required: true, type: .string), 
             AWSShapeMember(label: "SubscriptionId", location: .uri(locationName: "SubscriptionId"), required: true, type: .string)
         ]
+
         /// The ID of the organization.
         public let organizationId: String
         /// The ID of the subscription.
@@ -827,6 +1060,15 @@ extension WorkDocs {
         public init(organizationId: String, subscriptionId: String) {
             self.organizationId = organizationId
             self.subscriptionId = subscriptionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(organizationId, name:"organizationId", parent: name, max: 256)
+            try validate(organizationId, name:"organizationId", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, pattern: "[&\\w+-.@]+")
+            try validate(subscriptionId, name:"subscriptionId", parent: name, max: 256)
+            try validate(subscriptionId, name:"subscriptionId", parent: name, min: 1)
+            try validate(subscriptionId, name:"subscriptionId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -840,6 +1082,7 @@ extension WorkDocs {
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
             AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the user.
@@ -848,6 +1091,14 @@ extension WorkDocs {
         public init(authenticationToken: String? = nil, userId: String) {
             self.authenticationToken = authenticationToken
             self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, max: 256)
+            try validate(userId, name:"userId", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -869,6 +1120,7 @@ extension WorkDocs {
             AWSShapeMember(label: "StartTime", location: .querystring(locationName: "startTime"), required: false, type: .timestamp), 
             AWSShapeMember(label: "UserId", location: .querystring(locationName: "userId"), required: false, type: .string)
         ]
+
         /// Specifies which activity types to include in the response. If this field is left empty, all activity types are returned.
         public let activityTypes: String?
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -903,6 +1155,28 @@ extension WorkDocs {
             self.userId = userId
         }
 
+        public func validate(name: String) throws {
+            try validate(activityTypes, name:"activityTypes", parent: name, max: 1024)
+            try validate(activityTypes, name:"activityTypes", parent: name, min: 1)
+            try validate(activityTypes, name:"activityTypes", parent: name, pattern: "[\\w,]+")
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, pattern: "[\\u0000-\\u00FF]+")
+            try validate(organizationId, name:"organizationId", parent: name, max: 256)
+            try validate(organizationId, name:"organizationId", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, pattern: "[&\\w+-.@]+")
+            try validate(resourceId, name:"resourceId", parent: name, max: 256)
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, pattern: "[&\\w+-.@]+")
+            try validate(userId, name:"userId", parent: name, max: 256)
+            try validate(userId, name:"userId", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case activityTypes = "activityTypes"
             case authenticationToken = "Authentication"
@@ -922,6 +1196,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "UserActivities", required: false, type: .list)
         ]
+
         /// The marker for the next set of results.
         public let marker: String?
         /// The list of activities for the specified user and time period.
@@ -946,6 +1221,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
             AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -965,6 +1241,22 @@ extension WorkDocs {
             self.versionId = versionId
         }
 
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, max: 128)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, pattern: "[\\u0000-\\u00FF]+")
+            try validate(versionId, name:"versionId", parent: name, max: 128)
+            try validate(versionId, name:"versionId", parent: name, min: 1)
+            try validate(versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case documentId = "DocumentId"
@@ -979,6 +1271,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Comments", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// The list of comments for the specified document version.
         public let comments: [Comment]?
         /// The marker for the next set of results. This marker was received from a previous call.
@@ -1004,6 +1297,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -1026,6 +1320,24 @@ extension WorkDocs {
             self.marker = marker
         }
 
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, max: 128)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(fields, name:"fields", parent: name, max: 256)
+            try validate(fields, name:"fields", parent: name, min: 1)
+            try validate(fields, name:"fields", parent: name, pattern: "[\\w,]+")
+            try validate(include, name:"include", parent: name, max: 256)
+            try validate(include, name:"include", parent: name, min: 1)
+            try validate(include, name:"include", parent: name, pattern: "[\\w,]+")
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case documentId = "DocumentId"
@@ -1041,6 +1353,7 @@ extension WorkDocs {
             AWSShapeMember(label: "DocumentVersions", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// The document versions.
         public let documentVersions: [DocumentVersionMetadata]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -1068,6 +1381,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Sort", location: .querystring(locationName: "sort"), required: false, type: .enum), 
             AWSShapeMember(label: "Type", location: .querystring(locationName: "type"), required: false, type: .enum)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the folder.
@@ -1096,6 +1410,21 @@ extension WorkDocs {
             self.`type` = `type`
         }
 
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, max: 128)
+            try validate(folderId, name:"folderId", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(include, name:"include", parent: name, max: 256)
+            try validate(include, name:"include", parent: name, min: 1)
+            try validate(include, name:"include", parent: name, pattern: "[\\w,]+")
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case folderId = "FolderId"
@@ -1114,6 +1443,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Folders", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// The documents in the specified folder.
         public let documents: [DocumentMetadata]?
         /// The subfolders in the specified folder.
@@ -1142,6 +1472,7 @@ extension WorkDocs {
             AWSShapeMember(label: "OrganizationId", location: .querystring(locationName: "organizationId"), required: false, type: .string), 
             AWSShapeMember(label: "SearchQuery", location: .querystring(locationName: "searchQuery"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The maximum number of items to return with this call.
@@ -1161,6 +1492,21 @@ extension WorkDocs {
             self.searchQuery = searchQuery
         }
 
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, pattern: "[\\u0000-\\u00FF]+")
+            try validate(organizationId, name:"organizationId", parent: name, max: 256)
+            try validate(organizationId, name:"organizationId", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, pattern: "[&\\w+-.@]+")
+            try validate(searchQuery, name:"searchQuery", parent: name, max: 512)
+            try validate(searchQuery, name:"searchQuery", parent: name, min: 1)
+            try validate(searchQuery, name:"searchQuery", parent: name, pattern: "[\\u0020-\\uFFFF]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case limit = "limit"
@@ -1175,6 +1521,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Groups", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// The list of groups.
         public let groups: [GroupMetadata]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -1197,6 +1544,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
             AWSShapeMember(label: "OrganizationId", location: .uri(locationName: "OrganizationId"), required: true, type: .string)
         ]
+
         /// The maximum number of items to return with this call.
         public let limit: Int32?
         /// The marker for the next set of results. (You received this marker from a previous call.)
@@ -1208,6 +1556,16 @@ extension WorkDocs {
             self.limit = limit
             self.marker = marker
             self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, max: 256)
+            try validate(organizationId, name:"organizationId", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1222,6 +1580,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Subscriptions", required: false, type: .list)
         ]
+
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
         /// The subscriptions.
@@ -1246,6 +1605,7 @@ extension WorkDocs {
             AWSShapeMember(label: "PrincipalId", location: .querystring(locationName: "principalId"), required: false, type: .string), 
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The maximum number of items to return with this call.
@@ -1265,6 +1625,21 @@ extension WorkDocs {
             self.resourceId = resourceId
         }
 
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(principalId, name:"principalId", parent: name, max: 256)
+            try validate(principalId, name:"principalId", parent: name, min: 1)
+            try validate(principalId, name:"principalId", parent: name, pattern: "[&\\w+-.@]+")
+            try validate(resourceId, name:"resourceId", parent: name, max: 128)
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case limit = "limit"
@@ -1279,6 +1654,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Principals", required: false, type: .list)
         ]
+
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
         /// The principals.
@@ -1301,6 +1677,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String
         /// The maximum number of items to return.
@@ -1312,6 +1689,15 @@ extension WorkDocs {
             self.authenticationToken = authenticationToken
             self.limit = limit
             self.marker = marker
+        }
+
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1326,6 +1712,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Folders", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// The user's special folders.
         public let folders: [FolderMetadata]?
         /// The marker for the next set of results.
@@ -1355,6 +1742,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Sort", location: .querystring(locationName: "sort"), required: false, type: .enum), 
             AWSShapeMember(label: "UserIds", location: .querystring(locationName: "userIds"), required: false, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// A comma-separated list of values. Specify "STORAGE_METADATA" to include the user storage quota and utilization information.
@@ -1389,6 +1777,27 @@ extension WorkDocs {
             self.userIds = userIds
         }
 
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(fields, name:"fields", parent: name, max: 256)
+            try validate(fields, name:"fields", parent: name, min: 1)
+            try validate(fields, name:"fields", parent: name, pattern: "[\\w,]+")
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, max: 256)
+            try validate(organizationId, name:"organizationId", parent: name, min: 1)
+            try validate(organizationId, name:"organizationId", parent: name, pattern: "[&\\w+-.@]+")
+            try validate(query, name:"query", parent: name, max: 512)
+            try validate(query, name:"query", parent: name, min: 1)
+            try validate(query, name:"query", parent: name, pattern: "[\\u0020-\\uFFFF]+")
+            try validate(userIds, name:"userIds", parent: name, max: 2000)
+            try validate(userIds, name:"userIds", parent: name, min: 1)
+            try validate(userIds, name:"userIds", parent: name, pattern: "[&\\w+-.@, ]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case fields = "fields"
@@ -1408,6 +1817,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Users", required: false, type: .list)
         ]
+
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
         /// The users.
@@ -1435,6 +1845,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ParentFolderId", required: false, type: .string), 
             AWSShapeMember(label: "ResourceState", required: false, type: .enum)
         ]
+
         /// The time when the document was created.
         public let createdTimestamp: TimeStamp?
         /// The ID of the creator.
@@ -1510,6 +1921,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "Thumbnail", required: false, type: .map)
         ]
+
         /// The timestamp when the content of the document was originally created.
         public let contentCreatedTimestamp: TimeStamp?
         /// The timestamp when the content of the document was modified.
@@ -1596,6 +2008,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Signature", required: false, type: .string), 
             AWSShapeMember(label: "Size", required: false, type: .long)
         ]
+
         /// The time when the folder was created.
         public let createdTimestamp: TimeStamp?
         /// The ID of the creator.
@@ -1652,11 +2065,17 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String
 
         public init(authenticationToken: String) {
             self.authenticationToken = authenticationToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1668,6 +2087,7 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "User", required: false, type: .structure)
         ]
+
         /// Metadata of the user.
         public let user: User?
 
@@ -1688,6 +2108,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -1707,6 +2128,21 @@ extension WorkDocs {
             self.marker = marker
         }
 
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, max: 256)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[&\\w+-.@]+")
+            try validate(fields, name:"fields", parent: name, max: 256)
+            try validate(fields, name:"fields", parent: name, min: 1)
+            try validate(fields, name:"fields", parent: name, pattern: "[\\w,]+")
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case documentId = "DocumentId"
@@ -1720,6 +2156,7 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Path", required: false, type: .structure)
         ]
+
         /// The path information.
         public let path: ResourcePath?
 
@@ -1738,6 +2175,7 @@ extension WorkDocs {
             AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
             AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -1749,6 +2187,14 @@ extension WorkDocs {
             self.authenticationToken = authenticationToken
             self.documentId = documentId
             self.includeCustomMetadata = includeCustomMetadata
+        }
+
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, max: 128)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1763,6 +2209,7 @@ extension WorkDocs {
             AWSShapeMember(label: "CustomMetadata", required: false, type: .map), 
             AWSShapeMember(label: "Metadata", required: false, type: .structure)
         ]
+
         /// The custom metadata on the document.
         public let customMetadata: [String: String]?
         /// The metadata details of the document.
@@ -1787,6 +2234,7 @@ extension WorkDocs {
             AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean), 
             AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -1806,6 +2254,20 @@ extension WorkDocs {
             self.versionId = versionId
         }
 
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, max: 128)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(fields, name:"fields", parent: name, max: 256)
+            try validate(fields, name:"fields", parent: name, min: 1)
+            try validate(fields, name:"fields", parent: name, pattern: "[\\w,]+")
+            try validate(versionId, name:"versionId", parent: name, max: 128)
+            try validate(versionId, name:"versionId", parent: name, min: 1)
+            try validate(versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case documentId = "DocumentId"
@@ -1820,6 +2282,7 @@ extension WorkDocs {
             AWSShapeMember(label: "CustomMetadata", required: false, type: .map), 
             AWSShapeMember(label: "Metadata", required: false, type: .structure)
         ]
+
         /// The custom metadata on the document version.
         public let customMetadata: [String: String]?
         /// The version metadata.
@@ -1844,6 +2307,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// A comma-separated list of values. Specify "NAME" to include the names of the parent folders.
@@ -1863,6 +2327,21 @@ extension WorkDocs {
             self.marker = marker
         }
 
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(fields, name:"fields", parent: name, max: 256)
+            try validate(fields, name:"fields", parent: name, min: 1)
+            try validate(fields, name:"fields", parent: name, pattern: "[\\w,]+")
+            try validate(folderId, name:"folderId", parent: name, max: 256)
+            try validate(folderId, name:"folderId", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, pattern: "[&\\w+-.@]+")
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case fields = "fields"
@@ -1876,6 +2355,7 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Path", required: false, type: .structure)
         ]
+
         /// The path information.
         public let path: ResourcePath?
 
@@ -1894,6 +2374,7 @@ extension WorkDocs {
             AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string), 
             AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the folder.
@@ -1905,6 +2386,14 @@ extension WorkDocs {
             self.authenticationToken = authenticationToken
             self.folderId = folderId
             self.includeCustomMetadata = includeCustomMetadata
+        }
+
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, max: 128)
+            try validate(folderId, name:"folderId", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1919,6 +2408,7 @@ extension WorkDocs {
             AWSShapeMember(label: "CustomMetadata", required: false, type: .map), 
             AWSShapeMember(label: "Metadata", required: false, type: .structure)
         ]
+
         /// The custom metadata on the folder.
         public let customMetadata: [String: String]?
         /// The metadata of the folder.
@@ -1943,6 +2433,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
             AWSShapeMember(label: "UserId", location: .querystring(locationName: "userId"), required: false, type: .string)
         ]
+
         /// The Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API operation using AWS credentials.
         public let authenticationToken: String?
         /// The collection type.
@@ -1962,6 +2453,18 @@ extension WorkDocs {
             self.userId = userId
         }
 
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(limit, name:"limit", parent: name, max: 999)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 2048)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, max: 256)
+            try validate(userId, name:"userId", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case collectionType = "collectionType"
@@ -1977,6 +2480,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Folders", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// The documents in the specified collection.
         public let documents: [DocumentMetadata]?
         /// The folders in the specified folder.
@@ -2002,6 +2506,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The ID of the user group.
         public let id: String?
         /// The name of the group.
@@ -2029,6 +2534,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "ParentFolderId", required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The timestamp when the content of the document was originally created.
@@ -2057,6 +2563,22 @@ extension WorkDocs {
             self.parentFolderId = parentFolderId
         }
 
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(contentType, name:"contentType", parent: name, max: 128)
+            try validate(contentType, name:"contentType", parent: name, min: 1)
+            try validate(id, name:"id", parent: name, max: 128)
+            try validate(id, name:"id", parent: name, min: 1)
+            try validate(id, name:"id", parent: name, pattern: "[\\w+-.@]+")
+            try validate(name, name:"name", parent: name, max: 255)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "[\\u0020-\\u202D\\u202F-\\uFFFF]+")
+            try validate(parentFolderId, name:"parentFolderId", parent: name, max: 128)
+            try validate(parentFolderId, name:"parentFolderId", parent: name, min: 1)
+            try validate(parentFolderId, name:"parentFolderId", parent: name, pattern: "[\\w+-.@]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case contentCreatedTimestamp = "ContentCreatedTimestamp"
@@ -2074,6 +2596,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Metadata", required: false, type: .structure), 
             AWSShapeMember(label: "UploadMetadata", required: false, type: .structure)
         ]
+
         /// The document metadata.
         public let metadata: DocumentMetadata?
         /// The upload metadata.
@@ -2110,6 +2633,7 @@ extension WorkDocs {
             AWSShapeMember(label: "EmailMessage", required: false, type: .string), 
             AWSShapeMember(label: "SendEmail", required: false, type: .boolean)
         ]
+
         /// Text value to be included in the email body.
         public let emailMessage: String?
         /// Boolean value to indicate an email notification should be sent to the receipients.
@@ -2118,6 +2642,11 @@ extension WorkDocs {
         public init(emailMessage: String? = nil, sendEmail: Bool? = nil) {
             self.emailMessage = emailMessage
             self.sendEmail = sendEmail
+        }
+
+        public func validate(name: String) throws {
+            try validate(emailMessage, name:"emailMessage", parent: name, max: 2048)
+            try validate(emailMessage, name:"emailMessage", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2137,6 +2666,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Groups", required: false, type: .list), 
             AWSShapeMember(label: "Users", required: false, type: .list)
         ]
+
         /// The list of user groups.
         public let groups: [GroupMetadata]?
         /// The list of users.
@@ -2158,6 +2688,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Role", required: false, type: .enum), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The role of the user.
         public let role: RoleType?
         /// The type of permissions.
@@ -2180,6 +2711,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Roles", required: false, type: .list), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The ID of the resource.
         public let id: String?
         /// The permission information for the resource.
@@ -2214,6 +2746,7 @@ extension WorkDocs {
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the resource.
@@ -2222,6 +2755,14 @@ extension WorkDocs {
         public init(authenticationToken: String? = nil, resourceId: String) {
             self.authenticationToken = authenticationToken
             self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, max: 128)
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2237,6 +2778,7 @@ extension WorkDocs {
             AWSShapeMember(label: "PrincipalType", location: .querystring(locationName: "type"), required: false, type: .enum), 
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The principal ID of the resource.
@@ -2251,6 +2793,17 @@ extension WorkDocs {
             self.principalId = principalId
             self.principalType = principalType
             self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(principalId, name:"principalId", parent: name, max: 256)
+            try validate(principalId, name:"principalId", parent: name, min: 1)
+            try validate(principalId, name:"principalId", parent: name, pattern: "[&\\w+-.@]+")
+            try validate(resourceId, name:"resourceId", parent: name, max: 128)
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2276,6 +2829,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "VersionId", required: false, type: .string)
         ]
+
         /// The ID of the resource.
         public let id: String?
         /// The name of the resource.
@@ -2316,6 +2870,7 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Components", required: false, type: .list)
         ]
+
         /// The components of the resource path.
         public let components: [ResourcePathComponent]?
 
@@ -2333,6 +2888,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The ID of the resource path.
         public let id: String?
         /// The name of the resource path.
@@ -2389,6 +2945,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Role", required: true, type: .enum), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
+
         /// The ID of the recipient.
         public let id: String
         /// The role of the recipient.
@@ -2400,6 +2957,12 @@ extension WorkDocs {
             self.id = id
             self.role = role
             self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(id, name:"id", parent: name, max: 256)
+            try validate(id, name:"id", parent: name, min: 1)
+            try validate(id, name:"id", parent: name, pattern: "[&\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2418,6 +2981,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "StatusMessage", required: false, type: .string)
         ]
+
         /// The ID of the invited user.
         public let inviteePrincipalId: String?
         /// The ID of the principal.
@@ -2461,6 +3025,7 @@ extension WorkDocs {
             AWSShapeMember(label: "StorageAllocatedInBytes", required: false, type: .long), 
             AWSShapeMember(label: "StorageType", required: false, type: .enum)
         ]
+
         /// The amount of storage allocated, in bytes.
         public let storageAllocatedInBytes: Int64?
         /// The type of storage.
@@ -2469,6 +3034,10 @@ extension WorkDocs {
         public init(storageAllocatedInBytes: Int64? = nil, storageType: StorageType? = nil) {
             self.storageAllocatedInBytes = storageAllocatedInBytes
             self.storageType = storageType
+        }
+
+        public func validate(name: String) throws {
+            try validate(storageAllocatedInBytes, name:"storageAllocatedInBytes", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2489,6 +3058,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Protocol", required: false, type: .enum), 
             AWSShapeMember(label: "SubscriptionId", required: false, type: .string)
         ]
+
         /// The endpoint of the subscription.
         public let endPoint: String?
         /// The protocol of the subscription.
@@ -2527,6 +3097,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ParentFolderId", required: false, type: .string), 
             AWSShapeMember(label: "ResourceState", required: false, type: .enum)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -2546,6 +3117,20 @@ extension WorkDocs {
             self.resourceState = resourceState
         }
 
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, max: 128)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(name, name:"name", parent: name, max: 255)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "[\\u0020-\\u202D\\u202F-\\uFFFF]+")
+            try validate(parentFolderId, name:"parentFolderId", parent: name, max: 128)
+            try validate(parentFolderId, name:"parentFolderId", parent: name, min: 1)
+            try validate(parentFolderId, name:"parentFolderId", parent: name, pattern: "[\\w+-.@]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case documentId = "DocumentId"
@@ -2562,6 +3147,7 @@ extension WorkDocs {
             AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
             AWSShapeMember(label: "VersionStatus", required: false, type: .enum)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -2576,6 +3162,17 @@ extension WorkDocs {
             self.documentId = documentId
             self.versionId = versionId
             self.versionStatus = versionStatus
+        }
+
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, max: 128)
+            try validate(documentId, name:"documentId", parent: name, min: 1)
+            try validate(documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(versionId, name:"versionId", parent: name, max: 128)
+            try validate(versionId, name:"versionId", parent: name, min: 1)
+            try validate(versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2594,6 +3191,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ParentFolderId", required: false, type: .string), 
             AWSShapeMember(label: "ResourceState", required: false, type: .enum)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the folder.
@@ -2611,6 +3209,20 @@ extension WorkDocs {
             self.name = name
             self.parentFolderId = parentFolderId
             self.resourceState = resourceState
+        }
+
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, max: 128)
+            try validate(folderId, name:"folderId", parent: name, min: 1)
+            try validate(folderId, name:"folderId", parent: name, pattern: "[\\w+-.@]+")
+            try validate(name, name:"name", parent: name, max: 255)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "[\\u0020-\\u202D\\u202F-\\uFFFF]+")
+            try validate(parentFolderId, name:"parentFolderId", parent: name, max: 128)
+            try validate(parentFolderId, name:"parentFolderId", parent: name, min: 1)
+            try validate(parentFolderId, name:"parentFolderId", parent: name, pattern: "[\\w+-.@]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2634,6 +3246,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The given name of the user.
@@ -2665,6 +3278,21 @@ extension WorkDocs {
             self.userId = userId
         }
 
+        public func validate(name: String) throws {
+            try validate(authenticationToken, name:"authenticationToken", parent: name, max: 8199)
+            try validate(authenticationToken, name:"authenticationToken", parent: name, min: 1)
+            try validate(givenName, name:"givenName", parent: name, max: 64)
+            try validate(givenName, name:"givenName", parent: name, min: 1)
+            try storageRule?.validate(name: "\(name).storageRule")
+            try validate(surname, name:"surname", parent: name, max: 64)
+            try validate(surname, name:"surname", parent: name, min: 1)
+            try validate(timeZoneId, name:"timeZoneId", parent: name, max: 256)
+            try validate(timeZoneId, name:"timeZoneId", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, max: 256)
+            try validate(userId, name:"userId", parent: name, min: 1)
+            try validate(userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationToken = "Authentication"
             case givenName = "GivenName"
@@ -2682,6 +3310,7 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "User", required: false, type: .structure)
         ]
+
         /// The user information.
         public let user: User?
 
@@ -2699,6 +3328,7 @@ extension WorkDocs {
             AWSShapeMember(label: "SignedHeaders", required: false, type: .map), 
             AWSShapeMember(label: "UploadUrl", required: false, type: .string)
         ]
+
         /// The signed headers.
         public let signedHeaders: [String: String]?
         /// The URL of the upload.
@@ -2733,6 +3363,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "Username", required: false, type: .string)
         ]
+
         /// The time when the user was created.
         public let createdTimestamp: TimeStamp?
         /// The email address of the user.
@@ -2815,6 +3446,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Surname", required: false, type: .string), 
             AWSShapeMember(label: "Username", required: false, type: .string)
         ]
+
         /// The email address of the user.
         public let emailAddress: String?
         /// The given name of the user before a rename operation.
@@ -2864,6 +3496,7 @@ extension WorkDocs {
             AWSShapeMember(label: "StorageRule", required: false, type: .structure), 
             AWSShapeMember(label: "StorageUtilizedInBytes", required: false, type: .long)
         ]
+
         /// The storage for a user.
         public let storageRule: StorageRuleType?
         /// The amount of storage used, in bytes.

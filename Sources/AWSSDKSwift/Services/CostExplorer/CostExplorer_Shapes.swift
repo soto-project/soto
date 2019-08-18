@@ -23,6 +23,7 @@ extension CostExplorer {
             AWSShapeMember(label: "CoverageHours", required: false, type: .structure), 
             AWSShapeMember(label: "CoverageNormalizedUnits", required: false, type: .structure)
         ]
+
         /// The amount of cost that the reservation covered.
         public let coverageCost: CoverageCost?
         /// The amount of instance usage that the reservation covered, in hours.
@@ -49,6 +50,7 @@ extension CostExplorer {
             AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
             AWSShapeMember(label: "Total", required: false, type: .structure)
         ]
+
         /// The groups of instances that the reservation covered.
         public let groups: [ReservationCoverageGroup]?
         /// The period that this coverage was used over.
@@ -73,6 +75,7 @@ extension CostExplorer {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OnDemandCost", required: false, type: .string)
         ]
+
         /// How much an On-Demand instance cost.
         public let onDemandCost: String?
 
@@ -92,6 +95,7 @@ extension CostExplorer {
             AWSShapeMember(label: "ReservedHours", required: false, type: .string), 
             AWSShapeMember(label: "TotalRunningHours", required: false, type: .string)
         ]
+
         /// The percentage of instance hours that a reservation covered.
         public let coverageHoursPercentage: String?
         /// The number of instance running hours that On-Demand Instances covered.
@@ -123,6 +127,7 @@ extension CostExplorer {
             AWSShapeMember(label: "ReservedNormalizedUnits", required: false, type: .string), 
             AWSShapeMember(label: "TotalRunningNormalizedUnits", required: false, type: .string)
         ]
+
         /// The percentage of your used instance normalized units that a reservation covers.
         public let coverageNormalizedUnitsPercentage: String?
         /// The number of normalized units that are covered by On-Demand Instances instead of a reservation.
@@ -152,6 +157,7 @@ extension CostExplorer {
             AWSShapeMember(label: "End", required: true, type: .string), 
             AWSShapeMember(label: "Start", required: true, type: .string)
         ]
+
         /// The end of the time period that you want the usage and costs for. The end date is exclusive. For example, if end is 2017-05-01, AWS retrieves cost and usage data from the start date up to, but not including, 2017-05-01.
         public let end: String
         /// The beginning of the time period that you want the usage and costs for. The start date is inclusive. For example, if start is 2017-01-01, AWS retrieves cost and usage data starting at 2017-01-01 up to the end date.
@@ -160,6 +166,11 @@ extension CostExplorer {
         public init(end: String, start: String) {
             self.end = end
             self.start = start
+        }
+
+        public func validate(name: String) throws {
+            try validate(end, name:"end", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
+            try validate(start, name:"start", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -199,6 +210,7 @@ extension CostExplorer {
             AWSShapeMember(label: "Key", required: false, type: .enum), 
             AWSShapeMember(label: "Values", required: false, type: .list)
         ]
+
         /// The names of the metadata types that you can use to filter and group your results. For example, AZ returns a list of Availability Zones.
         public let key: Dimension?
         /// The metadata values that you can use to filter and group your results. You can use GetDimensionValues to find specific values. Valid values for the SERVICE dimension are Amazon Elastic Compute Cloud - Compute, Amazon Elasticsearch Service, Amazon ElastiCache, Amazon Redshift, and Amazon Relational Database Service.
@@ -220,6 +232,7 @@ extension CostExplorer {
             AWSShapeMember(label: "Attributes", required: false, type: .map), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The attribute that applies to a specific Dimension.
         public let attributes: [String: String]?
         /// The value of a dimension with a specific attribute.
@@ -247,6 +260,7 @@ extension CostExplorer {
             AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean), 
             AWSShapeMember(label: "Tenancy", required: false, type: .string)
         ]
+
         /// The Availability Zone of the recommended reservation.
         public let availabilityZone: String?
         /// Whether the recommendation is for a current-generation instance. 
@@ -291,6 +305,7 @@ extension CostExplorer {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OfferingClass", required: false, type: .enum)
         ]
+
         /// Whether you want a recommendation for standard or convertible reservations.
         public let offeringClass: OfferingClass?
 
@@ -311,6 +326,7 @@ extension CostExplorer {
             AWSShapeMember(label: "Region", required: false, type: .string), 
             AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean)
         ]
+
         /// Whether the recommendation is for a current-generation instance.
         public let currentGeneration: Bool?
         /// The class of instance that AWS recommends.
@@ -348,6 +364,7 @@ extension CostExplorer {
             AWSShapeMember(label: "Region", required: false, type: .string), 
             AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean)
         ]
+
         /// Whether the recommendation is for a current generation instance.
         public let currentGeneration: Bool?
         /// The instance family of the recommended reservation.
@@ -388,6 +405,7 @@ extension CostExplorer {
             AWSShapeMember(label: "Or", required: false, type: .list), 
             AWSShapeMember(label: "Tags", required: false, type: .structure)
         ]
+
         /// Return results that match both Dimension objects.
         public let and: [Expression]?
         /// The specific Dimension to use for Expression.
@@ -423,6 +441,7 @@ extension CostExplorer {
             AWSShapeMember(label: "PredictionIntervalUpperBound", required: false, type: .string), 
             AWSShapeMember(label: "TimePeriod", required: false, type: .structure)
         ]
+
         /// The mean value of the forecast.
         public let meanValue: String?
         /// The lower limit for the prediction interval. 
@@ -456,6 +475,7 @@ extension CostExplorer {
             AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
         ]
+
         /// Filters AWS costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression. 
         public let filter: Expression?
         /// Sets the AWS cost granularity to MONTHLY or DAILY. If Granularity isn't set, the response object doesn't include the Granularity, either MONTHLY or DAILY.  The GetCostAndUsageRequest operation supports only DAILY and MONTHLY granularities.
@@ -478,6 +498,10 @@ extension CostExplorer {
             self.timePeriod = timePeriod
         }
 
+        public func validate(name: String) throws {
+            try timePeriod.validate(name: "\(name).timePeriod")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filter = "Filter"
             case granularity = "Granularity"
@@ -494,6 +518,7 @@ extension CostExplorer {
             AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "ResultsByTime", required: false, type: .list)
         ]
+
         /// The groups that are specified by the Filter or GroupBy parameters in the request.
         public let groupDefinitions: [GroupDefinition]?
         /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
@@ -522,6 +547,7 @@ extension CostExplorer {
             AWSShapeMember(label: "PredictionIntervalLevel", required: false, type: .integer), 
             AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
         ]
+
         /// The filters that you want to use to filter your forecast. Cost Explorer API supports all of the Cost Explorer filters.
         public let filter: Expression?
         /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts. The GetCostForecast operation supports only DAILY and MONTHLY granularities.
@@ -541,6 +567,12 @@ extension CostExplorer {
             self.timePeriod = timePeriod
         }
 
+        public func validate(name: String) throws {
+            try validate(predictionIntervalLevel, name:"predictionIntervalLevel", parent: name, max: 99)
+            try validate(predictionIntervalLevel, name:"predictionIntervalLevel", parent: name, min: 51)
+            try timePeriod.validate(name: "\(name).timePeriod")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filter = "Filter"
             case granularity = "Granularity"
@@ -555,6 +587,7 @@ extension CostExplorer {
             AWSShapeMember(label: "ForecastResultsByTime", required: false, type: .list), 
             AWSShapeMember(label: "Total", required: false, type: .structure)
         ]
+
         /// The forecasts for your query, in order. For DAILY forecasts, this is a list of days. For MONTHLY forecasts, this is a list of months.
         public let forecastResultsByTime: [ForecastResult]?
         /// How much you are forecasted to spend over the forecast period, in USD.
@@ -579,6 +612,7 @@ extension CostExplorer {
             AWSShapeMember(label: "SearchString", required: false, type: .string), 
             AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
         ]
+
         /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE, the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.  
         public let context: Context?
         /// The name of the dimension. Each Dimension is available for a different Context. For more information, see Context.
@@ -598,6 +632,10 @@ extension CostExplorer {
             self.timePeriod = timePeriod
         }
 
+        public func validate(name: String) throws {
+            try timePeriod.validate(name: "\(name).timePeriod")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case context = "Context"
             case dimension = "Dimension"
@@ -614,6 +652,7 @@ extension CostExplorer {
             AWSShapeMember(label: "ReturnSize", required: true, type: .integer), 
             AWSShapeMember(label: "TotalSize", required: true, type: .integer)
         ]
+
         /// The filters that you used to filter your request. Some dimensions are available only for a specific context. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.  
         public let dimensionValues: [DimensionValuesWithAttributes]
         /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
@@ -647,6 +686,7 @@ extension CostExplorer {
             AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
         ]
+
         /// Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   TAG   TENANCY    GetReservationCoverage uses the same Expression object as the other operations, but only AND is supported among each dimension. You can nest only one level deep. If there are multiple values for a dimension, they are OR'd together. If you don't provide a SERVICE filter, Cost Explorer defaults to EC2.
         public let filter: Expression?
         /// The granularity of the AWS cost data for the reservation. Valid values are MONTHLY and DAILY. If GroupBy is set, Granularity can't be set. If Granularity isn't set, the response object doesn't include Granularity, either MONTHLY or DAILY. The GetReservationCoverage operation supports only DAILY and MONTHLY granularities.
@@ -669,6 +709,10 @@ extension CostExplorer {
             self.timePeriod = timePeriod
         }
 
+        public func validate(name: String) throws {
+            try timePeriod.validate(name: "\(name).timePeriod")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filter = "Filter"
             case granularity = "Granularity"
@@ -685,6 +729,7 @@ extension CostExplorer {
             AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "Total", required: false, type: .structure)
         ]
+
         /// The amount of time that your reservations covered.
         public let coveragesByTime: [CoverageByTime]
         /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
@@ -717,6 +762,7 @@ extension CostExplorer {
             AWSShapeMember(label: "ServiceSpecification", required: false, type: .structure), 
             AWSShapeMember(label: "TermInYears", required: false, type: .enum)
         ]
+
         /// The account ID that is associated with the recommendation. 
         public let accountId: String?
         /// The account scope that you want recommendations for. PAYER means that AWS includes the master account and any member accounts when it calculates its recommendations. LINKED means that AWS includes only member accounts when it calculates its recommendations. Valid values are PAYER and LINKED.
@@ -748,6 +794,10 @@ extension CostExplorer {
             self.termInYears = termInYears
         }
 
+        public func validate(name: String) throws {
+            try validate(pageSize, name:"pageSize", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case accountScope = "AccountScope"
@@ -767,6 +817,7 @@ extension CostExplorer {
             AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "Recommendations", required: false, type: .list)
         ]
+
         /// Information about this specific recommendation call, such as the time stamp for when Cost Explorer generated this recommendation.
         public let metadata: ReservationPurchaseRecommendationMetadata?
         /// The pagination token for the next set of retrievable results.
@@ -795,6 +846,7 @@ extension CostExplorer {
             AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
         ]
+
         /// Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   SCOPE   TENANCY    GetReservationUtilization uses the same Expression object as the other operations, but only AND is supported among each dimension, and nesting is supported up to only one level deep. If there are multiple values for a dimension, they are OR'd together.
         public let filter: Expression?
         /// If GroupBy is set, Granularity can't be set. If Granularity isn't set, the response object doesn't include Granularity, either MONTHLY or DAILY. If both GroupBy and Granularity aren't set, GetReservationUtilization defaults to DAILY. The GetReservationUtilization operation supports only DAILY and MONTHLY granularities.
@@ -814,6 +866,10 @@ extension CostExplorer {
             self.timePeriod = timePeriod
         }
 
+        public func validate(name: String) throws {
+            try timePeriod.validate(name: "\(name).timePeriod")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filter = "Filter"
             case granularity = "Granularity"
@@ -829,6 +885,7 @@ extension CostExplorer {
             AWSShapeMember(label: "Total", required: false, type: .structure), 
             AWSShapeMember(label: "UtilizationsByTime", required: true, type: .list)
         ]
+
         /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
         /// The total amount of time that you used your RIs.
@@ -856,6 +913,7 @@ extension CostExplorer {
             AWSShapeMember(label: "TagKey", required: false, type: .string), 
             AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
         ]
+
         /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
         /// The value that you want to search for.
@@ -870,6 +928,10 @@ extension CostExplorer {
             self.searchString = searchString
             self.tagKey = tagKey
             self.timePeriod = timePeriod
+        }
+
+        public func validate(name: String) throws {
+            try timePeriod.validate(name: "\(name).timePeriod")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -887,6 +949,7 @@ extension CostExplorer {
             AWSShapeMember(label: "Tags", required: true, type: .list), 
             AWSShapeMember(label: "TotalSize", required: true, type: .integer)
         ]
+
         /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
         /// The number of query results that AWS returns at a time.
@@ -919,6 +982,7 @@ extension CostExplorer {
             AWSShapeMember(label: "PredictionIntervalLevel", required: false, type: .integer), 
             AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
         ]
+
         /// The filters that you want to use to filter your forecast. Cost Explorer API supports all of the Cost Explorer filters.
         public let filter: Expression?
         /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts. The GetUsageForecast operation supports only DAILY and MONTHLY granularities.
@@ -938,6 +1002,12 @@ extension CostExplorer {
             self.timePeriod = timePeriod
         }
 
+        public func validate(name: String) throws {
+            try validate(predictionIntervalLevel, name:"predictionIntervalLevel", parent: name, max: 99)
+            try validate(predictionIntervalLevel, name:"predictionIntervalLevel", parent: name, min: 51)
+            try timePeriod.validate(name: "\(name).timePeriod")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filter = "Filter"
             case granularity = "Granularity"
@@ -952,6 +1022,7 @@ extension CostExplorer {
             AWSShapeMember(label: "ForecastResultsByTime", required: false, type: .list), 
             AWSShapeMember(label: "Total", required: false, type: .structure)
         ]
+
         /// The forecasts for your query, in order. For DAILY forecasts, this is a list of days. For MONTHLY forecasts, this is a list of months.
         public let forecastResultsByTime: [ForecastResult]?
         /// How much you're forecasted to use over the forecast period.
@@ -980,6 +1051,7 @@ extension CostExplorer {
             AWSShapeMember(label: "Keys", required: false, type: .list), 
             AWSShapeMember(label: "Metrics", required: false, type: .map)
         ]
+
         /// The keys that are included in this group.
         public let keys: [String]?
         /// The metrics that are included in this group.
@@ -1001,6 +1073,7 @@ extension CostExplorer {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The string that represents a key for a specified group.
         public let key: String?
         /// The string that represents the type of group.
@@ -1031,6 +1104,7 @@ extension CostExplorer {
             AWSShapeMember(label: "RDSInstanceDetails", required: false, type: .structure), 
             AWSShapeMember(label: "RedshiftInstanceDetails", required: false, type: .structure)
         ]
+
         /// The Amazon EC2 instances that AWS recommends that you purchase.
         public let eC2InstanceDetails: EC2InstanceDetails?
         /// The ElastiCache instances that AWS recommends that you purchase.
@@ -1082,6 +1156,7 @@ extension CostExplorer {
             AWSShapeMember(label: "Amount", required: false, type: .string), 
             AWSShapeMember(label: "Unit", required: false, type: .string)
         ]
+
         /// The actual number that represents the metric.
         public let amount: String?
         /// The unit that the metric is given in.
@@ -1126,6 +1201,7 @@ extension CostExplorer {
             AWSShapeMember(label: "Region", required: false, type: .string), 
             AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean)
         ]
+
         /// Whether the recommendation is for a current-generation instance. 
         public let currentGeneration: Bool?
         /// The database edition that the recommended reservation supports.
@@ -1178,6 +1254,7 @@ extension CostExplorer {
             AWSShapeMember(label: "Region", required: false, type: .string), 
             AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean)
         ]
+
         /// Whether the recommendation is for a current-generation instance.
         public let currentGeneration: Bool?
         /// The instance family of the recommended reservation.
@@ -1223,6 +1300,7 @@ extension CostExplorer {
             AWSShapeMember(label: "UtilizationPercentage", required: false, type: .string), 
             AWSShapeMember(label: "UtilizationPercentageInUnits", required: false, type: .string)
         ]
+
         /// The monthly cost of your reservation, amortized over the reservation period.
         public let amortizedRecurringFee: String?
         /// The upfront cost of your reservation, amortized over the reservation period.
@@ -1292,6 +1370,7 @@ extension CostExplorer {
             AWSShapeMember(label: "Attributes", required: false, type: .map), 
             AWSShapeMember(label: "Coverage", required: false, type: .structure)
         ]
+
         /// The attributes for this group of reservations.
         public let attributes: [String: String]?
         /// How much instance usage this group of reservations covered.
@@ -1318,6 +1397,7 @@ extension CostExplorer {
             AWSShapeMember(label: "ServiceSpecification", required: false, type: .structure), 
             AWSShapeMember(label: "TermInYears", required: false, type: .enum)
         ]
+
         /// The account scope that AWS recommends that you purchase this instance for. For example, you can purchase this reservation for an entire organization in AWS Organizations.
         public let accountScope: AccountScope?
         /// How many days of previous usage that AWS considers when making this recommendation.
@@ -1376,6 +1456,7 @@ extension CostExplorer {
             AWSShapeMember(label: "RecurringStandardMonthlyCost", required: false, type: .string), 
             AWSShapeMember(label: "UpfrontCost", required: false, type: .string)
         ]
+
         /// The account that this RI recommendation is for.
         public let accountId: String?
         /// The average number of normalized units that you used in an hour during the historical period. AWS uses this to calculate your recommended reservation purchases.
@@ -1465,6 +1546,7 @@ extension CostExplorer {
             AWSShapeMember(label: "GenerationTimestamp", required: false, type: .string), 
             AWSShapeMember(label: "RecommendationId", required: false, type: .string)
         ]
+
         /// The time stamp for when AWS made this recommendation.
         public let generationTimestamp: String?
         /// The ID for this specific recommendation.
@@ -1487,6 +1569,7 @@ extension CostExplorer {
             AWSShapeMember(label: "TotalEstimatedMonthlySavingsAmount", required: false, type: .string), 
             AWSShapeMember(label: "TotalEstimatedMonthlySavingsPercentage", required: false, type: .string)
         ]
+
         /// The currency code used for this recommendation.
         public let currencyCode: String?
         /// The total amount that AWS estimates that this recommendation could save you in a month.
@@ -1514,6 +1597,7 @@ extension CostExplorer {
             AWSShapeMember(label: "Utilization", required: false, type: .structure), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The attributes for this group of reservations.
         public let attributes: [String: String]?
         /// The key for a specific reservation attribute.
@@ -1545,6 +1629,7 @@ extension CostExplorer {
             AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
             AWSShapeMember(label: "Total", required: false, type: .map)
         ]
+
         /// Whether the result is estimated.
         public let estimated: Bool?
         /// The groups that this time period includes.
@@ -1573,6 +1658,7 @@ extension CostExplorer {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EC2Specification", required: false, type: .structure)
         ]
+
         /// The Amazon EC2 hardware specifications that you want AWS to provide recommendations for.
         public let eC2Specification: EC2Specification?
 
@@ -1590,6 +1676,7 @@ extension CostExplorer {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Values", required: false, type: .list)
         ]
+
         /// The key for the tag.
         public let key: String?
         /// The specific value of the tag.
@@ -1618,6 +1705,7 @@ extension CostExplorer {
             AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
             AWSShapeMember(label: "Total", required: false, type: .structure)
         ]
+
         /// The groups that this utilization result uses.
         public let groups: [ReservationUtilizationGroup]?
         /// The period of time that this utilization was used for.

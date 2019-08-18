@@ -16,6 +16,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "unmeteredDevices", required: false, type: .map), 
             AWSShapeMember(label: "unmeteredRemoteAccessDevices", required: false, type: .map)
         ]
+
         /// The AWS account number specified in the AccountSettings container.
         public let awsAccountNumber: String?
         /// The default number of minutes (at the account level) a test run will execute before it times out. The default value is 150 minutes.
@@ -64,6 +65,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "url", required: false, type: .string)
         ]
+
         /// The artifact's ARN.
         public let arn: String?
         /// The artifact's file extension.
@@ -143,6 +145,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "clock", required: false, type: .double), 
             AWSShapeMember(label: "frequency", required: false, type: .string)
         ]
+
         /// The CPU's architecture, for example x86 or ARM.
         public let architecture: String?
         /// The clock speed of the device's CPU, expressed in hertz (Hz). For example, a 1.2 GHz CPU is expressed as 1200000000.
@@ -173,6 +176,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "total", required: false, type: .integer), 
             AWSShapeMember(label: "warned", required: false, type: .integer)
         ]
+
         /// The number of errored entities.
         public let errored: Int32?
         /// The number of failed entities.
@@ -217,6 +221,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "projectArn", required: true, type: .string), 
             AWSShapeMember(label: "rules", required: true, type: .list)
         ]
+
         /// The device pool's description.
         public let description: String?
         /// The number of devices that Device Farm can add to your device pool. Device Farm adds devices that are available and that meet the criteria that you assign for the rules parameter. Depending on how many devices meet these constraints, your device pool might contain fewer devices than the value for this parameter. By specifying the maximum number of devices, you can control the costs that you incur by running tests.
@@ -236,6 +241,15 @@ extension DeviceFarm {
             self.rules = rules
         }
 
+        public func validate(name: String) throws {
+            try validate(description, name:"description", parent: name, max: 16384)
+            try validate(description, name:"description", parent: name, min: 0)
+            try validate(name, name:"name", parent: name, max: 256)
+            try validate(name, name:"name", parent: name, min: 0)
+            try validate(projectArn, name:"projectArn", parent: name, max: 1011)
+            try validate(projectArn, name:"projectArn", parent: name, min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case maxDevices = "maxDevices"
@@ -249,6 +263,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "devicePool", required: false, type: .structure)
         ]
+
         /// The newly created device pool.
         public let devicePool: DevicePool?
 
@@ -269,6 +284,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "packageCleanup", required: false, type: .boolean), 
             AWSShapeMember(label: "rebootAfterUse", required: false, type: .boolean)
         ]
+
         /// The description of your instance profile.
         public let description: String?
         /// An array of strings specifying the list of app packages that should not be cleaned up from the device after a test run is over. The list of packages is only considered if you set packageCleanup to true.
@@ -288,6 +304,13 @@ extension DeviceFarm {
             self.rebootAfterUse = rebootAfterUse
         }
 
+        public func validate(name: String) throws {
+            try validate(description, name:"description", parent: name, max: 16384)
+            try validate(description, name:"description", parent: name, min: 0)
+            try validate(name, name:"name", parent: name, max: 256)
+            try validate(name, name:"name", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case excludeAppPackagesFromCleanup = "excludeAppPackagesFromCleanup"
@@ -301,6 +324,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instanceProfile", required: false, type: .structure)
         ]
+
         /// An object containing information about your instance profile.
         public let instanceProfile: InstanceProfile?
 
@@ -328,6 +352,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "uplinkJitterMs", required: false, type: .long), 
             AWSShapeMember(label: "uplinkLossPercent", required: false, type: .integer)
         ]
+
         /// The description of the network profile.
         public let description: String?
         /// The data throughput rate in bits per second, as an integer from 0 to 104857600.
@@ -368,6 +393,19 @@ extension DeviceFarm {
             self.uplinkLossPercent = uplinkLossPercent
         }
 
+        public func validate(name: String) throws {
+            try validate(description, name:"description", parent: name, max: 16384)
+            try validate(description, name:"description", parent: name, min: 0)
+            try validate(downlinkLossPercent, name:"downlinkLossPercent", parent: name, max: 100)
+            try validate(downlinkLossPercent, name:"downlinkLossPercent", parent: name, min: 0)
+            try validate(name, name:"name", parent: name, max: 256)
+            try validate(name, name:"name", parent: name, min: 0)
+            try validate(projectArn, name:"projectArn", parent: name, max: 1011)
+            try validate(projectArn, name:"projectArn", parent: name, min: 32)
+            try validate(uplinkLossPercent, name:"uplinkLossPercent", parent: name, max: 100)
+            try validate(uplinkLossPercent, name:"uplinkLossPercent", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case downlinkBandwidthBits = "downlinkBandwidthBits"
@@ -388,6 +426,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "networkProfile", required: false, type: .structure)
         ]
+
         /// The network profile that is returned by the create network profile request.
         public let networkProfile: NetworkProfile?
 
@@ -405,6 +444,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "defaultJobTimeoutMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "name", required: true, type: .string)
         ]
+
         /// Sets the execution timeout value (in minutes) for a project. All test runs in this project will use the specified execution timeout value unless overridden when scheduling a run.
         public let defaultJobTimeoutMinutes: Int32?
         /// The project's name.
@@ -413,6 +453,11 @@ extension DeviceFarm {
         public init(defaultJobTimeoutMinutes: Int32? = nil, name: String) {
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 256)
+            try validate(name, name:"name", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -425,6 +470,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "project", required: false, type: .structure)
         ]
+
         /// The newly created project.
         public let project: Project?
 
@@ -442,6 +488,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "billingMethod", required: false, type: .enum), 
             AWSShapeMember(label: "vpceConfigurationArns", required: false, type: .list)
         ]
+
         /// The billing method for the remote access session.
         public let billingMethod: BillingMethod?
         /// An array of Amazon Resource Names (ARNs) included in the VPC endpoint configuration.
@@ -450,6 +497,13 @@ extension DeviceFarm {
         public init(billingMethod: BillingMethod? = nil, vpceConfigurationArns: [String]? = nil) {
             self.billingMethod = billingMethod
             self.vpceConfigurationArns = vpceConfigurationArns
+        }
+
+        public func validate(name: String) throws {
+            try vpceConfigurationArns?.forEach {
+                try validate($0, name: "vpceConfigurationArns[]", parent: name, max: 1011)
+                try validate($0, name: "vpceConfigurationArns[]", parent: name, min: 32)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -473,6 +527,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "skipAppResign", required: false, type: .boolean), 
             AWSShapeMember(label: "sshPublicKey", required: false, type: .string)
         ]
+
         /// Unique identifier for the client. If you want access to multiple devices on the same client, you should pass the same clientId value in each call to CreateRemoteAccessSession. This is required only if remoteDebugEnabled is set to true.
         public let clientId: String?
         /// The configuration information for the remote access session request.
@@ -513,6 +568,24 @@ extension DeviceFarm {
             self.sshPublicKey = sshPublicKey
         }
 
+        public func validate(name: String) throws {
+            try validate(clientId, name:"clientId", parent: name, max: 64)
+            try validate(clientId, name:"clientId", parent: name, min: 0)
+            try configuration?.validate(name: "\(name).configuration")
+            try validate(deviceArn, name:"deviceArn", parent: name, max: 1011)
+            try validate(deviceArn, name:"deviceArn", parent: name, min: 32)
+            try validate(instanceArn, name:"instanceArn", parent: name, max: 1011)
+            try validate(instanceArn, name:"instanceArn", parent: name, min: 32)
+            try validate(name, name:"name", parent: name, max: 256)
+            try validate(name, name:"name", parent: name, min: 0)
+            try validate(projectArn, name:"projectArn", parent: name, max: 1011)
+            try validate(projectArn, name:"projectArn", parent: name, min: 32)
+            try validate(remoteRecordAppArn, name:"remoteRecordAppArn", parent: name, max: 1011)
+            try validate(remoteRecordAppArn, name:"remoteRecordAppArn", parent: name, min: 32)
+            try validate(sshPublicKey, name:"sshPublicKey", parent: name, max: 8192)
+            try validate(sshPublicKey, name:"sshPublicKey", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clientId = "clientId"
             case configuration = "configuration"
@@ -533,6 +606,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "remoteAccessSession", required: false, type: .structure)
         ]
+
         /// A container that describes the remote access session when the request to create a remote access session is sent.
         public let remoteAccessSession: RemoteAccessSession?
 
@@ -552,6 +626,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "projectArn", required: true, type: .string), 
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
+
         /// The upload's content type (for example, "application/octet-stream").
         public let contentType: String?
         /// The upload's file name. The name should not contain the '/' character. If uploading an iOS app, the file name needs to end with the .ipa extension. If uploading an Android app, the file name needs to end with the .apk extension. For all others, the file name must end with the .zip file extension.
@@ -568,6 +643,15 @@ extension DeviceFarm {
             self.`type` = `type`
         }
 
+        public func validate(name: String) throws {
+            try validate(contentType, name:"contentType", parent: name, max: 64)
+            try validate(contentType, name:"contentType", parent: name, min: 0)
+            try validate(name, name:"name", parent: name, max: 256)
+            try validate(name, name:"name", parent: name, min: 0)
+            try validate(projectArn, name:"projectArn", parent: name, max: 1011)
+            try validate(projectArn, name:"projectArn", parent: name, min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case contentType = "contentType"
             case name = "name"
@@ -580,6 +664,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "upload", required: false, type: .structure)
         ]
+
         /// The newly created upload.
         public let upload: Upload?
 
@@ -599,6 +684,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "vpceConfigurationName", required: true, type: .string), 
             AWSShapeMember(label: "vpceServiceName", required: true, type: .string)
         ]
+
         /// The DNS name of the service running in your VPC that you want Device Farm to test.
         public let serviceDnsName: String
         /// An optional description, providing more details about your VPC endpoint configuration.
@@ -615,6 +701,17 @@ extension DeviceFarm {
             self.vpceServiceName = vpceServiceName
         }
 
+        public func validate(name: String) throws {
+            try validate(serviceDnsName, name:"serviceDnsName", parent: name, max: 2048)
+            try validate(serviceDnsName, name:"serviceDnsName", parent: name, min: 0)
+            try validate(vpceConfigurationDescription, name:"vpceConfigurationDescription", parent: name, max: 2048)
+            try validate(vpceConfigurationDescription, name:"vpceConfigurationDescription", parent: name, min: 0)
+            try validate(vpceConfigurationName, name:"vpceConfigurationName", parent: name, max: 1024)
+            try validate(vpceConfigurationName, name:"vpceConfigurationName", parent: name, min: 0)
+            try validate(vpceServiceName, name:"vpceServiceName", parent: name, max: 2048)
+            try validate(vpceServiceName, name:"vpceServiceName", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case serviceDnsName = "serviceDnsName"
             case vpceConfigurationDescription = "vpceConfigurationDescription"
@@ -627,6 +724,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "vpceConfiguration", required: false, type: .structure)
         ]
+
         /// An object containing information about your VPC endpoint configuration.
         public let vpceConfiguration: VPCEConfiguration?
 
@@ -650,6 +748,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "deviceHostPaths", required: false, type: .list), 
             AWSShapeMember(label: "iosPaths", required: false, type: .list)
         ]
+
         /// Comma-separated list of paths on the Android device where the artifacts generated by the customer's tests will be pulled from.
         public let androidPaths: [String]?
         /// Comma-separated list of paths in the test execution environment where the artifacts generated by the customer's tests will be pulled from.
@@ -674,11 +773,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// Represents the Amazon Resource Name (ARN) of the Device Farm device pool you wish to delete.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -687,6 +792,7 @@ extension DeviceFarm {
     }
 
     public struct DeleteDevicePoolResult: AWSShape {
+
 
         public init() {
         }
@@ -697,11 +803,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the instance profile you are requesting to delete.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -710,6 +822,7 @@ extension DeviceFarm {
     }
 
     public struct DeleteInstanceProfileResult: AWSShape {
+
 
         public init() {
         }
@@ -720,11 +833,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the network profile you want to delete.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -733,6 +852,7 @@ extension DeviceFarm {
     }
 
     public struct DeleteNetworkProfileResult: AWSShape {
+
 
         public init() {
         }
@@ -743,11 +863,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// Represents the Amazon Resource Name (ARN) of the Device Farm project you wish to delete.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -756,6 +882,7 @@ extension DeviceFarm {
     }
 
     public struct DeleteProjectResult: AWSShape {
+
 
         public init() {
         }
@@ -766,11 +893,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the session for which you want to delete remote access.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -779,6 +912,7 @@ extension DeviceFarm {
     }
 
     public struct DeleteRemoteAccessSessionResult: AWSShape {
+
 
         public init() {
         }
@@ -789,11 +923,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) for the run you wish to delete.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -802,6 +942,7 @@ extension DeviceFarm {
     }
 
     public struct DeleteRunResult: AWSShape {
+
 
         public init() {
         }
@@ -812,11 +953,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// Represents the Amazon Resource Name (ARN) of the Device Farm upload you wish to delete.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -825,6 +972,7 @@ extension DeviceFarm {
     }
 
     public struct DeleteUploadResult: AWSShape {
+
 
         public init() {
         }
@@ -835,11 +983,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to delete.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -848,6 +1002,7 @@ extension DeviceFarm {
     }
 
     public struct DeleteVPCEConfigurationResult: AWSShape {
+
 
         public init() {
         }
@@ -878,6 +1033,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "remoteDebugEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "resolution", required: false, type: .structure)
         ]
+
         /// The device's ARN.
         public let arn: String?
         /// Reflects how likely a device will be available for a test run. It is currently available in the ListDevices and GetDevice API methods.
@@ -1001,6 +1157,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "operator", required: false, type: .enum), 
             AWSShapeMember(label: "values", required: false, type: .list)
         ]
+
         /// The aspect of a device such as platform or model used as the selection criteria in a device filter. The supported operators for each attribute are provided in the following list.  ARN  The Amazon Resource Name (ARN) of the device. For example, "arn:aws:devicefarm:us-west-2::device:12345Example".  Supported operators: EQUALS, IN, NOT_IN   PLATFORM  The device platform. Valid values are "ANDROID" or "IOS".  Supported operators: EQUALS   OS_VERSION  The operating system version. For example, "10.3.2".  Supported operators: EQUALS, GREATER_THAN, GREATER_THAN_OR_EQUALS, IN, LESS_THAN, LESS_THAN_OR_EQUALS, NOT_IN   MODEL  The device model. For example, "iPad 5th Gen".  Supported operators: CONTAINS, EQUALS, IN, NOT_IN   AVAILABILITY  The current availability of the device. Valid values are "AVAILABLE", "HIGHLY_AVAILABLE", "BUSY", or "TEMPORARY_NOT_AVAILABLE".  Supported operators: EQUALS   FORM_FACTOR  The device form factor. Valid values are "PHONE" or "TABLET".  Supported operators: EQUALS   MANUFACTURER  The device manufacturer. For example, "Apple".  Supported operators: EQUALS, IN, NOT_IN   REMOTE_ACCESS_ENABLED  Whether the device is enabled for remote access. Valid values are "TRUE" or "FALSE".  Supported operators: EQUALS   REMOTE_DEBUG_ENABLED  Whether the device is enabled for remote debugging. Valid values are "TRUE" or "FALSE".  Supported operators: EQUALS   INSTANCE_ARN  The Amazon Resource Name (ARN) of the device instance.  Supported operators: EQUALS, IN, NOT_IN   INSTANCE_LABELS  The label of the device instance.  Supported operators: CONTAINS   FLEET_TYPE  The fleet type. Valid values are "PUBLIC" or "PRIVATE".  Supported operators: EQUALS   
         public let attribute: DeviceFilterAttribute?
         /// Specifies how Device Farm compares the filter's attribute to the value. For the operators that are supported by each attribute, see the attribute descriptions.
@@ -1052,6 +1209,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "udid", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the device instance.
         public let arn: String?
         /// The Amazon Resource Name (ARN) of the device.
@@ -1090,6 +1248,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "total", required: false, type: .double), 
             AWSShapeMember(label: "unmetered", required: false, type: .double)
         ]
+
         /// When specified, represents only the sum of metered minutes used by the resource to run tests.
         public let metered: Double?
         /// When specified, represents the total minutes used by the resource to run tests.
@@ -1125,6 +1284,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "rules", required: false, type: .list), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// The device pool's ARN.
         public let arn: String?
         /// The device pool's description.
@@ -1163,6 +1323,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "device", required: false, type: .structure), 
             AWSShapeMember(label: "incompatibilityMessages", required: false, type: .list)
         ]
+
         /// Whether the result was compatible with the device pool.
         public let compatible: Bool?
         /// The device (phone or tablet) that you wish to return information about.
@@ -1194,6 +1355,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "filters", required: true, type: .list), 
             AWSShapeMember(label: "maxDevices", required: true, type: .integer)
         ]
+
         /// Used to dynamically select a set of devices for a test run. A filter is made up of an attribute, an operator, and one or more values.    Attribute  The aspect of a device such as platform or model used as the selection criteria in a device filter. Allowed values include:   ARN: The Amazon Resource Name (ARN) of the device. For example, "arn:aws:devicefarm:us-west-2::device:12345Example".   PLATFORM: The device platform. Valid values are "ANDROID" or "IOS".   OS_VERSION: The operating system version. For example, "10.3.2".   MODEL: The device model. For example, "iPad 5th Gen".   AVAILABILITY: The current availability of the device. Valid values are "AVAILABLE", "HIGHLY_AVAILABLE", "BUSY", or "TEMPORARY_NOT_AVAILABLE".   FORM_FACTOR: The device form factor. Valid values are "PHONE" or "TABLET".   MANUFACTURER: The device manufacturer. For example, "Apple".   REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access. Valid values are "TRUE" or "FALSE".   REMOTE_DEBUG_ENABLED: Whether the device is enabled for remote debugging. Valid values are "TRUE" or "FALSE".   INSTANCE_ARN: The Amazon Resource Name (ARN) of the device instance.   INSTANCE_LABELS: The label of the device instance.   FLEET_TYPE: The fleet type. Valid values are "PUBLIC" or "PRIVATE".      Operator  The filter operator.   The EQUALS operator is available for every attribute except INSTANCE_LABELS.   The CONTAINS operator is available for the INSTANCE_LABELS and MODEL attributes.   The IN and NOT_IN operators are available for the ARN, OS_VERSION, MODEL, MANUFACTURER, and INSTANCE_ARN attributes.   The LESS_THAN, GREATER_THAN, LESS_THAN_OR_EQUALS, and GREATER_THAN_OR_EQUALS operators are also available for the OS_VERSION attribute.      Values  An array of one or more filter values.  Operator Values    The IN and NOT_IN operators can take a values array that has more than one element.   The other operators require an array with a single element.    Attribute Values    The PLATFORM attribute can be set to "ANDROID" or "IOS".   The AVAILABILITY attribute can be set to "AVAILABLE", "HIGHLY_AVAILABLE", "BUSY", or "TEMPORARY_NOT_AVAILABLE".   The FORM_FACTOR attribute can be set to "PHONE" or "TABLET".   The FLEET_TYPE attribute can be set to "PUBLIC" or "PRIVATE".    
         public let filters: [DeviceFilter]
         /// The maximum number of devices to be included in a test run.
@@ -1216,6 +1378,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "matchedDevicesCount", required: false, type: .integer), 
             AWSShapeMember(label: "maxDevices", required: false, type: .integer)
         ]
+
         /// The filters in a device selection result.
         public let filters: [DeviceFilter]?
         /// The number of devices that matched the device filter selection criteria.
@@ -1244,6 +1407,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "skipAppResign", required: false, type: .boolean), 
             AWSShapeMember(label: "videoCapture", required: false, type: .boolean)
         ]
+
         /// True if account cleanup is enabled at the beginning of the test; otherwise, false.
         public let accountsCleanup: Bool?
         /// True if app package cleanup is enabled at the beginning of the test; otherwise, false.
@@ -1304,6 +1468,7 @@ extension DeviceFarm {
 
     public struct GetAccountSettingsRequest: AWSShape {
 
+
         public init() {
         }
 
@@ -1313,6 +1478,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "accountSettings", required: false, type: .structure)
         ]
+
         /// The account settings.
         public let accountSettings: AccountSettings?
 
@@ -1329,11 +1495,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the instance you're requesting information about.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1345,6 +1517,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deviceInstance", required: false, type: .structure)
         ]
+
         /// An object containing information about your device instance.
         public let deviceInstance: DeviceInstance?
 
@@ -1365,6 +1538,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "test", required: false, type: .structure), 
             AWSShapeMember(label: "testType", required: false, type: .enum)
         ]
+
         /// The ARN of the app that is associated with the specified device pool.
         public let appArn: String?
         /// An object containing information about the settings for a run.
@@ -1384,6 +1558,15 @@ extension DeviceFarm {
             self.testType = testType
         }
 
+        public func validate(name: String) throws {
+            try validate(appArn, name:"appArn", parent: name, max: 1011)
+            try validate(appArn, name:"appArn", parent: name, min: 32)
+            try configuration?.validate(name: "\(name).configuration")
+            try validate(devicePoolArn, name:"devicePoolArn", parent: name, max: 1011)
+            try validate(devicePoolArn, name:"devicePoolArn", parent: name, min: 32)
+            try test?.validate(name: "\(name).test")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appArn = "appArn"
             case configuration = "configuration"
@@ -1398,6 +1581,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "compatibleDevices", required: false, type: .list), 
             AWSShapeMember(label: "incompatibleDevices", required: false, type: .list)
         ]
+
         /// Information about compatible devices.
         public let compatibleDevices: [DevicePoolCompatibilityResult]?
         /// Information about incompatible devices.
@@ -1418,11 +1602,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// The device pool's ARN.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1434,6 +1624,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "devicePool", required: false, type: .structure)
         ]
+
         /// An object containing information about the requested device pool.
         public let devicePool: DevicePool?
 
@@ -1450,11 +1641,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// The device type's ARN.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1466,6 +1663,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "device", required: false, type: .structure)
         ]
+
         /// An object containing information about the requested device.
         public let device: Device?
 
@@ -1482,11 +1680,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of your instance profile.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1498,6 +1702,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instanceProfile", required: false, type: .structure)
         ]
+
         /// An object containing information about your instance profile.
         public let instanceProfile: InstanceProfile?
 
@@ -1514,11 +1719,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// The job's ARN.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1530,6 +1741,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "job", required: false, type: .structure)
         ]
+
         /// An object containing information about the requested job.
         public let job: Job?
 
@@ -1546,11 +1758,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the network profile you want to return information about.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1562,6 +1780,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "networkProfile", required: false, type: .structure)
         ]
+
         /// The network profile.
         public let networkProfile: NetworkProfile?
 
@@ -1578,11 +1797,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1596,6 +1821,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "nextPeriod", required: false, type: .map), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// When specified, gets the offering status for the current period.
         public let current: [String: OfferingStatus]?
         /// When specified, gets the offering status for the next period.
@@ -1620,11 +1846,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// The project's ARN.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1636,6 +1868,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "project", required: false, type: .structure)
         ]
+
         /// The project you wish to get information about.
         public let project: Project?
 
@@ -1652,11 +1885,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the remote access session about which you want to get session information.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1668,6 +1907,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "remoteAccessSession", required: false, type: .structure)
         ]
+
         /// A container that lists detailed information about the remote access session.
         public let remoteAccessSession: RemoteAccessSession?
 
@@ -1684,11 +1924,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// The run's ARN.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1700,6 +1946,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "run", required: false, type: .structure)
         ]
+
         /// The run you wish to get results from.
         public let run: Run?
 
@@ -1716,11 +1963,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// The suite's ARN.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1732,6 +1985,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "suite", required: false, type: .structure)
         ]
+
         /// A collection of one or more tests.
         public let suite: Suite?
 
@@ -1748,11 +2002,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// The test's ARN.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1764,6 +2024,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "test", required: false, type: .structure)
         ]
+
         /// A test condition that is evaluated.
         public let test: Test?
 
@@ -1780,11 +2041,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// The upload's ARN.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1796,6 +2063,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "upload", required: false, type: .structure)
         ]
+
         /// An app or a set of one or more tests to upload or that have been uploaded.
         public let upload: Upload?
 
@@ -1812,11 +2080,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to describe.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1828,6 +2102,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "vpceConfiguration", required: false, type: .structure)
         ]
+
         /// An object containing information about your VPC endpoint configuration.
         public let vpceConfiguration: VPCEConfiguration?
 
@@ -1845,6 +2120,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "message", required: false, type: .string), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// A message about the incompatibility.
         public let message: String?
         /// The type of incompatibility. Allowed values include:   ARN: The ARN.   FORM_FACTOR: The form factor (for example, phone or tablet).   MANUFACTURER: The manufacturer.   PLATFORM: The platform (for example, Android or iOS).   REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access.   APPIUM_VERSION: The Appium version for the test.  
@@ -1866,6 +2142,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "appArn", required: true, type: .string), 
             AWSShapeMember(label: "remoteAccessSessionArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the app about which you are requesting information.
         public let appArn: String
         /// The Amazon Resource Name (ARN) of the remote access session about which you are requesting information.
@@ -1874,6 +2151,13 @@ extension DeviceFarm {
         public init(appArn: String, remoteAccessSessionArn: String) {
             self.appArn = appArn
             self.remoteAccessSessionArn = remoteAccessSessionArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(appArn, name:"appArn", parent: name, max: 1011)
+            try validate(appArn, name:"appArn", parent: name, min: 32)
+            try validate(remoteAccessSessionArn, name:"remoteAccessSessionArn", parent: name, max: 1011)
+            try validate(remoteAccessSessionArn, name:"remoteAccessSessionArn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1886,6 +2170,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appUpload", required: false, type: .structure)
         ]
+
         /// An app to upload or that has been uploaded.
         public let appUpload: Upload?
 
@@ -1907,6 +2192,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "packageCleanup", required: false, type: .boolean), 
             AWSShapeMember(label: "rebootAfterUse", required: false, type: .boolean)
         ]
+
         /// The Amazon Resource Name (ARN) of the instance profile.
         public let arn: String?
         /// The description of the instance profile.
@@ -1972,6 +2258,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "videoCapture", required: false, type: .boolean), 
             AWSShapeMember(label: "videoEndpoint", required: false, type: .string)
         ]
+
         /// The job's ARN.
         public let arn: String?
         /// The job's result counters.
@@ -2046,6 +2333,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
+
         /// The Run, Job, Suite, or Test ARN.
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2057,6 +2345,13 @@ extension DeviceFarm {
             self.arn = arn
             self.nextToken = nextToken
             self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2071,6 +2366,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "artifacts", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// Information about the artifacts.
         public let artifacts: [Artifact]?
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
@@ -2092,6 +2388,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// An integer specifying the maximum number of items you want to return in the API response.
         public let maxResults: Int32?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2100,6 +2397,11 @@ extension DeviceFarm {
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2113,6 +2415,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "deviceInstances", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// An object containing information about your device instances.
         public let deviceInstances: [DeviceInstance]?
         /// An identifier that can be used in the next call to this operation to return the next set of items in the list.
@@ -2135,6 +2438,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// The project ARN.
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2146,6 +2450,13 @@ extension DeviceFarm {
             self.arn = arn
             self.nextToken = nextToken
             self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2160,6 +2471,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "devicePools", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// Information about the device pools.
         public let devicePools: [DevicePool]?
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
@@ -2182,6 +2494,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "filters", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the project.
         public let arn: String?
         /// Used to select a set of devices. A filter is made up of an attribute, an operator, and one or more values.   Attribute: The aspect of a device such as platform or model used as the selection criteria in a device filter. Allowed values include:   ARN: The Amazon Resource Name (ARN) of the device. For example, "arn:aws:devicefarm:us-west-2::device:12345Example".   PLATFORM: The device platform. Valid values are "ANDROID" or "IOS".   OS_VERSION: The operating system version. For example, "10.3.2".   MODEL: The device model. For example, "iPad 5th Gen".   AVAILABILITY: The current availability of the device. Valid values are "AVAILABLE", "HIGHLY_AVAILABLE", "BUSY", or "TEMPORARY_NOT_AVAILABLE".   FORM_FACTOR: The device form factor. Valid values are "PHONE" or "TABLET".   MANUFACTURER: The device manufacturer. For example, "Apple".   REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access. Valid values are "TRUE" or "FALSE".   REMOTE_DEBUG_ENABLED: Whether the device is enabled for remote debugging. Valid values are "TRUE" or "FALSE".   INSTANCE_ARN: The Amazon Resource Name (ARN) of the device instance.   INSTANCE_LABELS: The label of the device instance.   FLEET_TYPE: The fleet type. Valid values are "PUBLIC" or "PRIVATE".     Operator: The filter operator.   The EQUALS operator is available for every attribute except INSTANCE_LABELS.   The CONTAINS operator is available for the INSTANCE_LABELS and MODEL attributes.   The IN and NOT_IN operators are available for the ARN, OS_VERSION, MODEL, MANUFACTURER, and INSTANCE_ARN attributes.   The LESS_THAN, GREATER_THAN, LESS_THAN_OR_EQUALS, and GREATER_THAN_OR_EQUALS operators are also available for the OS_VERSION attribute.     Values: An array of one or more filter values.   The IN and NOT_IN operators take a values array that has one or more elements.   The other operators require an array with a single element.   In a request, the AVAILABILITY attribute takes "AVAILABLE", "HIGHLY_AVAILABLE", "BUSY", or "TEMPORARY_NOT_AVAILABLE" as values.    
@@ -2193,6 +2506,13 @@ extension DeviceFarm {
             self.arn = arn
             self.filters = filters
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2207,6 +2527,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "devices", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// Information about the devices.
         public let devices: [Device]?
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
@@ -2228,6 +2549,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// An integer specifying the maximum number of items you want to return in the API response.
         public let maxResults: Int32?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2236,6 +2558,11 @@ extension DeviceFarm {
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2249,6 +2576,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "instanceProfiles", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// An object containing information about your instance profiles.
         public let instanceProfiles: [InstanceProfile]?
         /// An identifier that can be used in the next call to this operation to return the next set of items in the list.
@@ -2270,6 +2598,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "arn", required: true, type: .string), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The run's Amazon Resource Name (ARN).
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2278,6 +2607,13 @@ extension DeviceFarm {
         public init(arn: String, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2291,6 +2627,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "jobs", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// Information about the jobs.
         public let jobs: [Job]?
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
@@ -2313,6 +2650,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// The Amazon Resource Name (ARN) of the project for which you want to list network profiles.
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2324,6 +2662,13 @@ extension DeviceFarm {
             self.arn = arn
             self.nextToken = nextToken
             self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2338,6 +2683,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "networkProfiles", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of the available network profiles.
         public let networkProfiles: [NetworkProfile]?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2358,11 +2704,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2375,6 +2727,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "offeringPromotions", required: false, type: .list)
         ]
+
         /// An identifier to be used in the next call to this operation, to return the next set of items in the list.
         public let nextToken: String?
         /// Information about the offering promotions.
@@ -2395,11 +2748,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2412,6 +2771,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "offeringTransactions", required: false, type: .list)
         ]
+
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
         /// The audit log of subscriptions you have purchased and modified through AWS Device Farm.
@@ -2432,11 +2792,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2449,6 +2815,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "offerings", required: false, type: .list)
         ]
+
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
         /// A value representing the list offering results.
@@ -2470,6 +2837,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// Optional. If no Amazon Resource Name (ARN) is specified, then AWS Device Farm returns a list of all projects for the AWS account. You can also specify a project ARN.
         public let arn: String?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2478,6 +2846,13 @@ extension DeviceFarm {
         public init(arn: String? = nil, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2491,6 +2866,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "projects", required: false, type: .list)
         ]
+
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
         /// Information about the projects.
@@ -2512,6 +2888,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "arn", required: true, type: .string), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the remote access session about which you are requesting information.
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2520,6 +2897,13 @@ extension DeviceFarm {
         public init(arn: String, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2533,6 +2917,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "remoteAccessSessions", required: false, type: .list)
         ]
+
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
         /// A container representing the metadata from the service about each remote access session you are requesting.
@@ -2554,6 +2939,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "arn", required: true, type: .string), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the project for which you want to list runs.
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2562,6 +2948,13 @@ extension DeviceFarm {
         public init(arn: String, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2575,6 +2968,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "runs", required: false, type: .list)
         ]
+
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
         /// Information about the runs.
@@ -2596,6 +2990,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "arn", required: true, type: .string), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the job used to list samples.
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2604,6 +2999,13 @@ extension DeviceFarm {
         public init(arn: String, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2617,6 +3019,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "samples", required: false, type: .list)
         ]
+
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
         /// Information about the samples.
@@ -2638,6 +3041,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "arn", required: true, type: .string), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The job's Amazon Resource Name (ARN).
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2646,6 +3050,13 @@ extension DeviceFarm {
         public init(arn: String, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2659,6 +3070,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "suites", required: false, type: .list)
         ]
+
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
         /// Information about the suites.
@@ -2679,11 +3091,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARN", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the resource(s) for which to list tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
         public let resourceARN: String
 
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 1011)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2695,6 +3113,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [Tag]?
 
@@ -2712,6 +3131,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "arn", required: true, type: .string), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The test suite's Amazon Resource Name (ARN).
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2720,6 +3140,13 @@ extension DeviceFarm {
         public init(arn: String, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2733,6 +3160,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "tests", required: false, type: .list)
         ]
+
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
         /// Information about the tests.
@@ -2754,6 +3182,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "arn", required: true, type: .string), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The unique problems' ARNs.
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2762,6 +3191,13 @@ extension DeviceFarm {
         public init(arn: String, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2775,6 +3211,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "uniqueProblems", required: false, type: .map)
         ]
+
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
         /// Information about the unique problems. Allowed values include:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
@@ -2797,6 +3234,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// The Amazon Resource Name (ARN) of the project for which you want to list uploads.
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2808,6 +3246,13 @@ extension DeviceFarm {
             self.arn = arn
             self.nextToken = nextToken
             self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2822,6 +3267,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "uploads", required: false, type: .list)
         ]
+
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
         /// Information about the uploads.
@@ -2843,6 +3289,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// An integer specifying the maximum number of items you want to return in the API response.
         public let maxResults: Int32?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2851,6 +3298,11 @@ extension DeviceFarm {
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2864,6 +3316,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "vpceConfigurations", required: false, type: .list)
         ]
+
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
         /// An array of VPCEConfiguration objects containing information about your VPC endpoint configuration.
@@ -2885,6 +3338,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "latitude", required: true, type: .double), 
             AWSShapeMember(label: "longitude", required: true, type: .double)
         ]
+
         /// The latitude.
         public let latitude: Double
         /// The longitude.
@@ -2906,6 +3360,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "amount", required: false, type: .double), 
             AWSShapeMember(label: "currencyCode", required: false, type: .enum)
         ]
+
         /// The numerical amount of an offering or transaction.
         public let amount: Double?
         /// The currency code of a monetary amount. For example, USD means "U.S. dollars."
@@ -2937,6 +3392,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "uplinkJitterMs", required: false, type: .long), 
             AWSShapeMember(label: "uplinkLossPercent", required: false, type: .integer)
         ]
+
         /// The Amazon Resource Name (ARN) of the network profile.
         public let arn: String?
         /// The description of the network profile.
@@ -3007,6 +3463,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "recurringCharges", required: false, type: .list), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// A string describing the offering.
         public let description: String?
         /// The ID that corresponds to a device offering.
@@ -3040,6 +3497,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "id", required: false, type: .string)
         ]
+
         /// A string describing the offering promotion.
         public let description: String?
         /// The ID of the offering promotion.
@@ -3063,6 +3521,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "quantity", required: false, type: .integer), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// The date on which the offering is effective.
         public let effectiveOn: TimeStamp?
         /// Represents the metadata of an offering status.
@@ -3095,6 +3554,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "offeringStatus", required: false, type: .structure), 
             AWSShapeMember(label: "transactionId", required: false, type: .string)
         ]
+
         /// The cost of an offering transaction.
         public let cost: MonetaryAmount?
         /// The date on which an offering transaction was created.
@@ -3145,6 +3605,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "suite", required: false, type: .structure), 
             AWSShapeMember(label: "test", required: false, type: .structure)
         ]
+
         /// Information about the associated device.
         public let device: Device?
         /// Information about the associated job.
@@ -3186,6 +3647,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// The problem detail's ARN.
         public let arn: String?
         /// The problem detail's name.
@@ -3209,6 +3671,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "defaultJobTimeoutMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// The project's ARN.
         public let arn: String?
         /// When the project was created.
@@ -3239,6 +3702,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "offeringPromotionId", required: false, type: .string), 
             AWSShapeMember(label: "quantity", required: false, type: .integer)
         ]
+
         /// The ID of the offering.
         public let offeringId: String?
         /// The ID of the offering promotion to be applied to the purchase.
@@ -3252,6 +3716,11 @@ extension DeviceFarm {
             self.quantity = quantity
         }
 
+        public func validate(name: String) throws {
+            try validate(offeringId, name:"offeringId", parent: name, min: 32)
+            try validate(offeringPromotionId, name:"offeringPromotionId", parent: name, min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case offeringId = "offeringId"
             case offeringPromotionId = "offeringPromotionId"
@@ -3263,6 +3732,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "offeringTransaction", required: false, type: .structure)
         ]
+
         /// Represents the offering transaction for the purchase result.
         public let offeringTransaction: OfferingTransaction?
 
@@ -3282,6 +3752,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "nfc", required: false, type: .boolean), 
             AWSShapeMember(label: "wifi", required: false, type: .boolean)
         ]
+
         /// True if Bluetooth is enabled at the beginning of the test; otherwise, false.
         public let bluetooth: Bool?
         /// True if GPS is enabled at the beginning of the test; otherwise, false.
@@ -3311,6 +3782,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "cost", required: false, type: .structure), 
             AWSShapeMember(label: "frequency", required: false, type: .enum)
         ]
+
         /// The cost of the recurring charge.
         public let cost: MonetaryAmount?
         /// The frequency in which charges will recur.
@@ -3356,6 +3828,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "stopped", required: false, type: .timestamp)
         ]
+
         /// The Amazon Resource Name (ARN) of the remote access session.
         public let arn: String?
         /// The billing method of the remote access session. Possible values include METERED or UNMETERED. For more information about metered devices, see AWS Device Farm terminology."
@@ -3453,6 +3926,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "offeringId", required: false, type: .string), 
             AWSShapeMember(label: "quantity", required: false, type: .integer)
         ]
+
         /// The ID of a request to renew an offering.
         public let offeringId: String?
         /// The quantity requested in an offering renewal.
@@ -3461,6 +3935,10 @@ extension DeviceFarm {
         public init(offeringId: String? = nil, quantity: Int32? = nil) {
             self.offeringId = offeringId
             self.quantity = quantity
+        }
+
+        public func validate(name: String) throws {
+            try validate(offeringId, name:"offeringId", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3473,6 +3951,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "offeringTransaction", required: false, type: .structure)
         ]
+
         /// Represents the status of the offering transaction for the renewal.
         public let offeringTransaction: OfferingTransaction?
 
@@ -3490,6 +3969,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "height", required: false, type: .integer), 
             AWSShapeMember(label: "width", required: false, type: .integer)
         ]
+
         /// The screen resolution's height, expressed in pixels.
         public let height: Int32?
         /// The screen resolution's width, expressed in pixels.
@@ -3512,6 +3992,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "operator", required: false, type: .enum), 
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
+
         /// The rule's stringified attribute. For example, specify the value as "\"abc\"". The supported operators for each attribute are provided in the following list.  APPIUM_VERSION  The Appium version for the test.  Supported operators: CONTAINS   ARN  The Amazon Resource Name (ARN) of the device. For example, "arn:aws:devicefarm:us-west-2::device:12345Example".  Supported operators: EQUALS, IN, NOT_IN   AVAILABILITY  The current availability of the device. Valid values are "AVAILABLE", "HIGHLY_AVAILABLE", "BUSY", or "TEMPORARY_NOT_AVAILABLE".  Supported operators: EQUALS   FLEET_TYPE  The fleet type. Valid values are "PUBLIC" or "PRIVATE".  Supported operators: EQUALS   FORM_FACTOR  The device form factor. Valid values are "PHONE" or "TABLET".  Supported operators: EQUALS, IN, NOT_IN   INSTANCE_ARN  The Amazon Resource Name (ARN) of the device instance.  Supported operators: IN, NOT_IN   INSTANCE_LABELS  The label of the device instance.  Supported operators: CONTAINS   MANUFACTURER  The device manufacturer. For example, "Apple".  Supported operators: EQUALS, IN, NOT_IN   MODEL  The device model, such as "Apple iPad Air 2" or "Google Pixel".  Supported operators: CONTAINS, EQUALS, IN, NOT_IN   OS_VERSION  The operating system version. For example, "10.3.2".  Supported operators: EQUALS, GREATER_THAN, GREATER_THAN_OR_EQUALS, IN, LESS_THAN, LESS_THAN_OR_EQUALS, NOT_IN   PLATFORM  The device platform. Valid values are "ANDROID" or "IOS".  Supported operators: EQUALS, IN, NOT_IN   REMOTE_ACCESS_ENABLED  Whether the device is enabled for remote access. Valid values are "TRUE" or "FALSE".  Supported operators: EQUALS   REMOTE_DEBUG_ENABLED  Whether the device is enabled for remote debugging. Valid values are "TRUE" or "FALSE".  Supported operators: EQUALS   
         public let attribute: DeviceAttribute?
         /// Specifies how Device Farm compares the rule's attribute to the value. For the operators that are supported by each attribute, see the attribute descriptions.
@@ -3578,6 +4059,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "webUrl", required: false, type: .string)
         ]
+
         /// An app to upload or that has been uploaded.
         public let appUpload: String?
         /// The run's ARN.
@@ -3716,6 +4198,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "url", required: false, type: .string)
         ]
+
         /// The sample's ARN.
         public let arn: String?
         /// The sample's type. Must be one of the following values:   CPU: A CPU sample type. This is expressed as the app processing CPU time (including child processes) as reported by process, as a percentage.   MEMORY: A memory usage sample type. This is expressed as the total proportional set size of an app process, in kilobytes.   NATIVE_AVG_DRAWTIME   NATIVE_FPS   NATIVE_FRAMES   NATIVE_MAX_DRAWTIME   NATIVE_MIN_DRAWTIME   OPENGL_AVG_DRAWTIME   OPENGL_FPS   OPENGL_FRAMES   OPENGL_MAX_DRAWTIME   OPENGL_MIN_DRAWTIME   RX   RX_RATE: The total number of bytes per second (TCP and UDP) that are sent, by app process.   THREADS: A threads sample type. This is expressed as the total number of threads per app process.   TX   TX_RATE: The total number of bytes per second (TCP and UDP) that are received, by app process.  
@@ -3769,6 +4252,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "radios", required: false, type: .structure), 
             AWSShapeMember(label: "vpceConfigurationArns", required: false, type: .list)
         ]
+
         /// A list of auxiliary apps for the run.
         public let auxiliaryApps: [String]?
         /// Specifies the billing method for a test run: metered or unmetered. If the parameter is not specified, the default value is metered.
@@ -3800,6 +4284,21 @@ extension DeviceFarm {
             self.vpceConfigurationArns = vpceConfigurationArns
         }
 
+        public func validate(name: String) throws {
+            try auxiliaryApps?.forEach {
+                try validate($0, name: "auxiliaryApps[]", parent: name, max: 1011)
+                try validate($0, name: "auxiliaryApps[]", parent: name, min: 32)
+            }
+            try validate(extraDataPackageArn, name:"extraDataPackageArn", parent: name, max: 1011)
+            try validate(extraDataPackageArn, name:"extraDataPackageArn", parent: name, min: 32)
+            try validate(networkProfileArn, name:"networkProfileArn", parent: name, max: 1011)
+            try validate(networkProfileArn, name:"networkProfileArn", parent: name, min: 32)
+            try vpceConfigurationArns?.forEach {
+                try validate($0, name: "vpceConfigurationArns[]", parent: name, max: 1011)
+                try validate($0, name: "vpceConfigurationArns[]", parent: name, min: 32)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case auxiliaryApps = "auxiliaryApps"
             case billingMethod = "billingMethod"
@@ -3824,6 +4323,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "projectArn", required: true, type: .string), 
             AWSShapeMember(label: "test", required: true, type: .structure)
         ]
+
         /// The ARN of the app to schedule a run.
         public let appArn: String?
         /// Information about the settings for the run to be scheduled.
@@ -3852,6 +4352,19 @@ extension DeviceFarm {
             self.test = test
         }
 
+        public func validate(name: String) throws {
+            try validate(appArn, name:"appArn", parent: name, max: 1011)
+            try validate(appArn, name:"appArn", parent: name, min: 32)
+            try configuration?.validate(name: "\(name).configuration")
+            try validate(devicePoolArn, name:"devicePoolArn", parent: name, max: 1011)
+            try validate(devicePoolArn, name:"devicePoolArn", parent: name, min: 32)
+            try validate(name, name:"name", parent: name, max: 256)
+            try validate(name, name:"name", parent: name, min: 0)
+            try validate(projectArn, name:"projectArn", parent: name, max: 1011)
+            try validate(projectArn, name:"projectArn", parent: name, min: 32)
+            try test.validate(name: "\(name).test")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appArn = "appArn"
             case configuration = "configuration"
@@ -3868,6 +4381,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "run", required: false, type: .structure)
         ]
+
         /// Information about the scheduled run.
         public let run: Run?
 
@@ -3888,6 +4402,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "testSpecArn", required: false, type: .string), 
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
+
         /// The test's filter.
         public let filter: String?
         /// The test's parameters, such as test framework parameters and fixture settings. Parameters are represented by name-value pairs of strings. For all tests:   app_performance_monitoring: Performance monitoring is enabled by default. Set this parameter to "false" to disable it.   For Calabash tests:   profile: A cucumber profile, for example, "my_profile_name".   tags: You can limit execution to features or scenarios that have (or don't have) certain tags, for example, "@smoke" or "@smoke,~@wip".   For Appium tests (all types):   appium_version: The Appium version. Currently supported values are "1.6.5" (and higher), "latest", and "default".   “latest” will run the latest Appium version supported by Device Farm (1.9.1).   For “default”, Device Farm will choose a compatible version of Appium for the device. The current behavior is to run 1.7.2 on Android devices and iOS 9 and earlier, 1.7.2 for iOS 10 and later.   This behavior is subject to change.     For Fuzz tests (Android only):   event_count: The number of events, between 1 and 10000, that the UI fuzz test should perform.   throttle: The time, in ms, between 0 and 1000, that the UI fuzz test should wait between events.   seed: A seed to use for randomizing the UI fuzz test. Using the same seed value between tests ensures identical event sequences.   For Explorer tests:   username: A username to use if the Explorer encounters a login form. If not supplied, no username will be inserted.   password: A password to use if the Explorer encounters a login form. If not supplied, no password will be inserted.   For Instrumentation:   filter: A test filter string. Examples:   Running a single test case: "com.android.abc.Test1"   Running a single test: "com.android.abc.Test1#smoke"   Running multiple tests: "com.android.abc.Test1,com.android.abc.Test2"     For XCTest and XCTestUI:   filter: A test filter string. Examples:   Running a single test class: "LoginTests"   Running a multiple test classes: "LoginTests,SmokeTests"   Running a single test: "LoginTests/testValid"   Running multiple tests: "LoginTests/testValid,LoginTests/testInvalid"     For UIAutomator:   filter: A test filter string. Examples:   Running a single test case: "com.android.abc.Test1"   Running a single test: "com.android.abc.Test1#smoke"   Running multiple tests: "com.android.abc.Test1,com.android.abc.Test2"    
@@ -3907,6 +4422,15 @@ extension DeviceFarm {
             self.`type` = `type`
         }
 
+        public func validate(name: String) throws {
+            try validate(filter, name:"filter", parent: name, max: 8192)
+            try validate(filter, name:"filter", parent: name, min: 0)
+            try validate(testPackageArn, name:"testPackageArn", parent: name, max: 1011)
+            try validate(testPackageArn, name:"testPackageArn", parent: name, min: 32)
+            try validate(testSpecArn, name:"testSpecArn", parent: name, max: 1011)
+            try validate(testSpecArn, name:"testSpecArn", parent: name, min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filter = "filter"
             case parameters = "parameters"
@@ -3920,11 +4444,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// Represents the Amazon Resource Name (ARN) of the Device Farm job you wish to stop.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3936,6 +4466,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "job", required: false, type: .structure)
         ]
+
         /// The job that was stopped.
         public let job: Job?
 
@@ -3952,11 +4483,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the remote access session you wish to stop.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3968,6 +4505,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "remoteAccessSession", required: false, type: .structure)
         ]
+
         /// A container representing the metadata from the service about the remote access session you are stopping.
         public let remoteAccessSession: RemoteAccessSession?
 
@@ -3984,11 +4522,17 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         /// Represents the Amazon Resource Name (ARN) of the Device Farm run you wish to stop.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4000,6 +4544,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "run", required: false, type: .structure)
         ]
+
         /// The run that was stopped.
         public let run: Run?
 
@@ -4026,6 +4571,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "stopped", required: false, type: .timestamp), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// The suite's ARN.
         public let arn: String?
         /// The suite's result counters.
@@ -4083,6 +4629,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String
         /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
@@ -4091,6 +4638,13 @@ extension DeviceFarm {
         public init(key: String, value: String) {
             self.key = key
             self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4104,6 +4658,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
+
         /// The Amazon Resource Name (ARN) of the resource(s) to which to add tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
         public let resourceARN: String
         /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
@@ -4114,6 +4669,15 @@ extension DeviceFarm {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 1011)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 32)
+            try tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, max: 150)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceARN = "ResourceARN"
             case tags = "Tags"
@@ -4121,6 +4685,7 @@ extension DeviceFarm {
     }
 
     public struct TagResourceResponse: AWSShape {
+
 
         public init() {
         }
@@ -4141,6 +4706,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "stopped", required: false, type: .timestamp), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// The test's ARN.
         public let arn: String?
         /// The test's result counters.
@@ -4223,6 +4789,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "remaining", required: false, type: .double), 
             AWSShapeMember(label: "total", required: false, type: .double)
         ]
+
         /// The number of free trial minutes remaining in the account.
         public let remaining: Double?
         /// The total number of free trial minutes that the account started with.
@@ -4244,6 +4811,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "message", required: false, type: .string), 
             AWSShapeMember(label: "problems", required: false, type: .list)
         ]
+
         /// A message about the unique problems' result.
         public let message: String?
         /// Information about the problems.
@@ -4265,6 +4833,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
+
         /// The Amazon Resource Name (ARN) of the resource(s) from which to delete tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
         public let resourceARN: String
         /// The keys of the tags to be removed.
@@ -4275,6 +4844,16 @@ extension DeviceFarm {
             self.tagKeys = tagKeys
         }
 
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 1011)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 32)
+            try tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try validate(tagKeys, name:"tagKeys", parent: name, max: 150)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceARN = "ResourceARN"
             case tagKeys = "TagKeys"
@@ -4282,6 +4861,7 @@ extension DeviceFarm {
     }
 
     public struct UntagResourceResponse: AWSShape {
+
 
         public init() {
         }
@@ -4294,6 +4874,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "labels", required: false, type: .list), 
             AWSShapeMember(label: "profileArn", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the device instance.
         public let arn: String
         /// An array of strings that you want to associate with the device instance.
@@ -4307,6 +4888,13 @@ extension DeviceFarm {
             self.profileArn = profileArn
         }
 
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(profileArn, name:"profileArn", parent: name, max: 1011)
+            try validate(profileArn, name:"profileArn", parent: name, min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case labels = "labels"
@@ -4318,6 +4906,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deviceInstance", required: false, type: .structure)
         ]
+
         /// An object containing information about your device instance.
         public let deviceInstance: DeviceInstance?
 
@@ -4339,6 +4928,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "rules", required: false, type: .list)
         ]
+
         /// The Amazon Resource Name (ARN) of the Device Farm device pool you wish to update.
         public let arn: String
         /// Sets whether the maxDevices parameter applies to your device pool. If you set this parameter to true, the maxDevices parameter does not apply, and Device Farm does not limit the number of devices that it adds to your device pool. In this case, Device Farm adds all available devices that meet the criteria that are specified for the rules parameter. If you use this parameter in your request, you cannot use the maxDevices parameter in the same request.
@@ -4361,6 +4951,15 @@ extension DeviceFarm {
             self.rules = rules
         }
 
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(description, name:"description", parent: name, max: 16384)
+            try validate(description, name:"description", parent: name, min: 0)
+            try validate(name, name:"name", parent: name, max: 256)
+            try validate(name, name:"name", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case clearMaxDevices = "clearMaxDevices"
@@ -4375,6 +4974,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "devicePool", required: false, type: .structure)
         ]
+
         /// The device pool you just updated.
         public let devicePool: DevicePool?
 
@@ -4396,6 +4996,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "packageCleanup", required: false, type: .boolean), 
             AWSShapeMember(label: "rebootAfterUse", required: false, type: .boolean)
         ]
+
         /// The Amazon Resource Name (ARN) of the instance profile.
         public let arn: String
         /// The updated description for your instance profile.
@@ -4418,6 +5019,15 @@ extension DeviceFarm {
             self.rebootAfterUse = rebootAfterUse
         }
 
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(description, name:"description", parent: name, max: 16384)
+            try validate(description, name:"description", parent: name, min: 0)
+            try validate(name, name:"name", parent: name, max: 256)
+            try validate(name, name:"name", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case description = "description"
@@ -4432,6 +5042,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instanceProfile", required: false, type: .structure)
         ]
+
         /// An object containing information about your instance profile.
         public let instanceProfile: InstanceProfile?
 
@@ -4459,6 +5070,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "uplinkJitterMs", required: false, type: .long), 
             AWSShapeMember(label: "uplinkLossPercent", required: false, type: .integer)
         ]
+
         /// The Amazon Resource Name (ARN) of the project for which you want to update network profile settings.
         public let arn: String
         /// The description of the network profile about which you are returning information.
@@ -4499,6 +5111,19 @@ extension DeviceFarm {
             self.uplinkLossPercent = uplinkLossPercent
         }
 
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(description, name:"description", parent: name, max: 16384)
+            try validate(description, name:"description", parent: name, min: 0)
+            try validate(downlinkLossPercent, name:"downlinkLossPercent", parent: name, max: 100)
+            try validate(downlinkLossPercent, name:"downlinkLossPercent", parent: name, min: 0)
+            try validate(name, name:"name", parent: name, max: 256)
+            try validate(name, name:"name", parent: name, min: 0)
+            try validate(uplinkLossPercent, name:"uplinkLossPercent", parent: name, max: 100)
+            try validate(uplinkLossPercent, name:"uplinkLossPercent", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case description = "description"
@@ -4519,6 +5144,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "networkProfile", required: false, type: .structure)
         ]
+
         /// A list of the available network profiles.
         public let networkProfile: NetworkProfile?
 
@@ -4537,6 +5163,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "defaultJobTimeoutMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the project whose name you wish to update.
         public let arn: String
         /// The number of minutes a test run in the project will execute before it times out.
@@ -4550,6 +5177,13 @@ extension DeviceFarm {
             self.name = name
         }
 
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(name, name:"name", parent: name, max: 256)
+            try validate(name, name:"name", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
@@ -4561,6 +5195,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "project", required: false, type: .structure)
         ]
+
         /// The project you wish to update.
         public let project: Project?
 
@@ -4580,6 +5215,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "editContent", required: false, type: .boolean), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the uploaded test spec.
         public let arn: String
         /// The upload's content type (for example, "application/x-yaml").
@@ -4596,6 +5232,15 @@ extension DeviceFarm {
             self.name = name
         }
 
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(contentType, name:"contentType", parent: name, max: 64)
+            try validate(contentType, name:"contentType", parent: name, min: 0)
+            try validate(name, name:"name", parent: name, max: 256)
+            try validate(name, name:"name", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case contentType = "contentType"
@@ -4608,6 +5253,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "upload", required: false, type: .structure)
         ]
+
         /// A test spec uploaded to Device Farm.
         public let upload: Upload?
 
@@ -4628,6 +5274,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "vpceConfigurationName", required: false, type: .string), 
             AWSShapeMember(label: "vpceServiceName", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to update.
         public let arn: String
         /// The DNS (domain) name used to connect to your private service in your Amazon VPC. The DNS name must not already be in use on the Internet.
@@ -4647,6 +5294,19 @@ extension DeviceFarm {
             self.vpceServiceName = vpceServiceName
         }
 
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 1011)
+            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(serviceDnsName, name:"serviceDnsName", parent: name, max: 2048)
+            try validate(serviceDnsName, name:"serviceDnsName", parent: name, min: 0)
+            try validate(vpceConfigurationDescription, name:"vpceConfigurationDescription", parent: name, max: 2048)
+            try validate(vpceConfigurationDescription, name:"vpceConfigurationDescription", parent: name, min: 0)
+            try validate(vpceConfigurationName, name:"vpceConfigurationName", parent: name, max: 1024)
+            try validate(vpceConfigurationName, name:"vpceConfigurationName", parent: name, min: 0)
+            try validate(vpceServiceName, name:"vpceServiceName", parent: name, max: 2048)
+            try validate(vpceServiceName, name:"vpceServiceName", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case serviceDnsName = "serviceDnsName"
@@ -4660,6 +5320,7 @@ extension DeviceFarm {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "vpceConfiguration", required: false, type: .structure)
         ]
+
         /// An object containing information about your VPC endpoint configuration.
         public let vpceConfiguration: VPCEConfiguration?
 
@@ -4685,6 +5346,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "url", required: false, type: .string)
         ]
+
         /// The upload's ARN.
         public let arn: String?
         /// The upload's category. Allowed values include:   CURATED: An upload managed by AWS Device Farm.   PRIVATE: An upload managed by the AWS Device Farm customer.  
@@ -4791,6 +5453,7 @@ extension DeviceFarm {
             AWSShapeMember(label: "vpceConfigurationName", required: false, type: .string), 
             AWSShapeMember(label: "vpceServiceName", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the VPC endpoint configuration.
         public let arn: String?
         /// The DNS name that maps to the private IP address of the service you want to access.

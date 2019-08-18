@@ -11,6 +11,7 @@ extension MachineLearning {
             AWSShapeMember(label: "ResourceType", required: true, type: .enum), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
+
         /// The ID of the ML object to tag. For example, exampleModelId.
         public let resourceId: String
         /// The type of the ML object to tag. 
@@ -22,6 +23,16 @@ extension MachineLearning {
             self.resourceId = resourceId
             self.resourceType = resourceType
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceId, name:"resourceId", parent: name, max: 64)
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -36,6 +47,7 @@ extension MachineLearning {
             AWSShapeMember(label: "ResourceId", required: false, type: .string), 
             AWSShapeMember(label: "ResourceType", required: false, type: .enum)
         ]
+
         /// The ID of the ML object that was tagged.
         public let resourceId: String?
         /// The type of the ML object that was tagged.
@@ -76,6 +88,7 @@ extension MachineLearning {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "TotalRecordCount", required: false, type: .long)
         ]
+
         /// The ID of the DataSource that points to the group of observations to predict.
         public let batchPredictionDataSourceId: String?
         /// The ID assigned to the BatchPrediction at creation. This value should be identical to the value of the BatchPredictionID in the request. 
@@ -163,6 +176,7 @@ extension MachineLearning {
             AWSShapeMember(label: "MLModelId", required: true, type: .string), 
             AWSShapeMember(label: "OutputUri", required: true, type: .string)
         ]
+
         /// The ID of the DataSource that points to the group of observations to predict.
         public let batchPredictionDataSourceId: String
         /// A user-supplied ID that uniquely identifies the BatchPrediction.
@@ -182,6 +196,22 @@ extension MachineLearning {
             self.outputUri = outputUri
         }
 
+        public func validate(name: String) throws {
+            try validate(batchPredictionDataSourceId, name:"batchPredictionDataSourceId", parent: name, max: 64)
+            try validate(batchPredictionDataSourceId, name:"batchPredictionDataSourceId", parent: name, min: 1)
+            try validate(batchPredictionDataSourceId, name:"batchPredictionDataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(batchPredictionId, name:"batchPredictionId", parent: name, max: 64)
+            try validate(batchPredictionId, name:"batchPredictionId", parent: name, min: 1)
+            try validate(batchPredictionId, name:"batchPredictionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(batchPredictionName, name:"batchPredictionName", parent: name, max: 1024)
+            try validate(batchPredictionName, name:"batchPredictionName", parent: name, pattern: ".*\\S.*|^$")
+            try validate(mLModelId, name:"mLModelId", parent: name, max: 64)
+            try validate(mLModelId, name:"mLModelId", parent: name, min: 1)
+            try validate(mLModelId, name:"mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(outputUri, name:"outputUri", parent: name, max: 2048)
+            try validate(outputUri, name:"outputUri", parent: name, pattern: "s3://([^/]+)(/.*)?")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case batchPredictionDataSourceId = "BatchPredictionDataSourceId"
             case batchPredictionId = "BatchPredictionId"
@@ -195,6 +225,7 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BatchPredictionId", required: false, type: .string)
         ]
+
         /// A user-supplied ID that uniquely identifies the BatchPrediction. This value is identical to the value of the BatchPredictionId in the request.
         public let batchPredictionId: String?
 
@@ -215,6 +246,7 @@ extension MachineLearning {
             AWSShapeMember(label: "RDSData", required: true, type: .structure), 
             AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
+
         /// The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training. 
         public let computeStatistics: Bool?
         /// A user-supplied ID that uniquely identifies the DataSource. Typically, an Amazon Resource Number (ARN) becomes the ID for a DataSource.
@@ -234,6 +266,17 @@ extension MachineLearning {
             self.roleARN = roleARN
         }
 
+        public func validate(name: String) throws {
+            try validate(dataSourceId, name:"dataSourceId", parent: name, max: 64)
+            try validate(dataSourceId, name:"dataSourceId", parent: name, min: 1)
+            try validate(dataSourceId, name:"dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(dataSourceName, name:"dataSourceName", parent: name, max: 1024)
+            try validate(dataSourceName, name:"dataSourceName", parent: name, pattern: ".*\\S.*|^$")
+            try rDSData.validate(name: "\(name).rDSData")
+            try validate(roleARN, name:"roleARN", parent: name, max: 110)
+            try validate(roleARN, name:"roleARN", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case computeStatistics = "ComputeStatistics"
             case dataSourceId = "DataSourceId"
@@ -247,6 +290,7 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSourceId", required: false, type: .string)
         ]
+
         /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the DataSourceID in the request. 
         public let dataSourceId: String?
 
@@ -267,6 +311,7 @@ extension MachineLearning {
             AWSShapeMember(label: "DataSpec", required: true, type: .structure), 
             AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
+
         /// The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training.
         public let computeStatistics: Bool?
         /// A user-supplied ID that uniquely identifies the DataSource.
@@ -286,6 +331,17 @@ extension MachineLearning {
             self.roleARN = roleARN
         }
 
+        public func validate(name: String) throws {
+            try validate(dataSourceId, name:"dataSourceId", parent: name, max: 64)
+            try validate(dataSourceId, name:"dataSourceId", parent: name, min: 1)
+            try validate(dataSourceId, name:"dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(dataSourceName, name:"dataSourceName", parent: name, max: 1024)
+            try validate(dataSourceName, name:"dataSourceName", parent: name, pattern: ".*\\S.*|^$")
+            try dataSpec.validate(name: "\(name).dataSpec")
+            try validate(roleARN, name:"roleARN", parent: name, max: 110)
+            try validate(roleARN, name:"roleARN", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case computeStatistics = "ComputeStatistics"
             case dataSourceId = "DataSourceId"
@@ -299,6 +355,7 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSourceId", required: false, type: .string)
         ]
+
         /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the DataSourceID in the request. 
         public let dataSourceId: String?
 
@@ -318,6 +375,7 @@ extension MachineLearning {
             AWSShapeMember(label: "DataSourceName", required: false, type: .string), 
             AWSShapeMember(label: "DataSpec", required: true, type: .structure)
         ]
+
         /// The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training.
         public let computeStatistics: Bool?
         /// A user-supplied identifier that uniquely identifies the DataSource. 
@@ -334,6 +392,15 @@ extension MachineLearning {
             self.dataSpec = dataSpec
         }
 
+        public func validate(name: String) throws {
+            try validate(dataSourceId, name:"dataSourceId", parent: name, max: 64)
+            try validate(dataSourceId, name:"dataSourceId", parent: name, min: 1)
+            try validate(dataSourceId, name:"dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(dataSourceName, name:"dataSourceName", parent: name, max: 1024)
+            try validate(dataSourceName, name:"dataSourceName", parent: name, pattern: ".*\\S.*|^$")
+            try dataSpec.validate(name: "\(name).dataSpec")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case computeStatistics = "ComputeStatistics"
             case dataSourceId = "DataSourceId"
@@ -346,6 +413,7 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSourceId", required: false, type: .string)
         ]
+
         /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the DataSourceID in the request. 
         public let dataSourceId: String?
 
@@ -365,6 +433,7 @@ extension MachineLearning {
             AWSShapeMember(label: "EvaluationName", required: false, type: .string), 
             AWSShapeMember(label: "MLModelId", required: true, type: .string)
         ]
+
         /// The ID of the DataSource for the evaluation. The schema of the DataSource must match the schema used to create the MLModel.
         public let evaluationDataSourceId: String
         /// A user-supplied ID that uniquely identifies the Evaluation.
@@ -381,6 +450,20 @@ extension MachineLearning {
             self.mLModelId = mLModelId
         }
 
+        public func validate(name: String) throws {
+            try validate(evaluationDataSourceId, name:"evaluationDataSourceId", parent: name, max: 64)
+            try validate(evaluationDataSourceId, name:"evaluationDataSourceId", parent: name, min: 1)
+            try validate(evaluationDataSourceId, name:"evaluationDataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(evaluationId, name:"evaluationId", parent: name, max: 64)
+            try validate(evaluationId, name:"evaluationId", parent: name, min: 1)
+            try validate(evaluationId, name:"evaluationId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(evaluationName, name:"evaluationName", parent: name, max: 1024)
+            try validate(evaluationName, name:"evaluationName", parent: name, pattern: ".*\\S.*|^$")
+            try validate(mLModelId, name:"mLModelId", parent: name, max: 64)
+            try validate(mLModelId, name:"mLModelId", parent: name, min: 1)
+            try validate(mLModelId, name:"mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case evaluationDataSourceId = "EvaluationDataSourceId"
             case evaluationId = "EvaluationId"
@@ -393,6 +476,7 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EvaluationId", required: false, type: .string)
         ]
+
         /// The user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the EvaluationId in the request.
         public let evaluationId: String?
 
@@ -415,6 +499,7 @@ extension MachineLearning {
             AWSShapeMember(label: "RecipeUri", required: false, type: .string), 
             AWSShapeMember(label: "TrainingDataSourceId", required: true, type: .string)
         ]
+
         /// A user-supplied ID that uniquely identifies the MLModel.
         public let mLModelId: String
         /// A user-supplied name or description of the MLModel.
@@ -440,6 +525,20 @@ extension MachineLearning {
             self.trainingDataSourceId = trainingDataSourceId
         }
 
+        public func validate(name: String) throws {
+            try validate(mLModelId, name:"mLModelId", parent: name, max: 64)
+            try validate(mLModelId, name:"mLModelId", parent: name, min: 1)
+            try validate(mLModelId, name:"mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(mLModelName, name:"mLModelName", parent: name, max: 1024)
+            try validate(mLModelName, name:"mLModelName", parent: name, pattern: ".*\\S.*|^$")
+            try validate(recipe, name:"recipe", parent: name, max: 131071)
+            try validate(recipeUri, name:"recipeUri", parent: name, max: 2048)
+            try validate(recipeUri, name:"recipeUri", parent: name, pattern: "s3://([^/]+)(/.*)?")
+            try validate(trainingDataSourceId, name:"trainingDataSourceId", parent: name, max: 64)
+            try validate(trainingDataSourceId, name:"trainingDataSourceId", parent: name, min: 1)
+            try validate(trainingDataSourceId, name:"trainingDataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case mLModelId = "MLModelId"
             case mLModelName = "MLModelName"
@@ -455,6 +554,7 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MLModelId", required: false, type: .string)
         ]
+
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request. 
         public let mLModelId: String?
 
@@ -471,11 +571,18 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MLModelId", required: true, type: .string)
         ]
+
         /// The ID assigned to the MLModel during creation.
         public let mLModelId: String
 
         public init(mLModelId: String) {
             self.mLModelId = mLModelId
+        }
+
+        public func validate(name: String) throws {
+            try validate(mLModelId, name:"mLModelId", parent: name, max: 64)
+            try validate(mLModelId, name:"mLModelId", parent: name, min: 1)
+            try validate(mLModelId, name:"mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -488,6 +595,7 @@ extension MachineLearning {
             AWSShapeMember(label: "MLModelId", required: false, type: .string), 
             AWSShapeMember(label: "RealtimeEndpointInfo", required: false, type: .structure)
         ]
+
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request.
         public let mLModelId: String?
         /// The endpoint information of the MLModel 
@@ -525,6 +633,7 @@ extension MachineLearning {
             AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         ///  The parameter is true if statistics need to be generated from the observation data. 
         public let computeStatistics: Bool?
         public let computeTime: Int64?
@@ -613,11 +722,18 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BatchPredictionId", required: true, type: .string)
         ]
+
         /// A user-supplied ID that uniquely identifies the BatchPrediction.
         public let batchPredictionId: String
 
         public init(batchPredictionId: String) {
             self.batchPredictionId = batchPredictionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(batchPredictionId, name:"batchPredictionId", parent: name, max: 64)
+            try validate(batchPredictionId, name:"batchPredictionId", parent: name, min: 1)
+            try validate(batchPredictionId, name:"batchPredictionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -629,6 +745,7 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BatchPredictionId", required: false, type: .string)
         ]
+
         /// A user-supplied ID that uniquely identifies the BatchPrediction. This value should be identical to the value of the BatchPredictionID in the request.
         public let batchPredictionId: String?
 
@@ -645,11 +762,18 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSourceId", required: true, type: .string)
         ]
+
         /// A user-supplied ID that uniquely identifies the DataSource.
         public let dataSourceId: String
 
         public init(dataSourceId: String) {
             self.dataSourceId = dataSourceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(dataSourceId, name:"dataSourceId", parent: name, max: 64)
+            try validate(dataSourceId, name:"dataSourceId", parent: name, min: 1)
+            try validate(dataSourceId, name:"dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -661,6 +785,7 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSourceId", required: false, type: .string)
         ]
+
         /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the DataSourceID in the request.
         public let dataSourceId: String?
 
@@ -677,11 +802,18 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EvaluationId", required: true, type: .string)
         ]
+
         /// A user-supplied ID that uniquely identifies the Evaluation to delete.
         public let evaluationId: String
 
         public init(evaluationId: String) {
             self.evaluationId = evaluationId
+        }
+
+        public func validate(name: String) throws {
+            try validate(evaluationId, name:"evaluationId", parent: name, max: 64)
+            try validate(evaluationId, name:"evaluationId", parent: name, min: 1)
+            try validate(evaluationId, name:"evaluationId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -693,6 +825,7 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EvaluationId", required: false, type: .string)
         ]
+
         /// A user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the EvaluationId in the request.
         public let evaluationId: String?
 
@@ -709,11 +842,18 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MLModelId", required: true, type: .string)
         ]
+
         /// A user-supplied ID that uniquely identifies the MLModel.
         public let mLModelId: String
 
         public init(mLModelId: String) {
             self.mLModelId = mLModelId
+        }
+
+        public func validate(name: String) throws {
+            try validate(mLModelId, name:"mLModelId", parent: name, max: 64)
+            try validate(mLModelId, name:"mLModelId", parent: name, min: 1)
+            try validate(mLModelId, name:"mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -725,6 +865,7 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MLModelId", required: false, type: .string)
         ]
+
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelID in the request.
         public let mLModelId: String?
 
@@ -741,11 +882,18 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MLModelId", required: true, type: .string)
         ]
+
         /// The ID assigned to the MLModel during creation.
         public let mLModelId: String
 
         public init(mLModelId: String) {
             self.mLModelId = mLModelId
+        }
+
+        public func validate(name: String) throws {
+            try validate(mLModelId, name:"mLModelId", parent: name, max: 64)
+            try validate(mLModelId, name:"mLModelId", parent: name, min: 1)
+            try validate(mLModelId, name:"mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -758,6 +906,7 @@ extension MachineLearning {
             AWSShapeMember(label: "MLModelId", required: false, type: .string), 
             AWSShapeMember(label: "RealtimeEndpointInfo", required: false, type: .structure)
         ]
+
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request.
         public let mLModelId: String?
         /// The endpoint information of the MLModel 
@@ -780,6 +929,7 @@ extension MachineLearning {
             AWSShapeMember(label: "ResourceType", required: true, type: .enum), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
+
         /// The ID of the tagged ML object. For example, exampleModelId.
         public let resourceId: String
         /// The type of the tagged ML object.
@@ -791,6 +941,18 @@ extension MachineLearning {
             self.resourceId = resourceId
             self.resourceType = resourceType
             self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceId, name:"resourceId", parent: name, max: 64)
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try validate(tagKeys, name:"tagKeys", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -805,6 +967,7 @@ extension MachineLearning {
             AWSShapeMember(label: "ResourceId", required: false, type: .string), 
             AWSShapeMember(label: "ResourceType", required: false, type: .enum)
         ]
+
         /// The ID of the ML object from which tags were deleted.
         public let resourceId: String?
         /// The type of the ML object from which tags were deleted.
@@ -835,6 +998,7 @@ extension MachineLearning {
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "SortOrder", required: false, type: .enum)
         ]
+
         /// The equal to operator. The BatchPrediction results will have FilterVariable values that exactly match the value specified with EQ.
         public let eq: String?
         /// Use one of the following variables to filter a list of BatchPrediction:   CreatedAt - Sets the search criteria to the BatchPrediction creation date.  Status - Sets the search criteria to the BatchPrediction status.  Name - Sets the search criteria to the contents of the BatchPrediction  Name.  IAMUser - Sets the search criteria to the user account that invoked the BatchPrediction creation.  MLModelId - Sets the search criteria to the MLModel used in the BatchPrediction.  DataSourceId - Sets the search criteria to the DataSource used in the BatchPrediction.  DataURI - Sets the search criteria to the data file(s) used in the BatchPrediction. The URL can identify either a file or an Amazon Simple Storage Solution (Amazon S3) bucket or directory. 
@@ -872,6 +1036,25 @@ extension MachineLearning {
             self.sortOrder = sortOrder
         }
 
+        public func validate(name: String) throws {
+            try validate(eq, name:"eq", parent: name, max: 1024)
+            try validate(eq, name:"eq", parent: name, pattern: ".*\\S.*|^$")
+            try validate(ge, name:"ge", parent: name, max: 1024)
+            try validate(ge, name:"ge", parent: name, pattern: ".*\\S.*|^$")
+            try validate(gt, name:"gt", parent: name, max: 1024)
+            try validate(gt, name:"gt", parent: name, pattern: ".*\\S.*|^$")
+            try validate(le, name:"le", parent: name, max: 1024)
+            try validate(le, name:"le", parent: name, pattern: ".*\\S.*|^$")
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(lt, name:"lt", parent: name, max: 1024)
+            try validate(lt, name:"lt", parent: name, pattern: ".*\\S.*|^$")
+            try validate(ne, name:"ne", parent: name, max: 1024)
+            try validate(ne, name:"ne", parent: name, pattern: ".*\\S.*|^$")
+            try validate(prefix, name:"prefix", parent: name, max: 1024)
+            try validate(prefix, name:"prefix", parent: name, pattern: ".*\\S.*|^$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case eq = "EQ"
             case filterVariable = "FilterVariable"
@@ -892,6 +1075,7 @@ extension MachineLearning {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Results", required: false, type: .list)
         ]
+
         /// The ID of the next page in the paginated results that indicates at least one more page follows.
         public let nextToken: String?
         /// A list of BatchPrediction objects that meet the search criteria. 
@@ -922,6 +1106,7 @@ extension MachineLearning {
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "SortOrder", required: false, type: .enum)
         ]
+
         /// The equal to operator. The DataSource results will have FilterVariable values that exactly match the value specified with EQ.
         public let eq: String?
         /// Use one of the following variables to filter a list of DataSource:   CreatedAt - Sets the search criteria to DataSource creation dates.  Status - Sets the search criteria to DataSource statuses.  Name - Sets the search criteria to the contents of DataSource   Name.  DataUri - Sets the search criteria to the URI of data files used to create the DataSource. The URI can identify either a file or an Amazon Simple Storage Service (Amazon S3) bucket or directory.  IAMUser - Sets the search criteria to the user account that invoked the DataSource creation. 
@@ -959,6 +1144,25 @@ extension MachineLearning {
             self.sortOrder = sortOrder
         }
 
+        public func validate(name: String) throws {
+            try validate(eq, name:"eq", parent: name, max: 1024)
+            try validate(eq, name:"eq", parent: name, pattern: ".*\\S.*|^$")
+            try validate(ge, name:"ge", parent: name, max: 1024)
+            try validate(ge, name:"ge", parent: name, pattern: ".*\\S.*|^$")
+            try validate(gt, name:"gt", parent: name, max: 1024)
+            try validate(gt, name:"gt", parent: name, pattern: ".*\\S.*|^$")
+            try validate(le, name:"le", parent: name, max: 1024)
+            try validate(le, name:"le", parent: name, pattern: ".*\\S.*|^$")
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(lt, name:"lt", parent: name, max: 1024)
+            try validate(lt, name:"lt", parent: name, pattern: ".*\\S.*|^$")
+            try validate(ne, name:"ne", parent: name, max: 1024)
+            try validate(ne, name:"ne", parent: name, pattern: ".*\\S.*|^$")
+            try validate(prefix, name:"prefix", parent: name, max: 1024)
+            try validate(prefix, name:"prefix", parent: name, pattern: ".*\\S.*|^$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case eq = "EQ"
             case filterVariable = "FilterVariable"
@@ -979,6 +1183,7 @@ extension MachineLearning {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Results", required: false, type: .list)
         ]
+
         /// An ID of the next page in the paginated results that indicates at least one more page follows.
         public let nextToken: String?
         /// A list of DataSource that meet the search criteria. 
@@ -1009,6 +1214,7 @@ extension MachineLearning {
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "SortOrder", required: false, type: .enum)
         ]
+
         /// The equal to operator. The Evaluation results will have FilterVariable values that exactly match the value specified with EQ.
         public let eq: String?
         /// Use one of the following variable to filter a list of Evaluation objects:   CreatedAt - Sets the search criteria to the Evaluation creation date.  Status - Sets the search criteria to the Evaluation status.  Name - Sets the search criteria to the contents of Evaluation   Name.  IAMUser - Sets the search criteria to the user account that invoked an Evaluation.  MLModelId - Sets the search criteria to the MLModel that was evaluated.  DataSourceId - Sets the search criteria to the DataSource used in Evaluation.  DataUri - Sets the search criteria to the data file(s) used in Evaluation. The URL can identify either a file or an Amazon Simple Storage Solution (Amazon S3) bucket or directory. 
@@ -1046,6 +1252,25 @@ extension MachineLearning {
             self.sortOrder = sortOrder
         }
 
+        public func validate(name: String) throws {
+            try validate(eq, name:"eq", parent: name, max: 1024)
+            try validate(eq, name:"eq", parent: name, pattern: ".*\\S.*|^$")
+            try validate(ge, name:"ge", parent: name, max: 1024)
+            try validate(ge, name:"ge", parent: name, pattern: ".*\\S.*|^$")
+            try validate(gt, name:"gt", parent: name, max: 1024)
+            try validate(gt, name:"gt", parent: name, pattern: ".*\\S.*|^$")
+            try validate(le, name:"le", parent: name, max: 1024)
+            try validate(le, name:"le", parent: name, pattern: ".*\\S.*|^$")
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(lt, name:"lt", parent: name, max: 1024)
+            try validate(lt, name:"lt", parent: name, pattern: ".*\\S.*|^$")
+            try validate(ne, name:"ne", parent: name, max: 1024)
+            try validate(ne, name:"ne", parent: name, pattern: ".*\\S.*|^$")
+            try validate(prefix, name:"prefix", parent: name, max: 1024)
+            try validate(prefix, name:"prefix", parent: name, pattern: ".*\\S.*|^$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case eq = "EQ"
             case filterVariable = "FilterVariable"
@@ -1066,6 +1291,7 @@ extension MachineLearning {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Results", required: false, type: .list)
         ]
+
         /// The ID of the next page in the paginated results that indicates at least one more page follows.
         public let nextToken: String?
         /// A list of Evaluation that meet the search criteria. 
@@ -1096,6 +1322,7 @@ extension MachineLearning {
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "SortOrder", required: false, type: .enum)
         ]
+
         /// The equal to operator. The MLModel results will have FilterVariable values that exactly match the value specified with EQ.
         public let eq: String?
         /// Use one of the following variables to filter a list of MLModel:   CreatedAt - Sets the search criteria to MLModel creation date.  Status - Sets the search criteria to MLModel status.  Name - Sets the search criteria to the contents of MLModel  Name.  IAMUser - Sets the search criteria to the user account that invoked the MLModel creation.  TrainingDataSourceId - Sets the search criteria to the DataSource used to train one or more MLModel.  RealtimeEndpointStatus - Sets the search criteria to the MLModel real-time endpoint status.  MLModelType - Sets the search criteria to MLModel type: binary, regression, or multi-class.  Algorithm - Sets the search criteria to the algorithm that the MLModel uses.  TrainingDataURI - Sets the search criteria to the data file(s) used in training a MLModel. The URL can identify either a file or an Amazon Simple Storage Service (Amazon S3) bucket or directory. 
@@ -1133,6 +1360,25 @@ extension MachineLearning {
             self.sortOrder = sortOrder
         }
 
+        public func validate(name: String) throws {
+            try validate(eq, name:"eq", parent: name, max: 1024)
+            try validate(eq, name:"eq", parent: name, pattern: ".*\\S.*|^$")
+            try validate(ge, name:"ge", parent: name, max: 1024)
+            try validate(ge, name:"ge", parent: name, pattern: ".*\\S.*|^$")
+            try validate(gt, name:"gt", parent: name, max: 1024)
+            try validate(gt, name:"gt", parent: name, pattern: ".*\\S.*|^$")
+            try validate(le, name:"le", parent: name, max: 1024)
+            try validate(le, name:"le", parent: name, pattern: ".*\\S.*|^$")
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(lt, name:"lt", parent: name, max: 1024)
+            try validate(lt, name:"lt", parent: name, pattern: ".*\\S.*|^$")
+            try validate(ne, name:"ne", parent: name, max: 1024)
+            try validate(ne, name:"ne", parent: name, pattern: ".*\\S.*|^$")
+            try validate(prefix, name:"prefix", parent: name, max: 1024)
+            try validate(prefix, name:"prefix", parent: name, pattern: ".*\\S.*|^$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case eq = "EQ"
             case filterVariable = "FilterVariable"
@@ -1153,6 +1399,7 @@ extension MachineLearning {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Results", required: false, type: .list)
         ]
+
         /// The ID of the next page in the paginated results that indicates at least one more page follows.
         public let nextToken: String?
         /// A list of MLModel that meet the search criteria.
@@ -1174,6 +1421,7 @@ extension MachineLearning {
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "ResourceType", required: true, type: .enum)
         ]
+
         /// The ID of the ML object. For example, exampleModelId. 
         public let resourceId: String
         /// The type of the ML object.
@@ -1182,6 +1430,12 @@ extension MachineLearning {
         public init(resourceId: String, resourceType: TaggableResourceType) {
             self.resourceId = resourceId
             self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceId, name:"resourceId", parent: name, max: 64)
+            try validate(resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1196,6 +1450,7 @@ extension MachineLearning {
             AWSShapeMember(label: "ResourceType", required: false, type: .enum), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// The ID of the tagged ML object.
         public let resourceId: String?
         /// The type of the tagged ML object.
@@ -1248,6 +1503,7 @@ extension MachineLearning {
             AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         public let computeTime: Int64?
         /// The time that the Evaluation was created. The time is expressed in epoch time.
         public let createdAt: TimeStamp?
@@ -1325,11 +1581,18 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BatchPredictionId", required: true, type: .string)
         ]
+
         /// An ID assigned to the BatchPrediction at creation.
         public let batchPredictionId: String
 
         public init(batchPredictionId: String) {
             self.batchPredictionId = batchPredictionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(batchPredictionId, name:"batchPredictionId", parent: name, max: 64)
+            try validate(batchPredictionId, name:"batchPredictionId", parent: name, min: 1)
+            try validate(batchPredictionId, name:"batchPredictionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1357,6 +1620,7 @@ extension MachineLearning {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "TotalRecordCount", required: false, type: .long)
         ]
+
         /// The ID of the DataSource that was used to create the BatchPrediction. 
         public let batchPredictionDataSourceId: String?
         /// An ID assigned to the BatchPrediction at creation. This value should be identical to the value of the BatchPredictionID in the request.
@@ -1438,6 +1702,7 @@ extension MachineLearning {
             AWSShapeMember(label: "DataSourceId", required: true, type: .string), 
             AWSShapeMember(label: "Verbose", required: false, type: .boolean)
         ]
+
         /// The ID assigned to the DataSource at creation.
         public let dataSourceId: String
         /// Specifies whether the GetDataSource operation should return DataSourceSchema. If true, DataSourceSchema is returned. If false, DataSourceSchema is not returned.
@@ -1446,6 +1711,12 @@ extension MachineLearning {
         public init(dataSourceId: String, verbose: Bool? = nil) {
             self.dataSourceId = dataSourceId
             self.verbose = verbose
+        }
+
+        public func validate(name: String) throws {
+            try validate(dataSourceId, name:"dataSourceId", parent: name, max: 64)
+            try validate(dataSourceId, name:"dataSourceId", parent: name, min: 1)
+            try validate(dataSourceId, name:"dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1477,6 +1748,7 @@ extension MachineLearning {
             AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         ///  The parameter is true if statistics need to be generated from the observation data. 
         public let computeStatistics: Bool?
         /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the DataSource, normalized and scaled on computation resources. ComputeTime is only available if the DataSource is in the COMPLETED state and the ComputeStatistics is set to true.
@@ -1566,11 +1838,18 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EvaluationId", required: true, type: .string)
         ]
+
         /// The ID of the Evaluation to retrieve. The evaluation of each MLModel is recorded and cataloged. The ID provides the means to access the information. 
         public let evaluationId: String
 
         public init(evaluationId: String) {
             self.evaluationId = evaluationId
+        }
+
+        public func validate(name: String) throws {
+            try validate(evaluationId, name:"evaluationId", parent: name, max: 64)
+            try validate(evaluationId, name:"evaluationId", parent: name, min: 1)
+            try validate(evaluationId, name:"evaluationId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1596,6 +1875,7 @@ extension MachineLearning {
             AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the Evaluation, normalized and scaled on computation resources. ComputeTime is only available if the Evaluation is in the COMPLETED state.
         public let computeTime: Int64?
         /// The time that the Evaluation was created. The time is expressed in epoch time.
@@ -1669,6 +1949,7 @@ extension MachineLearning {
             AWSShapeMember(label: "MLModelId", required: true, type: .string), 
             AWSShapeMember(label: "Verbose", required: false, type: .boolean)
         ]
+
         /// The ID assigned to the MLModel at creation.
         public let mLModelId: String
         /// Specifies whether the GetMLModel operation should return Recipe. If true, Recipe is returned. If false, Recipe is not returned.
@@ -1677,6 +1958,12 @@ extension MachineLearning {
         public init(mLModelId: String, verbose: Bool? = nil) {
             self.mLModelId = mLModelId
             self.verbose = verbose
+        }
+
+        public func validate(name: String) throws {
+            try validate(mLModelId, name:"mLModelId", parent: name, max: 64)
+            try validate(mLModelId, name:"mLModelId", parent: name, min: 1)
+            try validate(mLModelId, name:"mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1709,6 +1996,7 @@ extension MachineLearning {
             AWSShapeMember(label: "TrainingDataSourceId", required: false, type: .string), 
             AWSShapeMember(label: "TrainingParameters", required: false, type: .map)
         ]
+
         /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the MLModel, normalized and scaled on computation resources. ComputeTime is only available if the MLModel is in the COMPLETED state.
         public let computeTime: Int64?
         /// The time that the MLModel was created. The time is expressed in epoch time.
@@ -1822,6 +2110,7 @@ extension MachineLearning {
             AWSShapeMember(label: "TrainingDataSourceId", required: false, type: .string), 
             AWSShapeMember(label: "TrainingParameters", required: false, type: .map)
         ]
+
         /// The algorithm used to train the MLModel. The following algorithm is supported:   SGD -- Stochastic gradient descent. The goal of SGD is to minimize the gradient of the loss function.  
         public let algorithm: Algorithm?
         public let computeTime: Int64?
@@ -1926,6 +2215,7 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Properties", required: false, type: .map)
         ]
+
         public let properties: [String: String]?
 
         public init(properties: [String: String]? = nil) {
@@ -1943,6 +2233,7 @@ extension MachineLearning {
             AWSShapeMember(label: "PredictEndpoint", required: true, type: .string), 
             AWSShapeMember(label: "Record", required: true, type: .map)
         ]
+
         /// A unique identifier of the MLModel.
         public let mLModelId: String
         public let predictEndpoint: String
@@ -1952,6 +2243,14 @@ extension MachineLearning {
             self.mLModelId = mLModelId
             self.predictEndpoint = predictEndpoint
             self.record = record
+        }
+
+        public func validate(name: String) throws {
+            try validate(mLModelId, name:"mLModelId", parent: name, max: 64)
+            try validate(mLModelId, name:"mLModelId", parent: name, min: 1)
+            try validate(mLModelId, name:"mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(predictEndpoint, name:"predictEndpoint", parent: name, max: 2048)
+            try validate(predictEndpoint, name:"predictEndpoint", parent: name, pattern: "https://[a-zA-Z0-9-.]*\\.amazon(aws)?\\.com[/]?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1965,6 +2264,7 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Prediction", required: false, type: .structure)
         ]
+
         public let prediction: Prediction?
 
         public init(prediction: Prediction? = nil) {
@@ -1983,6 +2283,7 @@ extension MachineLearning {
             AWSShapeMember(label: "predictedScores", required: false, type: .map), 
             AWSShapeMember(label: "predictedValue", required: false, type: .float)
         ]
+
         public let details: [DetailsAttributes: String]?
         /// The prediction label for either a BINARY or MULTICLASS MLModel.
         public let predictedLabel: String?
@@ -2019,6 +2320,7 @@ extension MachineLearning {
             AWSShapeMember(label: "ServiceRole", required: true, type: .string), 
             AWSShapeMember(label: "SubnetId", required: true, type: .string)
         ]
+
         /// The AWS Identity and Access Management (IAM) credentials that are used connect to the Amazon RDS database.
         public let databaseCredentials: RDSDatabaseCredentials
         /// Describes the DatabaseName and InstanceIdentifier of an Amazon RDS database.
@@ -2056,6 +2358,28 @@ extension MachineLearning {
             self.subnetId = subnetId
         }
 
+        public func validate(name: String) throws {
+            try databaseCredentials.validate(name: "\(name).databaseCredentials")
+            try databaseInformation.validate(name: "\(name).databaseInformation")
+            try validate(dataSchema, name:"dataSchema", parent: name, max: 131071)
+            try validate(dataSchemaUri, name:"dataSchemaUri", parent: name, max: 2048)
+            try validate(dataSchemaUri, name:"dataSchemaUri", parent: name, pattern: "s3://([^/]+)(/.*)?")
+            try validate(resourceRole, name:"resourceRole", parent: name, max: 64)
+            try validate(resourceRole, name:"resourceRole", parent: name, min: 1)
+            try validate(s3StagingLocation, name:"s3StagingLocation", parent: name, max: 2048)
+            try validate(s3StagingLocation, name:"s3StagingLocation", parent: name, pattern: "s3://([^/]+)(/.*)?")
+            try securityGroupIds.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 255)
+                try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
+            }
+            try validate(selectSqlQuery, name:"selectSqlQuery", parent: name, max: 16777216)
+            try validate(selectSqlQuery, name:"selectSqlQuery", parent: name, min: 1)
+            try validate(serviceRole, name:"serviceRole", parent: name, max: 64)
+            try validate(serviceRole, name:"serviceRole", parent: name, min: 1)
+            try validate(subnetId, name:"subnetId", parent: name, max: 255)
+            try validate(subnetId, name:"subnetId", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case databaseCredentials = "DatabaseCredentials"
             case databaseInformation = "DatabaseInformation"
@@ -2076,6 +2400,7 @@ extension MachineLearning {
             AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
             AWSShapeMember(label: "InstanceIdentifier", required: true, type: .string)
         ]
+
         public let databaseName: String
         /// The ID of an RDS DB instance.
         public let instanceIdentifier: String
@@ -2083,6 +2408,14 @@ extension MachineLearning {
         public init(databaseName: String, instanceIdentifier: String) {
             self.databaseName = databaseName
             self.instanceIdentifier = instanceIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try validate(databaseName, name:"databaseName", parent: name, max: 64)
+            try validate(databaseName, name:"databaseName", parent: name, min: 1)
+            try validate(instanceIdentifier, name:"instanceIdentifier", parent: name, max: 63)
+            try validate(instanceIdentifier, name:"instanceIdentifier", parent: name, min: 1)
+            try validate(instanceIdentifier, name:"instanceIdentifier", parent: name, pattern: "[a-z0-9-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2096,12 +2429,20 @@ extension MachineLearning {
             AWSShapeMember(label: "Password", required: true, type: .string), 
             AWSShapeMember(label: "Username", required: true, type: .string)
         ]
+
         public let password: String
         public let username: String
 
         public init(password: String, username: String) {
             self.password = password
             self.username = username
+        }
+
+        public func validate(name: String) throws {
+            try validate(password, name:"password", parent: name, max: 128)
+            try validate(password, name:"password", parent: name, min: 8)
+            try validate(username, name:"username", parent: name, max: 128)
+            try validate(username, name:"username", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2119,6 +2460,7 @@ extension MachineLearning {
             AWSShapeMember(label: "SelectSqlQuery", required: false, type: .string), 
             AWSShapeMember(label: "ServiceRole", required: false, type: .string)
         ]
+
         /// The database details required to connect to an Amazon RDS.
         public let database: RDSDatabase?
         public let databaseUserName: String?
@@ -2157,6 +2499,7 @@ extension MachineLearning {
             AWSShapeMember(label: "EndpointUrl", required: false, type: .string), 
             AWSShapeMember(label: "PeakRequestsPerSecond", required: false, type: .integer)
         ]
+
         /// The time that the request to create the real-time endpoint for the MLModel was received. The time is expressed in epoch time.
         public let createdAt: TimeStamp?
         ///  The current status of the real-time endpoint for the MLModel. This element can have one of the following values:    NONE - Endpoint does not exist or was previously deleted.  READY - Endpoint is ready to be used for real-time predictions.  UPDATING - Updating/creating the endpoint.  
@@ -2199,6 +2542,7 @@ extension MachineLearning {
             AWSShapeMember(label: "S3StagingLocation", required: true, type: .string), 
             AWSShapeMember(label: "SelectSqlQuery", required: true, type: .string)
         ]
+
         /// Describes AWS Identity and Access Management (IAM) credentials that are used connect to the Amazon Redshift database.
         public let databaseCredentials: RedshiftDatabaseCredentials
         /// Describes the DatabaseName and ClusterIdentifier for an Amazon Redshift DataSource.
@@ -2224,6 +2568,18 @@ extension MachineLearning {
             self.selectSqlQuery = selectSqlQuery
         }
 
+        public func validate(name: String) throws {
+            try databaseCredentials.validate(name: "\(name).databaseCredentials")
+            try databaseInformation.validate(name: "\(name).databaseInformation")
+            try validate(dataSchema, name:"dataSchema", parent: name, max: 131071)
+            try validate(dataSchemaUri, name:"dataSchemaUri", parent: name, max: 2048)
+            try validate(dataSchemaUri, name:"dataSchemaUri", parent: name, pattern: "s3://([^/]+)(/.*)?")
+            try validate(s3StagingLocation, name:"s3StagingLocation", parent: name, max: 2048)
+            try validate(s3StagingLocation, name:"s3StagingLocation", parent: name, pattern: "s3://([^/]+)(/.*)?")
+            try validate(selectSqlQuery, name:"selectSqlQuery", parent: name, max: 16777216)
+            try validate(selectSqlQuery, name:"selectSqlQuery", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case databaseCredentials = "DatabaseCredentials"
             case databaseInformation = "DatabaseInformation"
@@ -2240,12 +2596,22 @@ extension MachineLearning {
             AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "DatabaseName", required: true, type: .string)
         ]
+
         public let clusterIdentifier: String
         public let databaseName: String
 
         public init(clusterIdentifier: String, databaseName: String) {
             self.clusterIdentifier = clusterIdentifier
             self.databaseName = databaseName
+        }
+
+        public func validate(name: String) throws {
+            try validate(clusterIdentifier, name:"clusterIdentifier", parent: name, max: 63)
+            try validate(clusterIdentifier, name:"clusterIdentifier", parent: name, min: 1)
+            try validate(clusterIdentifier, name:"clusterIdentifier", parent: name, pattern: "[a-z0-9-]+")
+            try validate(databaseName, name:"databaseName", parent: name, max: 64)
+            try validate(databaseName, name:"databaseName", parent: name, min: 1)
+            try validate(databaseName, name:"databaseName", parent: name, pattern: "[a-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2259,12 +2625,20 @@ extension MachineLearning {
             AWSShapeMember(label: "Password", required: true, type: .string), 
             AWSShapeMember(label: "Username", required: true, type: .string)
         ]
+
         public let password: String
         public let username: String
 
         public init(password: String, username: String) {
             self.password = password
             self.username = username
+        }
+
+        public func validate(name: String) throws {
+            try validate(password, name:"password", parent: name, max: 64)
+            try validate(password, name:"password", parent: name, min: 8)
+            try validate(username, name:"username", parent: name, max: 128)
+            try validate(username, name:"username", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2279,6 +2653,7 @@ extension MachineLearning {
             AWSShapeMember(label: "RedshiftDatabase", required: false, type: .structure), 
             AWSShapeMember(label: "SelectSqlQuery", required: false, type: .string)
         ]
+
         public let databaseUserName: String?
         public let redshiftDatabase: RedshiftDatabase?
         ///  The SQL query that is specified during CreateDataSourceFromRedshift. Returns only if Verbose is true in GetDataSourceInput. 
@@ -2304,6 +2679,7 @@ extension MachineLearning {
             AWSShapeMember(label: "DataSchema", required: false, type: .string), 
             AWSShapeMember(label: "DataSchemaLocationS3", required: false, type: .string)
         ]
+
         /// The location of the data file(s) used by a DataSource. The URI specifies a data file or an Amazon Simple Storage Service (Amazon S3) directory or bucket containing data files.
         public let dataLocationS3: String
         /// A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource. If the DataRearrangement parameter is not provided, all of the input data is used to create the Datasource. There are multiple parameters that control what data is used to create a datasource:  percentBegin Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. percentEnd Use percentEnd to indicate the end of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. complement The complement parameter instructs Amazon ML to use the data that is not included in the range of percentBegin to percentEnd to create a datasource. The complement parameter is useful if you need to create complementary datasources for training and evaluation. To create a complementary datasource, use the same values for percentBegin and percentEnd, along with the complement parameter. For example, the following two datasources do not share any data, and can be used to train and evaluate a model. The first datasource has 25 percent of the data, and the second one has 75 percent of the data. Datasource for evaluation: {"splitting":{"percentBegin":0, "percentEnd":25}} Datasource for training: {"splitting":{"percentBegin":0, "percentEnd":25, "complement":"true"}}  strategy To change how Amazon ML splits the data for a datasource, use the strategy parameter. The default value for the strategy parameter is sequential, meaning that Amazon ML takes all of the data records between the percentBegin and percentEnd parameters for the datasource, in the order that the records appear in the input data. The following two DataRearrangement lines are examples of sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential", "complement":"true"}} To randomly split the input data into the proportions indicated by the percentBegin and percentEnd parameters, set the strategy parameter to random and provide a string that is used as the seed value for the random data splitting (for example, you can use the S3 path to your data as the random seed string). If you choose the random split strategy, Amazon ML assigns each row of data a pseudo-random number between 0 and 100, and then selects the rows that have an assigned number between percentBegin and percentEnd. Pseudo-random numbers are assigned using both the input seed string value and the byte offset as a seed, so changing the data results in a different split. Any existing ordering is preserved. The random splitting strategy ensures that variables in the training and evaluation data are distributed similarly. It is useful in the cases where the input data may have an implicit sort order, which would otherwise result in training and evaluation datasources containing non-similar data records. The following two DataRearrangement lines are examples of non-sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}  
@@ -2318,6 +2694,14 @@ extension MachineLearning {
             self.dataRearrangement = dataRearrangement
             self.dataSchema = dataSchema
             self.dataSchemaLocationS3 = dataSchemaLocationS3
+        }
+
+        public func validate(name: String) throws {
+            try validate(dataLocationS3, name:"dataLocationS3", parent: name, max: 2048)
+            try validate(dataLocationS3, name:"dataLocationS3", parent: name, pattern: "s3://([^/]+)(/.*)?")
+            try validate(dataSchema, name:"dataSchema", parent: name, max: 131071)
+            try validate(dataSchemaLocationS3, name:"dataSchemaLocationS3", parent: name, max: 2048)
+            try validate(dataSchemaLocationS3, name:"dataSchemaLocationS3", parent: name, pattern: "s3://([^/]+)(/.*)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2339,6 +2723,7 @@ extension MachineLearning {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// A unique identifier for the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @.
         public let key: String?
         /// An optional string, typically used to describe or define the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @.
@@ -2347,6 +2732,15 @@ extension MachineLearning {
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, min: 0)
+            try validate(value, name:"value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2368,6 +2762,7 @@ extension MachineLearning {
             AWSShapeMember(label: "BatchPredictionId", required: true, type: .string), 
             AWSShapeMember(label: "BatchPredictionName", required: true, type: .string)
         ]
+
         /// The ID assigned to the BatchPrediction during creation.
         public let batchPredictionId: String
         /// A new user-supplied name or description of the BatchPrediction.
@@ -2376,6 +2771,14 @@ extension MachineLearning {
         public init(batchPredictionId: String, batchPredictionName: String) {
             self.batchPredictionId = batchPredictionId
             self.batchPredictionName = batchPredictionName
+        }
+
+        public func validate(name: String) throws {
+            try validate(batchPredictionId, name:"batchPredictionId", parent: name, max: 64)
+            try validate(batchPredictionId, name:"batchPredictionId", parent: name, min: 1)
+            try validate(batchPredictionId, name:"batchPredictionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(batchPredictionName, name:"batchPredictionName", parent: name, max: 1024)
+            try validate(batchPredictionName, name:"batchPredictionName", parent: name, pattern: ".*\\S.*|^$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2388,6 +2791,7 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BatchPredictionId", required: false, type: .string)
         ]
+
         /// The ID assigned to the BatchPrediction during creation. This value should be identical to the value of the BatchPredictionId in the request.
         public let batchPredictionId: String?
 
@@ -2405,6 +2809,7 @@ extension MachineLearning {
             AWSShapeMember(label: "DataSourceId", required: true, type: .string), 
             AWSShapeMember(label: "DataSourceName", required: true, type: .string)
         ]
+
         /// The ID assigned to the DataSource during creation.
         public let dataSourceId: String
         /// A new user-supplied name or description of the DataSource that will replace the current description. 
@@ -2413,6 +2818,14 @@ extension MachineLearning {
         public init(dataSourceId: String, dataSourceName: String) {
             self.dataSourceId = dataSourceId
             self.dataSourceName = dataSourceName
+        }
+
+        public func validate(name: String) throws {
+            try validate(dataSourceId, name:"dataSourceId", parent: name, max: 64)
+            try validate(dataSourceId, name:"dataSourceId", parent: name, min: 1)
+            try validate(dataSourceId, name:"dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(dataSourceName, name:"dataSourceName", parent: name, max: 1024)
+            try validate(dataSourceName, name:"dataSourceName", parent: name, pattern: ".*\\S.*|^$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2425,6 +2838,7 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSourceId", required: false, type: .string)
         ]
+
         /// The ID assigned to the DataSource during creation. This value should be identical to the value of the DataSourceID in the request.
         public let dataSourceId: String?
 
@@ -2442,6 +2856,7 @@ extension MachineLearning {
             AWSShapeMember(label: "EvaluationId", required: true, type: .string), 
             AWSShapeMember(label: "EvaluationName", required: true, type: .string)
         ]
+
         /// The ID assigned to the Evaluation during creation.
         public let evaluationId: String
         /// A new user-supplied name or description of the Evaluation that will replace the current content. 
@@ -2450,6 +2865,14 @@ extension MachineLearning {
         public init(evaluationId: String, evaluationName: String) {
             self.evaluationId = evaluationId
             self.evaluationName = evaluationName
+        }
+
+        public func validate(name: String) throws {
+            try validate(evaluationId, name:"evaluationId", parent: name, max: 64)
+            try validate(evaluationId, name:"evaluationId", parent: name, min: 1)
+            try validate(evaluationId, name:"evaluationId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(evaluationName, name:"evaluationName", parent: name, max: 1024)
+            try validate(evaluationName, name:"evaluationName", parent: name, pattern: ".*\\S.*|^$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2462,6 +2885,7 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EvaluationId", required: false, type: .string)
         ]
+
         /// The ID assigned to the Evaluation during creation. This value should be identical to the value of the Evaluation in the request.
         public let evaluationId: String?
 
@@ -2480,6 +2904,7 @@ extension MachineLearning {
             AWSShapeMember(label: "MLModelName", required: false, type: .string), 
             AWSShapeMember(label: "ScoreThreshold", required: false, type: .float)
         ]
+
         /// The ID assigned to the MLModel during creation.
         public let mLModelId: String
         /// A user-supplied name or description of the MLModel.
@@ -2493,6 +2918,14 @@ extension MachineLearning {
             self.scoreThreshold = scoreThreshold
         }
 
+        public func validate(name: String) throws {
+            try validate(mLModelId, name:"mLModelId", parent: name, max: 64)
+            try validate(mLModelId, name:"mLModelId", parent: name, min: 1)
+            try validate(mLModelId, name:"mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(mLModelName, name:"mLModelName", parent: name, max: 1024)
+            try validate(mLModelName, name:"mLModelName", parent: name, pattern: ".*\\S.*|^$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case mLModelId = "MLModelId"
             case mLModelName = "MLModelName"
@@ -2504,6 +2937,7 @@ extension MachineLearning {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MLModelId", required: false, type: .string)
         ]
+
         /// The ID assigned to the MLModel during creation. This value should be identical to the value of the MLModelID in the request.
         public let mLModelId: String?
 

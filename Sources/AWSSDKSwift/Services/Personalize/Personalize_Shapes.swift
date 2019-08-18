@@ -18,6 +18,7 @@ extension Personalize {
             AWSShapeMember(label: "roleArn", required: false, type: .string), 
             AWSShapeMember(label: "trainingInputMode", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the algorithm.
         public let algorithmArn: String?
         /// The URI of the Docker container for the algorithm image.
@@ -71,6 +72,7 @@ extension Personalize {
             AWSShapeMember(label: "dockerURI", required: true, type: .string), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// The URI of the Docker container for the algorithm image.
         public let dockerURI: String
         /// The name of the algorithm image.
@@ -92,6 +94,7 @@ extension Personalize {
             AWSShapeMember(label: "metricName", required: false, type: .string), 
             AWSShapeMember(label: "recipeList", required: false, type: .list)
         ]
+
         /// The metric to optimize.
         public let metricName: String?
         /// The list of candidate recipes.
@@ -100,6 +103,15 @@ extension Personalize {
         public init(metricName: String? = nil, recipeList: [String]? = nil) {
             self.metricName = metricName
             self.recipeList = recipeList
+        }
+
+        public func validate(name: String) throws {
+            try validate(metricName, name:"metricName", parent: name, max: 256)
+            try recipeList?.forEach {
+                try validate($0, name: "recipeList[]", parent: name, max: 256)
+                try validate($0, name: "recipeList[]", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            }
+            try validate(recipeList, name:"recipeList", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -112,6 +124,7 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "bestRecipeArn", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the best recipe.
         public let bestRecipeArn: String?
 
@@ -136,6 +149,7 @@ extension Personalize {
             AWSShapeMember(label: "solutionVersionArn", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the campaign. 
         public let campaignArn: String?
         /// The date and time (in Unix format) that the campaign was created.
@@ -188,6 +202,7 @@ extension Personalize {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the campaign.
         public let campaignArn: String?
         /// The date and time (in Unix time) that the campaign was created.
@@ -229,6 +244,7 @@ extension Personalize {
             AWSShapeMember(label: "solutionVersionArn", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string)
         ]
+
         /// The date and time (in Unix time) that the campaign update was created.
         public let creationDateTime: TimeStamp?
         /// If a campaign update fails, the reason behind the failure.
@@ -266,6 +282,7 @@ extension Personalize {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "values", required: false, type: .list)
         ]
+
         /// The name of the hyperparameter.
         public let name: String?
         /// A list of the categories for the hyperparameter.
@@ -274,6 +291,14 @@ extension Personalize {
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 256)
+            try values?.forEach {
+                try validate($0, name: "values[]", parent: name, max: 1000)
+            }
+            try validate(values, name:"values", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -288,6 +313,7 @@ extension Personalize {
             AWSShapeMember(label: "minValue", required: false, type: .double), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// The maximum allowable value for the hyperparameter.
         public let maxValue: Double?
         /// The minimum allowable value for the hyperparameter.
@@ -299,6 +325,12 @@ extension Personalize {
             self.maxValue = maxValue
             self.minValue = minValue
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxValue, name:"maxValue", parent: name, min: -1000000)
+            try validate(minValue, name:"minValue", parent: name, min: -1000000)
+            try validate(name, name:"name", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -314,6 +346,7 @@ extension Personalize {
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "solutionVersionArn", required: true, type: .string)
         ]
+
         /// Specifies the requested minimum provisioned transactions (recommendations) per second that Amazon Personalize will support.
         public let minProvisionedTPS: Int32
         /// A name for the new campaign. The campaign name must be unique within your account.
@@ -327,6 +360,15 @@ extension Personalize {
             self.solutionVersionArn = solutionVersionArn
         }
 
+        public func validate(name: String) throws {
+            try validate(minProvisionedTPS, name:"minProvisionedTPS", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 63)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(solutionVersionArn, name:"solutionVersionArn", parent: name, max: 256)
+            try validate(solutionVersionArn, name:"solutionVersionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case minProvisionedTPS = "minProvisionedTPS"
             case name = "name"
@@ -338,6 +380,7 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "campaignArn", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the campaign.
         public let campaignArn: String?
 
@@ -356,6 +399,7 @@ extension Personalize {
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "roleArn", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of a KMS key used to encrypt the datasets.
         public let kmsKeyArn: String?
         /// The name for the new dataset group.
@@ -369,6 +413,14 @@ extension Personalize {
             self.roleArn = roleArn
         }
 
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 63)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(roleArn, name:"roleArn", parent: name, max: 256)
+            try validate(roleArn, name:"roleArn", parent: name, pattern: "arn:([a-z\\d-]+):iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case kmsKeyArn = "kmsKeyArn"
             case name = "name"
@@ -380,6 +432,7 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "datasetGroupArn", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the new dataset group.
         public let datasetGroupArn: String?
 
@@ -399,6 +452,7 @@ extension Personalize {
             AWSShapeMember(label: "jobName", required: true, type: .string), 
             AWSShapeMember(label: "roleArn", required: true, type: .string)
         ]
+
         /// The ARN of the dataset that receives the imported data.
         public let datasetArn: String
         /// The Amazon S3 bucket that contains the training data to import.
@@ -415,6 +469,17 @@ extension Personalize {
             self.roleArn = roleArn
         }
 
+        public func validate(name: String) throws {
+            try validate(datasetArn, name:"datasetArn", parent: name, max: 256)
+            try validate(datasetArn, name:"datasetArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try dataSource.validate(name: "\(name).dataSource")
+            try validate(jobName, name:"jobName", parent: name, max: 63)
+            try validate(jobName, name:"jobName", parent: name, min: 1)
+            try validate(jobName, name:"jobName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(roleArn, name:"roleArn", parent: name, max: 256)
+            try validate(roleArn, name:"roleArn", parent: name, pattern: "arn:([a-z\\d-]+):iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case datasetArn = "datasetArn"
             case dataSource = "dataSource"
@@ -427,6 +492,7 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "datasetImportJobArn", required: false, type: .string)
         ]
+
         /// The ARN of the dataset import job.
         public let datasetImportJobArn: String?
 
@@ -446,6 +512,7 @@ extension Personalize {
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "schemaArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the dataset group to add the dataset to.
         public let datasetGroupArn: String
         /// The type of dataset. One of the following (case insensitive) values:   Interactions   Items   Users  
@@ -462,6 +529,17 @@ extension Personalize {
             self.schemaArn = schemaArn
         }
 
+        public func validate(name: String) throws {
+            try validate(datasetGroupArn, name:"datasetGroupArn", parent: name, max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(datasetType, name:"datasetType", parent: name, max: 256)
+            try validate(name, name:"name", parent: name, max: 63)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(schemaArn, name:"schemaArn", parent: name, max: 256)
+            try validate(schemaArn, name:"schemaArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case datasetGroupArn = "datasetGroupArn"
             case datasetType = "datasetType"
@@ -474,6 +552,7 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "datasetArn", required: false, type: .string)
         ]
+
         /// The ARN of the dataset.
         public let datasetArn: String?
 
@@ -491,6 +570,7 @@ extension Personalize {
             AWSShapeMember(label: "datasetGroupArn", required: true, type: .string), 
             AWSShapeMember(label: "name", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the dataset group that receives the event data.
         public let datasetGroupArn: String
         /// The name for the event tracker.
@@ -499,6 +579,14 @@ extension Personalize {
         public init(datasetGroupArn: String, name: String) {
             self.datasetGroupArn = datasetGroupArn
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(datasetGroupArn, name:"datasetGroupArn", parent: name, max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(name, name:"name", parent: name, max: 63)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -512,6 +600,7 @@ extension Personalize {
             AWSShapeMember(label: "eventTrackerArn", required: false, type: .string), 
             AWSShapeMember(label: "trackingId", required: false, type: .string)
         ]
+
         /// The ARN of the event tracker.
         public let eventTrackerArn: String?
         /// The ID of the event tracker. Include this ID in requests to the PutEvents API.
@@ -533,6 +622,7 @@ extension Personalize {
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "schema", required: true, type: .string)
         ]
+
         /// The name for the schema.
         public let name: String
         /// A schema in Avro JSON format.
@@ -541,6 +631,13 @@ extension Personalize {
         public init(name: String, schema: String) {
             self.name = name
             self.schema = schema
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 63)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(schema, name:"schema", parent: name, max: 10000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -553,6 +650,7 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "schemaArn", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the created schema.
         public let schemaArn: String?
 
@@ -575,6 +673,7 @@ extension Personalize {
             AWSShapeMember(label: "recipeArn", required: false, type: .string), 
             AWSShapeMember(label: "solutionConfig", required: false, type: .structure)
         ]
+
         /// The Amazon Resource Name (ARN) of the dataset group that provides the training data.
         public let datasetGroupArn: String
         /// When your have multiple event types (using an EVENT_TYPE schema field), this parameter specifies which event type (for example, 'click' or 'like') is used for training the model.
@@ -600,6 +699,18 @@ extension Personalize {
             self.solutionConfig = solutionConfig
         }
 
+        public func validate(name: String) throws {
+            try validate(datasetGroupArn, name:"datasetGroupArn", parent: name, max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(eventType, name:"eventType", parent: name, max: 256)
+            try validate(name, name:"name", parent: name, max: 63)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(recipeArn, name:"recipeArn", parent: name, max: 256)
+            try validate(recipeArn, name:"recipeArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try solutionConfig?.validate(name: "\(name).solutionConfig")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case datasetGroupArn = "datasetGroupArn"
             case eventType = "eventType"
@@ -615,6 +726,7 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "solutionArn", required: false, type: .string)
         ]
+
         /// The ARN of the solution.
         public let solutionArn: String?
 
@@ -631,11 +743,17 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "solutionArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the solution containing the training configuration information.
         public let solutionArn: String
 
         public init(solutionArn: String) {
             self.solutionArn = solutionArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(solutionArn, name:"solutionArn", parent: name, max: 256)
+            try validate(solutionArn, name:"solutionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -647,6 +765,7 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "solutionVersionArn", required: false, type: .string)
         ]
+
         /// The ARN of the new solution version.
         public let solutionVersionArn: String?
 
@@ -663,11 +782,16 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "dataLocation", required: false, type: .string)
         ]
+
         /// The path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For example:   s3://bucket-name/training-data.csv 
         public let dataLocation: String?
 
         public init(dataLocation: String? = nil) {
             self.dataLocation = dataLocation
+        }
+
+        public func validate(name: String) throws {
+            try validate(dataLocation, name:"dataLocation", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -686,6 +810,7 @@ extension Personalize {
             AWSShapeMember(label: "schemaArn", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string)
         ]
+
         /// The creation date and time (in Unix time) of the dataset.
         public let creationDateTime: TimeStamp?
         /// The Amazon Resource Name (ARN) of the dataset that you want metadata for.
@@ -737,6 +862,7 @@ extension Personalize {
             AWSShapeMember(label: "roleArn", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string)
         ]
+
         /// The creation date and time (in Unix time) of the dataset group.
         public let creationDateTime: TimeStamp?
         /// The Amazon Resource Name (ARN) of the dataset group.
@@ -786,6 +912,7 @@ extension Personalize {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string)
         ]
+
         /// The date and time (in Unix time) that the dataset group was created.
         public let creationDateTime: TimeStamp?
         /// The Amazon Resource Name (ARN) of the dataset group.
@@ -830,6 +957,7 @@ extension Personalize {
             AWSShapeMember(label: "roleArn", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string)
         ]
+
         /// The creation date and time (in Unix time) of the dataset import job.
         public let creationDateTime: TimeStamp?
         /// The Amazon Resource Name (ARN) of the dataset that receives the imported data.
@@ -883,6 +1011,7 @@ extension Personalize {
             AWSShapeMember(label: "lastUpdatedDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "status", required: false, type: .string)
         ]
+
         /// The date and time (in Unix time) that the dataset import job was created.
         public let creationDateTime: TimeStamp?
         /// The Amazon Resource Name (ARN) of the dataset import job.
@@ -923,6 +1052,7 @@ extension Personalize {
             AWSShapeMember(label: "schema", required: false, type: .string), 
             AWSShapeMember(label: "schemaArn", required: false, type: .string)
         ]
+
         /// The date and time (in Unix time) that the schema was created.
         public let creationDateTime: TimeStamp?
         /// The date and time (in Unix time) that the schema was last updated.
@@ -958,6 +1088,7 @@ extension Personalize {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "schemaArn", required: false, type: .string)
         ]
+
         /// The date and time (in Unix time) that the schema was created.
         public let creationDateTime: TimeStamp?
         /// The date and time (in Unix time) that the schema was last updated.
@@ -991,6 +1122,7 @@ extension Personalize {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string)
         ]
+
         /// The date and time (in Unix time) that the dataset was created.
         public let creationDateTime: TimeStamp?
         /// The Amazon Resource Name (ARN) of the dataset.
@@ -1029,6 +1161,7 @@ extension Personalize {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "values", required: false, type: .list)
         ]
+
         /// Whether the hyperparameter is tunable.
         public let isTunable: Bool?
         /// The name of the hyperparameter.
@@ -1056,6 +1189,7 @@ extension Personalize {
             AWSShapeMember(label: "minValue", required: false, type: .double), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// Whether the hyperparameter is tunable.
         public let isTunable: Bool?
         /// The maximum allowable value for the hyperparameter.
@@ -1086,6 +1220,7 @@ extension Personalize {
             AWSShapeMember(label: "continuousHyperParameterRanges", required: false, type: .list), 
             AWSShapeMember(label: "integerHyperParameterRanges", required: false, type: .list)
         ]
+
         /// The categorical hyperparameters and their default ranges.
         public let categoricalHyperParameterRanges: [DefaultCategoricalHyperParameterRange]?
         /// The continuous hyperparameters and their default ranges.
@@ -1113,6 +1248,7 @@ extension Personalize {
             AWSShapeMember(label: "minValue", required: false, type: .integer), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// Indicates whether the hyperparameter is tunable.
         public let isTunable: Bool?
         /// The maximum allowable value for the hyperparameter.
@@ -1141,11 +1277,17 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "campaignArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the campaign to delete.
         public let campaignArn: String
 
         public init(campaignArn: String) {
             self.campaignArn = campaignArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(campaignArn, name:"campaignArn", parent: name, max: 256)
+            try validate(campaignArn, name:"campaignArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1157,11 +1299,17 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "datasetGroupArn", required: true, type: .string)
         ]
+
         /// The ARN of the dataset group to delete.
         public let datasetGroupArn: String
 
         public init(datasetGroupArn: String) {
             self.datasetGroupArn = datasetGroupArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(datasetGroupArn, name:"datasetGroupArn", parent: name, max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1173,11 +1321,17 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "datasetArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the dataset to delete.
         public let datasetArn: String
 
         public init(datasetArn: String) {
             self.datasetArn = datasetArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(datasetArn, name:"datasetArn", parent: name, max: 256)
+            try validate(datasetArn, name:"datasetArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1189,11 +1343,17 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "eventTrackerArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the event tracker to delete.
         public let eventTrackerArn: String
 
         public init(eventTrackerArn: String) {
             self.eventTrackerArn = eventTrackerArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(eventTrackerArn, name:"eventTrackerArn", parent: name, max: 256)
+            try validate(eventTrackerArn, name:"eventTrackerArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1205,11 +1365,17 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "schemaArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the schema to delete.
         public let schemaArn: String
 
         public init(schemaArn: String) {
             self.schemaArn = schemaArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(schemaArn, name:"schemaArn", parent: name, max: 256)
+            try validate(schemaArn, name:"schemaArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1221,11 +1387,17 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "solutionArn", required: true, type: .string)
         ]
+
         /// The ARN of the solution to delete.
         public let solutionArn: String
 
         public init(solutionArn: String) {
             self.solutionArn = solutionArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(solutionArn, name:"solutionArn", parent: name, max: 256)
+            try validate(solutionArn, name:"solutionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1237,11 +1409,17 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "algorithmArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the algorithm to describe.
         public let algorithmArn: String
 
         public init(algorithmArn: String) {
             self.algorithmArn = algorithmArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(algorithmArn, name:"algorithmArn", parent: name, max: 256)
+            try validate(algorithmArn, name:"algorithmArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1253,6 +1431,7 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "algorithm", required: false, type: .structure)
         ]
+
         /// A listing of the properties of the algorithm.
         public let algorithm: Algorithm?
 
@@ -1269,11 +1448,17 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "campaignArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the campaign.
         public let campaignArn: String
 
         public init(campaignArn: String) {
             self.campaignArn = campaignArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(campaignArn, name:"campaignArn", parent: name, max: 256)
+            try validate(campaignArn, name:"campaignArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1285,6 +1470,7 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "campaign", required: false, type: .structure)
         ]
+
         /// The properties of the campaign.
         public let campaign: Campaign?
 
@@ -1301,11 +1487,17 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "datasetGroupArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the dataset group to describe.
         public let datasetGroupArn: String
 
         public init(datasetGroupArn: String) {
             self.datasetGroupArn = datasetGroupArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(datasetGroupArn, name:"datasetGroupArn", parent: name, max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1317,6 +1509,7 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "datasetGroup", required: false, type: .structure)
         ]
+
         /// A listing of the dataset group's properties.
         public let datasetGroup: DatasetGroup?
 
@@ -1333,11 +1526,17 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "datasetImportJobArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the dataset import job to describe.
         public let datasetImportJobArn: String
 
         public init(datasetImportJobArn: String) {
             self.datasetImportJobArn = datasetImportJobArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(datasetImportJobArn, name:"datasetImportJobArn", parent: name, max: 256)
+            try validate(datasetImportJobArn, name:"datasetImportJobArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1349,6 +1548,7 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "datasetImportJob", required: false, type: .structure)
         ]
+
         /// Information about the dataset import job, including the status. The status is one of the following values:   CREATE PENDING   CREATE IN_PROGRESS   ACTIVE   CREATE FAILED  
         public let datasetImportJob: DatasetImportJob?
 
@@ -1365,11 +1565,17 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "datasetArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the dataset to describe.
         public let datasetArn: String
 
         public init(datasetArn: String) {
             self.datasetArn = datasetArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(datasetArn, name:"datasetArn", parent: name, max: 256)
+            try validate(datasetArn, name:"datasetArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1381,6 +1587,7 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "dataset", required: false, type: .structure)
         ]
+
         /// A listing of the dataset's properties.
         public let dataset: Dataset?
 
@@ -1397,11 +1604,17 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "eventTrackerArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the event tracker to describe.
         public let eventTrackerArn: String
 
         public init(eventTrackerArn: String) {
             self.eventTrackerArn = eventTrackerArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(eventTrackerArn, name:"eventTrackerArn", parent: name, max: 256)
+            try validate(eventTrackerArn, name:"eventTrackerArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1413,6 +1626,7 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "eventTracker", required: false, type: .structure)
         ]
+
         /// An object that describes the event tracker.
         public let eventTracker: EventTracker?
 
@@ -1429,11 +1643,17 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "featureTransformationArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the feature transformation to describe.
         public let featureTransformationArn: String
 
         public init(featureTransformationArn: String) {
             self.featureTransformationArn = featureTransformationArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(featureTransformationArn, name:"featureTransformationArn", parent: name, max: 256)
+            try validate(featureTransformationArn, name:"featureTransformationArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1445,6 +1665,7 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "featureTransformation", required: false, type: .structure)
         ]
+
         /// A listing of the FeatureTransformation properties.
         public let featureTransformation: FeatureTransformation?
 
@@ -1461,11 +1682,17 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "recipeArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the recipe to describe.
         public let recipeArn: String
 
         public init(recipeArn: String) {
             self.recipeArn = recipeArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(recipeArn, name:"recipeArn", parent: name, max: 256)
+            try validate(recipeArn, name:"recipeArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1477,6 +1704,7 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "recipe", required: false, type: .structure)
         ]
+
         /// An object that describes the recipe.
         public let recipe: Recipe?
 
@@ -1493,11 +1721,17 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "schemaArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the schema to retrieve.
         public let schemaArn: String
 
         public init(schemaArn: String) {
             self.schemaArn = schemaArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(schemaArn, name:"schemaArn", parent: name, max: 256)
+            try validate(schemaArn, name:"schemaArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1509,6 +1743,7 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "schema", required: false, type: .structure)
         ]
+
         /// The requested schema.
         public let schema: DatasetSchema?
 
@@ -1525,11 +1760,17 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "solutionArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the solution to describe.
         public let solutionArn: String
 
         public init(solutionArn: String) {
             self.solutionArn = solutionArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(solutionArn, name:"solutionArn", parent: name, max: 256)
+            try validate(solutionArn, name:"solutionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1541,6 +1782,7 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "solution", required: false, type: .structure)
         ]
+
         /// An object that describes the solution.
         public let solution: Solution?
 
@@ -1557,11 +1799,17 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "solutionVersionArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the solution version.
         public let solutionVersionArn: String
 
         public init(solutionVersionArn: String) {
             self.solutionVersionArn = solutionVersionArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(solutionVersionArn, name:"solutionVersionArn", parent: name, max: 256)
+            try validate(solutionVersionArn, name:"solutionVersionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1573,6 +1821,7 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "solutionVersion", required: false, type: .structure)
         ]
+
         /// The solution version.
         public let solutionVersion: SolutionVersion?
 
@@ -1596,6 +1845,7 @@ extension Personalize {
             AWSShapeMember(label: "status", required: false, type: .string), 
             AWSShapeMember(label: "trackingId", required: false, type: .string)
         ]
+
         /// The Amazon AWS account that owns the event tracker.
         public let accountId: String?
         /// The date and time (in Unix format) that the event tracker was created.
@@ -1644,6 +1894,7 @@ extension Personalize {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string)
         ]
+
         /// The date and time (in Unix time) that the event tracker was created.
         public let creationDateTime: TimeStamp?
         /// The Amazon Resource Name (ARN) of the event tracker.
@@ -1681,6 +1932,7 @@ extension Personalize {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string)
         ]
+
         /// The creation date and time (in Unix time) of the feature transformation.
         public let creationDateTime: TimeStamp?
         /// Provides the default parameters for feature transformation.
@@ -1717,11 +1969,17 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "solutionVersionArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the solution version for which to get metrics.
         public let solutionVersionArn: String
 
         public init(solutionVersionArn: String) {
             self.solutionVersionArn = solutionVersionArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(solutionVersionArn, name:"solutionVersionArn", parent: name, max: 256)
+            try validate(solutionVersionArn, name:"solutionVersionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1734,6 +1992,7 @@ extension Personalize {
             AWSShapeMember(label: "metrics", required: false, type: .map), 
             AWSShapeMember(label: "solutionVersionArn", required: false, type: .string)
         ]
+
         /// The metrics for the solution version.
         public let metrics: [String: Double]?
         /// The same solution version ARN as specified in the request.
@@ -1756,6 +2015,7 @@ extension Personalize {
             AWSShapeMember(label: "hpoObjective", required: false, type: .structure), 
             AWSShapeMember(label: "hpoResourceConfig", required: false, type: .structure)
         ]
+
         /// The hyperparameters and their allowable ranges.
         public let algorithmHyperParameterRanges: HyperParameterRanges?
         /// The metric to optimize during HPO.
@@ -1767,6 +2027,12 @@ extension Personalize {
             self.algorithmHyperParameterRanges = algorithmHyperParameterRanges
             self.hpoObjective = hpoObjective
             self.hpoResourceConfig = hpoResourceConfig
+        }
+
+        public func validate(name: String) throws {
+            try algorithmHyperParameterRanges?.validate(name: "\(name).algorithmHyperParameterRanges")
+            try hpoObjective?.validate(name: "\(name).hpoObjective")
+            try hpoResourceConfig?.validate(name: "\(name).hpoResourceConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1782,6 +2048,7 @@ extension Personalize {
             AWSShapeMember(label: "metricRegex", required: false, type: .string), 
             AWSShapeMember(label: "type", required: false, type: .string)
         ]
+
         /// The name of the metric.
         public let metricName: String?
         /// A regular expression for finding the metric in the training job logs.
@@ -1793,6 +2060,12 @@ extension Personalize {
             self.metricName = metricName
             self.metricRegex = metricRegex
             self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(metricName, name:"metricName", parent: name, max: 256)
+            try validate(metricRegex, name:"metricRegex", parent: name, max: 256)
+            try validate(`type`, name:"`type`", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1807,6 +2080,7 @@ extension Personalize {
             AWSShapeMember(label: "maxNumberOfTrainingJobs", required: false, type: .string), 
             AWSShapeMember(label: "maxParallelTrainingJobs", required: false, type: .string)
         ]
+
         /// The maximum number of training jobs.
         public let maxNumberOfTrainingJobs: String?
         /// The maximum number of parallel training jobs.
@@ -1815,6 +2089,11 @@ extension Personalize {
         public init(maxNumberOfTrainingJobs: String? = nil, maxParallelTrainingJobs: String? = nil) {
             self.maxNumberOfTrainingJobs = maxNumberOfTrainingJobs
             self.maxParallelTrainingJobs = maxParallelTrainingJobs
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxNumberOfTrainingJobs, name:"maxNumberOfTrainingJobs", parent: name, max: 256)
+            try validate(maxParallelTrainingJobs, name:"maxParallelTrainingJobs", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1829,6 +2108,7 @@ extension Personalize {
             AWSShapeMember(label: "continuousHyperParameterRanges", required: false, type: .list), 
             AWSShapeMember(label: "integerHyperParameterRanges", required: false, type: .list)
         ]
+
         /// The categorical hyperparameters and their ranges.
         public let categoricalHyperParameterRanges: [CategoricalHyperParameterRange]?
         /// The continuous hyperparameters and their ranges.
@@ -1840,6 +2120,21 @@ extension Personalize {
             self.categoricalHyperParameterRanges = categoricalHyperParameterRanges
             self.continuousHyperParameterRanges = continuousHyperParameterRanges
             self.integerHyperParameterRanges = integerHyperParameterRanges
+        }
+
+        public func validate(name: String) throws {
+            try categoricalHyperParameterRanges?.forEach {
+                try $0.validate(name: "\(name).categoricalHyperParameterRanges[]")
+            }
+            try validate(categoricalHyperParameterRanges, name:"categoricalHyperParameterRanges", parent: name, max: 100)
+            try continuousHyperParameterRanges?.forEach {
+                try $0.validate(name: "\(name).continuousHyperParameterRanges[]")
+            }
+            try validate(continuousHyperParameterRanges, name:"continuousHyperParameterRanges", parent: name, max: 100)
+            try integerHyperParameterRanges?.forEach {
+                try $0.validate(name: "\(name).integerHyperParameterRanges[]")
+            }
+            try validate(integerHyperParameterRanges, name:"integerHyperParameterRanges", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1855,6 +2150,7 @@ extension Personalize {
             AWSShapeMember(label: "minValue", required: false, type: .integer), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// The maximum allowable value for the hyperparameter.
         public let maxValue: Int32?
         /// The minimum allowable value for the hyperparameter.
@@ -1866,6 +2162,12 @@ extension Personalize {
             self.maxValue = maxValue
             self.minValue = minValue
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxValue, name:"maxValue", parent: name, max: 1000000)
+            try validate(minValue, name:"minValue", parent: name, min: -1000000)
+            try validate(name, name:"name", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1881,6 +2183,7 @@ extension Personalize {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "solutionArn", required: false, type: .string)
         ]
+
         /// The maximum number of campaigns to return.
         public let maxResults: Int32?
         /// A token returned from the previous call to ListCampaigns for getting the next set of campaigns (if they exist).
@@ -1892,6 +2195,14 @@ extension Personalize {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.solutionArn = solutionArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1300)
+            try validate(solutionArn, name:"solutionArn", parent: name, max: 256)
+            try validate(solutionArn, name:"solutionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1906,6 +2217,7 @@ extension Personalize {
             AWSShapeMember(label: "campaigns", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of the campaigns.
         public let campaigns: [CampaignSummary]?
         /// A token for getting the next set of campaigns (if they exist).
@@ -1927,6 +2239,7 @@ extension Personalize {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The maximum number of dataset groups to return.
         public let maxResults: Int32?
         /// A token returned from the previous call to ListDatasetGroups for getting the next set of dataset groups (if they exist).
@@ -1935,6 +2248,12 @@ extension Personalize {
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1300)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1948,6 +2267,7 @@ extension Personalize {
             AWSShapeMember(label: "datasetGroups", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The list of your dataset groups.
         public let datasetGroups: [DatasetGroupSummary]?
         /// A token for getting the next set of dataset groups (if they exist).
@@ -1970,6 +2290,7 @@ extension Personalize {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the dataset to list the dataset import jobs for.
         public let datasetArn: String?
         /// The maximum number of dataset import jobs to return.
@@ -1981,6 +2302,14 @@ extension Personalize {
             self.datasetArn = datasetArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(datasetArn, name:"datasetArn", parent: name, max: 256)
+            try validate(datasetArn, name:"datasetArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1300)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1995,6 +2324,7 @@ extension Personalize {
             AWSShapeMember(label: "datasetImportJobs", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The list of dataset import jobs.
         public let datasetImportJobs: [DatasetImportJobSummary]?
         /// A token for getting the next set of dataset import jobs (if they exist).
@@ -2017,6 +2347,7 @@ extension Personalize {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the dataset group that contains the datasets to list.
         public let datasetGroupArn: String?
         /// The maximum number of datasets to return.
@@ -2028,6 +2359,14 @@ extension Personalize {
             self.datasetGroupArn = datasetGroupArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(datasetGroupArn, name:"datasetGroupArn", parent: name, max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1300)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2042,6 +2381,7 @@ extension Personalize {
             AWSShapeMember(label: "datasets", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// An array of Dataset objects. Each object provides metadata information.
         public let datasets: [DatasetSummary]?
         /// A token for getting the next set of datasets (if they exist).
@@ -2064,6 +2404,7 @@ extension Personalize {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The ARN of a dataset group used to filter the response.
         public let datasetGroupArn: String?
         /// The maximum number of event trackers to return.
@@ -2075,6 +2416,14 @@ extension Personalize {
             self.datasetGroupArn = datasetGroupArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(datasetGroupArn, name:"datasetGroupArn", parent: name, max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1300)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2089,6 +2438,7 @@ extension Personalize {
             AWSShapeMember(label: "eventTrackers", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of event trackers.
         public let eventTrackers: [EventTrackerSummary]?
         /// A token for getting the next set of event trackers (if they exist).
@@ -2111,6 +2461,7 @@ extension Personalize {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "recipeProvider", required: false, type: .enum)
         ]
+
         /// The maximum number of recipes to return.
         public let maxResults: Int32?
         /// A token returned from the previous call to ListRecipes for getting the next set of recipes (if they exist).
@@ -2122,6 +2473,12 @@ extension Personalize {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.recipeProvider = recipeProvider
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1300)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2136,6 +2493,7 @@ extension Personalize {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "recipes", required: false, type: .list)
         ]
+
         /// A token for getting the next set of recipes.
         public let nextToken: String?
         /// The list of available recipes.
@@ -2157,6 +2515,7 @@ extension Personalize {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The maximum number of schemas to return.
         public let maxResults: Int32?
         /// A token returned from the previous call to ListSchemas for getting the next set of schemas (if they exist).
@@ -2165,6 +2524,12 @@ extension Personalize {
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1300)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2178,6 +2543,7 @@ extension Personalize {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "schemas", required: false, type: .list)
         ]
+
         /// A token used to get the next set of schemas (if they exist).
         public let nextToken: String?
         /// A list of schemas.
@@ -2200,6 +2566,7 @@ extension Personalize {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "solutionArn", required: false, type: .string)
         ]
+
         /// The maximum number of solution versions to return.
         public let maxResults: Int32?
         /// A token returned from the previous call to ListSolutionVersions for getting the next set of solution versions (if they exist).
@@ -2211,6 +2578,14 @@ extension Personalize {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.solutionArn = solutionArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1300)
+            try validate(solutionArn, name:"solutionArn", parent: name, max: 256)
+            try validate(solutionArn, name:"solutionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2225,6 +2600,7 @@ extension Personalize {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "solutionVersions", required: false, type: .list)
         ]
+
         /// A token for getting the next set of solution versions (if they exist).
         public let nextToken: String?
         /// A list of solution versions describing the version properties.
@@ -2247,6 +2623,7 @@ extension Personalize {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the dataset group.
         public let datasetGroupArn: String?
         /// The maximum number of solutions to return.
@@ -2258,6 +2635,14 @@ extension Personalize {
             self.datasetGroupArn = datasetGroupArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(datasetGroupArn, name:"datasetGroupArn", parent: name, max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 1300)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2272,6 +2657,7 @@ extension Personalize {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "solutions", required: false, type: .list)
         ]
+
         /// A token for getting the next set of solutions (if they exist).
         public let nextToken: String?
         /// A list of the current solutions.
@@ -2300,6 +2686,7 @@ extension Personalize {
             AWSShapeMember(label: "recipeType", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the algorithm that Amazon Personalize uses to train the model.
         public let algorithmArn: String?
         /// The date and time (in Unix format) that the recipe was created.
@@ -2357,6 +2744,7 @@ extension Personalize {
             AWSShapeMember(label: "recipeArn", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string)
         ]
+
         /// The date and time (in Unix time) that the recipe was created.
         public let creationDateTime: TimeStamp?
         /// The date and time (in Unix time) that the recipe was last updated.
@@ -2401,6 +2789,7 @@ extension Personalize {
             AWSShapeMember(label: "solutionConfig", required: false, type: .structure), 
             AWSShapeMember(label: "status", required: false, type: .string)
         ]
+
         /// When performAutoML is true, specifies the best recipe found.
         public let autoMLResult: AutoMLResult?
         /// The creation date and time (in Unix time) of the solution.
@@ -2469,6 +2858,7 @@ extension Personalize {
             AWSShapeMember(label: "featureTransformationParameters", required: false, type: .map), 
             AWSShapeMember(label: "hpoConfig", required: false, type: .structure)
         ]
+
         /// Lists the hyperparameter names and ranges.
         public let algorithmHyperParameters: [String: String]?
         /// The AutoMLConfig object containing a list of recipes to search when AutoML is performed.
@@ -2488,6 +2878,20 @@ extension Personalize {
             self.hpoConfig = hpoConfig
         }
 
+        public func validate(name: String) throws {
+            try algorithmHyperParameters?.forEach {
+                try validate($0.key, name:"algorithmHyperParameters.key", parent: name, max: 256)
+                try validate($0.value, name:"algorithmHyperParameters[\"\($0.key)\"]", parent: name, max: 1000)
+            }
+            try autoMLConfig?.validate(name: "\(name).autoMLConfig")
+            try validate(eventValueThreshold, name:"eventValueThreshold", parent: name, max: 256)
+            try featureTransformationParameters?.forEach {
+                try validate($0.key, name:"featureTransformationParameters.key", parent: name, max: 256)
+                try validate($0.value, name:"featureTransformationParameters[\"\($0.key)\"]", parent: name, max: 1000)
+            }
+            try hpoConfig?.validate(name: "\(name).hpoConfig")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case algorithmHyperParameters = "algorithmHyperParameters"
             case autoMLConfig = "autoMLConfig"
@@ -2505,6 +2909,7 @@ extension Personalize {
             AWSShapeMember(label: "solutionArn", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string)
         ]
+
         /// The date and time (in Unix time) that the solution was created.
         public let creationDateTime: TimeStamp?
         /// The date and time (in Unix time) that the solution was last updated.
@@ -2548,6 +2953,7 @@ extension Personalize {
             AWSShapeMember(label: "solutionVersionArn", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string)
         ]
+
         /// The date and time (in Unix time) that this version of the solution was created.
         public let creationDateTime: TimeStamp?
         /// The Amazon Resource Name (ARN) of the dataset group providing the training data.
@@ -2612,6 +3018,7 @@ extension Personalize {
             AWSShapeMember(label: "solutionVersionArn", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string)
         ]
+
         /// The date and time (in Unix time) that this version of a solution was created.
         public let creationDateTime: TimeStamp?
         /// If a solution version fails, the reason behind the failure.
@@ -2646,6 +3053,7 @@ extension Personalize {
             AWSShapeMember(label: "minProvisionedTPS", required: false, type: .integer), 
             AWSShapeMember(label: "solutionVersionArn", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the campaign.
         public let campaignArn: String
         /// Specifies the requested minimum provisioned transactions (recommendations) per second that Amazon Personalize will support.
@@ -2659,6 +3067,14 @@ extension Personalize {
             self.solutionVersionArn = solutionVersionArn
         }
 
+        public func validate(name: String) throws {
+            try validate(campaignArn, name:"campaignArn", parent: name, max: 256)
+            try validate(campaignArn, name:"campaignArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(minProvisionedTPS, name:"minProvisionedTPS", parent: name, min: 1)
+            try validate(solutionVersionArn, name:"solutionVersionArn", parent: name, max: 256)
+            try validate(solutionVersionArn, name:"solutionVersionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case campaignArn = "campaignArn"
             case minProvisionedTPS = "minProvisionedTPS"
@@ -2670,6 +3086,7 @@ extension Personalize {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "campaignArn", required: false, type: .string)
         ]
+
         /// The same campaign ARN as given in the request.
         public let campaignArn: String?
 

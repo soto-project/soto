@@ -11,6 +11,7 @@ extension ECR {
             AWSShapeMember(label: "expiresAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "proxyEndpoint", required: false, type: .string)
         ]
+
         /// A base64-encoded string that contains authorization data for the specified Amazon ECR registry. When the string is decoded, it is presented in the format user:password for private registry authentication using docker login.
         public let authorizationToken: String?
         /// The Unix time in seconds and milliseconds when the authorization token expires. Authorization tokens are valid for 12 hours.
@@ -37,6 +38,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The digests of the image layers to check.
         public let layerDigests: [String]
         /// The AWS account ID associated with the registry that contains the image layers to check. If you do not specify a registry, the default registry is assumed.
@@ -48,6 +50,19 @@ extension ECR {
             self.layerDigests = layerDigests
             self.registryId = registryId
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try layerDigests.forEach {
+                try validate($0, name: "layerDigests[]", parent: name, max: 1000)
+                try validate($0, name: "layerDigests[]", parent: name, min: 0)
+            }
+            try validate(layerDigests, name:"layerDigests", parent: name, max: 100)
+            try validate(layerDigests, name:"layerDigests", parent: name, min: 1)
+            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -62,6 +77,7 @@ extension ECR {
             AWSShapeMember(label: "failures", required: false, type: .list), 
             AWSShapeMember(label: "layers", required: false, type: .list)
         ]
+
         /// Any failures associated with the call.
         public let failures: [LayerFailure]?
         /// A list of image layer objects corresponding to the image layer references in the request.
@@ -84,6 +100,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// A list of image ID references that correspond to images to delete. The format of the imageIds reference is imageTag=tag or imageDigest=digest.
         public let imageIds: [ImageIdentifier]
         /// The AWS account ID associated with the registry that contains the image to delete. If you do not specify a registry, the default registry is assumed.
@@ -95,6 +112,15 @@ extension ECR {
             self.imageIds = imageIds
             self.registryId = registryId
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(imageIds, name:"imageIds", parent: name, max: 100)
+            try validate(imageIds, name:"imageIds", parent: name, min: 1)
+            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -109,6 +135,7 @@ extension ECR {
             AWSShapeMember(label: "failures", required: false, type: .list), 
             AWSShapeMember(label: "imageIds", required: false, type: .list)
         ]
+
         /// Any failures associated with the call.
         public let failures: [ImageFailure]?
         /// The image IDs of the deleted images.
@@ -132,6 +159,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The accepted media types for the request. Valid values: application/vnd.docker.distribution.manifest.v1+json | application/vnd.docker.distribution.manifest.v2+json | application/vnd.oci.image.manifest.v1+json 
         public let acceptedMediaTypes: [String]?
         /// A list of image ID references that correspond to images to describe. The format of the imageIds reference is imageTag=tag or imageDigest=digest.
@@ -148,6 +176,17 @@ extension ECR {
             self.repositoryName = repositoryName
         }
 
+        public func validate(name: String) throws {
+            try validate(acceptedMediaTypes, name:"acceptedMediaTypes", parent: name, max: 100)
+            try validate(acceptedMediaTypes, name:"acceptedMediaTypes", parent: name, min: 1)
+            try validate(imageIds, name:"imageIds", parent: name, max: 100)
+            try validate(imageIds, name:"imageIds", parent: name, min: 1)
+            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptedMediaTypes = "acceptedMediaTypes"
             case imageIds = "imageIds"
@@ -161,6 +200,7 @@ extension ECR {
             AWSShapeMember(label: "failures", required: false, type: .list), 
             AWSShapeMember(label: "images", required: false, type: .list)
         ]
+
         /// Any failures associated with the call.
         public let failures: [ImageFailure]?
         /// A list of image objects corresponding to the image references in the request.
@@ -184,6 +224,7 @@ extension ECR {
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "uploadId", required: true, type: .string)
         ]
+
         /// The sha256 digest of the image layer.
         public let layerDigests: [String]
         /// The AWS account ID associated with the registry to which to upload layers. If you do not specify a registry, the default registry is assumed.
@@ -198,6 +239,19 @@ extension ECR {
             self.registryId = registryId
             self.repositoryName = repositoryName
             self.uploadId = uploadId
+        }
+
+        public func validate(name: String) throws {
+            try layerDigests.forEach {
+                try validate($0, name: "layerDigests[]", parent: name, pattern: "[a-zA-Z0-9-_+.]+:[a-fA-F0-9]+")
+            }
+            try validate(layerDigests, name:"layerDigests", parent: name, max: 100)
+            try validate(layerDigests, name:"layerDigests", parent: name, min: 1)
+            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(uploadId, name:"uploadId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -215,6 +269,7 @@ extension ECR {
             AWSShapeMember(label: "repositoryName", required: false, type: .string), 
             AWSShapeMember(label: "uploadId", required: false, type: .string)
         ]
+
         /// The sha256 digest of the image layer.
         public let layerDigest: String?
         /// The registry ID associated with the request.
@@ -244,6 +299,7 @@ extension ECR {
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+
         /// The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app).
         public let repositoryName: String
         public let tags: [Tag]?
@@ -251,6 +307,12 @@ extension ECR {
         public init(repositoryName: String, tags: [Tag]? = nil) {
             self.repositoryName = repositoryName
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -263,6 +325,7 @@ extension ECR {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "repository", required: false, type: .structure)
         ]
+
         /// The repository that was created.
         public let repository: Repository?
 
@@ -280,6 +343,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository.
@@ -288,6 +352,13 @@ extension ECR {
         public init(registryId: String? = nil, repositoryName: String) {
             self.registryId = registryId
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -303,6 +374,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
+
         /// The time stamp of the last time that the lifecycle policy was run.
         public let lastEvaluatedAt: TimeStamp?
         /// The JSON lifecycle policy text.
@@ -332,6 +404,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The AWS account ID associated with the registry that contains the repository policy to delete. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository that is associated with the repository policy to delete.
@@ -340,6 +413,13 @@ extension ECR {
         public init(registryId: String? = nil, repositoryName: String) {
             self.registryId = registryId
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -354,6 +434,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
+
         /// The JSON repository policy that was deleted from the repository.
         public let policyText: String?
         /// The registry ID associated with the request.
@@ -380,6 +461,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         ///  If a repository contains images, forces the deletion.
         public let force: Bool?
         /// The AWS account ID associated with the registry that contains the repository to delete. If you do not specify a registry, the default registry is assumed.
@@ -393,6 +475,13 @@ extension ECR {
             self.repositoryName = repositoryName
         }
 
+        public func validate(name: String) throws {
+            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case force = "force"
             case registryId = "registryId"
@@ -404,6 +493,7 @@ extension ECR {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "repository", required: false, type: .structure)
         ]
+
         /// The repository that was deleted.
         public let repository: Repository?
 
@@ -420,6 +510,7 @@ extension ECR {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tagStatus", required: false, type: .enum)
         ]
+
         /// The tag status with which to filter your DescribeImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
         public let tagStatus: TagStatus?
 
@@ -441,6 +532,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The filter key and value with which to filter your DescribeImages results.
         public let filter: DescribeImagesFilter?
         /// The list of image IDs for the requested repository.
@@ -463,6 +555,17 @@ extension ECR {
             self.repositoryName = repositoryName
         }
 
+        public func validate(name: String) throws {
+            try validate(imageIds, name:"imageIds", parent: name, max: 100)
+            try validate(imageIds, name:"imageIds", parent: name, min: 1)
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filter = "filter"
             case imageIds = "imageIds"
@@ -478,6 +581,7 @@ extension ECR {
             AWSShapeMember(label: "imageDetails", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of ImageDetail objects that contain data about the image.
         public let imageDetails: [ImageDetail]?
         /// The nextToken value to include in a future DescribeImages request. When the results of a DescribeImages request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -501,6 +605,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryNames", required: false, type: .list)
         ]
+
         /// The maximum number of repository results returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable. This option cannot be used when you specify repositories with repositoryNames.
         public let maxResults: Int32?
         /// The nextToken value returned from a previous paginated DescribeRepositories request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This option cannot be used when you specify repositories with repositoryNames.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
@@ -517,6 +622,19 @@ extension ECR {
             self.repositoryNames = repositoryNames
         }
 
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try repositoryNames?.forEach {
+                try validate($0, name: "repositoryNames[]", parent: name, max: 256)
+                try validate($0, name: "repositoryNames[]", parent: name, min: 2)
+                try validate($0, name: "repositoryNames[]", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            }
+            try validate(repositoryNames, name:"repositoryNames", parent: name, max: 100)
+            try validate(repositoryNames, name:"repositoryNames", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -530,6 +648,7 @@ extension ECR {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "repositories", required: false, type: .list)
         ]
+
         /// The nextToken value to include in a future DescribeRepositories request. When the results of a DescribeRepositories request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// A list of repository objects corresponding to valid repositories.
@@ -550,11 +669,20 @@ extension ECR {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "registryIds", required: false, type: .list)
         ]
+
         /// A list of AWS account IDs that are associated with the registries for which to get authorization tokens. If you do not specify a registry, the default registry is assumed.
         public let registryIds: [String]?
 
         public init(registryIds: [String]? = nil) {
             self.registryIds = registryIds
+        }
+
+        public func validate(name: String) throws {
+            try registryIds?.forEach {
+                try validate($0, name: "registryIds[]", parent: name, pattern: "[0-9]{12}")
+            }
+            try validate(registryIds, name:"registryIds", parent: name, max: 10)
+            try validate(registryIds, name:"registryIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -566,6 +694,7 @@ extension ECR {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "authorizationData", required: false, type: .list)
         ]
+
         /// A list of authorization token data objects that correspond to the registryIds values in the request.
         public let authorizationData: [AuthorizationData]?
 
@@ -584,6 +713,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The digest of the image layer to download.
         public let layerDigest: String
         /// The AWS account ID associated with the registry that contains the image layer to download. If you do not specify a registry, the default registry is assumed.
@@ -595,6 +725,14 @@ extension ECR {
             self.layerDigest = layerDigest
             self.registryId = registryId
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(layerDigest, name:"layerDigest", parent: name, pattern: "[a-zA-Z0-9-_+.]+:[a-fA-F0-9]+")
+            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -609,6 +747,7 @@ extension ECR {
             AWSShapeMember(label: "downloadUrl", required: false, type: .string), 
             AWSShapeMember(label: "layerDigest", required: false, type: .string)
         ]
+
         /// The pre-signed Amazon S3 download URL for the requested layer.
         public let downloadUrl: String?
         /// The digest of the image layer to download.
@@ -634,6 +773,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// An optional parameter that filters results based on image tag status and all tags, if tagged.
         public let filter: LifecyclePolicyPreviewFilter?
         /// The list of imageIDs to be included.
@@ -656,6 +796,17 @@ extension ECR {
             self.repositoryName = repositoryName
         }
 
+        public func validate(name: String) throws {
+            try validate(imageIds, name:"imageIds", parent: name, max: 100)
+            try validate(imageIds, name:"imageIds", parent: name, min: 1)
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filter = "filter"
             case imageIds = "imageIds"
@@ -676,6 +827,7 @@ extension ECR {
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "summary", required: false, type: .structure)
         ]
+
         /// The JSON lifecycle policy text.
         public let lifecyclePolicyText: String?
         /// The nextToken value to include in a future GetLifecyclePolicyPreview request. When the results of a GetLifecyclePolicyPreview request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -717,6 +869,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository.
@@ -725,6 +878,13 @@ extension ECR {
         public init(registryId: String? = nil, repositoryName: String) {
             self.registryId = registryId
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -740,6 +900,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
+
         /// The time stamp of the last time that the lifecycle policy was run.
         public let lastEvaluatedAt: TimeStamp?
         /// The JSON lifecycle policy text.
@@ -769,6 +930,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository with the policy to retrieve.
@@ -777,6 +939,13 @@ extension ECR {
         public init(registryId: String? = nil, repositoryName: String) {
             self.registryId = registryId
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -791,6 +960,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
+
         /// The JSON repository policy text associated with the repository.
         public let policyText: String?
         /// The registry ID associated with the request.
@@ -818,6 +988,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
+
         /// An object containing the image tag and image digest associated with an image.
         public let imageId: ImageIdentifier?
         /// The image manifest associated with the image.
@@ -856,6 +1027,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
+
         /// The sha256 digest of the image manifest.
         public let imageDigest: String?
         /// The date and time, expressed in standard JavaScript date format, at which the current image was pushed to the repository. 
@@ -894,6 +1066,7 @@ extension ECR {
             AWSShapeMember(label: "failureReason", required: false, type: .string), 
             AWSShapeMember(label: "imageId", required: false, type: .structure)
         ]
+
         /// The code associated with the failure.
         public let failureCode: ImageFailureCode?
         /// The reason for the failure.
@@ -928,6 +1101,7 @@ extension ECR {
             AWSShapeMember(label: "imageDigest", required: false, type: .string), 
             AWSShapeMember(label: "imageTag", required: false, type: .string)
         ]
+
         /// The sha256 digest of the image manifest.
         public let imageDigest: String?
         /// The tag used for the image.
@@ -949,6 +1123,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The AWS account ID associated with the registry to which you intend to upload layers. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository to which you intend to upload layers.
@@ -957,6 +1132,13 @@ extension ECR {
         public init(registryId: String? = nil, repositoryName: String) {
             self.registryId = registryId
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -970,6 +1152,7 @@ extension ECR {
             AWSShapeMember(label: "partSize", required: false, type: .long), 
             AWSShapeMember(label: "uploadId", required: false, type: .string)
         ]
+
         /// The size, in bytes, that Amazon ECR expects future layer part uploads to be.
         public let partSize: Int64?
         /// The upload ID for the layer upload. This parameter is passed to further UploadLayerPart and CompleteLayerUpload operations.
@@ -993,6 +1176,7 @@ extension ECR {
             AWSShapeMember(label: "layerSize", required: false, type: .long), 
             AWSShapeMember(label: "mediaType", required: false, type: .string)
         ]
+
         /// The availability status of the image layer.
         public let layerAvailability: LayerAvailability?
         /// The sha256 digest of the image layer.
@@ -1029,6 +1213,7 @@ extension ECR {
             AWSShapeMember(label: "failureReason", required: false, type: .string), 
             AWSShapeMember(label: "layerDigest", required: false, type: .string)
         ]
+
         /// The failure code associated with the failure.
         public let failureCode: LayerFailureCode?
         /// The reason for the failure.
@@ -1059,6 +1244,7 @@ extension ECR {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tagStatus", required: false, type: .enum)
         ]
+
         /// The tag status of the image.
         public let tagStatus: TagStatus?
 
@@ -1079,6 +1265,7 @@ extension ECR {
             AWSShapeMember(label: "imagePushedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "imageTags", required: false, type: .list)
         ]
+
         /// The type of action to be taken.
         public let action: LifecyclePolicyRuleAction?
         /// The priority of the applied rule.
@@ -1119,6 +1306,7 @@ extension ECR {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "expiringImageTotalCount", required: false, type: .integer)
         ]
+
         /// The number of expiring images.
         public let expiringImageTotalCount: Int32?
 
@@ -1135,6 +1323,7 @@ extension ECR {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// The type of action to be taken.
         public let `type`: ImageActionType?
 
@@ -1151,6 +1340,7 @@ extension ECR {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tagStatus", required: false, type: .enum)
         ]
+
         /// The tag status with which to filter your ListImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
         public let tagStatus: TagStatus?
 
@@ -1171,6 +1361,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The filter key and value with which to filter your ListImages results.
         public let filter: ListImagesFilter?
         /// The maximum number of image results returned by ListImages in paginated output. When this parameter is used, ListImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListImages request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then ListImages returns up to 100 results and a nextToken value, if applicable.
@@ -1190,6 +1381,15 @@ extension ECR {
             self.repositoryName = repositoryName
         }
 
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filter = "filter"
             case maxResults = "maxResults"
@@ -1204,6 +1404,7 @@ extension ECR {
             AWSShapeMember(label: "imageIds", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The list of image IDs for the requested repository.
         public let imageIds: [ImageIdentifier]?
         /// The nextToken value to include in a future ListImages request. When the results of a ListImages request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -1224,6 +1425,7 @@ extension ECR {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the only supported resource is an Amazon ECR repository.
         public let resourceArn: String
 
@@ -1240,6 +1442,7 @@ extension ECR {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+
         /// The tags for the resource.
         public let tags: [Tag]?
 
@@ -1259,6 +1462,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The image manifest corresponding to the image to be uploaded.
         public let imageManifest: String
         /// The tag to associate with the image. This parameter is required for images that use the Docker Image Manifest V2 Schema 2 or OCI formats.
@@ -1275,6 +1479,13 @@ extension ECR {
             self.repositoryName = repositoryName
         }
 
+        public func validate(name: String) throws {
+            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case imageManifest = "imageManifest"
             case imageTag = "imageTag"
@@ -1287,6 +1498,7 @@ extension ECR {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "image", required: false, type: .structure)
         ]
+
         /// Details of the image uploaded.
         public let image: Image?
 
@@ -1305,6 +1517,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The JSON repository policy text to apply to the repository.
         public let lifecyclePolicyText: String
         /// The AWS account ID associated with the registry that contains the repository. If you do&#x2028; not specify a registry, the default registry is assumed.
@@ -1316,6 +1529,15 @@ extension ECR {
             self.lifecyclePolicyText = lifecyclePolicyText
             self.registryId = registryId
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(lifecyclePolicyText, name:"lifecyclePolicyText", parent: name, max: 30720)
+            try validate(lifecyclePolicyText, name:"lifecyclePolicyText", parent: name, min: 100)
+            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1331,6 +1553,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
+
         /// The JSON repository policy text.
         public let lifecyclePolicyText: String?
         /// The registry ID associated with the request.
@@ -1359,6 +1582,7 @@ extension ECR {
             AWSShapeMember(label: "repositoryName", required: false, type: .string), 
             AWSShapeMember(label: "repositoryUri", required: false, type: .string)
         ]
+
         /// The date and time, in JavaScript date format, when the repository was created.
         public let createdAt: TimeStamp?
         /// The AWS account ID associated with the registry that contains the repository.
@@ -1394,6 +1618,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation. This is intended to prevent accidental repository lock outs.
         public let force: Bool?
         /// The JSON repository policy text to apply to the repository.
@@ -1410,6 +1635,15 @@ extension ECR {
             self.repositoryName = repositoryName
         }
 
+        public func validate(name: String) throws {
+            try validate(policyText, name:"policyText", parent: name, max: 10240)
+            try validate(policyText, name:"policyText", parent: name, min: 0)
+            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case force = "force"
             case policyText = "policyText"
@@ -1424,6 +1658,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
+
         /// The JSON repository policy text applied to the repository.
         public let policyText: String?
         /// The registry ID associated with the request.
@@ -1450,6 +1685,7 @@ extension ECR {
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The policy to be evaluated against. If you do not specify a policy, the current policy for the repository is used.
         public let lifecyclePolicyText: String?
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
@@ -1461,6 +1697,15 @@ extension ECR {
             self.lifecyclePolicyText = lifecyclePolicyText
             self.registryId = registryId
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(lifecyclePolicyText, name:"lifecyclePolicyText", parent: name, max: 30720)
+            try validate(lifecyclePolicyText, name:"lifecyclePolicyText", parent: name, min: 100)
+            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1477,6 +1722,7 @@ extension ECR {
             AWSShapeMember(label: "repositoryName", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
+
         /// The JSON repository policy text.
         public let lifecyclePolicyText: String?
         /// The registry ID associated with the request.
@@ -1506,6 +1752,7 @@ extension ECR {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String?
         /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
@@ -1527,6 +1774,7 @@ extension ECR {
             AWSShapeMember(label: "resourceArn", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: true, type: .list)
         ]
+
         /// The Amazon Resource Name (ARN) of the the resource to which to add tags. Currently, the only supported resource is an Amazon ECR repository.
         public let resourceArn: String
         /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
@@ -1545,6 +1793,7 @@ extension ECR {
 
     public struct TagResourceResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -1562,6 +1811,7 @@ extension ECR {
             AWSShapeMember(label: "resourceArn", required: true, type: .string), 
             AWSShapeMember(label: "tagKeys", required: true, type: .list)
         ]
+
         /// The Amazon Resource Name (ARN) of the resource from which to remove tags. Currently, the only supported resource is an Amazon ECR repository.
         public let resourceArn: String
         /// The keys of the tags to be removed.
@@ -1580,6 +1830,7 @@ extension ECR {
 
     public struct UntagResourceResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -1594,6 +1845,7 @@ extension ECR {
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "uploadId", required: true, type: .string)
         ]
+
         /// The base64-encoded layer part payload.
         public let layerPartBlob: Data
         /// The integer value of the first byte of the layer part.
@@ -1616,6 +1868,16 @@ extension ECR {
             self.uploadId = uploadId
         }
 
+        public func validate(name: String) throws {
+            try validate(partFirstByte, name:"partFirstByte", parent: name, min: 0)
+            try validate(partLastByte, name:"partLastByte", parent: name, min: 0)
+            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(uploadId, name:"uploadId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case layerPartBlob = "layerPartBlob"
             case partFirstByte = "partFirstByte"
@@ -1633,6 +1895,7 @@ extension ECR {
             AWSShapeMember(label: "repositoryName", required: false, type: .string), 
             AWSShapeMember(label: "uploadId", required: false, type: .string)
         ]
+
         /// The integer value of the last byte received in the request.
         public let lastByteReceived: Int64?
         /// The registry ID associated with the request.

@@ -16,6 +16,7 @@ extension STS {
             AWSShapeMember(label: "SerialNumber", required: false, type: .string), 
             AWSShapeMember(label: "TokenCode", required: false, type: .string)
         ]
+
         /// The duration, in seconds, of the role session. The value can range from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting, the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. To learn how to view the maximum value for your role, see View the Maximum Session Duration Setting for a Role in the IAM User Guide. By default, the value is set to 3600 seconds.   The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see Creating a URL that Enables Federated Users to Access the AWS Management Console in the IAM User Guide. 
         public let durationSeconds: Int32?
         /// A unique identifier that might be required when you assume a role in another account. If the administrator of the account to which the role belongs provided you with an external ID, then provide that value in the ExternalId parameter. This value can be any string, such as a passphrase or account number. A cross-account role is usually set up to trust everyone in an account. Therefore, the administrator of the trusting account might send an external ID to the administrator of the trusted account. That way, only someone with the ID can assume the role, rather than everyone in the account. For more information about the external ID, see How to Use an External ID When Granting Access to Your AWS Resources to a Third Party in the IAM User Guide. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
@@ -44,6 +45,32 @@ extension STS {
             self.tokenCode = tokenCode
         }
 
+        public func validate(name: String) throws {
+            try validate(durationSeconds, name:"durationSeconds", parent: name, max: 43200)
+            try validate(durationSeconds, name:"durationSeconds", parent: name, min: 900)
+            try validate(externalId, name:"externalId", parent: name, max: 1224)
+            try validate(externalId, name:"externalId", parent: name, min: 2)
+            try validate(externalId, name:"externalId", parent: name, pattern: "[\\w+=,.@:\\/-]*")
+            try validate(policy, name:"policy", parent: name, max: 2048)
+            try validate(policy, name:"policy", parent: name, min: 1)
+            try validate(policy, name:"policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+            try policyArns?.forEach {
+                try $0.validate(name: "\(name).policyArns[]")
+            }
+            try validate(roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(roleArn, name:"roleArn", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
+            try validate(roleSessionName, name:"roleSessionName", parent: name, max: 64)
+            try validate(roleSessionName, name:"roleSessionName", parent: name, min: 2)
+            try validate(roleSessionName, name:"roleSessionName", parent: name, pattern: "[\\w+=,.@-]*")
+            try validate(serialNumber, name:"serialNumber", parent: name, max: 256)
+            try validate(serialNumber, name:"serialNumber", parent: name, min: 9)
+            try validate(serialNumber, name:"serialNumber", parent: name, pattern: "[\\w+=/:,.@-]*")
+            try validate(tokenCode, name:"tokenCode", parent: name, max: 6)
+            try validate(tokenCode, name:"tokenCode", parent: name, min: 6)
+            try validate(tokenCode, name:"tokenCode", parent: name, pattern: "[\\d]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case durationSeconds = "DurationSeconds"
             case externalId = "ExternalId"
@@ -62,6 +89,7 @@ extension STS {
             AWSShapeMember(label: "Credentials", required: false, type: .structure), 
             AWSShapeMember(label: "PackedPolicySize", required: false, type: .integer)
         ]
+
         /// The Amazon Resource Name (ARN) and the assumed role ID, which are identifiers that you can use to refer to the resulting temporary security credentials. For example, you can reference these credentials as a principal in a resource-based policy by using the ARN or assumed role ID. The ARN and ID include the RoleSessionName that you specified when you called AssumeRole. 
         public let assumedRoleUser: AssumedRoleUser?
         /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token.  The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size. 
@@ -91,6 +119,7 @@ extension STS {
             AWSShapeMember(label: "RoleArn", required: true, type: .string), 
             AWSShapeMember(label: "SAMLAssertion", required: true, type: .string)
         ]
+
         /// The duration, in seconds, of the role session. Your role session lasts for the duration that you specify for the DurationSeconds parameter, or until the time specified in the SAML authentication response's SessionNotOnOrAfter value, whichever is shorter. You can provide a DurationSeconds value from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting, the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. To learn how to view the maximum value for your role, see View the Maximum Session Duration Setting for a Role in the IAM User Guide. By default, the value is set to 3600 seconds.   The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see Creating a URL that Enables Federated Users to Access the AWS Management Console in the IAM User Guide. 
         public let durationSeconds: Int32?
         /// An IAM policy in JSON format that you want to use as an inline session policy. This parameter is optional. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent AWS API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see Session Policies in the IAM User Guide.  The plain text that you use for both inline and managed session policies shouldn't exceed 2048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters.  The characters in this parameter count towards the 2048 character session policy guideline. However, an AWS conversion compresses the session policies into a packed binary format that has a separate limit. This is the enforced limit. The PackedPolicySize response element indicates by percentage how close the policy is to the upper size limit. 
@@ -111,6 +140,25 @@ extension STS {
             self.principalArn = principalArn
             self.roleArn = roleArn
             self.sAMLAssertion = sAMLAssertion
+        }
+
+        public func validate(name: String) throws {
+            try validate(durationSeconds, name:"durationSeconds", parent: name, max: 43200)
+            try validate(durationSeconds, name:"durationSeconds", parent: name, min: 900)
+            try validate(policy, name:"policy", parent: name, max: 2048)
+            try validate(policy, name:"policy", parent: name, min: 1)
+            try validate(policy, name:"policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+            try policyArns?.forEach {
+                try $0.validate(name: "\(name).policyArns[]")
+            }
+            try validate(principalArn, name:"principalArn", parent: name, max: 2048)
+            try validate(principalArn, name:"principalArn", parent: name, min: 20)
+            try validate(principalArn, name:"principalArn", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
+            try validate(roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(roleArn, name:"roleArn", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
+            try validate(sAMLAssertion, name:"sAMLAssertion", parent: name, max: 100000)
+            try validate(sAMLAssertion, name:"sAMLAssertion", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -134,6 +182,7 @@ extension STS {
             AWSShapeMember(label: "Subject", required: false, type: .string), 
             AWSShapeMember(label: "SubjectType", required: false, type: .string)
         ]
+
         /// The identifiers for the temporary security credentials that the operation returns.
         public let assumedRoleUser: AssumedRoleUser?
         ///  The value of the Recipient attribute of the SubjectConfirmationData element of the SAML assertion. 
@@ -184,6 +233,7 @@ extension STS {
             AWSShapeMember(label: "RoleSessionName", required: true, type: .string), 
             AWSShapeMember(label: "WebIdentityToken", required: true, type: .string)
         ]
+
         /// The duration, in seconds, of the role session. The value can range from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting, the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. To learn how to view the maximum value for your role, see View the Maximum Session Duration Setting for a Role in the IAM User Guide. By default, the value is set to 3600 seconds.   The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see Creating a URL that Enables Federated Users to Access the AWS Management Console in the IAM User Guide. 
         public let durationSeconds: Int32?
         /// An IAM policy in JSON format that you want to use as an inline session policy. This parameter is optional. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent AWS API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see Session Policies in the IAM User Guide. The plain text that you use for both inline and managed session policies shouldn't exceed 2048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters.  The characters in this parameter count towards the 2048 character session policy guideline. However, an AWS conversion compresses the session policies into a packed binary format that has a separate limit. This is the enforced limit. The PackedPolicySize response element indicates by percentage how close the policy is to the upper size limit. 
@@ -209,6 +259,27 @@ extension STS {
             self.webIdentityToken = webIdentityToken
         }
 
+        public func validate(name: String) throws {
+            try validate(durationSeconds, name:"durationSeconds", parent: name, max: 43200)
+            try validate(durationSeconds, name:"durationSeconds", parent: name, min: 900)
+            try validate(policy, name:"policy", parent: name, max: 2048)
+            try validate(policy, name:"policy", parent: name, min: 1)
+            try validate(policy, name:"policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+            try policyArns?.forEach {
+                try $0.validate(name: "\(name).policyArns[]")
+            }
+            try validate(providerId, name:"providerId", parent: name, max: 2048)
+            try validate(providerId, name:"providerId", parent: name, min: 4)
+            try validate(roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(roleArn, name:"roleArn", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
+            try validate(roleSessionName, name:"roleSessionName", parent: name, max: 64)
+            try validate(roleSessionName, name:"roleSessionName", parent: name, min: 2)
+            try validate(roleSessionName, name:"roleSessionName", parent: name, pattern: "[\\w+=,.@-]*")
+            try validate(webIdentityToken, name:"webIdentityToken", parent: name, max: 2048)
+            try validate(webIdentityToken, name:"webIdentityToken", parent: name, min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case durationSeconds = "DurationSeconds"
             case policy = "Policy"
@@ -229,6 +300,7 @@ extension STS {
             AWSShapeMember(label: "Provider", required: false, type: .string), 
             AWSShapeMember(label: "SubjectFromWebIdentityToken", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) and the assumed role ID, which are identifiers that you can use to refer to the resulting temporary security credentials. For example, you can reference these credentials as a principal in a resource-based policy by using the ARN or assumed role ID. The ARN and ID include the RoleSessionName that you specified when you called AssumeRole. 
         public let assumedRoleUser: AssumedRoleUser?
         /// The intended audience (also known as client ID) of the web identity token. This is traditionally the client identifier issued to the application that requested the web identity token.
@@ -266,6 +338,7 @@ extension STS {
             AWSShapeMember(label: "Arn", required: true, type: .string), 
             AWSShapeMember(label: "AssumedRoleId", required: true, type: .string)
         ]
+
         /// The ARN of the temporary security credentials that are returned from the AssumeRole action. For more information about ARNs and how to use them in policies, see IAM Identifiers in Using IAM. 
         public let arn: String
         /// A unique identifier that contains the role ID and the role session name of the role that is being assumed. The role ID is generated by AWS when the role is created.
@@ -289,6 +362,7 @@ extension STS {
             AWSShapeMember(label: "SecretAccessKey", required: true, type: .string), 
             AWSShapeMember(label: "SessionToken", required: true, type: .string)
         ]
+
         /// The access key ID that identifies the temporary security credentials.
         public let accessKeyId: String
         /// The date on which the current credentials expire.
@@ -317,11 +391,17 @@ extension STS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EncodedMessage", required: true, type: .string)
         ]
+
         /// The encoded message that was returned with the response.
         public let encodedMessage: String
 
         public init(encodedMessage: String) {
             self.encodedMessage = encodedMessage
+        }
+
+        public func validate(name: String) throws {
+            try validate(encodedMessage, name:"encodedMessage", parent: name, max: 10240)
+            try validate(encodedMessage, name:"encodedMessage", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -333,6 +413,7 @@ extension STS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DecodedMessage", required: false, type: .string)
         ]
+
         /// An XML document that contains the decoded message.
         public let decodedMessage: String?
 
@@ -350,6 +431,7 @@ extension STS {
             AWSShapeMember(label: "Arn", required: true, type: .string), 
             AWSShapeMember(label: "FederatedUserId", required: true, type: .string)
         ]
+
         /// The ARN that specifies the federated user that is associated with the credentials. For more information about ARNs and how to use them in policies, see IAM Identifiers in Using IAM. 
         public let arn: String
         /// The string that identifies the federated user associated with the credentials, similar to the unique ID of an IAM user.
@@ -368,6 +450,7 @@ extension STS {
 
     public struct GetCallerIdentityRequest: AWSShape {
 
+
         public init() {
         }
 
@@ -379,6 +462,7 @@ extension STS {
             AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "UserId", required: false, type: .string)
         ]
+
         /// The AWS account ID number of the account that owns or contains the calling entity.
         public let account: String?
         /// The AWS ARN associated with the calling entity.
@@ -406,6 +490,7 @@ extension STS {
             AWSShapeMember(label: "Policy", required: false, type: .string), 
             AWSShapeMember(label: "PolicyArns", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The duration, in seconds, that the session should last. Acceptable durations for federation sessions range from 900 seconds (15 minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12 hours) as the default. Sessions obtained using AWS account root user credentials are restricted to a maximum of 3,600 seconds (one hour). If the specified duration is longer than one hour, the session obtained by using root user credentials defaults to one hour.
         public let durationSeconds: Int32?
         /// The name of the federated user. The name is used as an identifier for the temporary security credentials (such as Bob). For example, you can reference the federated user name in a resource-based policy, such as in an Amazon S3 bucket policy. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
@@ -422,6 +507,20 @@ extension STS {
             self.policyArns = policyArns
         }
 
+        public func validate(name: String) throws {
+            try validate(durationSeconds, name:"durationSeconds", parent: name, max: 129600)
+            try validate(durationSeconds, name:"durationSeconds", parent: name, min: 900)
+            try validate(name, name:"name", parent: name, max: 32)
+            try validate(name, name:"name", parent: name, min: 2)
+            try validate(name, name:"name", parent: name, pattern: "[\\w+=,.@-]*")
+            try validate(policy, name:"policy", parent: name, max: 2048)
+            try validate(policy, name:"policy", parent: name, min: 1)
+            try validate(policy, name:"policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+            try policyArns?.forEach {
+                try $0.validate(name: "\(name).policyArns[]")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case durationSeconds = "DurationSeconds"
             case name = "Name"
@@ -436,6 +535,7 @@ extension STS {
             AWSShapeMember(label: "FederatedUser", required: false, type: .structure), 
             AWSShapeMember(label: "PackedPolicySize", required: false, type: .integer)
         ]
+
         /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token.  The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size. 
         public let credentials: Credentials?
         /// Identifiers for the federated user associated with the credentials (such as arn:aws:sts::123456789012:federated-user/Bob or 123456789012:Bob). You can use the federated user's ARN in your resource-based policies, such as an Amazon S3 bucket policy. 
@@ -462,6 +562,7 @@ extension STS {
             AWSShapeMember(label: "SerialNumber", required: false, type: .string), 
             AWSShapeMember(label: "TokenCode", required: false, type: .string)
         ]
+
         /// The duration, in seconds, that the credentials should remain valid. Acceptable durations for IAM user sessions range from 900 seconds (15 minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12 hours) as the default. Sessions for AWS account owners are restricted to a maximum of 3,600 seconds (one hour). If the duration is longer than one hour, the session for AWS account owners defaults to one hour.
         public let durationSeconds: Int32?
         /// The identification number of the MFA device that is associated with the IAM user who is making the GetSessionToken call. Specify this value if the IAM user has a policy that requires MFA authentication. The value is either the serial number for a hardware device (such as GAHT12345678) or an Amazon Resource Name (ARN) for a virtual device (such as arn:aws:iam::123456789012:mfa/user). You can find the device for an IAM user by going to the AWS Management Console and viewing the user's security credentials.  The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
@@ -475,6 +576,17 @@ extension STS {
             self.tokenCode = tokenCode
         }
 
+        public func validate(name: String) throws {
+            try validate(durationSeconds, name:"durationSeconds", parent: name, max: 129600)
+            try validate(durationSeconds, name:"durationSeconds", parent: name, min: 900)
+            try validate(serialNumber, name:"serialNumber", parent: name, max: 256)
+            try validate(serialNumber, name:"serialNumber", parent: name, min: 9)
+            try validate(serialNumber, name:"serialNumber", parent: name, pattern: "[\\w+=/:,.@-]*")
+            try validate(tokenCode, name:"tokenCode", parent: name, max: 6)
+            try validate(tokenCode, name:"tokenCode", parent: name, min: 6)
+            try validate(tokenCode, name:"tokenCode", parent: name, pattern: "[\\d]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case durationSeconds = "DurationSeconds"
             case serialNumber = "SerialNumber"
@@ -486,6 +598,7 @@ extension STS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Credentials", required: false, type: .structure)
         ]
+
         /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token.  The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size. 
         public let credentials: Credentials?
 
@@ -502,11 +615,18 @@ extension STS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the IAM managed policy to use as a session policy for the role. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let arn: String?
 
         public init(arn: String? = nil) {
             self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(arn, name:"arn", parent: name, max: 2048)
+            try validate(arn, name:"arn", parent: name, min: 20)
+            try validate(arn, name:"arn", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
         }
 
         private enum CodingKeys: String, CodingKey {

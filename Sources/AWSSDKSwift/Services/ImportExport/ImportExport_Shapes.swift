@@ -10,6 +10,7 @@ extension ImportExport {
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "URL", required: false, type: .string)
         ]
+
         public let description: String?
         public let url: String?
 
@@ -29,6 +30,7 @@ extension ImportExport {
             AWSShapeMember(label: "APIVersion", required: false, type: .string), 
             AWSShapeMember(label: "JobId", required: true, type: .string)
         ]
+
         public let aPIVersion: String?
         public let jobId: String
 
@@ -47,6 +49,7 @@ extension ImportExport {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Success", required: false, type: .boolean)
         ]
+
         public let success: Bool?
 
         public init(success: Bool? = nil) {
@@ -66,6 +69,7 @@ extension ImportExport {
             AWSShapeMember(label: "ManifestAddendum", required: false, type: .string), 
             AWSShapeMember(label: "ValidateOnly", required: true, type: .boolean)
         ]
+
         public let aPIVersion: String?
         public let jobType: JobType
         public let manifest: String
@@ -98,6 +102,7 @@ extension ImportExport {
             AWSShapeMember(label: "SignatureFileContents", required: false, type: .string), 
             AWSShapeMember(label: "WarningMessage", required: false, type: .string)
         ]
+
         public let artifactList: [Artifact]?
         public let jobId: String?
         public let jobType: JobType?
@@ -139,6 +144,7 @@ extension ImportExport {
             AWSShapeMember(label: "street2", required: false, type: .string), 
             AWSShapeMember(label: "street3", required: false, type: .string)
         ]
+
         public let aPIVersion: String?
         public let city: String?
         public let company: String?
@@ -188,6 +194,7 @@ extension ImportExport {
             AWSShapeMember(label: "ShippingLabelURL", required: false, type: .string), 
             AWSShapeMember(label: "Warning", required: false, type: .string)
         ]
+
         public let shippingLabelURL: String?
         public let warning: String?
 
@@ -207,6 +214,7 @@ extension ImportExport {
             AWSShapeMember(label: "APIVersion", required: false, type: .string), 
             AWSShapeMember(label: "JobId", required: true, type: .string)
         ]
+
         public let aPIVersion: String?
         public let jobId: String
 
@@ -240,6 +248,7 @@ extension ImportExport {
             AWSShapeMember(label: "SignatureFileContents", required: false, type: .string), 
             AWSShapeMember(label: "TrackingNumber", required: false, type: .string)
         ]
+
         public let artifactList: [Artifact]?
         public let carrier: String?
         public let creationDate: TimeStamp?
@@ -303,6 +312,7 @@ extension ImportExport {
             AWSShapeMember(label: "JobId", required: false, type: .string), 
             AWSShapeMember(label: "JobType", required: false, type: .enum)
         ]
+
         public let creationDate: TimeStamp?
         public let isCanceled: Bool?
         public let jobId: String?
@@ -335,6 +345,7 @@ extension ImportExport {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxJobs", required: false, type: .integer)
         ]
+
         public let aPIVersion: String?
         public let marker: String?
         public let maxJobs: Int32?
@@ -357,6 +368,7 @@ extension ImportExport {
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeMember(label: "Jobs", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         public let isTruncated: Bool?
         public let jobs: [Job]?
 
@@ -379,6 +391,7 @@ extension ImportExport {
             AWSShapeMember(label: "Manifest", required: true, type: .string), 
             AWSShapeMember(label: "ValidateOnly", required: true, type: .boolean)
         ]
+
         public let aPIVersion: String?
         public let jobId: String
         public let jobType: JobType
@@ -408,6 +421,7 @@ extension ImportExport {
             AWSShapeMember(label: "Success", required: false, type: .boolean), 
             AWSShapeMember(label: "WarningMessage", required: false, type: .string)
         ]
+
         public let artifactList: [Artifact]?
         public let success: Bool?
         public let warningMessage: String?

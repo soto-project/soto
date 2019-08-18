@@ -12,6 +12,7 @@ extension QuickSight {
             AWSShapeMember(label: "MemberName", location: .uri(locationName: "MemberName"), required: true, type: .string), 
             AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
         ]
+
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The name of the group that you want to add the user to.
@@ -28,6 +29,18 @@ extension QuickSight {
             self.namespace = namespace
         }
 
+        public func validate(name: String) throws {
+            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(groupName, name:"groupName", parent: name, min: 1)
+            try validate(groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(memberName, name:"memberName", parent: name, max: 256)
+            try validate(memberName, name:"memberName", parent: name, min: 1)
+            try validate(memberName, name:"memberName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(namespace, name:"namespace", parent: name, pattern: "default")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "AwsAccountId"
             case groupName = "GroupName"
@@ -42,6 +55,7 @@ extension QuickSight {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .integer)
         ]
+
         /// The group member.
         public let groupMember: GroupMember?
         /// The AWS request ID for this operation.
@@ -69,6 +83,7 @@ extension QuickSight {
             AWSShapeMember(label: "GroupName", required: true, type: .string), 
             AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
         ]
+
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// A description for the group that you want to create.
@@ -85,6 +100,17 @@ extension QuickSight {
             self.namespace = namespace
         }
 
+        public func validate(name: String) throws {
+            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(description, name:"description", parent: name, max: 512)
+            try validate(description, name:"description", parent: name, min: 1)
+            try validate(groupName, name:"groupName", parent: name, min: 1)
+            try validate(groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(namespace, name:"namespace", parent: name, pattern: "default")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "AwsAccountId"
             case description = "Description"
@@ -99,6 +125,7 @@ extension QuickSight {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .integer)
         ]
+
         /// The name of the group.
         public let group: Group?
         /// The AWS request ID for this operation.
@@ -126,6 +153,7 @@ extension QuickSight {
             AWSShapeMember(label: "MemberName", location: .uri(locationName: "MemberName"), required: true, type: .string), 
             AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
         ]
+
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The name of the group that you want to delete the user from.
@@ -142,6 +170,18 @@ extension QuickSight {
             self.namespace = namespace
         }
 
+        public func validate(name: String) throws {
+            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(groupName, name:"groupName", parent: name, min: 1)
+            try validate(groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(memberName, name:"memberName", parent: name, max: 256)
+            try validate(memberName, name:"memberName", parent: name, min: 1)
+            try validate(memberName, name:"memberName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(namespace, name:"namespace", parent: name, pattern: "default")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "AwsAccountId"
             case groupName = "GroupName"
@@ -155,6 +195,7 @@ extension QuickSight {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .integer)
         ]
+
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
@@ -177,6 +218,7 @@ extension QuickSight {
             AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string), 
             AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
         ]
+
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The name of the group that you want to delete.
@@ -188,6 +230,15 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.groupName = groupName
             self.namespace = namespace
+        }
+
+        public func validate(name: String) throws {
+            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(groupName, name:"groupName", parent: name, min: 1)
+            try validate(groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(namespace, name:"namespace", parent: name, pattern: "default")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -202,6 +253,7 @@ extension QuickSight {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .integer)
         ]
+
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
@@ -224,6 +276,7 @@ extension QuickSight {
             AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
             AWSShapeMember(label: "PrincipalId", location: .uri(locationName: "PrincipalId"), required: true, type: .string)
         ]
+
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The namespace. Currently, you should set this to default.
@@ -235,6 +288,13 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
             self.principalId = principalId
+        }
+
+        public func validate(name: String) throws {
+            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(namespace, name:"namespace", parent: name, pattern: "default")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -249,6 +309,7 @@ extension QuickSight {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .integer)
         ]
+
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
@@ -271,6 +332,7 @@ extension QuickSight {
             AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
             AWSShapeMember(label: "UserName", location: .uri(locationName: "UserName"), required: true, type: .string)
         ]
+
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The namespace. Currently, you should set this to default.
@@ -282,6 +344,15 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
             self.userName = userName
+        }
+
+        public func validate(name: String) throws {
+            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(userName, name:"userName", parent: name, min: 1)
+            try validate(userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -296,6 +367,7 @@ extension QuickSight {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .integer)
         ]
+
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
@@ -318,6 +390,7 @@ extension QuickSight {
             AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string), 
             AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
         ]
+
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The name of the group that you want to describe.
@@ -329,6 +402,15 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.groupName = groupName
             self.namespace = namespace
+        }
+
+        public func validate(name: String) throws {
+            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(groupName, name:"groupName", parent: name, min: 1)
+            try validate(groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(namespace, name:"namespace", parent: name, pattern: "default")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -344,6 +426,7 @@ extension QuickSight {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .integer)
         ]
+
         /// The name of the group.
         public let group: Group?
         /// The AWS request ID for this operation.
@@ -370,6 +453,7 @@ extension QuickSight {
             AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
             AWSShapeMember(label: "UserName", location: .uri(locationName: "UserName"), required: true, type: .string)
         ]
+
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The namespace. Currently, you should set this to default.
@@ -381,6 +465,15 @@ extension QuickSight {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
             self.userName = userName
+        }
+
+        public func validate(name: String) throws {
+            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(userName, name:"userName", parent: name, min: 1)
+            try validate(userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -396,6 +489,7 @@ extension QuickSight {
             AWSShapeMember(label: "Status", required: false, type: .integer), 
             AWSShapeMember(label: "User", required: false, type: .structure)
         ]
+
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
@@ -416,17 +510,6 @@ extension QuickSight {
         }
     }
 
-    public enum ExceptionResourceType: String, CustomStringConvertible, Codable {
-        case user = "USER"
-        case group = "GROUP"
-        case namespace = "NAMESPACE"
-        case dataSource = "DATA_SOURCE"
-        case dataSet = "DATA_SET"
-        case vpcConnection = "VPC_CONNECTION"
-        case ingestion = "INGESTION"
-        public var description: String { return self.rawValue }
-    }
-
     public struct GetDashboardEmbedUrlRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
@@ -436,6 +519,7 @@ extension QuickSight {
             AWSShapeMember(label: "SessionLifetimeInMinutes", location: .querystring(locationName: "session-lifetime"), required: false, type: .long), 
             AWSShapeMember(label: "UndoRedoDisabled", location: .querystring(locationName: "undo-redo-disabled"), required: false, type: .boolean)
         ]
+
         /// AWS account ID that contains the dashboard you are embedding.
         public let awsAccountId: String
         /// The ID for the dashboard, also added to IAM policy
@@ -458,6 +542,14 @@ extension QuickSight {
             self.undoRedoDisabled = undoRedoDisabled
         }
 
+        public func validate(name: String) throws {
+            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(sessionLifetimeInMinutes, name:"sessionLifetimeInMinutes", parent: name, max: 600)
+            try validate(sessionLifetimeInMinutes, name:"sessionLifetimeInMinutes", parent: name, min: 15)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "AwsAccountId"
             case dashboardId = "DashboardId"
@@ -474,6 +566,7 @@ extension QuickSight {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .integer)
         ]
+
         /// URL that you can put into your server-side webpage to embed your dashboard. This URL is valid for 5 minutes, and the resulting session is valid for 10 hours. The API provides the URL with an auth_code that enables a single-signon session. 
         public let embedUrl: String?
         /// The AWS request ID for this operation.
@@ -501,6 +594,7 @@ extension QuickSight {
             AWSShapeMember(label: "GroupName", required: false, type: .string), 
             AWSShapeMember(label: "PrincipalId", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) for the group.
         public let arn: String?
         /// The group description.
@@ -530,6 +624,7 @@ extension QuickSight {
             AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "MemberName", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) for the group member (user).
         public let arn: String?
         /// The name of the group member (user).
@@ -560,6 +655,7 @@ extension QuickSight {
             AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
         ]
+
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The name of the group that you want to see a membership list of.
@@ -579,6 +675,17 @@ extension QuickSight {
             self.nextToken = nextToken
         }
 
+        public func validate(name: String) throws {
+            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(groupName, name:"groupName", parent: name, min: 1)
+            try validate(groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(maxResults, name:"maxResults", parent: name, max: 100000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(namespace, name:"namespace", parent: name, pattern: "default")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "AwsAccountId"
             case groupName = "GroupName"
@@ -595,6 +702,7 @@ extension QuickSight {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .integer)
         ]
+
         /// The list of the members of the group.
         public let groupMemberList: [GroupMember]?
         /// A pagination token that can be used in a subsequent request.
@@ -626,6 +734,7 @@ extension QuickSight {
             AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
         ]
+
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The maximum number of results to return.
@@ -640,6 +749,15 @@ extension QuickSight {
             self.maxResults = maxResults
             self.namespace = namespace
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(maxResults, name:"maxResults", parent: name, max: 100000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(namespace, name:"namespace", parent: name, pattern: "default")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -657,6 +775,7 @@ extension QuickSight {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .integer)
         ]
+
         /// The list of the groups.
         public let groupList: [Group]?
         /// A pagination token that can be used in a subsequent request.
@@ -689,6 +808,7 @@ extension QuickSight {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
             AWSShapeMember(label: "UserName", location: .uri(locationName: "UserName"), required: true, type: .string)
         ]
+
         /// The AWS Account ID that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The maximum number of results to return from this request.
@@ -708,6 +828,17 @@ extension QuickSight {
             self.userName = userName
         }
 
+        public func validate(name: String) throws {
+            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(maxResults, name:"maxResults", parent: name, max: 100000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(userName, name:"userName", parent: name, min: 1)
+            try validate(userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "AwsAccountId"
             case maxResults = "max-results"
@@ -724,6 +855,7 @@ extension QuickSight {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .integer)
         ]
+
         /// The list of groups the user is a member of.
         public let groupList: [Group]?
         /// A pagination token that can be used in a subsequent request.
@@ -755,6 +887,7 @@ extension QuickSight {
             AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
         ]
+
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The maximum number of results to return from this request.
@@ -769,6 +902,15 @@ extension QuickSight {
             self.maxResults = maxResults
             self.namespace = namespace
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(maxResults, name:"maxResults", parent: name, max: 100000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(namespace, name:"namespace", parent: name, pattern: "default")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -786,6 +928,7 @@ extension QuickSight {
             AWSShapeMember(label: "Status", required: false, type: .integer), 
             AWSShapeMember(label: "UserList", required: false, type: .list)
         ]
+
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
         /// The AWS request ID for this operation.
@@ -821,6 +964,7 @@ extension QuickSight {
             AWSShapeMember(label: "UserName", required: false, type: .string), 
             AWSShapeMember(label: "UserRole", required: true, type: .enum)
         ]
+
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The email address of the user that you want to register.
@@ -849,6 +993,18 @@ extension QuickSight {
             self.userRole = userRole
         }
 
+        public func validate(name: String) throws {
+            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(sessionName, name:"sessionName", parent: name, max: 64)
+            try validate(sessionName, name:"sessionName", parent: name, min: 2)
+            try validate(sessionName, name:"sessionName", parent: name, pattern: "[\\w+=.@-]*")
+            try validate(userName, name:"userName", parent: name, min: 1)
+            try validate(userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "AwsAccountId"
             case email = "Email"
@@ -868,6 +1024,7 @@ extension QuickSight {
             AWSShapeMember(label: "User", required: false, type: .structure), 
             AWSShapeMember(label: "UserInvitationUrl", required: false, type: .string)
         ]
+
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
@@ -899,6 +1056,7 @@ extension QuickSight {
             AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string), 
             AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
         ]
+
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The description for the group that you want to update.
@@ -915,6 +1073,17 @@ extension QuickSight {
             self.namespace = namespace
         }
 
+        public func validate(name: String) throws {
+            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(description, name:"description", parent: name, max: 512)
+            try validate(description, name:"description", parent: name, min: 1)
+            try validate(groupName, name:"groupName", parent: name, min: 1)
+            try validate(groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(namespace, name:"namespace", parent: name, pattern: "default")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "AwsAccountId"
             case description = "Description"
@@ -929,6 +1098,7 @@ extension QuickSight {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .integer)
         ]
+
         /// The name of the group.
         public let group: Group?
         /// The AWS request ID for this operation.
@@ -957,6 +1127,7 @@ extension QuickSight {
             AWSShapeMember(label: "Role", required: true, type: .enum), 
             AWSShapeMember(label: "UserName", location: .uri(locationName: "UserName"), required: true, type: .string)
         ]
+
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The email address of the user that you want to update.
@@ -976,6 +1147,15 @@ extension QuickSight {
             self.userName = userName
         }
 
+        public func validate(name: String) throws {
+            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(userName, name:"userName", parent: name, min: 1)
+            try validate(userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "AwsAccountId"
             case email = "Email"
@@ -991,6 +1171,7 @@ extension QuickSight {
             AWSShapeMember(label: "Status", required: false, type: .integer), 
             AWSShapeMember(label: "User", required: false, type: .structure)
         ]
+
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
@@ -1021,6 +1202,7 @@ extension QuickSight {
             AWSShapeMember(label: "Role", required: false, type: .enum), 
             AWSShapeMember(label: "UserName", required: false, type: .string)
         ]
+
         /// Active status of user. When you create an Amazon QuickSight user that’s not an IAM user or an AD user, that user is inactive until they sign in and provide a password
         public let active: Bool?
         /// The Amazon Resource Name (ARN) for the user.

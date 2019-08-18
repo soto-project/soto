@@ -71,6 +71,7 @@ extension SMS {
             AWSShapeMember(label: "totalServerGroups", required: false, type: .integer), 
             AWSShapeMember(label: "totalServers", required: false, type: .integer)
         ]
+
         /// Unique ID of the application.
         public let appId: String?
         /// Time of creation of this application.
@@ -156,6 +157,7 @@ extension SMS {
             AWSShapeMember(label: "vmManagerName", required: false, type: .string), 
             AWSShapeMember(label: "vmManagerType", required: false, type: .enum)
         ]
+
         /// The time the connector was associated.
         public let associatedOn: TimeStamp?
         /// The capabilities of the connector.
@@ -227,6 +229,7 @@ extension SMS {
             AWSShapeMember(label: "serverGroups", required: false, type: .list), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+
         /// A unique, case-sensitive identifier you provide to ensure idempotency of application creation.
         public let clientToken: String?
         /// Description of the new application
@@ -265,6 +268,7 @@ extension SMS {
             AWSShapeMember(label: "serverGroups", required: false, type: .list), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+
         /// Summary description of the application.
         public let appSummary: AppSummary?
         /// List of server groups included in the application.
@@ -298,6 +302,7 @@ extension SMS {
             AWSShapeMember(label: "seedReplicationTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "serverId", required: true, type: .string)
         ]
+
         /// The description of the replication job.
         public let description: String?
         /// When true, the replication job produces encrypted AMIs. See also KmsKeyId below.
@@ -349,6 +354,7 @@ extension SMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "replicationJobId", required: false, type: .string)
         ]
+
         /// The unique identifier of the replication job.
         public let replicationJobId: String?
 
@@ -365,6 +371,7 @@ extension SMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appId", required: false, type: .string)
         ]
+
         /// ID of the application associated with the launch configuration.
         public let appId: String?
 
@@ -379,6 +386,7 @@ extension SMS {
 
     public struct DeleteAppLaunchConfigurationResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -388,6 +396,7 @@ extension SMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appId", required: false, type: .string)
         ]
+
         /// ID of the application associated with the replication configuration.
         public let appId: String?
 
@@ -402,6 +411,7 @@ extension SMS {
 
     public struct DeleteAppReplicationConfigurationResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -413,6 +423,7 @@ extension SMS {
             AWSShapeMember(label: "forceStopAppReplication", required: false, type: .boolean), 
             AWSShapeMember(label: "forceTerminateApp", required: false, type: .boolean)
         ]
+
         /// ID of the application to delete.
         public let appId: String?
         /// While deleting the application, stop all replication jobs corresponding to the servers in the application.
@@ -435,6 +446,7 @@ extension SMS {
 
     public struct DeleteAppResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -444,6 +456,7 @@ extension SMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "replicationJobId", required: true, type: .string)
         ]
+
         /// The identifier of the replication job.
         public let replicationJobId: String
 
@@ -458,6 +471,7 @@ extension SMS {
 
     public struct DeleteReplicationJobResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -465,12 +479,14 @@ extension SMS {
 
     public struct DeleteServerCatalogRequest: AWSShape {
 
+
         public init() {
         }
 
     }
 
     public struct DeleteServerCatalogResponse: AWSShape {
+
 
         public init() {
         }
@@ -481,6 +497,7 @@ extension SMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "connectorId", required: true, type: .string)
         ]
+
         /// The identifier of the connector.
         public let connectorId: String
 
@@ -495,6 +512,7 @@ extension SMS {
 
     public struct DisassociateConnectorResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -505,6 +523,7 @@ extension SMS {
             AWSShapeMember(label: "appId", required: false, type: .string), 
             AWSShapeMember(label: "changesetFormat", required: false, type: .enum)
         ]
+
         /// ID of the application associated with the change set.
         public let appId: String?
         /// Format for the change set.
@@ -525,6 +544,7 @@ extension SMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "s3Location", required: false, type: .structure)
         ]
+
         /// Location of the Amazon S3 object.
         public let s3Location: S3Location?
 
@@ -542,6 +562,7 @@ extension SMS {
             AWSShapeMember(label: "appId", required: false, type: .string), 
             AWSShapeMember(label: "templateFormat", required: false, type: .enum)
         ]
+
         /// ID of the application associated with the Amazon CloudFormation template.
         public let appId: String?
         /// Format for generating the Amazon CloudFormation template.
@@ -562,6 +583,7 @@ extension SMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "s3Location", required: false, type: .structure)
         ]
+
         /// Location of the Amazon S3 object.
         public let s3Location: S3Location?
 
@@ -578,6 +600,7 @@ extension SMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appId", required: false, type: .string)
         ]
+
         /// ID of the application launch configuration.
         public let appId: String?
 
@@ -596,6 +619,7 @@ extension SMS {
             AWSShapeMember(label: "roleName", required: false, type: .string), 
             AWSShapeMember(label: "serverGroupLaunchConfigurations", required: false, type: .list)
         ]
+
         /// ID of the application associated with the launch configuration.
         public let appId: String?
         /// Name of the service role in the customer's account that Amazon CloudFormation uses to launch the application.
@@ -620,6 +644,7 @@ extension SMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appId", required: false, type: .string)
         ]
+
         /// ID of the application associated with the replication configuration.
         public let appId: String?
 
@@ -636,6 +661,7 @@ extension SMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "serverGroupReplicationConfigurations", required: false, type: .list)
         ]
+
         /// Replication configurations associated with server groups in this application.
         public let serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]?
 
@@ -652,6 +678,7 @@ extension SMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appId", required: false, type: .string)
         ]
+
         /// ID of the application whose information is being retrieved.
         public let appId: String?
 
@@ -670,6 +697,7 @@ extension SMS {
             AWSShapeMember(label: "serverGroups", required: false, type: .list), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+
         /// Information about the application.
         public let appSummary: AppSummary?
         /// List of server groups belonging to the application.
@@ -695,6 +723,7 @@ extension SMS {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int32?
         /// The token for the next set of results.
@@ -716,6 +745,7 @@ extension SMS {
             AWSShapeMember(label: "connectorList", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// Information about the registered connectors.
         public let connectorList: [Connector]?
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
@@ -738,6 +768,7 @@ extension SMS {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "replicationJobId", required: false, type: .string)
         ]
+
         /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int32?
         /// The token for the next set of results.
@@ -763,6 +794,7 @@ extension SMS {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "replicationJobList", required: false, type: .list)
         ]
+
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the replication jobs.
@@ -785,6 +817,7 @@ extension SMS {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "replicationJobId", required: true, type: .string)
         ]
+
         /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int32?
         /// The token for the next set of results.
@@ -811,6 +844,7 @@ extension SMS {
             AWSShapeMember(label: "replicationJob", required: false, type: .structure), 
             AWSShapeMember(label: "replicationRunList", required: false, type: .list)
         ]
+
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the replication job.
@@ -837,6 +871,7 @@ extension SMS {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "vmServerAddressList", required: false, type: .list)
         ]
+
         /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int32?
         /// The token for the next set of results.
@@ -864,6 +899,7 @@ extension SMS {
             AWSShapeMember(label: "serverCatalogStatus", required: false, type: .enum), 
             AWSShapeMember(label: "serverList", required: false, type: .list)
         ]
+
         /// The time when the server was last modified.
         public let lastModifiedOn: TimeStamp?
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
@@ -890,12 +926,14 @@ extension SMS {
 
     public struct ImportServerCatalogRequest: AWSShape {
 
+
         public init() {
         }
 
     }
 
     public struct ImportServerCatalogResponse: AWSShape {
+
 
         public init() {
         }
@@ -906,6 +944,7 @@ extension SMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appId", required: false, type: .string)
         ]
+
         /// ID of the application to launch.
         public let appId: String?
 
@@ -920,6 +959,7 @@ extension SMS {
 
     public struct LaunchAppResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -931,6 +971,7 @@ extension SMS {
             AWSShapeMember(label: "stackId", required: false, type: .string), 
             AWSShapeMember(label: "stackName", required: false, type: .string)
         ]
+
         /// Latest time this application was launched successfully.
         public let latestLaunchTime: TimeStamp?
         /// Identifier of the latest stack launched for this application.
@@ -963,6 +1004,7 @@ extension SMS {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         public let appIds: [String]?
         /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value. 
         public let maxResults: Int32?
@@ -987,6 +1029,7 @@ extension SMS {
             AWSShapeMember(label: "apps", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of application summaries.
         public let apps: [AppSummary]?
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
@@ -1015,6 +1058,7 @@ extension SMS {
             AWSShapeMember(label: "roleName", required: false, type: .string), 
             AWSShapeMember(label: "serverGroupLaunchConfigurations", required: false, type: .list)
         ]
+
         /// ID of the application associated with the launch configuration.
         public let appId: String?
         /// Name of service role in the customer's account that Amazon CloudFormation uses to launch the application.
@@ -1037,6 +1081,7 @@ extension SMS {
 
     public struct PutAppLaunchConfigurationResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -1047,6 +1092,7 @@ extension SMS {
             AWSShapeMember(label: "appId", required: false, type: .string), 
             AWSShapeMember(label: "serverGroupReplicationConfigurations", required: false, type: .list)
         ]
+
         /// ID of the application tassociated with the replication configuration.
         public let appId: String?
         /// Replication configurations for server groups in the application.
@@ -1064,6 +1110,7 @@ extension SMS {
     }
 
     public struct PutAppReplicationConfigurationResponse: AWSShape {
+
 
         public init() {
         }
@@ -1091,6 +1138,7 @@ extension SMS {
             AWSShapeMember(label: "statusMessage", required: false, type: .string), 
             AWSShapeMember(label: "vmServer", required: false, type: .structure)
         ]
+
         /// The description of the replication job.
         public let description: String?
         /// Whether the replication job should produce encrypted AMIs or not. See also KmsKeyId below.
@@ -1196,6 +1244,7 @@ extension SMS {
             AWSShapeMember(label: "statusMessage", required: false, type: .string), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// The identifier of the Amazon Machine Image (AMI) from the replication run.
         public let amiId: String?
         /// The completion time of the last replication run.
@@ -1253,6 +1302,7 @@ extension SMS {
             AWSShapeMember(label: "stage", required: false, type: .string), 
             AWSShapeMember(label: "stageProgress", required: false, type: .string)
         ]
+
         /// String describing the current stage of a replication run.
         public let stage: String?
         /// String describing the progress of the current stage of a replication run.
@@ -1291,6 +1341,7 @@ extension SMS {
             AWSShapeMember(label: "bucket", required: false, type: .string), 
             AWSShapeMember(label: "key", required: false, type: .string)
         ]
+
         /// Amazon S3 bucket name.
         public let bucket: String?
         /// Amazon S3 bucket key.
@@ -1315,6 +1366,7 @@ extension SMS {
             AWSShapeMember(label: "serverType", required: false, type: .enum), 
             AWSShapeMember(label: "vmServer", required: false, type: .structure)
         ]
+
         /// The identifier of the replication job.
         public let replicationJobId: String?
         /// Indicates whether the replication job is deleted or failed.
@@ -1358,6 +1410,7 @@ extension SMS {
             AWSShapeMember(label: "serverGroupId", required: false, type: .string), 
             AWSShapeMember(label: "serverList", required: false, type: .list)
         ]
+
         /// Name of a server group.
         public let name: String?
         /// Identifier of a server group.
@@ -1384,6 +1437,7 @@ extension SMS {
             AWSShapeMember(label: "serverGroupId", required: false, type: .string), 
             AWSShapeMember(label: "serverLaunchConfigurations", required: false, type: .list)
         ]
+
         /// Launch order of servers in the server group.
         public let launchOrder: Int32?
         /// Identifier of the server group the launch configuration is associated with.
@@ -1409,6 +1463,7 @@ extension SMS {
             AWSShapeMember(label: "serverGroupId", required: false, type: .string), 
             AWSShapeMember(label: "serverReplicationConfigurations", required: false, type: .list)
         ]
+
         /// Identifier of the server group this replication configuration is associated with.
         public let serverGroupId: String?
         /// Replication configuration for servers in the server group.
@@ -1437,6 +1492,7 @@ extension SMS {
             AWSShapeMember(label: "userData", required: false, type: .structure), 
             AWSShapeMember(label: "vpc", required: false, type: .string)
         ]
+
         /// If true, a publicly accessible IP address is created when launching the server.
         public let associatePublicIpAddress: Bool?
         /// Name of the EC2 SSH Key to be used for connecting to the launched server.
@@ -1486,6 +1542,7 @@ extension SMS {
             AWSShapeMember(label: "server", required: false, type: .structure), 
             AWSShapeMember(label: "serverReplicationParameters", required: false, type: .structure)
         ]
+
         /// Identifier of the server this replication configuration is associated with.
         public let server: Server?
         /// Parameters for replicating the server.
@@ -1512,6 +1569,7 @@ extension SMS {
             AWSShapeMember(label: "runOnce", required: false, type: .boolean), 
             AWSShapeMember(label: "seedTime", required: false, type: .timestamp)
         ]
+
         /// When true, the replication job produces encrypted AMIs. See also KmsKeyId below.
         public let encrypted: Bool?
         /// Frequency of creating replication jobs for the server.
@@ -1556,6 +1614,7 @@ extension SMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appId", required: false, type: .string)
         ]
+
         /// ID of the application to replicate.
         public let appId: String?
 
@@ -1570,6 +1629,7 @@ extension SMS {
 
     public struct StartAppReplicationResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -1580,6 +1640,7 @@ extension SMS {
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "replicationJobId", required: true, type: .string)
         ]
+
         /// The description of the replication run.
         public let description: String?
         /// The identifier of the replication job.
@@ -1600,6 +1661,7 @@ extension SMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "replicationRunId", required: false, type: .string)
         ]
+
         /// The identifier of the replication run.
         public let replicationRunId: String?
 
@@ -1616,6 +1678,7 @@ extension SMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appId", required: false, type: .string)
         ]
+
         /// ID of the application to stop replicating.
         public let appId: String?
 
@@ -1630,6 +1693,7 @@ extension SMS {
 
     public struct StopAppReplicationResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -1640,6 +1704,7 @@ extension SMS {
             AWSShapeMember(label: "key", required: false, type: .string), 
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
+
         /// Tag key.
         public let key: String?
         /// Tag value.
@@ -1660,6 +1725,7 @@ extension SMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appId", required: false, type: .string)
         ]
+
         /// ID of the application to terminate.
         public let appId: String?
 
@@ -1673,6 +1739,7 @@ extension SMS {
     }
 
     public struct TerminateAppResponse: AWSShape {
+
 
         public init() {
         }
@@ -1688,6 +1755,7 @@ extension SMS {
             AWSShapeMember(label: "serverGroups", required: false, type: .list), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+
         /// ID of the application to update.
         public let appId: String?
         /// New description of the application.
@@ -1726,6 +1794,7 @@ extension SMS {
             AWSShapeMember(label: "serverGroups", required: false, type: .list), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+
         /// Summary description of the application.
         public let appSummary: AppSummary?
         /// List of updated server groups in the application.
@@ -1758,6 +1827,7 @@ extension SMS {
             AWSShapeMember(label: "replicationJobId", required: true, type: .string), 
             AWSShapeMember(label: "roleName", required: false, type: .string)
         ]
+
         /// The description of the replication job.
         public let description: String?
         /// When true, the replication job produces encrypted AMIs . See also KmsKeyId below.
@@ -1804,6 +1874,7 @@ extension SMS {
 
     public struct UpdateReplicationJobResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -1813,6 +1884,7 @@ extension SMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "s3Location", required: false, type: .structure)
         ]
+
         /// Amazon S3 location of the user-data script.
         public let s3Location: S3Location?
 
@@ -1840,6 +1912,7 @@ extension SMS {
             AWSShapeMember(label: "vmPath", required: false, type: .string), 
             AWSShapeMember(label: "vmServerAddress", required: false, type: .structure)
         ]
+
         /// The name of the VM manager.
         public let vmManagerName: String?
         /// The type of VM management product.
@@ -1873,6 +1946,7 @@ extension SMS {
             AWSShapeMember(label: "vmId", required: false, type: .string), 
             AWSShapeMember(label: "vmManagerId", required: false, type: .string)
         ]
+
         /// The identifier of the VM.
         public let vmId: String?
         /// The identifier of the VM manager.

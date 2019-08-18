@@ -10,6 +10,7 @@ extension DocDB {
             AWSShapeMember(label: "ResourceName", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The Amazon DocumentDB resource that the tags are added to. This value is an Amazon Resource Name (ARN).
         public let resourceName: String
         /// The tags to be assigned to the Amazon DocumentDB resource. 
@@ -38,6 +39,7 @@ extension DocDB {
             AWSShapeMember(label: "OptInType", required: true, type: .string), 
             AWSShapeMember(label: "ResourceIdentifier", required: true, type: .string)
         ]
+
         /// The pending maintenance action to apply to this resource. Valid values: system-update, db-upgrade 
         public let applyAction: String
         /// A value that specifies the type of opt-in request or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.    undo-opt-in - Cancel any existing next-maintenance opt-in requests.  
@@ -62,6 +64,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourcePendingMaintenanceActions", required: false, type: .structure)
         ]
+
         public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
 
         public init(resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions? = nil) {
@@ -77,6 +80,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The name of the Availability Zone.
         public let name: String?
 
@@ -94,6 +98,7 @@ extension DocDB {
             AWSShapeMember(label: "DisableLogTypes", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "EnableLogTypes", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The list of log types to disable.
         public let disableLogTypes: [String]?
         /// The list of log types to enable.
@@ -117,6 +122,7 @@ extension DocDB {
             AWSShapeMember(label: "TargetDBClusterParameterGroupDescription", required: true, type: .string), 
             AWSShapeMember(label: "TargetDBClusterParameterGroupIdentifier", required: true, type: .string)
         ]
+
         /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. Constraints:   Must specify a valid DB cluster parameter group.   If the source DB cluster parameter group is in the same AWS Region as the copy, specify a valid DB parameter group identifier; for example, my-db-cluster-param-group, or a valid ARN.   If the source DB parameter group is in a different AWS Region than the copy, specify a valid DB cluster parameter group ARN; for example, arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1.  
         public let sourceDBClusterParameterGroupIdentifier: String
         /// The tags that are to be assigned to the parameter group.
@@ -145,6 +151,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterParameterGroup", required: false, type: .structure)
         ]
+
         public let dBClusterParameterGroup: DBClusterParameterGroup?
 
         public init(dBClusterParameterGroup: DBClusterParameterGroup? = nil) {
@@ -165,6 +172,7 @@ extension DocDB {
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
             AWSShapeMember(label: "TargetDBClusterSnapshotIdentifier", required: true, type: .string)
         ]
+
         /// Set to true to copy all tags from the source DB cluster snapshot to the target DB cluster snapshot, and otherwise false. The default is false.
         public let copyTags: Bool?
         /// The AWS KMS key ID for an encrypted DB cluster snapshot. The AWS KMS key ID is the Amazon Resource Name (ARN), AWS KMS key identifier, or the AWS KMS key alias for the AWS KMS encryption key.  If you copy an encrypted DB cluster snapshot from your AWS account, you can specify a value for KmsKeyId to encrypt the copy with a new AWS KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same AWS KMS key as the source DB cluster snapshot.  If you copy an encrypted DB cluster snapshot that is shared from another AWS account, then you must specify a value for KmsKeyId.  To copy an encrypted DB cluster snapshot to another AWS Region, set KmsKeyId to the AWS KMS key ID that you want to use to encrypt the copy of the DB cluster snapshot in the destination Region. AWS KMS encryption keys are specific to the AWS Region that they are created in, and you can't use encryption keys from one Region in another Region. If you copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
@@ -201,6 +209,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterSnapshot", required: false, type: .structure)
         ]
+
         public let dBClusterSnapshot: DBClusterSnapshot?
 
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
@@ -233,6 +242,7 @@ extension DocDB {
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
             AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
         ]
+
         /// A list of Amazon EC2 Availability Zones that instances in the DB cluster can be created in.
         public let availabilityZones: [String]?
         /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35.  
@@ -320,6 +330,7 @@ extension DocDB {
             AWSShapeMember(label: "Description", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The name of the DB cluster parameter group. Constraints:   Must match the name of an existing DBClusterParameterGroup.    This value is stored as a lowercase string. 
         public let dBClusterParameterGroupName: String
         /// The DB cluster parameter group family name.
@@ -348,6 +359,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterParameterGroup", required: false, type: .structure)
         ]
+
         public let dBClusterParameterGroup: DBClusterParameterGroup?
 
         public init(dBClusterParameterGroup: DBClusterParameterGroup? = nil) {
@@ -363,6 +375,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -380,6 +393,7 @@ extension DocDB {
             AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The identifier of the DB cluster to create a snapshot for. This parameter is not case sensitive. Constraints:   Must match the identifier of an existing DBCluster.   Example: my-cluster 
         public let dBClusterIdentifier: String
         /// The identifier of the DB cluster snapshot. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-snapshot1 
@@ -404,6 +418,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterSnapshot", required: false, type: .structure)
         ]
+
         public let dBClusterSnapshot: DBClusterSnapshot?
 
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
@@ -427,6 +442,7 @@ extension DocDB {
             AWSShapeMember(label: "PromotionTier", required: false, type: .integer), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// Indicates that minor engine upgrades are applied automatically to the DB instance during the maintenance window. Default: true 
         public let autoMinorVersionUpgrade: Bool?
         ///  The Amazon EC2 Availability Zone that the DB instance is created in. Default: A random, system-chosen Availability Zone in the endpoint's AWS Region.  Example: us-east-1d   Constraint: The AvailabilityZone parameter can't be specified if the MultiAZ parameter is set to true. The specified Availability Zone must be in the same AWS Region as the current endpoint. 
@@ -475,6 +491,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBInstance", required: false, type: .structure)
         ]
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -493,6 +510,7 @@ extension DocDB {
             AWSShapeMember(label: "SubnetIds", required: true, type: .list, encoding: .list(member:"SubnetIdentifier")), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The description for the DB subnet group.
         public let dBSubnetGroupDescription: String
         /// The name for the DB subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 letters, numbers, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
@@ -521,6 +539,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBSubnetGroup", required: false, type: .structure)
         ]
+
         public let dBSubnetGroup: DBSubnetGroup?
 
         public init(dBSubnetGroup: DBSubnetGroup? = nil) {
@@ -564,6 +583,7 @@ extension DocDB {
             AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
             AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupMembership"))
         ]
+
         /// Provides a list of the AWS Identity and Access Management (IAM) roles that are associated with the DB cluster. IAM roles that are associated with a DB cluster grant permission for the DB cluster to access other AWS services on your behalf.
         public let associatedRoles: [DBClusterRole]?
         /// Provides the list of Amazon EC2 Availability Zones that instances in the DB cluster can be created in.
@@ -695,6 +715,7 @@ extension DocDB {
             AWSShapeMember(label: "IsClusterWriter", required: false, type: .boolean), 
             AWSShapeMember(label: "PromotionTier", required: false, type: .integer)
         ]
+
         /// Specifies the status of the DB cluster parameter group for this member of the DB cluster.
         public let dBClusterParameterGroupStatus: String?
         /// Specifies the instance identifier for this member of the DB cluster.
@@ -724,6 +745,7 @@ extension DocDB {
             AWSShapeMember(label: "DBClusters", required: false, type: .list, encoding: .list(member:"DBCluster")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// A list of DB clusters.
         public let dBClusters: [DBCluster]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -747,6 +769,7 @@ extension DocDB {
             AWSShapeMember(label: "DBParameterGroupFamily", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) for the DB cluster parameter group.
         public let dBClusterParameterGroupArn: String?
         /// Provides the name of the DB cluster parameter group.
@@ -776,6 +799,7 @@ extension DocDB {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter"))
         ]
+
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// Provides a list of parameters for the DB cluster parameter group.
@@ -796,6 +820,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string)
         ]
+
         /// The name of a DB cluster parameter group. Constraints:   Must be from 1 to 255 letters or numbers.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.    This value is stored as a lowercase string. 
         public let dBClusterParameterGroupName: String?
 
@@ -813,6 +838,7 @@ extension DocDB {
             AWSShapeMember(label: "DBClusterParameterGroups", required: false, type: .list, encoding: .list(member:"DBClusterParameterGroup")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// A list of DB cluster parameter groups.
         public let dBClusterParameterGroups: [DBClusterParameterGroup]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -834,6 +860,7 @@ extension DocDB {
             AWSShapeMember(label: "RoleArn", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the IAM role that is associated with the DB cluster.
         public let roleArn: String?
         /// Describes the state of association between the IAM role and the DB cluster. The Status property returns one of the following values:    ACTIVE - The IAM role ARN is associated with the DB cluster and can be used to access other AWS services on your behalf.    PENDING - The IAM role ARN is being associated with the DB cluster.    INVALID - The IAM role ARN is associated with the DB cluster, but the DB cluster cannot assume the IAM role to access other AWS services on your behalf.  
@@ -870,6 +897,7 @@ extension DocDB {
             AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
+
         /// Provides the list of Amazon EC2 Availability Zones that instances in the DB cluster snapshot can be restored in.
         public let availabilityZones: [String]?
         /// Specifies the time when the DB cluster was created, in Universal Coordinated Time (UTC).
@@ -951,6 +979,7 @@ extension DocDB {
             AWSShapeMember(label: "AttributeName", required: false, type: .string), 
             AWSShapeMember(label: "AttributeValues", required: false, type: .list, encoding: .list(member:"AttributeValue"))
         ]
+
         /// The name of the manual DB cluster snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot.
         public let attributeName: String?
         /// The values for the manual DB cluster snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the AWS accounts that are authorized to copy or restore the manual DB cluster snapshot. If a value of all is in the list, then the manual DB cluster snapshot is public and available for any AWS account to copy or restore.
@@ -972,6 +1001,7 @@ extension DocDB {
             AWSShapeMember(label: "DBClusterSnapshotAttributes", required: false, type: .list, encoding: .list(member:"DBClusterSnapshotAttribute")), 
             AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: false, type: .string)
         ]
+
         /// The list of attributes and values for the DB cluster snapshot.
         public let dBClusterSnapshotAttributes: [DBClusterSnapshotAttribute]?
         /// The identifier of the DB cluster snapshot that the attributes apply to.
@@ -993,6 +1023,7 @@ extension DocDB {
             AWSShapeMember(label: "DBClusterSnapshots", required: false, type: .list, encoding: .list(member:"DBClusterSnapshot")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// Provides a list of DB cluster snapshots.
         public let dBClusterSnapshots: [DBClusterSnapshot]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -1020,6 +1051,7 @@ extension DocDB {
             AWSShapeMember(label: "SupportsLogExportsToCloudwatchLogs", required: false, type: .boolean), 
             AWSShapeMember(label: "ValidUpgradeTarget", required: false, type: .list, encoding: .list(member:"UpgradeTarget"))
         ]
+
         /// The description of the database engine.
         public let dBEngineDescription: String?
         /// The description of the database engine version.
@@ -1065,6 +1097,7 @@ extension DocDB {
             AWSShapeMember(label: "DBEngineVersions", required: false, type: .list, encoding: .list(member:"DBEngineVersion")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// Detailed information about one or more DB engine versions.
         public let dBEngineVersions: [DBEngineVersion]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -1109,6 +1142,7 @@ extension DocDB {
             AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
             AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupMembership"))
         ]
+
         /// Indicates that minor version patches are applied automatically.
         public let autoMinorVersionUpgrade: Bool?
         /// Specifies the name of the Availability Zone that the DB instance is located in.
@@ -1222,6 +1256,7 @@ extension DocDB {
             AWSShapeMember(label: "DBInstances", required: false, type: .list, encoding: .list(member:"DBInstance")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// Detailed information about one or more DB instances. 
         public let dBInstances: [DBInstance]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -1245,6 +1280,7 @@ extension DocDB {
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "StatusType", required: false, type: .string)
         ]
+
         /// Details of the error if there is an error for the instance. If the instance is not in an error state, this value is blank.
         public let message: String?
         /// A Boolean value that is true if the instance is operating normally, or false if the instance is in an error state.
@@ -1278,6 +1314,7 @@ extension DocDB {
             AWSShapeMember(label: "Subnets", required: false, type: .list, encoding: .list(member:"Subnet")), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
+
         /// The Amazon Resource Identifier (ARN) for the DB subnet group.
         public let dBSubnetGroupArn: String?
         /// Provides the description of the DB subnet group.
@@ -1315,6 +1352,7 @@ extension DocDB {
             AWSShapeMember(label: "DBSubnetGroups", required: false, type: .list, encoding: .list(member:"DBSubnetGroup")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// Detailed information about one or more DB subnet groups.
         public let dBSubnetGroups: [DBSubnetGroup]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -1337,6 +1375,7 @@ extension DocDB {
             AWSShapeMember(label: "FinalDBSnapshotIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "SkipFinalSnapshot", required: false, type: .boolean)
         ]
+
         /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case sensitive. Constraints:   Must match an existing DBClusterIdentifier.  
         public let dBClusterIdentifier: String
         ///  The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is set to false.    Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.   Constraints:   Must be from 1 to 255 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
@@ -1361,6 +1400,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterParameterGroupName", required: true, type: .string)
         ]
+
         /// The name of the DB cluster parameter group. Constraints:   Must be the name of an existing DB cluster parameter group.   You can't delete a default DB cluster parameter group.   Cannot be associated with any DB clusters.  
         public let dBClusterParameterGroupName: String
 
@@ -1377,6 +1417,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -1392,6 +1433,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string)
         ]
+
         /// The identifier of the DB cluster snapshot to delete. Constraints: Must be the name of an existing DB cluster snapshot in the available state.
         public let dBClusterSnapshotIdentifier: String
 
@@ -1408,6 +1450,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterSnapshot", required: false, type: .structure)
         ]
+
         public let dBClusterSnapshot: DBClusterSnapshot?
 
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
@@ -1423,6 +1466,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string)
         ]
+
         /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case sensitive. Constraints:   Must match the name of an existing DB instance.  
         public let dBInstanceIdentifier: String
 
@@ -1439,6 +1483,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBInstance", required: false, type: .structure)
         ]
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -1454,6 +1499,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBSubnetGroupName", required: true, type: .string)
         ]
+
         /// The name of the database subnet group to delete.  You can't delete the default subnet group.  Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
         public let dBSubnetGroupName: String
 
@@ -1473,6 +1519,7 @@ extension DocDB {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// The name of a specific DB cluster parameter group to return details for. Constraints:   If provided, must match the name of an existing DBClusterParameterGroup.  
         public let dBClusterParameterGroupName: String?
         /// This parameter is not currently supported.
@@ -1505,6 +1552,7 @@ extension DocDB {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Source", required: false, type: .string)
         ]
+
         /// The name of a specific DB cluster parameter group to return parameter details for. Constraints:   If provided, must match the name of an existing DBClusterParameterGroup.  
         public let dBClusterParameterGroupName: String
         /// This parameter is not currently supported.
@@ -1537,6 +1585,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string)
         ]
+
         /// The identifier for the DB cluster snapshot to describe the attributes for.
         public let dBClusterSnapshotIdentifier: String
 
@@ -1553,6 +1602,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterSnapshotAttributesResult", required: false, type: .structure)
         ]
+
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
         public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
@@ -1575,6 +1625,7 @@ extension DocDB {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "SnapshotType", required: false, type: .string)
         ]
+
         /// The ID of the DB cluster to retrieve the list of DB cluster snapshots for. This parameter can't be used with the DBClusterSnapshotIdentifier parameter. This parameter is not case sensitive.  Constraints:   If provided, must match the identifier of an existing DBCluster.  
         public let dBClusterIdentifier: String?
         /// A specific DB cluster snapshot identifier to describe. This parameter can't be used with the DBClusterIdentifier parameter. This value is stored as a lowercase string.  Constraints:   If provided, must match the identifier of an existing DBClusterSnapshot.   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.  
@@ -1622,6 +1673,7 @@ extension DocDB {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// The user-provided DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned. This parameter isn't case sensitive. Constraints:   If provided, must match an existing DBClusterIdentifier.  
         public let dBClusterIdentifier: String?
         /// A filter that specifies one or more DB clusters to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list only includes information about the DB clusters identified by these ARNs.  
@@ -1658,6 +1710,7 @@ extension DocDB {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// The name of a specific DB parameter group family to return details for. Constraints:   If provided, must match an existing DBParameterGroupFamily.  
         public let dBParameterGroupFamily: String?
         /// Indicates that only the default version of the specified engine or engine and major version combination is returned.
@@ -1709,6 +1762,7 @@ extension DocDB {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// The user-provided instance identifier. If this parameter is specified, information from only the specific DB instance is returned. This parameter isn't case sensitive. Constraints:   If provided, must match the identifier of an existing DBInstance.  
         public let dBInstanceIdentifier: String?
         /// A filter that specifies one or more DB instances to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list includes only the information about the DB instances that are associated with the DB clusters that are identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance ARNs. The results list includes only the information about the DB instances that are identified by these ARNs.  
@@ -1740,6 +1794,7 @@ extension DocDB {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// The name of the DB subnet group to return details for.
         public let dBSubnetGroupName: String?
         /// This parameter is not currently supported.
@@ -1771,6 +1826,7 @@ extension DocDB {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// The name of the DB cluster parameter group family to return the engine parameter information for.
         public let dBParameterGroupFamily: String
         /// This parameter is not currently supported.
@@ -1799,6 +1855,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EngineDefaults", required: false, type: .structure)
         ]
+
         public let engineDefaults: EngineDefaults?
 
         public init(engineDefaults: EngineDefaults? = nil) {
@@ -1815,6 +1872,7 @@ extension DocDB {
             AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "SourceType", required: false, type: .string)
         ]
+
         /// This parameter is not currently supported.
         public let filters: [Filter]?
         /// The type of source that is generating the events. Valid values: db-instance, db-parameter-group, db-security-group, db-snapshot 
@@ -1843,6 +1901,7 @@ extension DocDB {
             AWSShapeMember(label: "SourceType", required: false, type: .enum), 
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
         ]
+
         /// The number of minutes to retrieve events for. Default: 60
         public let duration: Int32?
         ///  The end of the time interval for which to retrieve events, specified in ISO 8601 format.  Example: 2009-07-08T18:00Z
@@ -1898,6 +1957,7 @@ extension DocDB {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Vpc", required: false, type: .boolean)
         ]
+
         /// The DB instance class filter value. Specify this parameter to show only the available offerings that match the specified DB instance class.
         public let dBInstanceClass: String?
         /// The name of the engine to retrieve DB instance options for.
@@ -1945,6 +2005,7 @@ extension DocDB {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "ResourceIdentifier", required: false, type: .string)
         ]
+
         /// A filter that specifies one or more resources to return pending maintenance actions for. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list includes only pending maintenance actions for the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance ARNs. The results list includes only pending maintenance actions for the DB instances identified by these ARNs.  
         public let filters: [Filter]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -1975,6 +2036,7 @@ extension DocDB {
             AWSShapeMember(label: "HostedZoneId", required: false, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer)
         ]
+
         /// Specifies the DNS address of the DB instance.
         public let address: String?
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
@@ -2001,6 +2063,7 @@ extension DocDB {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter"))
         ]
+
         /// The name of the DB cluster parameter group family to return the engine parameter information for.
         public let dBParameterGroupFamily: String?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -2030,6 +2093,7 @@ extension DocDB {
             AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "SourceType", required: false, type: .enum)
         ]
+
         /// Specifies the date and time of the event.
         public let date: TimeStamp?
         /// Specifies the category for the event.
@@ -2067,6 +2131,7 @@ extension DocDB {
             AWSShapeMember(label: "EventCategories", required: false, type: .list, encoding: .list(member:"EventCategory")), 
             AWSShapeMember(label: "SourceType", required: false, type: .string)
         ]
+
         /// The event categories for the specified source type.
         public let eventCategories: [String]?
         /// The source type that the returned categories belong to.
@@ -2087,6 +2152,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventCategoriesMapList", required: false, type: .list, encoding: .list(member:"EventCategoriesMap"))
         ]
+
         /// A list of event category maps.
         public let eventCategoriesMapList: [EventCategoriesMap]?
 
@@ -2104,6 +2170,7 @@ extension DocDB {
             AWSShapeMember(label: "Events", required: false, type: .list, encoding: .list(member:"Event")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// Detailed information about one or more events. 
         public let events: [Event]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -2125,6 +2192,7 @@ extension DocDB {
             AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "TargetDBInstanceIdentifier", required: false, type: .string)
         ]
+
         /// A DB cluster identifier to force a failover for. This parameter is not case sensitive. Constraints:   Must match the identifier of an existing DBCluster.  
         public let dBClusterIdentifier: String?
         /// The name of the instance to promote to the primary instance. You must specify the instance identifier for an Amazon DocumentDB replica in the DB cluster. For example, mydbcluster-replica1.
@@ -2145,6 +2213,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -2161,6 +2230,7 @@ extension DocDB {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Values", required: true, type: .list, encoding: .list(member:"Value"))
         ]
+
         /// The name of the filter. Filter names are case sensitive.
         public let name: String
         /// One or more filter values. Filter values are case sensitive.
@@ -2182,6 +2252,7 @@ extension DocDB {
             AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "ResourceName", required: true, type: .string)
         ]
+
         /// This parameter is not currently supported.
         public let filters: [Filter]?
         /// The Amazon DocumentDB resource with tags to be listed. This value is an Amazon Resource Name (ARN).
@@ -2214,6 +2285,7 @@ extension DocDB {
             AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
             AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
         ]
+
         /// A value that specifies whether the changes in this request and any pending changes are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is set to false, changes to the DB cluster are applied during the next maintenance window. The ApplyImmediately parameter affects only the NewDBClusterIdentifier and MasterUserPassword values. If you set this parameter value to false, the changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false 
         public let applyImmediately: Bool?
         /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35.  
@@ -2279,6 +2351,7 @@ extension DocDB {
             AWSShapeMember(label: "DBClusterParameterGroupName", required: true, type: .string), 
             AWSShapeMember(label: "Parameters", required: true, type: .list, encoding: .list(member:"Parameter"))
         ]
+
         /// The name of the DB cluster parameter group to modify.
         public let dBClusterParameterGroupName: String
         /// A list of parameters in the DB cluster parameter group to modify.
@@ -2299,6 +2372,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -2317,6 +2391,7 @@ extension DocDB {
             AWSShapeMember(label: "ValuesToAdd", required: false, type: .list, encoding: .list(member:"AttributeValue")), 
             AWSShapeMember(label: "ValuesToRemove", required: false, type: .list, encoding: .list(member:"AttributeValue"))
         ]
+
         /// The name of the DB cluster snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this value to restore.
         public let attributeName: String
         /// The identifier for the DB cluster snapshot to modify the attributes for.
@@ -2345,6 +2420,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterSnapshotAttributesResult", required: false, type: .structure)
         ]
+
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
         public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
@@ -2366,6 +2442,7 @@ extension DocDB {
             AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
             AWSShapeMember(label: "PromotionTier", required: false, type: .integer)
         ]
+
         /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB instance.   If this parameter is set to false, changes to the DB instance are applied during the next maintenance window. Some parameter changes can cause an outage and are applied on the next reboot. Default: false 
         public let applyImmediately: Bool?
         /// Indicates that minor version upgrades are applied automatically to the DB instance during the maintenance window. Changing this parameter doesn't result in an outage except in the following case, and the change is asynchronously applied as soon as possible. An outage results if this parameter is set to true during the maintenance window, and a newer minor version is available, and Amazon DocumentDB has enabled automatic patching for that engine version. 
@@ -2406,6 +2483,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBInstance", required: false, type: .structure)
         ]
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -2423,6 +2501,7 @@ extension DocDB {
             AWSShapeMember(label: "DBSubnetGroupName", required: true, type: .string), 
             AWSShapeMember(label: "SubnetIds", required: true, type: .list, encoding: .list(member:"SubnetIdentifier"))
         ]
+
         /// The description for the DB subnet group.
         public let dBSubnetGroupDescription: String?
         /// The name for the DB subnet group. This value is stored as a lowercase string. You can't modify the default subnet group.  Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
@@ -2447,6 +2526,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBSubnetGroup", required: false, type: .structure)
         ]
+
         public let dBSubnetGroup: DBSubnetGroup?
 
         public init(dBSubnetGroup: DBSubnetGroup? = nil) {
@@ -2467,6 +2547,7 @@ extension DocDB {
             AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
             AWSShapeMember(label: "Vpc", required: false, type: .boolean)
         ]
+
         /// A list of Availability Zones for a DB instance.
         public let availabilityZones: [AvailabilityZone]?
         /// The DB instance class for a DB instance.
@@ -2504,6 +2585,7 @@ extension DocDB {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "OrderableDBInstanceOptions", required: false, type: .list, encoding: .list(member:"OrderableDBInstanceOption"))
         ]
+
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The options that are available for a particular orderable DB instance.
@@ -2533,6 +2615,7 @@ extension DocDB {
             AWSShapeMember(label: "ParameterValue", required: false, type: .string), 
             AWSShapeMember(label: "Source", required: false, type: .string)
         ]
+
         /// Specifies the valid range of values for the parameter.
         public let allowedValues: String?
         /// Indicates when to apply parameter updates.
@@ -2586,6 +2669,7 @@ extension DocDB {
             AWSShapeMember(label: "LogTypesToDisable", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "LogTypesToEnable", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// Log types that are in the process of being enabled. After they are enabled, these log types are exported to Amazon CloudWatch Logs.
         public let logTypesToDisable: [String]?
         /// Log types that are in the process of being deactivated. After they are deactivated, these log types aren't exported to CloudWatch Logs.
@@ -2611,6 +2695,7 @@ extension DocDB {
             AWSShapeMember(label: "ForcedApplyDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "OptInStatus", required: false, type: .string)
         ]
+
         /// The type of pending maintenance action that is available for the resource.
         public let action: String?
         /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date. If this date is specified, any next-maintenance opt-in requests are ignored.
@@ -2648,6 +2733,7 @@ extension DocDB {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "PendingMaintenanceActions", required: false, type: .list, encoding: .list(member:"ResourcePendingMaintenanceActions"))
         ]
+
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maintenance actions to be applied.
@@ -2681,6 +2767,7 @@ extension DocDB {
             AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "StorageType", required: false, type: .string)
         ]
+
         ///  Contains the new AllocatedStorage size for the DB instance that will be applied or is currently being applied. 
         public let allocatedStorage: Int32?
         /// Specifies the pending number of days for which automated backups are retained.
@@ -2750,6 +2837,7 @@ extension DocDB {
             AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "ForceFailover", required: false, type: .boolean)
         ]
+
         /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.  
         public let dBInstanceIdentifier: String
         ///  When true, the reboot is conducted through a Multi-AZ failover.  Constraint: You can't specify true if the instance is not configured for Multi-AZ.
@@ -2770,6 +2858,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBInstance", required: false, type: .structure)
         ]
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -2786,6 +2875,7 @@ extension DocDB {
             AWSShapeMember(label: "ResourceName", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The Amazon DocumentDB resource that the tags are removed from. This value is an Amazon Resource Name (ARN).
         public let resourceName: String
         /// The tag key (name) of the tag to be removed.
@@ -2808,6 +2898,7 @@ extension DocDB {
             AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter")), 
             AWSShapeMember(label: "ResetAllParameters", required: false, type: .boolean)
         ]
+
         /// The name of the DB cluster parameter group to reset.
         public let dBClusterParameterGroupName: String
         /// A list of parameter names in the DB cluster parameter group to reset to the default values. You can't use this parameter if the ResetAllParameters parameter is set to true.
@@ -2833,6 +2924,7 @@ extension DocDB {
             AWSShapeMember(label: "PendingMaintenanceActionDetails", required: false, type: .list, encoding: .list(member:"PendingMaintenanceAction")), 
             AWSShapeMember(label: "ResourceIdentifier", required: false, type: .string)
         ]
+
         /// A list that provides details about the pending maintenance actions for the resource.
         public let pendingMaintenanceActionDetails: [PendingMaintenanceAction]?
         /// The Amazon Resource Name (ARN) of the resource that has pending maintenance actions.
@@ -2864,6 +2956,7 @@ extension DocDB {
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
             AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
         ]
+
         /// Provides the list of Amazon EC2 Availability Zones that instances in the restored DB cluster can be created in.
         public let availabilityZones: [String]?
         /// The name of the DB cluster to create from the DB snapshot or DB cluster snapshot. This parameter isn't case sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-snapshot-id 
@@ -2924,6 +3017,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -2949,6 +3043,7 @@ extension DocDB {
             AWSShapeMember(label: "UseLatestRestorableTime", required: false, type: .boolean), 
             AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
         ]
+
         /// The name of the new DB cluster to be created. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let dBClusterIdentifier: String
         /// The DB subnet group name to use for the new DB cluster. Constraints: If provided, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup 
@@ -3005,6 +3100,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -3030,6 +3126,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string)
         ]
+
         /// The identifier of the cluster to restart. Example: docdb-2019-05-28-15-24-52 
         public let dBClusterIdentifier: String
 
@@ -3046,6 +3143,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -3061,6 +3159,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string)
         ]
+
         /// The identifier of the cluster to stop. Example: docdb-2019-05-28-15-24-52 
         public let dBClusterIdentifier: String
 
@@ -3077,6 +3176,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -3094,6 +3194,7 @@ extension DocDB {
             AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "SubnetStatus", required: false, type: .string)
         ]
+
         /// Specifies the Availability Zone for the subnet.
         public let subnetAvailabilityZone: AvailabilityZone?
         /// Specifies the identifier of the subnet.
@@ -3119,6 +3220,7 @@ extension DocDB {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can contain only the set of Unicode letters, digits, white space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let key: String?
         /// The optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can contain only the set of Unicode letters, digits, white space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
@@ -3139,6 +3241,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagList", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// A list of one or more tags.
         public let tagList: [Tag]?
 
@@ -3159,6 +3262,7 @@ extension DocDB {
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
             AWSShapeMember(label: "IsMajorVersionUpgrade", required: false, type: .boolean)
         ]
+
         /// A value that indicates whether the target version is applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
         public let autoUpgrade: Bool?
         /// The version of the database engine that a DB instance can be upgraded to.
@@ -3192,6 +3296,7 @@ extension DocDB {
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "VpcSecurityGroupId", required: false, type: .string)
         ]
+
         /// The status of the VPC security group.
         public let status: String?
         /// The name of the VPC security group.

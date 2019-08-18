@@ -12,12 +12,17 @@ extension ApiGatewayManagementApi {
             AWSShapeMember(label: "ConnectionId", location: .uri(locationName: "connectionId"), required: true, type: .string), 
             AWSShapeMember(label: "Data", required: true, type: .blob)
         ]
+
         public let connectionId: String
         public let data: Data
 
         public init(connectionId: String, data: Data) {
             self.connectionId = connectionId
             self.data = data
+        }
+
+        public func validate(name: String) throws {
+            try validate(data, name:"data", parent: name, max: 131072)
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -10,6 +10,7 @@ extension LicenseManager {
             AWSShapeMember(label: "ConsumedLicenses", required: false, type: .long), 
             AWSShapeMember(label: "ResourceType", required: false, type: .enum)
         ]
+
         /// Number of licenses consumed by a resource.
         public let consumedLicenses: Int64?
         /// Resource type of the resource consuming a license (instance, host, or AMI).
@@ -36,6 +37,7 @@ extension LicenseManager {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// Human-friendly description of the license configuration.
         public let description: String?
         /// Number of licenses managed by the license configuration.
@@ -76,6 +78,7 @@ extension LicenseManager {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LicenseConfigurationArn", required: false, type: .string)
         ]
+
         /// ARN of the license configuration object after its creation.
         public let licenseConfigurationArn: String?
 
@@ -92,6 +95,7 @@ extension LicenseManager {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LicenseConfigurationArn", required: true, type: .string)
         ]
+
         /// Unique ID of the configuration object to delete.
         public let licenseConfigurationArn: String
 
@@ -106,6 +110,7 @@ extension LicenseManager {
 
     public struct DeleteLicenseConfigurationResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -116,6 +121,7 @@ extension LicenseManager {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Values", required: false, type: .list)
         ]
+
         /// Name of the filter. Filter names are case-sensitive.
         public let name: String?
         /// One or more filter values. Filter values are case-sensitive.
@@ -136,6 +142,7 @@ extension LicenseManager {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LicenseConfigurationArn", required: true, type: .string)
         ]
+
         /// ARN of the license configuration being requested.
         public let licenseConfigurationArn: String
 
@@ -165,6 +172,7 @@ extension LicenseManager {
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// Number of licenses assigned to resources.
         public let consumedLicenses: Int64?
         /// List of summaries for consumed licenses used by various resources.
@@ -231,6 +239,7 @@ extension LicenseManager {
 
     public struct GetServiceSettingsRequest: AWSShape {
 
+
         public init() {
         }
 
@@ -243,6 +252,7 @@ extension LicenseManager {
             AWSShapeMember(label: "S3BucketArn", required: false, type: .string), 
             AWSShapeMember(label: "SnsTopicArn", required: false, type: .string)
         ]
+
         /// Indicates whether cross-account discovery has been enabled.
         public let enableCrossAccountsDiscovery: Bool?
         /// Indicates whether AWS Organizations has been integrated with License Manager for cross-account discovery.
@@ -273,6 +283,7 @@ extension LicenseManager {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The condition of the filter.
         public let condition: InventoryFilterCondition
         /// The name of the filter.
@@ -317,6 +328,7 @@ extension LicenseManager {
             AWSShapeMember(label: "OwnerAccountId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
+
         /// Number of licenses consumed. 
         public let consumedLicenses: Int64?
         /// List of summaries for licenses consumed by various resources.
@@ -384,6 +396,7 @@ extension LicenseManager {
             AWSShapeMember(label: "ResourceOwnerId", required: false, type: .string), 
             AWSShapeMember(label: "ResourceType", required: false, type: .enum)
         ]
+
         /// Time when the license configuration was associated with the resource.
         public let associationTime: TimeStamp?
         /// ARN of the resource associated with the license configuration.
@@ -423,6 +436,7 @@ extension LicenseManager {
             AWSShapeMember(label: "ResourceStatus", required: false, type: .string), 
             AWSShapeMember(label: "ResourceType", required: false, type: .enum)
         ]
+
         /// Time when the license configuration was initially associated with a resource.
         public let associationTime: TimeStamp?
         /// Number of licenses consumed out of the total provisioned in the license configuration.
@@ -467,6 +481,7 @@ extension LicenseManager {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LicenseConfigurationArn", required: true, type: .string)
         ]
+
         /// ARN of the LicenseConfiguration object.
         public let licenseConfigurationArn: String
 
@@ -485,6 +500,7 @@ extension LicenseManager {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// ARN of a LicenseConfiguration object.
         public let licenseConfigurationArn: String
         /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -510,6 +526,7 @@ extension LicenseManager {
             AWSShapeMember(label: "LicenseConfigurationAssociations", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Lists association objects for the license configuration, each containing the association time, number of consumed licenses, resource ARN, resource ID, account ID that owns the resource, resource size, and resource type.
         public let licenseConfigurationAssociations: [LicenseConfigurationAssociation]?
         /// Token for the next set of results.
@@ -533,6 +550,7 @@ extension LicenseManager {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// One or more filters.
         public let filters: [Filter]?
         /// An array of ARNs for the calling account’s license configurations.
@@ -562,6 +580,7 @@ extension LicenseManager {
             AWSShapeMember(label: "LicenseConfigurations", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Array of license configuration objects.
         public let licenseConfigurations: [LicenseConfiguration]?
         /// Token for the next set of results.
@@ -584,6 +603,7 @@ extension LicenseManager {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
+
         /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int32?
         /// Token for the next set of results.
@@ -609,6 +629,7 @@ extension LicenseManager {
             AWSShapeMember(label: "LicenseSpecifications", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// License configurations associated with a resource.
         public let licenseSpecifications: [LicenseSpecification]?
         /// Token for the next set of results.
@@ -631,6 +652,7 @@ extension LicenseManager {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// One or more filters.
         public let filters: [InventoryFilter]?
         /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -656,6 +678,7 @@ extension LicenseManager {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ResourceInventoryList", required: false, type: .list)
         ]
+
         /// Token for the next set of results.
         public let nextToken: String?
         /// The detailed list of resources.
@@ -676,6 +699,7 @@ extension LicenseManager {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
+
         /// ARN for the resource.
         public let resourceArn: String
 
@@ -692,6 +716,7 @@ extension LicenseManager {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// List of tags attached to the resource.
         public let tags: [Tag]?
 
@@ -711,6 +736,7 @@ extension LicenseManager {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// List of filters to apply.
         public let filters: [Filter]?
         /// ARN of the targeted LicenseConfiguration object.
@@ -740,6 +766,7 @@ extension LicenseManager {
             AWSShapeMember(label: "LicenseConfigurationUsageList", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// An array of LicenseConfigurationUsage objects.
         public let licenseConfigurationUsageList: [LicenseConfigurationUsage]?
         /// Token for the next set of results.
@@ -761,6 +788,7 @@ extension LicenseManager {
             AWSShapeMember(label: "AssociationCount", required: false, type: .long), 
             AWSShapeMember(label: "ResourceType", required: false, type: .enum)
         ]
+
         /// Number of resources associated with licenses.
         public let associationCount: Int64?
         /// Type of resource associated with a license (instance, host, or AMI).
@@ -781,6 +809,7 @@ extension LicenseManager {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EnableIntegration", required: true, type: .boolean)
         ]
+
         /// Flag to activate AWS Organization integration.
         public let enableIntegration: Bool
 
@@ -802,6 +831,7 @@ extension LicenseManager {
             AWSShapeMember(label: "ResourceOwningAccountId", required: false, type: .string), 
             AWSShapeMember(label: "ResourceType", required: false, type: .enum)
         ]
+
         /// The platform of the resource.
         public let platform: String?
         /// Platform version of the resource in the inventory.
@@ -846,6 +876,7 @@ extension LicenseManager {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// Key for the resource tag.
         public let key: String?
         /// Value for the resource tag.
@@ -867,6 +898,7 @@ extension LicenseManager {
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
+
         /// Resource of the ARN to be tagged.
         public let resourceArn: String
         /// Names of the tags to attach to the resource.
@@ -885,6 +917,7 @@ extension LicenseManager {
 
     public struct TagResourceResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -895,6 +928,7 @@ extension LicenseManager {
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
+
         /// ARN of the resource.
         public let resourceArn: String
         /// List keys identifying tags to remove.
@@ -913,6 +947,7 @@ extension LicenseManager {
 
     public struct UntagResourceResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -928,6 +963,7 @@ extension LicenseManager {
             AWSShapeMember(label: "LicenseRules", required: false, type: .list), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// New human-friendly description of the license configuration.
         public let description: String?
         /// ARN for a license configuration.
@@ -966,6 +1002,7 @@ extension LicenseManager {
 
     public struct UpdateLicenseConfigurationResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -977,6 +1014,7 @@ extension LicenseManager {
             AWSShapeMember(label: "RemoveLicenseSpecifications", required: false, type: .list), 
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
+
         /// License configuration ARNs to be added to a resource.
         public let addLicenseSpecifications: [LicenseSpecification]?
         /// License configuration ARNs to be removed from a resource.
@@ -999,6 +1037,7 @@ extension LicenseManager {
 
     public struct UpdateLicenseSpecificationsForResourceResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -1011,6 +1050,7 @@ extension LicenseManager {
             AWSShapeMember(label: "S3BucketArn", required: false, type: .string), 
             AWSShapeMember(label: "SnsTopicArn", required: false, type: .string)
         ]
+
         /// Activates cross-account discovery.
         public let enableCrossAccountsDiscovery: Bool?
         /// Integrates AWS Organizations with License Manager for cross-account discovery.
@@ -1036,6 +1076,7 @@ extension LicenseManager {
     }
 
     public struct UpdateServiceSettingsResponse: AWSShape {
+
 
         public init() {
         }

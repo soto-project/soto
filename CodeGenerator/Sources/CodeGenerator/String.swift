@@ -118,5 +118,27 @@ extension String {
         }
         return true
     }
+
+    private static let backslashEncodeMap : [String.Element: String] = [
+        "\"": "\\\"",
+        "\\": "\\\\",
+        "\n": "\\n",
+        "\t": "\\t",
+        "\r": "\\r"
+    ]
+    
+    /// back slash encode special characters
+    public func addingBackslashEncoding() -> String {
+        var newString = ""
+        for c in self {
+            if let replacement = String.backslashEncodeMap[c] {
+                newString.append(contentsOf:replacement)
+            } else {
+                newString.append(c)
+            }
+        }
+        return newString
+    }
+    
 }
 

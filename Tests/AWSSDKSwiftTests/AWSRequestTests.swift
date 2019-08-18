@@ -8,6 +8,7 @@
 
 import Foundation
 import XCTest
+@testable import ACM
 @testable import CloudFront
 @testable import EC2
 @testable import IAM
@@ -47,6 +48,26 @@ class AWSRequestTests: XCTestCase {
         }
     }
 
+    /// test validation
+    func testAWSValidationFail<Input: AWSShape>(client: AWSClient, operation: String, path: String="/", httpMethod: String="POST", input: Input) {
+        do {
+            _ = try client.debugCreateAWSRequest(operation: operation, path: path, httpMethod: httpMethod, input: input)
+            XCTFail()
+        } catch AWSClientError.validationError(let message) {
+            print(message ?? "")
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+    
+    func testAWSValidationSuccess<Input: AWSShape>(client: AWSClient, operation: String, path: String="/", httpMethod: String="POST", input: Input) {
+        do {
+            _ = try client.debugCreateAWSRequest(operation: operation, path: path, httpMethod: httpMethod, input: input)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+    
     func testS3PutBucketLifecycleConfigurationRequest() {
         let expectedResult = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><LifecycleConfiguration xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\"><Rule><AbortIncompleteMultipartUpload><DaysAfterInitiation>7</DaysAfterInitiation></AbortIncompleteMultipartUpload><Status>Enabled</Status></Rule><Rule><Expiration><Days>30</Days><ExpiredObjectDeleteMarker>true</ExpiredObjectDeleteMarker></Expiration><Filter><Prefix>temp</Prefix></Filter><Status>Enabled</Status></Rule><Rule><Status>Enabled</Status><Transition><Days>20</Days><StorageClass>GLACIER</StorageClass></Transition><Transition><Days>180</Days><StorageClass>DEEP_ARCHIVE</StorageClass></Transition></Rule><Rule><NoncurrentVersionExpiration><NoncurrentDays>90</NoncurrentDays></NoncurrentVersionExpiration><Status>Disabled</Status></Rule></LifecycleConfiguration>"
 
@@ -113,6 +134,55 @@ class AWSRequestTests: XCTestCase {
         testAWSShapeRequest(client: SES().client, operation: "SendEmail", input: request, expected: expectedResult)
     }
 
+    // VALIDATION TESTS
+    
+    func testS3GetObjectAclValidate() {
+        // string length
+        let request = S3.GetObjectAclRequest(bucket:"testbucket", key:"")
+        testAWSValidationFail(client: S3().client, operation: "GetObjectAcl", input: request)
+    }
+    
+    func testIAMAttachGroupPolicyValidate() {
+        // regular expression fail
+        let request = IAM.AttachGroupPolicyRequest(groupName: "MY:GROUP", policyArn: "arn://3948574985/unvalidated")
+        testAWSValidationFail(client: IAM().client, operation: "AttachGroupPolicy", input: request)
+        // string length
+        let request2 = IAM.AttachGroupPolicyRequest(groupName: "MYGROUP", policyArn: "arn:tooshort")
+        testAWSValidationFail(client: IAM().client, operation: "AttachGroupPolicy", input: request2)
+        // regular expression success
+        let request3 = IAM.AttachGroupPolicyRequest(groupName: "MY-GR_OU+P", policyArn: "arn://3948574985/unvalidated")
+        testAWSValidationSuccess(client: IAM().client, operation: "AttachGroupPolicy", input: request3)
+    }
+
+    func testCloudFrontListTagsForResourceValidate() {
+        // arn regular expressions, expect arn:aws(-cn)?:cloudfront::[0-9]+:.*
+        let request = CloudFront.ListTagsForResourceRequest(resource: "test")
+        testAWSValidationFail(client: CloudFront().client, operation: "ListTagsForResource", input: request)
+        let request2 = CloudFront.ListTagsForResourceRequest(resource: "arn:aws::58979345:test")
+        testAWSValidationFail(client: CloudFront().client, operation: "ListTagsForResource", input: request2)
+        let request3 = CloudFront.ListTagsForResourceRequest(resource: "arn:aws:cloudfront::58979345")
+        testAWSValidationFail(client: CloudFront().client, operation: "ListTagsForResource", input: request3)
+        let successRequest = CloudFront.ListTagsForResourceRequest(resource: "arn:aws:cloudfront::58979345:test")
+        testAWSValidationSuccess(client: CloudFront().client, operation: "ListTagsForResource", input: successRequest)
+    }
+    
+    func testACMAddTagsToCertificateValidate() {
+        // test validating array members
+        let request = ACM.AddTagsToCertificateRequest(certificateArn: "arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012", tags: [ACM.Tag(key:"hello", value:"1"), ACM.Tag(key:"hello?", value:"1")])
+        testAWSValidationFail(client: ACM().client, operation: "AddTagsToCertificate", input: request)
+    }
+    
+    func testCloudFrontCreateDistributionValidate() {
+        let cookiePreference = CloudFront.CookiePreference(forward:.all)
+        let forwardedValues = CloudFront.ForwardedValues(cookies: cookiePreference, queryString: true)
+        let trustedSigners = CloudFront.TrustedSigners(enabled: true, quantity: 2)
+        let defaultCacheBehavior = CloudFront.DefaultCacheBehavior(forwardedValues: forwardedValues, minTTL:1024, targetOriginId: "AWSRequestTests", trustedSigners: trustedSigners, viewerProtocolPolicy: .httpsOnly)
+        let origins = CloudFront.Origins(items:[], quantity:0)
+        let distribution = CloudFront.DistributionConfig(callerReference:"test", comment:"", defaultCacheBehavior: defaultCacheBehavior, enabled:true, origins: origins)
+        let request = CloudFront.CreateDistributionRequest(distributionConfig: distribution)
+        testAWSValidationFail(client: CloudFront().client, operation: "CreateDistribution", input: request)
+    }
+    
     static var allTests : [(String, (AWSRequestTests) -> () throws -> Void)] {
         return [
             ("testS3PutBucketLifecycleConfigurationRequest", testS3PutBucketLifecycleConfigurationRequest),
@@ -122,6 +192,11 @@ class AWSRequestTests: XCTestCase {
             ("testEC2CreateInstanceExportTask", testEC2CreateInstanceExportTask),
             ("testIAMSimulateCustomPolicy", testIAMSimulateCustomPolicy),
             ("testSESSendEmail", testSESSendEmail),
+            ("testS3GetObjectAclValidate", testS3GetObjectAclValidate),
+            ("testIAMAttachGroupPolicyValidate", testIAMAttachGroupPolicyValidate),
+            ("testCloudFrontListTagsForResourceValidate", testCloudFrontListTagsForResourceValidate),
+            ("testACMAddTagsToCertificateValidate", testACMAddTagsToCertificateValidate),
+            ("testCloudFrontCreateDistributionValidate", testCloudFrontCreateDistributionValidate)
         ]
     }
 }

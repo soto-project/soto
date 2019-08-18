@@ -10,6 +10,7 @@ extension Route53 {
             AWSShapeMember(label: "Type", required: true, type: .enum), 
             AWSShapeMember(label: "Value", required: true, type: .long)
         ]
+
         /// The limit that you requested. Valid values include the following:    MAX_HEALTH_CHECKS_BY_OWNER: The maximum number of health checks that you can create using the current account.    MAX_HOSTED_ZONES_BY_OWNER: The maximum number of hosted zones that you can create using the current account.    MAX_REUSABLE_DELEGATION_SETS_BY_OWNER: The maximum number of reusable delegation sets that you can create using the current account.    MAX_TRAFFIC_POLICIES_BY_OWNER: The maximum number of traffic policies that you can create using the current account.    MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER: The maximum number of traffic policy instances that you can create using the current account. (Traffic policy instances are referred to as traffic flow policy records in the Amazon Route 53 console.)  
         public let `type`: AccountLimitType
         /// The current value for the limit that is specified by Type.
@@ -40,6 +41,7 @@ extension Route53 {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Region", required: true, type: .enum)
         ]
+
         /// The name of the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether this health check is healthy.  Route 53 supports CloudWatch alarms with the following features:   Standard-resolution metrics. High-resolution metrics aren't supported. For more information, see High-Resolution Metrics in the Amazon CloudWatch User Guide.   Statistics: Average, Minimum, Maximum, Sum, and SampleCount. Extended statistics aren't supported.   
         public let name: String
         /// For the CloudWatch alarm that you want Route 53 health checkers to use to determine whether this health check is healthy, the region that the alarm was created in. For the current list of CloudWatch regions, see Amazon CloudWatch in the AWS Regions and Endpoints chapter of the Amazon Web Services General Reference.
@@ -48,6 +50,11 @@ extension Route53 {
         public init(name: String, region: CloudWatchRegion) {
             self.name = name
             self.region = region
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 256)
+            try validate(name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -62,6 +69,7 @@ extension Route53 {
             AWSShapeMember(label: "EvaluateTargetHealth", required: true, type: .boolean), 
             AWSShapeMember(label: "HostedZoneId", required: true, type: .string)
         ]
+
         ///  Alias resource record sets only: The value that you specify depends on where you want to route queries:  Amazon API Gateway custom regional APIs and edge-optimized APIs  Specify the applicable domain name for your API. You can get the applicable value using the AWS CLI command get-domain-names:   For regional APIs, specify the value of regionalDomainName.   For edge-optimized APIs, specify the value of distributionDomainName. This is the name of the associated CloudFront distribution, such as da1b2c3d4e5.cloudfront.net.    The name of the record that you're creating must match a custom domain name for your API, such as api.example.com.   Amazon Virtual Private Cloud interface VPC endpoint  Enter the API endpoint for the interface endpoint, such as vpce-123456789abcdef01-example-us-east-1a.elasticloadbalancing.us-east-1.vpce.amazonaws.com. For edge-optimized APIs, this is the domain name for the corresponding CloudFront distribution. You can get the value of DnsName using the AWS CLI command describe-vpc-endpoints.  CloudFront distribution  Specify the domain name that CloudFront assigned when you created your distribution. Your CloudFront distribution must include an alternate domain name that matches the name of the resource record set. For example, if the name of the resource record set is acme.example.com, your CloudFront distribution must include acme.example.com as one of the alternate domain names. For more information, see Using Alternate Domain Names (CNAMEs) in the Amazon CloudFront Developer Guide. You can't create a resource record set in a private hosted zone to route traffic to a CloudFront distribution.  For failover alias records, you can't specify a CloudFront distribution for both the primary and secondary records. A distribution must include an alternate domain name that matches the name of the record. However, the primary and secondary records have the same name, and you can't include the same alternate domain name in more than one distribution.    Elastic Beanstalk environment  If the domain name for your Elastic Beanstalk environment includes the region that you deployed the environment in, you can create an alias record that routes traffic to the environment. For example, the domain name my-environment.us-west-2.elasticbeanstalk.com is a regionalized domain name.   For environments that were created before early 2016, the domain name doesn't include the region. To route traffic to these environments, you must create a CNAME record instead of an alias record. Note that you can't create a CNAME record for the root domain name. For example, if your domain name is example.com, you can create a record that routes traffic for acme.example.com to your Elastic Beanstalk environment, but you can't create a record that routes traffic for example.com to your Elastic Beanstalk environment.  For Elastic Beanstalk environments that have regionalized subdomains, specify the CNAME attribute for the environment. You can use the following methods to get the value of the CNAME attribute:    AWS Management Console: For information about how to get the value by using the console, see Using Custom Domains with AWS Elastic Beanstalk in the AWS Elastic Beanstalk Developer Guide.    Elastic Beanstalk API: Use the DescribeEnvironments action to get the value of the CNAME attribute. For more information, see DescribeEnvironments in the AWS Elastic Beanstalk API Reference.    AWS CLI: Use the describe-environments command to get the value of the CNAME attribute. For more information, see describe-environments in the AWS Command Line Interface Reference.    ELB load balancer  Specify the DNS name that is associated with the load balancer. Get the DNS name by using the AWS Management Console, the ELB API, or the AWS CLI.     AWS Management Console: Go to the EC2 page, choose Load Balancers in the navigation pane, choose the load balancer, choose the Description tab, and get the value of the DNS name field.  If you're routing traffic to a Classic Load Balancer, get the value that begins with dualstack. If you're routing traffic to another type of load balancer, get the value that applies to the record type, A or AAAA.    Elastic Load Balancing API: Use DescribeLoadBalancers to get the value of DNSName. For more information, see the applicable guide:   Classic Load Balancers: DescribeLoadBalancers    Application and Network Load Balancers: DescribeLoadBalancers       AWS CLI: Use describe-load-balancers to get the value of DNSName. For more information, see the applicable guide:   Classic Load Balancers: describe-load-balancers    Application and Network Load Balancers: describe-load-balancers       Amazon S3 bucket that is configured as a static website  Specify the domain name of the Amazon S3 website endpoint that you created the bucket in, for example, s3-website.us-east-2.amazonaws.com. For more information about valid values, see the table Amazon Simple Storage Service (S3) Website Endpoints in the Amazon Web Services General Reference. For more information about using S3 buckets for websites, see Getting Started with Amazon Route 53 in the Amazon Route 53 Developer Guide.   Another Route 53 resource record set  Specify the value of the Name element for a resource record set in the current hosted zone.  If you're creating an alias record that has the same name as the hosted zone (known as the zone apex), you can't specify the domain name for a record for which the value of Type is CNAME. This is because the alias record must have the same type as the record that you're routing traffic to, and creating a CNAME record for the zone apex isn't supported even for an alias record.   
         public let dNSName: String
         ///  Applies only to alias, failover alias, geolocation alias, latency alias, and weighted alias resource record sets: When EvaluateTargetHealth is true, an alias resource record set inherits the health of the referenced AWS resource, such as an ELB load balancer or another resource record set in the hosted zone. Note the following:  CloudFront distributions  You can't set EvaluateTargetHealth to true when the alias target is a CloudFront distribution.  Elastic Beanstalk environments that have regionalized subdomains  If you specify an Elastic Beanstalk environment in DNSName and the environment contains an ELB load balancer, Elastic Load Balancing routes queries only to the healthy Amazon EC2 instances that are registered with the load balancer. (An environment automatically contains an ELB load balancer if it includes more than one Amazon EC2 instance.) If you set EvaluateTargetHealth to true and either no Amazon EC2 instances are healthy or the load balancer itself is unhealthy, Route 53 routes queries to other available resources that are healthy, if any.  If the environment contains a single Amazon EC2 instance, there are no special requirements.  ELB load balancers  Health checking behavior depends on the type of load balancer:    Classic Load Balancers: If you specify an ELB Classic Load Balancer in DNSName, Elastic Load Balancing routes queries only to the healthy Amazon EC2 instances that are registered with the load balancer. If you set EvaluateTargetHealth to true and either no EC2 instances are healthy or the load balancer itself is unhealthy, Route 53 routes queries to other resources.    Application and Network Load Balancers: If you specify an ELB Application or Network Load Balancer and you set EvaluateTargetHealth to true, Route 53 routes queries to the load balancer based on the health of the target groups that are associated with the load balancer:   For an Application or Network Load Balancer to be considered healthy, every target group that contains targets must contain at least one healthy target. If any target group contains only unhealthy targets, the load balancer is considered unhealthy, and Route 53 routes queries to other resources.   A target group that has no registered targets is considered unhealthy.      When you create a load balancer, you configure settings for Elastic Load Balancing health checks; they're not Route 53 health checks, but they perform a similar function. Do not create Route 53 health checks for the EC2 instances that you register with an ELB load balancer.    S3 buckets  There are no special requirements for setting EvaluateTargetHealth to true when the alias target is an S3 bucket.  Other records in the same hosted zone  If the AWS resource that you specify in DNSName is a record or a group of records (for example, a group of weighted records) but is not another alias record, we recommend that you associate a health check with all of the records in the alias target. For more information, see What Happens When You Omit Health Checks? in the Amazon Route 53 Developer Guide.   For more information and examples, see Amazon Route 53 Health Checks and DNS Failover in the Amazon Route 53 Developer Guide.
@@ -73,6 +81,11 @@ extension Route53 {
             self.dNSName = dNSName
             self.evaluateTargetHealth = evaluateTargetHealth
             self.hostedZoneId = hostedZoneId
+        }
+
+        public func validate(name: String) throws {
+            try validate(dNSName, name:"dNSName", parent: name, max: 1024)
+            try validate(hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -88,6 +101,7 @@ extension Route53 {
             AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
             AWSShapeMember(label: "VPC", required: true, type: .structure)
         ]
+
         ///  Optional: A comment about the association request.
         public let comment: String?
         /// The ID of the private hosted zone that you want to associate an Amazon VPC with. Note that you can't associate a VPC with a hosted zone that doesn't have an existing VPC association.
@@ -101,6 +115,11 @@ extension Route53 {
             self.vpc = vpc
         }
 
+        public func validate(name: String) throws {
+            try validate(hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
+            try vpc.validate(name: "\(name).vpc")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
             case hostedZoneId = "Id"
@@ -112,6 +131,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeInfo", required: true, type: .structure)
         ]
+
         /// A complex type that describes the changes made to your hosted zone.
         public let changeInfo: ChangeInfo
 
@@ -129,6 +149,7 @@ extension Route53 {
             AWSShapeMember(label: "Action", required: true, type: .enum), 
             AWSShapeMember(label: "ResourceRecordSet", required: true, type: .structure)
         ]
+
         /// The action to perform:    CREATE: Creates a resource record set that has the specified values.    DELETE: Deletes a existing resource record set.  To delete the resource record set that is associated with a traffic policy instance, use DeleteTrafficPolicyInstance. Amazon Route 53 will delete the resource record set automatically. If you delete the resource record set by using ChangeResourceRecordSets, Route 53 doesn't automatically delete the traffic policy instance, and you'll continue to be charged for it even though it's no longer in use.      UPSERT: If a resource record set doesn't already exist, Route 53 creates it. If a resource record set does exist, Route 53 updates it with the values in the request.  
         public let action: ChangeAction
         /// Information about the resource record set to create, delete, or update.
@@ -137,6 +158,10 @@ extension Route53 {
         public init(action: ChangeAction, resourceRecordSet: ResourceRecordSet) {
             self.action = action
             self.resourceRecordSet = resourceRecordSet
+        }
+
+        public func validate(name: String) throws {
+            try resourceRecordSet.validate(name: "\(name).resourceRecordSet")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -157,6 +182,7 @@ extension Route53 {
             AWSShapeMember(label: "Changes", required: true, type: .list, encoding: .list(member:"Change")), 
             AWSShapeMember(label: "Comment", required: false, type: .string)
         ]
+
         /// Information about the changes to make to the record sets.
         public let changes: [Change]
         ///  Optional: Any comments you want to include about a change batch request.
@@ -165,6 +191,14 @@ extension Route53 {
         public init(changes: [Change], comment: String? = nil) {
             self.changes = changes
             self.comment = comment
+        }
+
+        public func validate(name: String) throws {
+            try changes.forEach {
+                try $0.validate(name: "\(name).changes[]")
+            }
+            try validate(changes, name:"changes", parent: name, min: 1)
+            try validate(comment, name:"comment", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -180,6 +214,7 @@ extension Route53 {
             AWSShapeMember(label: "Status", required: true, type: .enum), 
             AWSShapeMember(label: "SubmittedAt", required: true, type: .timestamp)
         ]
+
         /// A complex type that describes change information about changes made to your hosted zone. This element contains an ID that you use when performing a GetChange action to get detailed information about the change.
         public let comment: String?
         /// The ID of the request.
@@ -209,6 +244,7 @@ extension Route53 {
             AWSShapeMember(label: "ChangeBatch", required: true, type: .structure), 
             AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
+
         /// A complex type that contains an optional comment and the Changes element.
         public let changeBatch: ChangeBatch
         /// The ID of the hosted zone that contains the resource record sets that you want to change.
@@ -217,6 +253,11 @@ extension Route53 {
         public init(changeBatch: ChangeBatch, hostedZoneId: String) {
             self.changeBatch = changeBatch
             self.hostedZoneId = hostedZoneId
+        }
+
+        public func validate(name: String) throws {
+            try changeBatch.validate(name: "\(name).changeBatch")
+            try validate(hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -229,6 +270,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeInfo", required: true, type: .structure)
         ]
+
         /// A complex type that contains information about changes made to your hosted zone. This element contains an ID that you use when performing a GetChange action to get detailed information about the change.
         public let changeInfo: ChangeInfo
 
@@ -254,6 +296,7 @@ extension Route53 {
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
             AWSShapeMember(label: "ResourceType", location: .uri(locationName: "ResourceType"), required: true, type: .enum)
         ]
+
         /// A complex type that contains a list of the tags that you want to add to the specified health check or hosted zone and/or the tags that you want to edit Value for. You can add a maximum of 10 tags to a health check or a hosted zone.
         public let addTags: [Tag]?
         /// A complex type that contains a list of the tags that you want to delete from the specified health check or hosted zone. You can specify up to 10 keys.
@@ -270,6 +313,20 @@ extension Route53 {
             self.resourceType = resourceType
         }
 
+        public func validate(name: String) throws {
+            try addTags?.forEach {
+                try $0.validate(name: "\(name).addTags[]")
+            }
+            try validate(addTags, name:"addTags", parent: name, max: 10)
+            try validate(addTags, name:"addTags", parent: name, min: 1)
+            try removeTagKeys?.forEach {
+                try validate($0, name: "removeTagKeys[]", parent: name, max: 128)
+            }
+            try validate(removeTagKeys, name:"removeTagKeys", parent: name, max: 10)
+            try validate(removeTagKeys, name:"removeTagKeys", parent: name, min: 1)
+            try validate(resourceId, name:"resourceId", parent: name, max: 64)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case addTags = "AddTags"
             case removeTagKeys = "RemoveTagKeys"
@@ -279,6 +336,7 @@ extension Route53 {
     }
 
     public struct ChangeTagsForResourceResponse: AWSShape {
+
 
         public init() {
         }
@@ -296,6 +354,7 @@ extension Route53 {
             AWSShapeMember(label: "Statistic", required: true, type: .enum), 
             AWSShapeMember(label: "Threshold", required: true, type: .double)
         ]
+
         /// For the metric that the CloudWatch alarm is associated with, the arithmetic operation that is used for the comparison.
         public let comparisonOperator: ComparisonOperator
         /// For the metric that the CloudWatch alarm is associated with, a complex type that contains information about the dimensions for the metric. For information, see Amazon CloudWatch Namespaces, Dimensions, and Metrics Reference in the Amazon CloudWatch User Guide.
@@ -373,6 +432,7 @@ extension Route53 {
             AWSShapeMember(label: "CallerReference", required: true, type: .string), 
             AWSShapeMember(label: "HealthCheckConfig", required: true, type: .structure)
         ]
+
         /// A unique string that identifies the request and that allows you to retry a failed CreateHealthCheck request without the risk of creating two identical health checks:   If you send a CreateHealthCheck request with the same CallerReference and settings as a previous request, and if the health check doesn't exist, Amazon Route 53 creates the health check. If the health check does exist, Route 53 returns the settings for the existing health check.   If you send a CreateHealthCheck request with the same CallerReference as a deleted health check, regardless of the settings, Route 53 returns a HealthCheckAlreadyExists error.   If you send a CreateHealthCheck request with the same CallerReference as an existing health check but with different settings, Route 53 returns a HealthCheckAlreadyExists error.   If you send a CreateHealthCheck request with a unique CallerReference but settings identical to an existing health check, Route 53 creates the health check.  
         public let callerReference: String
         /// A complex type that contains settings for a new health check.
@@ -381,6 +441,12 @@ extension Route53 {
         public init(callerReference: String, healthCheckConfig: HealthCheckConfig) {
             self.callerReference = callerReference
             self.healthCheckConfig = healthCheckConfig
+        }
+
+        public func validate(name: String) throws {
+            try validate(callerReference, name:"callerReference", parent: name, max: 64)
+            try validate(callerReference, name:"callerReference", parent: name, min: 1)
+            try healthCheckConfig.validate(name: "\(name).healthCheckConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -394,6 +460,7 @@ extension Route53 {
             AWSShapeMember(label: "HealthCheck", required: true, type: .structure), 
             AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: true, type: .string)
         ]
+
         /// A complex type that contains identifying information about the health check.
         public let healthCheck: HealthCheck
         /// The unique URL representing the new health check.
@@ -418,6 +485,7 @@ extension Route53 {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "VPC", required: false, type: .structure)
         ]
+
         /// A unique string that identifies the request and that allows failed CreateHostedZone requests to be retried without the risk of executing the operation twice. You must use a unique CallerReference string every time you submit a CreateHostedZone request. CallerReference can be any unique string, for example, a date/time stamp.
         public let callerReference: String
         /// If you want to associate a reusable delegation set with this hosted zone, the ID that Amazon Route 53 assigned to the reusable delegation set when you created it. For more information about reusable delegation sets, see CreateReusableDelegationSet.
@@ -437,6 +505,15 @@ extension Route53 {
             self.vpc = vpc
         }
 
+        public func validate(name: String) throws {
+            try validate(callerReference, name:"callerReference", parent: name, max: 128)
+            try validate(callerReference, name:"callerReference", parent: name, min: 1)
+            try validate(delegationSetId, name:"delegationSetId", parent: name, max: 32)
+            try hostedZoneConfig?.validate(name: "\(name).hostedZoneConfig")
+            try validate(name, name:"name", parent: name, max: 1024)
+            try vpc?.validate(name: "\(name).vpc")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case callerReference = "CallerReference"
             case delegationSetId = "DelegationSetId"
@@ -454,6 +531,7 @@ extension Route53 {
             AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
             AWSShapeMember(label: "VPC", required: false, type: .structure)
         ]
+
         /// A complex type that contains information about the CreateHostedZone request.
         public let changeInfo: ChangeInfo
         /// A complex type that describes the name servers for this hosted zone.
@@ -487,6 +565,7 @@ extension Route53 {
             AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: true, type: .string), 
             AWSShapeMember(label: "HostedZoneId", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) for the log group that you want to Amazon Route 53 to send query logs to. This is the format of the ARN: arn:aws:logs:region:account-id:log-group:log_group_name  To get the ARN for a log group, you can use the CloudWatch console, the DescribeLogGroups API action, the describe-log-groups command, or the applicable command in one of the AWS SDKs.
         public let cloudWatchLogsLogGroupArn: String
         /// The ID of the hosted zone that you want to log queries for. You can log queries only for public hosted zones.
@@ -495,6 +574,10 @@ extension Route53 {
         public init(cloudWatchLogsLogGroupArn: String, hostedZoneId: String) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.hostedZoneId = hostedZoneId
+        }
+
+        public func validate(name: String) throws {
+            try validate(hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -508,6 +591,7 @@ extension Route53 {
             AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
             AWSShapeMember(label: "QueryLoggingConfig", required: true, type: .structure)
         ]
+
         /// The unique URL representing the new query logging configuration.
         public let location: String
         /// A complex type that contains the ID for a query logging configuration, the ID of the hosted zone that you want to log queries for, and the ARN for the log group that you want Amazon Route 53 to send query logs to.
@@ -529,6 +613,7 @@ extension Route53 {
             AWSShapeMember(label: "CallerReference", required: true, type: .string), 
             AWSShapeMember(label: "HostedZoneId", required: false, type: .string)
         ]
+
         /// A unique string that identifies the request, and that allows you to retry failed CreateReusableDelegationSet requests without the risk of executing the operation twice. You must use a unique CallerReference string every time you submit a CreateReusableDelegationSet request. CallerReference can be any unique string, for example a date/time stamp.
         public let callerReference: String
         /// If you want to mark the delegation set for an existing hosted zone as reusable, the ID for that hosted zone.
@@ -537,6 +622,12 @@ extension Route53 {
         public init(callerReference: String, hostedZoneId: String? = nil) {
             self.callerReference = callerReference
             self.hostedZoneId = hostedZoneId
+        }
+
+        public func validate(name: String) throws {
+            try validate(callerReference, name:"callerReference", parent: name, max: 128)
+            try validate(callerReference, name:"callerReference", parent: name, min: 1)
+            try validate(hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -550,6 +641,7 @@ extension Route53 {
             AWSShapeMember(label: "DelegationSet", required: true, type: .structure), 
             AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: true, type: .string)
         ]
+
         /// A complex type that contains name server information.
         public let delegationSet: DelegationSet
         /// The unique URL representing the new reusable delegation set.
@@ -574,6 +666,7 @@ extension Route53 {
             AWSShapeMember(label: "TrafficPolicyVersion", required: true, type: .integer), 
             AWSShapeMember(label: "TTL", required: true, type: .long)
         ]
+
         /// The ID of the hosted zone that you want Amazon Route 53 to create resource record sets in by using the configuration in a traffic policy.
         public let hostedZoneId: String
         /// The domain name (such as example.com) or subdomain name (such as www.example.com) for which Amazon Route 53 responds to DNS queries by using the resource record sets that Route 53 creates for this traffic policy instance.
@@ -593,6 +686,17 @@ extension Route53 {
             self.ttl = ttl
         }
 
+        public func validate(name: String) throws {
+            try validate(hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
+            try validate(name, name:"name", parent: name, max: 1024)
+            try validate(trafficPolicyId, name:"trafficPolicyId", parent: name, max: 36)
+            try validate(trafficPolicyId, name:"trafficPolicyId", parent: name, min: 1)
+            try validate(trafficPolicyVersion, name:"trafficPolicyVersion", parent: name, max: 1000)
+            try validate(trafficPolicyVersion, name:"trafficPolicyVersion", parent: name, min: 1)
+            try validate(ttl, name:"ttl", parent: name, max: 2147483647)
+            try validate(ttl, name:"ttl", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case hostedZoneId = "HostedZoneId"
             case name = "Name"
@@ -607,6 +711,7 @@ extension Route53 {
             AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
             AWSShapeMember(label: "TrafficPolicyInstance", required: true, type: .structure)
         ]
+
         /// A unique URL that represents a new traffic policy instance.
         public let location: String
         /// A complex type that contains settings for the new traffic policy instance.
@@ -629,6 +734,7 @@ extension Route53 {
             AWSShapeMember(label: "Document", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// (Optional) Any comments that you want to include about the traffic policy.
         public let comment: String?
         /// The definition of this traffic policy in JSON format. For more information, see Traffic Policy Document Format.
@@ -640,6 +746,12 @@ extension Route53 {
             self.comment = comment
             self.document = document
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(comment, name:"comment", parent: name, max: 1024)
+            try validate(document, name:"document", parent: name, max: 102400)
+            try validate(name, name:"name", parent: name, max: 512)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -654,6 +766,7 @@ extension Route53 {
             AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
             AWSShapeMember(label: "TrafficPolicy", required: true, type: .structure)
         ]
+
         /// A unique URL that represents a new traffic policy.
         public let location: String
         /// A complex type that contains settings for the new traffic policy.
@@ -676,6 +789,7 @@ extension Route53 {
             AWSShapeMember(label: "Document", required: true, type: .string), 
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
+
         /// The comment that you specified in the CreateTrafficPolicyVersion request, if any.
         public let comment: String?
         /// The definition of this version of the traffic policy, in JSON format. You specified the JSON in the CreateTrafficPolicyVersion request. For more information about the JSON format, see CreateTrafficPolicy.
@@ -687,6 +801,13 @@ extension Route53 {
             self.comment = comment
             self.document = document
             self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try validate(comment, name:"comment", parent: name, max: 1024)
+            try validate(document, name:"document", parent: name, max: 102400)
+            try validate(id, name:"id", parent: name, max: 36)
+            try validate(id, name:"id", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -701,6 +822,7 @@ extension Route53 {
             AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
             AWSShapeMember(label: "TrafficPolicy", required: true, type: .structure)
         ]
+
         /// A unique URL that represents a new traffic policy version.
         public let location: String
         /// A complex type that contains settings for the new version of the traffic policy.
@@ -722,6 +844,7 @@ extension Route53 {
             AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
             AWSShapeMember(label: "VPC", required: true, type: .structure)
         ]
+
         /// The ID of the private hosted zone that you want to authorize associating a VPC with.
         public let hostedZoneId: String
         /// A complex type that contains the VPC ID and region for the VPC that you want to authorize associating with your hosted zone.
@@ -730,6 +853,11 @@ extension Route53 {
         public init(hostedZoneId: String, vpc: VPC) {
             self.hostedZoneId = hostedZoneId
             self.vpc = vpc
+        }
+
+        public func validate(name: String) throws {
+            try validate(hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
+            try vpc.validate(name: "\(name).vpc")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -743,6 +871,7 @@ extension Route53 {
             AWSShapeMember(label: "HostedZoneId", required: true, type: .string), 
             AWSShapeMember(label: "VPC", required: true, type: .structure)
         ]
+
         /// The ID of the hosted zone that you authorized associating a VPC with.
         public let hostedZoneId: String
         /// The VPC that you authorized associating with a hosted zone.
@@ -765,6 +894,7 @@ extension Route53 {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "NameServers", required: true, type: .list, encoding: .list(member:"NameServer"))
         ]
+
         /// The value that you specified for CallerReference when you created the reusable delegation set.
         public let callerReference: String?
         /// The ID that Amazon Route 53 assigns to a reusable delegation set.
@@ -789,11 +919,16 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
         ]
+
         /// The ID of the health check that you want to delete.
         public let healthCheckId: String
 
         public init(healthCheckId: String) {
             self.healthCheckId = healthCheckId
+        }
+
+        public func validate(name: String) throws {
+            try validate(healthCheckId, name:"healthCheckId", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -802,6 +937,7 @@ extension Route53 {
     }
 
     public struct DeleteHealthCheckResponse: AWSShape {
+
 
         public init() {
         }
@@ -812,11 +948,16 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
+
         /// The ID of the hosted zone you want to delete.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try validate(id, name:"id", parent: name, max: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -828,6 +969,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeInfo", required: true, type: .structure)
         ]
+
         /// A complex type that contains the ID, the status, and the date and time of a request to delete a hosted zone.
         public let changeInfo: ChangeInfo
 
@@ -844,11 +986,17 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
+
         /// The ID of the configuration that you want to delete. 
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try validate(id, name:"id", parent: name, max: 36)
+            try validate(id, name:"id", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -857,6 +1005,7 @@ extension Route53 {
     }
 
     public struct DeleteQueryLoggingConfigResponse: AWSShape {
+
 
         public init() {
         }
@@ -867,11 +1016,16 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
+
         /// The ID of the reusable delegation set that you want to delete.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try validate(id, name:"id", parent: name, max: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -880,6 +1034,7 @@ extension Route53 {
     }
 
     public struct DeleteReusableDelegationSetResponse: AWSShape {
+
 
         public init() {
         }
@@ -890,11 +1045,17 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
+
         /// The ID of the traffic policy instance that you want to delete.   When you delete a traffic policy instance, Amazon Route 53 also deletes all of the resource record sets that were created when you created the traffic policy instance. 
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try validate(id, name:"id", parent: name, max: 36)
+            try validate(id, name:"id", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -903,6 +1064,7 @@ extension Route53 {
     }
 
     public struct DeleteTrafficPolicyInstanceResponse: AWSShape {
+
 
         public init() {
         }
@@ -914,6 +1076,7 @@ extension Route53 {
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
             AWSShapeMember(label: "Version", location: .uri(locationName: "Version"), required: true, type: .integer)
         ]
+
         /// The ID of the traffic policy that you want to delete.
         public let id: String
         /// The version number of the traffic policy that you want to delete.
@@ -924,6 +1087,13 @@ extension Route53 {
             self.version = version
         }
 
+        public func validate(name: String) throws {
+            try validate(id, name:"id", parent: name, max: 36)
+            try validate(id, name:"id", parent: name, min: 1)
+            try validate(version, name:"version", parent: name, max: 1000)
+            try validate(version, name:"version", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
             case version = "Version"
@@ -931,6 +1101,7 @@ extension Route53 {
     }
 
     public struct DeleteTrafficPolicyResponse: AWSShape {
+
 
         public init() {
         }
@@ -942,6 +1113,7 @@ extension Route53 {
             AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
             AWSShapeMember(label: "VPC", required: true, type: .structure)
         ]
+
         /// When removing authorization to associate a VPC that was created by one AWS account with a hosted zone that was created with a different AWS account, the ID of the hosted zone.
         public let hostedZoneId: String
         /// When removing authorization to associate a VPC that was created by one AWS account with a hosted zone that was created with a different AWS account, a complex type that includes the ID and region of the VPC.
@@ -952,6 +1124,11 @@ extension Route53 {
             self.vpc = vpc
         }
 
+        public func validate(name: String) throws {
+            try validate(hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
+            try vpc.validate(name: "\(name).vpc")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case hostedZoneId = "Id"
             case vpc = "VPC"
@@ -959,6 +1136,7 @@ extension Route53 {
     }
 
     public struct DeleteVPCAssociationAuthorizationResponse: AWSShape {
+
 
         public init() {
         }
@@ -970,6 +1148,7 @@ extension Route53 {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         /// For the metric that the CloudWatch alarm is associated with, the name of one dimension.
         public let name: String
         /// For the metric that the CloudWatch alarm is associated with, the value of one dimension.
@@ -992,6 +1171,7 @@ extension Route53 {
             AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
             AWSShapeMember(label: "VPC", required: true, type: .structure)
         ]
+
         ///  Optional: A comment about the disassociation request.
         public let comment: String?
         /// The ID of the private hosted zone that you want to disassociate a VPC from.
@@ -1005,6 +1185,11 @@ extension Route53 {
             self.vpc = vpc
         }
 
+        public func validate(name: String) throws {
+            try validate(hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
+            try vpc.validate(name: "\(name).vpc")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
             case hostedZoneId = "Id"
@@ -1016,6 +1201,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeInfo", required: true, type: .structure)
         ]
+
         /// A complex type that describes the changes made to the specified private hosted zone.
         public let changeInfo: ChangeInfo
 
@@ -1034,6 +1220,7 @@ extension Route53 {
             AWSShapeMember(label: "CountryCode", required: false, type: .string), 
             AWSShapeMember(label: "SubdivisionCode", required: false, type: .string)
         ]
+
         /// The two-letter code for the continent. Valid values: AF | AN | AS | EU | OC | NA | SA  Constraint: Specifying ContinentCode with either CountryCode or SubdivisionCode returns an InvalidInput error.
         public let continentCode: String?
         /// The two-letter code for the country.
@@ -1045,6 +1232,15 @@ extension Route53 {
             self.continentCode = continentCode
             self.countryCode = countryCode
             self.subdivisionCode = subdivisionCode
+        }
+
+        public func validate(name: String) throws {
+            try validate(continentCode, name:"continentCode", parent: name, max: 2)
+            try validate(continentCode, name:"continentCode", parent: name, min: 2)
+            try validate(countryCode, name:"countryCode", parent: name, max: 2)
+            try validate(countryCode, name:"countryCode", parent: name, min: 1)
+            try validate(subdivisionCode, name:"subdivisionCode", parent: name, max: 3)
+            try validate(subdivisionCode, name:"subdivisionCode", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1063,6 +1259,7 @@ extension Route53 {
             AWSShapeMember(label: "SubdivisionCode", required: false, type: .string), 
             AWSShapeMember(label: "SubdivisionName", required: false, type: .string)
         ]
+
         /// The two-letter code for the continent.
         public let continentCode: String?
         /// The full name of the continent.
@@ -1099,6 +1296,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Type", location: .uri(locationName: "Type"), required: true, type: .enum)
         ]
+
         /// The limit that you want to get. Valid values include the following:    MAX_HEALTH_CHECKS_BY_OWNER: The maximum number of health checks that you can create using the current account.    MAX_HOSTED_ZONES_BY_OWNER: The maximum number of hosted zones that you can create using the current account.    MAX_REUSABLE_DELEGATION_SETS_BY_OWNER: The maximum number of reusable delegation sets that you can create using the current account.    MAX_TRAFFIC_POLICIES_BY_OWNER: The maximum number of traffic policies that you can create using the current account.    MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER: The maximum number of traffic policy instances that you can create using the current account. (Traffic policy instances are referred to as traffic flow policy records in the Amazon Route 53 console.)  
         public let `type`: AccountLimitType
 
@@ -1116,6 +1314,7 @@ extension Route53 {
             AWSShapeMember(label: "Count", required: true, type: .long), 
             AWSShapeMember(label: "Limit", required: true, type: .structure)
         ]
+
         /// The current number of entities that you have created of the specified type. For example, if you specified MAX_HEALTH_CHECKS_BY_OWNER for the value of Type in the request, the value of Count is the current number of health checks that you have created using the current account.
         public let count: Int64
         /// The current setting for the specified limit. For example, if you specified MAX_HEALTH_CHECKS_BY_OWNER for the value of Type in the request, the value of Limit is the maximum number of health checks that you can create using the current account.
@@ -1136,11 +1335,16 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
+
         /// The ID of the change batch request. The value that you specify here is the value that ChangeResourceRecordSets returned in the Id element when you submitted the request.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try validate(id, name:"id", parent: name, max: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1152,6 +1356,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeInfo", required: true, type: .structure)
         ]
+
         /// A complex type that contains information about the specified change batch.
         public let changeInfo: ChangeInfo
 
@@ -1166,6 +1371,7 @@ extension Route53 {
 
     public struct GetCheckerIpRangesRequest: AWSShape {
 
+
         public init() {
         }
 
@@ -1175,6 +1381,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CheckerIpRanges", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// A complex type that contains sorted list of IP ranges in CIDR format for Amazon Route 53 health checkers.
         public let checkerIpRanges: [String]
 
@@ -1193,6 +1400,7 @@ extension Route53 {
             AWSShapeMember(label: "CountryCode", location: .querystring(locationName: "countrycode"), required: false, type: .string), 
             AWSShapeMember(label: "SubdivisionCode", location: .querystring(locationName: "subdivisioncode"), required: false, type: .string)
         ]
+
         /// Amazon Route 53 supports the following continent codes:    AF: Africa    AN: Antarctica    AS: Asia    EU: Europe    OC: Oceania    NA: North America    SA: South America  
         public let continentCode: String?
         /// Amazon Route 53 uses the two-letter country codes that are specified in ISO standard 3166-1 alpha-2.
@@ -1206,6 +1414,15 @@ extension Route53 {
             self.subdivisionCode = subdivisionCode
         }
 
+        public func validate(name: String) throws {
+            try validate(continentCode, name:"continentCode", parent: name, max: 2)
+            try validate(continentCode, name:"continentCode", parent: name, min: 2)
+            try validate(countryCode, name:"countryCode", parent: name, max: 2)
+            try validate(countryCode, name:"countryCode", parent: name, min: 1)
+            try validate(subdivisionCode, name:"subdivisionCode", parent: name, max: 3)
+            try validate(subdivisionCode, name:"subdivisionCode", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case continentCode = "continentcode"
             case countryCode = "countrycode"
@@ -1217,6 +1434,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GeoLocationDetails", required: true, type: .structure)
         ]
+
         /// A complex type that contains the codes and full continent, country, and subdivision names for the specified geolocation code.
         public let geoLocationDetails: GeoLocationDetails
 
@@ -1231,6 +1449,7 @@ extension Route53 {
 
     public struct GetHealthCheckCountRequest: AWSShape {
 
+
         public init() {
         }
 
@@ -1240,6 +1459,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HealthCheckCount", required: true, type: .long)
         ]
+
         /// The number of health checks associated with the current AWS account.
         public let healthCheckCount: Int64
 
@@ -1256,11 +1476,16 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
         ]
+
         /// The ID for the health check for which you want the last failure reason. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.  If you want to get the last failure reason for a calculated health check, you must use the Amazon Route 53 console or the CloudWatch console. You can't use GetHealthCheckLastFailureReason for a calculated health check. 
         public let healthCheckId: String
 
         public init(healthCheckId: String) {
             self.healthCheckId = healthCheckId
+        }
+
+        public func validate(name: String) throws {
+            try validate(healthCheckId, name:"healthCheckId", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1272,6 +1497,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HealthCheckObservations", required: true, type: .list, encoding: .list(member:"HealthCheckObservation"))
         ]
+
         /// A list that contains one Observation element for each Amazon Route 53 health checker that is reporting a last failure reason. 
         public let healthCheckObservations: [HealthCheckObservation]
 
@@ -1288,11 +1514,16 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
         ]
+
         /// The identifier that Amazon Route 53 assigned to the health check when you created it. When you add or update a resource record set, you use this value to specify which health check to use. The value can be up to 64 characters long.
         public let healthCheckId: String
 
         public init(healthCheckId: String) {
             self.healthCheckId = healthCheckId
+        }
+
+        public func validate(name: String) throws {
+            try validate(healthCheckId, name:"healthCheckId", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1304,6 +1535,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HealthCheck", required: true, type: .structure)
         ]
+
         /// A complex type that contains information about one health check that is associated with the current AWS account.
         public let healthCheck: HealthCheck
 
@@ -1320,11 +1552,16 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
         ]
+
         /// The ID for the health check that you want the current status for. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.  If you want to check the status of a calculated health check, you must use the Amazon Route 53 console or the CloudWatch console. You can't use GetHealthCheckStatus to get the status of a calculated health check. 
         public let healthCheckId: String
 
         public init(healthCheckId: String) {
             self.healthCheckId = healthCheckId
+        }
+
+        public func validate(name: String) throws {
+            try validate(healthCheckId, name:"healthCheckId", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1336,6 +1573,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HealthCheckObservations", required: true, type: .list, encoding: .list(member:"HealthCheckObservation"))
         ]
+
         /// A list that contains one HealthCheckObservation element for each Amazon Route 53 health checker that is reporting a status about the health check endpoint.
         public let healthCheckObservations: [HealthCheckObservation]
 
@@ -1350,6 +1588,7 @@ extension Route53 {
 
     public struct GetHostedZoneCountRequest: AWSShape {
 
+
         public init() {
         }
 
@@ -1359,6 +1598,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HostedZoneCount", required: true, type: .long)
         ]
+
         /// The total number of public and private hosted zones that are associated with the current AWS account.
         public let hostedZoneCount: Int64
 
@@ -1376,6 +1616,7 @@ extension Route53 {
             AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
             AWSShapeMember(label: "Type", location: .uri(locationName: "Type"), required: true, type: .enum)
         ]
+
         /// The ID of the hosted zone that you want to get a limit for.
         public let hostedZoneId: String
         /// The limit that you want to get. Valid values include the following:    MAX_RRSETS_BY_ZONE: The maximum number of records that you can create in the specified hosted zone.    MAX_VPCS_ASSOCIATED_BY_ZONE: The maximum number of Amazon VPCs that you can associate with the specified private hosted zone.  
@@ -1384,6 +1625,10 @@ extension Route53 {
         public init(hostedZoneId: String, type: HostedZoneLimitType) {
             self.hostedZoneId = hostedZoneId
             self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1397,6 +1642,7 @@ extension Route53 {
             AWSShapeMember(label: "Count", required: true, type: .long), 
             AWSShapeMember(label: "Limit", required: true, type: .structure)
         ]
+
         /// The current number of entities that you have created of the specified type. For example, if you specified MAX_RRSETS_BY_ZONE for the value of Type in the request, the value of Count is the current number of records that you have created in the specified hosted zone.
         public let count: Int64
         /// The current setting for the specified limit. For example, if you specified MAX_RRSETS_BY_ZONE for the value of Type in the request, the value of Limit is the maximum number of records that you can create in the specified hosted zone.
@@ -1417,11 +1663,16 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
+
         /// The ID of the hosted zone that you want to get information about.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try validate(id, name:"id", parent: name, max: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1435,6 +1686,7 @@ extension Route53 {
             AWSShapeMember(label: "HostedZone", required: true, type: .structure), 
             AWSShapeMember(label: "VPCs", required: false, type: .list, encoding: .list(member:"VPC"))
         ]
+
         /// A complex type that lists the Amazon Route 53 name servers for the specified hosted zone.
         public let delegationSet: DelegationSet?
         /// A complex type that contains general information about the specified hosted zone.
@@ -1459,11 +1711,17 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
+
         /// The ID of the configuration for DNS query logging that you want to get information about.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try validate(id, name:"id", parent: name, max: 36)
+            try validate(id, name:"id", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1475,6 +1733,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueryLoggingConfig", required: true, type: .structure)
         ]
+
         /// A complex type that contains information about the query logging configuration that you specified in a GetQueryLoggingConfig request.
         public let queryLoggingConfig: QueryLoggingConfig
 
@@ -1492,6 +1751,7 @@ extension Route53 {
             AWSShapeMember(label: "DelegationSetId", location: .uri(locationName: "Id"), required: true, type: .string), 
             AWSShapeMember(label: "Type", location: .uri(locationName: "Type"), required: true, type: .enum)
         ]
+
         /// The ID of the delegation set that you want to get the limit for.
         public let delegationSetId: String
         /// Specify MAX_ZONES_BY_REUSABLE_DELEGATION_SET to get the maximum number of hosted zones that you can associate with the specified reusable delegation set.
@@ -1500,6 +1760,10 @@ extension Route53 {
         public init(delegationSetId: String, type: ReusableDelegationSetLimitType) {
             self.delegationSetId = delegationSetId
             self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(delegationSetId, name:"delegationSetId", parent: name, max: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1513,6 +1777,7 @@ extension Route53 {
             AWSShapeMember(label: "Count", required: true, type: .long), 
             AWSShapeMember(label: "Limit", required: true, type: .structure)
         ]
+
         /// The current number of hosted zones that you can associate with the specified reusable delegation set.
         public let count: Int64
         /// The current setting for the limit on hosted zones that you can associate with the specified reusable delegation set.
@@ -1533,11 +1798,16 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
+
         /// The ID of the reusable delegation set that you want to get a list of name servers for.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try validate(id, name:"id", parent: name, max: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1549,6 +1819,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DelegationSet", required: true, type: .structure)
         ]
+
         /// A complex type that contains information about the reusable delegation set.
         public let delegationSet: DelegationSet
 
@@ -1563,6 +1834,7 @@ extension Route53 {
 
     public struct GetTrafficPolicyInstanceCountRequest: AWSShape {
 
+
         public init() {
         }
 
@@ -1572,6 +1844,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TrafficPolicyInstanceCount", required: true, type: .integer)
         ]
+
         /// The number of traffic policy instances that are associated with the current AWS account.
         public let trafficPolicyInstanceCount: Int32
 
@@ -1588,11 +1861,17 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
+
         /// The ID of the traffic policy instance that you want to get information about.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try validate(id, name:"id", parent: name, max: 36)
+            try validate(id, name:"id", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1604,6 +1883,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TrafficPolicyInstance", required: true, type: .structure)
         ]
+
         /// A complex type that contains settings for the traffic policy instance.
         public let trafficPolicyInstance: TrafficPolicyInstance
 
@@ -1621,6 +1901,7 @@ extension Route53 {
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
             AWSShapeMember(label: "Version", location: .uri(locationName: "Version"), required: true, type: .integer)
         ]
+
         /// The ID of the traffic policy that you want to get information about.
         public let id: String
         /// The version number of the traffic policy that you want to get information about.
@@ -1629,6 +1910,13 @@ extension Route53 {
         public init(id: String, version: Int32) {
             self.id = id
             self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try validate(id, name:"id", parent: name, max: 36)
+            try validate(id, name:"id", parent: name, min: 1)
+            try validate(version, name:"version", parent: name, max: 1000)
+            try validate(version, name:"version", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1641,6 +1929,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TrafficPolicy", required: true, type: .structure)
         ]
+
         /// A complex type that contains settings for the specified traffic policy.
         public let trafficPolicy: TrafficPolicy
 
@@ -1662,6 +1951,7 @@ extension Route53 {
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "LinkedService", required: false, type: .structure)
         ]
+
         /// A unique string that you specified when you created the health check.
         public let callerReference: String
         /// A complex type that contains information about the CloudWatch alarm that Amazon Route 53 is monitoring for this health check.
@@ -1714,6 +2004,7 @@ extension Route53 {
             AWSShapeMember(label: "SearchString", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
+
         /// A complex type that identifies the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether the specified health check is healthy.
         public let alarmIdentifier: AlarmIdentifier?
         /// (CALCULATED Health Checks Only) A complex type that contains one ChildHealthCheck element for each health check that you want to associate with a CALCULATED health check.
@@ -1769,6 +2060,29 @@ extension Route53 {
             self.`type` = `type`
         }
 
+        public func validate(name: String) throws {
+            try alarmIdentifier?.validate(name: "\(name).alarmIdentifier")
+            try childHealthChecks?.forEach {
+                try validate($0, name: "childHealthChecks[]", parent: name, max: 64)
+            }
+            try validate(childHealthChecks, name:"childHealthChecks", parent: name, max: 256)
+            try validate(failureThreshold, name:"failureThreshold", parent: name, max: 10)
+            try validate(failureThreshold, name:"failureThreshold", parent: name, min: 1)
+            try validate(fullyQualifiedDomainName, name:"fullyQualifiedDomainName", parent: name, max: 255)
+            try validate(healthThreshold, name:"healthThreshold", parent: name, max: 256)
+            try validate(healthThreshold, name:"healthThreshold", parent: name, min: 0)
+            try validate(iPAddress, name:"iPAddress", parent: name, max: 45)
+            try validate(iPAddress, name:"iPAddress", parent: name, pattern: "(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)")
+            try validate(port, name:"port", parent: name, max: 65535)
+            try validate(port, name:"port", parent: name, min: 1)
+            try validate(regions, name:"regions", parent: name, max: 64)
+            try validate(regions, name:"regions", parent: name, min: 3)
+            try validate(requestInterval, name:"requestInterval", parent: name, max: 30)
+            try validate(requestInterval, name:"requestInterval", parent: name, min: 10)
+            try validate(resourcePath, name:"resourcePath", parent: name, max: 255)
+            try validate(searchString, name:"searchString", parent: name, max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case alarmIdentifier = "AlarmIdentifier"
             case childHealthChecks = "ChildHealthChecks"
@@ -1796,6 +2110,7 @@ extension Route53 {
             AWSShapeMember(label: "Region", required: false, type: .enum), 
             AWSShapeMember(label: "StatusReport", required: false, type: .structure)
         ]
+
         /// The IP address of the Amazon Route 53 health checker that provided the failure reason in StatusReport.
         public let iPAddress: String?
         /// The region of the Amazon Route 53 health checker that provided the status in StatusReport.
@@ -1848,6 +2163,7 @@ extension Route53 {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "ResourceRecordSetCount", required: false, type: .long)
         ]
+
         /// The value that you specified for CallerReference when you created the hosted zone.
         public let callerReference: String
         /// A complex type that includes the Comment and PrivateZone elements. If you omitted the HostedZoneConfig and Comment elements from the request, the Config and Comment elements don't appear in the response.
@@ -1885,6 +2201,7 @@ extension Route53 {
             AWSShapeMember(label: "Comment", required: false, type: .string), 
             AWSShapeMember(label: "PrivateZone", required: false, type: .boolean)
         ]
+
         /// Any comments that you want to include about the hosted zone.
         public let comment: String?
         /// A value that indicates whether this is a private hosted zone.
@@ -1893,6 +2210,10 @@ extension Route53 {
         public init(comment: String? = nil, privateZone: Bool? = nil) {
             self.comment = comment
             self.privateZone = privateZone
+        }
+
+        public func validate(name: String) throws {
+            try validate(comment, name:"comment", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1906,6 +2227,7 @@ extension Route53 {
             AWSShapeMember(label: "Type", required: true, type: .enum), 
             AWSShapeMember(label: "Value", required: true, type: .long)
         ]
+
         /// The limit that you requested. Valid values include the following:    MAX_RRSETS_BY_ZONE: The maximum number of records that you can create in the specified hosted zone.    MAX_VPCS_ASSOCIATED_BY_ZONE: The maximum number of Amazon VPCs that you can associate with the specified private hosted zone.  
         public let `type`: HostedZoneLimitType
         /// The current value for the limit that is specified by Type.
@@ -1940,6 +2262,7 @@ extension Route53 {
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ServicePrincipal", required: false, type: .string)
         ]
+
         /// If the health check or hosted zone was created by another service, an optional description that can be provided by the other service. When a resource is created by another service, you can't edit or delete it using Amazon Route 53. 
         public let description: String?
         /// If the health check or hosted zone was created by another service, the service that created the resource. When a resource is created by another service, you can't edit or delete it using Amazon Route 53. 
@@ -1963,6 +2286,7 @@ extension Route53 {
             AWSShapeMember(label: "StartCountryCode", location: .querystring(locationName: "startcountrycode"), required: false, type: .string), 
             AWSShapeMember(label: "StartSubdivisionCode", location: .querystring(locationName: "startsubdivisioncode"), required: false, type: .string)
         ]
+
         /// (Optional) The maximum number of geolocations to be included in the response body for this request. If more than maxitems geolocations remain to be listed, then the value of the IsTruncated element in the response is true.
         public let maxItems: String?
         /// The code for the continent with which you want to start listing locations that Amazon Route 53 supports for geolocation. If Route 53 has already returned a page or more of results, if IsTruncated is true, and if NextContinentCode from the previous response has a value, enter that value in startcontinentcode to return the next page of results. Include startcontinentcode only if you want to list continents. Don't include startcontinentcode when you're listing countries or countries with their subdivisions.
@@ -1977,6 +2301,15 @@ extension Route53 {
             self.startContinentCode = startContinentCode
             self.startCountryCode = startCountryCode
             self.startSubdivisionCode = startSubdivisionCode
+        }
+
+        public func validate(name: String) throws {
+            try validate(startContinentCode, name:"startContinentCode", parent: name, max: 2)
+            try validate(startContinentCode, name:"startContinentCode", parent: name, min: 2)
+            try validate(startCountryCode, name:"startCountryCode", parent: name, max: 2)
+            try validate(startCountryCode, name:"startCountryCode", parent: name, min: 1)
+            try validate(startSubdivisionCode, name:"startSubdivisionCode", parent: name, max: 3)
+            try validate(startSubdivisionCode, name:"startSubdivisionCode", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1996,6 +2329,7 @@ extension Route53 {
             AWSShapeMember(label: "NextCountryCode", required: false, type: .string), 
             AWSShapeMember(label: "NextSubdivisionCode", required: false, type: .string)
         ]
+
         /// A complex type that contains one GeoLocationDetails element for each location that Amazon Route 53 supports for geolocation.
         public let geoLocationDetailsList: [GeoLocationDetails]
         /// A value that indicates whether more locations remain to be listed after the last location in this response. If so, the value of IsTruncated is true. To get more values, submit another request and include the values of NextContinentCode, NextCountryCode, and NextSubdivisionCode in the startcontinentcode, startcountrycode, and startsubdivisioncode, as applicable.
@@ -2033,6 +2367,7 @@ extension Route53 {
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
         ]
+
         /// If the value of IsTruncated in the previous response was true, you have more health checks. To get another group, submit another ListHealthChecks request.  For the value of marker, specify the value of NextMarker from the previous response, which is the ID of the first health check that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false, there are no more health checks to get.
         public let marker: String?
         /// The maximum number of health checks that you want ListHealthChecks to return in response to the current request. Amazon Route 53 returns a maximum of 100 items. If you set MaxItems to a value greater than 100, Route 53 returns only the first 100 health checks. 
@@ -2041,6 +2376,10 @@ extension Route53 {
         public init(marker: String? = nil, maxItems: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func validate(name: String) throws {
+            try validate(marker, name:"marker", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2057,6 +2396,7 @@ extension Route53 {
             AWSShapeMember(label: "MaxItems", required: true, type: .string), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// A complex type that contains one HealthCheck element for each health check that is associated with the current AWS account.
         public let healthChecks: [HealthCheck]
         /// A flag that indicates whether there are more health checks to be listed. If the response was truncated, you can get the next group of health checks by submitting another ListHealthChecks request and specifying the value of NextMarker in the marker parameter.
@@ -2091,6 +2431,7 @@ extension Route53 {
             AWSShapeMember(label: "HostedZoneId", location: .querystring(locationName: "hostedzoneid"), required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
         ]
+
         /// (Optional) For your first request to ListHostedZonesByName, include the dnsname parameter only if you want to specify the name of the first hosted zone in the response. If you don't include the dnsname parameter, Amazon Route 53 returns all of the hosted zones that were created by the current AWS account, in ASCII order. For subsequent requests, include both dnsname and hostedzoneid parameters. For dnsname, specify the value of NextDNSName from the previous response.
         public let dNSName: String?
         /// (Optional) For your first request to ListHostedZonesByName, do not include the hostedzoneid parameter. If you have more hosted zones than the value of maxitems, ListHostedZonesByName returns only the first maxitems hosted zones. To get the next group of maxitems hosted zones, submit another request to ListHostedZonesByName and include both dnsname and hostedzoneid parameters. For the value of hostedzoneid, specify the value of the NextHostedZoneId element from the previous response.
@@ -2102,6 +2443,11 @@ extension Route53 {
             self.dNSName = dNSName
             self.hostedZoneId = hostedZoneId
             self.maxItems = maxItems
+        }
+
+        public func validate(name: String) throws {
+            try validate(dNSName, name:"dNSName", parent: name, max: 1024)
+            try validate(hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2121,6 +2467,7 @@ extension Route53 {
             AWSShapeMember(label: "NextDNSName", required: false, type: .string), 
             AWSShapeMember(label: "NextHostedZoneId", required: false, type: .string)
         ]
+
         /// For the second and subsequent calls to ListHostedZonesByName, DNSName is the value that you specified for the dnsname parameter in the request that produced the current response.
         public let dNSName: String?
         /// The ID that Amazon Route 53 assigned to the hosted zone when you created it.
@@ -2163,6 +2510,7 @@ extension Route53 {
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
         ]
+
         /// If you're using reusable delegation sets and you want to list all of the hosted zones that are associated with a reusable delegation set, specify the ID of that reusable delegation set. 
         public let delegationSetId: String?
         /// If the value of IsTruncated in the previous response was true, you have more hosted zones. To get more hosted zones, submit another ListHostedZones request.  For the value of marker, specify the value of NextMarker from the previous response, which is the ID of the first hosted zone that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false, there are no more hosted zones to get.
@@ -2174,6 +2522,11 @@ extension Route53 {
             self.delegationSetId = delegationSetId
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func validate(name: String) throws {
+            try validate(delegationSetId, name:"delegationSetId", parent: name, max: 32)
+            try validate(marker, name:"marker", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2191,6 +2544,7 @@ extension Route53 {
             AWSShapeMember(label: "MaxItems", required: true, type: .string), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// A complex type that contains general information about the hosted zone.
         public let hostedZones: [HostedZone]
         /// A flag indicating whether there are more hosted zones to be listed. If the response was truncated, you can get more hosted zones by submitting another ListHostedZones request and specifying the value of NextMarker in the marker parameter.
@@ -2225,6 +2579,7 @@ extension Route53 {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxresults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nexttoken"), required: false, type: .string)
         ]
+
         /// (Optional) If you want to list the query logging configuration that is associated with a hosted zone, specify the ID in HostedZoneId.  If you don't specify a hosted zone ID, ListQueryLoggingConfigs returns all of the configurations that are associated with the current AWS account.
         public let hostedZoneId: String?
         /// (Optional) The maximum number of query logging configurations that you want Amazon Route 53 to return in response to the current request. If the current AWS account has more than MaxResults configurations, use the value of NextToken in the response to get the next page of results. If you don't specify a value for MaxResults, Route 53 returns up to 100 configurations.
@@ -2236,6 +2591,11 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
+            try validate(nextToken, name:"nextToken", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2250,6 +2610,7 @@ extension Route53 {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "QueryLoggingConfigs", required: true, type: .list, encoding: .list(member:"QueryLoggingConfig"))
         ]
+
         /// If a response includes the last of the query logging configurations that are associated with the current AWS account, NextToken doesn't appear in the response. If a response doesn't include the last of the configurations, you can get more configurations by submitting another ListQueryLoggingConfigs request. Get the value of NextToken that Amazon Route 53 returned in the previous response and include it in NextToken in the next request.
         public let nextToken: String?
         /// An array that contains one QueryLoggingConfig element for each configuration for DNS query logging that is associated with the current AWS account.
@@ -2274,6 +2635,7 @@ extension Route53 {
             AWSShapeMember(label: "StartRecordName", location: .querystring(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "StartRecordType", location: .querystring(locationName: "type"), required: false, type: .enum)
         ]
+
         /// The ID of the hosted zone that contains the resource record sets that you want to list.
         public let hostedZoneId: String
         /// (Optional) The maximum number of resource records sets to include in the response body for this request. If the response includes more than maxitems resource record sets, the value of the IsTruncated element in the response is true, and the values of the NextRecordName and NextRecordType elements in the response identify the first resource record set in the next group of maxitems resource record sets.
@@ -2291,6 +2653,13 @@ extension Route53 {
             self.startRecordIdentifier = startRecordIdentifier
             self.startRecordName = startRecordName
             self.startRecordType = startRecordType
+        }
+
+        public func validate(name: String) throws {
+            try validate(hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
+            try validate(startRecordIdentifier, name:"startRecordIdentifier", parent: name, max: 128)
+            try validate(startRecordIdentifier, name:"startRecordIdentifier", parent: name, min: 1)
+            try validate(startRecordName, name:"startRecordName", parent: name, max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2311,6 +2680,7 @@ extension Route53 {
             AWSShapeMember(label: "NextRecordType", required: false, type: .enum), 
             AWSShapeMember(label: "ResourceRecordSets", required: true, type: .list, encoding: .list(member:"ResourceRecordSet"))
         ]
+
         /// A flag that indicates whether more resource record sets remain to be listed. If your results were truncated, you can make a follow-up pagination request by using the NextRecordName element.
         public let isTruncated: Bool
         /// The maximum number of records you requested.
@@ -2348,6 +2718,7 @@ extension Route53 {
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
         ]
+
         /// If the value of IsTruncated in the previous response was true, you have more reusable delegation sets. To get another group, submit another ListReusableDelegationSets request.  For the value of marker, specify the value of NextMarker from the previous response, which is the ID of the first reusable delegation set that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false, there are no more reusable delegation sets to get.
         public let marker: String?
         /// The number of reusable delegation sets that you want Amazon Route 53 to return in the response to this request. If you specify a value greater than 100, Route 53 returns only the first 100 reusable delegation sets.
@@ -2356,6 +2727,10 @@ extension Route53 {
         public init(marker: String? = nil, maxItems: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func validate(name: String) throws {
+            try validate(marker, name:"marker", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2372,6 +2747,7 @@ extension Route53 {
             AWSShapeMember(label: "MaxItems", required: true, type: .string), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// A complex type that contains one DelegationSet element for each reusable delegation set that was created by the current AWS account.
         public let delegationSets: [DelegationSet]
         /// A flag that indicates whether there are more reusable delegation sets to be listed.
@@ -2405,6 +2781,7 @@ extension Route53 {
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
             AWSShapeMember(label: "ResourceType", location: .uri(locationName: "ResourceType"), required: true, type: .enum)
         ]
+
         /// The ID of the resource for which you want to retrieve tags.
         public let resourceId: String
         /// The type of the resource.   The resource type for health checks is healthcheck.   The resource type for hosted zones is hostedzone.  
@@ -2413,6 +2790,10 @@ extension Route53 {
         public init(resourceId: String, resourceType: TagResourceType) {
             self.resourceId = resourceId
             self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceId, name:"resourceId", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2425,6 +2806,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceTagSet", required: true, type: .structure)
         ]
+
         /// A ResourceTagSet containing tags associated with the specified resource.
         public let resourceTagSet: ResourceTagSet
 
@@ -2442,6 +2824,7 @@ extension Route53 {
             AWSShapeMember(label: "ResourceIds", required: true, type: .list, encoding: .list(member:"ResourceId")), 
             AWSShapeMember(label: "ResourceType", location: .uri(locationName: "ResourceType"), required: true, type: .enum)
         ]
+
         /// A complex type that contains the ResourceId element for each resource for which you want to get a list of tags.
         public let resourceIds: [String]
         /// The type of the resources.   The resource type for health checks is healthcheck.   The resource type for hosted zones is hostedzone.  
@@ -2450,6 +2833,14 @@ extension Route53 {
         public init(resourceIds: [String], resourceType: TagResourceType) {
             self.resourceIds = resourceIds
             self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try resourceIds.forEach {
+                try validate($0, name: "resourceIds[]", parent: name, max: 64)
+            }
+            try validate(resourceIds, name:"resourceIds", parent: name, max: 10)
+            try validate(resourceIds, name:"resourceIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2462,6 +2853,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceTagSets", required: true, type: .list, encoding: .list(member:"ResourceTagSet"))
         ]
+
         /// A list of ResourceTagSets containing tags associated with the specified resources.
         public let resourceTagSets: [ResourceTagSet]
 
@@ -2479,6 +2871,7 @@ extension Route53 {
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
             AWSShapeMember(label: "TrafficPolicyIdMarker", location: .querystring(locationName: "trafficpolicyid"), required: false, type: .string)
         ]
+
         /// (Optional) The maximum number of traffic policies that you want Amazon Route 53 to return in response to this request. If you have more than MaxItems traffic policies, the value of IsTruncated in the response is true, and the value of TrafficPolicyIdMarker is the ID of the first traffic policy that Route 53 will return if you submit another request.
         public let maxItems: String?
         /// (Conditional) For your first request to ListTrafficPolicies, don't include the TrafficPolicyIdMarker parameter. If you have more traffic policies than the value of MaxItems, ListTrafficPolicies returns only the first MaxItems traffic policies. To get the next group of policies, submit another request to ListTrafficPolicies. For the value of TrafficPolicyIdMarker, specify the value of TrafficPolicyIdMarker that was returned in the previous response.
@@ -2487,6 +2880,11 @@ extension Route53 {
         public init(maxItems: String? = nil, trafficPolicyIdMarker: String? = nil) {
             self.maxItems = maxItems
             self.trafficPolicyIdMarker = trafficPolicyIdMarker
+        }
+
+        public func validate(name: String) throws {
+            try validate(trafficPolicyIdMarker, name:"trafficPolicyIdMarker", parent: name, max: 36)
+            try validate(trafficPolicyIdMarker, name:"trafficPolicyIdMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2502,6 +2900,7 @@ extension Route53 {
             AWSShapeMember(label: "TrafficPolicyIdMarker", required: true, type: .string), 
             AWSShapeMember(label: "TrafficPolicySummaries", required: true, type: .list, encoding: .list(member:"TrafficPolicySummary"))
         ]
+
         /// A flag that indicates whether there are more traffic policies to be listed. If the response was truncated, you can get the next group of traffic policies by submitting another ListTrafficPolicies request and specifying the value of TrafficPolicyIdMarker in the TrafficPolicyIdMarker request parameter.
         public let isTruncated: Bool
         /// The value that you specified for the MaxItems parameter in the ListTrafficPolicies request that produced the current response.
@@ -2533,6 +2932,7 @@ extension Route53 {
             AWSShapeMember(label: "TrafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename"), required: false, type: .string), 
             AWSShapeMember(label: "TrafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype"), required: false, type: .enum)
         ]
+
         /// The ID of the hosted zone that you want to list traffic policy instances for.
         public let hostedZoneId: String
         /// The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance that Amazon Route 53 will return if you submit another request.
@@ -2547,6 +2947,11 @@ extension Route53 {
             self.maxItems = maxItems
             self.trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker
             self.trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker
+        }
+
+        public func validate(name: String) throws {
+            try validate(hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
+            try validate(trafficPolicyInstanceNameMarker, name:"trafficPolicyInstanceNameMarker", parent: name, max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2565,6 +2970,7 @@ extension Route53 {
             AWSShapeMember(label: "TrafficPolicyInstances", required: true, type: .list, encoding: .list(member:"TrafficPolicyInstance")), 
             AWSShapeMember(label: "TrafficPolicyInstanceTypeMarker", required: false, type: .enum)
         ]
+
         /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get the next group of traffic policy instances by submitting another ListTrafficPolicyInstancesByHostedZone request and specifying the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker in the corresponding request parameters.
         public let isTruncated: Bool
         /// The value that you specified for the MaxItems parameter in the ListTrafficPolicyInstancesByHostedZone request that produced the current response.
@@ -2602,6 +3008,7 @@ extension Route53 {
             AWSShapeMember(label: "TrafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype"), required: false, type: .enum), 
             AWSShapeMember(label: "TrafficPolicyVersion", location: .querystring(locationName: "version"), required: true, type: .integer)
         ]
+
         /// If the value of IsTruncated in the previous response was true, you have more traffic policy instances. To get more traffic policy instances, submit another ListTrafficPolicyInstancesByPolicy request.  For the value of hostedzoneid, specify the value of HostedZoneIdMarker from the previous response, which is the hosted zone ID of the first traffic policy instance that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
         public let hostedZoneIdMarker: String?
         /// The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance that Amazon Route 53 will return if you submit another request.
@@ -2624,6 +3031,15 @@ extension Route53 {
             self.trafficPolicyVersion = trafficPolicyVersion
         }
 
+        public func validate(name: String) throws {
+            try validate(hostedZoneIdMarker, name:"hostedZoneIdMarker", parent: name, max: 32)
+            try validate(trafficPolicyId, name:"trafficPolicyId", parent: name, max: 36)
+            try validate(trafficPolicyId, name:"trafficPolicyId", parent: name, min: 1)
+            try validate(trafficPolicyInstanceNameMarker, name:"trafficPolicyInstanceNameMarker", parent: name, max: 1024)
+            try validate(trafficPolicyVersion, name:"trafficPolicyVersion", parent: name, max: 1000)
+            try validate(trafficPolicyVersion, name:"trafficPolicyVersion", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case hostedZoneIdMarker = "hostedzoneid"
             case maxItems = "maxitems"
@@ -2643,6 +3059,7 @@ extension Route53 {
             AWSShapeMember(label: "TrafficPolicyInstances", required: true, type: .list, encoding: .list(member:"TrafficPolicyInstance")), 
             AWSShapeMember(label: "TrafficPolicyInstanceTypeMarker", required: false, type: .enum)
         ]
+
         /// If IsTruncated is true, HostedZoneIdMarker is the ID of the hosted zone of the first traffic policy instance in the next group of traffic policy instances.
         public let hostedZoneIdMarker: String?
         /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get the next group of traffic policy instances by calling ListTrafficPolicyInstancesByPolicy again and specifying the values of the HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker elements in the corresponding request parameters.
@@ -2682,6 +3099,7 @@ extension Route53 {
             AWSShapeMember(label: "TrafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename"), required: false, type: .string), 
             AWSShapeMember(label: "TrafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype"), required: false, type: .enum)
         ]
+
         /// If the value of IsTruncated in the previous response was true, you have more traffic policy instances. To get more traffic policy instances, submit another ListTrafficPolicyInstances request. For the value of HostedZoneId, specify the value of HostedZoneIdMarker from the previous response, which is the hosted zone ID of the first traffic policy instance in the next group of traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
         public let hostedZoneIdMarker: String?
         /// The maximum number of traffic policy instances that you want Amazon Route 53 to return in response to a ListTrafficPolicyInstances request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next group of MaxItems traffic policy instances.
@@ -2696,6 +3114,11 @@ extension Route53 {
             self.maxItems = maxItems
             self.trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker
             self.trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker
+        }
+
+        public func validate(name: String) throws {
+            try validate(hostedZoneIdMarker, name:"hostedZoneIdMarker", parent: name, max: 32)
+            try validate(trafficPolicyInstanceNameMarker, name:"trafficPolicyInstanceNameMarker", parent: name, max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2715,6 +3138,7 @@ extension Route53 {
             AWSShapeMember(label: "TrafficPolicyInstances", required: true, type: .list, encoding: .list(member:"TrafficPolicyInstance")), 
             AWSShapeMember(label: "TrafficPolicyInstanceTypeMarker", required: false, type: .enum)
         ]
+
         /// If IsTruncated is true, HostedZoneIdMarker is the ID of the hosted zone of the first traffic policy instance that Route 53 will return if you submit another ListTrafficPolicyInstances request. 
         public let hostedZoneIdMarker: String?
         /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get more traffic policy instances by calling ListTrafficPolicyInstances again and specifying the values of the HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker in the corresponding request parameters.
@@ -2753,6 +3177,7 @@ extension Route53 {
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
             AWSShapeMember(label: "TrafficPolicyVersionMarker", location: .querystring(locationName: "trafficpolicyversion"), required: false, type: .string)
         ]
+
         /// Specify the value of Id of the traffic policy for which you want to list all versions.
         public let id: String
         /// The maximum number of traffic policy versions that you want Amazon Route 53 to include in the response body for this request. If the specified traffic policy has more than MaxItems versions, the value of IsTruncated in the response is true, and the value of the TrafficPolicyVersionMarker element is the ID of the first version that Route 53 will return if you submit another request.
@@ -2764,6 +3189,12 @@ extension Route53 {
             self.id = id
             self.maxItems = maxItems
             self.trafficPolicyVersionMarker = trafficPolicyVersionMarker
+        }
+
+        public func validate(name: String) throws {
+            try validate(id, name:"id", parent: name, max: 36)
+            try validate(id, name:"id", parent: name, min: 1)
+            try validate(trafficPolicyVersionMarker, name:"trafficPolicyVersionMarker", parent: name, max: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2780,6 +3211,7 @@ extension Route53 {
             AWSShapeMember(label: "TrafficPolicies", required: true, type: .list, encoding: .list(member:"TrafficPolicy")), 
             AWSShapeMember(label: "TrafficPolicyVersionMarker", required: true, type: .string)
         ]
+
         /// A flag that indicates whether there are more traffic policies to be listed. If the response was truncated, you can get the next group of traffic policies by submitting another ListTrafficPolicyVersions request and specifying the value of NextMarker in the marker parameter.
         public let isTruncated: Bool
         /// The value that you specified for the maxitems parameter in the ListTrafficPolicyVersions request that produced the current response.
@@ -2810,6 +3242,7 @@ extension Route53 {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxresults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nexttoken"), required: false, type: .string)
         ]
+
         /// The ID of the hosted zone for which you want a list of VPCs that can be associated with the hosted zone.
         public let hostedZoneId: String
         ///  Optional: An integer that specifies the maximum number of VPCs that you want Amazon Route 53 to return. If you don't specify a value for MaxResults, Route 53 returns up to 50 VPCs per page.
@@ -2821,6 +3254,11 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
+            try validate(nextToken, name:"nextToken", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2836,6 +3274,7 @@ extension Route53 {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "VPCs", required: true, type: .list, encoding: .list(member:"VPC"))
         ]
+
         /// The ID of the hosted zone that you can associate the listed VPCs with.
         public let hostedZoneId: String
         /// When the response includes a NextToken element, there are more VPCs that can be associated with the specified hosted zone. To get the next page of VPCs, submit another ListVPCAssociationAuthorizations request, and include the value of the NextToken element from the response in the nexttoken request parameter.
@@ -2862,6 +3301,7 @@ extension Route53 {
             AWSShapeMember(label: "HostedZoneId", required: true, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the CloudWatch Logs log group that Amazon Route 53 is publishing logs to.
         public let cloudWatchLogsLogGroupArn: String
         /// The ID of the hosted zone that CloudWatch Logs is logging queries for. 
@@ -2910,11 +3350,16 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         /// The current or new DNS record value, not to exceed 4,000 characters. In the case of a DELETE action, if the current value does not match the actual value, an error is returned. For descriptions about how to format Value for different record types, see Supported DNS Resource Record Types in the Amazon Route 53 Developer Guide. You can specify more than one value for all record types except CNAME and SOA.   If you're creating an alias resource record set, omit Value. 
         public let value: String
 
         public init(value: String) {
             self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(value, name:"value", parent: name, max: 4000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2938,6 +3383,7 @@ extension Route53 {
             AWSShapeMember(label: "Type", required: true, type: .enum), 
             AWSShapeMember(label: "Weight", required: false, type: .long)
         ]
+
         ///  Alias resource record sets only: Information about the AWS resource, such as a CloudFront distribution or an Amazon S3 bucket, that you want to route traffic to.  If you're creating resource records sets for a private hosted zone, note the following:   You can't create an alias resource record set in a private hosted zone to route traffic to a CloudFront distribution.   Creating geolocation alias resource record sets or latency alias resource record sets in a private hosted zone is unsupported.   For information about creating failover resource record sets in a private hosted zone, see Configuring Failover in a Private Hosted Zone in the Amazon Route 53 Developer Guide.  
         public let aliasTarget: AliasTarget?
         ///  Failover resource record sets only: To configure failover, you add the Failover element to two resource record sets. For one resource record set, you specify PRIMARY as the value for Failover; for the other resource record set, you specify SECONDARY. In addition, you include the HealthCheckId element and specify the health check that you want Amazon Route 53 to perform for each resource record set. Except where noted, the following failover behaviors assume that you have included the HealthCheckId element in both resource record sets:   When the primary resource record set is healthy, Route 53 responds to DNS queries with the applicable value from the primary resource record set regardless of the health of the secondary resource record set.   When the primary resource record set is unhealthy and the secondary resource record set is healthy, Route 53 responds to DNS queries with the applicable value from the secondary resource record set.   When the secondary resource record set is unhealthy, Route 53 responds to DNS queries with the applicable value from the primary resource record set regardless of the health of the primary resource record set.   If you omit the HealthCheckId element for the secondary resource record set, and if the primary resource record set is unhealthy, Route 53 always responds to DNS queries with the applicable value from the secondary resource record set. This is true regardless of the health of the associated endpoint.   You can't create non-failover resource record sets that have the same values for the Name and Type elements as failover resource record sets. For failover alias resource record sets, you must also include the EvaluateTargetHealth element and set the value to true. For more information about configuring failover for Route 53, see the following topics in the Amazon Route 53 Developer Guide:     Route 53 Health Checks and DNS Failover     Configuring Failover in a Private Hosted Zone   
@@ -2979,6 +3425,25 @@ extension Route53 {
             self.ttl = ttl
             self.`type` = `type`
             self.weight = weight
+        }
+
+        public func validate(name: String) throws {
+            try aliasTarget?.validate(name: "\(name).aliasTarget")
+            try geoLocation?.validate(name: "\(name).geoLocation")
+            try validate(healthCheckId, name:"healthCheckId", parent: name, max: 64)
+            try validate(name, name:"name", parent: name, max: 1024)
+            try resourceRecords?.forEach {
+                try $0.validate(name: "\(name).resourceRecords[]")
+            }
+            try validate(resourceRecords, name:"resourceRecords", parent: name, min: 1)
+            try validate(setIdentifier, name:"setIdentifier", parent: name, max: 128)
+            try validate(setIdentifier, name:"setIdentifier", parent: name, min: 1)
+            try validate(trafficPolicyInstanceId, name:"trafficPolicyInstanceId", parent: name, max: 36)
+            try validate(trafficPolicyInstanceId, name:"trafficPolicyInstanceId", parent: name, min: 1)
+            try validate(ttl, name:"ttl", parent: name, max: 2147483647)
+            try validate(ttl, name:"ttl", parent: name, min: 0)
+            try validate(weight, name:"weight", parent: name, max: 255)
+            try validate(weight, name:"weight", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3034,6 +3499,7 @@ extension Route53 {
             AWSShapeMember(label: "ResourceType", required: false, type: .enum), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The ID for the specified resource.
         public let resourceId: String?
         /// The type of the resource.   The resource type for health checks is healthcheck.   The resource type for hosted zones is hostedzone.  
@@ -3059,6 +3525,7 @@ extension Route53 {
             AWSShapeMember(label: "Type", required: true, type: .enum), 
             AWSShapeMember(label: "Value", required: true, type: .long)
         ]
+
         /// The limit that you requested: MAX_ZONES_BY_REUSABLE_DELEGATION_SET, the maximum number of hosted zones that you can associate with the specified reusable delegation set.
         public let `type`: ReusableDelegationSetLimitType
         /// The current value for the MAX_ZONES_BY_REUSABLE_DELEGATION_SET limit.
@@ -3094,6 +3561,7 @@ extension Route53 {
             AWSShapeMember(label: "CheckedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
+
         /// The date and time that the health checker performed the health check in ISO 8601 format and Coordinated Universal Time (UTC). For example, the value 2017-03-27T17:48:16.751Z represents March 27, 2017 at 17:48:16.751 UTC.
         public let checkedTime: TimeStamp?
         /// A description of the status of the health check endpoint as reported by one of the Amazon Route 53 health checkers.
@@ -3115,6 +3583,7 @@ extension Route53 {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The value of Key depends on the operation that you want to perform:    Add a tag to a health check or hosted zone: Key is the name that you want to give the new tag.    Edit a tag: Key is the name of the tag that you want to change the Value for.     Delete a key: Key is the name of the tag you want to remove.    Give a name to a health check: Edit the default Name tag. In the Amazon Route 53 console, the list of your health checks includes a Name column that lets you see the name that you've given to each health check.  
         public let key: String?
         /// The value of Value depends on the operation that you want to perform:    Add a tag to a health check or hosted zone: Value is the value that you want to give the new tag.    Edit a tag: Value is the new value that you want to assign the tag.  
@@ -3123,6 +3592,11 @@ extension Route53 {
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(value, name:"value", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3146,6 +3620,7 @@ extension Route53 {
             AWSShapeMember(label: "RecordType", location: .querystring(locationName: "recordtype"), required: true, type: .enum), 
             AWSShapeMember(label: "ResolverIP", location: .querystring(locationName: "resolverip"), required: false, type: .string)
         ]
+
         /// If the resolver that you specified for resolverip supports EDNS0, specify the IPv4 or IPv6 address of a client in the applicable location, for example, 192.0.2.44 or 2001:db8:85a3::8a2e:370:7334.
         public let eDNS0ClientSubnetIP: String?
         /// If you specify an IP address for edns0clientsubnetip, you can optionally specify the number of bits of the IP address that you want the checking tool to include in the DNS query. For example, if you specify 192.0.2.44 for edns0clientsubnetip and 24 for edns0clientsubnetmask, the checking tool will simulate a request from 192.0.2.0/24. The default value is 24 bits for IPv4 addresses and 64 bits for IPv6 addresses. The range of valid values depends on whether edns0clientsubnetip is an IPv4 or an IPv6 address:    IPv4: Specify a value between 0 and 32    IPv6: Specify a value between 0 and 128  
@@ -3168,6 +3643,17 @@ extension Route53 {
             self.resolverIP = resolverIP
         }
 
+        public func validate(name: String) throws {
+            try validate(eDNS0ClientSubnetIP, name:"eDNS0ClientSubnetIP", parent: name, max: 45)
+            try validate(eDNS0ClientSubnetIP, name:"eDNS0ClientSubnetIP", parent: name, pattern: "(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)")
+            try validate(eDNS0ClientSubnetMask, name:"eDNS0ClientSubnetMask", parent: name, max: 3)
+            try validate(eDNS0ClientSubnetMask, name:"eDNS0ClientSubnetMask", parent: name, min: 0)
+            try validate(hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
+            try validate(recordName, name:"recordName", parent: name, max: 1024)
+            try validate(resolverIP, name:"resolverIP", parent: name, max: 45)
+            try validate(resolverIP, name:"resolverIP", parent: name, pattern: "(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case eDNS0ClientSubnetIP = "edns0clientsubnetip"
             case eDNS0ClientSubnetMask = "edns0clientsubnetmask"
@@ -3187,6 +3673,7 @@ extension Route53 {
             AWSShapeMember(label: "RecordType", required: true, type: .enum), 
             AWSShapeMember(label: "ResponseCode", required: true, type: .string)
         ]
+
         /// The Amazon Route 53 name server used to respond to the request.
         public let nameserver: String
         /// The protocol that Amazon Route 53 used to respond to the request, either UDP or TCP. 
@@ -3228,6 +3715,7 @@ extension Route53 {
             AWSShapeMember(label: "Type", required: true, type: .enum), 
             AWSShapeMember(label: "Version", required: true, type: .integer)
         ]
+
         /// The comment that you specify in the CreateTrafficPolicy request, if any.
         public let comment: String?
         /// The definition of a traffic policy in JSON format. You specify the JSON document to use for a new traffic policy in the CreateTrafficPolicy request. For more information about the JSON format, see Traffic Policy Document Format.
@@ -3272,6 +3760,7 @@ extension Route53 {
             AWSShapeMember(label: "TrafficPolicyVersion", required: true, type: .integer), 
             AWSShapeMember(label: "TTL", required: true, type: .long)
         ]
+
         /// The ID of the hosted zone that Amazon Route 53 created resource record sets in.
         public let hostedZoneId: String
         /// The ID that Amazon Route 53 assigned to the new traffic policy instance.
@@ -3324,6 +3813,7 @@ extension Route53 {
             AWSShapeMember(label: "TrafficPolicyCount", required: true, type: .integer), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
+
         /// The ID that Amazon Route 53 assigned to the traffic policy when you created it.
         public let id: String
         /// The version number of the latest version of the traffic policy.
@@ -3372,6 +3862,7 @@ extension Route53 {
             AWSShapeMember(label: "ResourcePath", required: false, type: .string), 
             AWSShapeMember(label: "SearchString", required: false, type: .string)
         ]
+
         /// A complex type that identifies the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether the specified health check is healthy.
         public let alarmIdentifier: AlarmIdentifier?
         /// A complex type that contains one ChildHealthCheck element for each health check that you want to associate with a CALCULATED health check.
@@ -3427,6 +3918,30 @@ extension Route53 {
             self.searchString = searchString
         }
 
+        public func validate(name: String) throws {
+            try alarmIdentifier?.validate(name: "\(name).alarmIdentifier")
+            try childHealthChecks?.forEach {
+                try validate($0, name: "childHealthChecks[]", parent: name, max: 64)
+            }
+            try validate(childHealthChecks, name:"childHealthChecks", parent: name, max: 256)
+            try validate(failureThreshold, name:"failureThreshold", parent: name, max: 10)
+            try validate(failureThreshold, name:"failureThreshold", parent: name, min: 1)
+            try validate(fullyQualifiedDomainName, name:"fullyQualifiedDomainName", parent: name, max: 255)
+            try validate(healthCheckId, name:"healthCheckId", parent: name, max: 64)
+            try validate(healthCheckVersion, name:"healthCheckVersion", parent: name, min: 1)
+            try validate(healthThreshold, name:"healthThreshold", parent: name, max: 256)
+            try validate(healthThreshold, name:"healthThreshold", parent: name, min: 0)
+            try validate(iPAddress, name:"iPAddress", parent: name, max: 45)
+            try validate(iPAddress, name:"iPAddress", parent: name, pattern: "(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)")
+            try validate(port, name:"port", parent: name, max: 65535)
+            try validate(port, name:"port", parent: name, min: 1)
+            try validate(regions, name:"regions", parent: name, max: 64)
+            try validate(regions, name:"regions", parent: name, min: 3)
+            try validate(resetElements, name:"resetElements", parent: name, max: 64)
+            try validate(resourcePath, name:"resourcePath", parent: name, max: 255)
+            try validate(searchString, name:"searchString", parent: name, max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case alarmIdentifier = "AlarmIdentifier"
             case childHealthChecks = "ChildHealthChecks"
@@ -3452,6 +3967,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HealthCheck", required: true, type: .structure)
         ]
+
         /// A complex type that contains the response to an UpdateHealthCheck request.
         public let healthCheck: HealthCheck
 
@@ -3469,6 +3985,7 @@ extension Route53 {
             AWSShapeMember(label: "Comment", required: false, type: .string), 
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
+
         /// The new comment for the hosted zone. If you don't specify a value for Comment, Amazon Route 53 deletes the existing value of the Comment element, if any.
         public let comment: String?
         /// The ID for the hosted zone that you want to update the comment for.
@@ -3477,6 +3994,11 @@ extension Route53 {
         public init(comment: String? = nil, id: String) {
             self.comment = comment
             self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try validate(comment, name:"comment", parent: name, max: 256)
+            try validate(id, name:"id", parent: name, max: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3489,6 +4011,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HostedZone", required: true, type: .structure)
         ]
+
         /// A complex type that contains the response to the UpdateHostedZoneComment request.
         public let hostedZone: HostedZone
 
@@ -3507,6 +4030,7 @@ extension Route53 {
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
             AWSShapeMember(label: "Version", location: .uri(locationName: "Version"), required: true, type: .integer)
         ]
+
         /// The new comment for the specified traffic policy and version.
         public let comment: String
         /// The value of Id for the traffic policy that you want to update the comment for.
@@ -3520,6 +4044,14 @@ extension Route53 {
             self.version = version
         }
 
+        public func validate(name: String) throws {
+            try validate(comment, name:"comment", parent: name, max: 1024)
+            try validate(id, name:"id", parent: name, max: 36)
+            try validate(id, name:"id", parent: name, min: 1)
+            try validate(version, name:"version", parent: name, max: 1000)
+            try validate(version, name:"version", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
             case id = "Id"
@@ -3531,6 +4063,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TrafficPolicy", required: true, type: .structure)
         ]
+
         /// A complex type that contains settings for the specified traffic policy.
         public let trafficPolicy: TrafficPolicy
 
@@ -3550,6 +4083,7 @@ extension Route53 {
             AWSShapeMember(label: "TrafficPolicyVersion", required: true, type: .integer), 
             AWSShapeMember(label: "TTL", required: true, type: .long)
         ]
+
         /// The ID of the traffic policy instance that you want to update.
         public let id: String
         /// The ID of the traffic policy that you want Amazon Route 53 to use to update resource record sets for the specified traffic policy instance.
@@ -3566,6 +4100,17 @@ extension Route53 {
             self.ttl = ttl
         }
 
+        public func validate(name: String) throws {
+            try validate(id, name:"id", parent: name, max: 36)
+            try validate(id, name:"id", parent: name, min: 1)
+            try validate(trafficPolicyId, name:"trafficPolicyId", parent: name, max: 36)
+            try validate(trafficPolicyId, name:"trafficPolicyId", parent: name, min: 1)
+            try validate(trafficPolicyVersion, name:"trafficPolicyVersion", parent: name, max: 1000)
+            try validate(trafficPolicyVersion, name:"trafficPolicyVersion", parent: name, min: 1)
+            try validate(ttl, name:"ttl", parent: name, max: 2147483647)
+            try validate(ttl, name:"ttl", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
             case trafficPolicyId = "TrafficPolicyId"
@@ -3578,6 +4123,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TrafficPolicyInstance", required: true, type: .structure)
         ]
+
         /// A complex type that contains settings for the updated traffic policy instance.
         public let trafficPolicyInstance: TrafficPolicyInstance
 
@@ -3595,6 +4141,7 @@ extension Route53 {
             AWSShapeMember(label: "VPCId", required: false, type: .string), 
             AWSShapeMember(label: "VPCRegion", required: false, type: .enum)
         ]
+
         public let vPCId: String?
         /// (Private hosted zones only) The region that an Amazon VPC was created in.
         public let vPCRegion: VPCRegion?
@@ -3602,6 +4149,10 @@ extension Route53 {
         public init(vPCId: String? = nil, vPCRegion: VPCRegion? = nil) {
             self.vPCId = vPCId
             self.vPCRegion = vPCRegion
+        }
+
+        public func validate(name: String) throws {
+            try validate(vPCId, name:"vPCId", parent: name, max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {

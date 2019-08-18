@@ -11,6 +11,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ClientSecret", required: true, type: .string), 
             AWSShapeMember(label: "Enabled", required: false, type: .boolean)
         ]
+
         /// The Client ID that you received from Amazon to send messages by using ADM.
         public let clientId: String
         /// The Client Secret that you received from Amazon to send messages by using ADM.
@@ -44,6 +45,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Platform", required: true, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .integer)
         ]
+
         /// The unique identifier for the application that the ADM channel applies to.
         public let applicationId: String?
         /// The date and time when the ADM channel was enabled.
@@ -111,6 +113,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Title", required: false, type: .string), 
             AWSShapeMember(label: "Url", required: false, type: .string)
         ]
+
         /// The action to occur if the recipient taps the push notification. Valid values are: OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action. DEEP_LINK - Your app opens and displays a designated user interface in the app. This action uses the deep-linking features of the Android platform. URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
         public let action: Action?
         /// The body of the notification message.
@@ -194,6 +197,7 @@ extension Pinpoint {
             AWSShapeMember(label: "TokenKey", required: false, type: .string), 
             AWSShapeMember(label: "TokenKeyId", required: false, type: .string)
         ]
+
         /// The bundle identifier that's assigned to your iOS app. This identifier is used for APNs tokens.
         public let bundleId: String?
         /// The APNs client certificate that you received from Apple, if you want Amazon Pinpoint to communicate with APNs by using an APNs certificate.
@@ -249,6 +253,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Platform", required: true, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .integer)
         ]
+
         /// The unique identifier for the application that the APNs channel applies to.
         public let applicationId: String?
         /// The date and time when the APNs channel was enabled.
@@ -325,6 +330,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Title", required: false, type: .string), 
             AWSShapeMember(label: "Url", required: false, type: .string)
         ]
+
         /// The action to occur if the recipient taps the push notification. Valid values are: OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action. DEEP_LINK - Your app opens and displays a designated user interface in the app. This setting uses the deep-linking features of the iOS platform. URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
         public let action: Action?
         /// The key that indicates whether and how to modify the badge of your app's icon when the recipient receives the push notification. If this key isn't included in the dictionary, the badge doesn't change. To remove the badge, set this value to 0.
@@ -412,6 +418,7 @@ extension Pinpoint {
             AWSShapeMember(label: "TokenKey", required: false, type: .string), 
             AWSShapeMember(label: "TokenKeyId", required: false, type: .string)
         ]
+
         /// The bundle identifier that's assigned to your iOS app. This identifier is used for APNs tokens.
         public let bundleId: String?
         /// The APNs client certificate that you received from Apple, if you want Amazon Pinpoint to communicate with the APNs sandbox environment by using an APNs certificate.
@@ -467,6 +474,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Platform", required: true, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .integer)
         ]
+
         /// The unique identifier for the application that the APNs sandbox channel applies to.
         public let applicationId: String?
         /// The date and time when the APNs sandbox channel was enabled.
@@ -534,6 +542,7 @@ extension Pinpoint {
             AWSShapeMember(label: "TokenKey", required: false, type: .string), 
             AWSShapeMember(label: "TokenKeyId", required: false, type: .string)
         ]
+
         /// The bundle identifier that's assigned to your iOS app. This identifier is used for APNs tokens.
         public let bundleId: String?
         /// The APNs client certificate that you received from Apple, if you want Amazon Pinpoint to communicate with APNs by using an APNs certificate.
@@ -589,6 +598,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Platform", required: true, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .integer)
         ]
+
         /// The unique identifier for the application that the APNs VoIP channel applies to.
         public let applicationId: String?
         /// The date and time when the APNs VoIP channel was enabled.
@@ -656,6 +666,7 @@ extension Pinpoint {
             AWSShapeMember(label: "TokenKey", required: false, type: .string), 
             AWSShapeMember(label: "TokenKeyId", required: false, type: .string)
         ]
+
         /// The bundle identifier that's assigned to your iOS app. This identifier is used for APNs tokens.
         public let bundleId: String?
         /// The APNs client certificate that you received from Apple, if you want Amazon Pinpoint to communicate with the APNs sandbox environment by using an APNs certificate.
@@ -711,6 +722,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Platform", required: true, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .integer)
         ]
+
         /// The unique identifier for the application that the APNs VoIP sandbox channel applies to.
         public let applicationId: String?
         /// The date and time when the APNs VoIP sandbox channel was enabled.
@@ -779,6 +791,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Item", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// An array of responses, one for each activity that was performed by the campaign.
         public let item: [ActivityResponse]
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -811,6 +824,7 @@ extension Pinpoint {
             AWSShapeMember(label: "TotalEndpointCount", required: false, type: .integer), 
             AWSShapeMember(label: "TreatmentId", required: false, type: .string)
         ]
+
         /// The unique identifier for the application that the campaign applies to.
         public let applicationId: String
         /// The unique identifier for the campaign that the activity applies to.
@@ -880,6 +894,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Substitutions", required: false, type: .map), 
             AWSShapeMember(label: "TitleOverride", required: false, type: .string)
         ]
+
         /// The message body to use instead of the default message body. This value overrides the default message body.
         public let bodyOverride: String?
         /// The channel to use when sending the message.
@@ -919,6 +934,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         /// The Amazon Resource Name (ARN) of the application.
         public let arn: String
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -951,6 +967,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Limits", required: false, type: .structure), 
             AWSShapeMember(label: "QuietTime", required: false, type: .structure)
         ]
+
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The settings for the AWS Lambda function to use by default as a code hook for campaigns in the application.
@@ -984,6 +1001,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Item", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// An array of responses, one for each application that was returned.
         public let item: [ApplicationResponse]?
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -1005,6 +1023,7 @@ extension Pinpoint {
             AWSShapeMember(label: "AttributeType", required: false, type: .enum), 
             AWSShapeMember(label: "Values", required: true, type: .list)
         ]
+
         /// The type of segment dimension to use. Valid values are: INCLUSIVE, endpoints that match the criteria are included in the segment; and, EXCLUSIVE, endpoints that match the criteria are excluded from the segment.
         public let attributeType: AttributeType?
         /// The criteria values to use for the segment dimension. Depending on the value of the AttributeType property, endpoints are included or excluded from the segment if their attribute values match the criteria values.
@@ -1033,6 +1052,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Attributes", required: false, type: .list), 
             AWSShapeMember(label: "AttributeType", required: true, type: .string)
         ]
+
         /// The unique identifier for the application.
         public let applicationId: String
         /// An array that specifies the names of the attributes that were removed from the endpoints.
@@ -1059,6 +1079,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "SecretKey", required: true, type: .string)
         ]
+
         /// The API key that you received from the Baidu Cloud Push service to communicate with the service.
         public let apiKey: String
         /// Specifies whether to enable the Baidu channel for the application.
@@ -1093,6 +1114,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Platform", required: true, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .integer)
         ]
+
         /// The unique identifier for the application that the Baidu channel applies to.
         public let applicationId: String?
         /// The date and time when the Baidu channel was enabled.
@@ -1162,6 +1184,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Title", required: false, type: .string), 
             AWSShapeMember(label: "Url", required: false, type: .string)
         ]
+
         /// The action to occur if the recipient taps the push notification. Valid values are: OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action. DEEP_LINK - Your app opens and displays a designated user interface in the app. This action uses the deep-linking features of the Android platform. URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
         public let action: Action?
         /// The body of the notification message.
@@ -1233,6 +1256,7 @@ extension Pinpoint {
             AWSShapeMember(label: "HtmlBody", required: false, type: .string), 
             AWSShapeMember(label: "Title", required: true, type: .string)
         ]
+
         /// The body of the email for recipients whose email clients don't support HTML content.
         public let body: String?
         /// The verified email address to send the email from. The default address is the FromAddress specified for the email channel for the application.
@@ -1262,6 +1286,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Dimensions", required: true, type: .structure), 
             AWSShapeMember(label: "FilterType", required: true, type: .enum)
         ]
+
         /// The dimension settings of the event filter for the campaign.
         public let dimensions: EventDimensions
         /// The type of event that causes the campaign to be sent. Valid values are: SYSTEM, sends the campaign when a system event occurs; and, ENDPOINT, sends the campaign when an endpoint event (Events resource) occurs.
@@ -1284,6 +1309,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Mode", required: false, type: .enum), 
             AWSShapeMember(label: "WebUrl", required: false, type: .string)
         ]
+
         /// The name or Amazon Resource Name (ARN) of the AWS Lambda function that Amazon Pinpoint invokes to send messages for a campaign.
         public let lambdaFunctionName: String?
         /// Specifies which Lambda mode to use when invoking the AWS Lambda function.
@@ -1311,6 +1337,7 @@ extension Pinpoint {
             AWSShapeMember(label: "MessagesPerSecond", required: false, type: .integer), 
             AWSShapeMember(label: "Total", required: false, type: .integer)
         ]
+
         /// The maximum number of messages that a campaign can send to a single endpoint during a 24-hour period. The maximum value is 100.
         public let daily: Int32?
         /// The maximum amount of time, in seconds, that a campaign can attempt to deliver a message after the scheduled start time for the campaign. The minimum value is 60 seconds.
@@ -1360,6 +1387,7 @@ extension Pinpoint {
             AWSShapeMember(label: "TreatmentName", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .integer)
         ]
+
         /// An array of responses, one for each treatment that you defined for the campaign, in addition to the default treatment.
         public let additionalTreatments: [TreatmentResource]?
         /// The unique identifier for the application that the campaign applies to.
@@ -1462,6 +1490,7 @@ extension Pinpoint {
             AWSShapeMember(label: "MessageType", required: false, type: .enum), 
             AWSShapeMember(label: "SenderId", required: false, type: .string)
         ]
+
         /// The body of the SMS message.
         public let body: String?
         /// The type of SMS message. Valid values are: TRANSACTIONAL, the message is critical or time-sensitive, such as a one-time password that supports a customer transaction; and, PROMOTIONAL, the message isn't critical or time-sensitive, such as a marketing message.
@@ -1486,6 +1515,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CampaignStatus", required: false, type: .enum)
         ]
+
         /// The status of the campaign, or the status of a treatment that belongs to an A/B test campaign. If a campaign uses A/B testing, the campaign has a status of COMPLETED only when all campaign treatments have a status of COMPLETED.
         public let campaignStatus: CampaignStatus?
 
@@ -1513,6 +1543,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Item", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// An array of responses, one for each campaign that's associated with the application.
         public let item: [CampaignResponse]
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -1541,6 +1572,7 @@ extension Pinpoint {
             AWSShapeMember(label: "LastModifiedDate", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .integer)
         ]
+
         /// The unique identifier for the application.
         public let applicationId: String?
         /// The date and time, in ISO 8601 format, when the channel was enabled.
@@ -1604,6 +1636,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Channels", required: true, type: .map)
         ]
+
         /// A map that contains a multipart response for each channel. For each item in this object, the ChannelType is the key and the Channel is the value.
         public let channels: [String: ChannelResponse]
 
@@ -1622,6 +1655,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreateApplicationRequest", required: true, type: .structure)
         ]
+
         public let createApplicationRequest: CreateApplicationRequest
 
         public init(createApplicationRequest: CreateApplicationRequest) {
@@ -1639,6 +1673,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationResponse", required: true, type: .structure)
         ]
+
         public let applicationResponse: ApplicationResponse
 
         public init(applicationResponse: ApplicationResponse) {
@@ -1655,6 +1690,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         /// The display name of the application. This name is displayed as the Project name on the Amazon Pinpoint console.
         public let name: String
         /// A string-to-string map of key-value pairs that defines the tags to associate with the application. Each tag consists of a required tag key and an associated tag value.
@@ -1678,6 +1714,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "WriteCampaignRequest", required: true, type: .structure)
         ]
+
         public let applicationId: String
         public let writeCampaignRequest: WriteCampaignRequest
 
@@ -1698,6 +1735,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CampaignResponse", required: true, type: .structure)
         ]
+
         public let campaignResponse: CampaignResponse
 
         public init(campaignResponse: CampaignResponse) {
@@ -1716,6 +1754,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "ExportJobRequest", required: true, type: .structure)
         ]
+
         public let applicationId: String
         public let exportJobRequest: ExportJobRequest
 
@@ -1736,6 +1775,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExportJobResponse", required: true, type: .structure)
         ]
+
         public let exportJobResponse: ExportJobResponse
 
         public init(exportJobResponse: ExportJobResponse) {
@@ -1754,6 +1794,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "ImportJobRequest", required: true, type: .structure)
         ]
+
         public let applicationId: String
         public let importJobRequest: ImportJobRequest
 
@@ -1774,6 +1815,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ImportJobResponse", required: true, type: .structure)
         ]
+
         public let importJobResponse: ImportJobResponse
 
         public init(importJobResponse: ImportJobResponse) {
@@ -1792,6 +1834,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "WriteSegmentRequest", required: true, type: .structure)
         ]
+
         public let applicationId: String
         public let writeSegmentRequest: WriteSegmentRequest
 
@@ -1812,6 +1855,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SegmentResponse", required: true, type: .structure)
         ]
+
         public let segmentResponse: SegmentResponse
 
         public init(segmentResponse: SegmentResponse) {
@@ -1828,6 +1872,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Body", required: false, type: .string), 
             AWSShapeMember(label: "Substitutions", required: false, type: .map)
         ]
+
         /// The default message body of the push notification, email, or SMS message.
         public let body: String?
         /// The default message variables to use in the push notification, email, or SMS message. You can override these default variables with individual address variables.
@@ -1854,6 +1899,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Title", required: false, type: .string), 
             AWSShapeMember(label: "Url", required: false, type: .string)
         ]
+
         /// The default action to occur if a recipient taps the push notification. Valid values are: OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action. DEEP_LINK - Your app opens and displays a designated user interface in the app. This setting uses the deep-linking features of the iOS and Android platforms. URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
         public let action: Action?
         /// The default body of the notification message.
@@ -1894,6 +1940,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -1911,6 +1958,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ADMChannelResponse", required: true, type: .structure)
         ]
+
         public let aDMChannelResponse: ADMChannelResponse
 
         public init(aDMChannelResponse: ADMChannelResponse) {
@@ -1926,6 +1974,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -1943,6 +1992,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "APNSChannelResponse", required: true, type: .structure)
         ]
+
         public let aPNSChannelResponse: APNSChannelResponse
 
         public init(aPNSChannelResponse: APNSChannelResponse) {
@@ -1958,6 +2008,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -1975,6 +2026,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "APNSSandboxChannelResponse", required: true, type: .structure)
         ]
+
         public let aPNSSandboxChannelResponse: APNSSandboxChannelResponse
 
         public init(aPNSSandboxChannelResponse: APNSSandboxChannelResponse) {
@@ -1990,6 +2042,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -2007,6 +2060,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "APNSVoipChannelResponse", required: true, type: .structure)
         ]
+
         public let aPNSVoipChannelResponse: APNSVoipChannelResponse
 
         public init(aPNSVoipChannelResponse: APNSVoipChannelResponse) {
@@ -2022,6 +2076,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -2039,6 +2094,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "APNSVoipSandboxChannelResponse", required: true, type: .structure)
         ]
+
         public let aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
 
         public init(aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse) {
@@ -2054,6 +2110,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -2071,6 +2128,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationResponse", required: true, type: .structure)
         ]
+
         public let applicationResponse: ApplicationResponse
 
         public init(applicationResponse: ApplicationResponse) {
@@ -2086,6 +2144,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -2103,6 +2162,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BaiduChannelResponse", required: true, type: .structure)
         ]
+
         public let baiduChannelResponse: BaiduChannelResponse
 
         public init(baiduChannelResponse: BaiduChannelResponse) {
@@ -2119,6 +2179,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "CampaignId", location: .uri(locationName: "campaign-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
         public let campaignId: String
 
@@ -2139,6 +2200,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CampaignResponse", required: true, type: .structure)
         ]
+
         public let campaignResponse: CampaignResponse
 
         public init(campaignResponse: CampaignResponse) {
@@ -2154,6 +2216,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -2171,6 +2234,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EmailChannelResponse", required: true, type: .structure)
         ]
+
         public let emailChannelResponse: EmailChannelResponse
 
         public init(emailChannelResponse: EmailChannelResponse) {
@@ -2187,6 +2251,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "EndpointId", location: .uri(locationName: "endpoint-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
         public let endpointId: String
 
@@ -2207,6 +2272,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointResponse", required: true, type: .structure)
         ]
+
         public let endpointResponse: EndpointResponse
 
         public init(endpointResponse: EndpointResponse) {
@@ -2222,6 +2288,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -2239,6 +2306,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventStream", required: true, type: .structure)
         ]
+
         public let eventStream: EventStream
 
         public init(eventStream: EventStream) {
@@ -2254,6 +2322,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -2271,6 +2340,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GCMChannelResponse", required: true, type: .structure)
         ]
+
         public let gCMChannelResponse: GCMChannelResponse
 
         public init(gCMChannelResponse: GCMChannelResponse) {
@@ -2287,6 +2357,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
         public let segmentId: String
 
@@ -2307,6 +2378,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SegmentResponse", required: true, type: .structure)
         ]
+
         public let segmentResponse: SegmentResponse
 
         public init(segmentResponse: SegmentResponse) {
@@ -2322,6 +2394,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -2339,6 +2412,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SMSChannelResponse", required: true, type: .structure)
         ]
+
         public let sMSChannelResponse: SMSChannelResponse
 
         public init(sMSChannelResponse: SMSChannelResponse) {
@@ -2355,6 +2429,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "UserId", location: .uri(locationName: "user-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
         public let userId: String
 
@@ -2375,6 +2450,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointsResponse", required: true, type: .structure)
         ]
+
         public let endpointsResponse: EndpointsResponse
 
         public init(endpointsResponse: EndpointsResponse) {
@@ -2390,6 +2466,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -2407,6 +2484,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VoiceChannelResponse", required: true, type: .structure)
         ]
+
         public let voiceChannelResponse: VoiceChannelResponse
 
         public init(voiceChannelResponse: VoiceChannelResponse) {
@@ -2447,6 +2525,7 @@ extension Pinpoint {
             AWSShapeMember(label: "SMSMessage", required: false, type: .structure), 
             AWSShapeMember(label: "VoiceMessage", required: false, type: .structure)
         ]
+
         /// The default push notification message for the ADM (Amazon Device Messaging) channel. This message overrides the default push notification message (DefaultPushNotificationMessage).
         public let aDMMessage: ADMMessage?
         /// The default push notification message for the APNs (Apple Push Notification service) channel. This message overrides the default push notification message (DefaultPushNotificationMessage).
@@ -2507,6 +2586,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Identity", required: true, type: .string), 
             AWSShapeMember(label: "RoleArn", required: false, type: .string)
         ]
+
         /// The configuration set that you want to apply to email that you send through the channel by using the Amazon Pinpoint Email API.
         public let configurationSet: String?
         /// Specifies whether to enable the email channel for the application.
@@ -2553,6 +2633,7 @@ extension Pinpoint {
             AWSShapeMember(label: "RoleArn", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .integer)
         ]
+
         /// The unique identifier for the application that the email channel applies to.
         public let applicationId: String?
         /// The configuration set that's applied to email that's sent through the channel by using the Amazon Pinpoint Email API.
@@ -2631,6 +2712,7 @@ extension Pinpoint {
             AWSShapeMember(label: "SimpleEmail", required: false, type: .structure), 
             AWSShapeMember(label: "Substitutions", required: false, type: .map)
         ]
+
         /// The body of the email message.
         public let body: String?
         /// The email address to forward bounces and complaints to, if feedback forwarding is enabled.
@@ -2682,6 +2764,7 @@ extension Pinpoint {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "User", required: false, type: .structure)
         ]
+
         /// The destination address for messages or push notifications that you send to the endpoint. The address varies by channel. For a push-notification channel, use the token provided by the push notification service, such as an Apple Push Notification service (APNs) device token or a Firebase Cloud Messaging (FCM) registration token. For the SMS channel, use a phone number in E.164 format, such as +12065550100. For the email channel, use an email address.
         public let address: String?
         /// One or more custom attributes that describe the endpoint by associating a name with an array of values. For example, the value of a custom attribute named Interests might be: ["science", "music", "travel"]. You can use these attributes as filter criteria when you create segments. When you define the name of a custom attribute, avoid using the following characters: number sign (#), colon (:), question mark (?), backslash (\), and slash (/). The Amazon Pinpoint console can't display attribute names that contain these characters. This limitation doesn't apply to attribute values.
@@ -2742,6 +2825,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Item", required: true, type: .list)
         ]
+
         /// An array that defines the endpoints to create or update and, for each endpoint, the property values to set or change. An array can contain a maximum of 100 items.
         public let item: [EndpointBatchItem]
 
@@ -2765,6 +2849,7 @@ extension Pinpoint {
             AWSShapeMember(label: "PlatformVersion", required: false, type: .string), 
             AWSShapeMember(label: "Timezone", required: false, type: .string)
         ]
+
         /// The version of the app that's associated with the endpoint.
         public let appVersion: String?
         /// The locale of the endpoint, in the following format: the ISO 639-1 alpha-2 code, followed by an underscore (_), followed by an ISO 3166-1 alpha-2 value.
@@ -2810,6 +2895,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "StatusCode", required: false, type: .integer)
         ]
+
         /// The custom message that's returned in the response as a result of processing the endpoint data.
         public let message: String?
         /// The status code that's returned in the response as a result of processing the endpoint data.
@@ -2835,6 +2921,7 @@ extension Pinpoint {
             AWSShapeMember(label: "PostalCode", required: false, type: .string), 
             AWSShapeMember(label: "Region", required: false, type: .string)
         ]
+
         /// The name of the city where the endpoint is located.
         public let city: String?
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region where the endpoint is located. For example, US for the United States.
@@ -2876,6 +2963,7 @@ extension Pinpoint {
             AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
             AWSShapeMember(label: "UpdatedToken", required: false, type: .string)
         ]
+
         /// The endpoint address that the message was delivered to.
         public let address: String?
         /// The delivery status of the message. Possible values are:  DUPLICATE - The endpoint address is a duplicate of another endpoint address. Amazon Pinpoint won't attempt to send the message again. OPT_OUT - The user who's associated with the endpoint has opted out of receiving messages from you. Amazon Pinpoint won't attempt to send the message again. PERMANENT_FAILURE - An error occurred when delivering the message to the endpoint. Amazon Pinpoint won't attempt to send the message again.    SUCCESSFUL - The message was successfully delivered to the endpoint. TEMPORARY_FAILURE - A temporary error occurred. Amazon Pinpoint will attempt to deliver the message again later. THROTTLED - Amazon Pinpoint throttled the operation to send the message to the endpoint. TIMEOUT - The message couldn't be sent within the timeout period. UNKNOWN_FAILURE - An unknown error occurred.
@@ -2922,6 +3010,7 @@ extension Pinpoint {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "User", required: false, type: .structure)
         ]
+
         /// The destination address for messages or push notifications that you send to the endpoint. The address varies by channel. For a push-notification channel, use the token provided by the push notification service, such as an Apple Push Notification service (APNs) device token or a Firebase Cloud Messaging (FCM) registration token. For the SMS channel, use a phone number in E.164 format, such as +12065550100. For the email channel, use an email address.
         public let address: String?
         /// One or more custom attributes that describe the endpoint by associating a name with an array of values. For example, the value of a custom attribute named Interests might be: ["science", "music", "travel"]. You can use these attributes as filter criteria when you create segments. When you define the name of a custom attribute, avoid using the following characters: number sign (#), colon (:), question mark (?), backslash (\), and slash (/). The Amazon Pinpoint console can't display attribute names that contain these characters. This limitation doesn't apply to attribute values.
@@ -2992,6 +3081,7 @@ extension Pinpoint {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "User", required: false, type: .structure)
         ]
+
         /// The destination address for messages or push notifications that you send to the endpoint. The address varies by channel. For example, the address for a push-notification channel is typically the token provided by a push notification service, such as an Apple Push Notification service (APNs) device token or a Firebase Cloud Messaging (FCM) registration token. The address for the SMS channel is a phone number in E.164 format, such as +12065550100. The address for the email channel is an email address.
         public let address: String?
         /// The unique identifier for the application that's associated with the endpoint.
@@ -3068,6 +3158,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Substitutions", required: false, type: .map), 
             AWSShapeMember(label: "TitleOverride", required: false, type: .string)
         ]
+
         /// The body of the message. If specified, this value overrides the default message body.
         public let bodyOverride: String?
         /// A map of custom attributes to attach to the message for the address. For a push notification, this payload is added to the data.pinpoint object. For an email or text message, this payload is added to email/SMS delivery receipt event attributes.
@@ -3101,6 +3192,7 @@ extension Pinpoint {
             AWSShapeMember(label: "UserAttributes", required: false, type: .map), 
             AWSShapeMember(label: "UserId", required: false, type: .string)
         ]
+
         /// One or more custom attributes that describe the user by associating a name with an array of values. For example, the value of an attribute named Interests might be: ["science", "music", "travel"]. You can use these attributes as filter criteria when you create segments. When you define the name of a custom attribute, avoid using the following characters: number sign (#), colon (:), question mark (?), backslash (\), and slash (/). The Amazon Pinpoint console can't display attribute names that contain these characters. This limitation doesn't apply to attribute values.
         public let userAttributes: [String: [String]]?
         /// The unique identifier for the user.
@@ -3121,6 +3213,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Item", required: true, type: .list)
         ]
+
         /// An array of responses, one for each endpoint that's associated with the user ID.
         public let item: [EndpointResponse]
 
@@ -3146,6 +3239,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Session", required: false, type: .structure), 
             AWSShapeMember(label: "Timestamp", required: true, type: .string)
         ]
+
         /// The package name of the app that's recording the event.
         public let appPackageName: String?
         /// The title of the app that's recording the event.
@@ -3200,6 +3294,7 @@ extension Pinpoint {
             AWSShapeMember(label: "EventType", required: false, type: .structure), 
             AWSShapeMember(label: "Metrics", required: false, type: .map)
         ]
+
         /// One or more custom attributes that your app reports to Amazon Pinpoint. You can use these attributes as selection criteria when you create an event filter.
         public let attributes: [String: AttributeDimension]?
         /// The name of the event that causes the campaign to be sent. This can be a standard type of event that Amazon Pinpoint generates, such as _session.start, or a custom event that's specific to your app.
@@ -3225,6 +3320,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "StatusCode", required: false, type: .integer)
         ]
+
         /// A custom message that's returned in the response as a result of processing the event.
         public let message: String?
         /// The status code that's returned in the response as a result of processing the event. Possible values are: 202, for events that were accepted; and, 400, for events that weren't valid.
@@ -3250,6 +3346,7 @@ extension Pinpoint {
             AWSShapeMember(label: "LastUpdatedBy", required: false, type: .string), 
             AWSShapeMember(label: "RoleArn", required: true, type: .string)
         ]
+
         /// The unique identifier for the application to publish event data for.
         public let applicationId: String
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis data stream or Amazon Kinesis Data Firehose delivery stream to publish event data to. For a Kinesis data stream, the ARN format is: arn:aws:kinesis:region:account-id:stream/stream_name
@@ -3289,6 +3386,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Endpoint", required: true, type: .structure), 
             AWSShapeMember(label: "Events", required: true, type: .map)
         ]
+
         /// A set of properties and attributes that are associated with the endpoint.
         public let endpoint: PublicEndpoint
         /// A set of properties that are associated with the event.
@@ -3309,6 +3407,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BatchItem", required: true, type: .map)
         ]
+
         /// The batch of events to process. For each item in a batch, the endpoint ID acts as a key that has an EventsBatch object as its value.
         public let batchItem: [String: EventsBatch]
 
@@ -3325,6 +3424,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Results", required: false, type: .map)
         ]
+
         /// A map that contains a multipart response for each endpoint. For each item in this object, the endpoint ID is the key and the item response is the value. If no item response exists, the value can also be one of the following: 202, the request was processed successfully; or 400, the payload wasn't valid or required fields were missing.
         public let results: [String: ItemResponse]?
 
@@ -3344,6 +3444,7 @@ extension Pinpoint {
             AWSShapeMember(label: "SegmentId", required: false, type: .string), 
             AWSShapeMember(label: "SegmentVersion", required: false, type: .integer)
         ]
+
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to access the Amazon S3 location where you want to export endpoint definitions to.
         public let roleArn: String
         /// The URL of the location in an Amazon Simple Storage Service (Amazon S3) bucket where you want to export endpoint definitions to. This location is typically a folder that contains multiple files. The URL should be in the following format: s3://bucket-name/folder-name/.
@@ -3375,6 +3476,7 @@ extension Pinpoint {
             AWSShapeMember(label: "SegmentId", required: false, type: .string), 
             AWSShapeMember(label: "SegmentVersion", required: false, type: .integer)
         ]
+
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorized Amazon Pinpoint to access the Amazon S3 location where the endpoint definitions were exported to.
         public let roleArn: String
         /// The URL of the location in an Amazon Simple Storage Service (Amazon S3) bucket where the endpoint definitions were exported to. This location is typically a folder that contains multiple files. The URL should be in the following format: s3://bucket-name/folder-name/.
@@ -3415,6 +3517,7 @@ extension Pinpoint {
             AWSShapeMember(label: "TotalProcessed", required: false, type: .integer), 
             AWSShapeMember(label: "Type", required: true, type: .string)
         ]
+
         /// The unique identifier for the application that's associated with the export job.
         public let applicationId: String
         /// The number of pieces that were processed successfully (completed) by the export job, as of the time of the request.
@@ -3480,6 +3583,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Item", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// An array of responses, one for each export job that's associated with the application (Export Jobs resource) or segment (Segment Export Jobs resource).
         public let item: [ExportJobResponse]
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -3523,6 +3627,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApiKey", required: true, type: .string), 
             AWSShapeMember(label: "Enabled", required: false, type: .boolean)
         ]
+
         /// The API key, also referred to as a server key, that you received from Google to communicate with Google services.
         public let apiKey: String
         /// Specifies whether to enable the GCM channel for the application.
@@ -3553,6 +3658,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Platform", required: true, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .integer)
         ]
+
         /// The unique identifier for the application that the GCM channel applies to.
         public let applicationId: String?
         /// The date and time when the GCM channel was enabled.
@@ -3625,6 +3731,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Title", required: false, type: .string), 
             AWSShapeMember(label: "Url", required: false, type: .string)
         ]
+
         /// The action to occur if the recipient taps the push notification. Valid values are: OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action. DEEP_LINK - Your app opens and displays a designated user interface in the app. This action uses the deep-linking features of the Android platform. URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
         public let action: Action?
         /// The body of the notification message.
@@ -3706,6 +3813,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Latitude", required: true, type: .double), 
             AWSShapeMember(label: "Longitude", required: true, type: .double)
         ]
+
         /// The latitude coordinate of the location.
         public let latitude: Double
         /// The longitude coordinate of the location.
@@ -3727,6 +3835,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Coordinates", required: true, type: .structure), 
             AWSShapeMember(label: "RangeInKilometers", required: false, type: .double)
         ]
+
         /// The GPS coordinates to measure distance from.
         public let coordinates: GPSCoordinates
         /// The range, in kilometers, from the GPS coordinates.
@@ -3747,6 +3856,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -3764,6 +3874,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ADMChannelResponse", required: true, type: .structure)
         ]
+
         public let aDMChannelResponse: ADMChannelResponse
 
         public init(aDMChannelResponse: ADMChannelResponse) {
@@ -3779,6 +3890,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -3796,6 +3908,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "APNSChannelResponse", required: true, type: .structure)
         ]
+
         public let aPNSChannelResponse: APNSChannelResponse
 
         public init(aPNSChannelResponse: APNSChannelResponse) {
@@ -3811,6 +3924,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -3828,6 +3942,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "APNSSandboxChannelResponse", required: true, type: .structure)
         ]
+
         public let aPNSSandboxChannelResponse: APNSSandboxChannelResponse
 
         public init(aPNSSandboxChannelResponse: APNSSandboxChannelResponse) {
@@ -3843,6 +3958,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -3860,6 +3976,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "APNSVoipChannelResponse", required: true, type: .structure)
         ]
+
         public let aPNSVoipChannelResponse: APNSVoipChannelResponse
 
         public init(aPNSVoipChannelResponse: APNSVoipChannelResponse) {
@@ -3875,6 +3992,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -3892,6 +4010,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "APNSVoipSandboxChannelResponse", required: true, type: .structure)
         ]
+
         public let aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
 
         public init(aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse) {
@@ -3907,6 +4026,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -3924,6 +4044,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationResponse", required: true, type: .structure)
         ]
+
         public let applicationResponse: ApplicationResponse
 
         public init(applicationResponse: ApplicationResponse) {
@@ -3939,6 +4060,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -3956,6 +4078,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationSettingsResource", required: true, type: .structure)
         ]
+
         public let applicationSettingsResource: ApplicationSettingsResource
 
         public init(applicationSettingsResource: ApplicationSettingsResource) {
@@ -3972,6 +4095,7 @@ extension Pinpoint {
             AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
             AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
         ]
+
         public let pageSize: String?
         public let token: String?
 
@@ -3992,6 +4116,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationsResponse", required: true, type: .structure)
         ]
+
         public let applicationsResponse: ApplicationsResponse
 
         public init(applicationsResponse: ApplicationsResponse) {
@@ -4007,6 +4132,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -4024,6 +4150,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BaiduChannelResponse", required: true, type: .structure)
         ]
+
         public let baiduChannelResponse: BaiduChannelResponse
 
         public init(baiduChannelResponse: BaiduChannelResponse) {
@@ -4042,6 +4169,7 @@ extension Pinpoint {
             AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
             AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
         ]
+
         public let applicationId: String
         public let campaignId: String
         public let pageSize: String?
@@ -4068,6 +4196,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ActivitiesResponse", required: true, type: .structure)
         ]
+
         public let activitiesResponse: ActivitiesResponse
 
         public init(activitiesResponse: ActivitiesResponse) {
@@ -4084,6 +4213,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "CampaignId", location: .uri(locationName: "campaign-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
         public let campaignId: String
 
@@ -4104,6 +4234,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CampaignResponse", required: true, type: .structure)
         ]
+
         public let campaignResponse: CampaignResponse
 
         public init(campaignResponse: CampaignResponse) {
@@ -4121,6 +4252,7 @@ extension Pinpoint {
             AWSShapeMember(label: "CampaignId", location: .uri(locationName: "campaign-id"), required: true, type: .string), 
             AWSShapeMember(label: "Version", location: .uri(locationName: "version"), required: true, type: .string)
         ]
+
         public let applicationId: String
         public let campaignId: String
         public let version: String
@@ -4144,6 +4276,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CampaignResponse", required: true, type: .structure)
         ]
+
         public let campaignResponse: CampaignResponse
 
         public init(campaignResponse: CampaignResponse) {
@@ -4162,6 +4295,7 @@ extension Pinpoint {
             AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
             AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
         ]
+
         public let applicationId: String
         public let campaignId: String
         public let pageSize: String?
@@ -4188,6 +4322,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CampaignsResponse", required: true, type: .structure)
         ]
+
         public let campaignsResponse: CampaignsResponse
 
         public init(campaignsResponse: CampaignsResponse) {
@@ -4205,6 +4340,7 @@ extension Pinpoint {
             AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
             AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
         ]
+
         public let applicationId: String
         public let pageSize: String?
         public let token: String?
@@ -4228,6 +4364,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CampaignsResponse", required: true, type: .structure)
         ]
+
         public let campaignsResponse: CampaignsResponse
 
         public init(campaignsResponse: CampaignsResponse) {
@@ -4243,6 +4380,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -4260,6 +4398,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChannelsResponse", required: true, type: .structure)
         ]
+
         public let channelsResponse: ChannelsResponse
 
         public init(channelsResponse: ChannelsResponse) {
@@ -4275,6 +4414,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -4292,6 +4432,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EmailChannelResponse", required: true, type: .structure)
         ]
+
         public let emailChannelResponse: EmailChannelResponse
 
         public init(emailChannelResponse: EmailChannelResponse) {
@@ -4308,6 +4449,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "EndpointId", location: .uri(locationName: "endpoint-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
         public let endpointId: String
 
@@ -4328,6 +4470,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointResponse", required: true, type: .structure)
         ]
+
         public let endpointResponse: EndpointResponse
 
         public init(endpointResponse: EndpointResponse) {
@@ -4343,6 +4486,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -4360,6 +4504,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventStream", required: true, type: .structure)
         ]
+
         public let eventStream: EventStream
 
         public init(eventStream: EventStream) {
@@ -4376,6 +4521,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "JobId", location: .uri(locationName: "job-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
         public let jobId: String
 
@@ -4396,6 +4542,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExportJobResponse", required: true, type: .structure)
         ]
+
         public let exportJobResponse: ExportJobResponse
 
         public init(exportJobResponse: ExportJobResponse) {
@@ -4413,6 +4560,7 @@ extension Pinpoint {
             AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
             AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
         ]
+
         public let applicationId: String
         public let pageSize: String?
         public let token: String?
@@ -4436,6 +4584,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExportJobsResponse", required: true, type: .structure)
         ]
+
         public let exportJobsResponse: ExportJobsResponse
 
         public init(exportJobsResponse: ExportJobsResponse) {
@@ -4451,6 +4600,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -4468,6 +4618,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GCMChannelResponse", required: true, type: .structure)
         ]
+
         public let gCMChannelResponse: GCMChannelResponse
 
         public init(gCMChannelResponse: GCMChannelResponse) {
@@ -4484,6 +4635,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "JobId", location: .uri(locationName: "job-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
         public let jobId: String
 
@@ -4504,6 +4656,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ImportJobResponse", required: true, type: .structure)
         ]
+
         public let importJobResponse: ImportJobResponse
 
         public init(importJobResponse: ImportJobResponse) {
@@ -4521,6 +4674,7 @@ extension Pinpoint {
             AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
             AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
         ]
+
         public let applicationId: String
         public let pageSize: String?
         public let token: String?
@@ -4544,6 +4698,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ImportJobsResponse", required: true, type: .structure)
         ]
+
         public let importJobsResponse: ImportJobsResponse
 
         public init(importJobsResponse: ImportJobsResponse) {
@@ -4562,6 +4717,7 @@ extension Pinpoint {
             AWSShapeMember(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string), 
             AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
         ]
+
         public let applicationId: String
         public let pageSize: String?
         public let segmentId: String
@@ -4588,6 +4744,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExportJobsResponse", required: true, type: .structure)
         ]
+
         public let exportJobsResponse: ExportJobsResponse
 
         public init(exportJobsResponse: ExportJobsResponse) {
@@ -4606,6 +4763,7 @@ extension Pinpoint {
             AWSShapeMember(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string), 
             AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
         ]
+
         public let applicationId: String
         public let pageSize: String?
         public let segmentId: String
@@ -4632,6 +4790,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ImportJobsResponse", required: true, type: .structure)
         ]
+
         public let importJobsResponse: ImportJobsResponse
 
         public init(importJobsResponse: ImportJobsResponse) {
@@ -4648,6 +4807,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
         public let segmentId: String
 
@@ -4668,6 +4828,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SegmentResponse", required: true, type: .structure)
         ]
+
         public let segmentResponse: SegmentResponse
 
         public init(segmentResponse: SegmentResponse) {
@@ -4685,6 +4846,7 @@ extension Pinpoint {
             AWSShapeMember(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string), 
             AWSShapeMember(label: "Version", location: .uri(locationName: "version"), required: true, type: .string)
         ]
+
         public let applicationId: String
         public let segmentId: String
         public let version: String
@@ -4708,6 +4870,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SegmentResponse", required: true, type: .structure)
         ]
+
         public let segmentResponse: SegmentResponse
 
         public init(segmentResponse: SegmentResponse) {
@@ -4726,6 +4889,7 @@ extension Pinpoint {
             AWSShapeMember(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string), 
             AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
         ]
+
         public let applicationId: String
         public let pageSize: String?
         public let segmentId: String
@@ -4752,6 +4916,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SegmentsResponse", required: true, type: .structure)
         ]
+
         public let segmentsResponse: SegmentsResponse
 
         public init(segmentsResponse: SegmentsResponse) {
@@ -4769,6 +4934,7 @@ extension Pinpoint {
             AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
             AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
         ]
+
         public let applicationId: String
         public let pageSize: String?
         public let token: String?
@@ -4792,6 +4958,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SegmentsResponse", required: true, type: .structure)
         ]
+
         public let segmentsResponse: SegmentsResponse
 
         public init(segmentsResponse: SegmentsResponse) {
@@ -4807,6 +4974,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -4824,6 +4992,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SMSChannelResponse", required: true, type: .structure)
         ]
+
         public let sMSChannelResponse: SMSChannelResponse
 
         public init(sMSChannelResponse: SMSChannelResponse) {
@@ -4840,6 +5009,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "UserId", location: .uri(locationName: "user-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
         public let userId: String
 
@@ -4860,6 +5030,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointsResponse", required: true, type: .structure)
         ]
+
         public let endpointsResponse: EndpointsResponse
 
         public init(endpointsResponse: EndpointsResponse) {
@@ -4875,6 +5046,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -4892,6 +5064,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VoiceChannelResponse", required: true, type: .structure)
         ]
+
         public let voiceChannelResponse: VoiceChannelResponse
 
         public init(voiceChannelResponse: VoiceChannelResponse) {
@@ -4914,6 +5087,7 @@ extension Pinpoint {
             AWSShapeMember(label: "SegmentId", required: false, type: .string), 
             AWSShapeMember(label: "SegmentName", required: false, type: .string)
         ]
+
         /// Specifies whether to create a segment that contains the endpoints, when the endpoint definitions are imported.
         public let defineSegment: Bool?
         /// (Deprecated) Your AWS account ID, which you assigned to an external ID key in an IAM trust policy. Amazon Pinpoint previously used this value to assume an IAM role when importing endpoint definitions, but we removed this requirement. We don't recommend use of external IDs for IAM roles that are assumed by Amazon Pinpoint.
@@ -4965,6 +5139,7 @@ extension Pinpoint {
             AWSShapeMember(label: "SegmentId", required: false, type: .string), 
             AWSShapeMember(label: "SegmentName", required: false, type: .string)
         ]
+
         /// Specifies whether the import job creates a segment that contains the endpoints, when the endpoint definitions are imported.
         public let defineSegment: Bool?
         /// (Deprecated) Your AWS account ID, which you assigned to an external ID key in an IAM trust policy. Amazon Pinpoint previously used this value to assume an IAM role when importing endpoint definitions, but we removed this requirement. We don't recommend use of external IDs for IAM roles that are assumed by Amazon Pinpoint.
@@ -5021,6 +5196,7 @@ extension Pinpoint {
             AWSShapeMember(label: "TotalProcessed", required: false, type: .integer), 
             AWSShapeMember(label: "Type", required: true, type: .string)
         ]
+
         /// The unique identifier for the application that's associated with the import job.
         public let applicationId: String
         /// The number of pieces that were processed successfully (completed) by the import job, as of the time of the request.
@@ -5086,6 +5262,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Item", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// An array of responses, one for each import job that's associated with the application (Import Jobs resource) or segment (Segment Import Jobs resource).
         public let item: [ImportJobResponse]
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -5114,6 +5291,7 @@ extension Pinpoint {
             AWSShapeMember(label: "EndpointItemResponse", required: false, type: .structure), 
             AWSShapeMember(label: "EventsItemResponse", required: false, type: .map)
         ]
+
         /// The response that was received after the endpoint data was accepted.
         public let endpointItemResponse: EndpointItemResponse?
         /// A multipart response object that contains a key and a value for each event in the request. In each object, the event ID is the key and an EventItemResponse object is the value.
@@ -5145,6 +5323,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string)
         ]
+
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -5162,6 +5341,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagsModel", required: true, type: .structure)
         ]
+
         public let tagsModel: TagsModel
 
         public init(tagsModel: TagsModel) {
@@ -5188,6 +5368,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Title", required: false, type: .string), 
             AWSShapeMember(label: "Url", required: false, type: .string)
         ]
+
         /// The action to occur if a recipient taps the push notification. Valid values are: OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action. DEEP_LINK - Your app opens and displays a designated user interface in the app. This setting uses the deep-linking features of iOS and Android. URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
         public let action: Action?
         /// The body of the notification message. The maximum number of characters is 200.
@@ -5249,6 +5430,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "RequestID", required: false, type: .string)
         ]
+
         /// The message that's returned from the API.
         public let message: String?
         /// The unique identifier for the request or response.
@@ -5275,6 +5457,7 @@ extension Pinpoint {
             AWSShapeMember(label: "GCMMessage", required: false, type: .structure), 
             AWSShapeMember(label: "SMSMessage", required: false, type: .structure)
         ]
+
         /// The message that the campaign sends through the ADM (Amazon Device Messaging) channel. This message overrides the default message.
         public let aDMMessage: Message?
         /// The message that the campaign sends through the APNs (Apple Push Notification service) channel. This message overrides the default message.
@@ -5319,6 +5502,7 @@ extension Pinpoint {
             AWSShapeMember(label: "MessageConfiguration", required: true, type: .structure), 
             AWSShapeMember(label: "TraceId", required: false, type: .string)
         ]
+
         /// A map of key-value pairs, where each key is an address and each value is an AddressConfiguration object. An address can be a push notification token, a phone number, or an email address. You can use an AddressConfiguration object to tailor the message for an address by specifying settings such as content overrides and message variables.
         public let addresses: [String: AddressConfiguration]?
         /// A map of custom attributes to attach to the message. For a push notification, this payload is added to the data.pinpoint object. For an email or text message, this payload is added to email/SMS delivery receipt event attributes.
@@ -5354,6 +5538,7 @@ extension Pinpoint {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "Result", required: false, type: .map)
         ]
+
         /// The unique identifier for the application that was used to send the message.
         public let applicationId: String
         /// A map that contains a multipart response for each address that the message was sent to. In the map, the endpoint ID is the key and the result is the value.
@@ -5386,6 +5571,7 @@ extension Pinpoint {
             AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
             AWSShapeMember(label: "UpdatedToken", required: false, type: .string)
         ]
+
         /// The delivery status of the message. Possible values are:  DUPLICATE - The endpoint address is a duplicate of another endpoint address. Amazon Pinpoint won't attempt to send the message again.   OPT_OUT - The user who's associated with the endpoint address has opted out of receiving messages from you. Amazon Pinpoint won't attempt to send the message again. PERMANENT_FAILURE - An error occurred when delivering the message to the endpoint address. Amazon Pinpoint won't attempt to send the message again.   SUCCESSFUL - The message was successfully delivered to the endpoint address. TEMPORARY_FAILURE - A temporary error occurred. Amazon Pinpoint will attempt to deliver the message again later. THROTTLED - Amazon Pinpoint throttled the operation to send the message to the endpoint address. TIMEOUT - The message couldn't be sent within the timeout period. UNKNOWN_FAILURE - An unknown error occurred.
         public let deliveryStatus: DeliveryStatus
         /// The unique identifier for the message that was sent.
@@ -5425,6 +5611,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ComparisonOperator", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: true, type: .double)
         ]
+
         /// The operator to use when comparing metric values. Valid values are: GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUAL, LESS_THAN_OR_EQUAL, and EQUAL.
         public let comparisonOperator: String
         /// The value to compare.
@@ -5452,6 +5639,7 @@ extension Pinpoint {
             AWSShapeMember(label: "IsoCountryCode", required: false, type: .string), 
             AWSShapeMember(label: "PhoneNumber", required: false, type: .string)
         ]
+
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region where the phone number was originally registered.
         public let isoCountryCode: String?
         /// The phone number to retrieve information about. The phone number that you provide should include a valid numeric country code. Otherwise, the operation might result in an error.
@@ -5485,6 +5673,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Timezone", required: false, type: .string), 
             AWSShapeMember(label: "ZipCode", required: false, type: .string)
         ]
+
         /// The carrier or service provider that the phone number is currently registered with.
         public let carrier: String?
         /// The name of the city where the phone number was originally registered.
@@ -5556,6 +5745,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NumberValidateRequest", required: true, type: .structure)
         ]
+
         public let numberValidateRequest: NumberValidateRequest
 
         public init(numberValidateRequest: NumberValidateRequest) {
@@ -5573,6 +5763,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NumberValidateResponse", required: true, type: .structure)
         ]
+
         public let numberValidateResponse: NumberValidateResponse
 
         public init(numberValidateResponse: NumberValidateResponse) {
@@ -5598,6 +5789,7 @@ extension Pinpoint {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "User", required: false, type: .structure)
         ]
+
         /// The unique identifier for the recipient, such as a device token, email address, or mobile phone number.
         public let address: String?
         /// One or more custom attributes that describe the endpoint by associating a name with an array of values. You can use these attributes as filter criteria when you create segments.
@@ -5657,6 +5849,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "WriteEventStream", required: true, type: .structure)
         ]
+
         public let applicationId: String
         public let writeEventStream: WriteEventStream
 
@@ -5677,6 +5870,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventStream", required: true, type: .structure)
         ]
+
         public let eventStream: EventStream
 
         public init(eventStream: EventStream) {
@@ -5695,6 +5889,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "EventsRequest", required: true, type: .structure)
         ]
+
         public let applicationId: String
         public let eventsRequest: EventsRequest
 
@@ -5715,6 +5910,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventsResponse", required: true, type: .structure)
         ]
+
         public let eventsResponse: EventsResponse
 
         public init(eventsResponse: EventsResponse) {
@@ -5731,6 +5927,7 @@ extension Pinpoint {
             AWSShapeMember(label: "End", required: false, type: .string), 
             AWSShapeMember(label: "Start", required: false, type: .string)
         ]
+
         /// The specific time when quiet time ends. This value has to use 24-hour notation and be in HH:MM format, where HH is the hour (with a leading zero, if applicable) and MM is the minutes. For example, use 02:30 to represent 2:30 AM, or 14:30 to represent 2:30 PM.
         public let end: String?
         /// The specific time when quiet time begins. This value has to use 24-hour notation and be in HH:MM format, where HH is the hour (with a leading zero, if applicable) and MM is the minutes. For example, use 02:30 to represent 2:30 AM, or 14:30 to represent 2:30 PM.
@@ -5751,6 +5948,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Data", required: false, type: .blob)
         ]
+
         /// The email message, represented as a raw MIME message. The entire message must be base64 encoded.
         public let data: Data?
 
@@ -5768,6 +5966,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Duration", required: true, type: .enum), 
             AWSShapeMember(label: "RecencyType", required: true, type: .enum)
         ]
+
         /// The duration to use when determining whether an endpoint is active or inactive.
         public let duration: Duration
         /// The type of recency dimension to use for the segment. Valid values are: ACTIVE, endpoints that were active within the specified duration are included in the segment; and, INACTIVE, endpoints that weren't active within the specified duration are included in the segment.
@@ -5798,6 +5997,7 @@ extension Pinpoint {
             AWSShapeMember(label: "AttributeType", location: .uri(locationName: "attribute-type"), required: true, type: .string), 
             AWSShapeMember(label: "UpdateAttributesRequest", required: true, type: .structure)
         ]
+
         public let applicationId: String
         public let attributeType: String
         public let updateAttributesRequest: UpdateAttributesRequest
@@ -5821,6 +6021,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributesResource", required: true, type: .structure)
         ]
+
         public let attributesResource: AttributesResource
 
         public init(attributesResource: AttributesResource) {
@@ -5838,6 +6039,7 @@ extension Pinpoint {
             AWSShapeMember(label: "SenderId", required: false, type: .string), 
             AWSShapeMember(label: "ShortCode", required: false, type: .string)
         ]
+
         /// Specifies whether to enable the SMS channel for the application.
         public let enabled: Bool?
         /// The identity that you want to display on recipients' devices when they receive messages from the SMS channel.
@@ -5875,6 +6077,7 @@ extension Pinpoint {
             AWSShapeMember(label: "TransactionalMessagesPerSecond", required: false, type: .integer), 
             AWSShapeMember(label: "Version", required: false, type: .integer)
         ]
+
         /// The unique identifier for the application that the SMS channel applies to.
         public let applicationId: String?
         /// The date and time, in ISO 8601 format, when the SMS channel was enabled.
@@ -5948,6 +6151,7 @@ extension Pinpoint {
             AWSShapeMember(label: "SenderId", required: false, type: .string), 
             AWSShapeMember(label: "Substitutions", required: false, type: .map)
         ]
+
         /// The body of the SMS message.
         public let body: String?
         /// The SMS program name that you provided to AWS Support when you requested your dedicated number.
@@ -5990,6 +6194,7 @@ extension Pinpoint {
             AWSShapeMember(label: "StartTime", required: true, type: .string), 
             AWSShapeMember(label: "Timezone", required: false, type: .string)
         ]
+
         /// The scheduled time, in ISO 8601 format, for the campaign to end.
         public let endTime: String?
         /// The type of event that causes the campaign to be sent, if the value of the Frequency property is EVENT.
@@ -6033,6 +6238,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Recency", required: false, type: .structure)
         ]
+
         /// The dimension settings that are based on how recently an endpoint was active.
         public let recency: RecencyDimension?
 
@@ -6054,6 +6260,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Model", required: false, type: .structure), 
             AWSShapeMember(label: "Platform", required: false, type: .structure)
         ]
+
         /// The app version criteria for the segment.
         public let appVersion: SetDimension?
         /// The channel criteria for the segment.
@@ -6095,6 +6302,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Metrics", required: false, type: .map), 
             AWSShapeMember(label: "UserAttributes", required: false, type: .map)
         ]
+
         /// One or more custom attributes to use as criteria for the segment.
         public let attributes: [String: AttributeDimension]?
         /// The behavior-based criteria, such as how recently users have used your app, for the segment.
@@ -6134,6 +6342,7 @@ extension Pinpoint {
             AWSShapeMember(label: "SourceType", required: false, type: .enum), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// An array that defines the dimensions for the segment.
         public let dimensions: [SegmentDimensions]?
         /// The base segment to build the segment on. A base segment, also referred to as a source segment, defines the initial population of endpoints for a segment. When you add dimensions to a segment, Amazon Pinpoint filters the base segment by using the dimensions that you specify. You can specify more than one dimensional segment or only one imported segment. If you specify an imported segment, the Amazon Pinpoint console displays a segment size estimate that indicates the size of the imported segment without any filters applied to it.
@@ -6163,6 +6372,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Groups", required: false, type: .list), 
             AWSShapeMember(label: "Include", required: false, type: .enum)
         ]
+
         /// An array that defines the set of segment criteria to evaluate when handling segment groups for the segment.
         public let groups: [SegmentGroup]?
         /// Specifies how to handle multiple segment groups for the segment. For example, if the segment includes three segment groups, whether the resulting segment includes endpoints that match all, any, or none of the segment groups.
@@ -6188,6 +6398,7 @@ extension Pinpoint {
             AWSShapeMember(label: "S3Url", required: true, type: .string), 
             AWSShapeMember(label: "Size", required: true, type: .integer)
         ]
+
         /// The number of channel types in the endpoint definitions that were imported to create the segment.
         public let channelCounts: [String: Int32]?
         /// (Deprecated) Your AWS account ID, which you assigned to an external ID key in an IAM trust policy. Amazon Pinpoint previously used this value to assume an IAM role when importing endpoint definitions, but we removed this requirement. We don't recommend use of external IDs for IAM roles that are assumed by Amazon Pinpoint.
@@ -6225,6 +6436,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Country", required: false, type: .structure), 
             AWSShapeMember(label: "GPSPoint", required: false, type: .structure)
         ]
+
         /// The country or region code, in ISO 3166-1 alpha-2 format, for the segment.
         public let country: SetDimension?
         /// The GPS location and range for the segment.
@@ -6246,6 +6458,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .integer)
         ]
+
         /// The unique identifier for the segment.
         public let id: String
         /// The version number of the segment.
@@ -6277,6 +6490,7 @@ extension Pinpoint {
             AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "Version", required: false, type: .integer)
         ]
+
         /// The unique identifier for the application that the segment is associated with.
         public let applicationId: String
         /// The Amazon Resource Name (ARN) of the segment.
@@ -6344,6 +6558,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Item", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// An array of responses, one for each segment that's associated with the application (Segments resource) or each version of a segment that's associated with the application (Segment Versions resource).
         public let item: [SegmentResponse]
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -6367,6 +6582,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "MessageRequest", required: true, type: .structure)
         ]
+
         public let applicationId: String
         public let messageRequest: MessageRequest
 
@@ -6387,6 +6603,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MessageResponse", required: true, type: .structure)
         ]
+
         public let messageResponse: MessageResponse
 
         public init(messageResponse: MessageResponse) {
@@ -6405,6 +6622,7 @@ extension Pinpoint {
             AWSShapeMember(label: "TraceId", required: false, type: .string), 
             AWSShapeMember(label: "Users", required: true, type: .map)
         ]
+
         /// A map of custom attribute-value pairs. For a push notification, Amazon Pinpoint adds these attributes to the data.pinpoint object in the body of the notification payload. Amazon Pinpoint also provides these attributes in the events that it generates for users-messages deliveries.
         public let context: [String: String]?
         /// The message definitions for the default message and any default messages that you defined for specific channels.
@@ -6435,6 +6653,7 @@ extension Pinpoint {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "Result", required: false, type: .map)
         ]
+
         /// The unique identifier for the application that was used to send the message.
         public let applicationId: String
         /// The unique identifier that was assigned to the message request.
@@ -6462,6 +6681,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "SendUsersMessageRequest", required: true, type: .structure)
         ]
+
         public let applicationId: String
         public let sendUsersMessageRequest: SendUsersMessageRequest
 
@@ -6482,6 +6702,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SendUsersMessageResponse", required: true, type: .structure)
         ]
+
         public let sendUsersMessageResponse: SendUsersMessageResponse
 
         public init(sendUsersMessageResponse: SendUsersMessageResponse) {
@@ -6500,6 +6721,7 @@ extension Pinpoint {
             AWSShapeMember(label: "StartTimestamp", required: true, type: .string), 
             AWSShapeMember(label: "StopTimestamp", required: false, type: .string)
         ]
+
         /// The duration of the session, in milliseconds.
         public let duration: Int32?
         /// The unique identifier for the session.
@@ -6529,6 +6751,7 @@ extension Pinpoint {
             AWSShapeMember(label: "DimensionType", required: false, type: .enum), 
             AWSShapeMember(label: "Values", required: true, type: .list)
         ]
+
         /// The type of segment dimension to use. Valid values are: INCLUSIVE, endpoints that match the criteria are included in the segment; and, EXCLUSIVE, endpoints that match the criteria are excluded from the segment.
         public let dimensionType: DimensionType?
         /// The criteria values to use for the segment dimension. Depending on the value of the DimensionType property, endpoints are included or excluded from the segment if their values match the criteria values.
@@ -6551,6 +6774,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Subject", required: false, type: .structure), 
             AWSShapeMember(label: "TextPart", required: false, type: .structure)
         ]
+
         /// The body of the email message, in HTML format. We recommend using an HTML part for email clients that support HTML. You can include links, formatted text, and more in an HTML message.
         public let htmlPart: SimpleEmailPart?
         /// The subject line, or title, of the email.
@@ -6576,6 +6800,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Charset", required: false, type: .string), 
             AWSShapeMember(label: "Data", required: false, type: .string)
         ]
+
         /// The applicable character set for the message content.
         public let charset: String?
         /// The textual data of the message content.
@@ -6606,6 +6831,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
             AWSShapeMember(label: "TagsModel", required: true, type: .structure)
         ]
+
         public let resourceArn: String
         public let tagsModel: TagsModel
 
@@ -6624,6 +6850,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: true, type: .map)
         ]
+
         /// A string-to-string map of key-value pairs that defines the tags for an application, campaign, or segment. A project, campaign, or segment can have a maximum of 50 tags. Each tag consists of a required tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [String: String]
 
@@ -6646,6 +6873,7 @@ extension Pinpoint {
             AWSShapeMember(label: "TreatmentDescription", required: false, type: .string), 
             AWSShapeMember(label: "TreatmentName", required: false, type: .string)
         ]
+
         /// The unique identifier for the treatment.
         public let id: String
         /// The message configuration settings for the treatment.
@@ -6694,6 +6922,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]
+
         public let resourceArn: String
         public let tagKeys: [String]
 
@@ -6715,6 +6944,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ADMChannelRequest", required: true, type: .structure), 
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let aDMChannelRequest: ADMChannelRequest
         public let applicationId: String
 
@@ -6735,6 +6965,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ADMChannelResponse", required: true, type: .structure)
         ]
+
         public let aDMChannelResponse: ADMChannelResponse
 
         public init(aDMChannelResponse: ADMChannelResponse) {
@@ -6753,6 +6984,7 @@ extension Pinpoint {
             AWSShapeMember(label: "APNSChannelRequest", required: true, type: .structure), 
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let aPNSChannelRequest: APNSChannelRequest
         public let applicationId: String
 
@@ -6773,6 +7005,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "APNSChannelResponse", required: true, type: .structure)
         ]
+
         public let aPNSChannelResponse: APNSChannelResponse
 
         public init(aPNSChannelResponse: APNSChannelResponse) {
@@ -6791,6 +7024,7 @@ extension Pinpoint {
             AWSShapeMember(label: "APNSSandboxChannelRequest", required: true, type: .structure), 
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let aPNSSandboxChannelRequest: APNSSandboxChannelRequest
         public let applicationId: String
 
@@ -6811,6 +7045,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "APNSSandboxChannelResponse", required: true, type: .structure)
         ]
+
         public let aPNSSandboxChannelResponse: APNSSandboxChannelResponse
 
         public init(aPNSSandboxChannelResponse: APNSSandboxChannelResponse) {
@@ -6829,6 +7064,7 @@ extension Pinpoint {
             AWSShapeMember(label: "APNSVoipChannelRequest", required: true, type: .structure), 
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let aPNSVoipChannelRequest: APNSVoipChannelRequest
         public let applicationId: String
 
@@ -6849,6 +7085,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "APNSVoipChannelResponse", required: true, type: .structure)
         ]
+
         public let aPNSVoipChannelResponse: APNSVoipChannelResponse
 
         public init(aPNSVoipChannelResponse: APNSVoipChannelResponse) {
@@ -6867,6 +7104,7 @@ extension Pinpoint {
             AWSShapeMember(label: "APNSVoipSandboxChannelRequest", required: true, type: .structure), 
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
+
         public let aPNSVoipSandboxChannelRequest: APNSVoipSandboxChannelRequest
         public let applicationId: String
 
@@ -6887,6 +7125,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "APNSVoipSandboxChannelResponse", required: true, type: .structure)
         ]
+
         public let aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
 
         public init(aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse) {
@@ -6905,6 +7144,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "WriteApplicationSettingsRequest", required: true, type: .structure)
         ]
+
         public let applicationId: String
         public let writeApplicationSettingsRequest: WriteApplicationSettingsRequest
 
@@ -6925,6 +7165,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationSettingsResource", required: true, type: .structure)
         ]
+
         public let applicationSettingsResource: ApplicationSettingsResource
 
         public init(applicationSettingsResource: ApplicationSettingsResource) {
@@ -6940,6 +7181,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Blacklist", required: false, type: .list)
         ]
+
         /// An array of the attributes to remove from all the endpoints that are associated with the application. The array can specify the complete, exact name of each attribute to remove or it can specify a glob pattern that an attribute name must match in order for the attribute to be removed.
         public let blacklist: [String]?
 
@@ -6959,6 +7201,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "BaiduChannelRequest", required: true, type: .structure)
         ]
+
         public let applicationId: String
         public let baiduChannelRequest: BaiduChannelRequest
 
@@ -6979,6 +7222,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BaiduChannelResponse", required: true, type: .structure)
         ]
+
         public let baiduChannelResponse: BaiduChannelResponse
 
         public init(baiduChannelResponse: BaiduChannelResponse) {
@@ -6998,6 +7242,7 @@ extension Pinpoint {
             AWSShapeMember(label: "CampaignId", location: .uri(locationName: "campaign-id"), required: true, type: .string), 
             AWSShapeMember(label: "WriteCampaignRequest", required: true, type: .structure)
         ]
+
         public let applicationId: String
         public let campaignId: String
         public let writeCampaignRequest: WriteCampaignRequest
@@ -7021,6 +7266,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CampaignResponse", required: true, type: .structure)
         ]
+
         public let campaignResponse: CampaignResponse
 
         public init(campaignResponse: CampaignResponse) {
@@ -7039,6 +7285,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "EmailChannelRequest", required: true, type: .structure)
         ]
+
         public let applicationId: String
         public let emailChannelRequest: EmailChannelRequest
 
@@ -7059,6 +7306,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EmailChannelResponse", required: true, type: .structure)
         ]
+
         public let emailChannelResponse: EmailChannelResponse
 
         public init(emailChannelResponse: EmailChannelResponse) {
@@ -7078,6 +7326,7 @@ extension Pinpoint {
             AWSShapeMember(label: "EndpointId", location: .uri(locationName: "endpoint-id"), required: true, type: .string), 
             AWSShapeMember(label: "EndpointRequest", required: true, type: .structure)
         ]
+
         public let applicationId: String
         public let endpointId: String
         public let endpointRequest: EndpointRequest
@@ -7101,6 +7350,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MessageBody", required: true, type: .structure)
         ]
+
         public let messageBody: MessageBody
 
         public init(messageBody: MessageBody) {
@@ -7119,6 +7369,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "EndpointBatchRequest", required: true, type: .structure)
         ]
+
         public let applicationId: String
         public let endpointBatchRequest: EndpointBatchRequest
 
@@ -7139,6 +7390,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MessageBody", required: true, type: .structure)
         ]
+
         public let messageBody: MessageBody
 
         public init(messageBody: MessageBody) {
@@ -7157,6 +7409,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "GCMChannelRequest", required: true, type: .structure)
         ]
+
         public let applicationId: String
         public let gCMChannelRequest: GCMChannelRequest
 
@@ -7177,6 +7430,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GCMChannelResponse", required: true, type: .structure)
         ]
+
         public let gCMChannelResponse: GCMChannelResponse
 
         public init(gCMChannelResponse: GCMChannelResponse) {
@@ -7196,6 +7450,7 @@ extension Pinpoint {
             AWSShapeMember(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string), 
             AWSShapeMember(label: "WriteSegmentRequest", required: true, type: .structure)
         ]
+
         public let applicationId: String
         public let segmentId: String
         public let writeSegmentRequest: WriteSegmentRequest
@@ -7219,6 +7474,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SegmentResponse", required: true, type: .structure)
         ]
+
         public let segmentResponse: SegmentResponse
 
         public init(segmentResponse: SegmentResponse) {
@@ -7237,6 +7493,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "SMSChannelRequest", required: true, type: .structure)
         ]
+
         public let applicationId: String
         public let sMSChannelRequest: SMSChannelRequest
 
@@ -7257,6 +7514,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SMSChannelResponse", required: true, type: .structure)
         ]
+
         public let sMSChannelResponse: SMSChannelResponse
 
         public init(sMSChannelResponse: SMSChannelResponse) {
@@ -7275,6 +7533,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
             AWSShapeMember(label: "VoiceChannelRequest", required: true, type: .structure)
         ]
+
         public let applicationId: String
         public let voiceChannelRequest: VoiceChannelRequest
 
@@ -7295,6 +7554,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VoiceChannelResponse", required: true, type: .structure)
         ]
+
         public let voiceChannelResponse: VoiceChannelResponse
 
         public init(voiceChannelResponse: VoiceChannelResponse) {
@@ -7310,6 +7570,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Enabled", required: false, type: .boolean)
         ]
+
         /// Specifies whether to enable the voice channel for the application.
         public let enabled: Bool?
 
@@ -7335,6 +7596,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Platform", required: true, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .integer)
         ]
+
         /// The unique identifier for the application that the voice channel applies to.
         public let applicationId: String?
         /// The date and time, in ISO 8601 format, when the voice channel was enabled.
@@ -7391,6 +7653,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Substitutions", required: false, type: .map), 
             AWSShapeMember(label: "VoiceId", required: false, type: .string)
         ]
+
         /// The text script for the voice message.
         public let body: String?
         /// The language to use when delivering the message. For a list of supported languages, see the Amazon Polly Developer Guide.
@@ -7426,6 +7689,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Limits", required: false, type: .structure), 
             AWSShapeMember(label: "QuietTime", required: false, type: .structure)
         ]
+
         /// The settings for the AWS Lambda function to use by default as a code hook for campaigns in the application. To override these settings for a specific campaign, use the Campaign resource to define custom Lambda function settings for the campaign.
         public let campaignHook: CampaignHook?
         /// Specifies whether to enable application-related alarms in Amazon CloudWatch.
@@ -7467,6 +7731,7 @@ extension Pinpoint {
             AWSShapeMember(label: "TreatmentDescription", required: false, type: .string), 
             AWSShapeMember(label: "TreatmentName", required: false, type: .string)
         ]
+
         /// An array of requests that defines additional treatments for the campaign, in addition to the default treatment for the campaign.
         public let additionalTreatments: [WriteTreatmentResource]?
         /// The custom description of the campaign.
@@ -7536,6 +7801,7 @@ extension Pinpoint {
             AWSShapeMember(label: "DestinationStreamArn", required: true, type: .string), 
             AWSShapeMember(label: "RoleArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis data stream or Amazon Kinesis Data Firehose delivery stream that you want to publish event data to. For a Kinesis data stream, the ARN format is: arn:aws:kinesis:region:account-id:stream/stream_name
         ///                 For a Kinesis Data Firehose delivery stream, the ARN format is: arn:aws:firehose:region:account-id:deliverystream/stream_name
         ///                
@@ -7561,6 +7827,7 @@ extension Pinpoint {
             AWSShapeMember(label: "SegmentGroups", required: false, type: .structure), 
             AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         /// The criteria that define the dimensions for the segment.
         public let dimensions: SegmentDimensions?
         /// The name of the segment.
@@ -7593,6 +7860,7 @@ extension Pinpoint {
             AWSShapeMember(label: "TreatmentDescription", required: false, type: .string), 
             AWSShapeMember(label: "TreatmentName", required: false, type: .string)
         ]
+
         /// The message configuration settings for the treatment.
         public let messageConfiguration: MessageConfiguration?
         /// The schedule settings for the treatment.

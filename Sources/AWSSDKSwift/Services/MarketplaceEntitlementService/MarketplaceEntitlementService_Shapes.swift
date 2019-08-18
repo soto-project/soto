@@ -13,6 +13,7 @@ extension MarketplaceEntitlementService {
             AWSShapeMember(label: "ProductCode", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .structure)
         ]
+
         /// The customer identifier is a handle to each unique customer in an application. Customer identifiers are obtained through the ResolveCustomer operation in AWS Marketplace Metering Service.
         public let customerIdentifier: String?
         /// The dimension for which the given entitlement applies. Dimensions represent categories of capacity in a product and are specified when the product is listed in AWS Marketplace.
@@ -48,6 +49,7 @@ extension MarketplaceEntitlementService {
             AWSShapeMember(label: "IntegerValue", required: false, type: .integer), 
             AWSShapeMember(label: "StringValue", required: false, type: .string)
         ]
+
         /// The BooleanValue field will be populated with a boolean value when the entitlement is a boolean type. Otherwise, the field will not be set.
         public let booleanValue: Bool?
         /// The DoubleValue field will be populated with a double value when the entitlement is a double type. Otherwise, the field will not be set.
@@ -85,6 +87,7 @@ extension MarketplaceEntitlementService {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ProductCode", required: true, type: .string)
         ]
+
         /// Filter is used to return entitlements for a specific customer or for a specific dimension. Filters are described as keys mapped to a lists of values. Filtered requests are unioned for each value in the value list, and then intersected for each filter key.
         public let filter: [GetEntitlementFilterName: [String]]?
         /// The maximum number of items to retrieve from the GetEntitlements operation. For pagination, use the NextToken field in subsequent calls to GetEntitlements.
@@ -101,6 +104,15 @@ extension MarketplaceEntitlementService {
             self.productCode = productCode
         }
 
+        public func validate(name: String) throws {
+            try filter?.forEach {
+                try validate($0.value, name:"filter[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "\\S+")
+            try validate(productCode, name:"productCode", parent: name, max: 255)
+            try validate(productCode, name:"productCode", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filter = "Filter"
             case maxResults = "MaxResults"
@@ -114,6 +126,7 @@ extension MarketplaceEntitlementService {
             AWSShapeMember(label: "Entitlements", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The set of entitlements found through the GetEntitlements operation. If the result contains an empty set of entitlements, NextToken might still be present and should be used.
         public let entitlements: [Entitlement]?
         /// For paginated results, use NextToken in subsequent calls to GetEntitlements. If the result contains an empty set of entitlements, NextToken might still be present and should be used.

@@ -12,6 +12,7 @@ extension SimpleDB {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         public let alternateNameEncoding: String?
         public let alternateValueEncoding: String?
         /// The name of the attribute.
@@ -39,6 +40,7 @@ extension SimpleDB {
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "Items", location: .body(locationName: "Item"), required: true, type: .list, encoding: .flatList)
         ]
+
         /// The name of the domain in which the attributes are being deleted.
         public let domainName: String
         /// A list of items on which to perform the operation.
@@ -60,6 +62,7 @@ extension SimpleDB {
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "Items", location: .body(locationName: "Item"), required: true, type: .list, encoding: .flatList)
         ]
+
         /// The name of the domain in which the attributes are being stored.
         public let domainName: String
         /// A list of items on which to perform the operation.
@@ -80,6 +83,7 @@ extension SimpleDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
+
         /// The name of the domain to create. The name can range between 3 and 255 characters and can contain the following characters: a-z, A-Z, 0-9, '_', '-', and '.'.
         public let domainName: String
 
@@ -97,6 +101,7 @@ extension SimpleDB {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The name of the attribute.
         public let name: String
         /// The value of the attribute.
@@ -118,6 +123,7 @@ extension SimpleDB {
             AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "Name", location: .body(locationName: "ItemName"), required: true, type: .string)
         ]
+
         public let attributes: [DeletableAttribute]?
         public let name: String
 
@@ -139,6 +145,7 @@ extension SimpleDB {
             AWSShapeMember(label: "Expected", required: false, type: .structure), 
             AWSShapeMember(label: "ItemName", required: true, type: .string)
         ]
+
         /// A list of Attributes. Similar to columns on a spreadsheet, attributes represent categories of data that can be assigned to items.
         public let attributes: [DeletableAttribute]?
         /// The name of the domain in which to perform the operation.
@@ -167,6 +174,7 @@ extension SimpleDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
+
         /// The name of the domain to delete.
         public let domainName: String
 
@@ -183,6 +191,7 @@ extension SimpleDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
+
         /// The name of the domain for which to display the metadata of.
         public let domainName: String
 
@@ -205,6 +214,7 @@ extension SimpleDB {
             AWSShapeMember(label: "ItemNamesSizeBytes", required: false, type: .long), 
             AWSShapeMember(label: "Timestamp", required: false, type: .integer)
         ]
+
         /// The number of unique attribute names in the domain.
         public let attributeNameCount: Int32?
         /// The total size of all unique attribute names in the domain, in bytes.
@@ -248,6 +258,7 @@ extension SimpleDB {
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "ItemName", required: true, type: .string)
         ]
+
         /// The names of the attributes.
         public let attributeNames: [String]?
         /// Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true, any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
@@ -276,6 +287,7 @@ extension SimpleDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: false, type: .list, encoding: .flatList)
         ]
+
         /// The list of attributes returned by the operation.
         public let attributes: [Attribute]?
 
@@ -294,6 +306,7 @@ extension SimpleDB {
             AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: true, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         public let alternateNameEncoding: String?
         /// A list of attributes.
         public let attributes: [Attribute]
@@ -318,6 +331,7 @@ extension SimpleDB {
             AWSShapeMember(label: "MaxNumberOfDomains", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The maximum number of domain names you want returned. The range is 1 to 100. The default setting is 100.
         public let maxNumberOfDomains: Int32?
         /// A string informing Amazon SimpleDB where to start the next list of domain names.
@@ -339,6 +353,7 @@ extension SimpleDB {
             AWSShapeMember(label: "DomainNames", location: .body(locationName: "DomainName"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of domain names that match the expression.
         public let domainNames: [String]?
         /// An opaque token indicating that there are more domains than the specified MaxNumberOfDomains still available.
@@ -362,6 +377,7 @@ extension SimpleDB {
             AWSShapeMember(label: "Expected", required: false, type: .structure), 
             AWSShapeMember(label: "ItemName", required: true, type: .string)
         ]
+
         /// The list of attributes.
         public let attributes: [ReplaceableAttribute]
         /// The name of the domain in which to perform the operation.
@@ -392,6 +408,7 @@ extension SimpleDB {
             AWSShapeMember(label: "Replace", required: false, type: .boolean), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         /// The name of the replaceable attribute.
         public let name: String
         /// A flag specifying whether or not to replace the attribute/value pair or to add a new attribute/value pair. The default setting is false.
@@ -417,6 +434,7 @@ extension SimpleDB {
             AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: true, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "Name", location: .body(locationName: "ItemName"), required: true, type: .string)
         ]
+
         /// The list of attributes for a replaceable item.
         public let attributes: [ReplaceableAttribute]
         /// The name of the replaceable item.
@@ -439,6 +457,7 @@ extension SimpleDB {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SelectExpression", required: true, type: .string)
         ]
+
         /// Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true, any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
         public let consistentRead: Bool?
         /// A string informing Amazon SimpleDB where to start the next list of ItemNames.
@@ -464,6 +483,7 @@ extension SimpleDB {
             AWSShapeMember(label: "Items", location: .body(locationName: "Item"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of items that match the select expression.
         public let items: [Item]?
         /// An opaque token indicating that more items than MaxNumberOfItems were matched, the response size exceeded 1 megabyte, or the execution time exceeded 5 seconds.
@@ -486,6 +506,7 @@ extension SimpleDB {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// A value specifying whether or not the specified attribute must exist with the specified value in order for the update condition to be satisfied. Specify true if the attribute must exist for the update condition to be satisfied. Specify false if the attribute should not exist in order for the update condition to be satisfied.
         public let exists: Bool?
         /// The name of the attribute involved in the condition.

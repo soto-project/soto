@@ -10,6 +10,7 @@ extension APIGateway {
             AWSShapeMember(label: "destinationArn", required: false, type: .string), 
             AWSShapeMember(label: "format", required: false, type: .string)
         ]
+
         /// The ARN of the CloudWatch Logs log group to receive access logs.
         public let destinationArn: String?
         /// A single line format of the access logs of data, as specified by selected $context variables. The format must include at least $context.requestId.
@@ -33,6 +34,7 @@ extension APIGateway {
             AWSShapeMember(label: "features", required: false, type: .list), 
             AWSShapeMember(label: "throttleSettings", required: false, type: .structure)
         ]
+
         /// The version of the API keys used for the account.
         public let apiKeyVersion: String?
         /// The ARN of an Amazon CloudWatch role for the current Account. 
@@ -70,6 +72,7 @@ extension APIGateway {
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
+
         /// The timestamp when the API Key was created.
         public let createdDate: TimeStamp?
         /// An AWS Marketplace customer identifier , when integrating with the AWS SaaS Marketplace.
@@ -123,6 +126,7 @@ extension APIGateway {
             AWSShapeMember(label: "ids", required: false, type: .list), 
             AWSShapeMember(label: "warnings", required: false, type: .list)
         ]
+
         /// A list of all the ApiKey identifiers.
         public let ids: [String]?
         /// A list of warning messages.
@@ -151,6 +155,7 @@ extension APIGateway {
             AWSShapeMember(label: "position", required: false, type: .string), 
             AWSShapeMember(label: "warnings", required: false, type: .list)
         ]
+
         /// The current page of elements from this collection.
         public let items: [ApiKey]?
         public let position: String?
@@ -181,6 +186,7 @@ extension APIGateway {
             AWSShapeMember(label: "stage", required: false, type: .string), 
             AWSShapeMember(label: "throttle", required: false, type: .map)
         ]
+
         /// API Id of the associated API stage in a usage plan.
         public let apiId: String?
         /// API stage name of the associated API stage in a usage plan.
@@ -214,6 +220,7 @@ extension APIGateway {
             AWSShapeMember(label: "providerARNs", required: false, type: .list), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
         public let authorizerCredentials: String?
         /// The TTL in seconds of cached authorizer results. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour.
@@ -274,6 +281,7 @@ extension APIGateway {
             AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
             AWSShapeMember(label: "position", required: false, type: .string)
         ]
+
         /// The current page of elements from this collection.
         public let items: [Authorizer]?
         public let position: String?
@@ -295,6 +303,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", required: false, type: .string), 
             AWSShapeMember(label: "stage", required: false, type: .string)
         ]
+
         /// The base path name that callers of the API must provide as part of the URL after the domain name.
         public let basePath: String?
         /// The string identifier of the associated RestApi.
@@ -320,6 +329,7 @@ extension APIGateway {
             AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
             AWSShapeMember(label: "position", required: false, type: .string)
         ]
+
         /// The current page of elements from this collection.
         public let items: [BasePathMapping]?
         public let position: String?
@@ -363,6 +373,7 @@ extension APIGateway {
             AWSShapeMember(label: "stageVariableOverrides", required: false, type: .map), 
             AWSShapeMember(label: "useStageCache", required: false, type: .boolean)
         ]
+
         /// The ID of the canary deployment.
         public let deploymentId: String?
         /// The percent (0-100) of traffic diverted to a canary deployment.
@@ -396,6 +407,7 @@ extension APIGateway {
             AWSShapeMember(label: "pemEncodedCertificate", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// The identifier of the client certificate.
         public let clientCertificateId: String?
         /// The timestamp when the client certificate was created.
@@ -433,6 +445,7 @@ extension APIGateway {
             AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
             AWSShapeMember(label: "position", required: false, type: .string)
         ]
+
         /// The current page of elements from this collection.
         public let items: [ClientCertificate]?
         public let position: String?
@@ -471,6 +484,7 @@ extension APIGateway {
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
+
         /// An AWS Marketplace customer identifier , when integrating with the AWS SaaS Marketplace.
         public let customerId: String?
         /// The description of the ApiKey.
@@ -524,6 +538,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
+
         /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
         public let authorizerCredentials: String?
         /// The TTL in seconds of cached authorizer results. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour.
@@ -579,6 +594,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", required: true, type: .string), 
             AWSShapeMember(label: "stage", required: false, type: .string)
         ]
+
         /// The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Specify '(none)' if you do not want callers to specify a base path name after the domain name.
         public let basePath: String?
         /// [Required] The domain name of the BasePathMapping resource to create.
@@ -615,6 +631,7 @@ extension APIGateway {
             AWSShapeMember(label: "tracingEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "variables", required: false, type: .map)
         ]
+
         /// Enables a cache cluster for the Stage resource specified in the input.
         public let cacheClusterEnabled: Bool?
         /// Specifies the cache cluster size for the Stage resource specified in the input, if a cache cluster is enabled.
@@ -665,6 +682,7 @@ extension APIGateway {
             AWSShapeMember(label: "properties", required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The location of the targeted API entity of the to-be-created documentation part.
         public let location: DocumentationPartLocation
         /// [Required] The new documentation content map of the targeted API entity. Enclosed key-value pairs are API-specific, but only OpenAPI-compliant key-value pairs can be exported and, hence, published.
@@ -676,6 +694,10 @@ extension APIGateway {
             self.location = location
             self.properties = properties
             self.restApiId = restApiId
+        }
+
+        public func validate(name: String) throws {
+            try location.validate(name: "\(name).location")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -692,6 +714,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "stageName", required: false, type: .string)
         ]
+
         /// A description about the new documentation snapshot.
         public let description: String?
         /// [Required] The version identifier of the new snapshot.
@@ -730,6 +753,7 @@ extension APIGateway {
             AWSShapeMember(label: "securityPolicy", required: false, type: .enum), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// The reference to an AWS-managed certificate that will be used by edge-optimized endpoint for this domain name. AWS Certificate Manager is the only supported source.
         public let certificateArn: String?
         /// [Deprecated] The body of the server certificate that will be used by edge-optimized endpoint for this domain name provided by your certificate authority.
@@ -790,6 +814,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "schema", required: false, type: .string)
         ]
+
         /// [Required] The content-type for the model.
         public let contentType: String
         /// The description of the model.
@@ -825,6 +850,7 @@ extension APIGateway {
             AWSShapeMember(label: "validateRequestBody", required: false, type: .boolean), 
             AWSShapeMember(label: "validateRequestParameters", required: false, type: .boolean)
         ]
+
         /// The name of the to-be-created RequestValidator.
         public let name: String?
         /// [Required] The string identifier of the associated RestApi.
@@ -855,6 +881,7 @@ extension APIGateway {
             AWSShapeMember(label: "pathPart", required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The parent resource's identifier.
         public let parentId: String
         /// The last path segment for this resource.
@@ -888,6 +915,7 @@ extension APIGateway {
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The source of the API key for metering requests according to a usage plan. Valid values are: HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer. 
         public let apiKeySource: ApiKeySourceType?
         /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
@@ -950,6 +978,7 @@ extension APIGateway {
             AWSShapeMember(label: "tracingEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "variables", required: false, type: .map)
         ]
+
         /// Whether cache clustering is enabled for the stage.
         public let cacheClusterEnabled: Bool?
         /// The stage's cache cluster size.
@@ -1008,6 +1037,7 @@ extension APIGateway {
             AWSShapeMember(label: "keyType", required: true, type: .string), 
             AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string)
         ]
+
         /// [Required] The identifier of a UsagePlanKey resource for a plan customer.
         public let keyId: String
         /// [Required] The type of a UsagePlanKey resource for a plan customer.
@@ -1037,6 +1067,7 @@ extension APIGateway {
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "throttle", required: false, type: .structure)
         ]
+
         /// The associated API stages of the usage plan.
         public let apiStages: [ApiStage]?
         /// The description of the usage plan.
@@ -1076,6 +1107,7 @@ extension APIGateway {
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "targetArns", required: true, type: .list)
         ]
+
         /// The description of the VPC link.
         public let description: String?
         /// [Required] The name used to label and identify the VPC link.
@@ -1104,6 +1136,7 @@ extension APIGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "apiKey", location: .uri(locationName: "api_Key"), required: true, type: .string)
         ]
+
         /// [Required] The identifier of the ApiKey resource to be deleted.
         public let apiKey: String
 
@@ -1121,6 +1154,7 @@ extension APIGateway {
             AWSShapeMember(label: "authorizerId", location: .uri(locationName: "authorizer_id"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The identifier of the Authorizer resource.
         public let authorizerId: String
         /// [Required] The string identifier of the associated RestApi.
@@ -1142,6 +1176,7 @@ extension APIGateway {
             AWSShapeMember(label: "basePath", location: .uri(locationName: "base_path"), required: true, type: .string), 
             AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string)
         ]
+
         /// [Required] The base path name of the BasePathMapping resource to delete. To specify an empty base path, set this parameter to '(none)'.
         public let basePath: String
         /// [Required] The domain name of the BasePathMapping resource to delete.
@@ -1162,6 +1197,7 @@ extension APIGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientCertificateId", location: .uri(locationName: "clientcertificate_id"), required: true, type: .string)
         ]
+
         /// [Required] The identifier of the ClientCertificate resource to be deleted.
         public let clientCertificateId: String
 
@@ -1179,6 +1215,7 @@ extension APIGateway {
             AWSShapeMember(label: "deploymentId", location: .uri(locationName: "deployment_id"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The identifier of the Deployment resource to delete.
         public let deploymentId: String
         /// [Required] The string identifier of the associated RestApi.
@@ -1200,6 +1237,7 @@ extension APIGateway {
             AWSShapeMember(label: "documentationPartId", location: .uri(locationName: "part_id"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The identifier of the to-be-deleted documentation part.
         public let documentationPartId: String
         /// [Required] The string identifier of the associated RestApi.
@@ -1221,6 +1259,7 @@ extension APIGateway {
             AWSShapeMember(label: "documentationVersion", location: .uri(locationName: "doc_version"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The version identifier of a to-be-deleted documentation snapshot.
         public let documentationVersion: String
         /// [Required] The string identifier of the associated RestApi.
@@ -1241,6 +1280,7 @@ extension APIGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string)
         ]
+
         /// [Required] The name of the DomainName resource to be deleted.
         public let domainName: String
 
@@ -1258,6 +1298,7 @@ extension APIGateway {
             AWSShapeMember(label: "responseType", location: .uri(locationName: "response_type"), required: true, type: .enum), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE 
         public let responseType: GatewayResponseType
         /// [Required] The string identifier of the associated RestApi.
@@ -1280,6 +1321,7 @@ extension APIGateway {
             AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] Specifies a delete integration request's HTTP method.
         public let httpMethod: String
         /// [Required] Specifies a delete integration request's resource identifier.
@@ -1307,6 +1349,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string)
         ]
+
         /// [Required] Specifies a delete integration response request's HTTP method.
         public let httpMethod: String
         /// [Required] Specifies a delete integration response request's resource identifier.
@@ -1323,6 +1366,10 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
+        public func validate(name: String) throws {
+            try validate(statusCode, name:"statusCode", parent: name, pattern: "[1-5]\\d\\d")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case httpMethod = "http_method"
             case resourceId = "resource_id"
@@ -1337,6 +1384,7 @@ extension APIGateway {
             AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The HTTP verb of the Method resource.
         public let httpMethod: String
         /// [Required] The Resource identifier for the Method resource.
@@ -1364,6 +1412,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string)
         ]
+
         /// [Required] The HTTP verb of the Method resource.
         public let httpMethod: String
         /// [Required] The Resource identifier for the MethodResponse resource.
@@ -1380,6 +1429,10 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
+        public func validate(name: String) throws {
+            try validate(statusCode, name:"statusCode", parent: name, pattern: "[1-5]\\d\\d")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case httpMethod = "http_method"
             case resourceId = "resource_id"
@@ -1393,6 +1446,7 @@ extension APIGateway {
             AWSShapeMember(label: "modelName", location: .uri(locationName: "model_name"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The name of the model to delete.
         public let modelName: String
         /// [Required] The string identifier of the associated RestApi.
@@ -1414,6 +1468,7 @@ extension APIGateway {
             AWSShapeMember(label: "requestValidatorId", location: .uri(locationName: "requestvalidator_id"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The identifier of the RequestValidator to be deleted.
         public let requestValidatorId: String
         /// [Required] The string identifier of the associated RestApi.
@@ -1435,6 +1490,7 @@ extension APIGateway {
             AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The identifier of the Resource resource.
         public let resourceId: String
         /// [Required] The string identifier of the associated RestApi.
@@ -1455,6 +1511,7 @@ extension APIGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
 
@@ -1472,6 +1529,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"), required: true, type: .string)
         ]
+
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
         /// [Required] The name of the Stage resource to delete.
@@ -1493,6 +1551,7 @@ extension APIGateway {
             AWSShapeMember(label: "keyId", location: .uri(locationName: "keyId"), required: true, type: .string), 
             AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string)
         ]
+
         /// [Required] The Id of the UsagePlanKey resource to be deleted.
         public let keyId: String
         /// [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-deleted UsagePlanKey resource representing a plan customer.
@@ -1513,6 +1572,7 @@ extension APIGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string)
         ]
+
         /// [Required] The Id of the to-be-deleted usage plan.
         public let usagePlanId: String
 
@@ -1529,6 +1589,7 @@ extension APIGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "vpcLinkId", location: .uri(locationName: "vpclink_id"), required: true, type: .string)
         ]
+
         /// [Required] The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
         public let vpcLinkId: String
 
@@ -1548,6 +1609,7 @@ extension APIGateway {
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "id", required: false, type: .string)
         ]
+
         /// A summary of the RestApi at the date and time that the deployment resource was created.
         public let apiSummary: [String: [String: MethodSnapshot]]?
         /// The date and time that the deployment resource was created.
@@ -1578,6 +1640,7 @@ extension APIGateway {
             AWSShapeMember(label: "stageVariableOverrides", required: false, type: .map), 
             AWSShapeMember(label: "useStageCache", required: false, type: .boolean)
         ]
+
         /// The percentage (0.0-100.0) of traffic routed to the canary deployment.
         public let percentTraffic: Double?
         /// A stage variable overrides used for the canary release deployment. They can override existing stage variables or add new stage variables for the canary release deployment. These stage variables are represented as a string-to-string map between stage variable names and their values.
@@ -1603,6 +1666,7 @@ extension APIGateway {
             AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
             AWSShapeMember(label: "position", required: false, type: .string)
         ]
+
         /// The current page of elements from this collection.
         public let items: [Deployment]?
         public let position: String?
@@ -1624,6 +1688,7 @@ extension APIGateway {
             AWSShapeMember(label: "location", required: false, type: .structure), 
             AWSShapeMember(label: "properties", required: false, type: .string)
         ]
+
         /// The DocumentationPart identifier, generated by API Gateway when the DocumentationPart is created.
         public let id: String?
         /// The location of the API entity to which the documentation applies. Valid fields depend on the targeted API entity type. All the valid location fields are not required. If not explicitly specified, a valid location field is treated as a wildcard and associated documentation content may be inherited by matching entities, unless overridden.
@@ -1649,6 +1714,7 @@ extension APIGateway {
             AWSShapeMember(label: "ids", required: false, type: .list), 
             AWSShapeMember(label: "warnings", required: false, type: .list)
         ]
+
         /// A list of the returned documentation part identifiers.
         public let ids: [String]?
         /// A list of warning messages reported during import of documentation parts.
@@ -1673,6 +1739,7 @@ extension APIGateway {
             AWSShapeMember(label: "statusCode", required: false, type: .string), 
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
+
         /// The HTTP verb of a method. It is a valid field for the API entity types of METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. The default value is * for any method. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's method attribute must match that of the parent entity exactly.
         public let method: String?
         /// The name of the targeted API entity. It is a valid and required field for the API entity types of AUTHORIZER, MODEL, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY and RESPONSE_HEADER. It is an invalid field for any other entity type.
@@ -1690,6 +1757,10 @@ extension APIGateway {
             self.path = path
             self.statusCode = statusCode
             self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(statusCode, name:"statusCode", parent: name, pattern: "^([1-5]\\d\\d|\\*|\\s*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1722,6 +1793,7 @@ extension APIGateway {
             AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
             AWSShapeMember(label: "position", required: false, type: .string)
         ]
+
         /// The current page of elements from this collection.
         public let items: [DocumentationPart]?
         public let position: String?
@@ -1743,6 +1815,7 @@ extension APIGateway {
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The date when the API documentation snapshot is created.
         public let createdDate: TimeStamp?
         /// The description of the API documentation snapshot.
@@ -1768,6 +1841,7 @@ extension APIGateway {
             AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
             AWSShapeMember(label: "position", required: false, type: .string)
         ]
+
         /// The current page of elements from this collection.
         public let items: [DocumentationVersion]?
         public let position: String?
@@ -1801,6 +1875,7 @@ extension APIGateway {
             AWSShapeMember(label: "securityPolicy", required: false, type: .enum), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// The reference to an AWS-managed certificate that will be used by edge-optimized endpoint for this domain name. AWS Certificate Manager is the only supported source.
         public let certificateArn: String?
         /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
@@ -1881,6 +1956,7 @@ extension APIGateway {
             AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
             AWSShapeMember(label: "position", required: false, type: .string)
         ]
+
         /// The current page of elements from this collection.
         public let items: [DomainName]?
         public let position: String?
@@ -1900,6 +1976,7 @@ extension APIGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "types", required: false, type: .list)
         ]
+
         /// A list of endpoint types of an API (RestApi) or its custom domain name (DomainName). For an edge-optimized API and its custom domain name, the endpoint type is "EDGE". For a regional API and its custom domain name, the endpoint type is REGIONAL. For a private API, the endpoint type is PRIVATE.
         public let types: [EndpointType]?
 
@@ -1927,6 +2004,7 @@ extension APIGateway {
             AWSShapeMember(label: "contentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
             AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type"), required: false, type: .string)
         ]
+
         /// The binary blob response to GetExport, which contains the export.
         public let body: Data?
         /// The content-disposition header value in the HTTP response.
@@ -1952,6 +2030,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"), required: true, type: .string)
         ]
+
         /// The string identifier of the associated RestApi.
         public let restApiId: String
         /// The name of the stage to flush.
@@ -1973,6 +2052,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"), required: true, type: .string)
         ]
+
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
         /// [Required] The name of the stage to flush its cache.
@@ -1997,6 +2077,7 @@ extension APIGateway {
             AWSShapeMember(label: "responseType", required: false, type: .enum), 
             AWSShapeMember(label: "statusCode", required: false, type: .string)
         ]
+
         /// A Boolean flag to indicate whether this GatewayResponse is the default gateway response (true) or not (false). A default gateway response is one generated by API Gateway without any customization by an API developer. 
         public let defaultResponse: Bool?
         /// Response parameters (paths, query strings and headers) of the GatewayResponse as a string-to-string map of key-value pairs.
@@ -2054,6 +2135,7 @@ extension APIGateway {
             AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
             AWSShapeMember(label: "position", required: false, type: .string)
         ]
+
         /// Returns the entire collection, because of no pagination support.
         public let items: [GatewayResponse]?
         public let position: String?
@@ -2074,6 +2156,7 @@ extension APIGateway {
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// The description of the ClientCertificate.
         public let description: String?
         /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
@@ -2092,6 +2175,7 @@ extension APIGateway {
 
     public struct GetAccountRequest: AWSShape {
 
+
         public init() {
         }
 
@@ -2102,6 +2186,7 @@ extension APIGateway {
             AWSShapeMember(label: "apiKey", location: .uri(locationName: "api_Key"), required: true, type: .string), 
             AWSShapeMember(label: "includeValue", location: .querystring(locationName: "includeValue"), required: false, type: .boolean)
         ]
+
         /// [Required] The identifier of the ApiKey resource.
         public let apiKey: String
         /// A boolean flag to specify whether (true) or not (false) the result contains the key value.
@@ -2126,6 +2211,7 @@ extension APIGateway {
             AWSShapeMember(label: "nameQuery", location: .querystring(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
         ]
+
         /// The identifier of a customer in AWS Marketplace or an external system, such as a developer portal.
         public let customerId: String?
         /// A boolean flag to specify whether (true) or not (false) the result contains key values.
@@ -2159,6 +2245,7 @@ extension APIGateway {
             AWSShapeMember(label: "authorizerId", location: .uri(locationName: "authorizer_id"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The identifier of the Authorizer resource.
         public let authorizerId: String
         /// [Required] The string identifier of the associated RestApi.
@@ -2181,6 +2268,7 @@ extension APIGateway {
             AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
         public let limit: Int32?
         /// The current pagination position in the paged result set.
@@ -2206,6 +2294,7 @@ extension APIGateway {
             AWSShapeMember(label: "basePath", location: .uri(locationName: "base_path"), required: true, type: .string), 
             AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string)
         ]
+
         /// [Required] The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Specify '(none)' if you do not want callers to specify any base path name after the domain name.
         public let basePath: String
         /// [Required] The domain name of the BasePathMapping resource to be described.
@@ -2228,6 +2317,7 @@ extension APIGateway {
             AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
             AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
         ]
+
         /// [Required] The domain name of a BasePathMapping resource.
         public let domainName: String
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
@@ -2252,6 +2342,7 @@ extension APIGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientCertificateId", location: .uri(locationName: "clientcertificate_id"), required: true, type: .string)
         ]
+
         /// [Required] The identifier of the ClientCertificate resource to be described.
         public let clientCertificateId: String
 
@@ -2269,6 +2360,7 @@ extension APIGateway {
             AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
             AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
         ]
+
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
         public let limit: Int32?
         /// The current pagination position in the paged result set.
@@ -2291,6 +2383,7 @@ extension APIGateway {
             AWSShapeMember(label: "embed", location: .querystring(locationName: "embed"), required: false, type: .list), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The identifier of the Deployment resource to get information about.
         public let deploymentId: String
         /// A query parameter to retrieve the specified embedded resources of the returned Deployment resource in the response. In a REST API call, this embed parameter value is a list of comma-separated strings, as in GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=var1,var2. The SDK and other platform-dependent libraries might use a different format for the list. Currently, this request supports only retrieval of the embedded API summary this way. Hence, the parameter value must be a single-valued list containing only the "apisummary" string. For example, GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=apisummary.
@@ -2317,6 +2410,7 @@ extension APIGateway {
             AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
         public let limit: Int32?
         /// The current pagination position in the paged result set.
@@ -2342,6 +2436,7 @@ extension APIGateway {
             AWSShapeMember(label: "documentationPartId", location: .uri(locationName: "part_id"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The string identifier of the associated RestApi.
         public let documentationPartId: String
         /// [Required] The string identifier of the associated RestApi.
@@ -2368,6 +2463,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "type", location: .querystring(locationName: "type"), required: false, type: .enum)
         ]
+
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
         public let limit: Int32?
         /// The status of the API documentation parts to retrieve. Valid values are DOCUMENTED for retrieving DocumentationPart resources with content and UNDOCUMENTED for DocumentationPart resources without content.
@@ -2409,6 +2505,7 @@ extension APIGateway {
             AWSShapeMember(label: "documentationVersion", location: .uri(locationName: "doc_version"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The version identifier of the to-be-retrieved documentation snapshot.
         public let documentationVersion: String
         /// [Required] The string identifier of the associated RestApi.
@@ -2431,6 +2528,7 @@ extension APIGateway {
             AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
         public let limit: Int32?
         /// The current pagination position in the paged result set.
@@ -2455,6 +2553,7 @@ extension APIGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string)
         ]
+
         /// [Required] The name of the DomainName resource.
         public let domainName: String
 
@@ -2472,6 +2571,7 @@ extension APIGateway {
             AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
             AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
         ]
+
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
         public let limit: Int32?
         /// The current pagination position in the paged result set.
@@ -2496,6 +2596,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"), required: true, type: .string)
         ]
+
         /// The content-type of the export, for example application/json. Currently application/json and application/yaml are supported for exportType ofoas30 and swagger. This should be specified in the Accept header for direct API requests.
         public let accepts: String?
         /// [Required] The type of export. Acceptable values are 'oas30' for OpenAPI 3.0.x and 'swagger' for Swagger/OpenAPI 2.0.
@@ -2529,6 +2630,7 @@ extension APIGateway {
             AWSShapeMember(label: "responseType", location: .uri(locationName: "response_type"), required: true, type: .enum), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE 
         public let responseType: GatewayResponseType
         /// [Required] The string identifier of the associated RestApi.
@@ -2551,6 +2653,7 @@ extension APIGateway {
             AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500. The GatewayResponses collection does not support pagination and the limit does not apply here.
         public let limit: Int32?
         /// The current pagination position in the paged result set. The GatewayResponse collection does not support pagination and the position does not apply here.
@@ -2577,6 +2680,7 @@ extension APIGateway {
             AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] Specifies a get integration request's HTTP method.
         public let httpMethod: String
         /// [Required] Specifies a get integration request's resource identifier
@@ -2604,6 +2708,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string)
         ]
+
         /// [Required] Specifies a get integration response request's HTTP method.
         public let httpMethod: String
         /// [Required] Specifies a get integration response request's resource identifier.
@@ -2620,6 +2725,10 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
+        public func validate(name: String) throws {
+            try validate(statusCode, name:"statusCode", parent: name, pattern: "[1-5]\\d\\d")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case httpMethod = "http_method"
             case resourceId = "resource_id"
@@ -2634,6 +2743,7 @@ extension APIGateway {
             AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] Specifies the method request's HTTP method type.
         public let httpMethod: String
         /// [Required] The Resource identifier for the Method resource.
@@ -2661,6 +2771,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string)
         ]
+
         /// [Required] The HTTP verb of the Method resource.
         public let httpMethod: String
         /// [Required] The Resource identifier for the MethodResponse resource.
@@ -2677,6 +2788,10 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
+        public func validate(name: String) throws {
+            try validate(statusCode, name:"statusCode", parent: name, pattern: "[1-5]\\d\\d")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case httpMethod = "http_method"
             case resourceId = "resource_id"
@@ -2691,6 +2806,7 @@ extension APIGateway {
             AWSShapeMember(label: "modelName", location: .uri(locationName: "model_name"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// A query parameter of a Boolean value to resolve (true) all external model references and returns a flattened model schema or not (false) The default is false.
         public let flatten: Bool?
         /// [Required] The name of the model as an identifier.
@@ -2716,6 +2832,7 @@ extension APIGateway {
             AWSShapeMember(label: "modelName", location: .uri(locationName: "model_name"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The name of the model for which to generate a template.
         public let modelName: String
         /// [Required] The string identifier of the associated RestApi.
@@ -2738,6 +2855,7 @@ extension APIGateway {
             AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
         public let limit: Int32?
         /// The current pagination position in the paged result set.
@@ -2763,6 +2881,7 @@ extension APIGateway {
             AWSShapeMember(label: "requestValidatorId", location: .uri(locationName: "requestvalidator_id"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The identifier of the RequestValidator to be retrieved.
         public let requestValidatorId: String
         /// [Required] The string identifier of the associated RestApi.
@@ -2785,6 +2904,7 @@ extension APIGateway {
             AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
         public let limit: Int32?
         /// The current pagination position in the paged result set.
@@ -2811,6 +2931,7 @@ extension APIGateway {
             AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// A query parameter to retrieve the specified resources embedded in the returned Resource representation in the response. This embed parameter value is a list of comma-separated strings. Currently, the request supports only retrieval of the embedded Method resources this way. The query parameter value must be a single-valued list and contain the "methods" string. For example, GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods.
         public let embed: [String]?
         /// [Required] The identifier for the Resource resource.
@@ -2838,6 +2959,7 @@ extension APIGateway {
             AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// A query parameter used to retrieve the specified resources embedded in the returned Resources resource in the response. This embed parameter value is a list of comma-separated strings. Currently, the request supports only retrieval of the embedded Method resources this way. The query parameter value must be a single-valued list and contain the "methods" string. For example, GET /restapis/{restapi_id}/resources?embed=methods.
         public let embed: [String]?
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
@@ -2866,6 +2988,7 @@ extension APIGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
 
@@ -2883,6 +3006,7 @@ extension APIGateway {
             AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
             AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
         ]
+
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
         public let limit: Int32?
         /// The current pagination position in the paged result set.
@@ -2906,6 +3030,7 @@ extension APIGateway {
             AWSShapeMember(label: "sdkType", location: .uri(locationName: "sdk_type"), required: true, type: .string), 
             AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"), required: true, type: .string)
         ]
+
         /// A string-to-string key-value map of query parameters sdkType-dependent properties of the SDK. For sdkType of objectivec or swift, a parameter named classPrefix is required. For sdkType of android, parameters named groupId, artifactId, artifactVersion, and invokerPackage are required. For sdkType of java, parameters named serviceName and javaPackageName are required. 
         public let parameters: [String: String]?
         /// [Required] The string identifier of the associated RestApi.
@@ -2934,6 +3059,7 @@ extension APIGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "id", location: .uri(locationName: "sdktype_id"), required: true, type: .string)
         ]
+
         /// [Required] The identifier of the queried SdkType instance.
         public let id: String
 
@@ -2951,6 +3077,7 @@ extension APIGateway {
             AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
             AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
         ]
+
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
         public let limit: Int32?
         /// The current pagination position in the paged result set.
@@ -2972,6 +3099,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"), required: true, type: .string)
         ]
+
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
         /// [Required] The name of the Stage resource to get information about.
@@ -2993,6 +3121,7 @@ extension APIGateway {
             AWSShapeMember(label: "deploymentId", location: .querystring(locationName: "deploymentId"), required: false, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// The stages' deployment identifiers.
         public let deploymentId: String?
         /// [Required] The string identifier of the associated RestApi.
@@ -3015,6 +3144,7 @@ extension APIGateway {
             AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
             AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resource_arn"), required: true, type: .string)
         ]
+
         /// (Not currently supported) The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
         public let limit: Int32?
         /// (Not currently supported) The current pagination position in the paged result set.
@@ -3040,6 +3170,7 @@ extension APIGateway {
             AWSShapeMember(label: "keyId", location: .uri(locationName: "keyId"), required: true, type: .string), 
             AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string)
         ]
+
         /// [Required] The key Id of the to-be-retrieved UsagePlanKey resource representing a plan customer.
         public let keyId: String
         /// [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
@@ -3063,6 +3194,7 @@ extension APIGateway {
             AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
             AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string)
         ]
+
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
         public let limit: Int32?
         /// A query parameter specifying the name of the to-be-returned usage plan keys.
@@ -3091,6 +3223,7 @@ extension APIGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string)
         ]
+
         /// [Required] The identifier of the UsagePlan resource to be retrieved.
         public let usagePlanId: String
 
@@ -3109,6 +3242,7 @@ extension APIGateway {
             AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
             AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
         ]
+
         /// The identifier of the API key associated with the usage plans.
         public let keyId: String?
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
@@ -3138,6 +3272,7 @@ extension APIGateway {
             AWSShapeMember(label: "startDate", location: .querystring(locationName: "startDate"), required: true, type: .string), 
             AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string)
         ]
+
         /// [Required] The ending date (e.g., 2016-12-31) of the usage data.
         public let endDate: String
         /// The Id of the API key associated with the resultant usage data.
@@ -3174,6 +3309,7 @@ extension APIGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "vpcLinkId", location: .uri(locationName: "vpclink_id"), required: true, type: .string)
         ]
+
         /// [Required] The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
         public let vpcLinkId: String
 
@@ -3191,6 +3327,7 @@ extension APIGateway {
             AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
             AWSShapeMember(label: "position", location: .querystring(locationName: "position"), required: false, type: .string)
         ]
+
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
         public let limit: Int32?
         /// The current pagination position in the paged result set.
@@ -3215,6 +3352,7 @@ extension APIGateway {
             AWSShapeMember(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings"), required: false, type: .boolean), 
             AWSShapeMember(label: "format", location: .querystring(locationName: "format"), required: true, type: .enum)
         ]
+
         /// The payload of the POST request to import API keys. For the payload format, see API Key File Format.
         public let body: Data
         /// A query parameter to indicate whether to rollback ApiKey importation (true) or not (false) when error is encountered.
@@ -3244,6 +3382,7 @@ extension APIGateway {
             AWSShapeMember(label: "mode", location: .querystring(locationName: "mode"), required: false, type: .enum), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] Raw byte array representing the to-be-imported documentation parts. To import from an OpenAPI file, this is a JSON object.
         public let body: Data
         /// A query parameter to specify whether to rollback the documentation importation (true) or not (false) when a warning is encountered. The default value is false.
@@ -3276,6 +3415,7 @@ extension APIGateway {
             AWSShapeMember(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings"), required: false, type: .boolean), 
             AWSShapeMember(label: "parameters", required: false, type: .map)
         ]
+
         /// [Required] The POST request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 2MB.
         public let body: Data
         /// A query parameter to indicate whether to rollback the API creation (true) or not (false) when a warning is encountered. The default value is false.
@@ -3313,6 +3453,7 @@ extension APIGateway {
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "uri", required: false, type: .string)
         ]
+
         /// A list of request parameters whose values API Gateway caches. To be valid values for cacheKeyParameters, these parameters must also be specified for Method requestParameters.
         public let cacheKeyParameters: [String]?
         /// An API-specific tag group of related cached parameters. To be valid values for cacheKeyParameters, these parameters must also be specified for Method requestParameters.
@@ -3385,6 +3526,7 @@ extension APIGateway {
             AWSShapeMember(label: "selectionPattern", required: false, type: .string), 
             AWSShapeMember(label: "statusCode", required: false, type: .string)
         ]
+
         /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string.  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
         public let contentHandling: ContentHandlingStrategy?
         /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression}, where name is a valid and unique response header name and JSON-expression is a valid JSON expression without the $ prefix.
@@ -3442,6 +3584,7 @@ extension APIGateway {
             AWSShapeMember(label: "requestParameters", required: false, type: .map), 
             AWSShapeMember(label: "requestValidatorId", required: false, type: .string)
         ]
+
         /// A boolean flag specifying whether a valid ApiKey is required to invoke this method.
         public let apiKeyRequired: Bool?
         /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes.
@@ -3500,6 +3643,7 @@ extension APIGateway {
             AWSShapeMember(label: "responseParameters", required: false, type: .map), 
             AWSShapeMember(label: "statusCode", required: false, type: .string)
         ]
+
         /// Specifies the Model resources used for the response's content-type. Response models are represented as a key/value map, with a content-type as the key and a Model name as the value.
         public let responseModels: [String: String]?
         /// A key-value map specifying required or optional response parameters that API Gateway can send back to the caller. A key defines a method response header and the value specifies whether the associated method response header is required or not. The expression of the key must match the pattern method.response.header.{name}, where name is a valid and unique header name. API Gateway passes certain integration response data to the method response headers specified here according to the mapping you prescribe in the API's IntegrationResponse. The integration response data that can be mapped include an integration response header expressed in integration.response.header.{name}, a static value enclosed within a pair of single quotes (e.g., 'application/json'), or a JSON expression from the back-end response payload in the form of integration.response.body.{JSON-expression}, where JSON-expression is a valid JSON expression without the $ prefix.)
@@ -3533,6 +3677,7 @@ extension APIGateway {
             AWSShapeMember(label: "throttlingRateLimit", required: false, type: .double), 
             AWSShapeMember(label: "unauthorizedCacheControlHeaderStrategy", required: false, type: .enum)
         ]
+
         /// Specifies whether the cached responses are encrypted. The PATCH path for this setting is /{method_setting_key}/caching/dataEncrypted, and the value is a Boolean.
         public let cacheDataEncrypted: Bool?
         /// Specifies the time to live (TTL), in seconds, for cached responses. The higher the TTL, the longer the response will be cached. The PATCH path for this setting is /{method_setting_key}/caching/ttlInSeconds, and the value is an integer.
@@ -3586,6 +3731,7 @@ extension APIGateway {
             AWSShapeMember(label: "apiKeyRequired", required: false, type: .boolean), 
             AWSShapeMember(label: "authorizationType", required: false, type: .string)
         ]
+
         /// Specifies whether the method requires a valid ApiKey.
         public let apiKeyRequired: Bool?
         /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
@@ -3610,6 +3756,7 @@ extension APIGateway {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "schema", required: false, type: .string)
         ]
+
         /// The content-type for the model.
         public let contentType: String?
         /// The description of the model.
@@ -3643,6 +3790,7 @@ extension APIGateway {
             AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
             AWSShapeMember(label: "position", required: false, type: .string)
         ]
+
         /// The current page of elements from this collection.
         public let items: [Model]?
         public let position: String?
@@ -3675,6 +3823,7 @@ extension APIGateway {
             AWSShapeMember(label: "path", required: false, type: .string), 
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
+
         /// The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with "op":"copy", "from":"/canarySettings/deploymentId" and "path":"/deploymentId".
         public let from: String?
         ///  An update operation to be performed with this PATCH request. The valid value can be add, remove, replace or copy. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
@@ -3707,6 +3856,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "statusCode", required: false, type: .string)
         ]
+
         /// Response parameters (paths, query strings and headers) of the GatewayResponse as a string-to-string map of key-value pairs.
         public let responseParameters: [String: String]?
         /// Response templates of the GatewayResponse as a string-to-string map of key-value pairs.
@@ -3724,6 +3874,10 @@ extension APIGateway {
             self.responseType = responseType
             self.restApiId = restApiId
             self.statusCode = statusCode
+        }
+
+        public func validate(name: String) throws {
+            try validate(statusCode, name:"statusCode", parent: name, pattern: "[1-5]\\d\\d")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3754,6 +3908,7 @@ extension APIGateway {
             AWSShapeMember(label: "type", required: true, type: .enum), 
             AWSShapeMember(label: "uri", required: false, type: .string)
         ]
+
         /// An API-specific tag group of related cached parameters.
         public let cacheKeyParameters: [String]?
         /// A list of request parameters whose values are to be cached.
@@ -3837,6 +3992,7 @@ extension APIGateway {
             AWSShapeMember(label: "selectionPattern", required: false, type: .string), 
             AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string)
         ]
+
         /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string.  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
         public let contentHandling: ContentHandlingStrategy?
         /// [Required] Specifies a put integration response request's HTTP method.
@@ -3865,6 +4021,10 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
+        public func validate(name: String) throws {
+            try validate(statusCode, name:"statusCode", parent: name, pattern: "[1-5]\\d\\d")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case contentHandling = "contentHandling"
             case httpMethod = "http_method"
@@ -3891,6 +4051,7 @@ extension APIGateway {
             AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// Specifies whether the method required a valid ApiKey.
         public let apiKeyRequired: Bool?
         /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes.
@@ -3952,6 +4113,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string)
         ]
+
         /// [Required] The HTTP verb of the Method resource.
         public let httpMethod: String
         /// [Required] The Resource identifier for the Method resource.
@@ -3972,6 +4134,10 @@ extension APIGateway {
             self.responseParameters = responseParameters
             self.restApiId = restApiId
             self.statusCode = statusCode
+        }
+
+        public func validate(name: String) throws {
+            try validate(statusCode, name:"statusCode", parent: name, pattern: "[1-5]\\d\\d")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4000,6 +4166,7 @@ extension APIGateway {
             AWSShapeMember(label: "parameters", required: false, type: .map), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The PUT request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 2MB.
         public let body: Data
         /// A query parameter to indicate whether to rollback the API update (true) or not (false) when a warning is encountered. The default value is false.
@@ -4041,6 +4208,7 @@ extension APIGateway {
             AWSShapeMember(label: "offset", required: false, type: .integer), 
             AWSShapeMember(label: "period", required: false, type: .enum)
         ]
+
         /// The maximum number of requests that can be made in a given time period.
         public let limit: Int32?
         /// The number of requests subtracted from the given limit in the initial time period.
@@ -4068,6 +4236,7 @@ extension APIGateway {
             AWSShapeMember(label: "validateRequestBody", required: false, type: .boolean), 
             AWSShapeMember(label: "validateRequestParameters", required: false, type: .boolean)
         ]
+
         /// The identifier of this RequestValidator.
         public let id: String?
         /// The name of this RequestValidator
@@ -4097,6 +4266,7 @@ extension APIGateway {
             AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
             AWSShapeMember(label: "position", required: false, type: .string)
         ]
+
         /// The current page of elements from this collection.
         public let items: [RequestValidator]?
         public let position: String?
@@ -4120,6 +4290,7 @@ extension APIGateway {
             AWSShapeMember(label: "pathPart", required: false, type: .string), 
             AWSShapeMember(label: "resourceMethods", required: false, type: .map)
         ]
+
         /// The resource's identifier.
         public let id: String?
         /// The parent resource's identifier.
@@ -4153,6 +4324,7 @@ extension APIGateway {
             AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
             AWSShapeMember(label: "position", required: false, type: .string)
         ]
+
         /// The current page of elements from this collection.
         public let items: [Resource]?
         public let position: String?
@@ -4183,6 +4355,7 @@ extension APIGateway {
             AWSShapeMember(label: "version", required: false, type: .string), 
             AWSShapeMember(label: "warnings", required: false, type: .list)
         ]
+
         /// The source of the API key for metering requests according to a usage plan. Valid values are: HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer. 
         public let apiKeySource: ApiKeySourceType?
         /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
@@ -4244,6 +4417,7 @@ extension APIGateway {
             AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
             AWSShapeMember(label: "position", required: false, type: .string)
         ]
+
         /// The current page of elements from this collection.
         public let items: [RestApi]?
         public let position: String?
@@ -4267,6 +4441,7 @@ extension APIGateway {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "required", required: false, type: .boolean)
         ]
+
         /// The default value of an SdkType configuration property.
         public let defaultValue: String?
         /// The description of an SdkType configuration property.
@@ -4303,6 +4478,7 @@ extension APIGateway {
             AWSShapeMember(label: "contentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
             AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type"), required: false, type: .string)
         ]
+
         /// The binary blob response to GetSdk, which contains the generated SDK.
         public let body: Data?
         /// The content-disposition header value in the HTTP response.
@@ -4330,6 +4506,7 @@ extension APIGateway {
             AWSShapeMember(label: "friendlyName", required: false, type: .string), 
             AWSShapeMember(label: "id", required: false, type: .string)
         ]
+
         /// A list of configuration properties of an SdkType.
         public let configurationProperties: [SdkConfigurationProperty]?
         /// The description of an SdkType.
@@ -4359,6 +4536,7 @@ extension APIGateway {
             AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
             AWSShapeMember(label: "position", required: false, type: .string)
         ]
+
         /// The current page of elements from this collection.
         public let items: [SdkType]?
         public let position: String?
@@ -4400,6 +4578,7 @@ extension APIGateway {
             AWSShapeMember(label: "variables", required: false, type: .map), 
             AWSShapeMember(label: "webAclArn", required: false, type: .string)
         ]
+
         /// Settings for logging access in this stage.
         public let accessLogSettings: AccessLogSettings?
         /// Specifies whether a cache cluster is enabled for the stage.
@@ -4481,6 +4660,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", required: false, type: .string), 
             AWSShapeMember(label: "stageName", required: false, type: .string)
         ]
+
         /// The string identifier of the associated RestApi.
         public let restApiId: String?
         /// The stage name associated with the stage key.
@@ -4501,6 +4681,7 @@ extension APIGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "item", required: false, type: .list)
         ]
+
         /// The current page of elements from this collection.
         public let item: [Stage]?
 
@@ -4518,6 +4699,7 @@ extension APIGateway {
             AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resource_arn"), required: true, type: .string), 
             AWSShapeMember(label: "tags", required: true, type: .map)
         ]
+
         /// [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded.
         public let resourceArn: String
         /// [Required] The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
@@ -4538,6 +4720,7 @@ extension APIGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
 
@@ -4554,6 +4737,7 @@ extension APIGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
+
         /// The Apache Velocity Template Language (VTL) template content used for the template resource.
         public let value: String?
 
@@ -4577,6 +4761,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "stageVariables", required: false, type: .map)
         ]
+
         /// [Optional] A key-value map of additional context variables.
         public let additionalContext: [String: String]?
         /// [Required] Specifies a test invoke authorizer request's Authorizer ID.
@@ -4627,6 +4812,7 @@ extension APIGateway {
             AWSShapeMember(label: "policy", required: false, type: .string), 
             AWSShapeMember(label: "principalId", required: false, type: .string)
         ]
+
         public let authorization: [String: [String]]?
         /// The open identity claims, with any supported custom attributes, returned from the Cognito Your User Pool configured for the API.
         public let claims: [String: String]?
@@ -4674,6 +4860,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "stageVariables", required: false, type: .map)
         ]
+
         /// The simulated request body of an incoming invocation request.
         public let body: String?
         /// A ClientCertificate identifier to use in the test invocation. API Gateway will use the certificate when making the HTTPS request to the defined back-end endpoint.
@@ -4727,6 +4914,7 @@ extension APIGateway {
             AWSShapeMember(label: "multiValueHeaders", required: false, type: .map), 
             AWSShapeMember(label: "status", required: false, type: .integer)
         ]
+
         /// The body of the HTTP response.
         public let body: String?
         /// The headers of the HTTP response.
@@ -4764,6 +4952,7 @@ extension APIGateway {
             AWSShapeMember(label: "burstLimit", required: false, type: .integer), 
             AWSShapeMember(label: "rateLimit", required: false, type: .double)
         ]
+
         /// The API request burst limit, the maximum rate limit over a time ranging from one to a few seconds, depending upon whether the underlying token bucket is at its full capacity.
         public let burstLimit: Int32?
         /// The API request steady-state rate limit.
@@ -4792,6 +4981,7 @@ extension APIGateway {
             AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resource_arn"), required: true, type: .string), 
             AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]
+
         /// [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded.
         public let resourceArn: String
         /// [Required] The Tag keys to delete.
@@ -4812,6 +5002,7 @@ extension APIGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "patchOperations", required: false, type: .list)
         ]
+
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
         public let patchOperations: [PatchOperation]?
 
@@ -4829,6 +5020,7 @@ extension APIGateway {
             AWSShapeMember(label: "apiKey", location: .uri(locationName: "api_Key"), required: true, type: .string), 
             AWSShapeMember(label: "patchOperations", required: false, type: .list)
         ]
+
         /// [Required] The identifier of the ApiKey resource to be updated.
         public let apiKey: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -4851,6 +5043,7 @@ extension APIGateway {
             AWSShapeMember(label: "patchOperations", required: false, type: .list), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The identifier of the Authorizer resource.
         public let authorizerId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -4877,6 +5070,7 @@ extension APIGateway {
             AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string), 
             AWSShapeMember(label: "patchOperations", required: false, type: .list)
         ]
+
         /// [Required] The base path of the BasePathMapping resource to change. To specify an empty base path, set this parameter to '(none)'.
         public let basePath: String
         /// [Required] The domain name of the BasePathMapping resource to change.
@@ -4902,6 +5096,7 @@ extension APIGateway {
             AWSShapeMember(label: "clientCertificateId", location: .uri(locationName: "clientcertificate_id"), required: true, type: .string), 
             AWSShapeMember(label: "patchOperations", required: false, type: .list)
         ]
+
         /// [Required] The identifier of the ClientCertificate resource to be updated.
         public let clientCertificateId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -4924,6 +5119,7 @@ extension APIGateway {
             AWSShapeMember(label: "patchOperations", required: false, type: .list), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// The replacement identifier for the Deployment resource to change information about.
         public let deploymentId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -4950,6 +5146,7 @@ extension APIGateway {
             AWSShapeMember(label: "patchOperations", required: false, type: .list), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The identifier of the to-be-updated documentation part.
         public let documentationPartId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -4976,6 +5173,7 @@ extension APIGateway {
             AWSShapeMember(label: "patchOperations", required: false, type: .list), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The version identifier of the to-be-updated documentation version.
         public let documentationVersion: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -5001,6 +5199,7 @@ extension APIGateway {
             AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string), 
             AWSShapeMember(label: "patchOperations", required: false, type: .list)
         ]
+
         /// [Required] The name of the DomainName resource to be changed.
         public let domainName: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -5023,6 +5222,7 @@ extension APIGateway {
             AWSShapeMember(label: "responseType", location: .uri(locationName: "response_type"), required: true, type: .enum), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
         public let patchOperations: [PatchOperation]?
         /// [Required] The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE 
@@ -5050,6 +5250,7 @@ extension APIGateway {
             AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] Represents an update integration request's HTTP method.
         public let httpMethod: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -5082,6 +5283,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string)
         ]
+
         /// [Required] Specifies an update integration response request's HTTP method.
         public let httpMethod: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -5101,6 +5303,10 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
+        public func validate(name: String) throws {
+            try validate(statusCode, name:"statusCode", parent: name, pattern: "[1-5]\\d\\d")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case httpMethod = "http_method"
             case patchOperations = "patchOperations"
@@ -5117,6 +5323,7 @@ extension APIGateway {
             AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The HTTP verb of the Method resource.
         public let httpMethod: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -5149,6 +5356,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"), required: true, type: .string)
         ]
+
         /// [Required] The HTTP verb of the Method resource.
         public let httpMethod: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -5168,6 +5376,10 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
+        public func validate(name: String) throws {
+            try validate(statusCode, name:"statusCode", parent: name, pattern: "[1-5]\\d\\d")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case httpMethod = "http_method"
             case patchOperations = "patchOperations"
@@ -5183,6 +5395,7 @@ extension APIGateway {
             AWSShapeMember(label: "patchOperations", required: false, type: .list), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// [Required] The name of the model to update.
         public let modelName: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -5209,6 +5422,7 @@ extension APIGateway {
             AWSShapeMember(label: "requestValidatorId", location: .uri(locationName: "requestvalidator_id"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
         public let patchOperations: [PatchOperation]?
         /// [Required] The identifier of RequestValidator to be updated.
@@ -5235,6 +5449,7 @@ extension APIGateway {
             AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
         public let patchOperations: [PatchOperation]?
         /// [Required] The identifier of the Resource resource.
@@ -5260,6 +5475,7 @@ extension APIGateway {
             AWSShapeMember(label: "patchOperations", required: false, type: .list), 
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
         ]
+
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
         public let patchOperations: [PatchOperation]?
         /// [Required] The string identifier of the associated RestApi.
@@ -5282,6 +5498,7 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"), required: true, type: .string)
         ]
+
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
         public let patchOperations: [PatchOperation]?
         /// [Required] The string identifier of the associated RestApi.
@@ -5307,6 +5524,7 @@ extension APIGateway {
             AWSShapeMember(label: "patchOperations", required: false, type: .list), 
             AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string)
         ]
+
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
         public let patchOperations: [PatchOperation]?
         /// [Required] The Id of the to-be-updated usage plan.
@@ -5329,6 +5547,7 @@ extension APIGateway {
             AWSShapeMember(label: "patchOperations", required: false, type: .list), 
             AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string)
         ]
+
         /// [Required] The identifier of the API key associated with the usage plan in which a temporary extension is granted to the remaining quota.
         public let keyId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -5354,6 +5573,7 @@ extension APIGateway {
             AWSShapeMember(label: "patchOperations", required: false, type: .list), 
             AWSShapeMember(label: "vpcLinkId", location: .uri(locationName: "vpclink_id"), required: true, type: .string)
         ]
+
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
         public let patchOperations: [PatchOperation]?
         /// [Required] The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
@@ -5378,6 +5598,7 @@ extension APIGateway {
             AWSShapeMember(label: "startDate", required: false, type: .string), 
             AWSShapeMember(label: "usagePlanId", required: false, type: .string)
         ]
+
         /// The ending date of the usage data.
         public let endDate: String?
         /// The usage data, as daily logs of used and remaining quotas, over the specified time interval indexed over the API keys in a usage plan. For example, {..., "values" : { "{api_key}" : [ [0, 100], [10, 90], [100, 10]]}, where {api_key} stands for an API key value and the daily log entry is of the format [used quota, remaining quota].
@@ -5416,6 +5637,7 @@ extension APIGateway {
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "throttle", required: false, type: .structure)
         ]
+
         /// The associated API stages of a usage plan.
         public let apiStages: [ApiStage]?
         /// The description of a usage plan.
@@ -5463,6 +5685,7 @@ extension APIGateway {
             AWSShapeMember(label: "type", required: false, type: .string), 
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
+
         /// The Id of a usage plan key.
         public let id: String?
         /// The name of a usage plan key.
@@ -5492,6 +5715,7 @@ extension APIGateway {
             AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
             AWSShapeMember(label: "position", required: false, type: .string)
         ]
+
         /// The current page of elements from this collection.
         public let items: [UsagePlanKey]?
         public let position: String?
@@ -5512,6 +5736,7 @@ extension APIGateway {
             AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
             AWSShapeMember(label: "position", required: false, type: .string)
         ]
+
         /// The current page of elements from this collection.
         public let items: [UsagePlan]?
         public let position: String?
@@ -5537,6 +5762,7 @@ extension APIGateway {
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "targetArns", required: false, type: .list)
         ]
+
         /// The description of the VPC link.
         public let description: String?
         /// The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
@@ -5586,6 +5812,7 @@ extension APIGateway {
             AWSShapeMember(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
             AWSShapeMember(label: "position", required: false, type: .string)
         ]
+
         /// The current page of elements from this collection.
         public let items: [VpcLink]?
         public let position: String?

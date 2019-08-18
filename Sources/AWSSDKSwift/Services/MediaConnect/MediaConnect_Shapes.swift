@@ -10,6 +10,7 @@ extension MediaConnect {
             AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string), 
             AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"), required: true, type: .list)
         ]
+
         public let flowArn: String
         /// A list of outputs that you want to add.
         public let outputs: [AddOutputRequest]
@@ -30,6 +31,7 @@ extension MediaConnect {
             AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
             AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"), required: false, type: .list)
         ]
+
         /// The ARN of the flow that these outputs were added to.
         public let flowArn: String?
         /// The details of the newly added outputs.
@@ -58,6 +60,7 @@ extension MediaConnect {
             AWSShapeMember(label: "SmoothingLatency", location: .body(locationName: "smoothingLatency"), required: false, type: .integer), 
             AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string)
         ]
+
         /// A description of the output. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the end user.
         public let description: String?
         /// The IP address from which video will be sent to output destinations.
@@ -117,6 +120,7 @@ extension MediaConnect {
             AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"), required: false, type: .list), 
             AWSShapeMember(label: "Source", location: .body(locationName: "source"), required: true, type: .structure)
         ]
+
         /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current AWS Region.
         public let availabilityZone: String?
         /// The entitlements that you want to grant on a flow.
@@ -148,6 +152,7 @@ extension MediaConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Flow", location: .body(locationName: "flow"), required: false, type: .structure)
         ]
+
         public let flow: Flow?
 
         public init(flow: Flow? = nil) {
@@ -163,6 +168,7 @@ extension MediaConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string)
         ]
+
         public let flowArn: String
 
         public init(flowArn: String) {
@@ -179,6 +185,7 @@ extension MediaConnect {
             AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
             AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum)
         ]
+
         /// The ARN of the flow that was deleted.
         public let flowArn: String?
         /// The status of the flow when the DeleteFlow process begins.
@@ -199,6 +206,7 @@ extension MediaConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string)
         ]
+
         public let flowArn: String
 
         public init(flowArn: String) {
@@ -215,6 +223,7 @@ extension MediaConnect {
             AWSShapeMember(label: "Flow", location: .body(locationName: "flow"), required: false, type: .structure), 
             AWSShapeMember(label: "Messages", location: .body(locationName: "messages"), required: false, type: .structure)
         ]
+
         public let flow: Flow?
         public let messages: Messages?
 
@@ -241,6 +250,7 @@ extension MediaConnect {
             AWSShapeMember(label: "SecretArn", location: .body(locationName: "secretArn"), required: false, type: .string), 
             AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string)
         ]
+
         /// The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256).
         public let algorithm: Algorithm
         /// A 128-bit, 16-byte hex value represented by a 32-character string, to be used with the key for encrypting content. This parameter is not valid for static key encryption.
@@ -293,6 +303,7 @@ extension MediaConnect {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "Subscribers", location: .body(locationName: "subscribers"), required: true, type: .list)
         ]
+
         /// A description of the entitlement.
         public let description: String?
         /// The type of encryption that will be used on the output that is associated with this entitlement.
@@ -333,6 +344,7 @@ extension MediaConnect {
             AWSShapeMember(label: "Source", location: .body(locationName: "source"), required: true, type: .structure), 
             AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: true, type: .enum)
         ]
+
         /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current AWS.
         public let availabilityZone: String
         /// A description of the flow. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
@@ -383,6 +395,7 @@ extension MediaConnect {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "Subscribers", location: .body(locationName: "subscribers"), required: true, type: .list)
         ]
+
         /// A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
         public let description: String?
         /// The type of encryption that will be used on the output that is associated with this entitlement.
@@ -412,6 +425,7 @@ extension MediaConnect {
             AWSShapeMember(label: "Entitlements", location: .body(locationName: "entitlements"), required: true, type: .list), 
             AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string)
         ]
+
         /// The list of entitlements that you want to grant.
         public let entitlements: [GrantEntitlementRequest]
         public let flowArn: String
@@ -432,6 +446,7 @@ extension MediaConnect {
             AWSShapeMember(label: "Entitlements", location: .body(locationName: "entitlements"), required: false, type: .list), 
             AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string)
         ]
+
         /// The entitlements that were just granted.
         public let entitlements: [Entitlement]?
         /// The ARN of the flow that these entitlements were granted to.
@@ -459,12 +474,18 @@ extension MediaConnect {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let maxResults: Int32?
         public let nextToken: String?
 
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -478,6 +499,7 @@ extension MediaConnect {
             AWSShapeMember(label: "Entitlements", location: .body(locationName: "entitlements"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// A list of entitlements that have been granted to you from other AWS accounts.
         public let entitlements: [ListedEntitlement]?
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListEntitlements request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListEntitlements request a second time and specify the NextToken value.
@@ -499,12 +521,18 @@ extension MediaConnect {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let maxResults: Int32?
         public let nextToken: String?
 
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -518,6 +546,7 @@ extension MediaConnect {
             AWSShapeMember(label: "Flows", location: .body(locationName: "flows"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// A list of flow summaries.
         public let flows: [ListedFlow]?
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListFlows request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListFlows request a second time and specify the NextToken value.
@@ -538,6 +567,7 @@ extension MediaConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
         ]
+
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -553,6 +583,7 @@ extension MediaConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         /// A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [String: String]?
 
@@ -570,6 +601,7 @@ extension MediaConnect {
             AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"), required: true, type: .string), 
             AWSShapeMember(label: "EntitlementName", location: .body(locationName: "entitlementName"), required: true, type: .string)
         ]
+
         /// The ARN of the entitlement.
         public let entitlementArn: String
         /// The name of the entitlement.
@@ -595,6 +627,7 @@ extension MediaConnect {
             AWSShapeMember(label: "SourceType", location: .body(locationName: "sourceType"), required: true, type: .enum), 
             AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: true, type: .enum)
         ]
+
         /// The Availability Zone that the flow was created in.
         public let availabilityZone: String
         /// A description of the flow.
@@ -631,6 +664,7 @@ extension MediaConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Errors", location: .body(locationName: "errors"), required: true, type: .list)
         ]
+
         /// A list of errors that might have been generated from processes on this flow.
         public let errors: [String]
 
@@ -655,6 +689,7 @@ extension MediaConnect {
             AWSShapeMember(label: "Port", location: .body(locationName: "port"), required: false, type: .integer), 
             AWSShapeMember(label: "Transport", location: .body(locationName: "transport"), required: false, type: .structure)
         ]
+
         /// A description of the output.
         public let description: String?
         /// The address where you want to send the output.
@@ -711,6 +746,7 @@ extension MediaConnect {
             AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string), 
             AWSShapeMember(label: "OutputArn", location: .uri(locationName: "outputArn"), required: true, type: .string)
         ]
+
         public let flowArn: String
         public let outputArn: String
 
@@ -730,6 +766,7 @@ extension MediaConnect {
             AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
             AWSShapeMember(label: "OutputArn", location: .body(locationName: "outputArn"), required: false, type: .string)
         ]
+
         /// The ARN of the flow that is associated with the output you removed.
         public let flowArn: String?
         /// The ARN of the output that was removed.
@@ -746,27 +783,12 @@ extension MediaConnect {
         }
     }
 
-    public struct ResponseError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: true, type: .string)
-        ]
-        /// The error message returned by AWS Elemental MediaConnect.
-        public let message: String
-
-        public init(message: String) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
-    }
-
     public struct RevokeFlowEntitlementRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EntitlementArn", location: .uri(locationName: "entitlementArn"), required: true, type: .string), 
             AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string)
         ]
+
         public let entitlementArn: String
         public let flowArn: String
 
@@ -786,6 +808,7 @@ extension MediaConnect {
             AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"), required: false, type: .string), 
             AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string)
         ]
+
         /// The ARN of the entitlement that was revoked.
         public let entitlementArn: String?
         /// The ARN of the flow that the entitlement was revoked from.
@@ -815,6 +838,7 @@ extension MediaConnect {
             AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string), 
             AWSShapeMember(label: "WhitelistCidr", location: .body(locationName: "whitelistCidr"), required: false, type: .string)
         ]
+
         /// The type of encryption that is used on the content ingested from this source.
         public let decryption: Encryption?
         /// A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
@@ -875,6 +899,7 @@ extension MediaConnect {
             AWSShapeMember(label: "Transport", location: .body(locationName: "transport"), required: false, type: .structure), 
             AWSShapeMember(label: "WhitelistCidr", location: .body(locationName: "whitelistCidr"), required: false, type: .string)
         ]
+
         /// The type of encryption that is used on the content ingested from this source.
         public let decryption: Encryption?
         /// A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
@@ -929,6 +954,7 @@ extension MediaConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string)
         ]
+
         public let flowArn: String
 
         public init(flowArn: String) {
@@ -945,6 +971,7 @@ extension MediaConnect {
             AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
             AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum)
         ]
+
         /// The ARN of the flow that you started.
         public let flowArn: String?
         /// The status of the flow when the StartFlow process begins.
@@ -976,6 +1003,7 @@ extension MediaConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string)
         ]
+
         public let flowArn: String
 
         public init(flowArn: String) {
@@ -992,6 +1020,7 @@ extension MediaConnect {
             AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
             AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum)
         ]
+
         /// The ARN of the flow that you stopped.
         public let flowArn: String?
         /// The status of the flow when the StopFlow process begins.
@@ -1013,6 +1042,7 @@ extension MediaConnect {
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: true, type: .map)
         ]
+
         public let resourceArn: String
         /// A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [String: String]
@@ -1036,6 +1066,7 @@ extension MediaConnect {
             AWSShapeMember(label: "SmoothingLatency", location: .body(locationName: "smoothingLatency"), required: false, type: .integer), 
             AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string)
         ]
+
         /// The smoothing max bitrate for RTP and RTP-FEC streams.
         public let maxBitrate: Int32?
         /// The maximum latency in milliseconds for Zixi-based streams.
@@ -1069,6 +1100,7 @@ extension MediaConnect {
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]
+
         public let resourceArn: String
         public let tagKeys: [String]
 
@@ -1095,6 +1127,7 @@ extension MediaConnect {
             AWSShapeMember(label: "SecretArn", location: .body(locationName: "secretArn"), required: false, type: .string), 
             AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string)
         ]
+
         /// The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256).
         public let algorithm: Algorithm?
         /// A 128-bit, 16-byte hex value represented by a 32-character string, to be used with the key for encrypting content. This parameter is not valid for static key encryption.
@@ -1147,6 +1180,7 @@ extension MediaConnect {
             AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string), 
             AWSShapeMember(label: "Subscribers", location: .body(locationName: "subscribers"), required: false, type: .list)
         ]
+
         /// A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
         public let description: String?
         /// The type of encryption that will be used on the output associated with this entitlement.
@@ -1178,6 +1212,7 @@ extension MediaConnect {
             AWSShapeMember(label: "Entitlement", location: .body(locationName: "entitlement"), required: false, type: .structure), 
             AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string)
         ]
+
         public let entitlement: Entitlement?
         /// The ARN of the flow that this entitlement was granted on.
         public let flowArn: String?
@@ -1206,6 +1241,7 @@ extension MediaConnect {
             AWSShapeMember(label: "SmoothingLatency", location: .body(locationName: "smoothingLatency"), required: false, type: .integer), 
             AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string)
         ]
+
         /// A description of the output. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the end user.
         public let description: String?
         /// The IP address where you want to send the output.
@@ -1257,6 +1293,7 @@ extension MediaConnect {
             AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
             AWSShapeMember(label: "Output", location: .body(locationName: "output"), required: false, type: .structure)
         ]
+
         /// The ARN of the flow that is associated with the updated output.
         public let flowArn: String?
         public let output: Output?
@@ -1286,6 +1323,7 @@ extension MediaConnect {
             AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string), 
             AWSShapeMember(label: "WhitelistCidr", location: .body(locationName: "whitelistCidr"), required: false, type: .string)
         ]
+
         /// The type of encryption used on the content ingested from this source.
         public let decryption: UpdateEncryption?
         /// A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
@@ -1341,6 +1379,7 @@ extension MediaConnect {
             AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
             AWSShapeMember(label: "Source", location: .body(locationName: "source"), required: false, type: .structure)
         ]
+
         /// The ARN of the flow that you want to update.
         public let flowArn: String?
         /// The settings for the source of the flow.

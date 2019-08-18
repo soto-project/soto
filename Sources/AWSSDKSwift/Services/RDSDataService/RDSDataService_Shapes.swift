@@ -15,6 +15,7 @@ extension RDSDataService {
             AWSShapeMember(label: "sql", required: true, type: .string), 
             AWSShapeMember(label: "transactionId", required: false, type: .string)
         ]
+
         /// The name of the database.
         public let database: String?
         /// The parameter set for the batch operation.
@@ -44,6 +45,15 @@ extension RDSDataService {
             self.transactionId = transactionId
         }
 
+        public func validate(name: String) throws {
+            try validate(database, name:"database", parent: name, max: 64)
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 100)
+            try validate(schema, name:"schema", parent: name, max: 64)
+            try validate(secretArn, name:"secretArn", parent: name, max: 100)
+            try validate(sql, name:"sql", parent: name, max: 65536)
+            try validate(transactionId, name:"transactionId", parent: name, max: 192)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case database = "database"
             case parameterSets = "parameterSets"
@@ -59,6 +69,7 @@ extension RDSDataService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "updateResults", required: false, type: .list)
         ]
+
         /// The execution results of each batch entry.
         public let updateResults: [UpdateResult]?
 
@@ -78,6 +89,7 @@ extension RDSDataService {
             AWSShapeMember(label: "schema", required: false, type: .string), 
             AWSShapeMember(label: "secretArn", required: true, type: .string)
         ]
+
         /// The name of the database.
         public let database: String?
         /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
@@ -94,6 +106,13 @@ extension RDSDataService {
             self.secretArn = secretArn
         }
 
+        public func validate(name: String) throws {
+            try validate(database, name:"database", parent: name, max: 64)
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 100)
+            try validate(schema, name:"schema", parent: name, max: 64)
+            try validate(secretArn, name:"secretArn", parent: name, max: 100)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case database = "database"
             case resourceArn = "resourceArn"
@@ -106,6 +125,7 @@ extension RDSDataService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "transactionId", required: false, type: .string)
         ]
+
         /// The transaction ID of the transaction started by the call.
         public let transactionId: String?
 
@@ -135,6 +155,7 @@ extension RDSDataService {
             AWSShapeMember(label: "type", required: false, type: .integer), 
             AWSShapeMember(label: "typeName", required: false, type: .string)
         ]
+
         /// The type of the column.
         public let arrayBaseColumnType: Int32?
         /// A value that indicates whether the column increments automatically.
@@ -205,6 +226,7 @@ extension RDSDataService {
             AWSShapeMember(label: "secretArn", required: true, type: .string), 
             AWSShapeMember(label: "transactionId", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
         public let resourceArn: String
         /// The name or ARN of the secret that enables access to the DB cluster.
@@ -218,6 +240,12 @@ extension RDSDataService {
             self.transactionId = transactionId
         }
 
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 100)
+            try validate(secretArn, name:"secretArn", parent: name, max: 100)
+            try validate(transactionId, name:"transactionId", parent: name, max: 192)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "resourceArn"
             case secretArn = "secretArn"
@@ -229,6 +257,7 @@ extension RDSDataService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "transactionStatus", required: false, type: .string)
         ]
+
         /// The status of the commit operation.
         public let transactionStatus: String?
 
@@ -249,6 +278,7 @@ extension RDSDataService {
             AWSShapeMember(label: "schema", required: false, type: .string), 
             AWSShapeMember(label: "sqlStatements", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the secret that enables access to the DB cluster.
         public let awsSecretStoreArn: String
         /// The name of the database.
@@ -271,6 +301,14 @@ extension RDSDataService {
             self.sqlStatements = sqlStatements
         }
 
+        public func validate(name: String) throws {
+            try validate(awsSecretStoreArn, name:"awsSecretStoreArn", parent: name, max: 100)
+            try validate(database, name:"database", parent: name, max: 64)
+            try validate(dbClusterOrInstanceArn, name:"dbClusterOrInstanceArn", parent: name, max: 100)
+            try validate(schema, name:"schema", parent: name, max: 64)
+            try validate(sqlStatements, name:"sqlStatements", parent: name, max: 65536)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case awsSecretStoreArn = "awsSecretStoreArn"
             case database = "database"
@@ -284,6 +322,7 @@ extension RDSDataService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "sqlStatementResults", required: false, type: .list)
         ]
+
         /// The results of the SQL statement or statements.
         public let sqlStatementResults: [SqlStatementResult]?
 
@@ -308,6 +347,7 @@ extension RDSDataService {
             AWSShapeMember(label: "sql", required: true, type: .string), 
             AWSShapeMember(label: "transactionId", required: false, type: .string)
         ]
+
         /// A value that indicates whether to continue running the statement after 
         ///             the call times out. By default, the statement stops running when the call 
         ///             times out.
@@ -349,6 +389,15 @@ extension RDSDataService {
             self.transactionId = transactionId
         }
 
+        public func validate(name: String) throws {
+            try validate(database, name:"database", parent: name, max: 64)
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 100)
+            try validate(schema, name:"schema", parent: name, max: 64)
+            try validate(secretArn, name:"secretArn", parent: name, max: 100)
+            try validate(sql, name:"sql", parent: name, max: 65536)
+            try validate(transactionId, name:"transactionId", parent: name, max: 192)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case continueAfterTimeout = "continueAfterTimeout"
             case database = "database"
@@ -369,6 +418,7 @@ extension RDSDataService {
             AWSShapeMember(label: "numberOfRecordsUpdated", required: false, type: .long), 
             AWSShapeMember(label: "records", required: false, type: .list)
         ]
+
         /// Metadata for the columns included in the results.
         public let columnMetadata: [ColumnMetadata]?
         /// Values for fields generated during the request.
@@ -402,6 +452,7 @@ extension RDSDataService {
             AWSShapeMember(label: "longValue", required: false, type: .long), 
             AWSShapeMember(label: "stringValue", required: false, type: .string)
         ]
+
         /// A value of BLOB data type.
         public let blobValue: Data?
         /// A value of Boolean data type.
@@ -438,6 +489,7 @@ extension RDSDataService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "values", required: false, type: .list)
         ]
+
         /// The values returned in the record.
         public let values: [Value]?
 
@@ -455,6 +507,7 @@ extension RDSDataService {
             AWSShapeMember(label: "records", required: false, type: .list), 
             AWSShapeMember(label: "resultSetMetadata", required: false, type: .structure)
         ]
+
         /// The records in the result set.
         public let records: [Record]?
         /// The result-set metadata in the result set.
@@ -476,6 +529,7 @@ extension RDSDataService {
             AWSShapeMember(label: "columnCount", required: false, type: .long), 
             AWSShapeMember(label: "columnMetadata", required: false, type: .list)
         ]
+
         /// The number of columns in the result set.
         public let columnCount: Int64?
         /// The metadata of the columns in the result set.
@@ -498,6 +552,7 @@ extension RDSDataService {
             AWSShapeMember(label: "secretArn", required: true, type: .string), 
             AWSShapeMember(label: "transactionId", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
         public let resourceArn: String
         /// The name or ARN of the secret that enables access to the DB cluster.
@@ -511,6 +566,12 @@ extension RDSDataService {
             self.transactionId = transactionId
         }
 
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 100)
+            try validate(secretArn, name:"secretArn", parent: name, max: 100)
+            try validate(transactionId, name:"transactionId", parent: name, max: 192)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "resourceArn"
             case secretArn = "secretArn"
@@ -522,6 +583,7 @@ extension RDSDataService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "transactionStatus", required: false, type: .string)
         ]
+
         /// The status of the rollback operation.
         public let transactionStatus: String?
 
@@ -539,6 +601,7 @@ extension RDSDataService {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "value", required: false, type: .structure)
         ]
+
         /// The name of the parameter.
         public let name: String?
         /// The value of the parameter.
@@ -560,6 +623,7 @@ extension RDSDataService {
             AWSShapeMember(label: "numberOfRecordsUpdated", required: false, type: .long), 
             AWSShapeMember(label: "resultFrame", required: false, type: .structure)
         ]
+
         /// The number of records updated by a SQL statement.
         public let numberOfRecordsUpdated: Int64?
         /// The result set of the SQL statement.
@@ -580,6 +644,7 @@ extension RDSDataService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attributes", required: false, type: .list)
         ]
+
         /// The attributes returned in the record.
         public let attributes: [Value]?
 
@@ -596,6 +661,7 @@ extension RDSDataService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "generatedFields", required: false, type: .list)
         ]
+
         /// Values for fields generated during the request.
         public let generatedFields: [Field]?
 
@@ -621,6 +687,7 @@ extension RDSDataService {
             AWSShapeMember(label: "stringValue", required: false, type: .string), 
             AWSShapeMember(label: "structValue", required: false, type: .structure)
         ]
+
         /// An array of column values.
         public let arrayValues: [Value]?
         /// A value for a column of big integer data type.

@@ -10,6 +10,7 @@ extension Redshift {
             AWSShapeMember(label: "ReservedNodeId", required: true, type: .string), 
             AWSShapeMember(label: "TargetReservedNodeOfferingId", required: true, type: .string)
         ]
+
         /// A string representing the node identifier of the DC1 Reserved Node to be exchanged.
         public let reservedNodeId: String
         /// The unique identifier of the DC2 Reserved Node offering to be used for the exchange. You can obtain the value for the parameter by calling GetReservedNodeExchangeOfferings 
@@ -30,6 +31,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExchangedReservedNode", required: false, type: .structure)
         ]
+
         public let exchangedReservedNode: ReservedNode?
 
         public init(exchangedReservedNode: ReservedNode? = nil) {
@@ -46,6 +48,7 @@ extension Redshift {
             AWSShapeMember(label: "AttributeName", required: false, type: .string), 
             AWSShapeMember(label: "AttributeValues", required: false, type: .list, encoding: .list(member:"AttributeValueTarget"))
         ]
+
         /// The name of the attribute.
         public let attributeName: String?
         /// A list of attribute values.
@@ -66,6 +69,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountAttributes", required: false, type: .list, encoding: .list(member:"AccountAttribute"))
         ]
+
         /// A list of attributes assigned to an account.
         public let accountAttributes: [AccountAttribute]?
 
@@ -83,6 +87,7 @@ extension Redshift {
             AWSShapeMember(label: "AccountAlias", required: false, type: .string), 
             AWSShapeMember(label: "AccountId", required: false, type: .string)
         ]
+
         /// The identifier of an AWS support account authorized to restore a snapshot. For AWS support, the identifier is amazon-redshift-support. 
         public let accountAlias: String?
         /// The identifier of an AWS customer account authorized to restore a snapshot.
@@ -103,6 +108,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeValue", required: false, type: .string)
         ]
+
         /// The value of the attribute.
         public let attributeValue: String?
 
@@ -122,6 +128,7 @@ extension Redshift {
             AWSShapeMember(label: "EC2SecurityGroupName", required: false, type: .string), 
             AWSShapeMember(label: "EC2SecurityGroupOwnerId", required: false, type: .string)
         ]
+
         /// The IP range to be added the Amazon Redshift security group.
         public let cidrip: String?
         /// The name of the security group to which the ingress rule is added.
@@ -150,6 +157,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterSecurityGroup", required: false, type: .structure)
         ]
+
         public let clusterSecurityGroup: ClusterSecurityGroup?
 
         public init(clusterSecurityGroup: ClusterSecurityGroup? = nil) {
@@ -167,6 +175,7 @@ extension Redshift {
             AWSShapeMember(label: "SnapshotClusterIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "SnapshotIdentifier", required: true, type: .string)
         ]
+
         /// The identifier of the AWS customer account authorized to restore the specified snapshot. To share a snapshot with AWS support, specify amazon-redshift-support.
         public let accountWithRestoreAccess: String
         /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
@@ -191,6 +200,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Snapshot", required: false, type: .structure)
         ]
+
         public let snapshot: Snapshot?
 
         public init(snapshot: Snapshot? = nil) {
@@ -207,6 +217,7 @@ extension Redshift {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "SupportedPlatforms", required: false, type: .list, encoding: .list(member:"SupportedPlatform"))
         ]
+
         /// The name of the availability zone.
         public let name: String?
         public let supportedPlatforms: [SupportedPlatform]?
@@ -226,6 +237,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Identifiers", required: true, type: .list, encoding: .list(member:"DeleteClusterSnapshotMessage"))
         ]
+
         /// A list of identifiers for the snapshots that you want to delete.
         public let identifiers: [DeleteClusterSnapshotMessage]
 
@@ -243,6 +255,7 @@ extension Redshift {
             AWSShapeMember(label: "Errors", required: false, type: .list, encoding: .list(member:"SnapshotErrorMessage")), 
             AWSShapeMember(label: "Resources", required: false, type: .list, encoding: .list(member:"String"))
         ]
+
         /// A list of any errors returned.
         public let errors: [SnapshotErrorMessage]?
         /// A list of the snapshot identifiers that were deleted. 
@@ -265,6 +278,7 @@ extension Redshift {
             AWSShapeMember(label: "ManualSnapshotRetentionPeriod", required: false, type: .integer), 
             AWSShapeMember(label: "SnapshotIdentifierList", required: true, type: .list, encoding: .list(member:"String"))
         ]
+
         /// A boolean value indicating whether to override an exception if the retention period has passed. 
         public let force: Bool?
         /// The number of days that a manual snapshot is retained. If you specify the value -1, the manual snapshot is retained indefinitely. The number must be either -1 or an integer between 1 and 3,653. If you decrease the manual snapshot retention period from its current value, existing manual snapshots that fall outside of the new retention period will return an error. If you want to suppress the errors and delete the snapshots, use the force option. 
@@ -290,6 +304,7 @@ extension Redshift {
             AWSShapeMember(label: "Errors", required: false, type: .list, encoding: .list(member:"SnapshotErrorMessage")), 
             AWSShapeMember(label: "Resources", required: false, type: .list, encoding: .list(member:"String"))
         ]
+
         /// A list of any errors returned.
         public let errors: [SnapshotErrorMessage]?
         /// A list of the snapshots that were modified.
@@ -310,6 +325,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string)
         ]
+
         /// The unique identifier for the cluster that you want to cancel a resize operation for.
         public let clusterIdentifier: String
 
@@ -368,6 +384,7 @@ extension Redshift {
             AWSShapeMember(label: "VpcId", required: false, type: .string), 
             AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .list, encoding: .list(member:"VpcSecurityGroup"))
         ]
+
         /// A boolean value that, if true, indicates that major version upgrades will be applied automatically to the cluster during the maintenance window. 
         public let allowVersionUpgrade: Bool?
         /// The number of days that automatic cluster snapshots are retained.
@@ -552,6 +569,7 @@ extension Redshift {
             AWSShapeMember(label: "ClusterIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "ScheduleAssociationState", required: false, type: .enum)
         ]
+
         public let clusterIdentifier: String?
         public let scheduleAssociationState: ScheduleState?
 
@@ -572,6 +590,7 @@ extension Redshift {
             AWSShapeMember(label: "DbUser", required: false, type: .string), 
             AWSShapeMember(label: "Expiration", required: false, type: .timestamp)
         ]
+
         /// A temporary password that authorizes the user name returned by DbUser to log on to the database DbName. 
         public let dbPassword: String?
         /// A database user name that is authorized to log on to the database DbName using the password DbPassword. If the specified DbUser exists in the database, the new user name has the same database privileges as the the user named in DbUser. By default, the user is added to PUBLIC. If the DbGroups parameter is specifed, DbUser is added to the listed groups for any sessions created using these credentials.
@@ -599,6 +618,7 @@ extension Redshift {
             AWSShapeMember(label: "DatabaseRevisionReleaseDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "RevisionTargets", required: false, type: .list, encoding: .list(member:"RevisionTarget"))
         ]
+
         /// The unique identifier of the cluster.
         public let clusterIdentifier: String?
         /// A string representing the current cluster version.
@@ -628,6 +648,7 @@ extension Redshift {
             AWSShapeMember(label: "ClusterDbRevisions", required: false, type: .list, encoding: .list(member:"ClusterDbRevision")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// A list of revisions.
         public let clusterDbRevisions: [ClusterDbRevision]?
         /// A string representing the starting point for the next set of revisions. If a value is returned in a response, you can retrieve the next set of revisions by providing the value in the marker parameter and retrying the command. If the marker field is empty, all revisions have already been returned.
@@ -649,6 +670,7 @@ extension Redshift {
             AWSShapeMember(label: "ApplyStatus", required: false, type: .string), 
             AWSShapeMember(label: "IamRoleArn", required: false, type: .string)
         ]
+
         /// A value that describes the status of the IAM role's association with an Amazon Redshift cluster. The following are possible statuses and descriptions.    in-sync: The role is available for use by the cluster.    adding: The role is in the process of being associated with the cluster.    removing: The role is in the process of being disassociated with the cluster.  
         public let applyStatus: String?
         /// The Amazon Resource Name (ARN) of the IAM role, for example, arn:aws:iam::123456789012:role/RedshiftCopyUnload. 
@@ -671,6 +693,7 @@ extension Redshift {
             AWSShapeMember(label: "PrivateIPAddress", required: false, type: .string), 
             AWSShapeMember(label: "PublicIPAddress", required: false, type: .string)
         ]
+
         /// Whether the node is a leader node or a compute node.
         public let nodeRole: String?
         /// The private IP address of a node within a cluster.
@@ -698,6 +721,7 @@ extension Redshift {
             AWSShapeMember(label: "ParameterGroupName", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The description of the parameter group.
         public let description: String?
         /// The name of the cluster parameter group family that this cluster parameter group is compatible with.
@@ -727,6 +751,7 @@ extension Redshift {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter"))
         ]
+
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of Parameter instances. Each instance lists the parameters of one cluster parameter group. 
@@ -748,6 +773,7 @@ extension Redshift {
             AWSShapeMember(label: "ParameterGroupName", required: false, type: .string), 
             AWSShapeMember(label: "ParameterGroupStatus", required: false, type: .string)
         ]
+
         /// The name of the cluster parameter group.
         public let parameterGroupName: String?
         /// The status of the parameter group. For example, if you made a change to a parameter group name-value pair, then the change could be pending a reboot of an associated cluster.
@@ -770,6 +796,7 @@ extension Redshift {
             AWSShapeMember(label: "ParameterApplyStatus", required: false, type: .string), 
             AWSShapeMember(label: "ParameterGroupName", required: false, type: .string)
         ]
+
         /// The list of parameter statuses.  For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide.
         public let clusterParameterStatusList: [ClusterParameterStatus]?
         /// The status of parameter updates.
@@ -795,6 +822,7 @@ extension Redshift {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "ParameterGroups", required: false, type: .list, encoding: .list(member:"ClusterParameterGroup"))
         ]
+
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of ClusterParameterGroup instances. Each instance describes one cluster parameter group. 
@@ -817,6 +845,7 @@ extension Redshift {
             AWSShapeMember(label: "ParameterApplyStatus", required: false, type: .string), 
             AWSShapeMember(label: "ParameterName", required: false, type: .string)
         ]
+
         /// The error that prevented the parameter from being applied to the database.
         public let parameterApplyErrorDescription: String?
         /// The status of the parameter that indicates whether the parameter is in sync with the database, waiting for a cluster reboot, or encountered an error when being applied. The following are possible statuses and descriptions.    in-sync: The parameter value is in sync with the database.    pending-reboot: The parameter value will be applied after the cluster reboots.    applying: The parameter value is being applied to the database.    invalid-parameter: Cannot apply the parameter value because it has an invalid value or syntax.    apply-deferred: The parameter contains static property changes. The changes are deferred until the cluster reboots.    apply-error: Cannot connect to the cluster. The parameter change will be applied after the cluster reboots.    unknown-error: Cannot apply the parameter change right now. The change will be applied after the cluster reboots.  
@@ -845,6 +874,7 @@ extension Redshift {
             AWSShapeMember(label: "IPRanges", required: false, type: .list, encoding: .list(member:"IPRange")), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The name of the cluster security group to which the operation was applied.
         public let clusterSecurityGroupName: String?
         /// A description of the security group.
@@ -878,6 +908,7 @@ extension Redshift {
             AWSShapeMember(label: "ClusterSecurityGroupName", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
+
         /// The name of the cluster security group.
         public let clusterSecurityGroupName: String?
         /// The status of the cluster security group.
@@ -899,6 +930,7 @@ extension Redshift {
             AWSShapeMember(label: "ClusterSecurityGroups", required: false, type: .list, encoding: .list(member:"ClusterSecurityGroup")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// A list of ClusterSecurityGroup instances. 
         public let clusterSecurityGroups: [ClusterSecurityGroup]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -922,6 +954,7 @@ extension Redshift {
             AWSShapeMember(label: "RetentionPeriod", required: false, type: .long), 
             AWSShapeMember(label: "SnapshotCopyGrantName", required: false, type: .string)
         ]
+
         /// The destination region that snapshots are automatically copied to when cross-region snapshot copy is enabled.
         public let destinationRegion: String?
         /// The number of days that automated snapshots are retained in the destination region after they are copied from a source region. If the value is -1, the manual snapshot is retained indefinitely.  The value must be either -1 or an integer between 1 and 3,653.
@@ -955,6 +988,7 @@ extension Redshift {
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
+
         /// The name of the cluster subnet group.
         public let clusterSubnetGroupName: String?
         /// The description of the cluster subnet group.
@@ -992,6 +1026,7 @@ extension Redshift {
             AWSShapeMember(label: "ClusterSubnetGroups", required: false, type: .list, encoding: .list(member:"ClusterSubnetGroup")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// A list of ClusterSubnetGroup instances. 
         public let clusterSubnetGroups: [ClusterSubnetGroup]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -1014,6 +1049,7 @@ extension Redshift {
             AWSShapeMember(label: "ClusterVersion", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
+
         /// The name of the cluster parameter group family for the cluster.
         public let clusterParameterGroupFamily: String?
         /// The version number used by the cluster.
@@ -1039,6 +1075,7 @@ extension Redshift {
             AWSShapeMember(label: "ClusterVersions", required: false, type: .list, encoding: .list(member:"ClusterVersion")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// A list of Version elements. 
         public let clusterVersions: [ClusterVersion]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -1060,6 +1097,7 @@ extension Redshift {
             AWSShapeMember(label: "Clusters", required: false, type: .list, encoding: .list(member:"Cluster")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// A list of Cluster objects, where each object describes one cluster. 
         public let clusters: [Cluster]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -1083,6 +1121,7 @@ extension Redshift {
             AWSShapeMember(label: "SourceSnapshotIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "TargetSnapshotIdentifier", required: true, type: .string)
         ]
+
         /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely.  The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
         public let manualSnapshotRetentionPeriod: Int32?
         /// The identifier of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints:   Must be the identifier for a valid cluster.  
@@ -1111,6 +1150,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Snapshot", required: false, type: .structure)
         ]
+
         public let snapshot: Snapshot?
 
         public init(snapshot: Snapshot? = nil) {
@@ -1155,6 +1195,7 @@ extension Redshift {
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
             AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
         ]
+
         /// Reserved.
         public let additionalInfo: String?
         /// If true, major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster. When a new major version of the Amazon Redshift engine is released, you can request that the service automatically apply upgrades during the maintenance window to the Amazon Redshift engine that is running on your cluster. Default: true 
@@ -1290,6 +1331,7 @@ extension Redshift {
             AWSShapeMember(label: "ParameterGroupName", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// A description of the parameter group.
         public let description: String
         /// The Amazon Redshift engine version to which the cluster parameter group applies. The cluster engine version determines the set of parameters. To get a list of valid parameter group family names, you can call DescribeClusterParameterGroups. By default, Amazon Redshift returns a list of all the parameter groups that are owned by your AWS account, including the default parameter groups for each Amazon Redshift engine version. The parameter group family names associated with the default parameter groups provide you the valid values. For example, a valid family name is "redshift-1.0". 
@@ -1318,6 +1360,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterParameterGroup", required: false, type: .structure)
         ]
+
         public let clusterParameterGroup: ClusterParameterGroup?
 
         public init(clusterParameterGroup: ClusterParameterGroup? = nil) {
@@ -1333,6 +1376,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
+
         public let cluster: Cluster?
 
         public init(cluster: Cluster? = nil) {
@@ -1350,6 +1394,7 @@ extension Redshift {
             AWSShapeMember(label: "Description", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The name for the security group. Amazon Redshift stores the value as a lowercase string. Constraints:   Must contain no more than 255 alphanumeric characters or hyphens.   Must not be "Default".   Must be unique for all security groups that are created by your AWS account.   Example: examplesecuritygroup 
         public let clusterSecurityGroupName: String
         /// A description for the security group.
@@ -1374,6 +1419,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterSecurityGroup", required: false, type: .structure)
         ]
+
         public let clusterSecurityGroup: ClusterSecurityGroup?
 
         public init(clusterSecurityGroup: ClusterSecurityGroup? = nil) {
@@ -1392,6 +1438,7 @@ extension Redshift {
             AWSShapeMember(label: "SnapshotIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The cluster identifier for which you want a snapshot.
         public let clusterIdentifier: String
         /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely.  The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
@@ -1420,6 +1467,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Snapshot", required: false, type: .structure)
         ]
+
         public let snapshot: Snapshot?
 
         public init(snapshot: Snapshot? = nil) {
@@ -1438,6 +1486,7 @@ extension Redshift {
             AWSShapeMember(label: "SubnetIds", required: true, type: .list, encoding: .list(member:"SubnetIdentifier")), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The name for the subnet group. Amazon Redshift stores the value as a lowercase string. Constraints:   Must contain no more than 255 alphanumeric characters or hyphens.   Must not be "Default".   Must be unique for all subnet groups that are created by your AWS account.   Example: examplesubnetgroup 
         public let clusterSubnetGroupName: String
         /// A description for the subnet group.
@@ -1466,6 +1515,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterSubnetGroup", required: false, type: .structure)
         ]
+
         public let clusterSubnetGroup: ClusterSubnetGroup?
 
         public init(clusterSubnetGroup: ClusterSubnetGroup? = nil) {
@@ -1488,6 +1538,7 @@ extension Redshift {
             AWSShapeMember(label: "SubscriptionName", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// A boolean value; set to true to activate the subscription, and set to false to create the subscription but not activate it. 
         public let enabled: Bool?
         /// Specifies the Amazon Redshift event categories to be published by the event notification subscription. Values: configuration, management, monitoring, security
@@ -1532,6 +1583,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
+
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -1548,6 +1600,7 @@ extension Redshift {
             AWSShapeMember(label: "HsmClientCertificateIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The identifier to be assigned to the new HSM client certificate that the cluster will use to connect to the HSM to use the database encryption keys.
         public let hsmClientCertificateIdentifier: String
         /// A list of tag instances.
@@ -1568,6 +1621,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HsmClientCertificate", required: false, type: .structure)
         ]
+
         public let hsmClientCertificate: HsmClientCertificate?
 
         public init(hsmClientCertificate: HsmClientCertificate? = nil) {
@@ -1589,6 +1643,7 @@ extension Redshift {
             AWSShapeMember(label: "HsmServerPublicCertificate", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// A text description of the HSM configuration to be created.
         public let description: String
         /// The identifier to be assigned to the new Amazon Redshift HSM configuration.
@@ -1629,6 +1684,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HsmConfiguration", required: false, type: .structure)
         ]
+
         public let hsmConfiguration: HsmConfiguration?
 
         public init(hsmConfiguration: HsmConfiguration? = nil) {
@@ -1646,6 +1702,7 @@ extension Redshift {
             AWSShapeMember(label: "SnapshotCopyGrantName", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The unique identifier of the customer master key (CMK) to which to grant Amazon Redshift permission. If no key is specified, the default key is used.
         public let kmsKeyId: String?
         /// The name of the snapshot copy grant. This name must be unique in the region for the AWS account. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an AWS account.  
@@ -1670,6 +1727,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnapshotCopyGrant", required: false, type: .structure)
         ]
+
         public let snapshotCopyGrant: SnapshotCopyGrant?
 
         public init(snapshotCopyGrant: SnapshotCopyGrant? = nil) {
@@ -1690,6 +1748,7 @@ extension Redshift {
             AWSShapeMember(label: "ScheduleIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         public let dryRun: Bool?
         public let nextInvocations: Int32?
         /// The definition of the snapshot schedule. The definition is made up of schedule expressions, for example "cron(30 12 *)" or "rate(12 hours)". 
@@ -1725,6 +1784,7 @@ extension Redshift {
             AWSShapeMember(label: "ResourceName", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The Amazon Resource Name (ARN) to which you want to add the tag or tags. For example, arn:aws:redshift:us-east-1:123456789:cluster:t1. 
         public let resourceName: String
         /// One or more name/value pairs to add as tags to the specified resource. Each tag name is passed in with the parameter Key and the corresponding value is passed in with the parameter Value. The Key and Value parameters are separated by a comma (,). Separate multiple tags with a space. For example, --tags "Key"="owner","Value"="admin" "Key"="environment","Value"="test" "Key"="version","Value"="1.0". 
@@ -1746,6 +1806,7 @@ extension Redshift {
             AWSShapeMember(label: "TotalBackupSizeInMegaBytes", required: false, type: .double), 
             AWSShapeMember(label: "TotalProvisionedStorageInMegaBytes", required: false, type: .double)
         ]
+
         /// The total amount of storage currently used for snapshots.
         public let totalBackupSizeInMegaBytes: Double?
         /// The total amount of storage currently provisioned.
@@ -1771,6 +1832,7 @@ extension Redshift {
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "TotalDataInMegaBytes", required: false, type: .long)
         ]
+
         /// Describes the data transfer rate in MB's per second.
         public let currentRateInMegaBytesPerSecond: Double?
         /// Describes the total amount of data that has been transfered in MB's.
@@ -1809,6 +1871,7 @@ extension Redshift {
             AWSShapeMember(label: "ParameterGroupFamily", required: false, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter"))
         ]
+
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// The name of the cluster parameter group family to which the engine default parameters apply.
@@ -1835,6 +1898,7 @@ extension Redshift {
             AWSShapeMember(label: "DeferMaintenanceIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "DeferMaintenanceStartTime", required: false, type: .timestamp)
         ]
+
         ///  A timestamp for the end of the time period when we defer maintenance.
         public let deferMaintenanceEndTime: TimeStamp?
         /// A unique identifier for the maintenance window.
@@ -1862,6 +1926,7 @@ extension Redshift {
             AWSShapeMember(label: "FinalClusterSnapshotRetentionPeriod", required: false, type: .integer), 
             AWSShapeMember(label: "SkipFinalClusterSnapshot", required: false, type: .boolean)
         ]
+
         /// The identifier of the cluster to be deleted. Constraints:   Must contain lowercase characters.   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let clusterIdentifier: String
         /// The identifier of the final snapshot that is to be created immediately before deleting the cluster. If this parameter is provided, SkipFinalClusterSnapshot must be false.  Constraints:   Must be 1 to 255 alphanumeric characters.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
@@ -1890,6 +1955,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ParameterGroupName", required: true, type: .string)
         ]
+
         /// The name of the parameter group to be deleted. Constraints:   Must be the name of an existing cluster parameter group.   Cannot delete a default cluster parameter group.  
         public let parameterGroupName: String
 
@@ -1906,6 +1972,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
+
         public let cluster: Cluster?
 
         public init(cluster: Cluster? = nil) {
@@ -1921,6 +1988,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterSecurityGroupName", required: true, type: .string)
         ]
+
         /// The name of the cluster security group to be deleted.
         public let clusterSecurityGroupName: String
 
@@ -1938,6 +2006,7 @@ extension Redshift {
             AWSShapeMember(label: "SnapshotClusterIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "SnapshotIdentifier", required: true, type: .string)
         ]
+
         /// The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster.
         public let snapshotClusterIdentifier: String?
         /// The unique identifier of the manual snapshot to be deleted. Constraints: Must be the name of an existing snapshot that is in the available, failed, or cancelled state.
@@ -1958,6 +2027,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Snapshot", required: false, type: .structure)
         ]
+
         public let snapshot: Snapshot?
 
         public init(snapshot: Snapshot? = nil) {
@@ -1973,6 +2043,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterSubnetGroupName", required: true, type: .string)
         ]
+
         /// The name of the cluster subnet group name to be deleted.
         public let clusterSubnetGroupName: String
 
@@ -1989,6 +2060,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
         ]
+
         /// The name of the Amazon Redshift event notification subscription to be deleted.
         public let subscriptionName: String
 
@@ -2005,6 +2077,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HsmClientCertificateIdentifier", required: true, type: .string)
         ]
+
         /// The identifier of the HSM client certificate to be deleted.
         public let hsmClientCertificateIdentifier: String
 
@@ -2021,6 +2094,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HsmConfigurationIdentifier", required: true, type: .string)
         ]
+
         /// The identifier of the Amazon Redshift HSM configuration to be deleted.
         public let hsmConfigurationIdentifier: String
 
@@ -2037,6 +2111,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnapshotCopyGrantName", required: true, type: .string)
         ]
+
         /// The name of the snapshot copy grant to delete.
         public let snapshotCopyGrantName: String
 
@@ -2053,6 +2128,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ScheduleIdentifier", required: true, type: .string)
         ]
+
         /// A unique identifier of the snapshot schedule to delete.
         public let scheduleIdentifier: String
 
@@ -2070,6 +2146,7 @@ extension Redshift {
             AWSShapeMember(label: "ResourceName", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list, encoding: .list(member:"TagKey"))
         ]
+
         /// The Amazon Resource Name (ARN) from which you want to remove the tag or tags. For example, arn:aws:redshift:us-east-1:123456789:cluster:t1. 
         public let resourceName: String
         /// The tag key that you want to delete.
@@ -2090,6 +2167,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeNames", required: false, type: .list, encoding: .list(member:"AttributeName"))
         ]
+
         /// A list of attribute names.
         public let attributeNames: [String]?
 
@@ -2108,6 +2186,7 @@ extension Redshift {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// A unique identifier for a cluster whose ClusterDbRevisions you are requesting. This parameter is case sensitive. All clusters defined for an account are returned by default.
         public let clusterIdentifier: String?
         /// An optional parameter that specifies the starting point for returning a set of response records. When the results of a DescribeClusterDbRevisions request exceed the value specified in MaxRecords, Amazon Redshift returns a value in the marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the marker parameter and retrying the request.  Constraints: You can specify either the ClusterIdentifier parameter, or the marker parameter, but not both.
@@ -2136,6 +2215,7 @@ extension Redshift {
             AWSShapeMember(label: "TagKeys", required: false, type: .list, encoding: .list(member:"TagKey")), 
             AWSShapeMember(label: "TagValues", required: false, type: .list, encoding: .list(member:"TagValue"))
         ]
+
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterParameterGroups request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
@@ -2171,6 +2251,7 @@ extension Redshift {
             AWSShapeMember(label: "ParameterGroupName", required: true, type: .string), 
             AWSShapeMember(label: "Source", required: false, type: .string)
         ]
+
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterParameters request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
@@ -2203,6 +2284,7 @@ extension Redshift {
             AWSShapeMember(label: "TagKeys", required: false, type: .list, encoding: .list(member:"TagKey")), 
             AWSShapeMember(label: "TagValues", required: false, type: .list, encoding: .list(member:"TagValue"))
         ]
+
         /// The name of a cluster security group for which you are requesting details. You can specify either the Marker parameter or a ClusterSecurityGroupName parameter, but not both.   Example: securitygroup1 
         public let clusterSecurityGroupName: String?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterSecurityGroups request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.  Constraints: You can specify either the ClusterSecurityGroupName parameter or the Marker parameter, but not both. 
@@ -2246,6 +2328,7 @@ extension Redshift {
             AWSShapeMember(label: "TagKeys", required: false, type: .list, encoding: .list(member:"TagKey")), 
             AWSShapeMember(label: "TagValues", required: false, type: .list, encoding: .list(member:"TagValue"))
         ]
+
         /// A value that indicates whether to return snapshots only for an existing cluster. You can perform table-level restore only by using a snapshot of an existing cluster, that is, a cluster that has not been deleted. Values for this parameter work as follows:    If ClusterExists is set to true, ClusterIdentifier is required.   If ClusterExists is set to false and ClusterIdentifier isn't specified, all snapshots associated with deleted clusters (orphaned snapshots) are returned.    If ClusterExists is set to false and ClusterIdentifier is specified for a deleted cluster, snapshots associated with that cluster are returned.   If ClusterExists is set to false and ClusterIdentifier is specified for an existing cluster, no snapshots are returned.   
         public let clusterExists: Bool?
         /// The identifier of the cluster which generated the requested snapshots.
@@ -2309,6 +2392,7 @@ extension Redshift {
             AWSShapeMember(label: "TagKeys", required: false, type: .list, encoding: .list(member:"TagKey")), 
             AWSShapeMember(label: "TagValues", required: false, type: .list, encoding: .list(member:"TagValue"))
         ]
+
         /// The name of the cluster subnet group for which information is requested.
         public let clusterSubnetGroupName: String?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterSubnetGroups request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
@@ -2343,6 +2427,7 @@ extension Redshift {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// The name of the maintenance track. 
         public let maintenanceTrackName: String?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterTracks request exceed the value specified in MaxRecords, Amazon Redshift returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
@@ -2370,6 +2455,7 @@ extension Redshift {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// The name of a specific cluster parameter group family to return details for. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
         public let clusterParameterGroupFamily: String?
         /// The specific cluster version to return. Example: 1.0 
@@ -2402,6 +2488,7 @@ extension Redshift {
             AWSShapeMember(label: "TagKeys", required: false, type: .list, encoding: .list(member:"TagKey")), 
             AWSShapeMember(label: "TagValues", required: false, type: .list, encoding: .list(member:"TagValue"))
         ]
+
         /// The unique identifier of a cluster whose properties you are requesting. This parameter is case sensitive. The default is that all clusters defined for an account are returned.
         public let clusterIdentifier: String?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusters request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.  Constraints: You can specify either the ClusterIdentifier parameter or the Marker parameter, but not both. 
@@ -2436,6 +2523,7 @@ extension Redshift {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "ParameterGroupFamily", required: true, type: .string)
         ]
+
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDefaultClusterParameters request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
@@ -2460,6 +2548,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DefaultClusterParameters", required: false, type: .structure)
         ]
+
         public let defaultClusterParameters: DefaultClusterParameters?
 
         public init(defaultClusterParameters: DefaultClusterParameters? = nil) {
@@ -2475,6 +2564,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SourceType", required: false, type: .string)
         ]
+
         /// The source type, such as cluster or parameter group, to which the described event categories apply. Valid values: cluster, cluster-snapshot, cluster-parameter-group, and cluster-security-group.
         public let sourceType: String?
 
@@ -2495,6 +2585,7 @@ extension Redshift {
             AWSShapeMember(label: "TagKeys", required: false, type: .list, encoding: .list(member:"TagKey")), 
             AWSShapeMember(label: "TagValues", required: false, type: .list, encoding: .list(member:"TagValue"))
         ]
+
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeEventSubscriptions request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
@@ -2533,6 +2624,7 @@ extension Redshift {
             AWSShapeMember(label: "SourceType", required: false, type: .enum), 
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
         ]
+
         /// The number of minutes prior to the time of the request for which to retrieve events. For example, if the request is sent at 18:00 and you specify a duration of 60, then only events which have occurred after 17:00 will be returned. Default: 60 
         public let duration: Int32?
         /// The end of the time interval for which to retrieve events, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z 
@@ -2577,6 +2669,7 @@ extension Redshift {
             AWSShapeMember(label: "TagKeys", required: false, type: .list, encoding: .list(member:"TagKey")), 
             AWSShapeMember(label: "TagValues", required: false, type: .list, encoding: .list(member:"TagValue"))
         ]
+
         /// The identifier of a specific HSM client certificate for which you want information. If no identifier is specified, information is returned for all HSM client certificates owned by your AWS customer account.
         public let hsmClientCertificateIdentifier: String?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeHsmClientCertificates request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
@@ -2613,6 +2706,7 @@ extension Redshift {
             AWSShapeMember(label: "TagKeys", required: false, type: .list, encoding: .list(member:"TagKey")), 
             AWSShapeMember(label: "TagValues", required: false, type: .list, encoding: .list(member:"TagValue"))
         ]
+
         /// The identifier of a specific Amazon Redshift HSM configuration to be described. If no identifier is specified, information is returned for all HSM configurations owned by your AWS customer account.
         public let hsmConfigurationIdentifier: String?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeHsmConfigurations request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
@@ -2645,6 +2739,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string)
         ]
+
         /// The identifier of the cluster from which to get the logging status. Example: examplecluster 
         public let clusterIdentifier: String
 
@@ -2664,6 +2759,7 @@ extension Redshift {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "NodeType", required: false, type: .string)
         ]
+
         /// The version filter value. Specify this parameter to show only the available offerings matching the specified version. Default: All versions. Constraints: Must be one of the version returned from DescribeClusterVersions.
         public let clusterVersion: String?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeOrderableClusterOptions request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
@@ -2694,6 +2790,7 @@ extension Redshift {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "ReservedNodeOfferingId", required: false, type: .string)
         ]
+
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeReservedNodeOfferings request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
@@ -2720,6 +2817,7 @@ extension Redshift {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "ReservedNodeId", required: false, type: .string)
         ]
+
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeReservedNodes request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
@@ -2744,6 +2842,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string)
         ]
+
         /// The unique identifier of a cluster whose resize progress you are requesting. This parameter is case-sensitive. By default, resize operations for all clusters defined for an AWS account are returned.
         public let clusterIdentifier: String
 
@@ -2764,6 +2863,7 @@ extension Redshift {
             AWSShapeMember(label: "TagKeys", required: false, type: .list, encoding: .list(member:"TagKey")), 
             AWSShapeMember(label: "TagValues", required: false, type: .list, encoding: .list(member:"TagValue"))
         ]
+
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeSnapshotCopyGrant request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.  Constraints: You can specify either the SnapshotCopyGrantName parameter or the Marker parameter, but not both. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
@@ -2801,6 +2901,7 @@ extension Redshift {
             AWSShapeMember(label: "TagKeys", required: false, type: .list, encoding: .list(member:"TagKey")), 
             AWSShapeMember(label: "TagValues", required: false, type: .list, encoding: .list(member:"TagValue"))
         ]
+
         /// The unique identifier for the cluster whose snapshot schedules you want to view.
         public let clusterIdentifier: String?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the marker parameter and retrying the command. If the marker field is empty, all response records have been retrieved for the request.
@@ -2838,6 +2939,7 @@ extension Redshift {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "SnapshotSchedules", required: false, type: .list, encoding: .list(member:"SnapshotSchedule"))
         ]
+
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the marker parameter and retrying the command. If the marker field is empty, all response records have been retrieved for the request.
         public let marker: String?
         /// A list of SnapshotSchedules.
@@ -2861,6 +2963,7 @@ extension Redshift {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "TableRestoreRequestId", required: false, type: .string)
         ]
+
         /// The Amazon Redshift cluster that the table is being restored to.
         public let clusterIdentifier: String?
         /// An optional pagination token provided by a previous DescribeTableRestoreStatus request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by the MaxRecords parameter.
@@ -2894,6 +2997,7 @@ extension Redshift {
             AWSShapeMember(label: "TagKeys", required: false, type: .list, encoding: .list(member:"TagKey")), 
             AWSShapeMember(label: "TagValues", required: false, type: .list, encoding: .list(member:"TagValue"))
         ]
+
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the marker parameter and retrying the command. If the marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// The maximum number or response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. 
@@ -2930,6 +3034,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string)
         ]
+
         /// The identifier of the cluster on which logging is to be stopped. Example: examplecluster 
         public let clusterIdentifier: String
 
@@ -2946,6 +3051,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string)
         ]
+
         /// The unique identifier of the source cluster that you want to disable copying of snapshots to a destination region. Constraints: Must be the valid name of an existing cluster that has cross-region snapshot copy enabled.
         public let clusterIdentifier: String
 
@@ -2962,6 +3068,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
+
         public let cluster: Cluster?
 
         public init(cluster: Cluster? = nil) {
@@ -2980,6 +3087,7 @@ extension Redshift {
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The name of the EC2 Security Group.
         public let eC2SecurityGroupName: String?
         /// The AWS ID of the owner of the EC2 security group specified in the EC2SecurityGroupName field. 
@@ -3009,6 +3117,7 @@ extension Redshift {
             AWSShapeMember(label: "ElasticIp", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
+
         /// The elastic IP (EIP) address for the cluster.
         public let elasticIp: String?
         /// The status of the elastic IP (EIP) address.
@@ -3031,6 +3140,7 @@ extension Redshift {
             AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string)
         ]
+
         /// The name of an existing S3 bucket where the log files are to be stored. Constraints:   Must be in the same region as the cluster   The cluster must have read bucket and put object permissions  
         public let bucketName: String
         /// The identifier of the cluster on which logging is to be started. Example: examplecluster 
@@ -3059,6 +3169,7 @@ extension Redshift {
             AWSShapeMember(label: "RetentionPeriod", required: false, type: .integer), 
             AWSShapeMember(label: "SnapshotCopyGrantName", required: false, type: .string)
         ]
+
         /// The unique identifier of the source cluster to copy snapshots from. Constraints: Must be the valid name of an existing cluster that does not already have cross-region snapshot copy enabled.
         public let clusterIdentifier: String
         /// The destination AWS Region that you want to copy snapshots to. Constraints: Must be the name of a valid AWS Region. For more information, see Regions and Endpoints in the Amazon Web Services General Reference. 
@@ -3091,6 +3202,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
+
         public let cluster: Cluster?
 
         public init(cluster: Cluster? = nil) {
@@ -3107,6 +3219,7 @@ extension Redshift {
             AWSShapeMember(label: "Address", required: false, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer)
         ]
+
         /// The DNS address of the Cluster.
         public let address: String?
         /// The port that the database engine is listening on.
@@ -3133,6 +3246,7 @@ extension Redshift {
             AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "SourceType", required: false, type: .enum)
         ]
+
         /// The date and time of the event.
         public let date: TimeStamp?
         /// A list of the event categories. Values: Configuration, Management, Monitoring, Security
@@ -3174,6 +3288,7 @@ extension Redshift {
             AWSShapeMember(label: "Events", required: false, type: .list, encoding: .list(member:"EventInfoMap")), 
             AWSShapeMember(label: "SourceType", required: false, type: .string)
         ]
+
         /// The events in the event category.
         public let events: [EventInfoMap]?
         /// The source type, such as cluster or cluster-snapshot, that the returned categories belong to.
@@ -3194,6 +3309,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventCategoriesMapList", required: false, type: .list, encoding: .list(member:"EventCategoriesMap"))
         ]
+
         /// A list of event categories descriptions.
         public let eventCategoriesMapList: [EventCategoriesMap]?
 
@@ -3213,6 +3329,7 @@ extension Redshift {
             AWSShapeMember(label: "EventId", required: false, type: .string), 
             AWSShapeMember(label: "Severity", required: false, type: .string)
         ]
+
         /// The category of an Amazon Redshift event.
         public let eventCategories: [String]?
         /// The description of an Amazon Redshift event.
@@ -3251,6 +3368,7 @@ extension Redshift {
             AWSShapeMember(label: "SubscriptionCreationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The AWS customer account associated with the Amazon Redshift event notification subscription.
         public let customerAwsId: String?
         /// The name of the Amazon Redshift event notification subscription.
@@ -3308,6 +3426,7 @@ extension Redshift {
             AWSShapeMember(label: "EventSubscriptionsList", required: false, type: .list, encoding: .list(member:"EventSubscription")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// A list of event subscriptions.
         public let eventSubscriptionsList: [EventSubscription]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -3329,6 +3448,7 @@ extension Redshift {
             AWSShapeMember(label: "Events", required: false, type: .list, encoding: .list(member:"Event")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// A list of Event instances. 
         public let events: [Event]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -3354,6 +3474,7 @@ extension Redshift {
             AWSShapeMember(label: "DbUser", required: true, type: .string), 
             AWSShapeMember(label: "DurationSeconds", required: false, type: .integer)
         ]
+
         /// Create a database user with the name specified for the user named in DbUser if one does not exist.
         public let autoCreate: Bool?
         /// The unique identifier of the cluster that contains the database for which your are requesting credentials. This parameter is case sensitive.
@@ -3392,6 +3513,7 @@ extension Redshift {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "ReservedNodeId", required: true, type: .string)
         ]
+
         /// A value that indicates the starting point for the next set of ReservedNodeOfferings.
         public let marker: String?
         /// An integer setting the maximum number of ReservedNodeOfferings to retrieve.
@@ -3417,6 +3539,7 @@ extension Redshift {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "ReservedNodeOfferings", required: false, type: .list, encoding: .list(member:"ReservedNodeOffering"))
         ]
+
         /// An optional parameter that specifies the starting point for returning a set of response records. When the results of a GetReservedNodeExchangeOfferings request exceed the value specified in MaxRecords, Amazon Redshift returns a value in the marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the marker parameter and retrying the request. 
         public let marker: String?
         /// Returns an array of ReservedNodeOffering objects.
@@ -3439,6 +3562,7 @@ extension Redshift {
             AWSShapeMember(label: "HsmClientCertificatePublicKey", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The identifier of the HSM client certificate.
         public let hsmClientCertificateIdentifier: String?
         /// The public key that the Amazon Redshift cluster will use to connect to the HSM. You must register the public key in the HSM.
@@ -3464,6 +3588,7 @@ extension Redshift {
             AWSShapeMember(label: "HsmClientCertificates", required: false, type: .list, encoding: .list(member:"HsmClientCertificate")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// A list of the identifiers for one or more HSM client certificates used by Amazon Redshift clusters to store and retrieve database encryption keys in an HSM.
         public let hsmClientCertificates: [HsmClientCertificate]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -3488,6 +3613,7 @@ extension Redshift {
             AWSShapeMember(label: "HsmPartitionName", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// A text description of the HSM configuration.
         public let description: String?
         /// The name of the Amazon Redshift HSM configuration.
@@ -3521,6 +3647,7 @@ extension Redshift {
             AWSShapeMember(label: "HsmConfigurations", required: false, type: .list, encoding: .list(member:"HsmConfiguration")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// A list of HsmConfiguration objects.
         public let hsmConfigurations: [HsmConfiguration]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -3543,6 +3670,7 @@ extension Redshift {
             AWSShapeMember(label: "HsmConfigurationIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
+
         /// Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
         public let hsmClientCertificateIdentifier: String?
         /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
@@ -3569,6 +3697,7 @@ extension Redshift {
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The IP range in Classless Inter-Domain Routing (CIDR) notation.
         public let cidrip: String?
         /// The status of the IP range, for example, "authorized".
@@ -3598,6 +3727,7 @@ extension Redshift {
             AWSShapeMember(label: "LoggingEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string)
         ]
+
         /// The name of the S3 bucket where the log files are stored.
         public let bucketName: String?
         /// The message indicating that logs failed to be delivered.
@@ -3636,6 +3766,7 @@ extension Redshift {
             AWSShapeMember(label: "MaintenanceTrackName", required: false, type: .string), 
             AWSShapeMember(label: "UpdateTargets", required: false, type: .list, encoding: .list(member:"UpdateTarget"))
         ]
+
         /// The version number for the cluster release.
         public let databaseVersion: String?
         /// The name of the maintenance track. Possible values are current and trailing.
@@ -3661,6 +3792,7 @@ extension Redshift {
             AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "RevisionTarget", required: true, type: .string)
         ]
+
         /// The unique identifier of a cluster whose database revision you want to modify.  Example: examplecluster 
         public let clusterIdentifier: String
         /// The identifier of the database revision. You can retrieve this value from the response to the DescribeClusterDbRevisions request.
@@ -3681,6 +3813,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
+
         public let cluster: Cluster?
 
         public init(cluster: Cluster? = nil) {
@@ -3698,6 +3831,7 @@ extension Redshift {
             AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "RemoveIamRoles", required: false, type: .list, encoding: .list(member:"IamRoleArn"))
         ]
+
         /// Zero or more IAM roles to associate with the cluster. The roles must be in their Amazon Resource Name (ARN) format. You can associate up to 10 IAM roles with a single cluster in a single request.
         public let addIamRoles: [String]?
         /// The unique identifier of the cluster for which you want to associate or disassociate IAM roles.
@@ -3722,6 +3856,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
+
         public let cluster: Cluster?
 
         public init(cluster: Cluster? = nil) {
@@ -3742,6 +3877,7 @@ extension Redshift {
             AWSShapeMember(label: "DeferMaintenanceIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "DeferMaintenanceStartTime", required: false, type: .timestamp)
         ]
+
         /// A unique identifier for the cluster.
         public let clusterIdentifier: String
         /// A boolean indicating whether to enable the deferred maintenance window. 
@@ -3778,6 +3914,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
+
         public let cluster: Cluster?
 
         public init(cluster: Cluster? = nil) {
@@ -3814,6 +3951,7 @@ extension Redshift {
             AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
             AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
         ]
+
         /// If true, major version upgrades will be applied automatically to the cluster during the maintenance window.  Default: false 
         public let allowVersionUpgrade: Bool?
         /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  If you decrease the automated snapshot retention period from its current value, existing automated snapshots that fall outside of the new retention period will be immediately deleted. Default: Uses existing setting. Constraints: Must be a value from 0 to 35.
@@ -3915,6 +4053,7 @@ extension Redshift {
             AWSShapeMember(label: "ParameterGroupName", required: true, type: .string), 
             AWSShapeMember(label: "Parameters", required: true, type: .list, encoding: .list(member:"Parameter"))
         ]
+
         /// The name of the parameter group to be modified.
         public let parameterGroupName: String
         /// An array of parameters to be modified. A maximum of 20 parameters can be modified in a single request. For each parameter to be modified, you must supply at least the parameter name and parameter value; other name-value pairs of the parameter are optional. For the workload management (WLM) configuration, you must supply all the name-value pairs in the wlm_json_configuration parameter.
@@ -3935,6 +4074,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
+
         public let cluster: Cluster?
 
         public init(cluster: Cluster? = nil) {
@@ -3952,6 +4092,7 @@ extension Redshift {
             AWSShapeMember(label: "ManualSnapshotRetentionPeriod", required: false, type: .integer), 
             AWSShapeMember(label: "SnapshotIdentifier", required: true, type: .string)
         ]
+
         /// A Boolean option to override an exception if the retention period has already passed.
         public let force: Bool?
         /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely. If the manual snapshot falls outside of the new retention period, you can specify the force option to immediately delete the snapshot. The value must be either -1 or an integer between 1 and 3,653.
@@ -3976,6 +4117,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Snapshot", required: false, type: .structure)
         ]
+
         public let snapshot: Snapshot?
 
         public init(snapshot: Snapshot? = nil) {
@@ -3993,6 +4135,7 @@ extension Redshift {
             AWSShapeMember(label: "DisassociateSchedule", required: false, type: .boolean), 
             AWSShapeMember(label: "ScheduleIdentifier", required: false, type: .string)
         ]
+
         /// A unique identifier for the cluster whose snapshot schedule you want to modify. 
         public let clusterIdentifier: String
         /// A boolean to indicate whether to remove the assoiciation between the cluster and the schedule.
@@ -4019,6 +4162,7 @@ extension Redshift {
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "SubnetIds", required: true, type: .list, encoding: .list(member:"SubnetIdentifier"))
         ]
+
         /// The name of the subnet group to be modified.
         public let clusterSubnetGroupName: String
         /// A text description of the subnet group to be modified.
@@ -4043,6 +4187,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterSubnetGroup", required: false, type: .structure)
         ]
+
         public let clusterSubnetGroup: ClusterSubnetGroup?
 
         public init(clusterSubnetGroup: ClusterSubnetGroup? = nil) {
@@ -4064,6 +4209,7 @@ extension Redshift {
             AWSShapeMember(label: "SourceType", required: false, type: .string), 
             AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
         ]
+
         /// A Boolean value indicating if the subscription is enabled. true indicates the subscription is enabled 
         public let enabled: Bool?
         /// Specifies the Amazon Redshift event categories to be published by the event notification subscription. Values: configuration, management, monitoring, security
@@ -4104,6 +4250,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
+
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -4121,6 +4268,7 @@ extension Redshift {
             AWSShapeMember(label: "Manual", required: false, type: .boolean), 
             AWSShapeMember(label: "RetentionPeriod", required: true, type: .integer)
         ]
+
         /// The unique identifier of the cluster for which you want to change the retention period for either automated or manual snapshots that are copied to a destination AWS Region. Constraints: Must be the valid name of an existing cluster that has cross-region snapshot copy enabled.
         public let clusterIdentifier: String
         /// Indicates whether to apply the snapshot retention period to newly copied manual snapshots instead of automated snapshots.
@@ -4145,6 +4293,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
+
         public let cluster: Cluster?
 
         public init(cluster: Cluster? = nil) {
@@ -4161,6 +4310,7 @@ extension Redshift {
             AWSShapeMember(label: "ScheduleDefinitions", required: true, type: .list, encoding: .list(member:"ScheduleDefinition")), 
             AWSShapeMember(label: "ScheduleIdentifier", required: true, type: .string)
         ]
+
         /// An updated list of schedule definitions. A schedule definition is made up of schedule expressions, for example, "cron(30 12 *)" or "rate(12 hours)".
         public let scheduleDefinitions: [String]
         /// A unique alphanumeric identifier of the schedule to modify.
@@ -4184,6 +4334,7 @@ extension Redshift {
             AWSShapeMember(label: "ClusterVersion", required: false, type: .string), 
             AWSShapeMember(label: "NodeType", required: false, type: .string)
         ]
+
         /// A list of availability zones for the orderable cluster.
         public let availabilityZones: [AvailabilityZone]?
         /// The cluster type, for example multi-node. 
@@ -4213,6 +4364,7 @@ extension Redshift {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "OrderableClusterOptions", required: false, type: .list, encoding: .list(member:"OrderableClusterOption"))
         ]
+
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// An OrderableClusterOption structure containing information about orderable options for the cluster.
@@ -4241,6 +4393,7 @@ extension Redshift {
             AWSShapeMember(label: "ParameterValue", required: false, type: .string), 
             AWSShapeMember(label: "Source", required: false, type: .string)
         ]
+
         /// The valid range of values for the parameter.
         public let allowedValues: String?
         /// Specifies how to apply the WLM configuration parameter. Some properties can be applied dynamically, while other properties require that any associated clusters be rebooted for the configuration changes to be applied. For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide.
@@ -4305,6 +4458,7 @@ extension Redshift {
             AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
             AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean)
         ]
+
         /// The pending or in-progress change of the automated snapshot retention period.
         public let automatedSnapshotRetentionPeriod: Int32?
         /// The pending or in-progress change of the new identifier for the cluster.
@@ -4362,6 +4516,7 @@ extension Redshift {
             AWSShapeMember(label: "NodeCount", required: false, type: .integer), 
             AWSShapeMember(label: "ReservedNodeOfferingId", required: true, type: .string)
         ]
+
         /// The number of reserved nodes that you want to purchase. Default: 1 
         public let nodeCount: Int32?
         /// The unique identifier of the reserved node offering you want to purchase.
@@ -4382,6 +4537,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReservedNode", required: false, type: .structure)
         ]
+
         public let reservedNode: ReservedNode?
 
         public init(reservedNode: ReservedNode? = nil) {
@@ -4397,6 +4553,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string)
         ]
+
         /// The cluster identifier.
         public let clusterIdentifier: String
 
@@ -4413,6 +4570,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
+
         public let cluster: Cluster?
 
         public init(cluster: Cluster? = nil) {
@@ -4429,6 +4587,7 @@ extension Redshift {
             AWSShapeMember(label: "RecurringChargeAmount", required: false, type: .double), 
             AWSShapeMember(label: "RecurringChargeFrequency", required: false, type: .string)
         ]
+
         /// The amount charged per the period of time specified by the recurring charge frequency.
         public let recurringChargeAmount: Double?
         /// The frequency at which the recurring charge amount is applied.
@@ -4461,6 +4620,7 @@ extension Redshift {
             AWSShapeMember(label: "State", required: false, type: .string), 
             AWSShapeMember(label: "UsagePrice", required: false, type: .double)
         ]
+
         /// The currency code for the reserved cluster.
         public let currencyCode: String?
         /// The duration of the node reservation in seconds.
@@ -4532,6 +4692,7 @@ extension Redshift {
             AWSShapeMember(label: "ReservedNodeOfferingType", required: false, type: .enum), 
             AWSShapeMember(label: "UsagePrice", required: false, type: .double)
         ]
+
         /// The currency code for the compute nodes offering.
         public let currencyCode: String?
         /// The duration, in seconds, for which the offering will reserve the node.
@@ -4586,6 +4747,7 @@ extension Redshift {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "ReservedNodeOfferings", required: false, type: .list, encoding: .list(member:"ReservedNodeOffering"))
         ]
+
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of ReservedNodeOffering objects.
@@ -4607,6 +4769,7 @@ extension Redshift {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "ReservedNodes", required: false, type: .list, encoding: .list(member:"ReservedNode"))
         ]
+
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// The list of ReservedNode objects.
@@ -4629,6 +4792,7 @@ extension Redshift {
             AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter")), 
             AWSShapeMember(label: "ResetAllParameters", required: false, type: .boolean)
         ]
+
         /// The name of the cluster parameter group to be reset.
         public let parameterGroupName: String
         /// An array of names of parameters to be reset. If ResetAllParameters option is not used, then at least one parameter name must be supplied.  Constraints: A maximum of 20 parameters can be reset in a single request.
@@ -4657,6 +4821,7 @@ extension Redshift {
             AWSShapeMember(label: "NodeType", required: false, type: .string), 
             AWSShapeMember(label: "NumberOfNodes", required: true, type: .integer)
         ]
+
         /// A boolean value indicating whether the resize operation is using the classic resize process. If you don't provide this parameter or set the value to false, the resize type is elastic. 
         public let classic: Bool?
         /// The unique identifier for the cluster to resize.
@@ -4689,6 +4854,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
+
         public let cluster: Cluster?
 
         public init(cluster: Cluster? = nil) {
@@ -4705,6 +4871,7 @@ extension Redshift {
             AWSShapeMember(label: "AllowCancelResize", required: false, type: .boolean), 
             AWSShapeMember(label: "ResizeType", required: false, type: .string)
         ]
+
         /// A boolean value indicating if the resize operation can be cancelled.
         public let allowCancelResize: Bool?
         /// Returns the value ClassicResize.
@@ -4740,6 +4907,7 @@ extension Redshift {
             AWSShapeMember(label: "TargetNumberOfNodes", required: false, type: .integer), 
             AWSShapeMember(label: "TotalResizeDataInMegaBytes", required: false, type: .long)
         ]
+
         /// The average rate of the resize operation over the last few minutes, measured in megabytes per second. After the resize operation completes, this value shows the average rate of the entire resize operation.
         public let avgResizeRateInMegaBytesPerSecond: Double?
         /// The percent of data transferred from source cluster to target cluster.
@@ -4840,6 +5008,7 @@ extension Redshift {
             AWSShapeMember(label: "SnapshotScheduleIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
         ]
+
         /// Reserved.
         public let additionalInfo: String?
         /// If true, major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster.  Default: true 
@@ -4952,6 +5121,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
+
         public let cluster: Cluster?
 
         public init(cluster: Cluster? = nil) {
@@ -4972,6 +5142,7 @@ extension Redshift {
             AWSShapeMember(label: "SnapshotSizeInMegaBytes", required: false, type: .long), 
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
+
         /// The number of megabytes per second being transferred from the backup storage. Returns the average rate for a completed backup.
         public let currentRestoreRateInMegaBytesPerSecond: Double?
         /// The amount of time an in-progress restore has been running, or the amount of time it took a completed restore to finish.
@@ -5015,6 +5186,7 @@ extension Redshift {
             AWSShapeMember(label: "TargetDatabaseName", required: false, type: .string), 
             AWSShapeMember(label: "TargetSchemaName", required: false, type: .string)
         ]
+
         /// The identifier of the Amazon Redshift cluster to restore the table to.
         public let clusterIdentifier: String
         /// The name of the table to create as a result of the current request.
@@ -5059,6 +5231,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TableRestoreStatus", required: false, type: .structure)
         ]
+
         public let tableRestoreStatus: TableRestoreStatus?
 
         public init(tableRestoreStatus: TableRestoreStatus? = nil) {
@@ -5076,6 +5249,7 @@ extension Redshift {
             AWSShapeMember(label: "DatabaseRevisionReleaseDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
+
         /// A unique string that identifies the version to update the cluster to. You can use this value in ModifyClusterDbRevision.
         public let databaseRevision: String?
         /// The date on which the database revision was released.
@@ -5103,6 +5277,7 @@ extension Redshift {
             AWSShapeMember(label: "EC2SecurityGroupName", required: false, type: .string), 
             AWSShapeMember(label: "EC2SecurityGroupOwnerId", required: false, type: .string)
         ]
+
         /// The IP range for which to revoke access. This range must be a valid Classless Inter-Domain Routing (CIDR) block of IP addresses. If CIDRIP is specified, EC2SecurityGroupName and EC2SecurityGroupOwnerId cannot be provided. 
         public let cidrip: String?
         /// The name of the security Group from which to revoke the ingress rule.
@@ -5131,6 +5306,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterSecurityGroup", required: false, type: .structure)
         ]
+
         public let clusterSecurityGroup: ClusterSecurityGroup?
 
         public init(clusterSecurityGroup: ClusterSecurityGroup? = nil) {
@@ -5148,6 +5324,7 @@ extension Redshift {
             AWSShapeMember(label: "SnapshotClusterIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "SnapshotIdentifier", required: true, type: .string)
         ]
+
         /// The identifier of the AWS customer account that can no longer restore the specified snapshot.
         public let accountWithRestoreAccess: String
         /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
@@ -5172,6 +5349,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Snapshot", required: false, type: .structure)
         ]
+
         public let snapshot: Snapshot?
 
         public init(snapshot: Snapshot? = nil) {
@@ -5187,6 +5365,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string)
         ]
+
         /// The unique identifier of the cluster that you want to rotate the encryption keys for. Constraints: Must be the name of valid cluster that has encryption enabled.
         public let clusterIdentifier: String
 
@@ -5203,6 +5382,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
+
         public let cluster: Cluster?
 
         public init(cluster: Cluster? = nil) {
@@ -5257,6 +5437,7 @@ extension Redshift {
             AWSShapeMember(label: "TotalBackupSizeInMegaBytes", required: false, type: .double), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
+
         /// A list of the AWS customer accounts authorized to restore the snapshot. Returns null if no accounts are authorized. Visible only to the snapshot owner. 
         public let accountsWithRestoreAccess: [AccountWithRestoreAccess]?
         /// The size of the incremental backup.
@@ -5410,6 +5591,7 @@ extension Redshift {
             AWSShapeMember(label: "SnapshotCopyGrantName", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The unique identifier of the customer master key (CMK) in AWS KMS to which Amazon Redshift is granted permission.
         public let kmsKeyId: String?
         /// The name of the snapshot copy grant.
@@ -5435,6 +5617,7 @@ extension Redshift {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "SnapshotCopyGrants", required: false, type: .list, encoding: .list(member:"SnapshotCopyGrant"))
         ]
+
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeSnapshotCopyGrant request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.  Constraints: You can specify either the SnapshotCopyGrantName parameter or the Marker parameter, but not both. 
         public let marker: String?
         /// The list of SnapshotCopyGrant objects.
@@ -5458,6 +5641,7 @@ extension Redshift {
             AWSShapeMember(label: "SnapshotClusterIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "SnapshotIdentifier", required: false, type: .string)
         ]
+
         /// The failure code for the error.
         public let failureCode: String?
         /// The text message describing the error.
@@ -5487,6 +5671,7 @@ extension Redshift {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Snapshots", required: false, type: .list, encoding: .list(member:"Snapshot"))
         ]
+
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of Snapshot instances. 
@@ -5513,6 +5698,7 @@ extension Redshift {
             AWSShapeMember(label: "ScheduleIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The number of clusters associated with the schedule.
         public let associatedClusterCount: Int32?
         /// A list of clusters associated with the schedule. A maximum of 100 clusters is returned.
@@ -5553,6 +5739,7 @@ extension Redshift {
             AWSShapeMember(label: "Attribute", required: true, type: .enum), 
             AWSShapeMember(label: "SortOrder", required: false, type: .enum)
         ]
+
         /// The category for sorting the snapshots.
         public let attribute: SnapshotAttributeToSortBy
         /// The order for listing the attributes.
@@ -5589,6 +5776,7 @@ extension Redshift {
             AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "SubnetStatus", required: false, type: .string)
         ]
+
         public let subnetAvailabilityZone: AvailabilityZone?
         /// The identifier of the subnet.
         public let subnetIdentifier: String?
@@ -5612,6 +5800,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OperationName", required: false, type: .string)
         ]
+
         /// A list of the supported operations.
         public let operationName: String?
 
@@ -5628,6 +5817,7 @@ extension Redshift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         public let name: String?
 
         public init(name: String? = nil) {
@@ -5656,6 +5846,7 @@ extension Redshift {
             AWSShapeMember(label: "TargetSchemaName", required: false, type: .string), 
             AWSShapeMember(label: "TotalDataInMegaBytes", required: false, type: .long)
         ]
+
         /// The identifier of the Amazon Redshift cluster that the table is being restored to.
         public let clusterIdentifier: String?
         /// A description of the status of the table restore request. Status values include SUCCEEDED, FAILED, CANCELED, PENDING, IN_PROGRESS.
@@ -5725,6 +5916,7 @@ extension Redshift {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "TableRestoreStatusDetails", required: false, type: .list, encoding: .list(member:"TableRestoreStatus"))
         ]
+
         /// A pagination token that can be used in a subsequent DescribeTableRestoreStatus request.
         public let marker: String?
         /// A list of status details for one or more table restore requests.
@@ -5755,6 +5947,7 @@ extension Redshift {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The key, or name, for the resource tag.
         public let key: String?
         /// The value for the resource tag.
@@ -5777,6 +5970,7 @@ extension Redshift {
             AWSShapeMember(label: "ResourceType", required: false, type: .string), 
             AWSShapeMember(label: "Tag", required: false, type: .structure)
         ]
+
         /// The Amazon Resource Name (ARN) with which the tag is associated, for example: arn:aws:redshift:us-east-1:123456789:cluster:t1.
         public let resourceName: String?
         /// The type of resource with which the tag is associated. Valid resource types are:    Cluster   CIDR/IP   EC2 security group   Snapshot   Cluster security group   Subnet group   HSM connection   HSM certificate   Parameter group   For more information about Amazon Redshift resource types and constructing ARNs, go to Constructing an Amazon Redshift Amazon Resource Name (ARN) in the Amazon Redshift Cluster Management Guide. 
@@ -5802,6 +5996,7 @@ extension Redshift {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "TaggedResources", required: false, type: .list, encoding: .list(member:"TaggedResource"))
         ]
+
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of tags with their associated resources.
@@ -5823,6 +6018,7 @@ extension Redshift {
             AWSShapeMember(label: "MaintenanceTracks", required: false, type: .list, encoding: .list(member:"MaintenanceTrack")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// A list of maintenance tracks output by the DescribeClusterTracks operation. 
         public let maintenanceTracks: [MaintenanceTrack]?
         /// The starting point to return a set of response tracklist records. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
@@ -5845,6 +6041,7 @@ extension Redshift {
             AWSShapeMember(label: "MaintenanceTrackName", required: false, type: .string), 
             AWSShapeMember(label: "SupportedOperations", required: false, type: .list, encoding: .list(member:"SupportedOperation"))
         ]
+
         /// The cluster version for the new maintenance track.
         public let databaseVersion: String?
         /// The name of the new maintenance track.
@@ -5870,6 +6067,7 @@ extension Redshift {
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "VpcSecurityGroupId", required: false, type: .string)
         ]
+
         /// The status of the VPC security group.
         public let status: String?
         /// The identifier of the VPC security group.

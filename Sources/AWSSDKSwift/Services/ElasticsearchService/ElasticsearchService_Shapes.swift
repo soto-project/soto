@@ -10,6 +10,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "Options", required: true, type: .string), 
             AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
+
         /// The access policy configured for the Elasticsearch domain. Access policies may be resource-based, IP-based, or IAM-based. See  Configuring Access Policiesfor more information.
         public let options: String
         /// The status of the access policy for the Elasticsearch domain. See OptionStatus for the status information that's included. 
@@ -31,6 +32,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "ARN", required: true, type: .string), 
             AWSShapeMember(label: "TagList", required: true, type: .list)
         ]
+
         ///  Specify the ARN for which you want to add the tags.
         public let arn: String
         ///  List of Tag that need to be added for the Elasticsearch domain. 
@@ -39,6 +41,12 @@ extension ElasticsearchService {
         public init(arn: String, tagList: [Tag]) {
             self.arn = arn
             self.tagList = tagList
+        }
+
+        public func validate(name: String) throws {
+            try tagList.forEach {
+                try $0.validate(name: "\(name).tagList[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -52,6 +60,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "LimitName", required: false, type: .string), 
             AWSShapeMember(label: "LimitValues", required: false, type: .list)
         ]
+
         ///  Name of Additional Limit is specific to a given InstanceType and for each of it's  InstanceRole  etc.  Attributes and their details:   MaximumNumberOfDataNodesSupported This attribute will be present in Master node only to specify how much data nodes upto which given  ESPartitionInstanceType  can support as master node. MaximumNumberOfDataNodesWithoutMasterNode This attribute will be present in Data node only to specify how much data nodes of given  ESPartitionInstanceType  upto which you don't need any master nodes to govern them.  
         public let limitName: String?
         ///  Value for given  AdditionalLimit$LimitName  . 
@@ -73,6 +82,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "Options", required: true, type: .map), 
             AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
+
         ///  Specifies the status of advanced options for the specified Elasticsearch domain.
         public let options: [String: String]
         ///  Specifies the status of OptionStatus for advanced options for the specified Elasticsearch domain.
@@ -93,11 +103,18 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
+
         /// The name of the domain that you want to stop the latest service software update on.
         public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try validate(domainName, name:"domainName", parent: name, max: 28)
+            try validate(domainName, name:"domainName", parent: name, min: 3)
+            try validate(domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -109,6 +126,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceSoftwareOptions", required: false, type: .structure)
         ]
+
         /// The current status of the Elasticsearch service software update.
         public let serviceSoftwareOptions: ServiceSoftwareOptions?
 
@@ -128,6 +146,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "RoleArn", required: false, type: .string), 
             AWSShapeMember(label: "UserPoolId", required: false, type: .string)
         ]
+
         /// Specifies the option to enable Cognito for Kibana authentication.
         public let enabled: Bool?
         /// Specifies the Cognito identity pool ID for Kibana authentication.
@@ -144,6 +163,17 @@ extension ElasticsearchService {
             self.userPoolId = userPoolId
         }
 
+        public func validate(name: String) throws {
+            try validate(identityPoolId, name:"identityPoolId", parent: name, max: 55)
+            try validate(identityPoolId, name:"identityPoolId", parent: name, min: 1)
+            try validate(identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(userPoolId, name:"userPoolId", parent: name, max: 55)
+            try validate(userPoolId, name:"userPoolId", parent: name, min: 1)
+            try validate(userPoolId, name:"userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
             case identityPoolId = "IdentityPoolId"
@@ -157,6 +187,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "Options", required: true, type: .structure), 
             AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
+
         /// Specifies the Cognito options for the specified Elasticsearch domain.
         public let options: CognitoOptions
         /// Specifies the status of the Cognito options for the specified Elasticsearch domain.
@@ -178,6 +209,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "SourceVersion", required: false, type: .string), 
             AWSShapeMember(label: "TargetVersions", required: false, type: .list)
         ]
+
         /// The current version of Elasticsearch on which a domain is.
         public let sourceVersion: String?
         public let targetVersions: [String]?
@@ -208,6 +240,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "SnapshotOptions", required: false, type: .structure), 
             AWSShapeMember(label: "VPCOptions", required: false, type: .structure)
         ]
+
         ///  IAM access policy as a JSON-formatted string.
         public let accessPolicies: String?
         ///  Option to allow references to indices in an HTTP request body. Must be false when configuring access to individual sub-resources. By default, the value is true. See Configuration Advanced Options for more information.
@@ -248,6 +281,14 @@ extension ElasticsearchService {
             self.vPCOptions = vPCOptions
         }
 
+        public func validate(name: String) throws {
+            try cognitoOptions?.validate(name: "\(name).cognitoOptions")
+            try validate(domainName, name:"domainName", parent: name, max: 28)
+            try validate(domainName, name:"domainName", parent: name, min: 3)
+            try validate(domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            try encryptionAtRestOptions?.validate(name: "\(name).encryptionAtRestOptions")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
@@ -268,6 +309,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainStatus", required: false, type: .structure)
         ]
+
         /// The status of the newly created Elasticsearch domain. 
         public let domainStatus: ElasticsearchDomainStatus?
 
@@ -284,11 +326,18 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string)
         ]
+
         /// The name of the Elasticsearch domain that you want to permanently delete.
         public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try validate(domainName, name:"domainName", parent: name, max: 28)
+            try validate(domainName, name:"domainName", parent: name, min: 3)
+            try validate(domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -300,6 +349,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainStatus", required: false, type: .structure)
         ]
+
         /// The status of the Elasticsearch domain being deleted.
         public let domainStatus: ElasticsearchDomainStatus?
 
@@ -325,11 +375,18 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string)
         ]
+
         /// The Elasticsearch domain that you want to get information about.
         public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try validate(domainName, name:"domainName", parent: name, max: 28)
+            try validate(domainName, name:"domainName", parent: name, min: 3)
+            try validate(domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -341,6 +398,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainConfig", required: true, type: .structure)
         ]
+
         /// The configuration information of the domain requested in the DescribeElasticsearchDomainConfig request.
         public let domainConfig: ElasticsearchDomainConfig
 
@@ -357,11 +415,18 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string)
         ]
+
         /// The name of the Elasticsearch domain for which you want information.
         public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try validate(domainName, name:"domainName", parent: name, max: 28)
+            try validate(domainName, name:"domainName", parent: name, min: 3)
+            try validate(domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -373,6 +438,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainStatus", required: true, type: .structure)
         ]
+
         /// The current status of the Elasticsearch domain.
         public let domainStatus: ElasticsearchDomainStatus
 
@@ -389,11 +455,20 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainNames", required: true, type: .list)
         ]
+
         /// The Elasticsearch domains for which you want information.
         public let domainNames: [String]
 
         public init(domainNames: [String]) {
             self.domainNames = domainNames
+        }
+
+        public func validate(name: String) throws {
+            try domainNames.forEach {
+                try validate($0, name: "domainNames[]", parent: name, max: 28)
+                try validate($0, name: "domainNames[]", parent: name, min: 3)
+                try validate($0, name: "domainNames[]", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -405,6 +480,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainStatusList", required: true, type: .list)
         ]
+
         /// The status of the domains requested in the DescribeElasticsearchDomains request.
         public let domainStatusList: [ElasticsearchDomainStatus]
 
@@ -423,6 +499,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "ElasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion"), required: true, type: .string), 
             AWSShapeMember(label: "InstanceType", location: .uri(locationName: "InstanceType"), required: true, type: .enum)
         ]
+
         ///  DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for Elasticsearch  Limits  for existing domain. 
         public let domainName: String?
         ///  Version of Elasticsearch for which  Limits  are needed. 
@@ -436,6 +513,12 @@ extension ElasticsearchService {
             self.instanceType = instanceType
         }
 
+        public func validate(name: String) throws {
+            try validate(domainName, name:"domainName", parent: name, max: 28)
+            try validate(domainName, name:"domainName", parent: name, min: 3)
+            try validate(domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case domainName = "domainName"
             case elasticsearchVersion = "ElasticsearchVersion"
@@ -447,6 +530,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LimitsByRole", required: false, type: .map)
         ]
+
         public let limitsByRole: [String: Limits]?
 
         public init(limitsByRole: [String: Limits]? = nil) {
@@ -464,6 +548,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "ReservedElasticsearchInstanceOfferingId", location: .querystring(locationName: "offeringId"), required: false, type: .string)
         ]
+
         /// Set this value to limit the number of results returned. If not specified, defaults to 100.
         public let maxResults: Int32?
         /// NextToken should be sent in case if earlier API call produced result containing NextToken. It is used for pagination.
@@ -475,6 +560,11 @@ extension ElasticsearchService {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.reservedElasticsearchInstanceOfferingId = reservedElasticsearchInstanceOfferingId
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(reservedElasticsearchInstanceOfferingId, name:"reservedElasticsearchInstanceOfferingId", parent: name, pattern: "\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -489,6 +579,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ReservedElasticsearchInstanceOfferings", required: false, type: .list)
         ]
+
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
         /// List of reserved Elasticsearch instance offerings
@@ -511,6 +602,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "ReservedElasticsearchInstanceId", location: .querystring(locationName: "reservationId"), required: false, type: .string)
         ]
+
         /// Set this value to limit the number of results returned. If not specified, defaults to 100.
         public let maxResults: Int32?
         /// NextToken should be sent in case if earlier API call produced result containing NextToken. It is used for pagination.
@@ -522,6 +614,11 @@ extension ElasticsearchService {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.reservedElasticsearchInstanceId = reservedElasticsearchInstanceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(reservedElasticsearchInstanceId, name:"reservedElasticsearchInstanceId", parent: name, pattern: "\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -536,6 +633,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ReservedElasticsearchInstances", required: false, type: .list)
         ]
+
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
         /// List of reserved Elasticsearch instances.
@@ -556,6 +654,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: false, type: .string)
         ]
+
         ///  Specifies the DomainName.
         public let domainName: String?
 
@@ -575,6 +674,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "VolumeSize", required: false, type: .integer), 
             AWSShapeMember(label: "VolumeType", required: false, type: .enum)
         ]
+
         /// Specifies whether EBS-based storage is enabled.
         public let eBSEnabled: Bool?
         /// Specifies the IOPD for a Provisioned IOPS EBS volume (SSD).
@@ -604,6 +704,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "Options", required: true, type: .structure), 
             AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
+
         ///  Specifies the EBS options for the specified Elasticsearch domain.
         public let options: EBSOptions
         ///  Specifies the status of the EBS options for the specified Elasticsearch domain.
@@ -674,6 +775,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "ZoneAwarenessConfig", required: false, type: .structure), 
             AWSShapeMember(label: "ZoneAwarenessEnabled", required: false, type: .boolean)
         ]
+
         /// Total number of dedicated master nodes, active and on standby, for the cluster.
         public let dedicatedMasterCount: Int32?
         /// A boolean value to indicate whether a dedicated master node is enabled. See About Dedicated Master Nodes for more information.
@@ -715,6 +817,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "Options", required: true, type: .structure), 
             AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
+
         ///  Specifies the cluster configuration for the specified Elasticsearch domain.
         public let options: ElasticsearchClusterConfig
         ///  Specifies the status of the configuration for the specified Elasticsearch domain.
@@ -745,6 +848,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "SnapshotOptions", required: false, type: .structure), 
             AWSShapeMember(label: "VPCOptions", required: false, type: .structure)
         ]
+
         /// IAM access policy as a JSON-formatted string.
         public let accessPolicies: AccessPoliciesStatus?
         /// Specifies the AdvancedOptions for the domain. See Configuring Advanced Options for more information.
@@ -821,6 +925,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "UpgradeProcessing", required: false, type: .boolean), 
             AWSShapeMember(label: "VPCOptions", required: false, type: .structure)
         ]
+
         ///  IAM access policy as a JSON-formatted string.
         public let accessPolicies: String?
         /// Specifies the status of the AdvancedOptions
@@ -917,6 +1022,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "Options", required: true, type: .string), 
             AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
+
         ///  Specifies the Elasticsearch version for the specified Elasticsearch domain.
         public let options: String
         ///  Specifies the status of the Elasticsearch version options for the specified Elasticsearch domain.
@@ -938,6 +1044,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
         ]
+
         /// Specifies the option to enable Encryption At Rest.
         public let enabled: Bool?
         ///  Specifies the KMS Key ID for Encryption At Rest options.
@@ -946,6 +1053,11 @@ extension ElasticsearchService {
         public init(enabled: Bool? = nil, kmsKeyId: String? = nil) {
             self.enabled = enabled
             self.kmsKeyId = kmsKeyId
+        }
+
+        public func validate(name: String) throws {
+            try validate(kmsKeyId, name:"kmsKeyId", parent: name, max: 500)
+            try validate(kmsKeyId, name:"kmsKeyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -959,6 +1071,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "Options", required: true, type: .structure), 
             AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
+
         ///  Specifies the Encryption At Rest options for the specified Elasticsearch domain.
         public let options: EncryptionAtRestOptions
         ///  Specifies the status of the Encryption At Rest options for the specified Elasticsearch domain.
@@ -979,10 +1092,17 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", location: .querystring(locationName: "domainName"), required: false, type: .string)
         ]
+
         public let domainName: String?
 
         public init(domainName: String? = nil) {
             self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try validate(domainName, name:"domainName", parent: name, max: 28)
+            try validate(domainName, name:"domainName", parent: name, min: 3)
+            try validate(domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -994,6 +1114,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CompatibleElasticsearchVersions", required: false, type: .list)
         ]
+
         ///  A map of compatible Elasticsearch versions returned as part of the  GetCompatibleElasticsearchVersions  operation. 
         public let compatibleElasticsearchVersions: [CompatibleVersionsMap]?
 
@@ -1012,6 +1133,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let domainName: String
         public let maxResults: Int32?
         public let nextToken: String?
@@ -1020,6 +1142,13 @@ extension ElasticsearchService {
             self.domainName = domainName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(domainName, name:"domainName", parent: name, max: 28)
+            try validate(domainName, name:"domainName", parent: name, min: 3)
+            try validate(domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1034,6 +1163,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "UpgradeHistories", required: false, type: .list)
         ]
+
         /// Pagination token that needs to be supplied to the next call to get the next page of results
         public let nextToken: String?
         ///  A list of  UpgradeHistory  objects corresponding to each Upgrade or Upgrade Eligibility Check performed on a domain returned as part of  GetUpgradeHistoryResponse  object. 
@@ -1054,10 +1184,17 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string)
         ]
+
         public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try validate(domainName, name:"domainName", parent: name, max: 28)
+            try validate(domainName, name:"domainName", parent: name, min: 3)
+            try validate(domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1071,6 +1208,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "UpgradeName", required: false, type: .string), 
             AWSShapeMember(label: "UpgradeStep", required: false, type: .enum)
         ]
+
         ///  One of 4 statuses that a step can go through returned as part of the  GetUpgradeStatusResponse  object. The status can take one of the following values:  In Progress Succeeded Succeeded with Issues Failed  
         public let stepStatus: UpgradeStatus?
         /// A string that describes the update briefly
@@ -1096,6 +1234,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "MaximumInstanceCount", required: false, type: .integer), 
             AWSShapeMember(label: "MinimumInstanceCount", required: false, type: .integer)
         ]
+
         public let maximumInstanceCount: Int32?
         public let minimumInstanceCount: Int32?
 
@@ -1114,6 +1253,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceCountLimits", required: false, type: .structure)
         ]
+
         public let instanceCountLimits: InstanceCountLimits?
 
         public init(instanceCountLimits: InstanceCountLimits? = nil) {
@@ -1131,6 +1271,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "InstanceLimits", required: false, type: .structure), 
             AWSShapeMember(label: "StorageTypes", required: false, type: .list)
         ]
+
         ///  List of additional limits that are specific to a given InstanceType and for each of it's  InstanceRole  . 
         public let additionalLimits: [AdditionalLimit]?
         public let instanceLimits: InstanceLimits?
@@ -1154,6 +1295,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainNames", required: false, type: .list)
         ]
+
         /// List of Elasticsearch domain names.
         public let domainNames: [DomainInfo]?
 
@@ -1173,6 +1315,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for list of available Elasticsearch instance types when modifying existing domain. 
         public let domainName: String?
         /// Version of Elasticsearch for which list of supported elasticsearch instance types are needed. 
@@ -1189,6 +1332,13 @@ extension ElasticsearchService {
             self.nextToken = nextToken
         }
 
+        public func validate(name: String) throws {
+            try validate(domainName, name:"domainName", parent: name, max: 28)
+            try validate(domainName, name:"domainName", parent: name, min: 3)
+            try validate(domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case domainName = "domainName"
             case elasticsearchVersion = "ElasticsearchVersion"
@@ -1202,6 +1352,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "ElasticsearchInstanceTypes", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         ///  List of instance types supported by Amazon Elasticsearch service for given  ElasticsearchVersion  
         public let elasticsearchInstanceTypes: [ESPartitionInstanceType]?
         /// In case if there are more results available NextToken would be present, make further request to the same API with received NextToken to paginate remaining results. 
@@ -1223,6 +1374,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         ///  Set this value to limit the number of results returned. Value provided must be greater than 10 else it wont be honored. 
         public let maxResults: Int32?
         public let nextToken: String?
@@ -1230,6 +1382,10 @@ extension ElasticsearchService {
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1243,6 +1399,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "ElasticsearchVersions", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         public let elasticsearchVersions: [String]?
         public let nextToken: String?
 
@@ -1261,6 +1418,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ARN", location: .querystring(locationName: "arn"), required: true, type: .string)
         ]
+
         ///  Specify the ARN for the Elasticsearch domain to which the tags are attached that you want to view.
         public let arn: String
 
@@ -1277,6 +1435,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagList", required: false, type: .list)
         ]
+
         ///  List of Tag for the requested Elasticsearch domain.
         public let tagList: [Tag]?
 
@@ -1294,6 +1453,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
             AWSShapeMember(label: "Enabled", required: false, type: .boolean)
         ]
+
         public let cloudWatchLogsLogGroupArn: String?
         ///  Specifies whether given log publishing option is enabled or not.
         public let enabled: Bool?
@@ -1314,6 +1474,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "Options", required: false, type: .map), 
             AWSShapeMember(label: "Status", required: false, type: .structure)
         ]
+
         /// The log publishing options configured for the Elasticsearch domain.
         public let options: [LogType: LogPublishingOption]?
         /// The status of the log publishing options for the Elasticsearch domain. See OptionStatus for the status information that's included. 
@@ -1341,6 +1502,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Enabled", required: false, type: .boolean)
         ]
+
         /// Specify true to enable node-to-node encryption.
         public let enabled: Bool?
 
@@ -1358,6 +1520,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "Options", required: true, type: .structure), 
             AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
+
         /// Specifies the node-to-node encryption options for the specified Elasticsearch domain.
         public let options: NodeToNodeEncryptionOptions
         /// Specifies the status of the node-to-node encryption options for the specified Elasticsearch domain.
@@ -1389,6 +1552,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "UpdateDate", required: true, type: .timestamp), 
             AWSShapeMember(label: "UpdateVersion", required: false, type: .integer)
         ]
+
         /// Timestamp which tells the creation date for the entity.
         public let creationDate: TimeStamp
         /// Indicates whether the Elasticsearch domain is being deleted.
@@ -1423,6 +1587,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "ReservationName", required: true, type: .string), 
             AWSShapeMember(label: "ReservedElasticsearchInstanceOfferingId", required: true, type: .string)
         ]
+
         /// The number of Elasticsearch instances to reserve.
         public let instanceCount: Int32?
         /// A customer-specified identifier to track this reservation.
@@ -1434,6 +1599,13 @@ extension ElasticsearchService {
             self.instanceCount = instanceCount
             self.reservationName = reservationName
             self.reservedElasticsearchInstanceOfferingId = reservedElasticsearchInstanceOfferingId
+        }
+
+        public func validate(name: String) throws {
+            try validate(instanceCount, name:"instanceCount", parent: name, min: 1)
+            try validate(reservationName, name:"reservationName", parent: name, max: 64)
+            try validate(reservationName, name:"reservationName", parent: name, min: 5)
+            try validate(reservedElasticsearchInstanceOfferingId, name:"reservedElasticsearchInstanceOfferingId", parent: name, pattern: "\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1448,6 +1620,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "ReservationName", required: false, type: .string), 
             AWSShapeMember(label: "ReservedElasticsearchInstanceId", required: false, type: .string)
         ]
+
         /// The customer-specified identifier used to track this reservation.
         public let reservationName: String?
         /// Details of the reserved Elasticsearch instance which was purchased.
@@ -1469,6 +1642,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "RecurringChargeAmount", required: false, type: .double), 
             AWSShapeMember(label: "RecurringChargeFrequency", required: false, type: .string)
         ]
+
         /// The monetary amount of the recurring charge.
         public let recurringChargeAmount: Double?
         /// The frequency of the recurring charge.
@@ -1490,6 +1664,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "ARN", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
+
         /// Specifies the ARN for the Elasticsearch domain from which you want to delete the specified tags.
         public let arn: String
         /// Specifies the TagKey list which you want to remove from the Elasticsearch domain.
@@ -1522,6 +1697,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "State", required: false, type: .string), 
             AWSShapeMember(label: "UsagePrice", required: false, type: .double)
         ]
+
         /// The currency code for the reserved Elasticsearch instance offering.
         public let currencyCode: String?
         /// The duration, in seconds, for which the Elasticsearch instance is reserved.
@@ -1593,6 +1769,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "ReservedElasticsearchInstanceOfferingId", required: false, type: .string), 
             AWSShapeMember(label: "UsagePrice", required: false, type: .double)
         ]
+
         /// The currency code for the reserved Elasticsearch instance offering.
         public let currencyCode: String?
         /// The duration, in seconds, for which the offering will reserve the Elasticsearch instance.
@@ -1650,6 +1827,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "UpdateAvailable", required: false, type: .boolean), 
             AWSShapeMember(label: "UpdateStatus", required: false, type: .enum)
         ]
+
         /// Timestamp, in Epoch time, until which you can manually request a service software update. After this date, we automatically update your service software.
         public let automatedUpdateDate: TimeStamp?
         /// True if you are able to cancel your service software version update. False if you are not able to cancel your service software version. 
@@ -1690,6 +1868,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutomatedSnapshotStartHour", required: false, type: .integer)
         ]
+
         /// Specifies the time, in UTC format, when the service takes a daily automated snapshot of the specified Elasticsearch domain. Default value is 0 hours.
         public let automatedSnapshotStartHour: Int32?
 
@@ -1707,6 +1886,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "Options", required: true, type: .structure), 
             AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
+
         /// Specifies the daily snapshot options specified for the Elasticsearch domain.
         public let options: SnapshotOptions
         /// Specifies the status of a daily automated snapshot.
@@ -1727,11 +1907,18 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
+
         /// The name of the domain that you want to update to the latest service software.
         public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try validate(domainName, name:"domainName", parent: name, max: 28)
+            try validate(domainName, name:"domainName", parent: name, min: 3)
+            try validate(domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1743,6 +1930,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceSoftwareOptions", required: false, type: .structure)
         ]
+
         /// The current status of the Elasticsearch service software update.
         public let serviceSoftwareOptions: ServiceSoftwareOptions?
 
@@ -1761,6 +1949,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "StorageTypeLimits", required: false, type: .list), 
             AWSShapeMember(label: "StorageTypeName", required: false, type: .string)
         ]
+
         public let storageSubTypeName: String?
         /// List of limits that are applicable for given storage type. 
         public let storageTypeLimits: [StorageTypeLimit]?
@@ -1784,6 +1973,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "LimitName", required: false, type: .string), 
             AWSShapeMember(label: "LimitValues", required: false, type: .list)
         ]
+
         ///  Name of storage limits that are applicable for given storage type. If  StorageType  is ebs, following storage options are applicable  MinimumVolumeSize Minimum amount of volume size that is applicable for given storage type.It can be empty if it is not applicable. MaximumVolumeSize Maximum amount of volume size that is applicable for given storage type.It can be empty if it is not applicable. MaximumIops Maximum amount of Iops that is applicable for given storage type.It can be empty if it is not applicable. MinimumIops Minimum amount of Iops that is applicable for given storage type.It can be empty if it is not applicable.  
         public let limitName: String?
         ///  Values for the  StorageTypeLimit$LimitName  . 
@@ -1805,6 +1995,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         /// Specifies the TagKey, the name of the tag. Tag keys must be unique for the Elasticsearch domain to which they are attached.
         public let key: String
         /// Specifies the TagValue, the value assigned to the corresponding tag key. Tag values can be null and do not have to be unique in a tag set. For example, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity
@@ -1813,6 +2004,13 @@ extension ElasticsearchService {
         public init(key: String, value: String) {
             self.key = key
             self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1833,6 +2031,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "SnapshotOptions", required: false, type: .structure), 
             AWSShapeMember(label: "VPCOptions", required: false, type: .structure)
         ]
+
         /// IAM access policy as a JSON-formatted string.
         public let accessPolicies: String?
         /// Modifies the advanced option to allow references to indices in an HTTP request body. Must be false when configuring access to individual sub-resources. By default, the value is true. See Configuration Advanced Options for more information.
@@ -1864,6 +2063,13 @@ extension ElasticsearchService {
             self.vPCOptions = vPCOptions
         }
 
+        public func validate(name: String) throws {
+            try cognitoOptions?.validate(name: "\(name).cognitoOptions")
+            try validate(domainName, name:"domainName", parent: name, max: 28)
+            try validate(domainName, name:"domainName", parent: name, min: 3)
+            try validate(domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
@@ -1881,6 +2087,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainConfig", required: true, type: .structure)
         ]
+
         /// The status of the updated Elasticsearch domain. 
         public let domainConfig: ElasticsearchDomainConfig
 
@@ -1899,6 +2106,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "PerformCheckOnly", required: false, type: .boolean), 
             AWSShapeMember(label: "TargetVersion", required: true, type: .string)
         ]
+
         public let domainName: String
         ///  This flag, when set to True, indicates that an Upgrade Eligibility Check needs to be performed. This will not actually perform the Upgrade. 
         public let performCheckOnly: Bool?
@@ -1909,6 +2117,12 @@ extension ElasticsearchService {
             self.domainName = domainName
             self.performCheckOnly = performCheckOnly
             self.targetVersion = targetVersion
+        }
+
+        public func validate(name: String) throws {
+            try validate(domainName, name:"domainName", parent: name, max: 28)
+            try validate(domainName, name:"domainName", parent: name, min: 3)
+            try validate(domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1924,6 +2138,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "PerformCheckOnly", required: false, type: .boolean), 
             AWSShapeMember(label: "TargetVersion", required: false, type: .string)
         ]
+
         public let domainName: String?
         ///  This flag, when set to True, indicates that an Upgrade Eligibility Check needs to be performed. This will not actually perform the Upgrade. 
         public let performCheckOnly: Bool?
@@ -1950,6 +2165,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "UpgradeName", required: false, type: .string), 
             AWSShapeMember(label: "UpgradeStatus", required: false, type: .enum)
         ]
+
         /// UTC Timestamp at which the Upgrade API call was made in "yyyy-MM-ddTHH:mm:ssZ" format.
         public let startTimestamp: TimeStamp?
         ///  A list of  UpgradeStepItem  s representing information about each step performed as pard of a specific Upgrade or Upgrade Eligibility Check. 
@@ -1996,6 +2212,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "UpgradeStep", required: false, type: .enum), 
             AWSShapeMember(label: "UpgradeStepStatus", required: false, type: .enum)
         ]
+
         /// A list of strings containing detailed information about the errors encountered in a particular step.
         public let issues: [String]?
         /// The Floating point value representing progress percentage of a particular step.
@@ -2027,6 +2244,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
             AWSShapeMember(label: "VPCId", required: false, type: .string)
         ]
+
         /// The availability zones for the Elasticsearch domain. Exists only if the domain was created with VPCOptions.
         public let availabilityZones: [String]?
         /// Specifies the security groups for VPC endpoint.
@@ -2056,6 +2274,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "Options", required: true, type: .structure), 
             AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
+
         ///  Specifies the VPC options for the specified Elasticsearch domain.
         public let options: VPCDerivedInfo
         ///  Specifies the status of the VPC options for the specified Elasticsearch domain.
@@ -2077,6 +2296,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
             AWSShapeMember(label: "SubnetIds", required: false, type: .list)
         ]
+
         /// Specifies the security groups for VPC endpoint.
         public let securityGroupIds: [String]?
         /// Specifies the subnets for VPC endpoint.
@@ -2104,6 +2324,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZoneCount", required: false, type: .integer)
         ]
+
         /// An integer value to indicate the number of availability zones for a domain when zone awareness is enabled. This should be equal to number of subnets if VPC endpoints is enabled
         public let availabilityZoneCount: Int32?
 

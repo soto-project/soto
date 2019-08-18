@@ -11,6 +11,7 @@ extension CodeCommit {
             AWSShapeMember(label: "filePath", required: true, type: .string), 
             AWSShapeMember(label: "message", required: true, type: .string)
         ]
+
         /// The name of the exception.
         public let exceptionName: String
         /// The path to the file.
@@ -44,6 +45,7 @@ extension CodeCommit {
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string)
         ]
+
         /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which will return a not mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict will be considered not mergeable if the same file in both branches has differences on the same line.
         public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
         /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation will be successful.
@@ -78,6 +80,12 @@ extension CodeCommit {
             self.sourceCommitSpecifier = sourceCommitSpecifier
         }
 
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case conflictDetailLevel = "conflictDetailLevel"
             case conflictResolutionStrategy = "conflictResolutionStrategy"
@@ -101,6 +109,7 @@ extension CodeCommit {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "sourceCommitId", required: true, type: .string)
         ]
+
         /// The commit ID of the merge base.
         public let baseCommitId: String?
         /// A list of conflicts for each file, including the conflict metadata and the hunks of the differences between the files.
@@ -137,11 +146,20 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "repositoryNames", required: true, type: .list)
         ]
+
         /// The names of the repositories to get information about.
         public let repositoryNames: [String]
 
         public init(repositoryNames: [String]) {
             self.repositoryNames = repositoryNames
+        }
+
+        public func validate(name: String) throws {
+            try repositoryNames.forEach {
+                try validate($0, name: "repositoryNames[]", parent: name, max: 100)
+                try validate($0, name: "repositoryNames[]", parent: name, min: 1)
+                try validate($0, name: "repositoryNames[]", parent: name, pattern: "[\\w\\.-]+")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -154,6 +172,7 @@ extension CodeCommit {
             AWSShapeMember(label: "repositories", required: false, type: .list), 
             AWSShapeMember(label: "repositoriesNotFound", required: false, type: .list)
         ]
+
         /// A list of repositories returned by the batch get repositories operation.
         public let repositories: [RepositoryMetadata]?
         /// Returns a list of repository names for which information could not be found.
@@ -176,6 +195,7 @@ extension CodeCommit {
             AWSShapeMember(label: "mode", required: false, type: .string), 
             AWSShapeMember(label: "path", required: false, type: .string)
         ]
+
         /// The full ID of the blob.
         public let blobId: String?
         /// The file mode permissions of the blob. File mode permission codes include:    100644 indicates read/write    100755 indicates read/write/execute    160000 indicates a submodule    120000 indicates a symlink  
@@ -201,6 +221,7 @@ extension CodeCommit {
             AWSShapeMember(label: "branchName", required: false, type: .string), 
             AWSShapeMember(label: "commitId", required: false, type: .string)
         ]
+
         /// The name of the branch.
         public let branchName: String?
         /// The ID of the last commit made to the branch.
@@ -235,6 +256,7 @@ extension CodeCommit {
             AWSShapeMember(label: "inReplyTo", required: false, type: .string), 
             AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp)
         ]
+
         /// The Amazon Resource Name (ARN) of the person who posted the comment.
         public let authorArn: String?
         /// A unique, client-generated idempotency token that when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request will return information about the initial request that used that token.
@@ -285,6 +307,7 @@ extension CodeCommit {
             AWSShapeMember(label: "location", required: false, type: .structure), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
+
         /// The full blob ID of the commit used to establish the 'after' of the comparison.
         public let afterBlobId: String?
         /// The full commit ID of the commit used to establish the 'after' of the comparison.
@@ -332,6 +355,7 @@ extension CodeCommit {
             AWSShapeMember(label: "pullRequestId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
+
         /// The full blob ID of the file on which you want to comment on the source commit.
         public let afterBlobId: String?
         /// he full commit ID of the commit that was the tip of the source branch at the time the comment was made. 
@@ -382,6 +406,7 @@ extension CodeCommit {
             AWSShapeMember(label: "parents", required: false, type: .list), 
             AWSShapeMember(label: "treeId", required: false, type: .string)
         ]
+
         /// Any additional data associated with the specified commit.
         public let additionalData: String?
         /// Information about the author of the specified commit. Information includes the date in timestamp format with GMT offset, the name of the author, and the email address for the author, as configured in Git.
@@ -423,6 +448,7 @@ extension CodeCommit {
             AWSShapeMember(label: "conflictMetadata", required: false, type: .structure), 
             AWSShapeMember(label: "mergeHunks", required: false, type: .list)
         ]
+
         /// Metadata about a conflict in a merge operation.
         public let conflictMetadata: ConflictMetadata?
         /// A list of hunks that contain the differences between files or lines causing the conflict.
@@ -458,6 +484,7 @@ extension CodeCommit {
             AWSShapeMember(label: "objectTypeConflict", required: false, type: .boolean), 
             AWSShapeMember(label: "objectTypes", required: false, type: .structure)
         ]
+
         /// A boolean value indicating whether there are conflicts in the content of a file.
         public let contentConflict: Bool?
         /// A boolean value indicating whether there are conflicts in the file mode of a file.
@@ -512,6 +539,7 @@ extension CodeCommit {
             AWSShapeMember(label: "replaceContents", required: false, type: .list), 
             AWSShapeMember(label: "setFileModes", required: false, type: .list)
         ]
+
         /// Files that will be deleted as part of the merge conflict resolution.
         public let deleteFiles: [DeleteFileEntry]?
         /// Files that will have content replaced as part of the merge conflict resolution.
@@ -523,6 +551,12 @@ extension CodeCommit {
             self.deleteFiles = deleteFiles
             self.replaceContents = replaceContents
             self.setFileModes = setFileModes
+        }
+
+        public func validate(name: String) throws {
+            try replaceContents?.forEach {
+                try $0.validate(name: "\(name).replaceContents[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -546,6 +580,7 @@ extension CodeCommit {
             AWSShapeMember(label: "commitId", required: true, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The name of the new branch to create.
         public let branchName: String
         /// The ID of the commit to point the new branch to.
@@ -557,6 +592,14 @@ extension CodeCommit {
             self.branchName = branchName
             self.commitId = commitId
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(branchName, name:"branchName", parent: name, max: 256)
+            try validate(branchName, name:"branchName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -579,6 +622,7 @@ extension CodeCommit {
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "setFileModes", required: false, type: .list)
         ]
+
         /// The name of the author who created the commit. This information will be used as both the author and committer for the commit.
         public let authorName: String?
         /// The name of the branch where you will create the commit.
@@ -613,6 +657,17 @@ extension CodeCommit {
             self.setFileModes = setFileModes
         }
 
+        public func validate(name: String) throws {
+            try validate(branchName, name:"branchName", parent: name, max: 256)
+            try validate(branchName, name:"branchName", parent: name, min: 1)
+            try putFiles?.forEach {
+                try $0.validate(name: "\(name).putFiles[]")
+            }
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authorName = "authorName"
             case branchName = "branchName"
@@ -635,6 +690,7 @@ extension CodeCommit {
             AWSShapeMember(label: "filesUpdated", required: false, type: .list), 
             AWSShapeMember(label: "treeId", required: false, type: .string)
         ]
+
         /// The full commit ID of the commit that contains your committed file changes.
         public let commitId: String?
         /// The files added as part of the committed file changes.
@@ -670,6 +726,7 @@ extension CodeCommit {
             AWSShapeMember(label: "targets", required: true, type: .list), 
             AWSShapeMember(label: "title", required: true, type: .string)
         ]
+
         /// A unique, client-generated idempotency token that when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request will return information about the initial request that used that token.  The AWS SDKs prepopulate client request tokens. If using an AWS SDK, you do not have to generate an idempotency token, as this will be done for you. 
         public let clientRequestToken: String?
         /// A description of the pull request.
@@ -679,11 +736,19 @@ extension CodeCommit {
         /// The title of the pull request. This title will be used to identify the pull request to other users in the repository.
         public let title: String
 
-        public init(clientRequestToken: String? = nil, description: String? = nil, targets: [Target], title: String) {
+        public init(clientRequestToken: String? = CreatePullRequestInput.idempotencyToken(), description: String? = nil, targets: [Target], title: String) {
             self.clientRequestToken = clientRequestToken
             self.description = description
             self.targets = targets
             self.title = title
+        }
+
+        public func validate(name: String) throws {
+            try validate(description, name:"description", parent: name, max: 10240)
+            try targets.forEach {
+                try $0.validate(name: "\(name).targets[]")
+            }
+            try validate(title, name:"title", parent: name, max: 150)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -698,6 +763,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pullRequest", required: true, type: .structure)
         ]
+
         /// Information about the newly created pull request.
         public let pullRequest: PullRequest
 
@@ -716,6 +782,7 @@ extension CodeCommit {
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// A comment or description about the new repository.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a web page could expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a web page. 
         public let repositoryDescription: String?
         /// The name of the new repository to be created.  The repository name must be unique across the calling AWS account. In addition, repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. For a full description of the limits on repository names, see Limits in the AWS CodeCommit User Guide. The suffix ".git" is prohibited. 
@@ -729,6 +796,19 @@ extension CodeCommit {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try validate(repositoryDescription, name:"repositoryDescription", parent: name, max: 1000)
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case repositoryDescription = "repositoryDescription"
             case repositoryName = "repositoryName"
@@ -740,6 +820,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "repositoryMetadata", required: false, type: .structure)
         ]
+
         /// Information about the newly created repository.
         public let repositoryMetadata: RepositoryMetadata?
 
@@ -766,6 +847,7 @@ extension CodeCommit {
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string)
         ]
+
         /// The name of the author who created the unreferenced commit. This information will be used as both the author and committer for the commit.
         public let authorName: String?
         /// The commit message for the unreferenced commit.
@@ -803,6 +885,13 @@ extension CodeCommit {
             self.sourceCommitSpecifier = sourceCommitSpecifier
         }
 
+        public func validate(name: String) throws {
+            try conflictResolution?.validate(name: "\(name).conflictResolution")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authorName = "authorName"
             case commitMessage = "commitMessage"
@@ -823,6 +912,7 @@ extension CodeCommit {
             AWSShapeMember(label: "commitId", required: false, type: .string), 
             AWSShapeMember(label: "treeId", required: false, type: .string)
         ]
+
         /// The full commit ID of the commit that contains your merge results.
         public let commitId: String?
         /// The full SHA-1 pointer of the tree information for the commit that contains the merge results.
@@ -844,6 +934,7 @@ extension CodeCommit {
             AWSShapeMember(label: "branchName", required: true, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The name of the branch to delete.
         public let branchName: String
         /// The name of the repository that contains the branch to be deleted.
@@ -852,6 +943,14 @@ extension CodeCommit {
         public init(branchName: String, repositoryName: String) {
             self.branchName = branchName
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(branchName, name:"branchName", parent: name, max: 256)
+            try validate(branchName, name:"branchName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -864,6 +963,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deletedBranch", required: false, type: .structure)
         ]
+
         /// Information about the branch deleted by the operation, including the branch name and the commit ID that was the tip of the branch.
         public let deletedBranch: BranchInfo?
 
@@ -880,6 +980,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "commentId", required: true, type: .string)
         ]
+
         /// The unique, system-generated ID of the comment. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
         public let commentId: String
 
@@ -896,6 +997,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "comment", required: false, type: .structure)
         ]
+
         /// Information about the comment you just deleted.
         public let comment: Comment?
 
@@ -912,6 +1014,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "filePath", required: true, type: .string)
         ]
+
         /// The full path of the file that will be deleted, including the name of the file.
         public let filePath: String
 
@@ -935,6 +1038,7 @@ extension CodeCommit {
             AWSShapeMember(label: "parentCommitId", required: true, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The name of the branch where the commit will be made deleting the file.
         public let branchName: String
         /// The commit message you want to include as part of deleting the file. Commit messages are limited to 256 KB. If no message is specified, a default message will be used.
@@ -963,6 +1067,14 @@ extension CodeCommit {
             self.repositoryName = repositoryName
         }
 
+        public func validate(name: String) throws {
+            try validate(branchName, name:"branchName", parent: name, max: 256)
+            try validate(branchName, name:"branchName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case branchName = "branchName"
             case commitMessage = "commitMessage"
@@ -982,6 +1094,7 @@ extension CodeCommit {
             AWSShapeMember(label: "filePath", required: true, type: .string), 
             AWSShapeMember(label: "treeId", required: true, type: .string)
         ]
+
         /// The blob ID removed from the tree as part of deleting the file.
         public let blobId: String
         /// The full commit ID of the commit that contains the change that deletes the file.
@@ -1010,11 +1123,18 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The name of the repository to delete.
         public let repositoryName: String
 
         public init(repositoryName: String) {
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1026,6 +1146,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "repositoryId", required: false, type: .string)
         ]
+
         /// The ID of the repository that was deleted.
         public let repositoryId: String?
 
@@ -1050,6 +1171,7 @@ extension CodeCommit {
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string)
         ]
+
         /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which will return a not mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict will be considered not mergeable if the same file in both branches has differences on the same line.
         public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
         /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation will be successful.
@@ -1081,6 +1203,12 @@ extension CodeCommit {
             self.sourceCommitSpecifier = sourceCommitSpecifier
         }
 
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case conflictDetailLevel = "conflictDetailLevel"
             case conflictResolutionStrategy = "conflictResolutionStrategy"
@@ -1103,6 +1231,7 @@ extension CodeCommit {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "sourceCommitId", required: true, type: .string)
         ]
+
         /// The commit ID of the merge base.
         public let baseCommitId: String?
         /// Contains metadata about the conflicts found in the merge.
@@ -1143,6 +1272,7 @@ extension CodeCommit {
             AWSShapeMember(label: "pullRequestEventType", required: false, type: .enum), 
             AWSShapeMember(label: "pullRequestId", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the user whose actions resulted in the event. Examples include updating the pull request with additional commits or changing the status of a pull request.
         public let actorArn: String?
         /// A non-negative integer used to limit the number of returned results. The default is 100 events, which is also the maximum number of events that can be returned in a result.
@@ -1176,6 +1306,7 @@ extension CodeCommit {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "pullRequestEvents", required: true, type: .list)
         ]
+
         /// An enumeration token that can be used in a request to return the next batch of the results.
         public let nextToken: String?
         /// Information about the pull request events.
@@ -1198,6 +1329,7 @@ extension CodeCommit {
             AWSShapeMember(label: "beforeBlob", required: false, type: .structure), 
             AWSShapeMember(label: "changeType", required: false, type: .enum)
         ]
+
         /// Information about an afterBlob data type object, including the ID, the file mode permission code, and the path.
         public let afterBlob: BlobMetadata?
         /// Information about a beforeBlob data type object, including the ID, the file mode permission code, and the path.
@@ -1225,6 +1357,7 @@ extension CodeCommit {
             AWSShapeMember(label: "fileMode", required: false, type: .enum), 
             AWSShapeMember(label: "relativePath", required: false, type: .string)
         ]
+
         /// The fully-qualified path to the file in the repository.
         public let absolutePath: String?
         /// The blob ID that contains the file information.
@@ -1255,6 +1388,7 @@ extension CodeCommit {
             AWSShapeMember(label: "blobId", required: false, type: .string), 
             AWSShapeMember(label: "fileMode", required: false, type: .enum)
         ]
+
         /// The full path to the file that will be added or updated, including the name of the file.
         public let absolutePath: String?
         /// The blob ID that contains the file information.
@@ -1288,6 +1422,7 @@ extension CodeCommit {
             AWSShapeMember(label: "destination", required: false, type: .enum), 
             AWSShapeMember(label: "source", required: false, type: .enum)
         ]
+
         /// The file mode of a file in the base of a merge or pull request.
         public let base: FileModeTypeEnum?
         /// The file mode of a file in the destination of a merge or pull request.
@@ -1314,6 +1449,7 @@ extension CodeCommit {
             AWSShapeMember(label: "destination", required: false, type: .long), 
             AWSShapeMember(label: "source", required: false, type: .long)
         ]
+
         /// The size of a file in the base of a merge or pull request.
         public let base: Int64?
         /// The size of a file in the destination of a merge or pull request.
@@ -1340,6 +1476,7 @@ extension CodeCommit {
             AWSShapeMember(label: "relativePath", required: false, type: .string), 
             AWSShapeMember(label: "treeId", required: false, type: .string)
         ]
+
         /// The fully-qualified path of the folder in the repository.
         public let absolutePath: String?
         /// The relative path of the specified folder from the folder where the query originated.
@@ -1365,6 +1502,7 @@ extension CodeCommit {
             AWSShapeMember(label: "blobId", required: true, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The ID of the blob, which is its SHA-1 pointer.
         public let blobId: String
         /// The name of the repository that contains the blob.
@@ -1373,6 +1511,12 @@ extension CodeCommit {
         public init(blobId: String, repositoryName: String) {
             self.blobId = blobId
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1385,6 +1529,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "content", required: true, type: .blob)
         ]
+
         /// The content of the blob, usually a file.
         public let content: Data
 
@@ -1402,6 +1547,7 @@ extension CodeCommit {
             AWSShapeMember(label: "branchName", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
+
         /// The name of the branch for which you want to retrieve information.
         public let branchName: String?
         /// The name of the repository that contains the branch for which you want to retrieve information.
@@ -1410,6 +1556,14 @@ extension CodeCommit {
         public init(branchName: String? = nil, repositoryName: String? = nil) {
             self.branchName = branchName
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(branchName, name:"branchName", parent: name, max: 256)
+            try validate(branchName, name:"branchName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1422,6 +1576,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "branch", required: false, type: .structure)
         ]
+
         /// The name of the branch.
         public let branch: BranchInfo?
 
@@ -1438,6 +1593,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "commentId", required: true, type: .string)
         ]
+
         /// The unique, system-generated ID of the comment. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
         public let commentId: String
 
@@ -1454,6 +1610,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "comment", required: false, type: .structure)
         ]
+
         /// The contents of the comment.
         public let comment: Comment?
 
@@ -1474,6 +1631,7 @@ extension CodeCommit {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// To establish the directionality of the comparison, the full commit ID of the 'after' commit.
         public let afterCommitId: String
         /// To establish the directionality of the comparison, the full commit ID of the 'before' commit.
@@ -1493,6 +1651,12 @@ extension CodeCommit {
             self.repositoryName = repositoryName
         }
 
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case afterCommitId = "afterCommitId"
             case beforeCommitId = "beforeCommitId"
@@ -1507,6 +1671,7 @@ extension CodeCommit {
             AWSShapeMember(label: "commentsForComparedCommitData", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of comment objects on the compared commit.
         public let commentsForComparedCommitData: [CommentsForComparedCommit]?
         /// An enumeration token that can be used in a request to return the next batch of the results.
@@ -1532,6 +1697,7 @@ extension CodeCommit {
             AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
+
         /// The full commit ID of the commit in the source branch that was the tip of the branch at the time the comment was made.
         public let afterCommitId: String?
         /// The full commit ID of the commit in the destination branch that was the tip of the branch at the time the pull request was created.
@@ -1554,6 +1720,12 @@ extension CodeCommit {
             self.repositoryName = repositoryName
         }
 
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case afterCommitId = "afterCommitId"
             case beforeCommitId = "beforeCommitId"
@@ -1569,6 +1741,7 @@ extension CodeCommit {
             AWSShapeMember(label: "commentsForPullRequestData", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// An array of comment objects on the pull request.
         public let commentsForPullRequestData: [CommentsForPullRequest]?
         /// An enumeration token that can be used in a request to return the next batch of the results.
@@ -1590,6 +1763,7 @@ extension CodeCommit {
             AWSShapeMember(label: "commitId", required: true, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The commit ID. Commit IDs are the full SHA of the commit.
         public let commitId: String
         /// The name of the repository to which the commit was made.
@@ -1598,6 +1772,12 @@ extension CodeCommit {
         public init(commitId: String, repositoryName: String) {
             self.commitId = commitId
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1610,6 +1790,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "commit", required: true, type: .structure)
         ]
+
         /// A commit data type object that contains information about the specified commit.
         public let commit: Commit
 
@@ -1632,6 +1813,7 @@ extension CodeCommit {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit.
         public let afterCommitSpecifier: String
         /// The file path in which to check differences. Limits the results to this path. Can also be used to specify the changed name of a directory or folder, if it has changed. If not specified, differences will be shown for all paths.
@@ -1657,6 +1839,12 @@ extension CodeCommit {
             self.repositoryName = repositoryName
         }
 
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case afterCommitSpecifier = "afterCommitSpecifier"
             case afterPath = "afterPath"
@@ -1673,6 +1861,7 @@ extension CodeCommit {
             AWSShapeMember(label: "differences", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A differences data type object that contains information about the differences, including whether the difference is added, modified, or deleted (A, D, M).
         public let differences: [Difference]?
         /// An enumeration token that can be used in a request to return the next batch of the results.
@@ -1695,6 +1884,7 @@ extension CodeCommit {
             AWSShapeMember(label: "filePath", required: true, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The fully-quaified reference that identifies the commit that contains the file. For example, you could specify a full commit ID, a tag, a branch name, or a reference such as refs/heads/master. If none is provided, then the head commit will be used.
         public let commitSpecifier: String?
         /// The fully-qualified path to the file, including the full name and extension of the file. For example, /examples/file.md is the fully-qualified path to a file named file.md in a folder named examples.
@@ -1706,6 +1896,12 @@ extension CodeCommit {
             self.commitSpecifier = commitSpecifier
             self.filePath = filePath
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1724,6 +1920,7 @@ extension CodeCommit {
             AWSShapeMember(label: "filePath", required: true, type: .string), 
             AWSShapeMember(label: "fileSize", required: true, type: .long)
         ]
+
         /// The blob ID of the object that represents the file content.
         public let blobId: String
         /// The full commit ID of the commit that contains the content returned by GetFile.
@@ -1762,6 +1959,7 @@ extension CodeCommit {
             AWSShapeMember(label: "folderPath", required: true, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// A fully-qualified reference used to identify a commit that contains the version of the folder's content to return. A fully-qualified reference can be a commit ID, branch name, tag, or reference such as HEAD. If no specifier is provided, the folder content will be returned as it exists in the HEAD commit.
         public let commitSpecifier: String?
         /// The fully-qualified path to the folder whose contents will be returned, including the folder name. For example, /examples is a fully-qualified path to a folder named examples that was created off of the root directory (/) of a repository. 
@@ -1773,6 +1971,12 @@ extension CodeCommit {
             self.commitSpecifier = commitSpecifier
             self.folderPath = folderPath
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1792,6 +1996,7 @@ extension CodeCommit {
             AWSShapeMember(label: "symbolicLinks", required: false, type: .list), 
             AWSShapeMember(label: "treeId", required: false, type: .string)
         ]
+
         /// The full commit ID used as a reference for which version of the folder content is returned.
         public let commitId: String
         /// The list of files that exist in the specified folder, if any.
@@ -1836,6 +2041,7 @@ extension CodeCommit {
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string)
         ]
+
         /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which will return a not mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict will be considered not mergeable if the same file in both branches has differences on the same line.
         public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
         /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation will be successful.
@@ -1855,6 +2061,12 @@ extension CodeCommit {
             self.sourceCommitSpecifier = sourceCommitSpecifier
         }
 
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case conflictDetailLevel = "conflictDetailLevel"
             case conflictResolutionStrategy = "conflictResolutionStrategy"
@@ -1871,6 +2083,7 @@ extension CodeCommit {
             AWSShapeMember(label: "mergedCommitId", required: false, type: .string), 
             AWSShapeMember(label: "sourceCommitId", required: false, type: .string)
         ]
+
         /// The commit ID of the merge base.
         public let baseCommitId: String?
         /// The commit ID of the destination commit specifier that was used in the merge evaluation.
@@ -1906,6 +2119,7 @@ extension CodeCommit {
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string)
         ]
+
         /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which will return a not mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict will be considered not mergeable if the same file in both branches has differences on the same line.
         public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
         /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation will be successful.
@@ -1934,6 +2148,12 @@ extension CodeCommit {
             self.sourceCommitSpecifier = sourceCommitSpecifier
         }
 
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case conflictDetailLevel = "conflictDetailLevel"
             case conflictResolutionStrategy = "conflictResolutionStrategy"
@@ -1955,6 +2175,7 @@ extension CodeCommit {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "sourceCommitId", required: true, type: .string)
         ]
+
         /// The commit ID of the merge base.
         public let baseCommitId: String?
         /// A list of metadata for any conflicting files. If the specified merge strategy is FAST_FORWARD_MERGE, this list will always be empty.
@@ -1995,6 +2216,7 @@ extension CodeCommit {
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string)
         ]
+
         /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which will return a not mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict will be considered not mergeable if the same file in both branches has differences on the same line.
         public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
         /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation will be successful.
@@ -2014,6 +2236,12 @@ extension CodeCommit {
             self.sourceCommitSpecifier = sourceCommitSpecifier
         }
 
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case conflictDetailLevel = "conflictDetailLevel"
             case conflictResolutionStrategy = "conflictResolutionStrategy"
@@ -2030,6 +2258,7 @@ extension CodeCommit {
             AWSShapeMember(label: "mergeOptions", required: true, type: .list), 
             AWSShapeMember(label: "sourceCommitId", required: true, type: .string)
         ]
+
         /// The commit ID of the merge base.
         public let baseCommitId: String
         /// The commit ID of the destination commit specifier that was used in the merge evaluation.
@@ -2058,6 +2287,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pullRequestId", required: true, type: .string)
         ]
+
         /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
         public let pullRequestId: String
 
@@ -2074,6 +2304,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pullRequest", required: true, type: .structure)
         ]
+
         /// Information about the specified pull request.
         public let pullRequest: PullRequest
 
@@ -2090,11 +2321,18 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The name of the repository to get information about.
         public let repositoryName: String
 
         public init(repositoryName: String) {
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2106,6 +2344,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "repositoryMetadata", required: false, type: .structure)
         ]
+
         /// Information about the repository.
         public let repositoryMetadata: RepositoryMetadata?
 
@@ -2122,11 +2361,18 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The name of the repository for which the trigger is configured.
         public let repositoryName: String
 
         public init(repositoryName: String) {
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2139,6 +2385,7 @@ extension CodeCommit {
             AWSShapeMember(label: "configurationId", required: false, type: .string), 
             AWSShapeMember(label: "triggers", required: false, type: .list)
         ]
+
         /// The system-generated unique ID for the trigger.
         public let configurationId: String?
         /// The JSON block of configuration information for each trigger.
@@ -2161,6 +2408,7 @@ extension CodeCommit {
             AWSShapeMember(label: "destination", required: false, type: .boolean), 
             AWSShapeMember(label: "source", required: false, type: .boolean)
         ]
+
         /// The binary or non-binary status of a file in the base of a merge or pull request.
         public let base: Bool?
         /// The binary or non-binary status of a file in the destination of a merge or pull request.
@@ -2186,6 +2434,7 @@ extension CodeCommit {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// An enumeration token that allows the operation to batch the results.
         public let nextToken: String?
         /// The name of the repository that contains the branches.
@@ -2194,6 +2443,12 @@ extension CodeCommit {
         public init(nextToken: String? = nil, repositoryName: String) {
             self.nextToken = nextToken
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2207,6 +2462,7 @@ extension CodeCommit {
             AWSShapeMember(label: "branches", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The list of branch names.
         public let branches: [String]?
         /// An enumeration token that returns the batch of the results.
@@ -2231,6 +2487,7 @@ extension CodeCommit {
             AWSShapeMember(label: "pullRequestStatus", required: false, type: .enum), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// Optional. The Amazon Resource Name (ARN) of the user who created the pull request. If used, this filters the results to pull requests created by that user.
         public let authorArn: String?
         /// A non-negative integer used to limit the number of returned results.
@@ -2250,6 +2507,12 @@ extension CodeCommit {
             self.repositoryName = repositoryName
         }
 
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authorArn = "authorArn"
             case maxResults = "maxResults"
@@ -2264,6 +2527,7 @@ extension CodeCommit {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "pullRequestIds", required: true, type: .list)
         ]
+
         /// An enumeration token that when provided in a request, returns the next batch of the results.
         public let nextToken: String?
         /// The system-generated IDs of the pull requests.
@@ -2286,6 +2550,7 @@ extension CodeCommit {
             AWSShapeMember(label: "order", required: false, type: .enum), 
             AWSShapeMember(label: "sortBy", required: false, type: .enum)
         ]
+
         /// An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to AWS CodeCommit, another page of 1,000 records is retrieved.
         public let nextToken: String?
         /// The order in which to sort the results of a list repositories operation.
@@ -2311,6 +2576,7 @@ extension CodeCommit {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "repositories", required: false, type: .list)
         ]
+
         /// An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to AWS CodeCommit, another page of 1,000 records is retrieved.
         public let nextToken: String?
         /// Lists the repositories called by the list repositories operation.
@@ -2332,6 +2598,7 @@ extension CodeCommit {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "resourceArn", required: true, type: .string)
         ]
+
         /// An enumeration token that when provided in a request, returns the next batch of the results.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the resource for which you want to get information about tags, if any.
@@ -2353,6 +2620,7 @@ extension CodeCommit {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// An enumeration token that allows the operation to batch the next results of the operation.
         public let nextToken: String?
         /// A list of tag key and value pairs associated with the specified resource.
@@ -2375,6 +2643,7 @@ extension CodeCommit {
             AWSShapeMember(label: "filePosition", required: false, type: .long), 
             AWSShapeMember(label: "relativeFileVersion", required: false, type: .enum)
         ]
+
         /// The name of the file being compared, including its extension and subdirectory, if any.
         public let filePath: String?
         /// The position of a change within a compared file, in line number format.
@@ -2402,6 +2671,7 @@ extension CodeCommit {
             AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string), 
             AWSShapeMember(label: "targetBranch", required: false, type: .string)
         ]
+
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
         public let destinationCommitSpecifier: String
         /// The name of the repository where you want to merge two branches.
@@ -2418,6 +2688,14 @@ extension CodeCommit {
             self.targetBranch = targetBranch
         }
 
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try validate(targetBranch, name:"targetBranch", parent: name, max: 256)
+            try validate(targetBranch, name:"targetBranch", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case destinationCommitSpecifier = "destinationCommitSpecifier"
             case repositoryName = "repositoryName"
@@ -2431,6 +2709,7 @@ extension CodeCommit {
             AWSShapeMember(label: "commitId", required: false, type: .string), 
             AWSShapeMember(label: "treeId", required: false, type: .string)
         ]
+
         /// The commit ID of the merge in the destination or target branch.
         public let commitId: String?
         /// The tree ID of the merge in the destination or target branch.
@@ -2461,6 +2740,7 @@ extension CodeCommit {
             AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string), 
             AWSShapeMember(label: "targetBranch", required: false, type: .string)
         ]
+
         /// The name of the author who created the commit. This information will be used as both the author and committer for the commit.
         public let authorName: String?
         /// The commit message for the merge.
@@ -2498,6 +2778,15 @@ extension CodeCommit {
             self.targetBranch = targetBranch
         }
 
+        public func validate(name: String) throws {
+            try conflictResolution?.validate(name: "\(name).conflictResolution")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try validate(targetBranch, name:"targetBranch", parent: name, max: 256)
+            try validate(targetBranch, name:"targetBranch", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authorName = "authorName"
             case commitMessage = "commitMessage"
@@ -2518,6 +2807,7 @@ extension CodeCommit {
             AWSShapeMember(label: "commitId", required: false, type: .string), 
             AWSShapeMember(label: "treeId", required: false, type: .string)
         ]
+
         /// The commit ID of the merge in the destination or target branch.
         public let commitId: String?
         /// The tree ID of the merge in the destination or target branch.
@@ -2548,6 +2838,7 @@ extension CodeCommit {
             AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string), 
             AWSShapeMember(label: "targetBranch", required: false, type: .string)
         ]
+
         /// The name of the author who created the commit. This information will be used as both the author and committer for the commit.
         public let authorName: String?
         /// The commit message to include in the commit information for the merge.
@@ -2585,6 +2876,15 @@ extension CodeCommit {
             self.targetBranch = targetBranch
         }
 
+        public func validate(name: String) throws {
+            try conflictResolution?.validate(name: "\(name).conflictResolution")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try validate(targetBranch, name:"targetBranch", parent: name, max: 256)
+            try validate(targetBranch, name:"targetBranch", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authorName = "authorName"
             case commitMessage = "commitMessage"
@@ -2605,6 +2905,7 @@ extension CodeCommit {
             AWSShapeMember(label: "commitId", required: false, type: .string), 
             AWSShapeMember(label: "treeId", required: false, type: .string)
         ]
+
         /// The commit ID of the merge in the destination or target branch.
         public let commitId: String?
         /// The tree ID of the merge in the destination or target branch.
@@ -2628,6 +2929,7 @@ extension CodeCommit {
             AWSShapeMember(label: "isConflict", required: false, type: .boolean), 
             AWSShapeMember(label: "source", required: false, type: .structure)
         ]
+
         /// Information about the merge hunk in the base of a merge or pull request.
         public let base: MergeHunkDetail?
         /// Information about the merge hunk in the destination of a merge or pull request.
@@ -2658,6 +2960,7 @@ extension CodeCommit {
             AWSShapeMember(label: "hunkContent", required: false, type: .string), 
             AWSShapeMember(label: "startLine", required: false, type: .integer)
         ]
+
         /// The end position of the hunk in the merge result.
         public let endLine: Int32?
         /// The base-64 encoded content of the hunk merged region that might or might not contain a conflict.
@@ -2685,6 +2988,7 @@ extension CodeCommit {
             AWSShapeMember(label: "mergedBy", required: false, type: .string), 
             AWSShapeMember(label: "mergeOption", required: false, type: .enum)
         ]
+
         /// A Boolean value indicating whether the merge has been made.
         public let isMerged: Bool?
         /// The commit ID for the merge commit, if any.
@@ -2714,6 +3018,7 @@ extension CodeCommit {
             AWSShapeMember(label: "destination", required: false, type: .enum), 
             AWSShapeMember(label: "source", required: false, type: .enum)
         ]
+
         /// The operation on a file in the destination of a merge or pull request.
         public let destination: ChangeTypeEnum?
         /// The operation on a file (add, modify, or delete) of a file in the source of a merge or pull request.
@@ -2743,6 +3048,7 @@ extension CodeCommit {
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "sourceCommitId", required: false, type: .string)
         ]
+
         /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
         public let pullRequestId: String
         /// The name of the repository where the pull request was created.
@@ -2756,6 +3062,12 @@ extension CodeCommit {
             self.sourceCommitId = sourceCommitId
         }
 
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case pullRequestId = "pullRequestId"
             case repositoryName = "repositoryName"
@@ -2767,6 +3079,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pullRequest", required: false, type: .structure)
         ]
+
         /// Information about the specified pull request, including information about the merge.
         public let pullRequest: PullRequest?
 
@@ -2792,6 +3105,7 @@ extension CodeCommit {
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "sourceCommitId", required: false, type: .string)
         ]
+
         /// The name of the author who created the commit. This information will be used as both the author and committer for the commit.
         public let authorName: String?
         /// The commit message to include in the commit information for the merge.
@@ -2826,6 +3140,13 @@ extension CodeCommit {
             self.sourceCommitId = sourceCommitId
         }
 
+        public func validate(name: String) throws {
+            try conflictResolution?.validate(name: "\(name).conflictResolution")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authorName = "authorName"
             case commitMessage = "commitMessage"
@@ -2844,6 +3165,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pullRequest", required: false, type: .structure)
         ]
+
         public let pullRequest: PullRequest?
 
         public init(pullRequest: PullRequest? = nil) {
@@ -2868,6 +3190,7 @@ extension CodeCommit {
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "sourceCommitId", required: false, type: .string)
         ]
+
         /// The name of the author who created the commit. This information will be used as both the author and committer for the commit.
         public let authorName: String?
         /// The commit message to include in the commit information for the merge.
@@ -2902,6 +3225,13 @@ extension CodeCommit {
             self.sourceCommitId = sourceCommitId
         }
 
+        public func validate(name: String) throws {
+            try conflictResolution?.validate(name: "\(name).conflictResolution")
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authorName = "authorName"
             case commitMessage = "commitMessage"
@@ -2920,6 +3250,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pullRequest", required: false, type: .structure)
         ]
+
         public let pullRequest: PullRequest?
 
         public init(pullRequest: PullRequest? = nil) {
@@ -2945,6 +3276,7 @@ extension CodeCommit {
             AWSShapeMember(label: "destination", required: false, type: .enum), 
             AWSShapeMember(label: "source", required: false, type: .enum)
         ]
+
         /// The type of the object in the base commit of the merge.
         public let base: ObjectTypeEnum?
         /// The type of the object in the destination branch.
@@ -2980,6 +3312,7 @@ extension CodeCommit {
             AWSShapeMember(label: "location", required: false, type: .structure), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// To establish the directionality of the comparison, the full commit ID of the 'after' commit.
         public let afterCommitId: String
         /// To establish the directionality of the comparison, the full commit ID of the 'before' commit.  This is required for commenting on any commit unless that commit is the initial commit. 
@@ -2993,13 +3326,19 @@ extension CodeCommit {
         /// The name of the repository where you want to post a comment on the comparison between commits.
         public let repositoryName: String
 
-        public init(afterCommitId: String, beforeCommitId: String? = nil, clientRequestToken: String? = nil, content: String, location: Location? = nil, repositoryName: String) {
+        public init(afterCommitId: String, beforeCommitId: String? = nil, clientRequestToken: String? = PostCommentForComparedCommitInput.idempotencyToken(), content: String, location: Location? = nil, repositoryName: String) {
             self.afterCommitId = afterCommitId
             self.beforeCommitId = beforeCommitId
             self.clientRequestToken = clientRequestToken
             self.content = content
             self.location = location
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3022,6 +3361,7 @@ extension CodeCommit {
             AWSShapeMember(label: "location", required: false, type: .structure), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
+
         /// In the directionality you established, the blob ID of the 'after' blob.
         public let afterBlobId: String?
         /// In the directionality you established, the full commit ID of the 'after' commit.
@@ -3068,6 +3408,7 @@ extension CodeCommit {
             AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The full commit ID of the commit in the source branch that is the current tip of the branch for the pull request when you post the comment.
         public let afterCommitId: String
         /// The full commit ID of the commit in the destination branch that was the tip of the branch at the time the pull request was created.
@@ -3083,7 +3424,7 @@ extension CodeCommit {
         /// The name of the repository where you want to post a comment on a pull request.
         public let repositoryName: String
 
-        public init(afterCommitId: String, beforeCommitId: String, clientRequestToken: String? = nil, content: String, location: Location? = nil, pullRequestId: String, repositoryName: String) {
+        public init(afterCommitId: String, beforeCommitId: String, clientRequestToken: String? = PostCommentForPullRequestInput.idempotencyToken(), content: String, location: Location? = nil, pullRequestId: String, repositoryName: String) {
             self.afterCommitId = afterCommitId
             self.beforeCommitId = beforeCommitId
             self.clientRequestToken = clientRequestToken
@@ -3091,6 +3432,12 @@ extension CodeCommit {
             self.location = location
             self.pullRequestId = pullRequestId
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3115,6 +3462,7 @@ extension CodeCommit {
             AWSShapeMember(label: "pullRequestId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
+
         /// In the directionality of the pull request, the blob ID of the 'after' blob.
         public let afterBlobId: String?
         /// The full commit ID of the commit in the destination branch where the pull request will be merged.
@@ -3161,6 +3509,7 @@ extension CodeCommit {
             AWSShapeMember(label: "content", required: true, type: .string), 
             AWSShapeMember(label: "inReplyTo", required: true, type: .string)
         ]
+
         /// A unique, client-generated idempotency token that when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request will return information about the initial request that used that token.
         public let clientRequestToken: String?
         /// The contents of your reply to a comment.
@@ -3168,7 +3517,7 @@ extension CodeCommit {
         /// The system-generated ID of the comment to which you want to reply. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
         public let inReplyTo: String
 
-        public init(clientRequestToken: String? = nil, content: String, inReplyTo: String) {
+        public init(clientRequestToken: String? = PostCommentReplyInput.idempotencyToken(), content: String, inReplyTo: String) {
             self.clientRequestToken = clientRequestToken
             self.content = content
             self.inReplyTo = inReplyTo
@@ -3185,6 +3534,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "comment", required: false, type: .structure)
         ]
+
         /// Information about the reply to a comment.
         public let comment: Comment?
 
@@ -3209,6 +3559,7 @@ extension CodeCommit {
             AWSShapeMember(label: "pullRequestTargets", required: false, type: .list), 
             AWSShapeMember(label: "title", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the user who created the pull request.
         public let authorArn: String?
         /// A unique, client-generated idempotency token that when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request will return information about the initial request that used that token.
@@ -3260,6 +3611,7 @@ extension CodeCommit {
             AWSShapeMember(label: "repositoryName", required: false, type: .string), 
             AWSShapeMember(label: "sourceCommitId", required: false, type: .string)
         ]
+
         /// The commit ID of the tip of the branch specified as the destination branch when the pull request was created.
         public let destinationCommitId: String?
         /// The commit ID of the most recent commit that the source branch and the destination branch have in common.
@@ -3295,6 +3647,7 @@ extension CodeCommit {
             AWSShapeMember(label: "pullRequestSourceReferenceUpdatedEventMetadata", required: false, type: .structure), 
             AWSShapeMember(label: "pullRequestStatusChangedEventMetadata", required: false, type: .structure)
         ]
+
         /// The Amazon Resource Name (ARN) of the user whose actions resulted in the event. Examples include updating the pull request with additional commits or changing the status of a pull request.
         public let actorArn: String?
         /// The day and time of the pull request event, in timestamp format.
@@ -3349,6 +3702,7 @@ extension CodeCommit {
             AWSShapeMember(label: "mergeMetadata", required: false, type: .structure), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
+
         /// The name of the branch that the pull request will be merged into.
         public let destinationReference: String?
         /// Information about the merge state change event.
@@ -3376,6 +3730,7 @@ extension CodeCommit {
             AWSShapeMember(label: "mergeBase", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
+
         /// The full commit ID of the commit in the source branch that was the tip of the branch at the time the pull request was updated.
         public let afterCommitId: String?
         /// The full commit ID of the commit in the destination branch that was the tip of the branch at the time the pull request was updated.
@@ -3404,6 +3759,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pullRequestStatus", required: false, type: .enum)
         ]
+
         /// The changed status of the pull request.
         public let pullRequestStatus: PullRequestStatusEnum?
 
@@ -3432,6 +3788,7 @@ extension CodeCommit {
             AWSShapeMember(label: "sourceCommit", required: false, type: .string), 
             AWSShapeMember(label: "sourceReference", required: false, type: .string)
         ]
+
         /// The full commit ID that is the tip of the destination branch. This is the commit where the pull request was or will be merged.
         public let destinationCommit: String?
         /// The branch of the repository where the pull request changes will be merged into. Also known as the destination branch. 
@@ -3475,6 +3832,7 @@ extension CodeCommit {
             AWSShapeMember(label: "filePath", required: true, type: .string), 
             AWSShapeMember(label: "sourceFile", required: false, type: .structure)
         ]
+
         /// The content of the file, if a source file is not specified.
         public let fileContent: Data?
         /// The extrapolated file mode permissions for the file. Valid values include EXECUTABLE and NORMAL.
@@ -3489,6 +3847,10 @@ extension CodeCommit {
             self.fileMode = fileMode
             self.filePath = filePath
             self.sourceFile = sourceFile
+        }
+
+        public func validate(name: String) throws {
+            try validate(fileContent, name:"fileContent", parent: name, max: 6291456)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3511,6 +3873,7 @@ extension CodeCommit {
             AWSShapeMember(label: "parentCommitId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The name of the branch where you want to add or update the file. If this is an empty repository, this branch will be created.
         public let branchName: String
         /// A message about why this file was added or updated. While optional, adding a message is strongly encouraged in order to provide a more useful commit history for your repository.
@@ -3542,6 +3905,15 @@ extension CodeCommit {
             self.repositoryName = repositoryName
         }
 
+        public func validate(name: String) throws {
+            try validate(branchName, name:"branchName", parent: name, max: 256)
+            try validate(branchName, name:"branchName", parent: name, min: 1)
+            try validate(fileContent, name:"fileContent", parent: name, max: 6291456)
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case branchName = "branchName"
             case commitMessage = "commitMessage"
@@ -3561,6 +3933,7 @@ extension CodeCommit {
             AWSShapeMember(label: "commitId", required: true, type: .string), 
             AWSShapeMember(label: "treeId", required: true, type: .string)
         ]
+
         /// The ID of the blob, which is its SHA-1 pointer.
         public let blobId: String
         /// The full SHA of the commit that contains this file change.
@@ -3586,6 +3959,7 @@ extension CodeCommit {
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "triggers", required: true, type: .list)
         ]
+
         /// The name of the repository where you want to create or update the trigger.
         public let repositoryName: String
         /// The JSON block of configuration information for each trigger.
@@ -3594,6 +3968,15 @@ extension CodeCommit {
         public init(repositoryName: String, triggers: [RepositoryTrigger]) {
             self.repositoryName = repositoryName
             self.triggers = triggers
+        }
+
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try triggers.forEach {
+                try $0.validate(name: "\(name).triggers[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3606,6 +3989,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "configurationId", required: false, type: .string)
         ]
+
         /// The system-generated unique ID for the create or update operation.
         public let configurationId: String?
 
@@ -3631,6 +4015,7 @@ extension CodeCommit {
             AWSShapeMember(label: "filePath", required: true, type: .string), 
             AWSShapeMember(label: "replacementType", required: true, type: .enum)
         ]
+
         /// The base-64 encoded content to use when the replacement type is USE_NEW_CONTENT.
         public let content: Data?
         /// The file mode to apply during conflict resoltion.
@@ -3645,6 +4030,10 @@ extension CodeCommit {
             self.fileMode = fileMode
             self.filePath = filePath
             self.replacementType = replacementType
+        }
+
+        public func validate(name: String) throws {
+            try validate(content, name:"content", parent: name, max: 6291456)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3676,6 +4065,7 @@ extension CodeCommit {
             AWSShapeMember(label: "repositoryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
+
         /// The ID of the AWS account associated with the repository.
         public let accountId: String?
         /// The Amazon Resource Name (ARN) of the repository.
@@ -3729,6 +4119,7 @@ extension CodeCommit {
             AWSShapeMember(label: "repositoryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
+
         /// The ID associated with the repository.
         public let repositoryId: String?
         /// The name associated with the repository.
@@ -3753,6 +4144,7 @@ extension CodeCommit {
             AWSShapeMember(label: "events", required: true, type: .list), 
             AWSShapeMember(label: "name", required: true, type: .string)
         ]
+
         /// The branches that will be included in the trigger configuration. If you specify an empty array, the trigger will apply to all branches.  While no content is required in the array, you must include the array itself. 
         public let branches: [String]?
         /// Any custom data associated with the trigger that will be included in the information sent to the target of the trigger.
@@ -3770,6 +4162,13 @@ extension CodeCommit {
             self.destinationArn = destinationArn
             self.events = events
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try branches?.forEach {
+                try validate($0, name: "branches[]", parent: name, max: 256)
+                try validate($0, name: "branches[]", parent: name, min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3794,6 +4193,7 @@ extension CodeCommit {
             AWSShapeMember(label: "failureMessage", required: false, type: .string), 
             AWSShapeMember(label: "trigger", required: false, type: .string)
         ]
+
         /// Additional message information about the trigger that did not run.
         public let failureMessage: String?
         /// The name of the trigger that did not run.
@@ -3815,6 +4215,7 @@ extension CodeCommit {
             AWSShapeMember(label: "fileMode", required: true, type: .enum), 
             AWSShapeMember(label: "filePath", required: true, type: .string)
         ]
+
         /// The file mode for the file.
         public let fileMode: FileModeTypeEnum
         /// The full path to the file, including the name of the file.
@@ -3842,6 +4243,7 @@ extension CodeCommit {
             AWSShapeMember(label: "filePath", required: true, type: .string), 
             AWSShapeMember(label: "isMove", required: false, type: .boolean)
         ]
+
         /// The full path to the file, including the name of the file.
         public let filePath: String
         /// Whether to remove the source file from the parent commit.
@@ -3864,6 +4266,7 @@ extension CodeCommit {
             AWSShapeMember(label: "commitId", required: false, type: .string), 
             AWSShapeMember(label: "relativePath", required: false, type: .string)
         ]
+
         /// The fully qualified path to the folder that contains the reference to the submodule.
         public let absolutePath: String?
         /// The commit ID that contains the reference to the submodule.
@@ -3891,6 +4294,7 @@ extension CodeCommit {
             AWSShapeMember(label: "fileMode", required: false, type: .enum), 
             AWSShapeMember(label: "relativePath", required: false, type: .string)
         ]
+
         /// The fully-qualified path to the folder that contains the symbolic link.
         public let absolutePath: String?
         /// The blob ID that contains the information about the symbolic link.
@@ -3920,6 +4324,7 @@ extension CodeCommit {
             AWSShapeMember(label: "resourceArn", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: true, type: .map)
         ]
+
         /// The Amazon Resource Name (ARN) of the resource to which you want to add or update tags.
         public let resourceArn: String
         /// The key-value pair to use when tagging this repository.
@@ -3928,6 +4333,15 @@ extension CodeCommit {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try tags.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3942,6 +4356,7 @@ extension CodeCommit {
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "sourceReference", required: true, type: .string)
         ]
+
         /// The branch of the repository where the pull request changes will be merged into. Also known as the destination branch.
         public let destinationReference: String?
         /// The name of the repository that contains the pull request.
@@ -3953,6 +4368,12 @@ extension CodeCommit {
             self.destinationReference = destinationReference
             self.repositoryName = repositoryName
             self.sourceReference = sourceReference
+        }
+
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3967,6 +4388,7 @@ extension CodeCommit {
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "triggers", required: true, type: .list)
         ]
+
         /// The name of the repository in which to test the triggers.
         public let repositoryName: String
         /// The list of triggers to test.
@@ -3975,6 +4397,15 @@ extension CodeCommit {
         public init(repositoryName: String, triggers: [RepositoryTrigger]) {
             self.repositoryName = repositoryName
             self.triggers = triggers
+        }
+
+        public func validate(name: String) throws {
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try triggers.forEach {
+                try $0.validate(name: "\(name).triggers[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3988,6 +4419,7 @@ extension CodeCommit {
             AWSShapeMember(label: "failedExecutions", required: false, type: .list), 
             AWSShapeMember(label: "successfulExecutions", required: false, type: .list)
         ]
+
         /// The list of triggers that were not able to be tested. This list provides the names of the triggers that could not be tested, separated by commas.
         public let failedExecutions: [RepositoryTriggerExecutionFailure]?
         /// The list of triggers that were successfully tested. This list provides the names of the triggers that were successfully tested, separated by commas.
@@ -4009,6 +4441,7 @@ extension CodeCommit {
             AWSShapeMember(label: "resourceArn", required: true, type: .string), 
             AWSShapeMember(label: "tagKeys", required: true, type: .list)
         ]
+
         /// The Amazon Resource Name (ARN) of the resource to which you want to remove tags.
         public let resourceArn: String
         /// The tag key for each tag that you want to remove from the resource.
@@ -4017,6 +4450,13 @@ extension CodeCommit {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4030,6 +4470,7 @@ extension CodeCommit {
             AWSShapeMember(label: "commentId", required: true, type: .string), 
             AWSShapeMember(label: "content", required: true, type: .string)
         ]
+
         /// The system-generated ID of the comment you want to update. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
         public let commentId: String
         /// The updated content with which you want to replace the existing content of the comment.
@@ -4050,6 +4491,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "comment", required: false, type: .structure)
         ]
+
         /// Information about the updated comment.
         public let comment: Comment?
 
@@ -4067,6 +4509,7 @@ extension CodeCommit {
             AWSShapeMember(label: "defaultBranchName", required: true, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The name of the branch to set as the default.
         public let defaultBranchName: String
         /// The name of the repository to set or change the default branch for.
@@ -4075,6 +4518,14 @@ extension CodeCommit {
         public init(defaultBranchName: String, repositoryName: String) {
             self.defaultBranchName = defaultBranchName
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(defaultBranchName, name:"defaultBranchName", parent: name, max: 256)
+            try validate(defaultBranchName, name:"defaultBranchName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4088,6 +4539,7 @@ extension CodeCommit {
             AWSShapeMember(label: "description", required: true, type: .string), 
             AWSShapeMember(label: "pullRequestId", required: true, type: .string)
         ]
+
         /// The updated content of the description for the pull request. This content will replace the existing description.
         public let description: String
         /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
@@ -4096,6 +4548,10 @@ extension CodeCommit {
         public init(description: String, pullRequestId: String) {
             self.description = description
             self.pullRequestId = pullRequestId
+        }
+
+        public func validate(name: String) throws {
+            try validate(description, name:"description", parent: name, max: 10240)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4108,6 +4564,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pullRequest", required: true, type: .structure)
         ]
+
         /// Information about the updated pull request.
         public let pullRequest: PullRequest
 
@@ -4125,6 +4582,7 @@ extension CodeCommit {
             AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
             AWSShapeMember(label: "pullRequestStatus", required: true, type: .enum)
         ]
+
         /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
         public let pullRequestId: String
         /// The status of the pull request. The only valid operations are to update the status from OPEN to OPEN, OPEN to CLOSED or from from CLOSED to CLOSED.
@@ -4145,6 +4603,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pullRequest", required: true, type: .structure)
         ]
+
         /// Information about the pull request.
         public let pullRequest: PullRequest
 
@@ -4162,6 +4621,7 @@ extension CodeCommit {
             AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
             AWSShapeMember(label: "title", required: true, type: .string)
         ]
+
         /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
         public let pullRequestId: String
         /// The updated title of the pull request. This will replace the existing title.
@@ -4170,6 +4630,10 @@ extension CodeCommit {
         public init(pullRequestId: String, title: String) {
             self.pullRequestId = pullRequestId
             self.title = title
+        }
+
+        public func validate(name: String) throws {
+            try validate(title, name:"title", parent: name, max: 150)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4182,6 +4646,7 @@ extension CodeCommit {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pullRequest", required: true, type: .structure)
         ]
+
         /// Information about the updated pull request.
         public let pullRequest: PullRequest
 
@@ -4199,6 +4664,7 @@ extension CodeCommit {
             AWSShapeMember(label: "repositoryDescription", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
+
         /// The new comment or description for the specified repository. Repository descriptions are limited to 1,000 characters.
         public let repositoryDescription: String?
         /// The name of the repository to set or change the comment or description for.
@@ -4207,6 +4673,13 @@ extension CodeCommit {
         public init(repositoryDescription: String? = nil, repositoryName: String) {
             self.repositoryDescription = repositoryDescription
             self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(repositoryDescription, name:"repositoryDescription", parent: name, max: 1000)
+            try validate(repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4220,6 +4693,7 @@ extension CodeCommit {
             AWSShapeMember(label: "newName", required: true, type: .string), 
             AWSShapeMember(label: "oldName", required: true, type: .string)
         ]
+
         /// The new name for the repository.
         public let newName: String
         /// The existing name of the repository.
@@ -4228,6 +4702,15 @@ extension CodeCommit {
         public init(newName: String, oldName: String) {
             self.newName = newName
             self.oldName = oldName
+        }
+
+        public func validate(name: String) throws {
+            try validate(newName, name:"newName", parent: name, max: 100)
+            try validate(newName, name:"newName", parent: name, min: 1)
+            try validate(newName, name:"newName", parent: name, pattern: "[\\w\\.-]+")
+            try validate(oldName, name:"oldName", parent: name, max: 100)
+            try validate(oldName, name:"oldName", parent: name, min: 1)
+            try validate(oldName, name:"oldName", parent: name, pattern: "[\\w\\.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4242,6 +4725,7 @@ extension CodeCommit {
             AWSShapeMember(label: "email", required: false, type: .string), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// The date when the specified commit was commited, in timestamp format with GMT offset.
         public let date: String?
         /// The email address associated with the user who made the commit, if any.

@@ -11,6 +11,7 @@ extension AppSync {
             AWSShapeMember(label: "openIDConnectConfig", required: false, type: .structure), 
             AWSShapeMember(label: "userPoolConfig", required: false, type: .structure)
         ]
+
         /// The authentication type: API key, AWS IAM, OIDC, or Amazon Cognito user pools.
         public let authenticationType: AuthenticationType?
         /// The OpenID Connect configuration.
@@ -37,6 +38,7 @@ extension AppSync {
             AWSShapeMember(label: "expires", required: false, type: .long), 
             AWSShapeMember(label: "id", required: false, type: .string)
         ]
+
         /// A description of the purpose of the API key.
         public let description: String?
         /// The time after which the API key expires. The date is represented as seconds since the epoch, rounded down to the nearest hour.
@@ -70,6 +72,7 @@ extension AppSync {
             AWSShapeMember(label: "authorizationType", required: true, type: .enum), 
             AWSShapeMember(label: "awsIamConfig", required: false, type: .structure)
         ]
+
         /// The authorization type required by the HTTP endpoint.    AWS_IAM: The authorization type is Sigv4.  
         public let authorizationType: AuthorizationType
         /// The AWS IAM settings.
@@ -96,6 +99,7 @@ extension AppSync {
             AWSShapeMember(label: "signingRegion", required: false, type: .string), 
             AWSShapeMember(label: "signingServiceName", required: false, type: .string)
         ]
+
         /// The signing region for AWS IAM authorization.
         public let signingRegion: String?
         /// The signing service name for AWS IAM authorization.
@@ -118,6 +122,7 @@ extension AppSync {
             AWSShapeMember(label: "awsRegion", required: true, type: .string), 
             AWSShapeMember(label: "userPoolId", required: true, type: .string)
         ]
+
         /// A regular expression for validating the incoming Amazon Cognito user pool app client ID.
         public let appIdClientRegex: String?
         /// The AWS Region in which the user pool was created.
@@ -144,6 +149,7 @@ extension AppSync {
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "expires", required: false, type: .long)
         ]
+
         /// The ID for your GraphQL API.
         public let apiId: String
         /// A description of the purpose of the API key.
@@ -168,6 +174,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "apiKey", required: false, type: .structure)
         ]
+
         /// The API key.
         public let apiKey: ApiKey?
 
@@ -193,6 +200,7 @@ extension AppSync {
             AWSShapeMember(label: "serviceRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
+
         /// The API ID for the GraphQL API for the DataSource.
         public let apiId: String
         /// A description of the DataSource.
@@ -227,6 +235,10 @@ extension AppSync {
             self.`type` = `type`
         }
 
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
             case description = "description"
@@ -245,6 +257,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "dataSource", required: false, type: .structure)
         ]
+
         /// The DataSource object.
         public let dataSource: DataSource?
 
@@ -267,6 +280,7 @@ extension AppSync {
             AWSShapeMember(label: "requestMappingTemplate", required: true, type: .string), 
             AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string)
         ]
+
         /// The GraphQL API ID.
         public let apiId: String
         /// The Function DataSource name.
@@ -292,6 +306,15 @@ extension AppSync {
             self.responseMappingTemplate = responseMappingTemplate
         }
 
+        public func validate(name: String) throws {
+            try validate(dataSourceName, name:"dataSourceName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(requestMappingTemplate, name:"requestMappingTemplate", parent: name, max: 65536)
+            try validate(requestMappingTemplate, name:"requestMappingTemplate", parent: name, min: 1)
+            try validate(responseMappingTemplate, name:"responseMappingTemplate", parent: name, max: 65536)
+            try validate(responseMappingTemplate, name:"responseMappingTemplate", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
             case dataSourceName = "dataSourceName"
@@ -307,6 +330,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "functionConfiguration", required: false, type: .structure)
         ]
+
         /// The Function object.
         public let functionConfiguration: FunctionConfiguration?
 
@@ -329,6 +353,7 @@ extension AppSync {
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "userPoolConfig", required: false, type: .structure)
         ]
+
         /// A list of additional authentication providers for the GraphqlApi API.
         public let additionalAuthenticationProviders: [AdditionalAuthenticationProvider]?
         /// The authentication type: API key, AWS IAM, OIDC, or Amazon Cognito user pools.
@@ -354,6 +379,15 @@ extension AppSync {
             self.userPoolConfig = userPoolConfig
         }
 
+        public func validate(name: String) throws {
+            try tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case additionalAuthenticationProviders = "additionalAuthenticationProviders"
             case authenticationType = "authenticationType"
@@ -369,6 +403,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "graphqlApi", required: false, type: .structure)
         ]
+
         /// The GraphqlApi.
         public let graphqlApi: GraphqlApi?
 
@@ -392,6 +427,7 @@ extension AppSync {
             AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
             AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
         ]
+
         /// The ID for the GraphQL API for which the resolver is being created.
         public let apiId: String
         /// The name of the data source for which the resolver is being created.
@@ -420,6 +456,16 @@ extension AppSync {
             self.typeName = typeName
         }
 
+        public func validate(name: String) throws {
+            try validate(dataSourceName, name:"dataSourceName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(fieldName, name:"fieldName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(requestMappingTemplate, name:"requestMappingTemplate", parent: name, max: 65536)
+            try validate(requestMappingTemplate, name:"requestMappingTemplate", parent: name, min: 1)
+            try validate(responseMappingTemplate, name:"responseMappingTemplate", parent: name, max: 65536)
+            try validate(responseMappingTemplate, name:"responseMappingTemplate", parent: name, min: 1)
+            try validate(typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
             case dataSourceName = "dataSourceName"
@@ -436,6 +482,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resolver", required: false, type: .structure)
         ]
+
         /// The Resolver object.
         public let resolver: Resolver?
 
@@ -454,6 +501,7 @@ extension AppSync {
             AWSShapeMember(label: "definition", required: true, type: .string), 
             AWSShapeMember(label: "format", required: true, type: .enum)
         ]
+
         /// The API ID.
         public let apiId: String
         /// The type definition, in GraphQL Schema Definition Language (SDL) format. For more information, see the GraphQL SDL documentation.
@@ -478,6 +526,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "type", required: false, type: .structure)
         ]
+
         /// The Type object.
         public let `type`: `Type`?
 
@@ -503,6 +552,7 @@ extension AppSync {
             AWSShapeMember(label: "serviceRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// The data source ARN.
         public let dataSourceArn: String?
         /// The description of the data source.
@@ -572,6 +622,7 @@ extension AppSync {
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "id", location: .uri(locationName: "id"), required: true, type: .string)
         ]
+
         /// The API ID.
         public let apiId: String
         /// The ID for the API key.
@@ -590,6 +641,7 @@ extension AppSync {
 
     public struct DeleteApiKeyResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -600,6 +652,7 @@ extension AppSync {
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
+
         /// The API ID.
         public let apiId: String
         /// The name of the data source.
@@ -610,6 +663,10 @@ extension AppSync {
             self.name = name
         }
 
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
             case name = "name"
@@ -617,6 +674,7 @@ extension AppSync {
     }
 
     public struct DeleteDataSourceResponse: AWSShape {
+
 
         public init() {
         }
@@ -628,6 +686,7 @@ extension AppSync {
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "functionId", location: .uri(locationName: "functionId"), required: true, type: .string)
         ]
+
         /// The GraphQL API ID.
         public let apiId: String
         /// The Function ID.
@@ -638,6 +697,10 @@ extension AppSync {
             self.functionId = functionId
         }
 
+        public func validate(name: String) throws {
+            try validate(functionId, name:"functionId", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
             case functionId = "functionId"
@@ -645,6 +708,7 @@ extension AppSync {
     }
 
     public struct DeleteFunctionResponse: AWSShape {
+
 
         public init() {
         }
@@ -655,6 +719,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
         ]
+
         /// The API ID.
         public let apiId: String
 
@@ -669,6 +734,7 @@ extension AppSync {
 
     public struct DeleteGraphqlApiResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -680,6 +746,7 @@ extension AppSync {
             AWSShapeMember(label: "fieldName", location: .uri(locationName: "fieldName"), required: true, type: .string), 
             AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
         ]
+
         /// The API ID.
         public let apiId: String
         /// The resolver field name.
@@ -693,6 +760,11 @@ extension AppSync {
             self.typeName = typeName
         }
 
+        public func validate(name: String) throws {
+            try validate(fieldName, name:"fieldName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
             case fieldName = "fieldName"
@@ -701,6 +773,7 @@ extension AppSync {
     }
 
     public struct DeleteResolverResponse: AWSShape {
+
 
         public init() {
         }
@@ -712,6 +785,7 @@ extension AppSync {
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
         ]
+
         /// The API ID.
         public let apiId: String
         /// The type name.
@@ -722,6 +796,10 @@ extension AppSync {
             self.typeName = typeName
         }
 
+        public func validate(name: String) throws {
+            try validate(typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
             case typeName = "typeName"
@@ -729,6 +807,7 @@ extension AppSync {
     }
 
     public struct DeleteTypeResponse: AWSShape {
+
 
         public init() {
         }
@@ -741,6 +820,7 @@ extension AppSync {
             AWSShapeMember(label: "tableName", required: true, type: .string), 
             AWSShapeMember(label: "useCallerCredentials", required: false, type: .boolean)
         ]
+
         /// The AWS Region.
         public let awsRegion: String
         /// The table name.
@@ -766,6 +846,7 @@ extension AppSync {
             AWSShapeMember(label: "awsRegion", required: true, type: .string), 
             AWSShapeMember(label: "endpoint", required: true, type: .string)
         ]
+
         /// The AWS Region.
         public let awsRegion: String
         /// The endpoint.
@@ -800,6 +881,7 @@ extension AppSync {
             AWSShapeMember(label: "requestMappingTemplate", required: false, type: .string), 
             AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string)
         ]
+
         /// The name of the DataSource.
         public let dataSourceName: String?
         /// The Function description.
@@ -845,6 +927,7 @@ extension AppSync {
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
+
         /// The API ID.
         public let apiId: String
         /// The name of the data source.
@@ -853,6 +936,10 @@ extension AppSync {
         public init(apiId: String, name: String) {
             self.apiId = apiId
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -865,6 +952,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "dataSource", required: false, type: .structure)
         ]
+
         /// The DataSource object.
         public let dataSource: DataSource?
 
@@ -882,6 +970,7 @@ extension AppSync {
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "functionId", location: .uri(locationName: "functionId"), required: true, type: .string)
         ]
+
         /// The GraphQL API ID.
         public let apiId: String
         /// The Function ID.
@@ -890,6 +979,10 @@ extension AppSync {
         public init(apiId: String, functionId: String) {
             self.apiId = apiId
             self.functionId = functionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(functionId, name:"functionId", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -902,6 +995,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "functionConfiguration", required: false, type: .structure)
         ]
+
         /// The Function object.
         public let functionConfiguration: FunctionConfiguration?
 
@@ -918,6 +1012,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
         ]
+
         /// The API ID for the GraphQL API.
         public let apiId: String
 
@@ -934,6 +1029,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "graphqlApi", required: false, type: .structure)
         ]
+
         /// The GraphqlApi object.
         public let graphqlApi: GraphqlApi?
 
@@ -952,6 +1048,7 @@ extension AppSync {
             AWSShapeMember(label: "format", location: .querystring(locationName: "format"), required: true, type: .enum), 
             AWSShapeMember(label: "includeDirectives", location: .querystring(locationName: "includeDirectives"), required: false, type: .boolean)
         ]
+
         /// The API ID.
         public let apiId: String
         /// The schema format: SDL or JSON.
@@ -978,6 +1075,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "schema", required: false, type: .blob)
         ]
+
         /// The schema, in GraphQL Schema Definition Language (SDL) format. For more information, see the GraphQL SDL documentation.
         public let schema: Data?
 
@@ -996,6 +1094,7 @@ extension AppSync {
             AWSShapeMember(label: "fieldName", location: .uri(locationName: "fieldName"), required: true, type: .string), 
             AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
         ]
+
         /// The API ID.
         public let apiId: String
         /// The resolver field name.
@@ -1009,6 +1108,11 @@ extension AppSync {
             self.typeName = typeName
         }
 
+        public func validate(name: String) throws {
+            try validate(fieldName, name:"fieldName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
             case fieldName = "fieldName"
@@ -1020,6 +1124,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resolver", required: false, type: .structure)
         ]
+
         /// The Resolver object.
         public let resolver: Resolver?
 
@@ -1036,6 +1141,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
         ]
+
         /// The API ID.
         public let apiId: String
 
@@ -1053,6 +1159,7 @@ extension AppSync {
             AWSShapeMember(label: "details", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
+
         /// Detailed information about the status of the schema creation operation.
         public let details: String?
         /// The current state of the schema (PROCESSING, FAILED, SUCCESS, or NOT_APPLICABLE). When the schema is in the ACTIVE state, you can add data.
@@ -1075,6 +1182,7 @@ extension AppSync {
             AWSShapeMember(label: "format", location: .querystring(locationName: "format"), required: true, type: .enum), 
             AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
         ]
+
         /// The API ID.
         public let apiId: String
         /// The type format: SDL or JSON.
@@ -1088,6 +1196,10 @@ extension AppSync {
             self.typeName = typeName
         }
 
+        public func validate(name: String) throws {
+            try validate(typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
             case format = "format"
@@ -1099,6 +1211,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "type", required: false, type: .structure)
         ]
+
         /// The Type object.
         public let `type`: `Type`?
 
@@ -1124,6 +1237,7 @@ extension AppSync {
             AWSShapeMember(label: "uris", required: false, type: .map), 
             AWSShapeMember(label: "userPoolConfig", required: false, type: .structure)
         ]
+
         /// A list of additional authentication providers for the GraphqlApi API.
         public let additionalAuthenticationProviders: [AdditionalAuthenticationProvider]?
         /// The API ID.
@@ -1177,6 +1291,7 @@ extension AppSync {
             AWSShapeMember(label: "authorizationConfig", required: false, type: .structure), 
             AWSShapeMember(label: "endpoint", required: false, type: .string)
         ]
+
         /// The authorization config in case the HTTP endpoint requires authorization.
         public let authorizationConfig: AuthorizationConfig?
         /// The HTTP URL endpoint. You can either specify the domain name or IP, and port combination, and the URL scheme must be HTTP or HTTPS. If the port is not specified, AWS AppSync uses the default port 80 for the HTTP endpoint and port 443 for HTTPS endpoints.
@@ -1197,6 +1312,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "lambdaFunctionArn", required: true, type: .string)
         ]
+
         /// The ARN for the Lambda function.
         public let lambdaFunctionArn: String
 
@@ -1215,6 +1331,7 @@ extension AppSync {
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The API ID.
         public let apiId: String
         /// The maximum number of results you want the request to return.
@@ -1226,6 +1343,12 @@ extension AppSync {
             self.apiId = apiId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1240,6 +1363,7 @@ extension AppSync {
             AWSShapeMember(label: "apiKeys", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The ApiKey objects.
         public let apiKeys: [ApiKey]?
         /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
@@ -1262,6 +1386,7 @@ extension AppSync {
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The API ID.
         public let apiId: String
         /// The maximum number of results you want the request to return.
@@ -1273,6 +1398,12 @@ extension AppSync {
             self.apiId = apiId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1287,6 +1418,7 @@ extension AppSync {
             AWSShapeMember(label: "dataSources", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The DataSource objects.
         public let dataSources: [DataSource]?
         /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
@@ -1309,6 +1441,7 @@ extension AppSync {
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The GraphQL API ID.
         public let apiId: String
         /// The maximum number of results you want the request to return.
@@ -1320,6 +1453,12 @@ extension AppSync {
             self.apiId = apiId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1334,6 +1473,7 @@ extension AppSync {
             AWSShapeMember(label: "functions", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of Function objects.
         public let functions: [FunctionConfiguration]?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -1355,6 +1495,7 @@ extension AppSync {
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The maximum number of results you want the request to return.
         public let maxResults: Int32?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. 
@@ -1363,6 +1504,12 @@ extension AppSync {
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1376,6 +1523,7 @@ extension AppSync {
             AWSShapeMember(label: "graphqlApis", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The GraphqlApi objects.
         public let graphqlApis: [GraphqlApi]?
         /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
@@ -1399,6 +1547,7 @@ extension AppSync {
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The API ID.
         public let apiId: String
         /// The Function ID.
@@ -1415,6 +1564,12 @@ extension AppSync {
             self.nextToken = nextToken
         }
 
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
             case functionId = "functionId"
@@ -1428,6 +1583,7 @@ extension AppSync {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "resolvers", required: false, type: .list)
         ]
+
         /// An identifier that can be used to return the next set of items in the list.
         public let nextToken: String?
         /// The list of resolvers.
@@ -1451,6 +1607,7 @@ extension AppSync {
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
         ]
+
         /// The API ID.
         public let apiId: String
         /// The maximum number of results you want the request to return.
@@ -1467,6 +1624,12 @@ extension AppSync {
             self.typeName = typeName
         }
 
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
             case maxResults = "maxResults"
@@ -1480,6 +1643,7 @@ extension AppSync {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "resolvers", required: false, type: .list)
         ]
+
         /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
         public let nextToken: String?
         /// The Resolver objects.
@@ -1500,11 +1664,18 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
         ]
+
         /// The GraphqlApi ARN.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 75)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 70)
+            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\\d{12}:apis/[0-9A-Za-z_-]{26}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1516,6 +1687,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// A TagMap object.
         public let tags: [String: String]?
 
@@ -1535,6 +1707,7 @@ extension AppSync {
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The API ID.
         public let apiId: String
         /// The type format: SDL or JSON.
@@ -1551,6 +1724,12 @@ extension AppSync {
             self.nextToken = nextToken
         }
 
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 25)
+            try validate(maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
             case format = "format"
@@ -1564,6 +1743,7 @@ extension AppSync {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "types", required: false, type: .list)
         ]
+
         /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
         public let nextToken: String?
         /// The Type objects.
@@ -1585,6 +1765,7 @@ extension AppSync {
             AWSShapeMember(label: "cloudWatchLogsRoleArn", required: true, type: .string), 
             AWSShapeMember(label: "fieldLogLevel", required: true, type: .enum)
         ]
+
         /// The service role that AWS AppSync will assume to publish to Amazon CloudWatch logs in your account. 
         public let cloudWatchLogsRoleArn: String
         /// The field logging level. Values can be NONE, ERROR, or ALL.     NONE: No field-level logs are captured.    ERROR: Logs the following information only for the fields that are in error:   The error section in the server response.   Field-level errors.   The generated request/response functions that got resolved for error fields.      ALL: The following information is logged for all fields in the query:   Field-level tracing information.   The generated request/response functions that got resolved for each field.    
@@ -1608,6 +1789,7 @@ extension AppSync {
             AWSShapeMember(label: "iatTTL", required: false, type: .long), 
             AWSShapeMember(label: "issuer", required: true, type: .string)
         ]
+
         /// The number of milliseconds a token is valid after being authenticated.
         public let authTTL: Int64?
         /// The client identifier of the Relying party at the OpenID identity provider. This identifier is typically obtained when the Relying party is registered with the OpenID identity provider. You can specify a regular expression so the AWS AppSync can validate against multiple client identifiers at a time.
@@ -1642,6 +1824,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "functions", required: false, type: .list)
         ]
+
         /// A list of Function objects.
         public let functions: [String]?
 
@@ -1662,6 +1845,7 @@ extension AppSync {
             AWSShapeMember(label: "dbClusterIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "schema", required: false, type: .string)
         ]
+
         /// AWS Region for RDS HTTP endpoint.
         public let awsRegion: String?
         /// AWS secret store ARN for database credentials.
@@ -1695,6 +1879,7 @@ extension AppSync {
             AWSShapeMember(label: "rdsHttpEndpointConfig", required: false, type: .structure), 
             AWSShapeMember(label: "relationalDatabaseSourceType", required: false, type: .enum)
         ]
+
         /// Amazon RDS HTTP endpoint settings.
         public let rdsHttpEndpointConfig: RdsHttpEndpointConfig?
         /// Source type for the relational database.    RDS_HTTP_ENDPOINT: The relational database source type is an Amazon RDS HTTP endpoint.  
@@ -1727,6 +1912,7 @@ extension AppSync {
             AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
             AWSShapeMember(label: "typeName", required: false, type: .string)
         ]
+
         /// The resolver data source name.
         public let dataSourceName: String?
         /// The resolver field name.
@@ -1788,6 +1974,7 @@ extension AppSync {
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "definition", required: true, type: .blob)
         ]
+
         /// The API ID.
         public let apiId: String
         /// The schema definition, in GraphQL schema language format.
@@ -1808,6 +1995,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
+
         /// The current state of the schema (PROCESSING, FAILED, SUCCESS, or NOT_APPLICABLE). When the schema is in the ACTIVE state, you can add data.
         public let status: SchemaStatus?
 
@@ -1825,6 +2013,7 @@ extension AppSync {
             AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
             AWSShapeMember(label: "tags", required: true, type: .map)
         ]
+
         /// The GraphqlApi ARN.
         public let resourceArn: String
         /// A TagMap object.
@@ -1835,6 +2024,18 @@ extension AppSync {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 75)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 70)
+            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\\d{12}:apis/[0-9A-Za-z_-]{26}$")
+            try tags.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "resourceArn"
             case tags = "tags"
@@ -1842,6 +2043,7 @@ extension AppSync {
     }
 
     public struct TagResourceResponse: AWSShape {
+
 
         public init() {
         }
@@ -1856,6 +2058,7 @@ extension AppSync {
             AWSShapeMember(label: "format", required: false, type: .enum), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// The type ARN.
         public let arn: String?
         /// The type definition.
@@ -1895,6 +2098,7 @@ extension AppSync {
             AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
             AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]
+
         /// The GraphqlApi ARN.
         public let resourceArn: String
         /// A list of TagKey objects.
@@ -1905,6 +2109,19 @@ extension AppSync {
             self.tagKeys = tagKeys
         }
 
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 75)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 70)
+            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\\d{12}:apis/[0-9A-Za-z_-]{26}$")
+            try tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+            }
+            try validate(tagKeys, name:"tagKeys", parent: name, max: 50)
+            try validate(tagKeys, name:"tagKeys", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "resourceArn"
             case tagKeys = "tagKeys"
@@ -1912,6 +2129,7 @@ extension AppSync {
     }
 
     public struct UntagResourceResponse: AWSShape {
+
 
         public init() {
         }
@@ -1925,6 +2143,7 @@ extension AppSync {
             AWSShapeMember(label: "expires", required: false, type: .long), 
             AWSShapeMember(label: "id", location: .uri(locationName: "id"), required: true, type: .string)
         ]
+
         /// The ID for the GraphQL API.
         public let apiId: String
         /// A description of the purpose of the API key.
@@ -1953,6 +2172,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "apiKey", required: false, type: .structure)
         ]
+
         /// The API key.
         public let apiKey: ApiKey?
 
@@ -1978,6 +2198,7 @@ extension AppSync {
             AWSShapeMember(label: "serviceRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
+
         /// The API ID.
         public let apiId: String
         /// The new description for the data source.
@@ -2012,6 +2233,10 @@ extension AppSync {
             self.`type` = `type`
         }
 
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
             case description = "description"
@@ -2030,6 +2255,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "dataSource", required: false, type: .structure)
         ]
+
         /// The updated DataSource object.
         public let dataSource: DataSource?
 
@@ -2053,6 +2279,7 @@ extension AppSync {
             AWSShapeMember(label: "requestMappingTemplate", required: true, type: .string), 
             AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string)
         ]
+
         /// The GraphQL API ID.
         public let apiId: String
         /// The Function DataSource name.
@@ -2081,6 +2308,16 @@ extension AppSync {
             self.responseMappingTemplate = responseMappingTemplate
         }
 
+        public func validate(name: String) throws {
+            try validate(dataSourceName, name:"dataSourceName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(functionId, name:"functionId", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(requestMappingTemplate, name:"requestMappingTemplate", parent: name, max: 65536)
+            try validate(requestMappingTemplate, name:"requestMappingTemplate", parent: name, min: 1)
+            try validate(responseMappingTemplate, name:"responseMappingTemplate", parent: name, max: 65536)
+            try validate(responseMappingTemplate, name:"responseMappingTemplate", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
             case dataSourceName = "dataSourceName"
@@ -2097,6 +2334,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "functionConfiguration", required: false, type: .structure)
         ]
+
         /// The Function object.
         public let functionConfiguration: FunctionConfiguration?
 
@@ -2119,6 +2357,7 @@ extension AppSync {
             AWSShapeMember(label: "openIDConnectConfig", required: false, type: .structure), 
             AWSShapeMember(label: "userPoolConfig", required: false, type: .structure)
         ]
+
         /// A list of additional authentication providers for the GraphqlApi API.
         public let additionalAuthenticationProviders: [AdditionalAuthenticationProvider]?
         /// The API ID.
@@ -2159,6 +2398,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "graphqlApi", required: false, type: .structure)
         ]
+
         /// The updated GraphqlApi object.
         public let graphqlApi: GraphqlApi?
 
@@ -2182,6 +2422,7 @@ extension AppSync {
             AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
             AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
         ]
+
         /// The API ID.
         public let apiId: String
         /// The new data source name.
@@ -2210,6 +2451,16 @@ extension AppSync {
             self.typeName = typeName
         }
 
+        public func validate(name: String) throws {
+            try validate(dataSourceName, name:"dataSourceName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(fieldName, name:"fieldName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try validate(requestMappingTemplate, name:"requestMappingTemplate", parent: name, max: 65536)
+            try validate(requestMappingTemplate, name:"requestMappingTemplate", parent: name, min: 1)
+            try validate(responseMappingTemplate, name:"responseMappingTemplate", parent: name, max: 65536)
+            try validate(responseMappingTemplate, name:"responseMappingTemplate", parent: name, min: 1)
+            try validate(typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
             case dataSourceName = "dataSourceName"
@@ -2226,6 +2477,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resolver", required: false, type: .structure)
         ]
+
         /// The updated Resolver object.
         public let resolver: Resolver?
 
@@ -2245,6 +2497,7 @@ extension AppSync {
             AWSShapeMember(label: "format", required: true, type: .enum), 
             AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
         ]
+
         /// The API ID.
         public let apiId: String
         /// The new definition.
@@ -2261,6 +2514,10 @@ extension AppSync {
             self.typeName = typeName
         }
 
+        public func validate(name: String) throws {
+            try validate(typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
             case definition = "definition"
@@ -2273,6 +2530,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "type", required: false, type: .structure)
         ]
+
         /// The updated Type object.
         public let `type`: `Type`?
 
@@ -2292,6 +2550,7 @@ extension AppSync {
             AWSShapeMember(label: "defaultAction", required: true, type: .enum), 
             AWSShapeMember(label: "userPoolId", required: true, type: .string)
         ]
+
         /// A regular expression for validating the incoming Amazon Cognito user pool app client ID.
         public let appIdClientRegex: String?
         /// The AWS Region in which the user pool was created.
