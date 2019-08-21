@@ -13,7 +13,8 @@ public struct Glacier {
 
     let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+        let middlewares = [GlacierRequestMiddleware(apiVersion: "2012-06-01")] + middlewares
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -22,7 +23,7 @@ public struct Glacier {
             serviceProtocol: ServiceProtocol(type: .restjson),
             apiVersion: "2012-06-01",
             endpoint: endpoint,
-            middlewares: [GlacierRequestMiddleware(apiVersion: "2012-06-01")],
+            middlewares: middlewares,
             possibleErrorTypes: [GlacierErrorType.self]
         )
     }

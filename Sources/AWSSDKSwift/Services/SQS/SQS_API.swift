@@ -11,7 +11,7 @@ public struct SQS {
 
     let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -21,7 +21,7 @@ public struct SQS {
             apiVersion: "2012-11-05",
             endpoint: endpoint,
             serviceEndpoints: ["fips-us-east-1": "sqs-fips.us-east-1.amazonaws.com", "fips-us-east-2": "sqs-fips.us-east-2.amazonaws.com", "fips-us-west-1": "sqs-fips.us-west-1.amazonaws.com", "fips-us-west-2": "sqs-fips.us-west-2.amazonaws.com"],
-            middlewares: [],
+            middlewares: middlewares,
             possibleErrorTypes: [SQSErrorType.self]
         )
     }

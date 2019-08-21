@@ -17,7 +17,10 @@ public struct {{ name }} {
 
     let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+{% if middlewareClass %}
+        let middlewares = [{{middlewareClass}}] + middlewares
+{% endif %}
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -35,7 +38,7 @@ public struct {{ name }} {
 {% if partitionEndpoint %}
             partitionEndpoint: "{{partitionEndpoint}}",
 {% endif %}
-            middlewares: [{% if middlewareClass %}{{middlewareClass}}{% endif %}]{% if errorTypes %},
+            middlewares: middlewares{% if errorTypes %},
             possibleErrorTypes: [{{errorTypes}}.self]
 {% endif %}
         )
