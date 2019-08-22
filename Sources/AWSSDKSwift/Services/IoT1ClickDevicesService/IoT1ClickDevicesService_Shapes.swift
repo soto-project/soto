@@ -7,6 +7,7 @@ extension IoT1ClickDevicesService {
 
     public struct Attributes: AWSShape {
 
+
         public init() {
         }
 
@@ -16,6 +17,7 @@ extension IoT1ClickDevicesService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClaimCode", location: .uri(locationName: "claimCode"), required: true, type: .string)
         ]
+
         public let claimCode: String
 
         public init(claimCode: String) {
@@ -32,13 +34,14 @@ extension IoT1ClickDevicesService {
             AWSShapeMember(label: "ClaimCode", location: .body(locationName: "claimCode"), required: false, type: .string), 
             AWSShapeMember(label: "Total", location: .body(locationName: "total"), required: false, type: .integer)
         ]
+
         /// The claim code provided by the device manufacturer.
         public let claimCode: String?
         /// The total number of devices associated with the claim code that has been processed in
         ///  the claim request.
-        public let total: Int32?
+        public let total: Int?
 
-        public init(claimCode: String? = nil, total: Int32? = nil) {
+        public init(claimCode: String? = nil, total: Int? = nil) {
             self.claimCode = claimCode
             self.total = total
         }
@@ -53,6 +56,7 @@ extension IoT1ClickDevicesService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"), required: true, type: .string)
         ]
+
         public let deviceId: String
 
         public init(deviceId: String) {
@@ -68,6 +72,7 @@ extension IoT1ClickDevicesService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceDescription", location: .body(locationName: "deviceDescription"), required: false, type: .structure)
         ]
+
         /// Device details.
         public let deviceDescription: DeviceDescription?
 
@@ -86,6 +91,7 @@ extension IoT1ClickDevicesService {
             AWSShapeMember(label: "DeviceId", location: .body(locationName: "deviceId"), required: false, type: .string), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .string)
         ]
+
         /// The user specified attributes associated with the device for an event.
         public let attributes: Attributes?
         /// The unique identifier of the device.
@@ -106,22 +112,6 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct DeviceClaimResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .string)
-        ]
-        /// The device's final claim state.
-        public let state: String?
-
-        public init(state: String? = nil) {
-            self.state = state
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "state"
-        }
-    }
-
     public struct DeviceDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
@@ -132,6 +122,7 @@ extension IoT1ClickDevicesService {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .string)
         ]
+
         /// The ARN of the device.
         public let arn: String?
         /// An array of zero or more elements of DeviceAttribute objects providing
@@ -174,6 +165,7 @@ extension IoT1ClickDevicesService {
             AWSShapeMember(label: "Device", location: .body(locationName: "device"), required: false, type: .structure), 
             AWSShapeMember(label: "StdEvent", location: .body(locationName: "stdEvent"), required: false, type: .string)
         ]
+
         /// An object representing the device associated with the event.
         public let device: Device?
         /// A serialized JSON object representing the device-type specific event.
@@ -190,33 +182,12 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct DeviceEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Events", location: .body(locationName: "events"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
-        /// An array of zero or more elements describing the event(s) associated with the
-        ///  device.
-        public let events: [DeviceEvent]?
-        /// The token to retrieve the next set of results.
-        public let nextToken: String?
-
-        public init(events: [DeviceEvent]? = nil, nextToken: String? = nil) {
-            self.events = events
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case events = "events"
-            case nextToken = "nextToken"
-        }
-    }
-
     public struct DeviceMethod: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceType", location: .body(locationName: "deviceType"), required: false, type: .string), 
             AWSShapeMember(label: "MethodName", location: .body(locationName: "methodName"), required: false, type: .string)
         ]
+
         /// The type of the device, such as "button".
         public let deviceType: String?
         /// The name of the method applicable to the deviceType.
@@ -233,18 +204,12 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct Empty: AWSShape {
-
-        public init() {
-        }
-
-    }
-
     public struct FinalizeDeviceClaimRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"), required: true, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         public let deviceId: String
         public let tags: [String: String]?
 
@@ -263,6 +228,7 @@ extension IoT1ClickDevicesService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .string)
         ]
+
         public let state: String?
 
         public init(state: String? = nil) {
@@ -278,6 +244,7 @@ extension IoT1ClickDevicesService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"), required: true, type: .string)
         ]
+
         public let deviceId: String
 
         public init(deviceId: String) {
@@ -293,6 +260,7 @@ extension IoT1ClickDevicesService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceMethods", location: .body(locationName: "deviceMethods"), required: false, type: .list)
         ]
+
         /// List of available device APIs.
         public let deviceMethods: [DeviceMethod]?
 
@@ -309,6 +277,7 @@ extension IoT1ClickDevicesService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"), required: true, type: .string)
         ]
+
         public let deviceId: String
 
         public init(deviceId: String) {
@@ -324,6 +293,7 @@ extension IoT1ClickDevicesService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .string)
         ]
+
         public let state: String?
 
         public init(state: String? = nil) {
@@ -341,6 +311,7 @@ extension IoT1ClickDevicesService {
             AWSShapeMember(label: "DeviceMethod", location: .body(locationName: "deviceMethod"), required: false, type: .structure), 
             AWSShapeMember(label: "DeviceMethodParameters", location: .body(locationName: "deviceMethodParameters"), required: false, type: .string)
         ]
+
         public let deviceId: String
         /// The device method to invoke.
         public let deviceMethod: DeviceMethod?
@@ -364,6 +335,7 @@ extension IoT1ClickDevicesService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceMethodResponse", location: .body(locationName: "deviceMethodResponse"), required: false, type: .string)
         ]
+
         /// A JSON encoded string containing the device method response.
         public let deviceMethodResponse: String?
 
@@ -384,18 +356,24 @@ extension IoT1ClickDevicesService {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "ToTimeStamp", location: .querystring(locationName: "toTimeStamp"), required: true, type: .timestamp)
         ]
+
         public let deviceId: String
         public let fromTimeStamp: TimeStamp
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
         public let toTimeStamp: TimeStamp
 
-        public init(deviceId: String, fromTimeStamp: TimeStamp, maxResults: Int32? = nil, nextToken: String? = nil, toTimeStamp: TimeStamp) {
+        public init(deviceId: String, fromTimeStamp: TimeStamp, maxResults: Int? = nil, nextToken: String? = nil, toTimeStamp: TimeStamp) {
             self.deviceId = deviceId
             self.fromTimeStamp = fromTimeStamp
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.toTimeStamp = toTimeStamp
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -412,6 +390,7 @@ extension IoT1ClickDevicesService {
             AWSShapeMember(label: "Events", location: .body(locationName: "events"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let events: [DeviceEvent]?
         public let nextToken: String?
 
@@ -432,14 +411,20 @@ extension IoT1ClickDevicesService {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let deviceType: String?
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(deviceType: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(deviceType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.deviceType = deviceType
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -454,6 +439,7 @@ extension IoT1ClickDevicesService {
             AWSShapeMember(label: "Devices", location: .body(locationName: "devices"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// A list of devices.
         public let devices: [DeviceDescription]?
         /// The token to retrieve the next set of results.
@@ -474,6 +460,7 @@ extension IoT1ClickDevicesService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string)
         ]
+
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -489,6 +476,7 @@ extension IoT1ClickDevicesService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -505,6 +493,7 @@ extension IoT1ClickDevicesService {
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: true, type: .map)
         ]
+
         public let resourceArn: String
         public let tags: [String: String]
 
@@ -523,6 +512,7 @@ extension IoT1ClickDevicesService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"), required: true, type: .string)
         ]
+
         public let deviceId: String
 
         public init(deviceId: String) {
@@ -538,6 +528,7 @@ extension IoT1ClickDevicesService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .string)
         ]
+
         public let state: String?
 
         public init(state: String? = nil) {
@@ -554,6 +545,7 @@ extension IoT1ClickDevicesService {
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]
+
         public let resourceArn: String
         public let tagKeys: [String]
 
@@ -573,6 +565,7 @@ extension IoT1ClickDevicesService {
             AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"), required: true, type: .string), 
             AWSShapeMember(label: "Enabled", location: .body(locationName: "enabled"), required: false, type: .boolean)
         ]
+
         public let deviceId: String
         /// If true, the device is enabled. If false, the device is
         ///  disabled.
@@ -590,6 +583,7 @@ extension IoT1ClickDevicesService {
     }
 
     public struct UpdateDeviceStateResponse: AWSShape {
+
 
         public init() {
         }

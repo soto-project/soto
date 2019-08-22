@@ -10,6 +10,7 @@ extension CloudTrail {
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "TagsList", required: false, type: .list)
         ]
+
         /// Specifies the ARN of the trail to which one or more tags will be added. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let resourceId: String
         /// Contains a list of CloudTrail tags, up to a limit of 50
@@ -27,6 +28,7 @@ extension CloudTrail {
     }
 
     public struct AddTagsResponse: AWSShape {
+
 
         public init() {
         }
@@ -47,6 +49,7 @@ extension CloudTrail {
             AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
             AWSShapeMember(label: "SnsTopicName", required: false, type: .string)
         ]
+
         /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. Not required unless you specify CloudWatchLogsRoleArn.
         public let cloudWatchLogsLogGroupArn: String?
         /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
@@ -114,6 +117,7 @@ extension CloudTrail {
             AWSShapeMember(label: "SnsTopicARN", required: false, type: .string), 
             AWSShapeMember(label: "TrailARN", required: false, type: .string)
         ]
+
         /// Specifies the Amazon Resource Name (ARN) of the log group to which CloudTrail logs will be delivered.
         public let cloudWatchLogsLogGroupArn: String?
         /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
@@ -175,6 +179,7 @@ extension CloudTrail {
             AWSShapeMember(label: "Type", required: false, type: .string), 
             AWSShapeMember(label: "Values", required: false, type: .list)
         ]
+
         /// The resource type in which you want to log data events. You can specify AWS::S3::Object or AWS::Lambda::Function resources.
         public let `type`: String?
         /// An array of Amazon Resource Name (ARN) strings or partial ARN strings for the specified objects.   To log data events for all objects in all S3 buckets in your AWS account, specify the prefix as arn:aws:s3:::.   This will also enable logging of data event activity performed by any user or role in your AWS account, even if that activity is performed on a bucket that belongs to another AWS account.     To log data events for all objects in all S3 buckets that include my-bucket in their names, specify the prefix as aws:s3:::my-bucket. The trail logs data events for all objects in all buckets whose name contains a match for my-bucket.    To log data events for all objects in an S3 bucket, specify the bucket and an empty object prefix such as arn:aws:s3:::bucket-1/. The trail logs data events for all objects in this S3 bucket.   To log data events for specific objects, specify the S3 bucket and object prefix such as arn:aws:s3:::bucket-1/example-images. The trail logs data events for objects in this S3 bucket that match the prefix.   To log data events for all functions in your AWS account, specify the prefix as arn:aws:lambda.  This will also enable logging of Invoke activity performed by any user or role in your AWS account, even if that activity is performed on a function that belongs to another AWS account.     To log data eents for a specific Lambda function, specify the function ARN.  Lambda function ARNs are exact. Unlike S3, you cannot use matching. For example, if you specify a function ARN arn:aws:lambda:us-west-2:111111111111:function:helloworld, data events will only be logged for arn:aws:lambda:us-west-2:111111111111:function:helloworld. They will not be logged for arn:aws:lambda:us-west-2:111111111111:function:helloworld2.   
@@ -195,6 +200,7 @@ extension CloudTrail {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// Specifies the name or the CloudTrail ARN of the trail to be deleted. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let name: String
 
@@ -209,6 +215,7 @@ extension CloudTrail {
 
     public struct DeleteTrailResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -219,6 +226,7 @@ extension CloudTrail {
             AWSShapeMember(label: "includeShadowTrails", required: false, type: .boolean), 
             AWSShapeMember(label: "trailNameList", required: false, type: .list)
         ]
+
         /// Specifies whether to include shadow trails in the response. A shadow trail is the replication in a region of a trail that was created in a different region, or in the case of an organization trail, the replication of an organization trail in member accounts. If you do not include shadow trails, organization trails in a member account and region replication trails will not be returned. The default is true.
         public let includeShadowTrails: Bool?
         /// Specifies a list of trail names, trail ARNs, or both, of the trails to describe. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  If an empty list is specified, information for the trail in the current region is returned.   If an empty list is specified and IncludeShadowTrails is false, then information for all trails in the current region is returned.   If an empty list is specified and IncludeShadowTrails is null or true, then information for all trails in the current region and any associated shadow trails in other regions is returned.    If one or more trail names are specified, information is returned only if the names match the names of trails belonging only to the current region. To return information about a trail in another region, you must specify its trail ARN. 
@@ -239,6 +247,7 @@ extension CloudTrail {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "trailList", required: false, type: .list)
         ]
+
         /// The list of trail objects.
         public let trailList: [Trail]?
 
@@ -263,6 +272,7 @@ extension CloudTrail {
             AWSShapeMember(label: "Resources", required: false, type: .list), 
             AWSShapeMember(label: "Username", required: false, type: .string)
         ]
+
         /// The AWS access key ID that was used to sign the request. If the request was made with temporary security credentials, this is the access key ID of the temporary credentials.
         public let accessKeyId: String?
         /// A JSON string that contains a representation of the event returned.
@@ -313,6 +323,7 @@ extension CloudTrail {
             AWSShapeMember(label: "IncludeManagementEvents", required: false, type: .boolean), 
             AWSShapeMember(label: "ReadWriteType", required: false, type: .enum)
         ]
+
         /// CloudTrail supports data event logging for Amazon S3 objects and AWS Lambda functions. You can specify up to 250 resources for an individual event selector, but the total number of data resources cannot exceed 250 across all event selectors in a trail. This limit does not apply if you configure resource logging for all data events.  For more information, see Data Events and Limits in AWS CloudTrail in the AWS CloudTrail User Guide.
         public let dataResources: [DataResource]?
         /// Specify if you want your event selector to include management events for your trail.  For more information, see Management Events in the AWS CloudTrail User Guide. By default, the value is true.
@@ -337,6 +348,7 @@ extension CloudTrail {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TrailName", required: true, type: .string)
         ]
+
         /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let trailName: String
 
@@ -354,6 +366,7 @@ extension CloudTrail {
             AWSShapeMember(label: "EventSelectors", required: false, type: .list), 
             AWSShapeMember(label: "TrailARN", required: false, type: .string)
         ]
+
         /// The event selectors that are configured for the trail.
         public let eventSelectors: [EventSelector]?
         /// The specified trail ARN that has the event selectors.
@@ -374,6 +387,7 @@ extension CloudTrail {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another region), you must specify its ARN. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let name: String
 
@@ -406,6 +420,7 @@ extension CloudTrail {
             AWSShapeMember(label: "TimeLoggingStarted", required: false, type: .string), 
             AWSShapeMember(label: "TimeLoggingStopped", required: false, type: .string)
         ]
+
         /// Whether the CloudTrail is currently logging AWS API calls.
         public let isLogging: Bool?
         /// Displays any CloudWatch Logs error that CloudTrail encountered when attempting to deliver logs to CloudWatch Logs.
@@ -488,6 +503,7 @@ extension CloudTrail {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
         ]
+
         /// Optionally specifies, in UTC, the end of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used.
         public let endTime: TimeStamp?
         /// Reserved for future use.
@@ -513,6 +529,7 @@ extension CloudTrail {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "PublicKeyList", required: false, type: .list)
         ]
+
         /// Reserved for future use.
         public let nextToken: String?
         /// Contains an array of PublicKey objects.  The returned public keys may have validity time ranges that overlap. 
@@ -534,6 +551,7 @@ extension CloudTrail {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ResourceIdList", required: true, type: .list)
         ]
+
         /// Reserved for future use.
         public let nextToken: String?
         /// Specifies a list of trail ARNs whose tags will be listed. The list has a limit of 20 ARNs. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
@@ -555,6 +573,7 @@ extension CloudTrail {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ResourceTagList", required: false, type: .list)
         ]
+
         /// Reserved for future use.
         public let nextToken: String?
         /// A list of resource tags.
@@ -576,6 +595,7 @@ extension CloudTrail {
             AWSShapeMember(label: "AttributeKey", required: true, type: .enum), 
             AWSShapeMember(label: "AttributeValue", required: true, type: .string)
         ]
+
         /// Specifies an attribute on which to filter the events returned.
         public let attributeKey: LookupAttributeKey
         /// Specifies a value for the specified AttributeKey.
@@ -612,23 +632,29 @@ extension CloudTrail {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
         ]
+
         /// Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
         public let endTime: TimeStamp?
         /// Contains a list of lookup attributes. Currently the list can contain only one item.
         public let lookupAttributes: [LookupAttribute]?
         /// The number of events to return. Possible values are 1 through 50. The default is 50.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
         public let nextToken: String?
         /// Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
         public let startTime: TimeStamp?
 
-        public init(endTime: TimeStamp? = nil, lookupAttributes: [LookupAttribute]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil) {
+        public init(endTime: TimeStamp? = nil, lookupAttributes: [LookupAttribute]? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil) {
             self.endTime = endTime
             self.lookupAttributes = lookupAttributes
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -645,6 +671,7 @@ extension CloudTrail {
             AWSShapeMember(label: "Events", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of events returned based on the lookup attributes specified and the CloudTrail event. The events list is sorted by time. The most recent event is listed first.
         public let events: [Event]?
         /// The token to use to get the next page of results after a previous API call. If the token does not appear, there are no more results to return. The token must be passed in with the same parameters as the previous call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
@@ -668,6 +695,7 @@ extension CloudTrail {
             AWSShapeMember(label: "ValidityStartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Value", required: false, type: .blob)
         ]
+
         /// The fingerprint of the public key.
         public let fingerprint: String?
         /// The ending time of validity of the public key.
@@ -697,6 +725,7 @@ extension CloudTrail {
             AWSShapeMember(label: "EventSelectors", required: true, type: .list), 
             AWSShapeMember(label: "TrailName", required: true, type: .string)
         ]
+
         /// Specifies the settings for your event selectors. You can configure up to five event selectors for a trail.
         public let eventSelectors: [EventSelector]
         /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
@@ -718,6 +747,7 @@ extension CloudTrail {
             AWSShapeMember(label: "EventSelectors", required: false, type: .list), 
             AWSShapeMember(label: "TrailARN", required: false, type: .string)
         ]
+
         /// Specifies the event selectors configured for your trail.
         public let eventSelectors: [EventSelector]?
         /// Specifies the ARN of the trail that was updated with event selectors. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
@@ -746,6 +776,7 @@ extension CloudTrail {
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "TagsList", required: false, type: .list)
         ]
+
         /// Specifies the ARN of the trail from which tags should be removed. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let resourceId: String
         /// Specifies a list of tags to be removed.
@@ -764,6 +795,7 @@ extension CloudTrail {
 
     public struct RemoveTagsResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -774,6 +806,7 @@ extension CloudTrail {
             AWSShapeMember(label: "ResourceName", required: false, type: .string), 
             AWSShapeMember(label: "ResourceType", required: false, type: .string)
         ]
+
         /// The name of the resource referenced by the event returned. These are user-created names whose values will depend on the environment. For example, the resource name might be "auto-scaling-test-group" for an Auto Scaling Group or "i-1234567" for an EC2 Instance.
         public let resourceName: String?
         /// The type of a resource referenced by the event returned. When the resource type cannot be determined, null is returned. Some examples of resource types are: Instance for EC2, Trail for CloudTrail, DBInstance for RDS, and AccessKey for IAM. For a list of resource types supported for event lookup, see Resource Types Supported for Event Lookup.
@@ -795,6 +828,7 @@ extension CloudTrail {
             AWSShapeMember(label: "ResourceId", required: false, type: .string), 
             AWSShapeMember(label: "TagsList", required: false, type: .list)
         ]
+
         /// Specifies the ARN of the resource.
         public let resourceId: String?
         /// A list of tags.
@@ -815,6 +849,7 @@ extension CloudTrail {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail logs AWS API calls. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let name: String
 
@@ -829,6 +864,7 @@ extension CloudTrail {
 
     public struct StartLoggingResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -838,6 +874,7 @@ extension CloudTrail {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail will stop logging AWS API calls. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let name: String
 
@@ -852,6 +889,7 @@ extension CloudTrail {
 
     public struct StopLoggingResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -862,6 +900,7 @@ extension CloudTrail {
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies.
         public let key: String
         /// The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters.
@@ -895,6 +934,7 @@ extension CloudTrail {
             AWSShapeMember(label: "SnsTopicARN", required: false, type: .string), 
             AWSShapeMember(label: "TrailARN", required: false, type: .string)
         ]
+
         /// Specifies an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered.
         public let cloudWatchLogsLogGroupArn: String?
         /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
@@ -973,6 +1013,7 @@ extension CloudTrail {
             AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
             AWSShapeMember(label: "SnsTopicName", required: false, type: .string)
         ]
+
         /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. Not required unless you specify CloudWatchLogsRoleArn.
         public let cloudWatchLogsLogGroupArn: String?
         /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
@@ -1040,6 +1081,7 @@ extension CloudTrail {
             AWSShapeMember(label: "SnsTopicARN", required: false, type: .string), 
             AWSShapeMember(label: "TrailARN", required: false, type: .string)
         ]
+
         /// Specifies the Amazon Resource Name (ARN) of the log group to which CloudTrail logs will be delivered.
         public let cloudWatchLogsLogGroupArn: String?
         /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.

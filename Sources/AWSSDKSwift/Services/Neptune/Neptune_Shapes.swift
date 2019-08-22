@@ -10,6 +10,7 @@ extension Neptune {
             AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "RoleArn", required: true, type: .string)
         ]
+
         /// The name of the DB cluster to associate the IAM role with.
         public let dBClusterIdentifier: String
         /// The Amazon Resource Name (ARN) of the IAM role to associate with the Neptune DB cluster, for example arn:aws:iam::123456789012:role/NeptuneAccessRole.
@@ -31,6 +32,7 @@ extension Neptune {
             AWSShapeMember(label: "SourceIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
         ]
+
         /// The identifier of the event source to be added. Constraints:   If the source type is a DB instance, then a DBInstanceIdentifier must be supplied.   If the source type is a DB security group, a DBSecurityGroupName must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier must be supplied.  
         public let sourceIdentifier: String
         /// The name of the event notification subscription you want to add a source identifier to.
@@ -51,6 +53,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
+
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -67,6 +70,7 @@ extension Neptune {
             AWSShapeMember(label: "ResourceName", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The Amazon Neptune resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN).
         public let resourceName: String
         /// The tags to be assigned to the Amazon Neptune resource.
@@ -95,6 +99,7 @@ extension Neptune {
             AWSShapeMember(label: "OptInType", required: true, type: .string), 
             AWSShapeMember(label: "ResourceIdentifier", required: true, type: .string)
         ]
+
         /// The pending maintenance action to apply to this resource. Valid values: system-update, db-upgrade 
         public let applyAction: String
         /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.    undo-opt-in - Cancel any existing next-maintenance opt-in requests.  
@@ -119,6 +124,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourcePendingMaintenanceActions", required: false, type: .structure)
         ]
+
         public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
 
         public init(resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions? = nil) {
@@ -134,6 +140,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The name of the availability zone.
         public let name: String?
 
@@ -151,6 +158,7 @@ extension Neptune {
             AWSShapeMember(label: "CharacterSetDescription", required: false, type: .string), 
             AWSShapeMember(label: "CharacterSetName", required: false, type: .string)
         ]
+
         /// The description of the character set.
         public let characterSetDescription: String?
         /// The name of the character set.
@@ -172,6 +180,7 @@ extension Neptune {
             AWSShapeMember(label: "DisableLogTypes", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "EnableLogTypes", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The list of log types to disable.
         public let disableLogTypes: [String]?
         /// The list of log types to enable.
@@ -195,6 +204,7 @@ extension Neptune {
             AWSShapeMember(label: "TargetDBClusterParameterGroupDescription", required: true, type: .string), 
             AWSShapeMember(label: "TargetDBClusterParameterGroupIdentifier", required: true, type: .string)
         ]
+
         /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN). Constraints:   Must specify a valid DB cluster parameter group.   If the source DB cluster parameter group is in the same AWS Region as the copy, specify a valid DB parameter group identifier, for example my-db-cluster-param-group, or a valid ARN.   If the source DB parameter group is in a different AWS Region than the copy, specify a valid DB cluster parameter group ARN, for example arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1.  
         public let sourceDBClusterParameterGroupIdentifier: String
         /// The tags to be assigned to the copied DB cluster parameter group.
@@ -223,6 +233,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterParameterGroup", required: false, type: .structure)
         ]
+
         public let dBClusterParameterGroup: DBClusterParameterGroup?
 
         public init(dBClusterParameterGroup: DBClusterParameterGroup? = nil) {
@@ -243,6 +254,7 @@ extension Neptune {
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
             AWSShapeMember(label: "TargetDBClusterSnapshotIdentifier", required: true, type: .string)
         ]
+
         /// True to copy all tags from the source DB cluster snapshot to the target DB cluster snapshot, and otherwise false. The default is false.
         public let copyTags: Bool?
         /// The AWS AWS KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, Amazon Neptune encrypts the target DB cluster snapshot using the specified KMS encryption key. If you copy an encrypted DB cluster snapshot from your AWS account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot. If you copy an encrypted DB cluster snapshot that is shared from another AWS account, then you must specify a value for KmsKeyId.  KMS encryption keys are specific to the AWS Region that they are created in, and you can't use encryption keys from one AWS Region in another AWS Region.
@@ -279,6 +291,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterSnapshot", required: false, type: .structure)
         ]
+
         public let dBClusterSnapshot: DBClusterSnapshot?
 
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
@@ -297,6 +310,7 @@ extension Neptune {
             AWSShapeMember(label: "TargetDBParameterGroupDescription", required: true, type: .string), 
             AWSShapeMember(label: "TargetDBParameterGroupIdentifier", required: true, type: .string)
         ]
+
         /// The identifier or ARN for the source DB parameter group. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN). Constraints:   Must specify a valid DB parameter group.   Must specify a valid DB parameter group identifier, for example my-db-param-group, or a valid ARN.  
         public let sourceDBParameterGroupIdentifier: String
         /// The tags to be assigned to the copied DB parameter group.
@@ -325,6 +339,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBParameterGroup", required: false, type: .structure)
         ]
+
         public let dBParameterGroup: DBParameterGroup?
 
         public init(dBParameterGroup: DBParameterGroup? = nil) {
@@ -362,10 +377,11 @@ extension Neptune {
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
             AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
         ]
+
         /// A list of EC2 Availability Zones that instances in the DB cluster can be created in.
         public let availabilityZones: [String]?
         /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35  
-        public let backupRetentionPeriod: Int32?
+        public let backupRetentionPeriod: Int?
         /// A value that indicates that the DB cluster should be associated with the specified CharacterSet.
         public let characterSetName: String?
         /// The name for your database of up to 64 alpha-numeric characters. If you do not provide a name, Amazon Neptune will not create a database in the DB cluster you are creating.
@@ -393,7 +409,7 @@ extension Neptune {
         /// A value that indicates that the DB cluster should be associated with the specified option group. Permanent options can't be removed from an option group. The option group can't be removed from a DB cluster once it is associated with a DB cluster.
         public let optionGroupName: String?
         /// The port number on which the instances in the DB cluster accept connections.  Default: 8182 
-        public let port: Int32?
+        public let port: Int?
         /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon Neptune User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
         public let preferredBackupWindow: String?
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon Neptune User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
@@ -409,7 +425,7 @@ extension Neptune {
         /// A list of EC2 VPC security groups to associate with this DB cluster.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int32? = nil, characterSetName: String? = nil, databaseName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, replicationSourceIdentifier: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, databaseName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, replicationSourceIdentifier: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
             self.characterSetName = characterSetName
@@ -469,6 +485,7 @@ extension Neptune {
             AWSShapeMember(label: "Description", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The name of the DB cluster parameter group. Constraints:   Must match the name of an existing DBClusterParameterGroup.    This value is stored as a lowercase string. 
         public let dBClusterParameterGroupName: String
         /// The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family.
@@ -497,6 +514,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterParameterGroup", required: false, type: .structure)
         ]
+
         public let dBClusterParameterGroup: DBClusterParameterGroup?
 
         public init(dBClusterParameterGroup: DBClusterParameterGroup? = nil) {
@@ -512,6 +530,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -529,6 +548,7 @@ extension Neptune {
             AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The identifier of the DB cluster to create a snapshot for. This parameter is not case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.   Example: my-cluster1 
         public let dBClusterIdentifier: String
         /// The identifier of the DB cluster snapshot. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1-snapshot1 
@@ -553,6 +573,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterSnapshot", required: false, type: .structure)
         ]
+
         public let dBClusterSnapshot: DBClusterSnapshot?
 
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
@@ -608,14 +629,15 @@ extension Neptune {
             AWSShapeMember(label: "Timezone", required: false, type: .string), 
             AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
         ]
+
         /// The amount of storage (in gibibytes) to allocate for the DB instance. Type: Integer Not applicable. Neptune cluster volumes automatically grow as the amount of data in your database increases, though you are only charged for the space that you use in a Neptune cluster volume.
-        public let allocatedStorage: Int32?
+        public let allocatedStorage: Int?
         /// Indicates that minor engine upgrades are applied automatically to the DB instance during the maintenance window. Default: true 
         public let autoMinorVersionUpgrade: Bool?
         ///  The EC2 Availability Zone that the DB instance is created in Default: A random, system-chosen Availability Zone in the endpoint's AWS Region.  Example: us-east-1d   Constraint: The AvailabilityZone parameter can't be specified if the MultiAZ parameter is set to true. The specified Availability Zone must be in the same AWS Region as the current endpoint.
         public let availabilityZone: String?
         /// The number of days for which automated backups are retained. Not applicable. The retention period for automated backups is managed by the DB cluster. For more information, see CreateDBCluster. Default: 1 Constraints:   Must be a value from 0 to 35   Cannot be set to 0 if the DB instance is a source to Read Replicas  
-        public let backupRetentionPeriod: Int32?
+        public let backupRetentionPeriod: Int?
         /// Indicates that the DB instance should be associated with the specified CharacterSet. Not applicable. The character set is managed by the DB cluster. For more information, see CreateDBCluster.
         public let characterSetName: String?
         /// True to copy all tags from the DB instance to snapshots of the DB instance, and otherwise false. The default is false.
@@ -649,7 +671,7 @@ extension Neptune {
         /// The version number of the database engine to use.
         public let engineVersion: String?
         /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance.
-        public let iops: Int32?
+        public let iops: Int?
         /// The AWS KMS key identifier for an encrypted DB instance. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same AWS account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KM encryption key. Not applicable. The KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster. If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon Neptune will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
         /// License model information for this DB instance.  Valid values: license-included | bring-your-own-license | general-public-license 
@@ -659,7 +681,7 @@ extension Neptune {
         /// The password for the master user. The password can include any printable ASCII character except "/", """, or "@".  Not used.
         public let masterUserPassword: String?
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60 
-        public let monitoringInterval: Int32?
+        public let monitoringInterval: Int?
         /// The ARN for the IAM role that permits Neptune to send enhanced monitoring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
         public let monitoringRoleArn: String?
         /// Specifies if the DB instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the MultiAZ parameter is set to true.
@@ -669,13 +691,13 @@ extension Neptune {
         /// The AWS KMS key identifier for encryption of Performance Insights data. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.
         public let performanceInsightsKMSKeyId: String?
         /// The port number on which the database accepts connections. Not applicable. The port is managed by the DB cluster. For more information, see CreateDBCluster.  Default: 8182  Type: Integer
-        public let port: Int32?
+        public let port: Int?
         ///  The daily time range during which automated backups are created. Not applicable. The daily time range for creating automated backups is managed by the DB cluster. For more information, see CreateDBCluster.
         public let preferredBackupWindow: String?
         /// The time range each week during which system maintenance can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
         /// A value that specifies the order in which an Read Replica is promoted to the primary instance after a failure of the existing primary instance.  Default: 1 Valid Values: 0 - 15
-        public let promotionTier: Int32?
+        public let promotionTier: Int?
         /// Specifies whether the DB instance is encrypted. Not applicable. The encryption for DB instances is managed by the DB cluster. For more information, see CreateDBCluster. Default: false
         public let storageEncrypted: Bool?
         /// Specifies the storage type to be associated with the DB instance. Not applicable. Storage is managed by the DB Cluster.
@@ -691,7 +713,7 @@ extension Neptune {
         /// A list of EC2 VPC security groups to associate with this DB instance. Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see CreateDBCluster. Default: The default EC2 VPC security group for the DB subnet group's VPC.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int32? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceClass: String, dBInstanceIdentifier: String, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int32? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int32? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int32? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceClass: String, dBInstanceIdentifier: String, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -784,6 +806,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBInstance", required: false, type: .structure)
         ]
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -802,6 +825,7 @@ extension Neptune {
             AWSShapeMember(label: "Description", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The DB parameter group family name. A DB parameter group can be associated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family.
         public let dBParameterGroupFamily: String
         /// The name of the DB parameter group. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
@@ -830,6 +854,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBParameterGroup", required: false, type: .structure)
         ]
+
         public let dBParameterGroup: DBParameterGroup?
 
         public init(dBParameterGroup: DBParameterGroup? = nil) {
@@ -848,6 +873,7 @@ extension Neptune {
             AWSShapeMember(label: "SubnetIds", required: true, type: .list, encoding: .list(member:"SubnetIdentifier")), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// The description for the DB subnet group.
         public let dBSubnetGroupDescription: String
         /// The name for the DB subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 letters, numbers, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
@@ -876,6 +902,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBSubnetGroup", required: false, type: .structure)
         ]
+
         public let dBSubnetGroup: DBSubnetGroup?
 
         public init(dBSubnetGroup: DBSubnetGroup? = nil) {
@@ -897,6 +924,7 @@ extension Neptune {
             AWSShapeMember(label: "SubscriptionName", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         ///  A Boolean value; set to true to activate the subscription, set to false to create the subscription but not active it.
         public let enabled: Bool?
         ///  A list of event categories for a SourceType that you want to subscribe to. You can see a list of the categories for a given SourceType by using the DescribeEventCategories action.
@@ -937,6 +965,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
+
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -987,14 +1016,15 @@ extension Neptune {
             AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
             AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupMembership"))
         ]
+
         ///  AllocatedStorage always returns 1, because Neptune DB cluster storage size is not fixed, but instead automatically adjusts as needed.
-        public let allocatedStorage: Int32?
+        public let allocatedStorage: Int?
         /// Provides a list of the AWS Identity and Access Management (IAM) roles that are associated with the DB cluster. IAM roles that are associated with a DB cluster grant permission for the DB cluster to access other AWS services on your behalf.
         public let associatedRoles: [DBClusterRole]?
         /// Provides the list of EC2 Availability Zones that instances in the DB cluster can be created in.
         public let availabilityZones: [String]?
         /// Specifies the number of days for which automatic DB snapshots are retained.
-        public let backupRetentionPeriod: Int32?
+        public let backupRetentionPeriod: Int?
         /// If present, specifies the name of the character set that this cluster is associated with.
         public let characterSetName: String?
         /// Identifies the clone group to which the DB cluster is associated.
@@ -1042,7 +1072,7 @@ extension Neptune {
         /// Specifies the progress of the operation as a percentage.
         public let percentProgress: String?
         /// Specifies the port that the database engine is listening on.
-        public let port: Int32?
+        public let port: Int?
         /// Specifies the daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod.
         public let preferredBackupWindow: String?
         /// Specifies the weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).
@@ -1060,7 +1090,7 @@ extension Neptune {
         /// Provides a list of VPC security groups that the DB cluster belongs to.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allocatedStorage: Int32? = nil, associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int32? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: TimeStamp? = nil, databaseName: String? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, earliestRestorableTime: TimeStamp? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: TimeStamp? = nil, databaseName: String? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, earliestRestorableTime: TimeStamp? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.associatedRoles = associatedRoles
             self.availabilityZones = availabilityZones
@@ -1146,6 +1176,7 @@ extension Neptune {
             AWSShapeMember(label: "IsClusterWriter", required: false, type: .boolean), 
             AWSShapeMember(label: "PromotionTier", required: false, type: .integer)
         ]
+
         /// Specifies the status of the DB cluster parameter group for this member of the DB cluster.
         public let dBClusterParameterGroupStatus: String?
         /// Specifies the instance identifier for this member of the DB cluster.
@@ -1153,9 +1184,9 @@ extension Neptune {
         /// Value that is true if the cluster member is the primary instance for the DB cluster and false otherwise.
         public let isClusterWriter: Bool?
         /// A value that specifies the order in which a Read Replica is promoted to the primary instance after a failure of the existing primary instance.
-        public let promotionTier: Int32?
+        public let promotionTier: Int?
 
-        public init(dBClusterParameterGroupStatus: String? = nil, dBInstanceIdentifier: String? = nil, isClusterWriter: Bool? = nil, promotionTier: Int32? = nil) {
+        public init(dBClusterParameterGroupStatus: String? = nil, dBInstanceIdentifier: String? = nil, isClusterWriter: Bool? = nil, promotionTier: Int? = nil) {
             self.dBClusterParameterGroupStatus = dBClusterParameterGroupStatus
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.isClusterWriter = isClusterWriter
@@ -1175,6 +1206,7 @@ extension Neptune {
             AWSShapeMember(label: "DBClusters", required: false, type: .list, encoding: .list(member:"DBCluster")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// Contains a list of DB clusters for the user.
         public let dBClusters: [DBCluster]?
         /// A pagination token that can be used in a subsequent DescribeDBClusters request.
@@ -1196,6 +1228,7 @@ extension Neptune {
             AWSShapeMember(label: "DBClusterOptionGroupName", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
+
         /// Specifies the name of the DB cluster option group.
         public let dBClusterOptionGroupName: String?
         /// Specifies the status of the DB cluster option group.
@@ -1219,6 +1252,7 @@ extension Neptune {
             AWSShapeMember(label: "DBParameterGroupFamily", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) for the DB cluster parameter group.
         public let dBClusterParameterGroupArn: String?
         /// Provides the name of the DB cluster parameter group.
@@ -1248,6 +1282,7 @@ extension Neptune {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter"))
         ]
+
         ///  An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
         /// Provides a list of parameters for the DB cluster parameter group.
@@ -1268,6 +1303,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string)
         ]
+
         /// The name of the DB cluster parameter group. Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
         public let dBClusterParameterGroupName: String?
 
@@ -1285,6 +1321,7 @@ extension Neptune {
             AWSShapeMember(label: "DBClusterParameterGroups", required: false, type: .list, encoding: .list(member:"DBClusterParameterGroup")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// A list of DB cluster parameter groups.
         public let dBClusterParameterGroups: [DBClusterParameterGroup]?
         ///  An optional pagination token provided by a previous DescribeDBClusterParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -1306,6 +1343,7 @@ extension Neptune {
             AWSShapeMember(label: "RoleArn", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the IAM role that is associated with the DB cluster.
         public let roleArn: String?
         /// Describes the state of association between the IAM role and the DB cluster. The Status property returns one of the following values:    ACTIVE - the IAM role ARN is associated with the DB cluster and can be used to access other AWS services on your behalf.    PENDING - the IAM role ARN is being associated with the DB cluster.    INVALID - the IAM role ARN is associated with the DB cluster, but the DB cluster is unable to assume the IAM role in order to access other AWS services on your behalf.  
@@ -1345,8 +1383,9 @@ extension Neptune {
             AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
+
         /// Specifies the allocated storage size in gibibytes (GiB).
-        public let allocatedStorage: Int32?
+        public let allocatedStorage: Int?
         /// Provides the list of EC2 Availability Zones that instances in the DB cluster snapshot can be restored in.
         public let availabilityZones: [String]?
         /// Specifies the time when the DB cluster was created, in Universal Coordinated Time (UTC).
@@ -1370,9 +1409,9 @@ extension Neptune {
         /// Provides the master username for the DB cluster snapshot.
         public let masterUsername: String?
         /// Specifies the percentage of the estimated data that has been transferred.
-        public let percentProgress: Int32?
+        public let percentProgress: Int?
         /// Specifies the port that the DB cluster was listening on at the time of the snapshot.
-        public let port: Int32?
+        public let port: Int?
         /// Provides the time when the snapshot was taken, in Universal Coordinated Time (UTC).
         public let snapshotCreateTime: TimeStamp?
         /// Provides the type of the DB cluster snapshot.
@@ -1386,7 +1425,7 @@ extension Neptune {
         /// Provides the VPC ID associated with the DB cluster snapshot.
         public let vpcId: String?
 
-        public init(allocatedStorage: Int32? = nil, availabilityZones: [String]? = nil, clusterCreateTime: TimeStamp? = nil, dBClusterIdentifier: String? = nil, dBClusterSnapshotArn: String? = nil, dBClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, percentProgress: Int32? = nil, port: Int32? = nil, snapshotCreateTime: TimeStamp? = nil, snapshotType: String? = nil, sourceDBClusterSnapshotArn: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcId: String? = nil) {
+        public init(allocatedStorage: Int? = nil, availabilityZones: [String]? = nil, clusterCreateTime: TimeStamp? = nil, dBClusterIdentifier: String? = nil, dBClusterSnapshotArn: String? = nil, dBClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, percentProgress: Int? = nil, port: Int? = nil, snapshotCreateTime: TimeStamp? = nil, snapshotType: String? = nil, sourceDBClusterSnapshotArn: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcId: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZones = availabilityZones
             self.clusterCreateTime = clusterCreateTime
@@ -1438,6 +1477,7 @@ extension Neptune {
             AWSShapeMember(label: "AttributeName", required: false, type: .string), 
             AWSShapeMember(label: "AttributeValues", required: false, type: .list, encoding: .list(member:"AttributeValue"))
         ]
+
         /// The name of the manual DB cluster snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBClusterSnapshotAttribute API action.
         public let attributeName: String?
         /// The value(s) for the manual DB cluster snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the AWS accounts that are authorized to copy or restore the manual DB cluster snapshot. If a value of all is in the list, then the manual DB cluster snapshot is public and available for any AWS account to copy or restore.
@@ -1459,6 +1499,7 @@ extension Neptune {
             AWSShapeMember(label: "DBClusterSnapshotAttributes", required: false, type: .list, encoding: .list(member:"DBClusterSnapshotAttribute")), 
             AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: false, type: .string)
         ]
+
         /// The list of attributes and values for the manual DB cluster snapshot.
         public let dBClusterSnapshotAttributes: [DBClusterSnapshotAttribute]?
         /// The identifier of the manual DB cluster snapshot that the attributes apply to.
@@ -1480,6 +1521,7 @@ extension Neptune {
             AWSShapeMember(label: "DBClusterSnapshots", required: false, type: .list, encoding: .list(member:"DBClusterSnapshot")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// Provides a list of DB cluster snapshots for the user.
         public let dBClusterSnapshots: [DBClusterSnapshot]?
         ///  An optional pagination token provided by a previous DescribeDBClusterSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1511,6 +1553,7 @@ extension Neptune {
             AWSShapeMember(label: "SupportsReadReplica", required: false, type: .boolean), 
             AWSShapeMember(label: "ValidUpgradeTarget", required: false, type: .list, encoding: .list(member:"UpgradeTarget"))
         ]
+
         /// The description of the database engine.
         public let dBEngineDescription: String?
         /// The description of the database engine version.
@@ -1572,6 +1615,7 @@ extension Neptune {
             AWSShapeMember(label: "DBEngineVersions", required: false, type: .list, encoding: .list(member:"DBEngineVersion")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         ///  A list of DBEngineVersion elements.
         public let dBEngineVersions: [DBEngineVersion]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -1642,14 +1686,15 @@ extension Neptune {
             AWSShapeMember(label: "Timezone", required: false, type: .string), 
             AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupMembership"))
         ]
+
         /// Specifies the allocated storage size specified in gibibytes.
-        public let allocatedStorage: Int32?
+        public let allocatedStorage: Int?
         /// Indicates that minor version patches are applied automatically.
         public let autoMinorVersionUpgrade: Bool?
         /// Specifies the name of the Availability Zone the DB instance is located in.
         public let availabilityZone: String?
         /// Specifies the number of days for which automatic DB snapshots are retained.
-        public let backupRetentionPeriod: Int32?
+        public let backupRetentionPeriod: Int?
         /// The identifier of the CA certificate for this DB instance.
         public let cACertificateIdentifier: String?
         /// If present, specifies the name of the character set that this instance is associated with.
@@ -1665,7 +1710,7 @@ extension Neptune {
         /// Contains a user-supplied database identifier. This identifier is the unique key that identifies a DB instance.
         public let dBInstanceIdentifier: String?
         /// Specifies the port that the DB instance listens on. If the DB instance is part of a DB cluster, this can be a different port than the DB cluster port.
-        public let dbInstancePort: Int32?
+        public let dbInstancePort: Int?
         /// Specifies the current state of this database.
         public let dBInstanceStatus: String?
         /// The AWS Region-unique, immutable identifier for the DB instance. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS key for the DB instance is accessed.
@@ -1695,7 +1740,7 @@ extension Neptune {
         /// Provides the date and time the DB instance was created.
         public let instanceCreateTime: TimeStamp?
         /// Specifies the Provisioned IOPS (I/O operations per second) value.
-        public let iops: Int32?
+        public let iops: Int?
         ///  Not supported: The encryption for DB instances is managed by the DB cluster.
         public let kmsKeyId: String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
@@ -1705,7 +1750,7 @@ extension Neptune {
         /// Contains the master username for the DB instance.
         public let masterUsername: String?
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance.
-        public let monitoringInterval: Int32?
+        public let monitoringInterval: Int?
         /// The ARN for the IAM role that permits Neptune to send Enhanced Monitoring metrics to Amazon CloudWatch Logs.
         public let monitoringRoleArn: String?
         /// Specifies if the DB instance is a Multi-AZ deployment.
@@ -1723,7 +1768,7 @@ extension Neptune {
         /// Specifies the weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).
         public let preferredMaintenanceWindow: String?
         /// A value that specifies the order in which a Read Replica is promoted to the primary instance after a failure of the existing primary instance. 
-        public let promotionTier: Int32?
+        public let promotionTier: Int?
         /// Contains one or more identifiers of DB clusters that are Read Replicas of this DB instance.
         public let readReplicaDBClusterIdentifiers: [String]?
         /// Contains one or more identifiers of the Read Replicas associated with this DB instance.
@@ -1745,7 +1790,7 @@ extension Neptune {
         /// Provides a list of VPC security group elements that the DB instance belongs to.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allocatedStorage: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int32? = nil, cACertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dbInstancePort: Int32? = nil, dBInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBName: String? = nil, dBParameterGroups: [DBParameterGroupStatus]? = nil, dBSecurityGroups: [DBSecurityGroupMembership]? = nil, dBSubnetGroup: DBSubnetGroup? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: TimeStamp? = nil, iops: Int32? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, licenseModel: String? = nil, masterUsername: String? = nil, monitoringInterval: Int32? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int32? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dBInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBName: String? = nil, dBParameterGroups: [DBParameterGroupStatus]? = nil, dBSecurityGroups: [DBSecurityGroupMembership]? = nil, dBSubnetGroup: DBSubnetGroup? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: TimeStamp? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, licenseModel: String? = nil, masterUsername: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -1859,6 +1904,7 @@ extension Neptune {
             AWSShapeMember(label: "DBInstances", required: false, type: .list, encoding: .list(member:"DBInstance")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         ///  A list of DBInstance instances.
         public let dBInstances: [DBInstance]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
@@ -1882,6 +1928,7 @@ extension Neptune {
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "StatusType", required: false, type: .string)
         ]
+
         /// Details of the error if there is an error for the instance. If the instance is not in an error state, this value is blank.
         public let message: String?
         /// Boolean value that is true if the instance is operating normally, or false if the instance is in an error state.
@@ -1913,6 +1960,7 @@ extension Neptune {
             AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) for the DB parameter group.
         public let dBParameterGroupArn: String?
         /// Provides the name of the DB parameter group family that this DB parameter group is compatible with.
@@ -1942,6 +1990,7 @@ extension Neptune {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter"))
         ]
+
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// A list of Parameter values.
@@ -1962,6 +2011,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string)
         ]
+
         /// Provides the name of the DB parameter group.
         public let dBParameterGroupName: String?
 
@@ -1979,6 +2029,7 @@ extension Neptune {
             AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
             AWSShapeMember(label: "ParameterApplyStatus", required: false, type: .string)
         ]
+
         /// The name of the DP parameter group.
         public let dBParameterGroupName: String?
         /// The status of parameter updates.
@@ -2000,6 +2051,7 @@ extension Neptune {
             AWSShapeMember(label: "DBParameterGroups", required: false, type: .list, encoding: .list(member:"DBParameterGroup")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// A list of DBParameterGroup instances.
         public let dBParameterGroups: [DBParameterGroup]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -2021,6 +2073,7 @@ extension Neptune {
             AWSShapeMember(label: "DBSecurityGroupName", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
+
         /// The name of the DB security group.
         public let dBSecurityGroupName: String?
         /// The status of the DB security group.
@@ -2046,6 +2099,7 @@ extension Neptune {
             AWSShapeMember(label: "Subnets", required: false, type: .list, encoding: .list(member:"Subnet")), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) for the DB subnet group.
         public let dBSubnetGroupArn: String?
         /// Provides the description of the DB subnet group.
@@ -2083,6 +2137,7 @@ extension Neptune {
             AWSShapeMember(label: "DBSubnetGroups", required: false, type: .list, encoding: .list(member:"DBSubnetGroup")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         ///  A list of DBSubnetGroup instances.
         public let dBSubnetGroups: [DBSubnetGroup]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -2105,6 +2160,7 @@ extension Neptune {
             AWSShapeMember(label: "FinalDBSnapshotIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "SkipFinalSnapshot", required: false, type: .boolean)
         ]
+
         /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints:   Must match an existing DBClusterIdentifier.  
         public let dBClusterIdentifier: String
         ///  The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is set to false.   Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
@@ -2129,6 +2185,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterParameterGroupName", required: true, type: .string)
         ]
+
         /// The name of the DB cluster parameter group. Constraints:   Must be the name of an existing DB cluster parameter group.   You can't delete a default DB cluster parameter group.   Cannot be associated with any DB clusters.  
         public let dBClusterParameterGroupName: String
 
@@ -2145,6 +2202,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -2160,6 +2218,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string)
         ]
+
         /// The identifier of the DB cluster snapshot to delete. Constraints: Must be the name of an existing DB cluster snapshot in the available state.
         public let dBClusterSnapshotIdentifier: String
 
@@ -2176,6 +2235,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterSnapshot", required: false, type: .structure)
         ]
+
         public let dBClusterSnapshot: DBClusterSnapshot?
 
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
@@ -2193,6 +2253,7 @@ extension Neptune {
             AWSShapeMember(label: "FinalDBSnapshotIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "SkipFinalSnapshot", required: false, type: .boolean)
         ]
+
         /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints:   Must match the name of an existing DB instance.  
         public let dBInstanceIdentifier: String
         ///  The DBSnapshotIdentifier of the new DBSnapshot created when SkipFinalSnapshot is set to false.  Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.  Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Cannot be specified when deleting a Read Replica.  
@@ -2217,6 +2278,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBInstance", required: false, type: .structure)
         ]
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -2232,6 +2294,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBParameterGroupName", required: true, type: .string)
         ]
+
         /// The name of the DB parameter group. Constraints:   Must be the name of an existing DB parameter group   You can't delete a default DB parameter group   Cannot be associated with any DB instances  
         public let dBParameterGroupName: String
 
@@ -2248,6 +2311,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBSubnetGroupName", required: true, type: .string)
         ]
+
         /// The name of the database subnet group to delete.  You can't delete the default subnet group.  Constraints: Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
         public let dBSubnetGroupName: String
 
@@ -2264,6 +2328,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
         ]
+
         /// The name of the event notification subscription you want to delete.
         public let subscriptionName: String
 
@@ -2280,6 +2345,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
+
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -2298,6 +2364,7 @@ extension Neptune {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// The name of a specific DB cluster parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
         public let dBClusterParameterGroupName: String?
         /// This parameter is not currently supported.
@@ -2305,9 +2372,9 @@ extension Neptune {
         ///  An optional pagination token provided by a previous DescribeDBClusterParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(dBClusterParameterGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(dBClusterParameterGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.filters = filters
             self.marker = marker
@@ -2330,6 +2397,7 @@ extension Neptune {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Source", required: false, type: .string)
         ]
+
         /// The name of a specific DB cluster parameter group to return parameter details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
         public let dBClusterParameterGroupName: String
         /// This parameter is not currently supported.
@@ -2337,11 +2405,11 @@ extension Neptune {
         ///  An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         ///  A value that indicates to return only parameters for a specific source. Parameter sources can be engine, service, or customer.
         public let source: String?
 
-        public init(dBClusterParameterGroupName: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, source: String? = nil) {
+        public init(dBClusterParameterGroupName: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, source: String? = nil) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.filters = filters
             self.marker = marker
@@ -2362,6 +2430,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string)
         ]
+
         /// The identifier for the DB cluster snapshot to describe the attributes for.
         public let dBClusterSnapshotIdentifier: String
 
@@ -2378,6 +2447,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterSnapshotAttributesResult", required: false, type: .structure)
         ]
+
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
         public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
@@ -2400,6 +2470,7 @@ extension Neptune {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "SnapshotType", required: false, type: .string)
         ]
+
         /// The ID of the DB cluster to retrieve the list of DB cluster snapshots for. This parameter can't be used in conjunction with the DBClusterSnapshotIdentifier parameter. This parameter is not case-sensitive. Constraints:   If supplied, must match the identifier of an existing DBCluster.  
         public let dBClusterIdentifier: String?
         /// A specific DB cluster snapshot identifier to describe. This parameter can't be used in conjunction with the DBClusterIdentifier parameter. This value is stored as a lowercase string. Constraints:   If supplied, must match the identifier of an existing DBClusterSnapshot.   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.  
@@ -2413,11 +2484,11 @@ extension Neptune {
         /// An optional pagination token provided by a previous DescribeDBClusterSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The type of DB cluster snapshots to be returned. You can specify one of the following values:    automated - Return all DB cluster snapshots that have been automatically taken by Amazon Neptune for my AWS account.    manual - Return all DB cluster snapshots that have been taken by my AWS account.    shared - Return all manual DB cluster snapshots that have been shared to my AWS account.    public - Return all DB cluster snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual DB cluster snapshots are returned. You can include shared DB cluster snapshots with these results by setting the IncludeShared parameter to true. You can include public DB cluster snapshots with these results by setting the IncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
         public let snapshotType: String?
 
-        public init(dBClusterIdentifier: String? = nil, dBClusterSnapshotIdentifier: String? = nil, filters: [Filter]? = nil, includePublic: Bool? = nil, includeShared: Bool? = nil, marker: String? = nil, maxRecords: Int32? = nil, snapshotType: String? = nil) {
+        public init(dBClusterIdentifier: String? = nil, dBClusterSnapshotIdentifier: String? = nil, filters: [Filter]? = nil, includePublic: Bool? = nil, includeShared: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil, snapshotType: String? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
             self.filters = filters
@@ -2447,6 +2518,7 @@ extension Neptune {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// The user-supplied DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match an existing DBClusterIdentifier.  
         public let dBClusterIdentifier: String?
         /// A filter that specifies one or more DB clusters to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB clusters identified by these ARNs.  
@@ -2454,9 +2526,9 @@ extension Neptune {
         /// An optional pagination token provided by a previous DescribeDBClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(dBClusterIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(dBClusterIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.filters = filters
             self.marker = marker
@@ -2483,6 +2555,7 @@ extension Neptune {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// The name of a specific DB parameter group family to return details for. Constraints:   If supplied, must match an existing DBParameterGroupFamily.  
         public let dBParameterGroupFamily: String?
         /// Indicates that only the default version of the specified engine or engine and major version combination is returned.
@@ -2500,9 +2573,9 @@ extension Neptune {
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so that the following results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(dBParameterGroupFamily: String? = nil, defaultOnly: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, filters: [Filter]? = nil, listSupportedCharacterSets: Bool? = nil, listSupportedTimezones: Bool? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(dBParameterGroupFamily: String? = nil, defaultOnly: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, filters: [Filter]? = nil, listSupportedCharacterSets: Bool? = nil, listSupportedTimezones: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
             self.defaultOnly = defaultOnly
             self.engine = engine
@@ -2534,6 +2607,7 @@ extension Neptune {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// The user-supplied instance identifier. If this parameter is specified, information from only the specific DB instance is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match the identifier of an existing DBInstance.  
         public let dBInstanceIdentifier: String?
         /// A filter that specifies one or more DB instances to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB instances associated with the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance Amazon Resource Names (ARNs). The results list will only include information about the DB instances identified by these ARNs.  
@@ -2541,9 +2615,9 @@ extension Neptune {
         ///  An optional pagination token provided by a previous DescribeDBInstances request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(dBInstanceIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(dBInstanceIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.filters = filters
             self.marker = marker
@@ -2565,6 +2639,7 @@ extension Neptune {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
         public let dBParameterGroupName: String?
         /// This parameter is not currently supported.
@@ -2572,9 +2647,9 @@ extension Neptune {
         /// An optional pagination token provided by a previous DescribeDBParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(dBParameterGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(dBParameterGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dBParameterGroupName = dBParameterGroupName
             self.filters = filters
             self.marker = marker
@@ -2597,6 +2672,7 @@ extension Neptune {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Source", required: false, type: .string)
         ]
+
         /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBParameterGroup.  
         public let dBParameterGroupName: String
         /// This parameter is not currently supported.
@@ -2604,11 +2680,11 @@ extension Neptune {
         /// An optional pagination token provided by a previous DescribeDBParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The parameter types to return. Default: All parameter types returned Valid Values: user | system | engine-default 
         public let source: String?
 
-        public init(dBParameterGroupName: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, source: String? = nil) {
+        public init(dBParameterGroupName: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, source: String? = nil) {
             self.dBParameterGroupName = dBParameterGroupName
             self.filters = filters
             self.marker = marker
@@ -2632,6 +2708,7 @@ extension Neptune {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// The name of the DB subnet group to return details for.
         public let dBSubnetGroupName: String?
         /// This parameter is not currently supported.
@@ -2639,9 +2716,9 @@ extension Neptune {
         ///  An optional pagination token provided by a previous DescribeDBSubnetGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(dBSubnetGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(dBSubnetGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dBSubnetGroupName = dBSubnetGroupName
             self.filters = filters
             self.marker = marker
@@ -2663,6 +2740,7 @@ extension Neptune {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// The name of the DB cluster parameter group family to return engine parameter information for.
         public let dBParameterGroupFamily: String
         /// This parameter is not currently supported.
@@ -2670,9 +2748,9 @@ extension Neptune {
         ///  An optional pagination token provided by a previous DescribeEngineDefaultClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(dBParameterGroupFamily: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(dBParameterGroupFamily: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
             self.filters = filters
             self.marker = marker
@@ -2691,6 +2769,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EngineDefaults", required: false, type: .structure)
         ]
+
         public let engineDefaults: EngineDefaults?
 
         public init(engineDefaults: EngineDefaults? = nil) {
@@ -2709,6 +2788,7 @@ extension Neptune {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// The name of the DB parameter group family.
         public let dBParameterGroupFamily: String
         /// Not currently supported.
@@ -2716,9 +2796,9 @@ extension Neptune {
         ///  An optional pagination token provided by a previous DescribeEngineDefaultParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(dBParameterGroupFamily: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(dBParameterGroupFamily: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
             self.filters = filters
             self.marker = marker
@@ -2737,6 +2817,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EngineDefaults", required: false, type: .structure)
         ]
+
         public let engineDefaults: EngineDefaults?
 
         public init(engineDefaults: EngineDefaults? = nil) {
@@ -2753,6 +2834,7 @@ extension Neptune {
             AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "SourceType", required: false, type: .string)
         ]
+
         /// This parameter is not currently supported.
         public let filters: [Filter]?
         /// The type of source that is generating the events. Valid values: db-instance | db-parameter-group | db-security-group | db-snapshot
@@ -2776,16 +2858,17 @@ extension Neptune {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "SubscriptionName", required: false, type: .string)
         ]
+
         /// This parameter is not currently supported.
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The name of the event notification subscription you want to describe.
         public let subscriptionName: String?
 
-        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, subscriptionName: String? = nil) {
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, subscriptionName: String? = nil) {
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2812,8 +2895,9 @@ extension Neptune {
             AWSShapeMember(label: "SourceType", required: false, type: .enum), 
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
         ]
+
         /// The number of minutes to retrieve events for. Default: 60
-        public let duration: Int32?
+        public let duration: Int?
         ///  The end of the time interval for which to retrieve events, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z
         public let endTime: TimeStamp?
         /// A list of event categories that trigger notifications for a event notification subscription.
@@ -2823,7 +2907,7 @@ extension Neptune {
         ///  An optional pagination token provided by a previous DescribeEvents request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The identifier of the event source for which events are returned. If not specified, then all sources are included in the response. Constraints:   If SourceIdentifier is supplied, SourceType must also be provided.   If the source type is DBInstance, then a DBInstanceIdentifier must be supplied.   If the source type is DBSecurityGroup, a DBSecurityGroupName must be supplied.   If the source type is DBParameterGroup, a DBParameterGroupName must be supplied.   If the source type is DBSnapshot, a DBSnapshotIdentifier must be supplied.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let sourceIdentifier: String?
         /// The event source to retrieve events for. If no value is specified, all events are returned.
@@ -2831,7 +2915,7 @@ extension Neptune {
         ///  The beginning of the time interval to retrieve events for, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z
         public let startTime: TimeStamp?
 
-        public init(duration: Int32? = nil, endTime: TimeStamp? = nil, eventCategories: [String]? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
+        public init(duration: Int? = nil, endTime: TimeStamp? = nil, eventCategories: [String]? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
             self.duration = duration
             self.endTime = endTime
             self.eventCategories = eventCategories
@@ -2867,6 +2951,7 @@ extension Neptune {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Vpc", required: false, type: .boolean)
         ]
+
         /// The DB instance class filter value. Specify this parameter to show only the available offerings matching the specified DB instance class.
         public let dBInstanceClass: String?
         /// The name of the engine to retrieve DB instance options for.
@@ -2880,11 +2965,11 @@ extension Neptune {
         ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The VPC filter value. Specify this parameter to show only the available VPC or non-VPC offerings.
         public let vpc: Bool?
 
-        public init(dBInstanceClass: String? = nil, engine: String, engineVersion: String? = nil, filters: [Filter]? = nil, licenseModel: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, vpc: Bool? = nil) {
+        public init(dBInstanceClass: String? = nil, engine: String, engineVersion: String? = nil, filters: [Filter]? = nil, licenseModel: String? = nil, marker: String? = nil, maxRecords: Int? = nil, vpc: Bool? = nil) {
             self.dBInstanceClass = dBInstanceClass
             self.engine = engine
             self.engineVersion = engineVersion
@@ -2914,16 +2999,17 @@ extension Neptune {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "ResourceIdentifier", required: false, type: .string)
         ]
+
         /// A filter that specifies one or more resources to return pending maintenance actions for. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include pending maintenance actions for the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance ARNs. The results list will only include pending maintenance actions for the DB instances identified by these ARNs.  
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The ARN of a resource to return pending maintenance actions for.
         public let resourceIdentifier: String?
 
-        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, resourceIdentifier: String? = nil) {
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, resourceIdentifier: String? = nil) {
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2942,6 +3028,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string)
         ]
+
         /// The customer identifier or the ARN of your DB instance.
         public let dBInstanceIdentifier: String
 
@@ -2958,6 +3045,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ValidDBInstanceModificationsMessage", required: false, type: .structure)
         ]
+
         public let validDBInstanceModificationsMessage: ValidDBInstanceModificationsMessage?
 
         public init(validDBInstanceModificationsMessage: ValidDBInstanceModificationsMessage? = nil) {
@@ -2976,6 +3064,7 @@ extension Neptune {
             AWSShapeMember(label: "IAMRoleName", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
+
         /// The identifier of the Active Directory Domain.
         public let domain: String?
         /// The fully qualified domain name of the Active Directory Domain.
@@ -3005,6 +3094,7 @@ extension Neptune {
             AWSShapeMember(label: "From", required: false, type: .double), 
             AWSShapeMember(label: "To", required: false, type: .double)
         ]
+
         /// The minimum value in the range.
         public let from: Double?
         /// The maximum value in the range.
@@ -3027,14 +3117,15 @@ extension Neptune {
             AWSShapeMember(label: "HostedZoneId", required: false, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer)
         ]
+
         /// Specifies the DNS address of the DB instance.
         public let address: String?
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
         public let hostedZoneId: String?
         /// Specifies the port that the database engine is listening on.
-        public let port: Int32?
+        public let port: Int?
 
-        public init(address: String? = nil, hostedZoneId: String? = nil, port: Int32? = nil) {
+        public init(address: String? = nil, hostedZoneId: String? = nil, port: Int? = nil) {
             self.address = address
             self.hostedZoneId = hostedZoneId
             self.port = port
@@ -3053,6 +3144,7 @@ extension Neptune {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter"))
         ]
+
         /// Specifies the name of the DB parameter group family that the engine default parameters apply to.
         public let dBParameterGroupFamily: String?
         ///  An optional pagination token provided by a previous EngineDefaults request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
@@ -3082,6 +3174,7 @@ extension Neptune {
             AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "SourceType", required: false, type: .enum)
         ]
+
         /// Specifies the date and time of the event.
         public let date: TimeStamp?
         /// Specifies the category for the event.
@@ -3119,6 +3212,7 @@ extension Neptune {
             AWSShapeMember(label: "EventCategories", required: false, type: .list, encoding: .list(member:"EventCategory")), 
             AWSShapeMember(label: "SourceType", required: false, type: .string)
         ]
+
         /// The event categories for the specified source type
         public let eventCategories: [String]?
         /// The source type that the returned categories belong to
@@ -3139,6 +3233,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventCategoriesMapList", required: false, type: .list, encoding: .list(member:"EventCategoriesMap"))
         ]
+
         /// A list of EventCategoriesMap data types.
         public let eventCategoriesMapList: [EventCategoriesMap]?
 
@@ -3164,6 +3259,7 @@ extension Neptune {
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "SubscriptionCreationTime", required: false, type: .string)
         ]
+
         /// The AWS customer account associated with the event notification subscription.
         public let customerAwsId: String?
         /// The event notification subscription Id.
@@ -3217,6 +3313,7 @@ extension Neptune {
             AWSShapeMember(label: "EventSubscriptionsList", required: false, type: .list, encoding: .list(member:"EventSubscription")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// A list of EventSubscriptions data types.
         public let eventSubscriptionsList: [EventSubscription]?
         ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -3238,6 +3335,7 @@ extension Neptune {
             AWSShapeMember(label: "Events", required: false, type: .list, encoding: .list(member:"Event")), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         ///  A list of Event instances.
         public let events: [Event]?
         ///  An optional pagination token provided by a previous Events request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
@@ -3259,6 +3357,7 @@ extension Neptune {
             AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "TargetDBInstanceIdentifier", required: false, type: .string)
         ]
+
         /// A DB cluster identifier to force a failover for. This parameter is not case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.  
         public let dBClusterIdentifier: String?
         /// The name of the instance to promote to the primary instance. You must specify the instance identifier for an Read Replica in the DB cluster. For example, mydbcluster-replica1.
@@ -3279,6 +3378,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -3295,6 +3395,7 @@ extension Neptune {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Values", required: true, type: .list, encoding: .list(member:"Value"))
         ]
+
         /// This parameter is not currently supported.
         public let name: String
         /// This parameter is not currently supported.
@@ -3316,6 +3417,7 @@ extension Neptune {
             AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "ResourceName", required: true, type: .string)
         ]
+
         /// This parameter is not currently supported.
         public let filters: [Filter]?
         /// The Amazon Neptune resource with tags to be listed. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN).
@@ -3349,10 +3451,11 @@ extension Neptune {
             AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
             AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
         ]
+
         /// A value that specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is set to false, changes to the DB cluster are applied during the next maintenance window. The ApplyImmediately parameter only affects the NewDBClusterIdentifier and MasterUserPassword values. If you set the ApplyImmediately parameter value to false, then changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false 
         public let applyImmediately: Bool?
         /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35  
-        public let backupRetentionPeriod: Int32?
+        public let backupRetentionPeriod: Int?
         /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB cluster.
         public let cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration?
         /// The DB cluster identifier for the cluster being modified. This parameter is not case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.  
@@ -3370,7 +3473,7 @@ extension Neptune {
         /// A value that indicates that the DB cluster should be associated with the specified option group. Changing this parameter doesn't result in an outage except in the following case, and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request. If the parameter change results in an option group that enables OEM, this change can cause a brief (sub-second) period during which new connections are rejected but existing connections are not interrupted. Permanent options can't be removed from an option group. The option group can't be removed from a DB cluster once it is associated with a DB cluster.
         public let optionGroupName: String?
         /// The port number on which the DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
-        public let port: Int32?
+        public let port: Int?
         /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
         public let preferredBackupWindow: String?
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
@@ -3378,7 +3481,7 @@ extension Neptune {
         /// A list of VPC security groups that the DB cluster will belong to.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(applyImmediately: Bool? = nil, backupRetentionPeriod: Int32? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.applyImmediately = applyImmediately
             self.backupRetentionPeriod = backupRetentionPeriod
             self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
@@ -3418,6 +3521,7 @@ extension Neptune {
             AWSShapeMember(label: "DBClusterParameterGroupName", required: true, type: .string), 
             AWSShapeMember(label: "Parameters", required: true, type: .list, encoding: .list(member:"Parameter"))
         ]
+
         /// The name of the DB cluster parameter group to modify.
         public let dBClusterParameterGroupName: String
         /// A list of parameters in the DB cluster parameter group to modify.
@@ -3438,6 +3542,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -3456,6 +3561,7 @@ extension Neptune {
             AWSShapeMember(label: "ValuesToAdd", required: false, type: .list, encoding: .list(member:"AttributeValue")), 
             AWSShapeMember(label: "ValuesToRemove", required: false, type: .list, encoding: .list(member:"AttributeValue"))
         ]
+
         /// The name of the DB cluster snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this value to restore.
         public let attributeName: String
         /// The identifier for the DB cluster snapshot to modify the attributes for.
@@ -3484,6 +3590,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterSnapshotAttributesResult", required: false, type: .structure)
         ]
+
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
         public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
@@ -3533,8 +3640,9 @@ extension Neptune {
             AWSShapeMember(label: "TdeCredentialPassword", required: false, type: .string), 
             AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
         ]
+
         /// The new amount of storage (in gibibytes) to allocate for the DB instance. Not applicable. Storage is managed by the DB Cluster.
-        public let allocatedStorage: Int32?
+        public let allocatedStorage: Int?
         /// Indicates that major version upgrades are allowed. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible. Constraints: This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the DB instance's current version.
         public let allowMajorVersionUpgrade: Bool?
         /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB instance.  If this parameter is set to false, changes to the DB instance are applied during the next maintenance window. Some parameter changes can cause an outage and are applied on the next call to RebootDBInstance, or the next failure reboot. Default: false 
@@ -3542,7 +3650,7 @@ extension Neptune {
         ///  Indicates that minor version upgrades are applied automatically to the DB instance during the maintenance window. Changing this parameter doesn't result in an outage except in the following case and the change is asynchronously applied as soon as possible. An outage will result if this parameter is set to true during the maintenance window, and a newer minor version is available, and Neptune has enabled auto patching for that engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// Not applicable. The retention period for automated backups is managed by the DB cluster. For more information, see ModifyDBCluster. Default: Uses existing setting
-        public let backupRetentionPeriod: Int32?
+        public let backupRetentionPeriod: Int?
         /// Indicates the certificate that needs to be associated with the instance.
         public let cACertificateIdentifier: String?
         /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB instance or DB cluster.
@@ -3556,7 +3664,7 @@ extension Neptune {
         /// The name of the DB parameter group to apply to the DB instance. Changing this setting doesn't result in an outage. The parameter group name itself is changed immediately, but the actual parameter changes are not applied until you reboot the instance without failover. The db instance will NOT be rebooted automatically and the parameter changes will NOT be applied during the next maintenance window. Default: Uses existing setting Constraints: The DB parameter group must be in the same DB parameter group family as this DB instance.
         public let dBParameterGroupName: String?
         /// The port number on which the database accepts connections. The value of the DBPortNumber parameter must not match any of the port values specified for options in the option group for the DB instance. Your database will restart when you change the DBPortNumber value regardless of the value of the ApplyImmediately parameter.  Default: 8182 
-        public let dBPortNumber: Int32?
+        public let dBPortNumber: Int?
         /// A list of DB security groups to authorize on this DB instance. Changing this setting doesn't result in an outage and the change is asynchronously applied as soon as possible. Constraints:   If supplied, must match existing DBSecurityGroups.  
         public let dBSecurityGroups: [String]?
         /// The new DB subnet group for the DB instance. You can use this parameter to move your DB instance to a different VPC. Changing the subnet group causes an outage during the change. The change is applied during the next maintenance window, unless you specify true for the ApplyImmediately parameter. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetGroup 
@@ -3572,13 +3680,13 @@ extension Neptune {
         ///  The version number of the database engine to upgrade to. Changing this parameter results in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request. For major version upgrades, if a nondefault DB parameter group is currently in use, a new DB parameter group in the DB parameter group family for the new engine version must be specified. The new DB parameter group can be the default for that DB parameter group family.
         public let engineVersion: String?
         /// The new Provisioned IOPS (I/O operations per second) value for the instance. Changing this setting doesn't result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request. Default: Uses existing setting
-        public let iops: Int32?
+        public let iops: Int?
         /// Not supported.
         public let licenseModel: String?
         /// Not applicable.
         public let masterUserPassword: String?
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60 
-        public let monitoringInterval: Int32?
+        public let monitoringInterval: Int?
         /// The ARN for the IAM role that permits Neptune to send enhanced monitoring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
         public let monitoringRoleArn: String?
         /// Specifies if the DB instance is a Multi-AZ deployment. Changing this parameter doesn't result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request.
@@ -3594,7 +3702,7 @@ extension Neptune {
         /// The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter doesn't result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If there are pending actions that cause a reboot, and the maintenance window is changed to include the current time, then changing this parameter will cause a reboot of the DB instance. If moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
         public let preferredMaintenanceWindow: String?
         /// A value that specifies the order in which a Read Replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid Values: 0 - 15
-        public let promotionTier: Int32?
+        public let promotionTier: Int?
         /// Not supported.
         public let storageType: String?
         /// The ARN from the key store with which to associate the instance for TDE encryption.
@@ -3604,7 +3712,7 @@ extension Neptune {
         /// A list of EC2 VPC security groups to authorize on this DB instance. This change is asynchronously applied as soon as possible. Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see ModifyDBCluster. Constraints:   If supplied, must match existing VpcSecurityGroupIds.  
         public let vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int32? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int32? = nil, cACertificateIdentifier: String? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, dBParameterGroupName: String? = nil, dBPortNumber: Int32? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineVersion: String? = nil, iops: Int32? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int32? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int32? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, dBParameterGroupName: String? = nil, dBPortNumber: Int? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
@@ -3685,6 +3793,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBInstance", required: false, type: .structure)
         ]
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -3701,6 +3810,7 @@ extension Neptune {
             AWSShapeMember(label: "DBParameterGroupName", required: true, type: .string), 
             AWSShapeMember(label: "Parameters", required: true, type: .list, encoding: .list(member:"Parameter"))
         ]
+
         /// The name of the DB parameter group. Constraints:   If supplied, must match the name of an existing DBParameterGroup.  
         public let dBParameterGroupName: String
         /// An array of parameter names, values, and the apply method for the parameter update. At least one parameter name, value, and apply method must be supplied; subsequent arguments are optional. A maximum of 20 parameters can be modified in a single request. Valid Values (for the application method): immediate | pending-reboot   You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when you reboot the DB instance without failover. 
@@ -3723,6 +3833,7 @@ extension Neptune {
             AWSShapeMember(label: "DBSubnetGroupName", required: true, type: .string), 
             AWSShapeMember(label: "SubnetIds", required: true, type: .list, encoding: .list(member:"SubnetIdentifier"))
         ]
+
         /// The description for the DB subnet group.
         public let dBSubnetGroupDescription: String?
         /// The name for the DB subnet group. This value is stored as a lowercase string. You can't modify the default subnet group. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
@@ -3747,6 +3858,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBSubnetGroup", required: false, type: .structure)
         ]
+
         public let dBSubnetGroup: DBSubnetGroup?
 
         public init(dBSubnetGroup: DBSubnetGroup? = nil) {
@@ -3766,6 +3878,7 @@ extension Neptune {
             AWSShapeMember(label: "SourceType", required: false, type: .string), 
             AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
         ]
+
         ///  A Boolean value; set to true to activate the subscription.
         public let enabled: Bool?
         ///  A list of event categories for a SourceType that you want to subscribe to. You can see a list of the categories for a given SourceType by using the DescribeEventCategories action.
@@ -3798,6 +3911,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
+
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -3814,6 +3928,7 @@ extension Neptune {
             AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
+
         /// The name of the option group that the instance belongs to.
         public let optionGroupName: String?
         /// The status of the DB instance's option group membership. Valid values are: in-sync, pending-apply, pending-removal, pending-maintenance-apply, pending-maintenance-removal, applying, removing, and failed.
@@ -3853,6 +3968,7 @@ extension Neptune {
             AWSShapeMember(label: "SupportsStorageEncryption", required: false, type: .boolean), 
             AWSShapeMember(label: "Vpc", required: false, type: .boolean)
         ]
+
         /// A list of Availability Zones for a DB instance.
         public let availabilityZones: [AvailabilityZone]?
         /// The DB instance class for a DB instance.
@@ -3864,17 +3980,17 @@ extension Neptune {
         /// The license model for a DB instance.
         public let licenseModel: String?
         /// Maximum total provisioned IOPS for a DB instance.
-        public let maxIopsPerDbInstance: Int32?
+        public let maxIopsPerDbInstance: Int?
         /// Maximum provisioned IOPS per GiB for a DB instance.
         public let maxIopsPerGib: Double?
         /// Maximum storage size for a DB instance.
-        public let maxStorageSize: Int32?
+        public let maxStorageSize: Int?
         /// Minimum total provisioned IOPS for a DB instance.
-        public let minIopsPerDbInstance: Int32?
+        public let minIopsPerDbInstance: Int?
         /// Minimum provisioned IOPS per GiB for a DB instance.
         public let minIopsPerGib: Double?
         /// Minimum storage size for a DB instance.
-        public let minStorageSize: Int32?
+        public let minStorageSize: Int?
         /// Indicates whether a DB instance is Multi-AZ capable.
         public let multiAZCapable: Bool?
         /// Indicates whether a DB instance can have a Read Replica.
@@ -3894,7 +4010,7 @@ extension Neptune {
         /// Indicates whether a DB instance is in a VPC.
         public let vpc: Bool?
 
-        public init(availabilityZones: [AvailabilityZone]? = nil, dBInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, maxIopsPerDbInstance: Int32? = nil, maxIopsPerGib: Double? = nil, maxStorageSize: Int32? = nil, minIopsPerDbInstance: Int32? = nil, minIopsPerGib: Double? = nil, minStorageSize: Int32? = nil, multiAZCapable: Bool? = nil, readReplicaCapable: Bool? = nil, storageType: String? = nil, supportsEnhancedMonitoring: Bool? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsIops: Bool? = nil, supportsPerformanceInsights: Bool? = nil, supportsStorageEncryption: Bool? = nil, vpc: Bool? = nil) {
+        public init(availabilityZones: [AvailabilityZone]? = nil, dBInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, maxIopsPerDbInstance: Int? = nil, maxIopsPerGib: Double? = nil, maxStorageSize: Int? = nil, minIopsPerDbInstance: Int? = nil, minIopsPerGib: Double? = nil, minStorageSize: Int? = nil, multiAZCapable: Bool? = nil, readReplicaCapable: Bool? = nil, storageType: String? = nil, supportsEnhancedMonitoring: Bool? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsIops: Bool? = nil, supportsPerformanceInsights: Bool? = nil, supportsStorageEncryption: Bool? = nil, vpc: Bool? = nil) {
             self.availabilityZones = availabilityZones
             self.dBInstanceClass = dBInstanceClass
             self.engine = engine
@@ -3946,6 +4062,7 @@ extension Neptune {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "OrderableDBInstanceOptions", required: false, type: .list, encoding: .list(member:"OrderableDBInstanceOption"))
         ]
+
         ///  An optional pagination token provided by a previous OrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
         /// An OrderableDBInstanceOption structure containing information about orderable options for the DB instance.
@@ -3975,6 +4092,7 @@ extension Neptune {
             AWSShapeMember(label: "ParameterValue", required: false, type: .string), 
             AWSShapeMember(label: "Source", required: false, type: .string)
         ]
+
         /// Specifies the valid range of values for the parameter.
         public let allowedValues: String?
         /// Indicates when to apply parameter updates.
@@ -4028,6 +4146,7 @@ extension Neptune {
             AWSShapeMember(label: "LogTypesToDisable", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "LogTypesToEnable", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// Log types that are in the process of being enabled. After they are enabled, these log types are exported to CloudWatch Logs.
         public let logTypesToDisable: [String]?
         /// Log types that are in the process of being deactivated. After they are deactivated, these log types aren't exported to CloudWatch Logs.
@@ -4053,6 +4172,7 @@ extension Neptune {
             AWSShapeMember(label: "ForcedApplyDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "OptInStatus", required: false, type: .string)
         ]
+
         /// The type of pending maintenance action that is available for the resource.
         public let action: String?
         /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date. If this date is specified, any next-maintenance opt-in requests are ignored.
@@ -4090,6 +4210,7 @@ extension Neptune {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "PendingMaintenanceActions", required: false, type: .list, encoding: .list(member:"ResourcePendingMaintenanceActions"))
         ]
+
         ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords.
         public let marker: String?
         /// A list of the pending maintenance actions for the resource.
@@ -4123,10 +4244,11 @@ extension Neptune {
             AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "StorageType", required: false, type: .string)
         ]
+
         ///  Contains the new AllocatedStorage size for the DB instance that will be applied or is currently being applied.
-        public let allocatedStorage: Int32?
+        public let allocatedStorage: Int?
         /// Specifies the pending number of days for which automated backups are retained.
-        public let backupRetentionPeriod: Int32?
+        public let backupRetentionPeriod: Int?
         /// Specifies the identifier of the CA certificate for the DB instance.
         public let cACertificateIdentifier: String?
         ///  Contains the new DBInstanceClass for the DB instance that will be applied or is currently being applied.
@@ -4138,7 +4260,7 @@ extension Neptune {
         /// Indicates the database engine version.
         public let engineVersion: String?
         /// Specifies the new Provisioned IOPS value for the DB instance that will be applied or is currently being applied.
-        public let iops: Int32?
+        public let iops: Int?
         /// The license model for the DB instance. Valid values: license-included | bring-your-own-license | general-public-license 
         public let licenseModel: String?
         /// Contains the pending or currently-in-progress change of the master credentials for the DB instance.
@@ -4148,11 +4270,11 @@ extension Neptune {
         /// Specifies the CloudWatch logs to be exported.
         public let pendingCloudwatchLogsExports: PendingCloudwatchLogsExports?
         /// Specifies the pending port for the DB instance.
-        public let port: Int32?
+        public let port: Int?
         /// Specifies the storage type to be associated with the DB instance.
         public let storageType: String?
 
-        public init(allocatedStorage: Int32? = nil, backupRetentionPeriod: Int32? = nil, cACertificateIdentifier: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dBSubnetGroupName: String? = nil, engineVersion: String? = nil, iops: Int32? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, pendingCloudwatchLogsExports: PendingCloudwatchLogsExports? = nil, port: Int32? = nil, storageType: String? = nil) {
+        public init(allocatedStorage: Int? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dBSubnetGroupName: String? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, pendingCloudwatchLogsExports: PendingCloudwatchLogsExports? = nil, port: Int? = nil, storageType: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.backupRetentionPeriod = backupRetentionPeriod
             self.cACertificateIdentifier = cACertificateIdentifier
@@ -4191,6 +4313,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string)
         ]
+
         /// Not supported.
         public let dBClusterIdentifier: String
 
@@ -4207,6 +4330,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -4224,14 +4348,15 @@ extension Neptune {
             AWSShapeMember(label: "Step", required: false, type: .integer), 
             AWSShapeMember(label: "To", required: false, type: .integer)
         ]
-        /// The minimum value in the range.
-        public let from: Int32?
-        /// The step value for the range. For example, if you have a range of 5,000 to 10,000, with a step value of 1,000, the valid values start at 5,000 and step up by 1,000. Even though 7,500 is within the range, it isn't a valid value for the range. The valid values are 5,000, 6,000, 7,000, 8,000...
-        public let step: Int32?
-        /// The maximum value in the range.
-        public let to: Int32?
 
-        public init(from: Int32? = nil, step: Int32? = nil, to: Int32? = nil) {
+        /// The minimum value in the range.
+        public let from: Int?
+        /// The step value for the range. For example, if you have a range of 5,000 to 10,000, with a step value of 1,000, the valid values start at 5,000 and step up by 1,000. Even though 7,500 is within the range, it isn't a valid value for the range. The valid values are 5,000, 6,000, 7,000, 8,000...
+        public let step: Int?
+        /// The maximum value in the range.
+        public let to: Int?
+
+        public init(from: Int? = nil, step: Int? = nil, to: Int? = nil) {
             self.from = from
             self.step = step
             self.to = to
@@ -4249,6 +4374,7 @@ extension Neptune {
             AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "ForceFailover", required: false, type: .boolean)
         ]
+
         /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.  
         public let dBInstanceIdentifier: String
         ///  When true, the reboot is conducted through a MultiAZ failover. Constraint: You can't specify true if the instance is not configured for MultiAZ.
@@ -4269,6 +4395,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBInstance", required: false, type: .structure)
         ]
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -4285,6 +4412,7 @@ extension Neptune {
             AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "RoleArn", required: true, type: .string)
         ]
+
         /// The name of the DB cluster to disassociate the IAM role from.
         public let dBClusterIdentifier: String
         /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB cluster, for example arn:aws:iam::123456789012:role/NeptuneAccessRole.
@@ -4306,6 +4434,7 @@ extension Neptune {
             AWSShapeMember(label: "SourceIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
         ]
+
         ///  The source identifier to be removed from the subscription, such as the DB instance identifier for a DB instance or the name of a security group.
         public let sourceIdentifier: String
         /// The name of the event notification subscription you want to remove a source identifier from.
@@ -4326,6 +4455,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
+
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -4342,6 +4472,7 @@ extension Neptune {
             AWSShapeMember(label: "ResourceName", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The Amazon Neptune resource that the tags are removed from. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN).
         public let resourceName: String
         /// The tag key (name) of the tag to be removed.
@@ -4364,6 +4495,7 @@ extension Neptune {
             AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter")), 
             AWSShapeMember(label: "ResetAllParameters", required: false, type: .boolean)
         ]
+
         /// The name of the DB cluster parameter group to reset.
         public let dBClusterParameterGroupName: String
         /// A list of parameter names in the DB cluster parameter group to reset to the default values. You can't use this parameter if the ResetAllParameters parameter is set to true.
@@ -4390,6 +4522,7 @@ extension Neptune {
             AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter")), 
             AWSShapeMember(label: "ResetAllParameters", required: false, type: .boolean)
         ]
+
         /// The name of the DB parameter group. Constraints:   Must match the name of an existing DBParameterGroup.  
         public let dBParameterGroupName: String
         /// To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. To reset specific parameters, provide a list of the following: ParameterName and ApplyMethod. A maximum of 20 parameters can be modified in a single request. Valid Values (for Apply method): pending-reboot 
@@ -4415,6 +4548,7 @@ extension Neptune {
             AWSShapeMember(label: "PendingMaintenanceActionDetails", required: false, type: .list, encoding: .list(member:"PendingMaintenanceAction")), 
             AWSShapeMember(label: "ResourceIdentifier", required: false, type: .string)
         ]
+
         /// A list that provides details about the pending maintenance actions for the resource.
         public let pendingMaintenanceActionDetails: [PendingMaintenanceAction]?
         /// The ARN of the resource that has pending maintenance actions.
@@ -4449,6 +4583,7 @@ extension Neptune {
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
             AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
         ]
+
         /// Provides the list of EC2 Availability Zones that instances in the restored DB cluster can be created in.
         public let availabilityZones: [String]?
         /// Not supported.
@@ -4472,7 +4607,7 @@ extension Neptune {
         /// The name of the option group to use for the restored DB cluster.
         public let optionGroupName: String?
         /// The port number on which the new DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
-        public let port: Int32?
+        public let port: Int?
         /// The identifier for the DB snapshot or DB cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a DB cluster snapshot. However, you can use only the ARN to specify a DB snapshot. Constraints:   Must match the identifier of an existing Snapshot.  
         public let snapshotIdentifier: String
         /// The tags to be assigned to the restored DB cluster.
@@ -4480,7 +4615,7 @@ extension Neptune {
         /// A list of VPC security groups that the new DB cluster will belong to.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(availabilityZones: [String]? = nil, databaseName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, databaseName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.databaseName = databaseName
             self.dBClusterIdentifier = dBClusterIdentifier
@@ -4521,6 +4656,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -4549,6 +4685,7 @@ extension Neptune {
             AWSShapeMember(label: "UseLatestRestorableTime", required: false, type: .boolean), 
             AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
         ]
+
         /// The name of the new DB cluster to be created. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
         public let dBClusterIdentifier: String
         /// The name of the DB cluster parameter group to associate with the new DB cluster. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
@@ -4564,7 +4701,7 @@ extension Neptune {
         /// The name of the option group for the new DB cluster.
         public let optionGroupName: String?
         /// The port number on which the new DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
-        public let port: Int32?
+        public let port: Int?
         /// The date and time to restore the DB cluster to. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the latest restorable time for the DB instance   Must be specified if UseLatestRestorableTime parameter is not provided   Cannot be specified if UseLatestRestorableTime parameter is true   Cannot be specified if RestoreType parameter is copy-on-write    Example: 2015-03-07T23:45:00Z 
         public let restoreToTime: TimeStamp?
         /// The type of restore to be performed. You can specify one of the following values:    full-copy - The new DB cluster is restored as a full copy of the source DB cluster.    copy-on-write - The new DB cluster is restored as a clone of the source DB cluster.   If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster.
@@ -4578,7 +4715,7 @@ extension Neptune {
         /// A list of VPC security groups that the new DB cluster belongs to.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, restoreToTime: TimeStamp? = nil, restoreType: String? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int? = nil, restoreToTime: TimeStamp? = nil, restoreType: String? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.dBSubnetGroupName = dBSubnetGroupName
@@ -4617,6 +4754,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -4644,6 +4782,7 @@ extension Neptune {
             AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "SubnetStatus", required: false, type: .string)
         ]
+
         /// Specifies the EC2 Availability Zone that the subnet is in.
         public let subnetAvailabilityZone: AvailabilityZone?
         /// Specifies the identifier of the subnet.
@@ -4669,6 +4808,7 @@ extension Neptune {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let key: String?
         /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
@@ -4689,6 +4829,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagList", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
+
         /// List of tags returned by the ListTagsForResource operation.
         public let tagList: [Tag]?
 
@@ -4705,6 +4846,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TimezoneName", required: false, type: .string)
         ]
+
         /// The name of the time zone.
         public let timezoneName: String?
 
@@ -4725,6 +4867,7 @@ extension Neptune {
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
             AWSShapeMember(label: "IsMajorVersionUpgrade", required: false, type: .boolean)
         ]
+
         /// A value that indicates whether the target version is applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
         public let autoUpgrade: Bool?
         /// The version of the database engine that a DB instance can be upgraded to.
@@ -4757,6 +4900,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Storage", required: false, type: .list, encoding: .list(member:"ValidStorageOptions"))
         ]
+
         /// Valid storage options for your DB instance.
         public let storage: [ValidStorageOptions]?
 
@@ -4776,6 +4920,7 @@ extension Neptune {
             AWSShapeMember(label: "StorageSize", required: false, type: .list, encoding: .list(member:"Range")), 
             AWSShapeMember(label: "StorageType", required: false, type: .string)
         ]
+
         /// The valid range of Provisioned IOPS to gibibytes of storage multiplier. For example, 3-10, which means that provisioned IOPS can be between 3 and 10 times storage.
         public let iopsToStorageRatio: [DoubleRange]?
         /// The valid range of provisioned IOPS. For example, 1000-20000.
@@ -4805,6 +4950,7 @@ extension Neptune {
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "VpcSecurityGroupId", required: false, type: .string)
         ]
+
         /// The status of the VPC security group.
         public let status: String?
         /// The name of the VPC security group.

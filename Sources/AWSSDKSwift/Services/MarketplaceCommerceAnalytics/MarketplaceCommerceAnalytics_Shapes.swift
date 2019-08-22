@@ -40,6 +40,7 @@ extension MarketplaceCommerceAnalytics {
             AWSShapeMember(label: "roleNameArn", required: true, type: .string), 
             AWSShapeMember(label: "snsTopicArn", required: true, type: .string)
         ]
+
         /// (Optional) Key-value pairs which will be returned, unmodified, in the Amazon SNS notification message and the data set metadata file. These key-value pairs can be used to correlated responses with tracking information from other systems.
         public let customerDefinedValues: [String: String]?
         /// The date a data set was published. For daily data sets, provide a date with day-level granularity for the desired day. For weekly data sets, provide a date with day-level granularity within the desired week (the day value will be ignored). For monthly data sets, provide a date with month-level granularity for the desired month (the day value will be ignored).
@@ -65,6 +66,18 @@ extension MarketplaceCommerceAnalytics {
             self.snsTopicArn = snsTopicArn
         }
 
+        public func validate(name: String) throws {
+            try customerDefinedValues?.forEach {
+                try validate($0.key, name:"customerDefinedValues.key", parent: name, max: 255)
+                try validate($0.key, name:"customerDefinedValues.key", parent: name, min: 1)
+                try validate($0.value, name:"customerDefinedValues[\"\($0.key)\"]", parent: name, max: 255)
+                try validate($0.value, name:"customerDefinedValues[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try validate(destinationS3BucketName, name:"destinationS3BucketName", parent: name, min: 1)
+            try validate(roleNameArn, name:"roleNameArn", parent: name, min: 1)
+            try validate(snsTopicArn, name:"snsTopicArn", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case customerDefinedValues = "customerDefinedValues"
             case dataSetPublicationDate = "dataSetPublicationDate"
@@ -80,6 +93,7 @@ extension MarketplaceCommerceAnalytics {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "dataSetRequestId", required: false, type: .string)
         ]
+
         /// A unique identifier representing a specific request to the GenerateDataSet operation. This identifier can be used to correlate a request with notifications from the SNS topic.
         public let dataSetRequestId: String?
 
@@ -102,6 +116,7 @@ extension MarketplaceCommerceAnalytics {
             AWSShapeMember(label: "roleNameArn", required: true, type: .string), 
             AWSShapeMember(label: "snsTopicArn", required: true, type: .string)
         ]
+
         /// (Optional) Key-value pairs which will be returned, unmodified, in the Amazon SNS notification message and the data set metadata file.
         public let customerDefinedValues: [String: String]?
         ///  Specifies the data set type to be written to the output csv file. The data set types customer_support_contacts_data and test_customer_support_contacts_data both result in a csv file containing the following fields: Product Id, Product Code, Customer Guid, Subscription Guid, Subscription Start Date, Organization, AWS Account Id, Given Name, Surname, Telephone Number, Email, Title, Country Code, ZIP Code, Operation Type, and Operation Time.    customer_support_contacts_data Customer support contact data. The data set will contain all changes (Creates, Updates, and Deletes) to customer support contact data from the date specified in the from_date parameter. test_customer_support_contacts_data An example data set containing static test data in the same format as customer_support_contacts_data  
@@ -127,6 +142,18 @@ extension MarketplaceCommerceAnalytics {
             self.snsTopicArn = snsTopicArn
         }
 
+        public func validate(name: String) throws {
+            try customerDefinedValues?.forEach {
+                try validate($0.key, name:"customerDefinedValues.key", parent: name, max: 255)
+                try validate($0.key, name:"customerDefinedValues.key", parent: name, min: 1)
+                try validate($0.value, name:"customerDefinedValues[\"\($0.key)\"]", parent: name, max: 255)
+                try validate($0.value, name:"customerDefinedValues[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try validate(destinationS3BucketName, name:"destinationS3BucketName", parent: name, min: 1)
+            try validate(roleNameArn, name:"roleNameArn", parent: name, min: 1)
+            try validate(snsTopicArn, name:"snsTopicArn", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case customerDefinedValues = "customerDefinedValues"
             case dataSetType = "dataSetType"
@@ -142,6 +169,7 @@ extension MarketplaceCommerceAnalytics {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "dataSetRequestId", required: false, type: .string)
         ]
+
         /// A unique identifier representing a specific request to the StartSupportDataExport operation. This identifier can be used to correlate a request with notifications from the SNS topic.
         public let dataSetRequestId: String?
 

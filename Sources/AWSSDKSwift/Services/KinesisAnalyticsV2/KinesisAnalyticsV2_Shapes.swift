@@ -11,6 +11,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "CloudWatchLoggingOption", required: true, type: .structure), 
             AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long)
         ]
+
         /// The Kinesis Data Analytics application name.
         public let applicationName: String
         /// Provides the Amazon CloudWatch log stream Amazon Resource Name (ARN). 
@@ -22,6 +23,15 @@ extension KinesisAnalyticsV2 {
             self.applicationName = applicationName
             self.cloudWatchLoggingOption = cloudWatchLoggingOption
             self.currentApplicationVersionId = currentApplicationVersionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try cloudWatchLoggingOption.validate(name: "\(name).cloudWatchLoggingOption")
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -37,6 +47,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ApplicationVersionId", required: false, type: .long), 
             AWSShapeMember(label: "CloudWatchLoggingOptionDescriptions", required: false, type: .list)
         ]
+
         /// The application's ARN.
         public let applicationARN: String?
         /// The new version ID of the Kinesis Data Analytics application. Kinesis Data Analytics updates the ApplicationVersionId each time you change the CloudWatch logging options. 
@@ -64,6 +75,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "InputId", required: true, type: .string), 
             AWSShapeMember(label: "InputProcessingConfiguration", required: true, type: .structure)
         ]
+
         /// The name of the application to which you want to add the input processing configuration.
         public let applicationName: String
         /// The version of the application to which you want to add the input processing configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
@@ -78,6 +90,18 @@ extension KinesisAnalyticsV2 {
             self.currentApplicationVersionId = currentApplicationVersionId
             self.inputId = inputId
             self.inputProcessingConfiguration = inputProcessingConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
+            try validate(inputId, name:"inputId", parent: name, max: 50)
+            try validate(inputId, name:"inputId", parent: name, min: 1)
+            try validate(inputId, name:"inputId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try inputProcessingConfiguration.validate(name: "\(name).inputProcessingConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -95,6 +119,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "InputId", required: false, type: .string), 
             AWSShapeMember(label: "InputProcessingConfigurationDescription", required: false, type: .structure)
         ]
+
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationARN: String?
         /// Provides the current application version.
@@ -125,6 +150,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
             AWSShapeMember(label: "Input", required: true, type: .structure)
         ]
+
         /// The name of your existing application to which you want to add the streaming source.
         public let applicationName: String
         /// The current version of your application. You can use the DescribeApplication operation to find the current application version.
@@ -136,6 +162,15 @@ extension KinesisAnalyticsV2 {
             self.applicationName = applicationName
             self.currentApplicationVersionId = currentApplicationVersionId
             self.input = input
+        }
+
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
+            try input.validate(name: "\(name).input")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -151,6 +186,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ApplicationVersionId", required: false, type: .long), 
             AWSShapeMember(label: "InputDescriptions", required: false, type: .list)
         ]
+
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationARN: String?
         /// Provides the current application version.
@@ -177,6 +213,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
             AWSShapeMember(label: "Output", required: true, type: .structure)
         ]
+
         /// The name of the application to which you want to add the output configuration.
         public let applicationName: String
         /// The version of the application to which you want to add the output configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. 
@@ -188,6 +225,15 @@ extension KinesisAnalyticsV2 {
             self.applicationName = applicationName
             self.currentApplicationVersionId = currentApplicationVersionId
             self.output = output
+        }
+
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
+            try output.validate(name: "\(name).output")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -203,6 +249,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ApplicationVersionId", required: false, type: .long), 
             AWSShapeMember(label: "OutputDescriptions", required: false, type: .list)
         ]
+
         /// The application Amazon Resource Name (ARN).
         public let applicationARN: String?
         /// The updated application version ID. Kinesis Data Analytics increments this ID when the application is updated.
@@ -229,6 +276,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
             AWSShapeMember(label: "ReferenceDataSource", required: true, type: .structure)
         ]
+
         /// The name of an existing application.
         public let applicationName: String
         /// The version of the application for which you are adding the reference data source. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
@@ -240,6 +288,15 @@ extension KinesisAnalyticsV2 {
             self.applicationName = applicationName
             self.currentApplicationVersionId = currentApplicationVersionId
             self.referenceDataSource = referenceDataSource
+        }
+
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
+            try referenceDataSource.validate(name: "\(name).referenceDataSource")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -255,6 +312,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ApplicationVersionId", required: false, type: .long), 
             AWSShapeMember(label: "ReferenceDataSourceDescriptions", required: false, type: .list)
         ]
+
         /// The application Amazon Resource Name (ARN).
         public let applicationARN: String?
         /// The updated application version ID. Amazon Kinesis Data Analytics increments this ID when the application is updated.
@@ -280,6 +338,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "CodeContent", required: false, type: .structure), 
             AWSShapeMember(label: "CodeContentType", required: true, type: .enum)
         ]
+
         /// The location and type of the application code.
         public let codeContent: CodeContent?
         /// Specifies whether the code content is in text or zip format.
@@ -288,6 +347,10 @@ extension KinesisAnalyticsV2 {
         public init(codeContent: CodeContent? = nil, codeContentType: CodeContentType) {
             self.codeContent = codeContent
             self.codeContentType = codeContentType
+        }
+
+        public func validate(name: String) throws {
+            try codeContent?.validate(name: "\(name).codeContent")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -301,6 +364,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "CodeContentDescription", required: false, type: .structure), 
             AWSShapeMember(label: "CodeContentType", required: true, type: .enum)
         ]
+
         /// Describes details about the location and format of the application code.
         public let codeContentDescription: CodeContentDescription?
         /// Specifies whether the code content is in text or zip format.
@@ -322,6 +386,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "CodeContentTypeUpdate", required: false, type: .enum), 
             AWSShapeMember(label: "CodeContentUpdate", required: false, type: .structure)
         ]
+
         /// Describes updates to the code content type.
         public let codeContentTypeUpdate: CodeContentType?
         /// Describes updates to the code content of an application.
@@ -330,6 +395,10 @@ extension KinesisAnalyticsV2 {
         public init(codeContentTypeUpdate: CodeContentType? = nil, codeContentUpdate: CodeContentUpdate? = nil) {
             self.codeContentTypeUpdate = codeContentTypeUpdate
             self.codeContentUpdate = codeContentUpdate
+        }
+
+        public func validate(name: String) throws {
+            try codeContentUpdate?.validate(name: "\(name).codeContentUpdate")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -346,6 +415,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "FlinkApplicationConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "SqlApplicationConfiguration", required: false, type: .structure)
         ]
+
         /// The code location and type parameters for a Java-based Kinesis Data Analytics application.
         public let applicationCodeConfiguration: ApplicationCodeConfiguration
         /// Describes whether snapshots are enabled for a Java-based Kinesis Data Analytics application.
@@ -363,6 +433,13 @@ extension KinesisAnalyticsV2 {
             self.environmentProperties = environmentProperties
             self.flinkApplicationConfiguration = flinkApplicationConfiguration
             self.sqlApplicationConfiguration = sqlApplicationConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try applicationCodeConfiguration.validate(name: "\(name).applicationCodeConfiguration")
+            try environmentProperties?.validate(name: "\(name).environmentProperties")
+            try flinkApplicationConfiguration?.validate(name: "\(name).flinkApplicationConfiguration")
+            try sqlApplicationConfiguration?.validate(name: "\(name).sqlApplicationConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -383,6 +460,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "RunConfigurationDescription", required: false, type: .structure), 
             AWSShapeMember(label: "SqlApplicationConfigurationDescription", required: false, type: .structure)
         ]
+
         /// The details about the application code for a Java-based Kinesis Data Analytics application.
         public let applicationCodeConfigurationDescription: ApplicationCodeConfigurationDescription?
         /// Describes whether snapshots are enabled for a Java-based Kinesis Data Analytics application.
@@ -423,6 +501,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "FlinkApplicationConfigurationUpdate", required: false, type: .structure), 
             AWSShapeMember(label: "SqlApplicationConfigurationUpdate", required: false, type: .structure)
         ]
+
         /// Describes updates to a Java-based Kinesis Data Analytics application's code configuration.
         public let applicationCodeConfigurationUpdate: ApplicationCodeConfigurationUpdate?
         /// Describes whether snapshots are enabled for a Java-based Kinesis Data Analytics application.
@@ -440,6 +519,13 @@ extension KinesisAnalyticsV2 {
             self.environmentPropertyUpdates = environmentPropertyUpdates
             self.flinkApplicationConfigurationUpdate = flinkApplicationConfigurationUpdate
             self.sqlApplicationConfigurationUpdate = sqlApplicationConfigurationUpdate
+        }
+
+        public func validate(name: String) throws {
+            try applicationCodeConfigurationUpdate?.validate(name: "\(name).applicationCodeConfigurationUpdate")
+            try environmentPropertyUpdates?.validate(name: "\(name).environmentPropertyUpdates")
+            try flinkApplicationConfigurationUpdate?.validate(name: "\(name).flinkApplicationConfigurationUpdate")
+            try sqlApplicationConfigurationUpdate?.validate(name: "\(name).sqlApplicationConfigurationUpdate")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -465,6 +551,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "RuntimeEnvironment", required: true, type: .enum), 
             AWSShapeMember(label: "ServiceExecutionRole", required: false, type: .string)
         ]
+
         /// The ARN of the application.
         public let applicationARN: String
         /// Provides details about the application's SQL or Java code and starting parameters.
@@ -522,6 +609,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ApplicationRestoreType", required: true, type: .enum), 
             AWSShapeMember(label: "SnapshotName", required: false, type: .string)
         ]
+
         /// Specifies how the application should be restored.
         public let applicationRestoreType: ApplicationRestoreType
         /// The identifier of an existing snapshot of application state to use to restart an application. The application uses this value if RESTORE_FROM_CUSTOM_SNAPSHOT is specified for the ApplicationRestoreType.
@@ -530,6 +618,12 @@ extension KinesisAnalyticsV2 {
         public init(applicationRestoreType: ApplicationRestoreType, snapshotName: String? = nil) {
             self.applicationRestoreType = applicationRestoreType
             self.snapshotName = snapshotName
+        }
+
+        public func validate(name: String) throws {
+            try validate(snapshotName, name:"snapshotName", parent: name, max: 128)
+            try validate(snapshotName, name:"snapshotName", parent: name, min: 1)
+            try validate(snapshotName, name:"snapshotName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -549,6 +643,7 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnapshotsEnabled", required: true, type: .boolean)
         ]
+
         /// Describes whether snapshots are enabled for a Java-based Kinesis Data Analytics application.
         public let snapshotsEnabled: Bool
 
@@ -565,6 +660,7 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnapshotsEnabled", required: true, type: .boolean)
         ]
+
         /// Describes whether snapshots are enabled for a Java-based Kinesis Data Analytics application.
         public let snapshotsEnabled: Bool
 
@@ -581,6 +677,7 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnapshotsEnabledUpdate", required: true, type: .boolean)
         ]
+
         /// Describes updates to whether snapshots are enabled for a Java-based Kinesis Data Analytics application.
         public let snapshotsEnabledUpdate: Bool
 
@@ -611,6 +708,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ApplicationVersionId", required: true, type: .long), 
             AWSShapeMember(label: "RuntimeEnvironment", required: true, type: .enum)
         ]
+
         /// The ARN of the application.
         public let applicationARN: String
         /// The name of the application.
@@ -644,6 +742,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "RecordColumnDelimiter", required: true, type: .string), 
             AWSShapeMember(label: "RecordRowDelimiter", required: true, type: .string)
         ]
+
         /// The column delimiter. For example, in a CSV format, a comma (",") is the typical column delimiter.
         public let recordColumnDelimiter: String
         /// The row delimiter. For example, in a CSV format, '\n' is the typical row delimiter.
@@ -652,6 +751,11 @@ extension KinesisAnalyticsV2 {
         public init(recordColumnDelimiter: String, recordRowDelimiter: String) {
             self.recordColumnDelimiter = recordColumnDelimiter
             self.recordRowDelimiter = recordRowDelimiter
+        }
+
+        public func validate(name: String) throws {
+            try validate(recordColumnDelimiter, name:"recordColumnDelimiter", parent: name, min: 1)
+            try validate(recordRowDelimiter, name:"recordRowDelimiter", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -667,6 +771,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ConfigurationType", required: true, type: .enum), 
             AWSShapeMember(label: "MinPauseBetweenCheckpoints", required: false, type: .long)
         ]
+
         /// Describes whether checkpointing is enabled for a Java-based Kinesis Data Analytics application.
         public let checkpointingEnabled: Bool?
         /// Describes the interval in milliseconds between checkpoint operations. 
@@ -681,6 +786,11 @@ extension KinesisAnalyticsV2 {
             self.checkpointInterval = checkpointInterval
             self.configurationType = configurationType
             self.minPauseBetweenCheckpoints = minPauseBetweenCheckpoints
+        }
+
+        public func validate(name: String) throws {
+            try validate(checkpointInterval, name:"checkpointInterval", parent: name, min: 0)
+            try validate(minPauseBetweenCheckpoints, name:"minPauseBetweenCheckpoints", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -698,6 +808,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ConfigurationType", required: false, type: .enum), 
             AWSShapeMember(label: "MinPauseBetweenCheckpoints", required: false, type: .long)
         ]
+
         /// Describes whether checkpointing is enabled for a Java-based Kinesis Data Analytics application.
         public let checkpointingEnabled: Bool?
         /// Describes the interval in milliseconds between checkpoint operations.
@@ -729,6 +840,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ConfigurationTypeUpdate", required: false, type: .enum), 
             AWSShapeMember(label: "MinPauseBetweenCheckpointsUpdate", required: false, type: .long)
         ]
+
         /// Describes updates to whether checkpointing is enabled for an application.
         public let checkpointingEnabledUpdate: Bool?
         /// Describes updates to the interval in milliseconds between checkpoint operations.
@@ -745,6 +857,11 @@ extension KinesisAnalyticsV2 {
             self.minPauseBetweenCheckpointsUpdate = minPauseBetweenCheckpointsUpdate
         }
 
+        public func validate(name: String) throws {
+            try validate(checkpointIntervalUpdate, name:"checkpointIntervalUpdate", parent: name, min: 0)
+            try validate(minPauseBetweenCheckpointsUpdate, name:"minPauseBetweenCheckpointsUpdate", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case checkpointingEnabledUpdate = "CheckpointingEnabledUpdate"
             case checkpointIntervalUpdate = "CheckpointIntervalUpdate"
@@ -757,11 +874,18 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LogStreamARN", required: true, type: .string)
         ]
+
         /// The ARN of the CloudWatch log to receive application messages.
         public let logStreamARN: String
 
         public init(logStreamARN: String) {
             self.logStreamARN = logStreamARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(logStreamARN, name:"logStreamARN", parent: name, max: 2048)
+            try validate(logStreamARN, name:"logStreamARN", parent: name, min: 1)
+            try validate(logStreamARN, name:"logStreamARN", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -775,6 +899,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "LogStreamARN", required: true, type: .string), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
+
         /// The ID of the CloudWatch logging option description.
         public let cloudWatchLoggingOptionId: String?
         /// The Amazon Resource Name (ARN) of the CloudWatch log to receive application messages.
@@ -800,6 +925,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "CloudWatchLoggingOptionId", required: true, type: .string), 
             AWSShapeMember(label: "LogStreamARNUpdate", required: false, type: .string)
         ]
+
         /// The ID of the CloudWatch logging option to update
         public let cloudWatchLoggingOptionId: String
         /// The Amazon Resource Name (ARN) of the CloudWatch log to receive application messages.
@@ -808,6 +934,15 @@ extension KinesisAnalyticsV2 {
         public init(cloudWatchLoggingOptionId: String, logStreamARNUpdate: String? = nil) {
             self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
             self.logStreamARNUpdate = logStreamARNUpdate
+        }
+
+        public func validate(name: String) throws {
+            try validate(cloudWatchLoggingOptionId, name:"cloudWatchLoggingOptionId", parent: name, max: 50)
+            try validate(cloudWatchLoggingOptionId, name:"cloudWatchLoggingOptionId", parent: name, min: 1)
+            try validate(cloudWatchLoggingOptionId, name:"cloudWatchLoggingOptionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(logStreamARNUpdate, name:"logStreamARNUpdate", parent: name, max: 2048)
+            try validate(logStreamARNUpdate, name:"logStreamARNUpdate", parent: name, min: 1)
+            try validate(logStreamARNUpdate, name:"logStreamARNUpdate", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -822,6 +957,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "TextContent", required: false, type: .string), 
             AWSShapeMember(label: "ZipFileContent", required: false, type: .blob)
         ]
+
         /// Information about the Amazon S3 bucket containing the application code.
         public let s3ContentLocation: S3ContentLocation?
         /// The text-format code for a Java-based Kinesis Data Analytics application.
@@ -833,6 +969,14 @@ extension KinesisAnalyticsV2 {
             self.s3ContentLocation = s3ContentLocation
             self.textContent = textContent
             self.zipFileContent = zipFileContent
+        }
+
+        public func validate(name: String) throws {
+            try s3ContentLocation?.validate(name: "\(name).s3ContentLocation")
+            try validate(textContent, name:"textContent", parent: name, max: 102400)
+            try validate(textContent, name:"textContent", parent: name, min: 0)
+            try validate(zipFileContent, name:"zipFileContent", parent: name, max: 52428800)
+            try validate(zipFileContent, name:"zipFileContent", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -849,6 +993,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "S3ApplicationCodeLocationDescription", required: false, type: .structure), 
             AWSShapeMember(label: "TextContent", required: false, type: .string)
         ]
+
         /// The checksum that can be used to validate zip-format code.
         public let codeMD5: String?
         /// The size in bytes of the application code. Can be used to validate zip-format code.
@@ -885,6 +1030,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "TextContentUpdate", required: false, type: .string), 
             AWSShapeMember(label: "ZipFileContentUpdate", required: false, type: .blob)
         ]
+
         /// Describes an update to the location of code for an application.
         public let s3ContentLocationUpdate: S3ContentLocationUpdate?
         /// Describes an update to the text code for an application.
@@ -896,6 +1042,14 @@ extension KinesisAnalyticsV2 {
             self.s3ContentLocationUpdate = s3ContentLocationUpdate
             self.textContentUpdate = textContentUpdate
             self.zipFileContentUpdate = zipFileContentUpdate
+        }
+
+        public func validate(name: String) throws {
+            try s3ContentLocationUpdate?.validate(name: "\(name).s3ContentLocationUpdate")
+            try validate(textContentUpdate, name:"textContentUpdate", parent: name, max: 102400)
+            try validate(textContentUpdate, name:"textContentUpdate", parent: name, min: 0)
+            try validate(zipFileContentUpdate, name:"zipFileContentUpdate", parent: name, max: 52428800)
+            try validate(zipFileContentUpdate, name:"zipFileContentUpdate", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -921,6 +1075,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ServiceExecutionRole", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// Use this parameter to configure the application.
         public let applicationConfiguration: ApplicationConfiguration?
         /// A summary description of the application.
@@ -946,6 +1101,26 @@ extension KinesisAnalyticsV2 {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try applicationConfiguration?.validate(name: "\(name).applicationConfiguration")
+            try validate(applicationDescription, name:"applicationDescription", parent: name, max: 1024)
+            try validate(applicationDescription, name:"applicationDescription", parent: name, min: 0)
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try cloudWatchLoggingOptions?.forEach {
+                try $0.validate(name: "\(name).cloudWatchLoggingOptions[]")
+            }
+            try validate(serviceExecutionRole, name:"serviceExecutionRole", parent: name, max: 2048)
+            try validate(serviceExecutionRole, name:"serviceExecutionRole", parent: name, min: 1)
+            try validate(serviceExecutionRole, name:"serviceExecutionRole", parent: name, pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, max: 200)
+            try validate(tags, name:"tags", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationConfiguration = "ApplicationConfiguration"
             case applicationDescription = "ApplicationDescription"
@@ -961,6 +1136,7 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationDetail", required: true, type: .structure)
         ]
+
         /// In response to your CreateApplication request, Kinesis Data Analytics returns a response with details of the application it created.
         public let applicationDetail: ApplicationDetail
 
@@ -978,6 +1154,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
             AWSShapeMember(label: "SnapshotName", required: true, type: .string)
         ]
+
         /// The name of an existing application
         public let applicationName: String
         /// An identifier for the application snapshot.
@@ -988,6 +1165,15 @@ extension KinesisAnalyticsV2 {
             self.snapshotName = snapshotName
         }
 
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(snapshotName, name:"snapshotName", parent: name, max: 128)
+            try validate(snapshotName, name:"snapshotName", parent: name, min: 1)
+            try validate(snapshotName, name:"snapshotName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case snapshotName = "SnapshotName"
@@ -995,6 +1181,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CreateApplicationSnapshotResponse: AWSShape {
+
 
         public init() {
         }
@@ -1007,6 +1194,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "CloudWatchLoggingOptionId", required: true, type: .string), 
             AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long)
         ]
+
         /// The application name.
         public let applicationName: String
         /// The CloudWatchLoggingOptionId of the Amazon CloudWatch logging option to delete. You can get the CloudWatchLoggingOptionId by using the DescribeApplication operation. 
@@ -1018,6 +1206,17 @@ extension KinesisAnalyticsV2 {
             self.applicationName = applicationName
             self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
             self.currentApplicationVersionId = currentApplicationVersionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(cloudWatchLoggingOptionId, name:"cloudWatchLoggingOptionId", parent: name, max: 50)
+            try validate(cloudWatchLoggingOptionId, name:"cloudWatchLoggingOptionId", parent: name, min: 1)
+            try validate(cloudWatchLoggingOptionId, name:"cloudWatchLoggingOptionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1033,6 +1232,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ApplicationVersionId", required: false, type: .long), 
             AWSShapeMember(label: "CloudWatchLoggingOptionDescriptions", required: false, type: .list)
         ]
+
         /// The application's Amazon Resource Name (ARN).
         public let applicationARN: String?
         /// The version ID of the application. Kinesis Data Analytics updates the ApplicationVersionId each time you change the CloudWatch logging options.
@@ -1059,6 +1259,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
             AWSShapeMember(label: "InputId", required: true, type: .string)
         ]
+
         /// The name of the application.
         public let applicationName: String
         /// The application version. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. 
@@ -1070,6 +1271,17 @@ extension KinesisAnalyticsV2 {
             self.applicationName = applicationName
             self.currentApplicationVersionId = currentApplicationVersionId
             self.inputId = inputId
+        }
+
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
+            try validate(inputId, name:"inputId", parent: name, max: 50)
+            try validate(inputId, name:"inputId", parent: name, min: 1)
+            try validate(inputId, name:"inputId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1084,6 +1296,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ApplicationARN", required: false, type: .string), 
             AWSShapeMember(label: "ApplicationVersionId", required: false, type: .long)
         ]
+
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationARN: String?
         /// The current application version ID.
@@ -1106,6 +1319,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
             AWSShapeMember(label: "OutputId", required: true, type: .string)
         ]
+
         /// The application name.
         public let applicationName: String
         /// The application version. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. 
@@ -1117,6 +1331,17 @@ extension KinesisAnalyticsV2 {
             self.applicationName = applicationName
             self.currentApplicationVersionId = currentApplicationVersionId
             self.outputId = outputId
+        }
+
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
+            try validate(outputId, name:"outputId", parent: name, max: 50)
+            try validate(outputId, name:"outputId", parent: name, min: 1)
+            try validate(outputId, name:"outputId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1131,6 +1356,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ApplicationARN", required: false, type: .string), 
             AWSShapeMember(label: "ApplicationVersionId", required: false, type: .long)
         ]
+
         /// The application Amazon Resource Name (ARN).
         public let applicationARN: String?
         /// The current application version ID.
@@ -1153,6 +1379,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
             AWSShapeMember(label: "ReferenceId", required: true, type: .string)
         ]
+
         /// The name of an existing application.
         public let applicationName: String
         /// The current application version. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
@@ -1164,6 +1391,17 @@ extension KinesisAnalyticsV2 {
             self.applicationName = applicationName
             self.currentApplicationVersionId = currentApplicationVersionId
             self.referenceId = referenceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
+            try validate(referenceId, name:"referenceId", parent: name, max: 50)
+            try validate(referenceId, name:"referenceId", parent: name, min: 1)
+            try validate(referenceId, name:"referenceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1178,6 +1416,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ApplicationARN", required: false, type: .string), 
             AWSShapeMember(label: "ApplicationVersionId", required: false, type: .long)
         ]
+
         /// The application Amazon Resource Name (ARN).
         public let applicationARN: String?
         /// The updated version ID of the application.
@@ -1199,6 +1438,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
             AWSShapeMember(label: "CreateTimestamp", required: true, type: .timestamp)
         ]
+
         /// The name of the application to delete.
         public let applicationName: String
         /// Use the DescribeApplication operation to get this value.
@@ -1209,6 +1449,12 @@ extension KinesisAnalyticsV2 {
             self.createTimestamp = createTimestamp
         }
 
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case createTimestamp = "CreateTimestamp"
@@ -1216,6 +1462,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct DeleteApplicationResponse: AWSShape {
+
 
         public init() {
         }
@@ -1228,6 +1475,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "SnapshotCreationTimestamp", required: true, type: .timestamp), 
             AWSShapeMember(label: "SnapshotName", required: true, type: .string)
         ]
+
         /// The name of an existing application.
         public let applicationName: String
         /// The creation timestamp of the application snapshot to delete. You can retrieve this value using or .
@@ -1241,6 +1489,15 @@ extension KinesisAnalyticsV2 {
             self.snapshotName = snapshotName
         }
 
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(snapshotName, name:"snapshotName", parent: name, max: 128)
+            try validate(snapshotName, name:"snapshotName", parent: name, min: 1)
+            try validate(snapshotName, name:"snapshotName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case snapshotCreationTimestamp = "SnapshotCreationTimestamp"
@@ -1249,6 +1506,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct DeleteApplicationSnapshotResponse: AWSShape {
+
 
         public init() {
         }
@@ -1260,6 +1518,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
             AWSShapeMember(label: "IncludeAdditionalDetails", required: false, type: .boolean)
         ]
+
         /// The name of the application.
         public let applicationName: String
         /// Displays verbose information about a Kinesis Data Analytics application, including the application's job plan.
@@ -1268,6 +1527,12 @@ extension KinesisAnalyticsV2 {
         public init(applicationName: String, includeAdditionalDetails: Bool? = nil) {
             self.applicationName = applicationName
             self.includeAdditionalDetails = includeAdditionalDetails
+        }
+
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1280,6 +1545,7 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationDetail", required: true, type: .structure)
         ]
+
         /// Provides a description of the application, such as the application's Amazon Resource Name (ARN), status, and latest version.
         public let applicationDetail: ApplicationDetail
 
@@ -1297,6 +1563,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
             AWSShapeMember(label: "SnapshotName", required: true, type: .string)
         ]
+
         /// The name of an existing application.
         public let applicationName: String
         /// The identifier of an application snapshot. You can retrieve this value using .
@@ -1305,6 +1572,15 @@ extension KinesisAnalyticsV2 {
         public init(applicationName: String, snapshotName: String) {
             self.applicationName = applicationName
             self.snapshotName = snapshotName
+        }
+
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(snapshotName, name:"snapshotName", parent: name, max: 128)
+            try validate(snapshotName, name:"snapshotName", parent: name, min: 1)
+            try validate(snapshotName, name:"snapshotName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1317,6 +1593,7 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnapshotDetails", required: true, type: .structure)
         ]
+
         /// An object containing information about the application snapshot.
         public let snapshotDetails: SnapshotDetails
 
@@ -1333,6 +1610,7 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RecordFormatType", required: true, type: .enum)
         ]
+
         /// Specifies the format of the records on the output stream.
         public let recordFormatType: RecordFormatType
 
@@ -1353,6 +1631,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "S3Configuration", required: false, type: .structure), 
             AWSShapeMember(label: "ServiceExecutionRole", required: true, type: .string)
         ]
+
         /// The InputProcessingConfiguration to use to preprocess the records before discovering the schema of the records.
         public let inputProcessingConfiguration: InputProcessingConfiguration?
         /// The point at which you want Kinesis Data Analytics to start reading records from the specified streaming source discovery purposes.
@@ -1372,6 +1651,17 @@ extension KinesisAnalyticsV2 {
             self.serviceExecutionRole = serviceExecutionRole
         }
 
+        public func validate(name: String) throws {
+            try inputProcessingConfiguration?.validate(name: "\(name).inputProcessingConfiguration")
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 2048)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, pattern: "arn:.*")
+            try s3Configuration?.validate(name: "\(name).s3Configuration")
+            try validate(serviceExecutionRole, name:"serviceExecutionRole", parent: name, max: 2048)
+            try validate(serviceExecutionRole, name:"serviceExecutionRole", parent: name, min: 1)
+            try validate(serviceExecutionRole, name:"serviceExecutionRole", parent: name, pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case inputProcessingConfiguration = "InputProcessingConfiguration"
             case inputStartingPositionConfiguration = "InputStartingPositionConfiguration"
@@ -1388,6 +1678,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ProcessedInputRecords", required: false, type: .list), 
             AWSShapeMember(label: "RawInputRecords", required: false, type: .list)
         ]
+
         /// The schema inferred from the streaming source. It identifies the format of the data in the streaming source and how each data element maps to corresponding columns in the in-application stream that you can create.
         public let inputSchema: SourceSchema?
         /// An array of elements, where each element corresponds to a row in a stream record (a stream record can have more than one row).
@@ -1416,11 +1707,19 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PropertyGroups", required: true, type: .list)
         ]
+
         /// Describes the execution property groups.
         public let propertyGroups: [PropertyGroup]
 
         public init(propertyGroups: [PropertyGroup]) {
             self.propertyGroups = propertyGroups
+        }
+
+        public func validate(name: String) throws {
+            try propertyGroups.forEach {
+                try $0.validate(name: "\(name).propertyGroups[]")
+            }
+            try validate(propertyGroups, name:"propertyGroups", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1432,6 +1731,7 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PropertyGroupDescriptions", required: false, type: .list)
         ]
+
         /// Describes the execution property groups.
         public let propertyGroupDescriptions: [PropertyGroup]?
 
@@ -1448,11 +1748,19 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PropertyGroups", required: true, type: .list)
         ]
+
         /// Describes updates to the execution property groups.
         public let propertyGroups: [PropertyGroup]
 
         public init(propertyGroups: [PropertyGroup]) {
             self.propertyGroups = propertyGroups
+        }
+
+        public func validate(name: String) throws {
+            try propertyGroups.forEach {
+                try $0.validate(name: "\(name).propertyGroups[]")
+            }
+            try validate(propertyGroups, name:"propertyGroups", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1466,6 +1774,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "MonitoringConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "ParallelismConfiguration", required: false, type: .structure)
         ]
+
         /// Describes an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance. For more information, see  Checkpoints for Fault Tolerance in the Apache Flink Documentation. 
         public let checkpointConfiguration: CheckpointConfiguration?
         /// Describes configuration parameters for Amazon CloudWatch logging for an application.
@@ -1477,6 +1786,11 @@ extension KinesisAnalyticsV2 {
             self.checkpointConfiguration = checkpointConfiguration
             self.monitoringConfiguration = monitoringConfiguration
             self.parallelismConfiguration = parallelismConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try checkpointConfiguration?.validate(name: "\(name).checkpointConfiguration")
+            try parallelismConfiguration?.validate(name: "\(name).parallelismConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1493,6 +1807,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "MonitoringConfigurationDescription", required: false, type: .structure), 
             AWSShapeMember(label: "ParallelismConfigurationDescription", required: false, type: .structure)
         ]
+
         /// Describes an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance.
         public let checkpointConfigurationDescription: CheckpointConfigurationDescription?
         /// The job plan for an application. For more information about the job plan, see Jobs and Scheduling in the Apache Flink Documentation. To retrieve the job plan for the application, use the DescribeApplicationRequest$IncludeAdditionalDetails parameter of the DescribeApplication operation.
@@ -1523,6 +1838,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "MonitoringConfigurationUpdate", required: false, type: .structure), 
             AWSShapeMember(label: "ParallelismConfigurationUpdate", required: false, type: .structure)
         ]
+
         /// Describes updates to an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance.
         public let checkpointConfigurationUpdate: CheckpointConfigurationUpdate?
         /// Describes updates to the configuration parameters for Amazon CloudWatch logging for an application.
@@ -1534,6 +1850,11 @@ extension KinesisAnalyticsV2 {
             self.checkpointConfigurationUpdate = checkpointConfigurationUpdate
             self.monitoringConfigurationUpdate = monitoringConfigurationUpdate
             self.parallelismConfigurationUpdate = parallelismConfigurationUpdate
+        }
+
+        public func validate(name: String) throws {
+            try checkpointConfigurationUpdate?.validate(name: "\(name).checkpointConfigurationUpdate")
+            try parallelismConfigurationUpdate?.validate(name: "\(name).parallelismConfigurationUpdate")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1552,6 +1873,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "KinesisStreamsInput", required: false, type: .structure), 
             AWSShapeMember(label: "NamePrefix", required: true, type: .string)
         ]
+
         /// Describes the number of in-application streams to create. 
         public let inputParallelism: InputParallelism?
         /// The InputProcessingConfiguration for the input. An input processor transforms records as they are received from the stream, before the application's SQL code executes. Currently, the only input processing configuration available is InputLambdaProcessor. 
@@ -1572,6 +1894,16 @@ extension KinesisAnalyticsV2 {
             self.kinesisFirehoseInput = kinesisFirehoseInput
             self.kinesisStreamsInput = kinesisStreamsInput
             self.namePrefix = namePrefix
+        }
+
+        public func validate(name: String) throws {
+            try inputParallelism?.validate(name: "\(name).inputParallelism")
+            try inputProcessingConfiguration?.validate(name: "\(name).inputProcessingConfiguration")
+            try inputSchema.validate(name: "\(name).inputSchema")
+            try kinesisFirehoseInput?.validate(name: "\(name).kinesisFirehoseInput")
+            try kinesisStreamsInput?.validate(name: "\(name).kinesisStreamsInput")
+            try validate(namePrefix, name:"namePrefix", parent: name, max: 32)
+            try validate(namePrefix, name:"namePrefix", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1596,6 +1928,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "KinesisStreamsInputDescription", required: false, type: .structure), 
             AWSShapeMember(label: "NamePrefix", required: false, type: .string)
         ]
+
         /// Returns the in-application stream names that are mapped to the stream source. 
         public let inAppStreamNames: [String]?
         /// The input ID that is associated with the application input. This is the ID that Kinesis Data Analytics assigns to each input configuration that you add to your application. 
@@ -1644,11 +1977,18 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARN", required: true, type: .string)
         ]
+
         /// The ARN of the AWS Lambda function that operates on records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARN: String
 
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 2048)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1661,6 +2001,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
+
         /// The ARN of the AWS Lambda function that is used to preprocess the records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARN: String
         /// The ARN of the IAM role that is used to access the AWS Lambda function.  Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role. 
@@ -1681,11 +2022,18 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARNUpdate", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the new AWS Lambda function that is used to preprocess the records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARNUpdate: String
 
         public init(resourceARNUpdate: String) {
             self.resourceARNUpdate = resourceARNUpdate
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, max: 2048)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, min: 1)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1697,11 +2045,17 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Count", required: false, type: .integer)
         ]
-        /// The number of in-application streams to create.
-        public let count: Int32?
 
-        public init(count: Int32? = nil) {
+        /// The number of in-application streams to create.
+        public let count: Int?
+
+        public init(count: Int? = nil) {
             self.count = count
+        }
+
+        public func validate(name: String) throws {
+            try validate(count, name:"count", parent: name, max: 64)
+            try validate(count, name:"count", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1713,11 +2067,17 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CountUpdate", required: true, type: .integer)
         ]
-        /// The number of in-application streams to create for the specified streaming source.
-        public let countUpdate: Int32
 
-        public init(countUpdate: Int32) {
+        /// The number of in-application streams to create for the specified streaming source.
+        public let countUpdate: Int
+
+        public init(countUpdate: Int) {
             self.countUpdate = countUpdate
+        }
+
+        public func validate(name: String) throws {
+            try validate(countUpdate, name:"countUpdate", parent: name, max: 64)
+            try validate(countUpdate, name:"countUpdate", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1729,11 +2089,16 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputLambdaProcessor", required: true, type: .structure)
         ]
+
         /// The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your application code.
         public let inputLambdaProcessor: InputLambdaProcessor
 
         public init(inputLambdaProcessor: InputLambdaProcessor) {
             self.inputLambdaProcessor = inputLambdaProcessor
+        }
+
+        public func validate(name: String) throws {
+            try inputLambdaProcessor.validate(name: "\(name).inputLambdaProcessor")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1745,6 +2110,7 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputLambdaProcessorDescription", required: false, type: .structure)
         ]
+
         /// Provides configuration information about the associated InputLambdaProcessorDescription 
         public let inputLambdaProcessorDescription: InputLambdaProcessorDescription?
 
@@ -1761,11 +2127,16 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputLambdaProcessorUpdate", required: true, type: .structure)
         ]
+
         /// Provides update information for an InputLambdaProcessor.
         public let inputLambdaProcessorUpdate: InputLambdaProcessorUpdate
 
         public init(inputLambdaProcessorUpdate: InputLambdaProcessorUpdate) {
             self.inputLambdaProcessorUpdate = inputLambdaProcessorUpdate
+        }
+
+        public func validate(name: String) throws {
+            try inputLambdaProcessorUpdate.validate(name: "\(name).inputLambdaProcessorUpdate")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1779,6 +2150,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "RecordEncodingUpdate", required: false, type: .string), 
             AWSShapeMember(label: "RecordFormatUpdate", required: false, type: .structure)
         ]
+
         /// A list of RecordColumn objects. Each object describes the mapping of the streaming source element to the corresponding column in the in-application stream.
         public let recordColumnUpdates: [RecordColumn]?
         /// Specifies the encoding of the records in the streaming source; for example, UTF-8.
@@ -1790,6 +2162,16 @@ extension KinesisAnalyticsV2 {
             self.recordColumnUpdates = recordColumnUpdates
             self.recordEncodingUpdate = recordEncodingUpdate
             self.recordFormatUpdate = recordFormatUpdate
+        }
+
+        public func validate(name: String) throws {
+            try recordColumnUpdates?.forEach {
+                try $0.validate(name: "\(name).recordColumnUpdates[]")
+            }
+            try validate(recordColumnUpdates, name:"recordColumnUpdates", parent: name, max: 1000)
+            try validate(recordColumnUpdates, name:"recordColumnUpdates", parent: name, min: 1)
+            try validate(recordEncodingUpdate, name:"recordEncodingUpdate", parent: name, pattern: "UTF-8")
+            try recordFormatUpdate?.validate(name: "\(name).recordFormatUpdate")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1810,6 +2192,7 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputStartingPosition", required: false, type: .enum)
         ]
+
         /// The starting position on the stream.    NOW - Start reading just after the most recent record in the stream, and start at the request timestamp that the customer issued.    TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not available for an Amazon Kinesis Data Firehose delivery stream.    LAST_STOPPED_POINT - Resume reading from where the application last stopped reading.  
         public let inputStartingPosition: InputStartingPosition?
 
@@ -1832,6 +2215,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "KinesisStreamsInputUpdate", required: false, type: .structure), 
             AWSShapeMember(label: "NamePrefixUpdate", required: false, type: .string)
         ]
+
         /// The input ID of the application input to be updated.
         public let inputId: String
         /// Describes the parallelism updates (the number of in-application streams Kinesis Data Analytics creates for the specific streaming source).
@@ -1857,6 +2241,19 @@ extension KinesisAnalyticsV2 {
             self.namePrefixUpdate = namePrefixUpdate
         }
 
+        public func validate(name: String) throws {
+            try validate(inputId, name:"inputId", parent: name, max: 50)
+            try validate(inputId, name:"inputId", parent: name, min: 1)
+            try validate(inputId, name:"inputId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try inputParallelismUpdate?.validate(name: "\(name).inputParallelismUpdate")
+            try inputProcessingConfigurationUpdate?.validate(name: "\(name).inputProcessingConfigurationUpdate")
+            try inputSchemaUpdate?.validate(name: "\(name).inputSchemaUpdate")
+            try kinesisFirehoseInputUpdate?.validate(name: "\(name).kinesisFirehoseInputUpdate")
+            try kinesisStreamsInputUpdate?.validate(name: "\(name).kinesisStreamsInputUpdate")
+            try validate(namePrefixUpdate, name:"namePrefixUpdate", parent: name, max: 32)
+            try validate(namePrefixUpdate, name:"namePrefixUpdate", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case inputId = "InputId"
             case inputParallelismUpdate = "InputParallelismUpdate"
@@ -1872,11 +2269,16 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RecordRowPath", required: true, type: .string)
         ]
+
         /// The path to the top-level parent that contains the records.
         public let recordRowPath: String
 
         public init(recordRowPath: String) {
             self.recordRowPath = recordRowPath
+        }
+
+        public func validate(name: String) throws {
+            try validate(recordRowPath, name:"recordRowPath", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1888,11 +2290,18 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARN", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the delivery stream.
         public let resourceARN: String
 
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 2048)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1905,6 +2314,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the delivery stream.
         public let resourceARN: String
         /// The ARN of the IAM role that Kinesis Data Analytics assumes to access the stream.  Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role. 
@@ -1925,11 +2335,18 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARNUpdate", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the input delivery stream to read.
         public let resourceARNUpdate: String
 
         public init(resourceARNUpdate: String) {
             self.resourceARNUpdate = resourceARNUpdate
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, max: 2048)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, min: 1)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1941,11 +2358,18 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARN", required: true, type: .string)
         ]
+
         /// The ARN of the destination delivery stream to write to.
         public let resourceARN: String
 
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 2048)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1958,6 +2382,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the delivery stream.
         public let resourceARN: String
         /// The ARN of the IAM role that Kinesis Data Analytics can assume to access the stream.  Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role. 
@@ -1978,11 +2403,18 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARNUpdate", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the delivery stream to write to. 
         public let resourceARNUpdate: String
 
         public init(resourceARNUpdate: String) {
             self.resourceARNUpdate = resourceARNUpdate
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, max: 2048)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, min: 1)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1994,11 +2426,18 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARN", required: true, type: .string)
         ]
+
         /// The ARN of the input Kinesis data stream to read.
         public let resourceARN: String
 
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 2048)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2011,6 +2450,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the Kinesis data stream.
         public let resourceARN: String
         /// The ARN of the IAM role that Kinesis Data Analytics can assume to access the stream.  Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role. 
@@ -2031,11 +2471,18 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARNUpdate", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the input Kinesis data stream to read.
         public let resourceARNUpdate: String
 
         public init(resourceARNUpdate: String) {
             self.resourceARNUpdate = resourceARNUpdate
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, max: 2048)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, min: 1)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2047,11 +2494,18 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARN", required: true, type: .string)
         ]
+
         /// The ARN of the destination Kinesis data stream to write to.
         public let resourceARN: String
 
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 2048)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2064,6 +2518,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the Kinesis data stream.
         public let resourceARN: String
         /// The ARN of the IAM role that Kinesis Data Analytics can assume to access the stream.  Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role. 
@@ -2084,11 +2539,18 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARNUpdate", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the Kinesis data stream where you want to write the output.
         public let resourceARNUpdate: String
 
         public init(resourceARNUpdate: String) {
             self.resourceARNUpdate = resourceARNUpdate
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, max: 2048)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, min: 1)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2100,11 +2562,18 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARN", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the destination Lambda function to write to.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARN: String
 
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 2048)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2117,6 +2586,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the destination Lambda function.
         public let resourceARN: String
         /// The ARN of the IAM role that Kinesis Data Analytics can assume to write to the destination function.  Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role. 
@@ -2137,11 +2607,18 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARNUpdate", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the destination AWS Lambda function.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARNUpdate: String
 
         public init(resourceARNUpdate: String) {
             self.resourceARNUpdate = resourceARNUpdate
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, max: 2048)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, min: 1)
+            try validate(resourceARNUpdate, name:"resourceARNUpdate", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2155,17 +2632,28 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The name of an existing application.
         public let applicationName: String
         /// The maximum number of application snapshots to list.
-        public let limit: Int32?
+        public let limit: Int?
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from. 
         public let nextToken: String?
 
-        public init(applicationName: String, limit: Int32? = nil, nextToken: String? = nil) {
+        public init(applicationName: String, limit: Int? = nil, nextToken: String? = nil) {
             self.applicationName = applicationName
             self.limit = limit
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(limit, name:"limit", parent: name, max: 50)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 512)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2180,6 +2668,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SnapshotSummaries", required: false, type: .list)
         ]
+
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
         /// A collection of objects containing information about the application snapshots.
@@ -2201,14 +2690,23 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The maximum number of applications to list.
-        public let limit: Int32?
+        public let limit: Int?
         /// If a previous command returned a pagination token, pass it into this value to retrieve the next set of results. For more information about pagination, see Using the AWS Command Line Interface's Pagination Options.
         public let nextToken: String?
 
-        public init(limit: Int32? = nil, nextToken: String? = nil) {
+        public init(limit: Int? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 50)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 128)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2222,6 +2720,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ApplicationSummaries", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of ApplicationSummary objects.
         public let applicationSummaries: [ApplicationSummary]
         /// The pagination token for the next set of results, or null if there are no additional results. Pass this token into a subsequent command to retrieve the next set of items For more information about pagination, see Using the AWS Command Line Interface's Pagination Options.
@@ -2242,11 +2741,18 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARN", required: true, type: .string)
         ]
+
         /// The ARN of the application for which to retrieve tags.
         public let resourceARN: String
 
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 2048)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, pattern: "arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\\d{1}+:\\d{12}+:application/[a-zA-Z0-9_.-]{1,128}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2258,6 +2764,7 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// The key-value tags assigned to the application.
         public let tags: [Tag]?
 
@@ -2283,6 +2790,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "CSVMappingParameters", required: false, type: .structure), 
             AWSShapeMember(label: "JSONMappingParameters", required: false, type: .structure)
         ]
+
         /// Provides additional mapping information when the record format uses delimiters (for example, CSV).
         public let cSVMappingParameters: CSVMappingParameters?
         /// Provides additional mapping information when JSON is the record format on the streaming source.
@@ -2291,6 +2799,11 @@ extension KinesisAnalyticsV2 {
         public init(cSVMappingParameters: CSVMappingParameters? = nil, jSONMappingParameters: JSONMappingParameters? = nil) {
             self.cSVMappingParameters = cSVMappingParameters
             self.jSONMappingParameters = jSONMappingParameters
+        }
+
+        public func validate(name: String) throws {
+            try cSVMappingParameters?.validate(name: "\(name).cSVMappingParameters")
+            try jSONMappingParameters?.validate(name: "\(name).jSONMappingParameters")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2313,6 +2826,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "LogLevel", required: false, type: .enum), 
             AWSShapeMember(label: "MetricsLevel", required: false, type: .enum)
         ]
+
         /// Describes whether to use the default CloudWatch logging configuration for an application.
         public let configurationType: ConfigurationType
         /// Describes the verbosity of the CloudWatch Logs for an application.
@@ -2339,6 +2853,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "LogLevel", required: false, type: .enum), 
             AWSShapeMember(label: "MetricsLevel", required: false, type: .enum)
         ]
+
         /// Describes whether to use the default CloudWatch logging configuration for an application.
         public let configurationType: ConfigurationType?
         /// Describes the verbosity of the CloudWatch Logs for an application.
@@ -2365,6 +2880,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "LogLevelUpdate", required: false, type: .enum), 
             AWSShapeMember(label: "MetricsLevelUpdate", required: false, type: .enum)
         ]
+
         /// Describes updates to whether to use the default CloudWatch logging configuration for an application.
         public let configurationTypeUpdate: ConfigurationType?
         /// Describes updates to the verbosity of the CloudWatch Logs for an application.
@@ -2393,6 +2909,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "LambdaOutput", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// Describes the data format when records are written to the destination. 
         public let destinationSchema: DestinationSchema
         /// Identifies an Amazon Kinesis Data Firehose delivery stream as the destination.
@@ -2410,6 +2927,14 @@ extension KinesisAnalyticsV2 {
             self.kinesisStreamsOutput = kinesisStreamsOutput
             self.lambdaOutput = lambdaOutput
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try kinesisFirehoseOutput?.validate(name: "\(name).kinesisFirehoseOutput")
+            try kinesisStreamsOutput?.validate(name: "\(name).kinesisStreamsOutput")
+            try lambdaOutput?.validate(name: "\(name).lambdaOutput")
+            try validate(name, name:"name", parent: name, max: 32)
+            try validate(name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2430,6 +2955,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "OutputId", required: false, type: .string)
         ]
+
         /// The data format used for writing data to the destination.
         public let destinationSchema: DestinationSchema?
         /// Describes the Kinesis Data Firehose delivery stream that is configured as the destination where output is written.
@@ -2471,6 +2997,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "NameUpdate", required: false, type: .string), 
             AWSShapeMember(label: "OutputId", required: true, type: .string)
         ]
+
         /// Describes the data format when records are written to the destination. 
         public let destinationSchemaUpdate: DestinationSchema?
         /// Describes a Kinesis Data Firehose delivery stream as the destination for the output.
@@ -2493,6 +3020,17 @@ extension KinesisAnalyticsV2 {
             self.outputId = outputId
         }
 
+        public func validate(name: String) throws {
+            try kinesisFirehoseOutputUpdate?.validate(name: "\(name).kinesisFirehoseOutputUpdate")
+            try kinesisStreamsOutputUpdate?.validate(name: "\(name).kinesisStreamsOutputUpdate")
+            try lambdaOutputUpdate?.validate(name: "\(name).lambdaOutputUpdate")
+            try validate(nameUpdate, name:"nameUpdate", parent: name, max: 32)
+            try validate(nameUpdate, name:"nameUpdate", parent: name, min: 1)
+            try validate(outputId, name:"outputId", parent: name, max: 50)
+            try validate(outputId, name:"outputId", parent: name, min: 1)
+            try validate(outputId, name:"outputId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case destinationSchemaUpdate = "DestinationSchemaUpdate"
             case kinesisFirehoseOutputUpdate = "KinesisFirehoseOutputUpdate"
@@ -2510,20 +3048,26 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "Parallelism", required: false, type: .integer), 
             AWSShapeMember(label: "ParallelismPerKPU", required: false, type: .integer)
         ]
+
         /// Describes whether the Kinesis Data Analytics service can increase the parallelism of the application in response to increased throughput.
         public let autoScalingEnabled: Bool?
         /// Describes whether the application uses the default parallelism for the Kinesis Data Analytics service.
         public let configurationType: ConfigurationType
         /// Describes the initial number of parallel tasks that a Java-based Kinesis Data Analytics application can perform. The Kinesis Data Analytics service can increase this number automatically if ParallelismConfiguration$AutoScalingEnabled is set to true.
-        public let parallelism: Int32?
+        public let parallelism: Int?
         /// Describes the number of parallel tasks that a Java-based Kinesis Data Analytics application can perform per Kinesis Processing Unit (KPU) used by the application. For more information about KPUs, see Amazon Kinesis Data Analytics Pricing.
-        public let parallelismPerKPU: Int32?
+        public let parallelismPerKPU: Int?
 
-        public init(autoScalingEnabled: Bool? = nil, configurationType: ConfigurationType, parallelism: Int32? = nil, parallelismPerKPU: Int32? = nil) {
+        public init(autoScalingEnabled: Bool? = nil, configurationType: ConfigurationType, parallelism: Int? = nil, parallelismPerKPU: Int? = nil) {
             self.autoScalingEnabled = autoScalingEnabled
             self.configurationType = configurationType
             self.parallelism = parallelism
             self.parallelismPerKPU = parallelismPerKPU
+        }
+
+        public func validate(name: String) throws {
+            try validate(parallelism, name:"parallelism", parent: name, min: 1)
+            try validate(parallelismPerKPU, name:"parallelismPerKPU", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2542,18 +3086,19 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "Parallelism", required: false, type: .integer), 
             AWSShapeMember(label: "ParallelismPerKPU", required: false, type: .integer)
         ]
+
         /// Describes whether the Kinesis Data Analytics service can increase the parallelism of the application in response to increased throughput.
         public let autoScalingEnabled: Bool?
         /// Describes whether the application uses the default parallelism for the Kinesis Data Analytics service. 
         public let configurationType: ConfigurationType?
         /// Describes the current number of parallel tasks that a Java-based Kinesis Data Analytics application can perform.
-        public let currentParallelism: Int32?
+        public let currentParallelism: Int?
         /// Describes the initial number of parallel tasks that a Java-based Kinesis Data Analytics application can perform. 
-        public let parallelism: Int32?
+        public let parallelism: Int?
         /// Describes the number of parallel tasks that a Java-based Kinesis Data Analytics application can perform per Kinesis Processing Unit (KPU) used by the application.
-        public let parallelismPerKPU: Int32?
+        public let parallelismPerKPU: Int?
 
-        public init(autoScalingEnabled: Bool? = nil, configurationType: ConfigurationType? = nil, currentParallelism: Int32? = nil, parallelism: Int32? = nil, parallelismPerKPU: Int32? = nil) {
+        public init(autoScalingEnabled: Bool? = nil, configurationType: ConfigurationType? = nil, currentParallelism: Int? = nil, parallelism: Int? = nil, parallelismPerKPU: Int? = nil) {
             self.autoScalingEnabled = autoScalingEnabled
             self.configurationType = configurationType
             self.currentParallelism = currentParallelism
@@ -2577,20 +3122,26 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ParallelismPerKPUUpdate", required: false, type: .integer), 
             AWSShapeMember(label: "ParallelismUpdate", required: false, type: .integer)
         ]
+
         /// Describes updates to whether the Kinesis Data Analytics service can increase the parallelism of the application in response to increased throughput.
         public let autoScalingEnabledUpdate: Bool?
         /// Describes updates to whether the application uses the default parallelism for the Kinesis Data Analytics service, or if a custom parallelism is used.
         public let configurationTypeUpdate: ConfigurationType?
         /// Describes updates to the number of parallel tasks an application can perform per Kinesis Processing Unit (KPU) used by the application.
-        public let parallelismPerKPUUpdate: Int32?
+        public let parallelismPerKPUUpdate: Int?
         /// Describes updates to the initial number of parallel tasks an application can perform.
-        public let parallelismUpdate: Int32?
+        public let parallelismUpdate: Int?
 
-        public init(autoScalingEnabledUpdate: Bool? = nil, configurationTypeUpdate: ConfigurationType? = nil, parallelismPerKPUUpdate: Int32? = nil, parallelismUpdate: Int32? = nil) {
+        public init(autoScalingEnabledUpdate: Bool? = nil, configurationTypeUpdate: ConfigurationType? = nil, parallelismPerKPUUpdate: Int? = nil, parallelismUpdate: Int? = nil) {
             self.autoScalingEnabledUpdate = autoScalingEnabledUpdate
             self.configurationTypeUpdate = configurationTypeUpdate
             self.parallelismPerKPUUpdate = parallelismPerKPUUpdate
             self.parallelismUpdate = parallelismUpdate
+        }
+
+        public func validate(name: String) throws {
+            try validate(parallelismPerKPUUpdate, name:"parallelismPerKPUUpdate", parent: name, min: 1)
+            try validate(parallelismUpdate, name:"parallelismUpdate", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2606,6 +3157,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "PropertyGroupId", required: true, type: .string), 
             AWSShapeMember(label: "PropertyMap", required: true, type: .map)
         ]
+
         /// Describes the key of an application execution property key-value pair.
         public let propertyGroupId: String
         /// Describes the value of an application execution property key-value pair.
@@ -2614,6 +3166,18 @@ extension KinesisAnalyticsV2 {
         public init(propertyGroupId: String, propertyMap: [String: String]) {
             self.propertyGroupId = propertyGroupId
             self.propertyMap = propertyMap
+        }
+
+        public func validate(name: String) throws {
+            try validate(propertyGroupId, name:"propertyGroupId", parent: name, max: 50)
+            try validate(propertyGroupId, name:"propertyGroupId", parent: name, min: 1)
+            try validate(propertyGroupId, name:"propertyGroupId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try propertyMap.forEach {
+                try validate($0.key, name:"propertyMap.key", parent: name, max: 2048)
+                try validate($0.key, name:"propertyMap.key", parent: name, min: 1)
+                try validate($0.value, name:"propertyMap[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name:"propertyMap[\"\($0.key)\"]", parent: name, min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2628,6 +3192,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "SqlType", required: true, type: .string)
         ]
+
         /// A reference to the data element in the streaming input or the reference data source.
         public let mapping: String?
         /// The name of the column that is created in the in-application input stream or reference table.
@@ -2639,6 +3204,10 @@ extension KinesisAnalyticsV2 {
             self.mapping = mapping
             self.name = name
             self.sqlType = sqlType
+        }
+
+        public func validate(name: String) throws {
+            try validate(sqlType, name:"sqlType", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2653,6 +3222,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "MappingParameters", required: false, type: .structure), 
             AWSShapeMember(label: "RecordFormatType", required: true, type: .enum)
         ]
+
         /// When you configure application input at the time of creating or updating an application, provides additional mapping information specific to the record format (such as JSON, CSV, or record fields delimited by some delimiter) on the streaming source.
         public let mappingParameters: MappingParameters?
         /// The type of record format.
@@ -2661,6 +3231,10 @@ extension KinesisAnalyticsV2 {
         public init(mappingParameters: MappingParameters? = nil, recordFormatType: RecordFormatType) {
             self.mappingParameters = mappingParameters
             self.recordFormatType = recordFormatType
+        }
+
+        public func validate(name: String) throws {
+            try mappingParameters?.validate(name: "\(name).mappingParameters")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2681,6 +3255,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "S3ReferenceDataSource", required: false, type: .structure), 
             AWSShapeMember(label: "TableName", required: true, type: .string)
         ]
+
         /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns created in the in-application stream.
         public let referenceSchema: SourceSchema
         /// Identifies the S3 bucket and object that contains the reference data. A Kinesis Data Analytics application loads reference data only once. If the data changes, you call the UpdateApplication operation to trigger reloading of data into your application. 
@@ -2692,6 +3267,13 @@ extension KinesisAnalyticsV2 {
             self.referenceSchema = referenceSchema
             self.s3ReferenceDataSource = s3ReferenceDataSource
             self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try referenceSchema.validate(name: "\(name).referenceSchema")
+            try s3ReferenceDataSource?.validate(name: "\(name).s3ReferenceDataSource")
+            try validate(tableName, name:"tableName", parent: name, max: 32)
+            try validate(tableName, name:"tableName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2708,6 +3290,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "S3ReferenceDataSourceDescription", required: true, type: .structure), 
             AWSShapeMember(label: "TableName", required: true, type: .string)
         ]
+
         /// The ID of the reference data source. This is the ID that Kinesis Data Analytics assigns when you add the reference data source to your application using the CreateApplication or UpdateApplication operation.
         public let referenceId: String
         /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns created in the in-application stream.
@@ -2739,6 +3322,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "S3ReferenceDataSourceUpdate", required: false, type: .structure), 
             AWSShapeMember(label: "TableNameUpdate", required: false, type: .string)
         ]
+
         /// The ID of the reference data source that is being updated. You can use the DescribeApplication operation to get this value.
         public let referenceId: String
         /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns created in the in-application stream. 
@@ -2755,6 +3339,16 @@ extension KinesisAnalyticsV2 {
             self.tableNameUpdate = tableNameUpdate
         }
 
+        public func validate(name: String) throws {
+            try validate(referenceId, name:"referenceId", parent: name, max: 50)
+            try validate(referenceId, name:"referenceId", parent: name, min: 1)
+            try validate(referenceId, name:"referenceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try referenceSchemaUpdate?.validate(name: "\(name).referenceSchemaUpdate")
+            try s3ReferenceDataSourceUpdate?.validate(name: "\(name).s3ReferenceDataSourceUpdate")
+            try validate(tableNameUpdate, name:"tableNameUpdate", parent: name, max: 32)
+            try validate(tableNameUpdate, name:"tableNameUpdate", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case referenceId = "ReferenceId"
             case referenceSchemaUpdate = "ReferenceSchemaUpdate"
@@ -2768,6 +3362,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ApplicationRestoreConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "SqlRunConfigurations", required: false, type: .list)
         ]
+
         /// Describes the restore behavior of a restarting application.
         public let applicationRestoreConfiguration: ApplicationRestoreConfiguration?
         /// Describes the starting parameters for an SQL-based Kinesis Data Analytics application.
@@ -2776,6 +3371,13 @@ extension KinesisAnalyticsV2 {
         public init(applicationRestoreConfiguration: ApplicationRestoreConfiguration? = nil, sqlRunConfigurations: [SqlRunConfiguration]? = nil) {
             self.applicationRestoreConfiguration = applicationRestoreConfiguration
             self.sqlRunConfigurations = sqlRunConfigurations
+        }
+
+        public func validate(name: String) throws {
+            try applicationRestoreConfiguration?.validate(name: "\(name).applicationRestoreConfiguration")
+            try sqlRunConfigurations?.forEach {
+                try $0.validate(name: "\(name).sqlRunConfigurations[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2788,6 +3390,7 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationRestoreConfigurationDescription", required: false, type: .structure)
         ]
+
         /// Describes the restore behavior of a restarting application.
         public let applicationRestoreConfigurationDescription: ApplicationRestoreConfiguration?
 
@@ -2804,11 +3407,16 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationRestoreConfiguration", required: false, type: .structure)
         ]
+
         /// Describes updates to the restore behavior of a restarting application.
         public let applicationRestoreConfiguration: ApplicationRestoreConfiguration?
 
         public init(applicationRestoreConfiguration: ApplicationRestoreConfiguration? = nil) {
             self.applicationRestoreConfiguration = applicationRestoreConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try applicationRestoreConfiguration?.validate(name: "\(name).applicationRestoreConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2828,6 +3436,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "FileKey", required: true, type: .string), 
             AWSShapeMember(label: "ObjectVersion", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) for the S3 bucket containing the application code.
         public let bucketARN: String
         /// The file key for the object containing the application code.
@@ -2853,6 +3462,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "BucketARN", required: true, type: .string), 
             AWSShapeMember(label: "FileKey", required: true, type: .string)
         ]
+
         /// The ARN of the S3 bucket that contains the data.
         public let bucketARN: String
         /// The name of the object that contains the data.
@@ -2861,6 +3471,14 @@ extension KinesisAnalyticsV2 {
         public init(bucketARN: String, fileKey: String) {
             self.bucketARN = bucketARN
             self.fileKey = fileKey
+        }
+
+        public func validate(name: String) throws {
+            try validate(bucketARN, name:"bucketARN", parent: name, max: 2048)
+            try validate(bucketARN, name:"bucketARN", parent: name, min: 1)
+            try validate(bucketARN, name:"bucketARN", parent: name, pattern: "arn:.*")
+            try validate(fileKey, name:"fileKey", parent: name, max: 1024)
+            try validate(fileKey, name:"fileKey", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2875,6 +3493,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "FileKey", required: true, type: .string), 
             AWSShapeMember(label: "ObjectVersion", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) for the S3 bucket containing the application code.
         public let bucketARN: String
         /// The file key for the object containing the application code.
@@ -2886,6 +3505,14 @@ extension KinesisAnalyticsV2 {
             self.bucketARN = bucketARN
             self.fileKey = fileKey
             self.objectVersion = objectVersion
+        }
+
+        public func validate(name: String) throws {
+            try validate(bucketARN, name:"bucketARN", parent: name, max: 2048)
+            try validate(bucketARN, name:"bucketARN", parent: name, min: 1)
+            try validate(bucketARN, name:"bucketARN", parent: name, pattern: "arn:.*")
+            try validate(fileKey, name:"fileKey", parent: name, max: 1024)
+            try validate(fileKey, name:"fileKey", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2901,6 +3528,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "FileKeyUpdate", required: false, type: .string), 
             AWSShapeMember(label: "ObjectVersionUpdate", required: false, type: .string)
         ]
+
         /// The new Amazon Resource Name (ARN) for the S3 bucket containing the application code.
         public let bucketARNUpdate: String?
         /// The new file key for the object containing the application code.
@@ -2912,6 +3540,14 @@ extension KinesisAnalyticsV2 {
             self.bucketARNUpdate = bucketARNUpdate
             self.fileKeyUpdate = fileKeyUpdate
             self.objectVersionUpdate = objectVersionUpdate
+        }
+
+        public func validate(name: String) throws {
+            try validate(bucketARNUpdate, name:"bucketARNUpdate", parent: name, max: 2048)
+            try validate(bucketARNUpdate, name:"bucketARNUpdate", parent: name, min: 1)
+            try validate(bucketARNUpdate, name:"bucketARNUpdate", parent: name, pattern: "arn:.*")
+            try validate(fileKeyUpdate, name:"fileKeyUpdate", parent: name, max: 1024)
+            try validate(fileKeyUpdate, name:"fileKeyUpdate", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2926,6 +3562,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "BucketARN", required: false, type: .string), 
             AWSShapeMember(label: "FileKey", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the S3 bucket.
         public let bucketARN: String?
         /// The object key name containing the reference data.
@@ -2934,6 +3571,14 @@ extension KinesisAnalyticsV2 {
         public init(bucketARN: String? = nil, fileKey: String? = nil) {
             self.bucketARN = bucketARN
             self.fileKey = fileKey
+        }
+
+        public func validate(name: String) throws {
+            try validate(bucketARN, name:"bucketARN", parent: name, max: 2048)
+            try validate(bucketARN, name:"bucketARN", parent: name, min: 1)
+            try validate(bucketARN, name:"bucketARN", parent: name, pattern: "arn:.*")
+            try validate(fileKey, name:"fileKey", parent: name, max: 1024)
+            try validate(fileKey, name:"fileKey", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2948,6 +3593,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "FileKey", required: true, type: .string), 
             AWSShapeMember(label: "ReferenceRoleARN", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the S3 bucket.
         public let bucketARN: String
         /// Amazon S3 object key name.
@@ -2973,6 +3619,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "BucketARNUpdate", required: false, type: .string), 
             AWSShapeMember(label: "FileKeyUpdate", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the S3 bucket.
         public let bucketARNUpdate: String?
         /// The object key name.
@@ -2981,6 +3628,14 @@ extension KinesisAnalyticsV2 {
         public init(bucketARNUpdate: String? = nil, fileKeyUpdate: String? = nil) {
             self.bucketARNUpdate = bucketARNUpdate
             self.fileKeyUpdate = fileKeyUpdate
+        }
+
+        public func validate(name: String) throws {
+            try validate(bucketARNUpdate, name:"bucketARNUpdate", parent: name, max: 2048)
+            try validate(bucketARNUpdate, name:"bucketARNUpdate", parent: name, min: 1)
+            try validate(bucketARNUpdate, name:"bucketARNUpdate", parent: name, pattern: "arn:.*")
+            try validate(fileKeyUpdate, name:"fileKeyUpdate", parent: name, max: 1024)
+            try validate(fileKeyUpdate, name:"fileKeyUpdate", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2996,6 +3651,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "SnapshotName", required: true, type: .string), 
             AWSShapeMember(label: "SnapshotStatus", required: true, type: .enum)
         ]
+
         /// The current application version ID when the snapshot was created.
         public let applicationVersionId: Int64
         /// The timestamp of the application snapshot.
@@ -3034,6 +3690,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "RecordEncoding", required: false, type: .string), 
             AWSShapeMember(label: "RecordFormat", required: true, type: .structure)
         ]
+
         /// A list of RecordColumn objects. 
         public let recordColumns: [RecordColumn]
         /// Specifies the encoding of the records in the streaming source. For example, UTF-8.
@@ -3045,6 +3702,16 @@ extension KinesisAnalyticsV2 {
             self.recordColumns = recordColumns
             self.recordEncoding = recordEncoding
             self.recordFormat = recordFormat
+        }
+
+        public func validate(name: String) throws {
+            try recordColumns.forEach {
+                try $0.validate(name: "\(name).recordColumns[]")
+            }
+            try validate(recordColumns, name:"recordColumns", parent: name, max: 1000)
+            try validate(recordColumns, name:"recordColumns", parent: name, min: 1)
+            try validate(recordEncoding, name:"recordEncoding", parent: name, pattern: "UTF-8")
+            try recordFormat.validate(name: "\(name).recordFormat")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3060,6 +3727,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "Outputs", required: false, type: .list), 
             AWSShapeMember(label: "ReferenceDataSources", required: false, type: .list)
         ]
+
         /// The array of Input objects describing the input streams used by the application.
         public let inputs: [Input]?
         /// The array of Output objects describing the destination streams used by the application.
@@ -3071,6 +3739,18 @@ extension KinesisAnalyticsV2 {
             self.inputs = inputs
             self.outputs = outputs
             self.referenceDataSources = referenceDataSources
+        }
+
+        public func validate(name: String) throws {
+            try inputs?.forEach {
+                try $0.validate(name: "\(name).inputs[]")
+            }
+            try outputs?.forEach {
+                try $0.validate(name: "\(name).outputs[]")
+            }
+            try referenceDataSources?.forEach {
+                try $0.validate(name: "\(name).referenceDataSources[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3086,6 +3766,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "OutputDescriptions", required: false, type: .list), 
             AWSShapeMember(label: "ReferenceDataSourceDescriptions", required: false, type: .list)
         ]
+
         /// The array of InputDescription objects describing the input streams used by the application.
         public let inputDescriptions: [InputDescription]?
         /// The array of OutputDescription objects describing the destination streams used by the application.
@@ -3112,6 +3793,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "OutputUpdates", required: false, type: .list), 
             AWSShapeMember(label: "ReferenceDataSourceUpdates", required: false, type: .list)
         ]
+
         /// The array of InputUpdate objects describing the new input streams used by the application.
         public let inputUpdates: [InputUpdate]?
         /// The array of OutputUpdate objects describing the new destination streams used by the application.
@@ -3123,6 +3805,18 @@ extension KinesisAnalyticsV2 {
             self.inputUpdates = inputUpdates
             self.outputUpdates = outputUpdates
             self.referenceDataSourceUpdates = referenceDataSourceUpdates
+        }
+
+        public func validate(name: String) throws {
+            try inputUpdates?.forEach {
+                try $0.validate(name: "\(name).inputUpdates[]")
+            }
+            try outputUpdates?.forEach {
+                try $0.validate(name: "\(name).outputUpdates[]")
+            }
+            try referenceDataSourceUpdates?.forEach {
+                try $0.validate(name: "\(name).referenceDataSourceUpdates[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3137,6 +3831,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "InputId", required: true, type: .string), 
             AWSShapeMember(label: "InputStartingPositionConfiguration", required: true, type: .structure)
         ]
+
         /// The input source ID. You can get this ID by calling the DescribeApplication operation. 
         public let inputId: String
         /// The point at which you want the application to start processing records from the streaming source. 
@@ -3145,6 +3840,12 @@ extension KinesisAnalyticsV2 {
         public init(inputId: String, inputStartingPositionConfiguration: InputStartingPositionConfiguration) {
             self.inputId = inputId
             self.inputStartingPositionConfiguration = inputStartingPositionConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try validate(inputId, name:"inputId", parent: name, max: 50)
+            try validate(inputId, name:"inputId", parent: name, min: 1)
+            try validate(inputId, name:"inputId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3158,6 +3859,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
             AWSShapeMember(label: "RunConfiguration", required: true, type: .structure)
         ]
+
         /// The name of the application.
         public let applicationName: String
         /// Identifies the run configuration (start parameters) of a Kinesis Data Analytics application.
@@ -3168,6 +3870,13 @@ extension KinesisAnalyticsV2 {
             self.runConfiguration = runConfiguration
         }
 
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try runConfiguration.validate(name: "\(name).runConfiguration")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case runConfiguration = "RunConfiguration"
@@ -3175,6 +3884,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct StartApplicationResponse: AWSShape {
+
 
         public init() {
         }
@@ -3185,11 +3895,18 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationName", required: true, type: .string)
         ]
+
         /// The name of the running application to stop.
         public let applicationName: String
 
         public init(applicationName: String) {
             self.applicationName = applicationName
+        }
+
+        public func validate(name: String) throws {
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3198,6 +3915,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct StopApplicationResponse: AWSShape {
+
 
         public init() {
         }
@@ -3209,6 +3927,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The key of the key-value tag.
         public let key: String
         /// The value of the key-value tag. The value is optional.
@@ -3217,6 +3936,13 @@ extension KinesisAnalyticsV2 {
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3230,6 +3956,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
+
         /// The ARN of the application to assign the tags.
         public let resourceARN: String
         /// The key-value tags to assign to the application.
@@ -3240,6 +3967,17 @@ extension KinesisAnalyticsV2 {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 2048)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, pattern: "arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\\d{1}+:\\d{12}+:application/[a-zA-Z0-9_.-]{1,128}")
+            try tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, max: 200)
+            try validate(tags, name:"tags", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceARN = "ResourceARN"
             case tags = "Tags"
@@ -3247,6 +3985,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct TagResourceResponse: AWSShape {
+
 
         public init() {
         }
@@ -3258,6 +3997,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
+
         /// The ARN of the Kinesis Analytics application from which to remove the tags.
         public let resourceARN: String
         /// A list of keys of tags to remove from the specified application.
@@ -3268,6 +4008,18 @@ extension KinesisAnalyticsV2 {
             self.tagKeys = tagKeys
         }
 
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 2048)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, pattern: "arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\\d{1}+:\\d{12}+:application/[a-zA-Z0-9_.-]{1,128}")
+            try tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try validate(tagKeys, name:"tagKeys", parent: name, max: 200)
+            try validate(tagKeys, name:"tagKeys", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceARN = "ResourceARN"
             case tagKeys = "TagKeys"
@@ -3275,6 +4027,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct UntagResourceResponse: AWSShape {
+
 
         public init() {
         }
@@ -3290,6 +4043,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "RunConfigurationUpdate", required: false, type: .structure), 
             AWSShapeMember(label: "ServiceExecutionRoleUpdate", required: false, type: .string)
         ]
+
         /// Describes application configuration updates.
         public let applicationConfigurationUpdate: ApplicationConfigurationUpdate?
         /// The name of the application to update.
@@ -3312,6 +4066,22 @@ extension KinesisAnalyticsV2 {
             self.serviceExecutionRoleUpdate = serviceExecutionRoleUpdate
         }
 
+        public func validate(name: String) throws {
+            try applicationConfigurationUpdate?.validate(name: "\(name).applicationConfigurationUpdate")
+            try validate(applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try cloudWatchLoggingOptionUpdates?.forEach {
+                try $0.validate(name: "\(name).cloudWatchLoggingOptionUpdates[]")
+            }
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
+            try runConfigurationUpdate?.validate(name: "\(name).runConfigurationUpdate")
+            try validate(serviceExecutionRoleUpdate, name:"serviceExecutionRoleUpdate", parent: name, max: 2048)
+            try validate(serviceExecutionRoleUpdate, name:"serviceExecutionRoleUpdate", parent: name, min: 1)
+            try validate(serviceExecutionRoleUpdate, name:"serviceExecutionRoleUpdate", parent: name, pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationConfigurationUpdate = "ApplicationConfigurationUpdate"
             case applicationName = "ApplicationName"
@@ -3326,6 +4096,7 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationDetail", required: true, type: .structure)
         ]
+
         /// Describes application updates.
         public let applicationDetail: ApplicationDetail
 

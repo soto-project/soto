@@ -9,7 +9,7 @@ AWS Storage Gateway Service AWS Storage Gateway is the service that connects an 
 */
 public struct StorageGateway {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

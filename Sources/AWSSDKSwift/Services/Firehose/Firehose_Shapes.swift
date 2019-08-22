@@ -10,14 +10,22 @@ extension Firehose {
             AWSShapeMember(label: "IntervalInSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "SizeInMBs", required: false, type: .integer)
         ]
-        /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300.
-        public let intervalInSeconds: Int32?
-        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
-        public let sizeInMBs: Int32?
 
-        public init(intervalInSeconds: Int32? = nil, sizeInMBs: Int32? = nil) {
+        /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300.
+        public let intervalInSeconds: Int?
+        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
+        public let sizeInMBs: Int?
+
+        public init(intervalInSeconds: Int? = nil, sizeInMBs: Int? = nil) {
             self.intervalInSeconds = intervalInSeconds
             self.sizeInMBs = sizeInMBs
+        }
+
+        public func validate(name: String) throws {
+            try validate(intervalInSeconds, name:"intervalInSeconds", parent: name, max: 900)
+            try validate(intervalInSeconds, name:"intervalInSeconds", parent: name, min: 60)
+            try validate(sizeInMBs, name:"sizeInMBs", parent: name, max: 128)
+            try validate(sizeInMBs, name:"sizeInMBs", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -32,6 +40,7 @@ extension Firehose {
             AWSShapeMember(label: "LogGroupName", required: false, type: .string), 
             AWSShapeMember(label: "LogStreamName", required: false, type: .string)
         ]
+
         /// Enables or disables CloudWatch logging.
         public let enabled: Bool?
         /// The CloudWatch group name for logging. This value is required if CloudWatch logging is enabled.
@@ -66,6 +75,7 @@ extension Firehose {
             AWSShapeMember(label: "DataTableColumns", required: false, type: .string), 
             AWSShapeMember(label: "DataTableName", required: true, type: .string)
         ]
+
         /// Optional parameters to use with the Amazon Redshift COPY command. For more information, see the "Optional Parameters" section of Amazon Redshift COPY command. Some possible examples that would apply to Kinesis Data Firehose are as follows:  delimiter '\t' lzop; - fields are delimited with "\t" (TAB character) and compressed using lzop.  delimiter '|' - fields are delimited with "|" (this is the default delimiter).  delimiter '|' escape - the delimiter should be escaped.  fixedwidth 'venueid:3,venuename:25,venuecity:12,venuestate:2,venueseats:6' - fields are fixed width in the source, with each width specified after every column in the table.  JSON 's3://mybucket/jsonpaths.txt' - data is in JSON format, and the path specified is the format of the data. For more examples, see Amazon Redshift COPY command examples.
         public let copyOptions: String?
         /// A comma-separated list of column names.
@@ -77,6 +87,10 @@ extension Firehose {
             self.copyOptions = copyOptions
             self.dataTableColumns = dataTableColumns
             self.dataTableName = dataTableName
+        }
+
+        public func validate(name: String) throws {
+            try validate(dataTableName, name:"dataTableName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -97,6 +111,7 @@ extension Firehose {
             AWSShapeMember(label: "SplunkDestinationConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// The name of the delivery stream. This name must be unique per AWS account in the same AWS Region. If the delivery streams are in different accounts or different Regions, you can have multiple delivery streams with the same name.
         public let deliveryStreamName: String
         /// The delivery stream type. This parameter can be one of the following values:    DirectPut: Provider applications access the delivery stream directly.    KinesisStreamAsSource: The delivery stream uses a Kinesis data stream as a source.  
@@ -125,6 +140,22 @@ extension Firehose {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try elasticsearchDestinationConfiguration?.validate(name: "\(name).elasticsearchDestinationConfiguration")
+            try extendedS3DestinationConfiguration?.validate(name: "\(name).extendedS3DestinationConfiguration")
+            try kinesisStreamSourceConfiguration?.validate(name: "\(name).kinesisStreamSourceConfiguration")
+            try redshiftDestinationConfiguration?.validate(name: "\(name).redshiftDestinationConfiguration")
+            try splunkDestinationConfiguration?.validate(name: "\(name).splunkDestinationConfiguration")
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, max: 50)
+            try validate(tags, name:"tags", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case deliveryStreamName = "DeliveryStreamName"
             case deliveryStreamType = "DeliveryStreamType"
@@ -141,6 +172,7 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeliveryStreamARN", required: false, type: .string)
         ]
+
         /// The ARN of the delivery stream.
         public let deliveryStreamARN: String?
 
@@ -160,6 +192,7 @@ extension Firehose {
             AWSShapeMember(label: "OutputFormatConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "SchemaConfiguration", required: false, type: .structure)
         ]
+
         /// Defaults to true. Set it to false if you want to disable format conversion while preserving the configuration details.
         public let enabled: Bool?
         /// Specifies the deserializer that you want Kinesis Data Firehose to use to convert the format of your data from JSON.
@@ -176,6 +209,12 @@ extension Firehose {
             self.schemaConfiguration = schemaConfiguration
         }
 
+        public func validate(name: String) throws {
+            try inputFormatConfiguration?.validate(name: "\(name).inputFormatConfiguration")
+            try outputFormatConfiguration?.validate(name: "\(name).outputFormatConfiguration")
+            try schemaConfiguration?.validate(name: "\(name).schemaConfiguration")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
             case inputFormatConfiguration = "InputFormatConfiguration"
@@ -188,11 +227,18 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string)
         ]
+
         /// The name of the delivery stream.
         public let deliveryStreamName: String
 
         public init(deliveryStreamName: String) {
             self.deliveryStreamName = deliveryStreamName
+        }
+
+        public func validate(name: String) throws {
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -201,6 +247,7 @@ extension Firehose {
     }
 
     public struct DeleteDeliveryStreamOutput: AWSShape {
+
 
         public init() {
         }
@@ -221,6 +268,7 @@ extension Firehose {
             AWSShapeMember(label: "Source", required: false, type: .structure), 
             AWSShapeMember(label: "VersionId", required: true, type: .string)
         ]
+
         /// The date and time that the delivery stream was created.
         public let createTimestamp: TimeStamp?
         /// The Amazon Resource Name (ARN) of the delivery stream. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
@@ -277,6 +325,7 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         /// For a full description of the different values of this status, see StartDeliveryStreamEncryption and StopDeliveryStreamEncryption.
         public let status: DeliveryStreamEncryptionStatus?
 
@@ -316,17 +365,28 @@ extension Firehose {
             AWSShapeMember(label: "ExclusiveStartDestinationId", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
+
         /// The name of the delivery stream.
         public let deliveryStreamName: String
         /// The ID of the destination to start returning the destination information. Kinesis Data Firehose supports one destination per delivery stream.
         public let exclusiveStartDestinationId: String?
         /// The limit on the number of destinations to return. You can have one destination per delivery stream.
-        public let limit: Int32?
+        public let limit: Int?
 
-        public init(deliveryStreamName: String, exclusiveStartDestinationId: String? = nil, limit: Int32? = nil) {
+        public init(deliveryStreamName: String, exclusiveStartDestinationId: String? = nil, limit: Int? = nil) {
             self.deliveryStreamName = deliveryStreamName
             self.exclusiveStartDestinationId = exclusiveStartDestinationId
             self.limit = limit
+        }
+
+        public func validate(name: String) throws {
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(exclusiveStartDestinationId, name:"exclusiveStartDestinationId", parent: name, max: 100)
+            try validate(exclusiveStartDestinationId, name:"exclusiveStartDestinationId", parent: name, min: 1)
+            try validate(limit, name:"limit", parent: name, max: 10000)
+            try validate(limit, name:"limit", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -340,6 +400,7 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeliveryStreamDescription", required: true, type: .structure)
         ]
+
         /// Information about the delivery stream.
         public let deliveryStreamDescription: DeliveryStreamDescription
 
@@ -357,6 +418,7 @@ extension Firehose {
             AWSShapeMember(label: "HiveJsonSerDe", required: false, type: .structure), 
             AWSShapeMember(label: "OpenXJsonSerDe", required: false, type: .structure)
         ]
+
         /// The native Hive / HCatalog JsonSerDe. Used by Kinesis Data Firehose for deserializing data, which means converting it from the JSON format in preparation for serializing it to the Parquet or ORC format. This is one of two deserializers you can choose, depending on which one offers the functionality you need. The other option is the OpenX SerDe.
         public let hiveJsonSerDe: HiveJsonSerDe?
         /// The OpenX SerDe. Used by Kinesis Data Firehose for deserializing data, which means converting it from the JSON format in preparation for serializing it to the Parquet or ORC format. This is one of two deserializers you can choose, depending on which one offers the functionality you need. The other option is the native Hive / HCatalog JsonSerDe.
@@ -365,6 +427,11 @@ extension Firehose {
         public init(hiveJsonSerDe: HiveJsonSerDe? = nil, openXJsonSerDe: OpenXJsonSerDe? = nil) {
             self.hiveJsonSerDe = hiveJsonSerDe
             self.openXJsonSerDe = openXJsonSerDe
+        }
+
+        public func validate(name: String) throws {
+            try hiveJsonSerDe?.validate(name: "\(name).hiveJsonSerDe")
+            try openXJsonSerDe?.validate(name: "\(name).openXJsonSerDe")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -382,6 +449,7 @@ extension Firehose {
             AWSShapeMember(label: "S3DestinationDescription", required: false, type: .structure), 
             AWSShapeMember(label: "SplunkDestinationDescription", required: false, type: .structure)
         ]
+
         /// The ID of the destination.
         public let destinationId: String
         /// The destination in Amazon ES.
@@ -419,14 +487,22 @@ extension Firehose {
             AWSShapeMember(label: "IntervalInSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "SizeInMBs", required: false, type: .integer)
         ]
-        /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
-        public let intervalInSeconds: Int32?
-        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
-        public let sizeInMBs: Int32?
 
-        public init(intervalInSeconds: Int32? = nil, sizeInMBs: Int32? = nil) {
+        /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
+        public let intervalInSeconds: Int?
+        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
+        public let sizeInMBs: Int?
+
+        public init(intervalInSeconds: Int? = nil, sizeInMBs: Int? = nil) {
             self.intervalInSeconds = intervalInSeconds
             self.sizeInMBs = sizeInMBs
+        }
+
+        public func validate(name: String) throws {
+            try validate(intervalInSeconds, name:"intervalInSeconds", parent: name, max: 900)
+            try validate(intervalInSeconds, name:"intervalInSeconds", parent: name, min: 60)
+            try validate(sizeInMBs, name:"sizeInMBs", parent: name, max: 100)
+            try validate(sizeInMBs, name:"sizeInMBs", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -449,6 +525,7 @@ extension Firehose {
             AWSShapeMember(label: "S3Configuration", required: true, type: .structure), 
             AWSShapeMember(label: "TypeName", required: true, type: .string)
         ]
+
         /// The buffering options. If no value is specified, the default values for ElasticsearchBufferingHints are used.
         public let bufferingHints: ElasticsearchBufferingHints?
         /// The Amazon CloudWatch logging options for your delivery stream.
@@ -486,6 +563,23 @@ extension Firehose {
             self.typeName = typeName
         }
 
+        public func validate(name: String) throws {
+            try bufferingHints?.validate(name: "\(name).bufferingHints")
+            try validate(domainARN, name:"domainARN", parent: name, max: 512)
+            try validate(domainARN, name:"domainARN", parent: name, min: 1)
+            try validate(domainARN, name:"domainARN", parent: name, pattern: "arn:.*")
+            try validate(indexName, name:"indexName", parent: name, max: 80)
+            try validate(indexName, name:"indexName", parent: name, min: 1)
+            try processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try retryOptions?.validate(name: "\(name).retryOptions")
+            try validate(roleARN, name:"roleARN", parent: name, max: 512)
+            try validate(roleARN, name:"roleARN", parent: name, min: 1)
+            try validate(roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
+            try s3Configuration.validate(name: "\(name).s3Configuration")
+            try validate(typeName, name:"typeName", parent: name, max: 100)
+            try validate(typeName, name:"typeName", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bufferingHints = "BufferingHints"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
@@ -515,6 +609,7 @@ extension Firehose {
             AWSShapeMember(label: "S3DestinationDescription", required: false, type: .structure), 
             AWSShapeMember(label: "TypeName", required: false, type: .string)
         ]
+
         /// The buffering options.
         public let bufferingHints: ElasticsearchBufferingHints?
         /// The Amazon CloudWatch logging options.
@@ -580,6 +675,7 @@ extension Firehose {
             AWSShapeMember(label: "S3Update", required: false, type: .structure), 
             AWSShapeMember(label: "TypeName", required: false, type: .string)
         ]
+
         /// The buffering options. If no value is specified, ElasticsearchBufferingHints object default values are used. 
         public let bufferingHints: ElasticsearchBufferingHints?
         /// The CloudWatch logging options for your delivery stream.
@@ -614,6 +710,23 @@ extension Firehose {
             self.typeName = typeName
         }
 
+        public func validate(name: String) throws {
+            try bufferingHints?.validate(name: "\(name).bufferingHints")
+            try validate(domainARN, name:"domainARN", parent: name, max: 512)
+            try validate(domainARN, name:"domainARN", parent: name, min: 1)
+            try validate(domainARN, name:"domainARN", parent: name, pattern: "arn:.*")
+            try validate(indexName, name:"indexName", parent: name, max: 80)
+            try validate(indexName, name:"indexName", parent: name, min: 1)
+            try processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try retryOptions?.validate(name: "\(name).retryOptions")
+            try validate(roleARN, name:"roleARN", parent: name, max: 512)
+            try validate(roleARN, name:"roleARN", parent: name, min: 1)
+            try validate(roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
+            try s3Update?.validate(name: "\(name).s3Update")
+            try validate(typeName, name:"typeName", parent: name, max: 100)
+            try validate(typeName, name:"typeName", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bufferingHints = "BufferingHints"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
@@ -641,11 +754,17 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DurationInSeconds", required: false, type: .integer)
         ]
-        /// After an initial failure to deliver to Amazon ES, the total amount of time during which Kinesis Data Firehose retries delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
-        public let durationInSeconds: Int32?
 
-        public init(durationInSeconds: Int32? = nil) {
+        /// After an initial failure to deliver to Amazon ES, the total amount of time during which Kinesis Data Firehose retries delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
+        public let durationInSeconds: Int?
+
+        public init(durationInSeconds: Int? = nil) {
             self.durationInSeconds = durationInSeconds
+        }
+
+        public func validate(name: String) throws {
+            try validate(durationInSeconds, name:"durationInSeconds", parent: name, max: 7200)
+            try validate(durationInSeconds, name:"durationInSeconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -664,6 +783,7 @@ extension Firehose {
             AWSShapeMember(label: "KMSEncryptionConfig", required: false, type: .structure), 
             AWSShapeMember(label: "NoEncryptionConfig", required: false, type: .enum)
         ]
+
         /// The encryption key.
         public let kMSEncryptionConfig: KMSEncryptionConfig?
         /// Specifically override existing encryption information to ensure that no encryption is used.
@@ -672,6 +792,10 @@ extension Firehose {
         public init(kMSEncryptionConfig: KMSEncryptionConfig? = nil, noEncryptionConfig: NoEncryptionConfig? = nil) {
             self.kMSEncryptionConfig = kMSEncryptionConfig
             self.noEncryptionConfig = noEncryptionConfig
+        }
+
+        public func validate(name: String) throws {
+            try kMSEncryptionConfig?.validate(name: "\(name).kMSEncryptionConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -695,6 +819,7 @@ extension Firehose {
             AWSShapeMember(label: "S3BackupConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "S3BackupMode", required: false, type: .enum)
         ]
+
         /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let bucketARN: String
         /// The buffering option.
@@ -735,6 +860,20 @@ extension Firehose {
             self.s3BackupMode = s3BackupMode
         }
 
+        public func validate(name: String) throws {
+            try validate(bucketARN, name:"bucketARN", parent: name, max: 2048)
+            try validate(bucketARN, name:"bucketARN", parent: name, min: 1)
+            try validate(bucketARN, name:"bucketARN", parent: name, pattern: "arn:.*")
+            try bufferingHints?.validate(name: "\(name).bufferingHints")
+            try dataFormatConversionConfiguration?.validate(name: "\(name).dataFormatConversionConfiguration")
+            try encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try validate(roleARN, name:"roleARN", parent: name, max: 512)
+            try validate(roleARN, name:"roleARN", parent: name, min: 1)
+            try validate(roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
+            try s3BackupConfiguration?.validate(name: "\(name).s3BackupConfiguration")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucketARN = "BucketARN"
             case bufferingHints = "BufferingHints"
@@ -766,6 +905,7 @@ extension Firehose {
             AWSShapeMember(label: "S3BackupDescription", required: false, type: .structure), 
             AWSShapeMember(label: "S3BackupMode", required: false, type: .enum)
         ]
+
         /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let bucketARN: String
         /// The buffering option.
@@ -837,6 +977,7 @@ extension Firehose {
             AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
             AWSShapeMember(label: "S3BackupUpdate", required: false, type: .structure)
         ]
+
         /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let bucketARN: String?
         /// The buffering option.
@@ -877,6 +1018,20 @@ extension Firehose {
             self.s3BackupUpdate = s3BackupUpdate
         }
 
+        public func validate(name: String) throws {
+            try validate(bucketARN, name:"bucketARN", parent: name, max: 2048)
+            try validate(bucketARN, name:"bucketARN", parent: name, min: 1)
+            try validate(bucketARN, name:"bucketARN", parent: name, pattern: "arn:.*")
+            try bufferingHints?.validate(name: "\(name).bufferingHints")
+            try dataFormatConversionConfiguration?.validate(name: "\(name).dataFormatConversionConfiguration")
+            try encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try validate(roleARN, name:"roleARN", parent: name, max: 512)
+            try validate(roleARN, name:"roleARN", parent: name, min: 1)
+            try validate(roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
+            try s3BackupUpdate?.validate(name: "\(name).s3BackupUpdate")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucketARN = "BucketARN"
             case bufferingHints = "BufferingHints"
@@ -903,11 +1058,18 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TimestampFormats", required: false, type: .list)
         ]
+
         /// Indicates how you want Kinesis Data Firehose to parse the date and timestamps that may be present in your input data JSON. To specify these format strings, follow the pattern syntax of JodaTime's DateTimeFormat format strings. For more information, see Class DateTimeFormat. You can also use the special value millis to parse timestamps in epoch milliseconds. If you don't specify a format, Kinesis Data Firehose uses java.sql.Timestamp::valueOf by default.
         public let timestampFormats: [String]?
 
         public init(timestampFormats: [String]? = nil) {
             self.timestampFormats = timestampFormats
+        }
+
+        public func validate(name: String) throws {
+            try timestampFormats?.forEach {
+                try validate($0, name: "timestampFormats[]", parent: name, pattern: "^(?!\\s*$).+")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -919,11 +1081,16 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Deserializer", required: false, type: .structure)
         ]
+
         /// Specifies which deserializer to use. You can choose either the Apache Hive JSON SerDe or the OpenX JSON SerDe. If both are non-null, the server rejects the request.
         public let deserializer: Deserializer?
 
         public init(deserializer: Deserializer? = nil) {
             self.deserializer = deserializer
+        }
+
+        public func validate(name: String) throws {
+            try deserializer?.validate(name: "\(name).deserializer")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -935,11 +1102,18 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AWSKMSKeyARN", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the encryption key. Must belong to the same AWS Region as the destination Amazon S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let aWSKMSKeyARN: String
 
         public init(aWSKMSKeyARN: String) {
             self.aWSKMSKeyARN = aWSKMSKeyARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(aWSKMSKeyARN, name:"aWSKMSKeyARN", parent: name, max: 512)
+            try validate(aWSKMSKeyARN, name:"aWSKMSKeyARN", parent: name, min: 1)
+            try validate(aWSKMSKeyARN, name:"aWSKMSKeyARN", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -952,6 +1126,7 @@ extension Firehose {
             AWSShapeMember(label: "KinesisStreamARN", required: true, type: .string), 
             AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
+
         /// The ARN of the source Kinesis data stream. For more information, see Amazon Kinesis Data Streams ARN Format.
         public let kinesisStreamARN: String
         /// The ARN of the role that provides access to the source Kinesis data stream. For more information, see AWS Identity and Access Management (IAM) ARN Format.
@@ -960,6 +1135,15 @@ extension Firehose {
         public init(kinesisStreamARN: String, roleARN: String) {
             self.kinesisStreamARN = kinesisStreamARN
             self.roleARN = roleARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(kinesisStreamARN, name:"kinesisStreamARN", parent: name, max: 512)
+            try validate(kinesisStreamARN, name:"kinesisStreamARN", parent: name, min: 1)
+            try validate(kinesisStreamARN, name:"kinesisStreamARN", parent: name, pattern: "arn:.*")
+            try validate(roleARN, name:"roleARN", parent: name, max: 512)
+            try validate(roleARN, name:"roleARN", parent: name, min: 1)
+            try validate(roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -974,6 +1158,7 @@ extension Firehose {
             AWSShapeMember(label: "KinesisStreamARN", required: false, type: .string), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
+
         /// Kinesis Data Firehose starts retrieving records from the Kinesis data stream starting with this timestamp.
         public let deliveryStartTimestamp: TimeStamp?
         /// The Amazon Resource Name (ARN) of the source Kinesis data stream. For more information, see Amazon Kinesis Data Streams ARN Format.
@@ -1000,17 +1185,26 @@ extension Firehose {
             AWSShapeMember(label: "ExclusiveStartDeliveryStreamName", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
+
         /// The delivery stream type. This can be one of the following values:    DirectPut: Provider applications access the delivery stream directly.    KinesisStreamAsSource: The delivery stream uses a Kinesis data stream as a source.   This parameter is optional. If this parameter is omitted, delivery streams of all types are returned.
         public let deliveryStreamType: DeliveryStreamType?
         /// The list of delivery streams returned by this call to ListDeliveryStreams will start with the delivery stream whose name comes alphabetically immediately after the name you specify in ExclusiveStartDeliveryStreamName.
         public let exclusiveStartDeliveryStreamName: String?
         /// The maximum number of delivery streams to list. The default value is 10.
-        public let limit: Int32?
+        public let limit: Int?
 
-        public init(deliveryStreamType: DeliveryStreamType? = nil, exclusiveStartDeliveryStreamName: String? = nil, limit: Int32? = nil) {
+        public init(deliveryStreamType: DeliveryStreamType? = nil, exclusiveStartDeliveryStreamName: String? = nil, limit: Int? = nil) {
             self.deliveryStreamType = deliveryStreamType
             self.exclusiveStartDeliveryStreamName = exclusiveStartDeliveryStreamName
             self.limit = limit
+        }
+
+        public func validate(name: String) throws {
+            try validate(exclusiveStartDeliveryStreamName, name:"exclusiveStartDeliveryStreamName", parent: name, max: 64)
+            try validate(exclusiveStartDeliveryStreamName, name:"exclusiveStartDeliveryStreamName", parent: name, min: 1)
+            try validate(exclusiveStartDeliveryStreamName, name:"exclusiveStartDeliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(limit, name:"limit", parent: name, max: 10000)
+            try validate(limit, name:"limit", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1025,6 +1219,7 @@ extension Firehose {
             AWSShapeMember(label: "DeliveryStreamNames", required: true, type: .list), 
             AWSShapeMember(label: "HasMoreDeliveryStreams", required: true, type: .boolean)
         ]
+
         /// The names of the delivery streams.
         public let deliveryStreamNames: [String]
         /// Indicates whether there are more delivery streams available to list.
@@ -1047,17 +1242,28 @@ extension Firehose {
             AWSShapeMember(label: "ExclusiveStartTagKey", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
+
         /// The name of the delivery stream whose tags you want to list.
         public let deliveryStreamName: String
         /// The key to use as the starting point for the list of tags. If you set this parameter, ListTagsForDeliveryStream gets all tags that occur after ExclusiveStartTagKey.
         public let exclusiveStartTagKey: String?
         /// The number of tags to return. If this number is less than the total number of tags associated with the delivery stream, HasMoreTags is set to true in the response. To list additional tags, set ExclusiveStartTagKey to the last key in the response. 
-        public let limit: Int32?
+        public let limit: Int?
 
-        public init(deliveryStreamName: String, exclusiveStartTagKey: String? = nil, limit: Int32? = nil) {
+        public init(deliveryStreamName: String, exclusiveStartTagKey: String? = nil, limit: Int? = nil) {
             self.deliveryStreamName = deliveryStreamName
             self.exclusiveStartTagKey = exclusiveStartTagKey
             self.limit = limit
+        }
+
+        public func validate(name: String) throws {
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(exclusiveStartTagKey, name:"exclusiveStartTagKey", parent: name, max: 128)
+            try validate(exclusiveStartTagKey, name:"exclusiveStartTagKey", parent: name, min: 1)
+            try validate(limit, name:"limit", parent: name, max: 50)
+            try validate(limit, name:"limit", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1072,6 +1278,7 @@ extension Firehose {
             AWSShapeMember(label: "HasMoreTags", required: true, type: .boolean), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
+
         /// If this is true in the response, more tags are available. To list the remaining tags, set ExclusiveStartTagKey to the key of the last tag returned and call ListTagsForDeliveryStream again.
         public let hasMoreTags: Bool
         /// A list of tags associated with DeliveryStreamName, starting with the first tag after ExclusiveStartTagKey and up to the specified Limit.
@@ -1099,6 +1306,7 @@ extension Firehose {
             AWSShapeMember(label: "ColumnToJsonKeyMappings", required: false, type: .map), 
             AWSShapeMember(label: "ConvertDotsInJsonKeysToUnderscores", required: false, type: .boolean)
         ]
+
         /// When set to true, which is the default, Kinesis Data Firehose converts JSON keys to lowercase before deserializing them.
         public let caseInsensitive: Bool?
         /// Maps column names to JSON keys that aren't identical to the column names. This is useful when the JSON contains keys that are Hive keywords. For example, timestamp is a Hive keyword. If you have a JSON key named timestamp, set this parameter to {"ts": "timestamp"} to map this key to a column named ts.
@@ -1110,6 +1318,13 @@ extension Firehose {
             self.caseInsensitive = caseInsensitive
             self.columnToJsonKeyMappings = columnToJsonKeyMappings
             self.convertDotsInJsonKeysToUnderscores = convertDotsInJsonKeysToUnderscores
+        }
+
+        public func validate(name: String) throws {
+            try columnToJsonKeyMappings?.forEach {
+                try validate($0.key, name:"columnToJsonKeyMappings.key", parent: name, pattern: "^\\S+$")
+                try validate($0.value, name:"columnToJsonKeyMappings[\"\($0.key)\"]", parent: name, pattern: "^(?!\\s*$).+")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1145,8 +1360,9 @@ extension Firehose {
             AWSShapeMember(label: "RowIndexStride", required: false, type: .integer), 
             AWSShapeMember(label: "StripeSizeBytes", required: false, type: .integer)
         ]
+
         /// The Hadoop Distributed File System (HDFS) block size. This is useful if you intend to copy the data from Amazon S3 to HDFS before querying. The default is 256 MiB and the minimum is 64 MiB. Kinesis Data Firehose uses this value for padding calculations.
-        public let blockSizeBytes: Int32?
+        public let blockSizeBytes: Int?
         /// The column names for which you want Kinesis Data Firehose to create bloom filters. The default is null.
         public let bloomFilterColumns: [String]?
         /// The Bloom filter false positive probability (FPP). The lower the FPP, the bigger the Bloom filter. The default value is 0.05, the minimum is 0, and the maximum is 1.
@@ -1162,11 +1378,11 @@ extension Firehose {
         /// A number between 0 and 1 that defines the tolerance for block padding as a decimal fraction of stripe size. The default value is 0.05, which means 5 percent of stripe size. For the default values of 64 MiB ORC stripes and 256 MiB HDFS blocks, the default block padding tolerance of 5 percent reserves a maximum of 3.2 MiB for padding within the 256 MiB block. In such a case, if the available size within the block is more than 3.2 MiB, a new, smaller stripe is inserted to fit within that space. This ensures that no stripe crosses block boundaries and causes remote reads within a node-local task. Kinesis Data Firehose ignores this parameter when OrcSerDe$EnablePadding is false.
         public let paddingTolerance: Double?
         /// The number of rows between index entries. The default is 10,000 and the minimum is 1,000.
-        public let rowIndexStride: Int32?
+        public let rowIndexStride: Int?
         /// The number of bytes in each stripe. The default is 64 MiB and the minimum is 8 MiB.
-        public let stripeSizeBytes: Int32?
+        public let stripeSizeBytes: Int?
 
-        public init(blockSizeBytes: Int32? = nil, bloomFilterColumns: [String]? = nil, bloomFilterFalsePositiveProbability: Double? = nil, compression: OrcCompression? = nil, dictionaryKeyThreshold: Double? = nil, enablePadding: Bool? = nil, formatVersion: OrcFormatVersion? = nil, paddingTolerance: Double? = nil, rowIndexStride: Int32? = nil, stripeSizeBytes: Int32? = nil) {
+        public init(blockSizeBytes: Int? = nil, bloomFilterColumns: [String]? = nil, bloomFilterFalsePositiveProbability: Double? = nil, compression: OrcCompression? = nil, dictionaryKeyThreshold: Double? = nil, enablePadding: Bool? = nil, formatVersion: OrcFormatVersion? = nil, paddingTolerance: Double? = nil, rowIndexStride: Int? = nil, stripeSizeBytes: Int? = nil) {
             self.blockSizeBytes = blockSizeBytes
             self.bloomFilterColumns = bloomFilterColumns
             self.bloomFilterFalsePositiveProbability = bloomFilterFalsePositiveProbability
@@ -1177,6 +1393,21 @@ extension Firehose {
             self.paddingTolerance = paddingTolerance
             self.rowIndexStride = rowIndexStride
             self.stripeSizeBytes = stripeSizeBytes
+        }
+
+        public func validate(name: String) throws {
+            try validate(blockSizeBytes, name:"blockSizeBytes", parent: name, min: 67108864)
+            try bloomFilterColumns?.forEach {
+                try validate($0, name: "bloomFilterColumns[]", parent: name, pattern: "^\\S+$")
+            }
+            try validate(bloomFilterFalsePositiveProbability, name:"bloomFilterFalsePositiveProbability", parent: name, max: 1)
+            try validate(bloomFilterFalsePositiveProbability, name:"bloomFilterFalsePositiveProbability", parent: name, min: 0)
+            try validate(dictionaryKeyThreshold, name:"dictionaryKeyThreshold", parent: name, max: 1)
+            try validate(dictionaryKeyThreshold, name:"dictionaryKeyThreshold", parent: name, min: 0)
+            try validate(paddingTolerance, name:"paddingTolerance", parent: name, max: 1)
+            try validate(paddingTolerance, name:"paddingTolerance", parent: name, min: 0)
+            try validate(rowIndexStride, name:"rowIndexStride", parent: name, min: 1000)
+            try validate(stripeSizeBytes, name:"stripeSizeBytes", parent: name, min: 8388608)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1197,11 +1428,16 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Serializer", required: false, type: .structure)
         ]
+
         /// Specifies which serializer to use. You can choose either the ORC SerDe or the Parquet SerDe. If both are non-null, the server rejects the request.
         public let serializer: Serializer?
 
         public init(serializer: Serializer? = nil) {
             self.serializer = serializer
+        }
+
+        public func validate(name: String) throws {
+            try serializer?.validate(name: "\(name).serializer")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1225,26 +1461,33 @@ extension Firehose {
             AWSShapeMember(label: "PageSizeBytes", required: false, type: .integer), 
             AWSShapeMember(label: "WriterVersion", required: false, type: .enum)
         ]
+
         /// The Hadoop Distributed File System (HDFS) block size. This is useful if you intend to copy the data from Amazon S3 to HDFS before querying. The default is 256 MiB and the minimum is 64 MiB. Kinesis Data Firehose uses this value for padding calculations.
-        public let blockSizeBytes: Int32?
+        public let blockSizeBytes: Int?
         /// The compression code to use over data blocks. The possible values are UNCOMPRESSED, SNAPPY, and GZIP, with the default being SNAPPY. Use SNAPPY for higher decompression speed. Use GZIP if the compression ration is more important than speed.
         public let compression: ParquetCompression?
         /// Indicates whether to enable dictionary compression.
         public let enableDictionaryCompression: Bool?
         /// The maximum amount of padding to apply. This is useful if you intend to copy the data from Amazon S3 to HDFS before querying. The default is 0.
-        public let maxPaddingBytes: Int32?
+        public let maxPaddingBytes: Int?
         /// The Parquet page size. Column chunks are divided into pages. A page is conceptually an indivisible unit (in terms of compression and encoding). The minimum value is 64 KiB and the default is 1 MiB.
-        public let pageSizeBytes: Int32?
+        public let pageSizeBytes: Int?
         /// Indicates the version of row format to output. The possible values are V1 and V2. The default is V1.
         public let writerVersion: ParquetWriterVersion?
 
-        public init(blockSizeBytes: Int32? = nil, compression: ParquetCompression? = nil, enableDictionaryCompression: Bool? = nil, maxPaddingBytes: Int32? = nil, pageSizeBytes: Int32? = nil, writerVersion: ParquetWriterVersion? = nil) {
+        public init(blockSizeBytes: Int? = nil, compression: ParquetCompression? = nil, enableDictionaryCompression: Bool? = nil, maxPaddingBytes: Int? = nil, pageSizeBytes: Int? = nil, writerVersion: ParquetWriterVersion? = nil) {
             self.blockSizeBytes = blockSizeBytes
             self.compression = compression
             self.enableDictionaryCompression = enableDictionaryCompression
             self.maxPaddingBytes = maxPaddingBytes
             self.pageSizeBytes = pageSizeBytes
             self.writerVersion = writerVersion
+        }
+
+        public func validate(name: String) throws {
+            try validate(blockSizeBytes, name:"blockSizeBytes", parent: name, min: 67108864)
+            try validate(maxPaddingBytes, name:"maxPaddingBytes", parent: name, min: 0)
+            try validate(pageSizeBytes, name:"pageSizeBytes", parent: name, min: 65536)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1268,6 +1511,7 @@ extension Firehose {
             AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "Processors", required: false, type: .list)
         ]
+
         /// Enables or disables data processing.
         public let enabled: Bool?
         /// The data processors.
@@ -1276,6 +1520,12 @@ extension Firehose {
         public init(enabled: Bool? = nil, processors: [Processor]? = nil) {
             self.enabled = enabled
             self.processors = processors
+        }
+
+        public func validate(name: String) throws {
+            try processors?.forEach {
+                try $0.validate(name: "\(name).processors[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1289,6 +1539,7 @@ extension Firehose {
             AWSShapeMember(label: "Parameters", required: false, type: .list), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
+
         /// The processor parameters.
         public let parameters: [ProcessorParameter]?
         /// The type of processor.
@@ -1297,6 +1548,12 @@ extension Firehose {
         public init(parameters: [ProcessorParameter]? = nil, type: ProcessorType) {
             self.parameters = parameters
             self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try parameters?.forEach {
+                try $0.validate(name: "\(name).parameters[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1310,6 +1567,7 @@ extension Firehose {
             AWSShapeMember(label: "ParameterName", required: true, type: .enum), 
             AWSShapeMember(label: "ParameterValue", required: true, type: .string)
         ]
+
         /// The name of the parameter.
         public let parameterName: ProcessorParameterName
         /// The parameter value.
@@ -1318,6 +1576,11 @@ extension Firehose {
         public init(parameterName: ProcessorParameterName, parameterValue: String) {
             self.parameterName = parameterName
             self.parameterValue = parameterValue
+        }
+
+        public func validate(name: String) throws {
+            try validate(parameterValue, name:"parameterValue", parent: name, max: 512)
+            try validate(parameterValue, name:"parameterValue", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1345,6 +1608,7 @@ extension Firehose {
             AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string), 
             AWSShapeMember(label: "Records", required: true, type: .list)
         ]
+
         /// The name of the delivery stream.
         public let deliveryStreamName: String
         /// One or more records.
@@ -1353,6 +1617,17 @@ extension Firehose {
         public init(deliveryStreamName: String, records: [Record]) {
             self.deliveryStreamName = deliveryStreamName
             self.records = records
+        }
+
+        public func validate(name: String) throws {
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try records.forEach {
+                try $0.validate(name: "\(name).records[]")
+            }
+            try validate(records, name:"records", parent: name, max: 500)
+            try validate(records, name:"records", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1367,14 +1642,15 @@ extension Firehose {
             AWSShapeMember(label: "FailedPutCount", required: true, type: .integer), 
             AWSShapeMember(label: "RequestResponses", required: true, type: .list)
         ]
+
         /// Indicates whether server-side encryption (SSE) was enabled during this operation.
         public let encrypted: Bool?
         /// The number of records that might have failed processing. This number might be greater than 0 even if the PutRecordBatch call succeeds. Check FailedPutCount to determine whether there are records that you need to resend.
-        public let failedPutCount: Int32
+        public let failedPutCount: Int
         /// The results array. For each record, the index of the response element is the same as the index used in the request array.
         public let requestResponses: [PutRecordBatchResponseEntry]
 
-        public init(encrypted: Bool? = nil, failedPutCount: Int32, requestResponses: [PutRecordBatchResponseEntry]) {
+        public init(encrypted: Bool? = nil, failedPutCount: Int, requestResponses: [PutRecordBatchResponseEntry]) {
             self.encrypted = encrypted
             self.failedPutCount = failedPutCount
             self.requestResponses = requestResponses
@@ -1393,6 +1669,7 @@ extension Firehose {
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "RecordId", required: false, type: .string)
         ]
+
         /// The error code for an individual record result.
         public let errorCode: String?
         /// The error message for an individual record result.
@@ -1418,6 +1695,7 @@ extension Firehose {
             AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string), 
             AWSShapeMember(label: "Record", required: true, type: .structure)
         ]
+
         /// The name of the delivery stream.
         public let deliveryStreamName: String
         /// The record.
@@ -1426,6 +1704,13 @@ extension Firehose {
         public init(deliveryStreamName: String, record: Record) {
             self.deliveryStreamName = deliveryStreamName
             self.record = record
+        }
+
+        public func validate(name: String) throws {
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try record.validate(name: "\(name).record")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1439,6 +1724,7 @@ extension Firehose {
             AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
             AWSShapeMember(label: "RecordId", required: true, type: .string)
         ]
+
         /// Indicates whether server-side encryption (SSE) was enabled during this operation.
         public let encrypted: Bool?
         /// The ID of the record.
@@ -1459,11 +1745,17 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Data", required: true, type: .blob)
         ]
+
         /// The data blob, which is base64-encoded when the blob is serialized. The maximum size of the data blob, before base64-encoding, is 1,000 KiB.
         public let data: Data
 
         public init(data: Data) {
             self.data = data
+        }
+
+        public func validate(name: String) throws {
+            try validate(data, name:"data", parent: name, max: 1024000)
+            try validate(data, name:"data", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1485,6 +1777,7 @@ extension Firehose {
             AWSShapeMember(label: "S3Configuration", required: true, type: .structure), 
             AWSShapeMember(label: "Username", required: true, type: .string)
         ]
+
         /// The CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The database connection string.
@@ -1522,6 +1815,21 @@ extension Firehose {
             self.username = username
         }
 
+        public func validate(name: String) throws {
+            try validate(clusterJDBCURL, name:"clusterJDBCURL", parent: name, min: 1)
+            try validate(clusterJDBCURL, name:"clusterJDBCURL", parent: name, pattern: "jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+redshift\\.amazonaws\\.com:\\d{1,5}/[a-zA-Z0-9_$]+")
+            try copyCommand.validate(name: "\(name).copyCommand")
+            try validate(password, name:"password", parent: name, min: 6)
+            try processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try retryOptions?.validate(name: "\(name).retryOptions")
+            try validate(roleARN, name:"roleARN", parent: name, max: 512)
+            try validate(roleARN, name:"roleARN", parent: name, min: 1)
+            try validate(roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
+            try s3BackupConfiguration?.validate(name: "\(name).s3BackupConfiguration")
+            try s3Configuration.validate(name: "\(name).s3Configuration")
+            try validate(username, name:"username", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case clusterJDBCURL = "ClusterJDBCURL"
@@ -1550,6 +1858,7 @@ extension Firehose {
             AWSShapeMember(label: "S3DestinationDescription", required: true, type: .structure), 
             AWSShapeMember(label: "Username", required: true, type: .string)
         ]
+
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The database connection string.
@@ -1612,6 +1921,7 @@ extension Firehose {
             AWSShapeMember(label: "S3Update", required: false, type: .structure), 
             AWSShapeMember(label: "Username", required: false, type: .string)
         ]
+
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The database connection string.
@@ -1649,6 +1959,21 @@ extension Firehose {
             self.username = username
         }
 
+        public func validate(name: String) throws {
+            try validate(clusterJDBCURL, name:"clusterJDBCURL", parent: name, min: 1)
+            try validate(clusterJDBCURL, name:"clusterJDBCURL", parent: name, pattern: "jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+redshift\\.amazonaws\\.com:\\d{1,5}/[a-zA-Z0-9_$]+")
+            try copyCommand?.validate(name: "\(name).copyCommand")
+            try validate(password, name:"password", parent: name, min: 6)
+            try processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try retryOptions?.validate(name: "\(name).retryOptions")
+            try validate(roleARN, name:"roleARN", parent: name, max: 512)
+            try validate(roleARN, name:"roleARN", parent: name, min: 1)
+            try validate(roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
+            try s3BackupUpdate?.validate(name: "\(name).s3BackupUpdate")
+            try s3Update?.validate(name: "\(name).s3Update")
+            try validate(username, name:"username", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case clusterJDBCURL = "ClusterJDBCURL"
@@ -1668,11 +1993,17 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DurationInSeconds", required: false, type: .integer)
         ]
-        /// The length of time during which Kinesis Data Firehose retries delivery after a failure, starting from the initial request and including the first attempt. The default value is 3600 seconds (60 minutes). Kinesis Data Firehose does not retry if the value of DurationInSeconds is 0 (zero) or if the first delivery attempt takes longer than the current value.
-        public let durationInSeconds: Int32?
 
-        public init(durationInSeconds: Int32? = nil) {
+        /// The length of time during which Kinesis Data Firehose retries delivery after a failure, starting from the initial request and including the first attempt. The default value is 3600 seconds (60 minutes). Kinesis Data Firehose does not retry if the value of DurationInSeconds is 0 (zero) or if the first delivery attempt takes longer than the current value.
+        public let durationInSeconds: Int?
+
+        public init(durationInSeconds: Int? = nil) {
             self.durationInSeconds = durationInSeconds
+        }
+
+        public func validate(name: String) throws {
+            try validate(durationInSeconds, name:"durationInSeconds", parent: name, max: 7200)
+            try validate(durationInSeconds, name:"durationInSeconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1703,6 +2034,7 @@ extension Firehose {
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
+
         /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let bucketARN: String
         /// The buffering option. If no value is specified, BufferingHints object default values are used.
@@ -1731,6 +2063,17 @@ extension Firehose {
             self.roleARN = roleARN
         }
 
+        public func validate(name: String) throws {
+            try validate(bucketARN, name:"bucketARN", parent: name, max: 2048)
+            try validate(bucketARN, name:"bucketARN", parent: name, min: 1)
+            try validate(bucketARN, name:"bucketARN", parent: name, pattern: "arn:.*")
+            try bufferingHints?.validate(name: "\(name).bufferingHints")
+            try encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try validate(roleARN, name:"roleARN", parent: name, max: 512)
+            try validate(roleARN, name:"roleARN", parent: name, min: 1)
+            try validate(roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucketARN = "BucketARN"
             case bufferingHints = "BufferingHints"
@@ -1754,6 +2097,7 @@ extension Firehose {
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
+
         /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let bucketARN: String
         /// The buffering option. If no value is specified, BufferingHints object default values are used.
@@ -1805,6 +2149,7 @@ extension Firehose {
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
+
         /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let bucketARN: String?
         /// The buffering option. If no value is specified, BufferingHints object default values are used.
@@ -1833,6 +2178,17 @@ extension Firehose {
             self.roleARN = roleARN
         }
 
+        public func validate(name: String) throws {
+            try validate(bucketARN, name:"bucketARN", parent: name, max: 2048)
+            try validate(bucketARN, name:"bucketARN", parent: name, min: 1)
+            try validate(bucketARN, name:"bucketARN", parent: name, pattern: "arn:.*")
+            try bufferingHints?.validate(name: "\(name).bufferingHints")
+            try encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try validate(roleARN, name:"roleARN", parent: name, max: 512)
+            try validate(roleARN, name:"roleARN", parent: name, min: 1)
+            try validate(roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucketARN = "BucketARN"
             case bufferingHints = "BufferingHints"
@@ -1854,6 +2210,7 @@ extension Firehose {
             AWSShapeMember(label: "TableName", required: false, type: .string), 
             AWSShapeMember(label: "VersionId", required: false, type: .string)
         ]
+
         /// The ID of the AWS Glue Data Catalog. If you don't supply this, the AWS account ID is used by default.
         public let catalogId: String?
         /// Specifies the name of the AWS Glue database that contains the schema for the output data.
@@ -1876,6 +2233,15 @@ extension Firehose {
             self.versionId = versionId
         }
 
+        public func validate(name: String) throws {
+            try validate(catalogId, name:"catalogId", parent: name, pattern: "^\\S+$")
+            try validate(databaseName, name:"databaseName", parent: name, pattern: "^\\S+$")
+            try validate(region, name:"region", parent: name, pattern: "^\\S+$")
+            try validate(roleARN, name:"roleARN", parent: name, pattern: "^\\S+$")
+            try validate(tableName, name:"tableName", parent: name, pattern: "^\\S+$")
+            try validate(versionId, name:"versionId", parent: name, pattern: "^\\S+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
@@ -1891,6 +2257,7 @@ extension Firehose {
             AWSShapeMember(label: "OrcSerDe", required: false, type: .structure), 
             AWSShapeMember(label: "ParquetSerDe", required: false, type: .structure)
         ]
+
         /// A serializer to use for converting data to the ORC format before storing it in Amazon S3. For more information, see Apache ORC.
         public let orcSerDe: OrcSerDe?
         /// A serializer to use for converting data to the Parquet format before storing it in Amazon S3. For more information, see Apache Parquet.
@@ -1899,6 +2266,11 @@ extension Firehose {
         public init(orcSerDe: OrcSerDe? = nil, parquetSerDe: ParquetSerDe? = nil) {
             self.orcSerDe = orcSerDe
             self.parquetSerDe = parquetSerDe
+        }
+
+        public func validate(name: String) throws {
+            try orcSerDe?.validate(name: "\(name).orcSerDe")
+            try parquetSerDe?.validate(name: "\(name).parquetSerDe")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1911,6 +2283,7 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KinesisStreamSourceDescription", required: false, type: .structure)
         ]
+
         /// The KinesisStreamSourceDescription value for the source Kinesis data stream.
         public let kinesisStreamSourceDescription: KinesisStreamSourceDescription?
 
@@ -1935,10 +2308,11 @@ extension Firehose {
             AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
             AWSShapeMember(label: "S3Configuration", required: true, type: .structure)
         ]
+
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The amount of time that Kinesis Data Firehose waits to receive an acknowledgment from Splunk after it sends it data. At the end of the timeout period, Kinesis Data Firehose either tries to send the data again or considers it an error, based on your retry settings.
-        public let hECAcknowledgmentTimeoutInSeconds: Int32?
+        public let hECAcknowledgmentTimeoutInSeconds: Int?
         /// The HTTP Event Collector (HEC) endpoint to which Kinesis Data Firehose sends your data.
         public let hECEndpoint: String
         /// This type can be either "Raw" or "Event."
@@ -1954,7 +2328,7 @@ extension Firehose {
         /// The configuration for the backup Amazon S3 location.
         public let s3Configuration: S3DestinationConfiguration
 
-        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hECAcknowledgmentTimeoutInSeconds: Int32? = nil, hECEndpoint: String, hECEndpointType: HECEndpointType, hECToken: String, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration) {
+        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hECAcknowledgmentTimeoutInSeconds: Int? = nil, hECEndpoint: String, hECEndpointType: HECEndpointType, hECToken: String, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration) {
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.hECAcknowledgmentTimeoutInSeconds = hECAcknowledgmentTimeoutInSeconds
             self.hECEndpoint = hECEndpoint
@@ -1964,6 +2338,14 @@ extension Firehose {
             self.retryOptions = retryOptions
             self.s3BackupMode = s3BackupMode
             self.s3Configuration = s3Configuration
+        }
+
+        public func validate(name: String) throws {
+            try validate(hECAcknowledgmentTimeoutInSeconds, name:"hECAcknowledgmentTimeoutInSeconds", parent: name, max: 600)
+            try validate(hECAcknowledgmentTimeoutInSeconds, name:"hECAcknowledgmentTimeoutInSeconds", parent: name, min: 180)
+            try processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try retryOptions?.validate(name: "\(name).retryOptions")
+            try s3Configuration.validate(name: "\(name).s3Configuration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1991,10 +2373,11 @@ extension Firehose {
             AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
             AWSShapeMember(label: "S3DestinationDescription", required: false, type: .structure)
         ]
+
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The amount of time that Kinesis Data Firehose waits to receive an acknowledgment from Splunk after it sends it data. At the end of the timeout period, Kinesis Data Firehose either tries to send the data again or considers it an error, based on your retry settings.
-        public let hECAcknowledgmentTimeoutInSeconds: Int32?
+        public let hECAcknowledgmentTimeoutInSeconds: Int?
         /// The HTTP Event Collector (HEC) endpoint to which Kinesis Data Firehose sends your data.
         public let hECEndpoint: String?
         /// This type can be either "Raw" or "Event."
@@ -2010,7 +2393,7 @@ extension Firehose {
         /// The Amazon S3 destination.&gt;
         public let s3DestinationDescription: S3DestinationDescription?
 
-        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hECAcknowledgmentTimeoutInSeconds: Int32? = nil, hECEndpoint: String? = nil, hECEndpointType: HECEndpointType? = nil, hECToken: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil) {
+        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hECAcknowledgmentTimeoutInSeconds: Int? = nil, hECEndpoint: String? = nil, hECEndpointType: HECEndpointType? = nil, hECToken: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil) {
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.hECAcknowledgmentTimeoutInSeconds = hECAcknowledgmentTimeoutInSeconds
             self.hECEndpoint = hECEndpoint
@@ -2047,10 +2430,11 @@ extension Firehose {
             AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
             AWSShapeMember(label: "S3Update", required: false, type: .structure)
         ]
+
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The amount of time that Kinesis Data Firehose waits to receive an acknowledgment from Splunk after it sends data. At the end of the timeout period, Kinesis Data Firehose either tries to send the data again or considers it an error, based on your retry settings.
-        public let hECAcknowledgmentTimeoutInSeconds: Int32?
+        public let hECAcknowledgmentTimeoutInSeconds: Int?
         /// The HTTP Event Collector (HEC) endpoint to which Kinesis Data Firehose sends your data.
         public let hECEndpoint: String?
         /// This type can be either "Raw" or "Event."
@@ -2066,7 +2450,7 @@ extension Firehose {
         /// Your update to the configuration of the backup Amazon S3 location.
         public let s3Update: S3DestinationUpdate?
 
-        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hECAcknowledgmentTimeoutInSeconds: Int32? = nil, hECEndpoint: String? = nil, hECEndpointType: HECEndpointType? = nil, hECToken: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3Update: S3DestinationUpdate? = nil) {
+        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hECAcknowledgmentTimeoutInSeconds: Int? = nil, hECEndpoint: String? = nil, hECEndpointType: HECEndpointType? = nil, hECToken: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3Update: S3DestinationUpdate? = nil) {
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.hECAcknowledgmentTimeoutInSeconds = hECAcknowledgmentTimeoutInSeconds
             self.hECEndpoint = hECEndpoint
@@ -2076,6 +2460,14 @@ extension Firehose {
             self.retryOptions = retryOptions
             self.s3BackupMode = s3BackupMode
             self.s3Update = s3Update
+        }
+
+        public func validate(name: String) throws {
+            try validate(hECAcknowledgmentTimeoutInSeconds, name:"hECAcknowledgmentTimeoutInSeconds", parent: name, max: 600)
+            try validate(hECAcknowledgmentTimeoutInSeconds, name:"hECAcknowledgmentTimeoutInSeconds", parent: name, min: 180)
+            try processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try retryOptions?.validate(name: "\(name).retryOptions")
+            try s3Update?.validate(name: "\(name).s3Update")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2095,11 +2487,17 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DurationInSeconds", required: false, type: .integer)
         ]
-        /// The total amount of time that Kinesis Data Firehose spends on retries. This duration starts after the initial attempt to send data to Splunk fails. It doesn't include the periods during which Kinesis Data Firehose waits for acknowledgment from Splunk after each attempt.
-        public let durationInSeconds: Int32?
 
-        public init(durationInSeconds: Int32? = nil) {
+        /// The total amount of time that Kinesis Data Firehose spends on retries. This duration starts after the initial attempt to send data to Splunk fails. It doesn't include the periods during which Kinesis Data Firehose waits for acknowledgment from Splunk after each attempt.
+        public let durationInSeconds: Int?
+
+        public init(durationInSeconds: Int? = nil) {
             self.durationInSeconds = durationInSeconds
+        }
+
+        public func validate(name: String) throws {
+            try validate(durationInSeconds, name:"durationInSeconds", parent: name, max: 7200)
+            try validate(durationInSeconds, name:"durationInSeconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2117,11 +2515,18 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string)
         ]
+
         /// The name of the delivery stream for which you want to enable server-side encryption (SSE).
         public let deliveryStreamName: String
 
         public init(deliveryStreamName: String) {
             self.deliveryStreamName = deliveryStreamName
+        }
+
+        public func validate(name: String) throws {
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2130,6 +2535,7 @@ extension Firehose {
     }
 
     public struct StartDeliveryStreamEncryptionOutput: AWSShape {
+
 
         public init() {
         }
@@ -2140,11 +2546,18 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string)
         ]
+
         /// The name of the delivery stream for which you want to disable server-side encryption (SSE).
         public let deliveryStreamName: String
 
         public init(deliveryStreamName: String) {
             self.deliveryStreamName = deliveryStreamName
+        }
+
+        public func validate(name: String) throws {
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2153,6 +2566,7 @@ extension Firehose {
     }
 
     public struct StopDeliveryStreamEncryptionOutput: AWSShape {
+
 
         public init() {
         }
@@ -2164,6 +2578,7 @@ extension Firehose {
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// A unique identifier for the tag. Maximum length: 128 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
         public let key: String
         /// An optional string, which you can use to describe or define the tag. Maximum length: 256 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
@@ -2172,6 +2587,13 @@ extension Firehose {
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2185,6 +2607,7 @@ extension Firehose {
             AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
+
         /// The name of the delivery stream to which you want to add the tags.
         public let deliveryStreamName: String
         /// A set of key-value pairs to use to create the tags.
@@ -2195,6 +2618,17 @@ extension Firehose {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, max: 50)
+            try validate(tags, name:"tags", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case deliveryStreamName = "DeliveryStreamName"
             case tags = "Tags"
@@ -2202,6 +2636,7 @@ extension Firehose {
     }
 
     public struct TagDeliveryStreamOutput: AWSShape {
+
 
         public init() {
         }
@@ -2213,6 +2648,7 @@ extension Firehose {
             AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
+
         /// The name of the delivery stream.
         public let deliveryStreamName: String
         /// A list of tag keys. Each corresponding tag is removed from the delivery stream.
@@ -2223,6 +2659,18 @@ extension Firehose {
             self.tagKeys = tagKeys
         }
 
+        public func validate(name: String) throws {
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try validate(tagKeys, name:"tagKeys", parent: name, max: 50)
+            try validate(tagKeys, name:"tagKeys", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case deliveryStreamName = "DeliveryStreamName"
             case tagKeys = "TagKeys"
@@ -2230,6 +2678,7 @@ extension Firehose {
     }
 
     public struct UntagDeliveryStreamOutput: AWSShape {
+
 
         public init() {
         }
@@ -2246,6 +2695,7 @@ extension Firehose {
             AWSShapeMember(label: "RedshiftDestinationUpdate", required: false, type: .structure), 
             AWSShapeMember(label: "SplunkDestinationUpdate", required: false, type: .structure)
         ]
+
         /// Obtain this value from the VersionId result of DeliveryStreamDescription. This value is required, and helps the service perform conditional operations. For example, if there is an interleaving update and this value is null, then the update destination fails. After the update is successful, the VersionId value is updated. The service then performs a merge of the old configuration with the new configuration.
         public let currentDeliveryStreamVersionId: String
         /// The name of the delivery stream.
@@ -2271,6 +2721,21 @@ extension Firehose {
             self.splunkDestinationUpdate = splunkDestinationUpdate
         }
 
+        public func validate(name: String) throws {
+            try validate(currentDeliveryStreamVersionId, name:"currentDeliveryStreamVersionId", parent: name, max: 50)
+            try validate(currentDeliveryStreamVersionId, name:"currentDeliveryStreamVersionId", parent: name, min: 1)
+            try validate(currentDeliveryStreamVersionId, name:"currentDeliveryStreamVersionId", parent: name, pattern: "[0-9]+")
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(destinationId, name:"destinationId", parent: name, max: 100)
+            try validate(destinationId, name:"destinationId", parent: name, min: 1)
+            try elasticsearchDestinationUpdate?.validate(name: "\(name).elasticsearchDestinationUpdate")
+            try extendedS3DestinationUpdate?.validate(name: "\(name).extendedS3DestinationUpdate")
+            try redshiftDestinationUpdate?.validate(name: "\(name).redshiftDestinationUpdate")
+            try splunkDestinationUpdate?.validate(name: "\(name).splunkDestinationUpdate")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case currentDeliveryStreamVersionId = "CurrentDeliveryStreamVersionId"
             case deliveryStreamName = "DeliveryStreamName"
@@ -2283,6 +2748,7 @@ extension Firehose {
     }
 
     public struct UpdateDestinationOutput: AWSShape {
+
 
         public init() {
         }

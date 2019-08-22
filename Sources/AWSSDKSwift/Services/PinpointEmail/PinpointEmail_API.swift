@@ -9,7 +9,7 @@ Amazon Pinpoint Email Service This document contains reference information for t
 */
 public struct PinpointEmail {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

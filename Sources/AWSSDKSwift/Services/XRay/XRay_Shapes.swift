@@ -11,6 +11,7 @@ extension XRay {
             AWSShapeMember(label: "Names", required: false, type: .list), 
             AWSShapeMember(label: "Type", required: false, type: .string)
         ]
+
         /// The canonical name of the alias.
         public let name: String?
         /// A list of names for the alias, including the canonical name.
@@ -37,6 +38,7 @@ extension XRay {
             AWSShapeMember(label: "NumberValue", required: false, type: .double), 
             AWSShapeMember(label: "StringValue", required: false, type: .string)
         ]
+
         /// Value for a Boolean annotation.
         public let booleanValue: Bool?
         /// Value for a Number annotation.
@@ -61,6 +63,7 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The name of a corresponding availability zone.
         public let name: String?
 
@@ -82,14 +85,15 @@ extension XRay {
             AWSShapeMember(label: "TimeoutCount", required: false, type: .integer), 
             AWSShapeMember(label: "UnknownHostCount", required: false, type: .integer)
         ]
-        public let connectionRefusedCount: Int32?
-        public let hTTPCode4XXCount: Int32?
-        public let hTTPCode5XXCount: Int32?
-        public let otherCount: Int32?
-        public let timeoutCount: Int32?
-        public let unknownHostCount: Int32?
 
-        public init(connectionRefusedCount: Int32? = nil, hTTPCode4XXCount: Int32? = nil, hTTPCode5XXCount: Int32? = nil, otherCount: Int32? = nil, timeoutCount: Int32? = nil, unknownHostCount: Int32? = nil) {
+        public let connectionRefusedCount: Int?
+        public let hTTPCode4XXCount: Int?
+        public let hTTPCode5XXCount: Int?
+        public let otherCount: Int?
+        public let timeoutCount: Int?
+        public let unknownHostCount: Int?
+
+        public init(connectionRefusedCount: Int? = nil, hTTPCode4XXCount: Int? = nil, hTTPCode5XXCount: Int? = nil, otherCount: Int? = nil, timeoutCount: Int? = nil, unknownHostCount: Int? = nil) {
             self.connectionRefusedCount = connectionRefusedCount
             self.hTTPCode4XXCount = hTTPCode4XXCount
             self.hTTPCode5XXCount = hTTPCode5XXCount
@@ -113,6 +117,7 @@ extension XRay {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "TraceIds", required: true, type: .list)
         ]
+
         /// Pagination token. Not used.
         public let nextToken: String?
         /// Specify the trace IDs of requests for which to retrieve segments.
@@ -121,6 +126,13 @@ extension XRay {
         public init(nextToken: String? = nil, traceIds: [String]) {
             self.nextToken = nextToken
             self.traceIds = traceIds
+        }
+
+        public func validate(name: String) throws {
+            try traceIds.forEach {
+                try validate($0, name: "traceIds[]", parent: name, max: 35)
+                try validate($0, name: "traceIds[]", parent: name, min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -135,6 +147,7 @@ extension XRay {
             AWSShapeMember(label: "Traces", required: false, type: .list), 
             AWSShapeMember(label: "UnprocessedTraceIds", required: false, type: .list)
         ]
+
         /// Pagination token. Not used.
         public let nextToken: String?
         /// Full traces for the specified requests.
@@ -160,6 +173,7 @@ extension XRay {
             AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
             AWSShapeMember(label: "GroupName", required: true, type: .string)
         ]
+
         /// The filter expression defining criteria by which to group traces.
         public let filterExpression: String?
         /// The case-sensitive name of the new group. Default is a reserved name and names must be unique.
@@ -168,6 +182,11 @@ extension XRay {
         public init(filterExpression: String? = nil, groupName: String) {
             self.filterExpression = filterExpression
             self.groupName = groupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(groupName, name:"groupName", parent: name, max: 32)
+            try validate(groupName, name:"groupName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -180,6 +199,7 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Group", required: false, type: .structure)
         ]
+
         /// The group that was created. Contains the name of the group that was created, the ARN of the group that was generated based on the group name, and the filter expression that was assigned to the group.
         public let group: Group?
 
@@ -196,11 +216,16 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SamplingRule", required: true, type: .structure)
         ]
+
         /// The rule definition.
         public let samplingRule: SamplingRule
 
         public init(samplingRule: SamplingRule) {
             self.samplingRule = samplingRule
+        }
+
+        public func validate(name: String) throws {
+            try samplingRule.validate(name: "\(name).samplingRule")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -212,6 +237,7 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SamplingRuleRecord", required: false, type: .structure)
         ]
+
         /// The saved rule definition and metadata.
         public let samplingRuleRecord: SamplingRuleRecord?
 
@@ -229,6 +255,7 @@ extension XRay {
             AWSShapeMember(label: "GroupARN", required: false, type: .string), 
             AWSShapeMember(label: "GroupName", required: false, type: .string)
         ]
+
         /// The ARN of the group that was generated on creation.
         public let groupARN: String?
         /// The case-sensitive name of the group.
@@ -239,6 +266,13 @@ extension XRay {
             self.groupName = groupName
         }
 
+        public func validate(name: String) throws {
+            try validate(groupARN, name:"groupARN", parent: name, max: 400)
+            try validate(groupARN, name:"groupARN", parent: name, min: 1)
+            try validate(groupName, name:"groupName", parent: name, max: 32)
+            try validate(groupName, name:"groupName", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case groupARN = "GroupARN"
             case groupName = "GroupName"
@@ -246,6 +280,7 @@ extension XRay {
     }
 
     public struct DeleteGroupResult: AWSShape {
+
 
         public init() {
         }
@@ -257,6 +292,7 @@ extension XRay {
             AWSShapeMember(label: "RuleARN", required: false, type: .string), 
             AWSShapeMember(label: "RuleName", required: false, type: .string)
         ]
+
         /// The ARN of the sampling rule. Specify a rule by either name or ARN, but not both.
         public let ruleARN: String?
         /// The name of the sampling rule. Specify a rule by either name or ARN, but not both.
@@ -277,6 +313,7 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SamplingRuleRecord", required: false, type: .structure)
         ]
+
         /// The deleted rule definition and metadata.
         public let samplingRuleRecord: SamplingRuleRecord?
 
@@ -298,12 +335,13 @@ extension XRay {
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "SummaryStatistics", required: false, type: .structure)
         ]
+
         /// Aliases for the edge.
         public let aliases: [Alias]?
         /// The end time of the last segment on the edge.
         public let endTime: TimeStamp?
         /// Identifier of the edge. Unique within a service map.
-        public let referenceId: Int32?
+        public let referenceId: Int?
         /// A histogram that maps the spread of client response times on an edge.
         public let responseTimeHistogram: [HistogramEntry]?
         /// The start time of the first segment on the edge.
@@ -311,7 +349,7 @@ extension XRay {
         /// Response statistics for segments on the edge.
         public let summaryStatistics: EdgeStatistics?
 
-        public init(aliases: [Alias]? = nil, endTime: TimeStamp? = nil, referenceId: Int32? = nil, responseTimeHistogram: [HistogramEntry]? = nil, startTime: TimeStamp? = nil, summaryStatistics: EdgeStatistics? = nil) {
+        public init(aliases: [Alias]? = nil, endTime: TimeStamp? = nil, referenceId: Int? = nil, responseTimeHistogram: [HistogramEntry]? = nil, startTime: TimeStamp? = nil, summaryStatistics: EdgeStatistics? = nil) {
             self.aliases = aliases
             self.endTime = endTime
             self.referenceId = referenceId
@@ -338,6 +376,7 @@ extension XRay {
             AWSShapeMember(label: "TotalCount", required: false, type: .long), 
             AWSShapeMember(label: "TotalResponseTime", required: false, type: .double)
         ]
+
         /// Information about requests that failed with a 4xx Client Error status code.
         public let errorStatistics: ErrorStatistics?
         /// Information about requests that failed with a 5xx Server Error status code.
@@ -372,6 +411,7 @@ extension XRay {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The ID of the customer master key (CMK) used for encryption, if applicable.
         public let keyId: String?
         /// The encryption status. While the status is UPDATING, X-Ray may encrypt data with a combination of the new and old settings.
@@ -408,6 +448,7 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Services", required: false, type: .list)
         ]
+
         /// A list of services corresponding to an error. A service identifies a segment and it contains a name, account ID, type, and inferred flag.
         public let services: [ErrorRootCauseService]?
 
@@ -426,6 +467,7 @@ extension XRay {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Remote", required: false, type: .boolean)
         ]
+
         /// The types and messages of the exceptions.
         public let exceptions: [RootCauseException]?
         /// The name of the entity.
@@ -455,6 +497,7 @@ extension XRay {
             AWSShapeMember(label: "Names", required: false, type: .list), 
             AWSShapeMember(label: "Type", required: false, type: .string)
         ]
+
         /// The account ID associated to the service.
         public let accountId: String?
         /// The path of root cause entities found on the service. 
@@ -493,6 +536,7 @@ extension XRay {
             AWSShapeMember(label: "ThrottleCount", required: false, type: .long), 
             AWSShapeMember(label: "TotalCount", required: false, type: .long)
         ]
+
         /// The number of requests that failed with untracked 4xx Client Error status codes.
         public let otherCount: Int64?
         /// The number of requests that failed with a 419 throttling status code.
@@ -517,6 +561,7 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Services", required: false, type: .list)
         ]
+
         /// A list of corresponding services. A service identifies a segment and it contains a name, account ID, type, and inferred flag.
         public let services: [FaultRootCauseService]?
 
@@ -535,6 +580,7 @@ extension XRay {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Remote", required: false, type: .boolean)
         ]
+
         /// The types and messages of the exceptions.
         public let exceptions: [RootCauseException]?
         /// The name of the entity.
@@ -564,6 +610,7 @@ extension XRay {
             AWSShapeMember(label: "Names", required: false, type: .list), 
             AWSShapeMember(label: "Type", required: false, type: .string)
         ]
+
         /// The account ID associated to the service.
         public let accountId: String?
         /// The path of root cause entities found on the service. 
@@ -601,6 +648,7 @@ extension XRay {
             AWSShapeMember(label: "OtherCount", required: false, type: .long), 
             AWSShapeMember(label: "TotalCount", required: false, type: .long)
         ]
+
         /// The number of requests that failed with untracked 5xx Server Error status codes.
         public let otherCount: Int64?
         /// The total number of requests that failed with a 5xx Server Error status code.
@@ -619,6 +667,7 @@ extension XRay {
 
     public struct GetEncryptionConfigRequest: AWSShape {
 
+
         public init() {
         }
 
@@ -628,6 +677,7 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EncryptionConfig", required: false, type: .structure)
         ]
+
         /// The encryption configuration document.
         public let encryptionConfig: EncryptionConfig?
 
@@ -645,6 +695,7 @@ extension XRay {
             AWSShapeMember(label: "GroupARN", required: false, type: .string), 
             AWSShapeMember(label: "GroupName", required: false, type: .string)
         ]
+
         /// The ARN of the group that was generated on creation.
         public let groupARN: String?
         /// The case-sensitive name of the group.
@@ -653,6 +704,13 @@ extension XRay {
         public init(groupARN: String? = nil, groupName: String? = nil) {
             self.groupARN = groupARN
             self.groupName = groupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(groupARN, name:"groupARN", parent: name, max: 400)
+            try validate(groupARN, name:"groupARN", parent: name, min: 1)
+            try validate(groupName, name:"groupName", parent: name, max: 32)
+            try validate(groupName, name:"groupName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -665,6 +723,7 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Group", required: false, type: .structure)
         ]
+
         /// The group that was requested. Contains the name of the group, the ARN of the group, and the filter expression that assigned to the group.
         public let group: Group?
 
@@ -681,11 +740,17 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Pagination token. Not used.
         public let nextToken: String?
 
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(nextToken, name:"nextToken", parent: name, max: 100)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -698,6 +763,7 @@ extension XRay {
             AWSShapeMember(label: "Groups", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The collection of all active groups.
         public let groups: [GroupSummary]?
         /// Pagination token. Not used.
@@ -718,6 +784,7 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Pagination token. Not used.
         public let nextToken: String?
 
@@ -735,6 +802,7 @@ extension XRay {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SamplingRuleRecords", required: false, type: .list)
         ]
+
         /// Pagination token. Not used.
         public let nextToken: String?
         /// Rule definitions and metadata.
@@ -755,6 +823,7 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Pagination token. Not used.
         public let nextToken: String?
 
@@ -772,6 +841,7 @@ extension XRay {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SamplingStatisticSummaries", required: false, type: .list)
         ]
+
         /// Pagination token. Not used.
         public let nextToken: String?
         /// Information about the number of requests instrumented for each sampling rule.
@@ -792,11 +862,19 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SamplingStatisticsDocuments", required: true, type: .list)
         ]
+
         /// Information about rules that the service is using to sample requests.
         public let samplingStatisticsDocuments: [SamplingStatisticsDocument]
 
         public init(samplingStatisticsDocuments: [SamplingStatisticsDocument]) {
             self.samplingStatisticsDocuments = samplingStatisticsDocuments
+        }
+
+        public func validate(name: String) throws {
+            try samplingStatisticsDocuments.forEach {
+                try $0.validate(name: "\(name).samplingStatisticsDocuments[]")
+            }
+            try validate(samplingStatisticsDocuments, name:"samplingStatisticsDocuments", parent: name, max: 25)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -810,6 +888,7 @@ extension XRay {
             AWSShapeMember(label: "SamplingTargetDocuments", required: false, type: .list), 
             AWSShapeMember(label: "UnprocessedStatistics", required: false, type: .list)
         ]
+
         /// The last time a user changed the sampling rule configuration. If the sampling rule configuration changed since the service last retrieved it, the service should call GetSamplingRules to get the latest version.
         public let lastRuleModification: TimeStamp?
         /// Updated rules that the service should use to sample requests.
@@ -838,6 +917,7 @@ extension XRay {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
         ]
+
         /// The end of the timeframe for which to generate a graph.
         public let endTime: TimeStamp
         /// The ARN of a group to generate a graph based on.
@@ -857,6 +937,13 @@ extension XRay {
             self.startTime = startTime
         }
 
+        public func validate(name: String) throws {
+            try validate(groupARN, name:"groupARN", parent: name, max: 400)
+            try validate(groupARN, name:"groupARN", parent: name, min: 1)
+            try validate(groupName, name:"groupName", parent: name, max: 32)
+            try validate(groupName, name:"groupName", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case endTime = "EndTime"
             case groupARN = "GroupARN"
@@ -874,6 +961,7 @@ extension XRay {
             AWSShapeMember(label: "Services", required: false, type: .list), 
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
         ]
+
         /// A flag indicating whether the group's filter expression has been consistent, or if the returned service graph may show traces from an older version of the group's filter expression.
         public let containsOldGroupVersions: Bool?
         /// The end of the time frame for which the graph was generated.
@@ -912,6 +1000,7 @@ extension XRay {
             AWSShapeMember(label: "Period", required: false, type: .integer), 
             AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
         ]
+
         /// The end of the time frame for which to aggregate statistics.
         public let endTime: TimeStamp
         /// A filter expression defining entities that will be aggregated for statistics. Supports ID, service, and edge functions. If no selector expression is specified, edge statistics are returned. 
@@ -923,11 +1012,11 @@ extension XRay {
         /// Pagination token. Not used.
         public let nextToken: String?
         /// Aggregation period in seconds.
-        public let period: Int32?
+        public let period: Int?
         /// The start of the time frame for which to aggregate statistics.
         public let startTime: TimeStamp
 
-        public init(endTime: TimeStamp, entitySelectorExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil, nextToken: String? = nil, period: Int32? = nil, startTime: TimeStamp) {
+        public init(endTime: TimeStamp, entitySelectorExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil, nextToken: String? = nil, period: Int? = nil, startTime: TimeStamp) {
             self.endTime = endTime
             self.entitySelectorExpression = entitySelectorExpression
             self.groupARN = groupARN
@@ -935,6 +1024,15 @@ extension XRay {
             self.nextToken = nextToken
             self.period = period
             self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try validate(entitySelectorExpression, name:"entitySelectorExpression", parent: name, max: 500)
+            try validate(entitySelectorExpression, name:"entitySelectorExpression", parent: name, min: 1)
+            try validate(groupARN, name:"groupARN", parent: name, max: 400)
+            try validate(groupARN, name:"groupARN", parent: name, min: 1)
+            try validate(groupName, name:"groupName", parent: name, max: 32)
+            try validate(groupName, name:"groupName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -954,6 +1052,7 @@ extension XRay {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "TimeSeriesServiceStatistics", required: false, type: .list)
         ]
+
         /// A flag indicating whether or not a group's filter expression has been consistent, or if a returned aggregation may show statistics from an older version of the group's filter expression.
         public let containsOldGroupVersions: Bool?
         /// Pagination token. Not used.
@@ -979,6 +1078,7 @@ extension XRay {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "TraceIds", required: true, type: .list)
         ]
+
         /// Pagination token. Not used.
         public let nextToken: String?
         /// Trace IDs of requests for which to generate a service graph.
@@ -987,6 +1087,13 @@ extension XRay {
         public init(nextToken: String? = nil, traceIds: [String]) {
             self.nextToken = nextToken
             self.traceIds = traceIds
+        }
+
+        public func validate(name: String) throws {
+            try traceIds.forEach {
+                try validate($0, name: "traceIds[]", parent: name, max: 35)
+                try validate($0, name: "traceIds[]", parent: name, min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1000,6 +1107,7 @@ extension XRay {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Services", required: false, type: .list)
         ]
+
         /// Pagination token. Not used.
         public let nextToken: String?
         /// The services that have processed one of the specified requests.
@@ -1026,6 +1134,7 @@ extension XRay {
             AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "TimeRangeType", required: false, type: .enum)
         ]
+
         /// The end of the time frame for which to retrieve traces.
         public let endTime: TimeStamp
         /// Specify a filter expression to retrieve trace summaries for services or requests that meet certain requirements.
@@ -1069,6 +1178,7 @@ extension XRay {
             AWSShapeMember(label: "TracesProcessedCount", required: false, type: .long), 
             AWSShapeMember(label: "TraceSummaries", required: false, type: .list)
         ]
+
         /// The start time of this page of results.
         public let approximateTime: TimeStamp?
         /// If the requested time frame contained more than one page of results, you can use this token to retrieve the next page. The first page contains the most most recent results, closest to the end of the time frame.
@@ -1099,6 +1209,7 @@ extension XRay {
             AWSShapeMember(label: "GroupARN", required: false, type: .string), 
             AWSShapeMember(label: "GroupName", required: false, type: .string)
         ]
+
         /// The filter expression defining the parameters to include traces.
         public let filterExpression: String?
         /// The ARN of the group generated based on the GroupName.
@@ -1125,6 +1236,7 @@ extension XRay {
             AWSShapeMember(label: "GroupARN", required: false, type: .string), 
             AWSShapeMember(label: "GroupName", required: false, type: .string)
         ]
+
         /// The filter expression defining the parameters to include traces.
         public let filterExpression: String?
         /// The ARN of the group generated based on the GroupName.
@@ -1150,12 +1262,13 @@ extension XRay {
             AWSShapeMember(label: "Count", required: false, type: .integer), 
             AWSShapeMember(label: "Value", required: false, type: .double)
         ]
+
         /// The prevalence of the entry.
-        public let count: Int32?
+        public let count: Int?
         /// The value of the entry.
         public let value: Double?
 
-        public init(count: Int32? = nil, value: Double? = nil) {
+        public init(count: Int? = nil, value: Double? = nil) {
             self.count = count
             self.value = value
         }
@@ -1174,18 +1287,19 @@ extension XRay {
             AWSShapeMember(label: "HttpURL", required: false, type: .string), 
             AWSShapeMember(label: "UserAgent", required: false, type: .string)
         ]
+
         /// The IP address of the requestor.
         public let clientIp: String?
         /// The request method.
         public let httpMethod: String?
         /// The response status.
-        public let httpStatus: Int32?
+        public let httpStatus: Int?
         /// The request URL.
         public let httpURL: String?
         /// The request's user agent string.
         public let userAgent: String?
 
-        public init(clientIp: String? = nil, httpMethod: String? = nil, httpStatus: Int32? = nil, httpURL: String? = nil, userAgent: String? = nil) {
+        public init(clientIp: String? = nil, httpMethod: String? = nil, httpStatus: Int? = nil, httpURL: String? = nil, userAgent: String? = nil) {
             self.clientIp = clientIp
             self.httpMethod = httpMethod
             self.httpStatus = httpStatus
@@ -1206,6 +1320,7 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
+
         /// The ID of a corresponding EC2 instance.
         public let id: String?
 
@@ -1223,6 +1338,7 @@ extension XRay {
             AWSShapeMember(label: "KeyId", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
+
         /// An AWS KMS customer master key (CMK) in one of the following formats:    Alias - The name of the key. For example, alias/MyKey.    Key ID - The KMS key ID of the key. For example, ae4aa6d49-a4d8-9df9-a475-4ff6d7898456.    ARN - The full Amazon Resource Name of the key ID or alias. For example, arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. Use this format to specify a key in a different account.   Omit this key if you set Type to NONE.
         public let keyId: String?
         /// The type of encryption. Set to KMS to use your own key for encryption. Set to NONE for default encryption.
@@ -1231,6 +1347,11 @@ extension XRay {
         public init(keyId: String? = nil, type: EncryptionType) {
             self.keyId = keyId
             self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(keyId, name:"keyId", parent: name, max: 3000)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1243,6 +1364,7 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EncryptionConfig", required: false, type: .structure)
         ]
+
         /// The new encryption configuration.
         public let encryptionConfig: EncryptionConfig?
 
@@ -1262,6 +1384,7 @@ extension XRay {
             AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
             AWSShapeMember(label: "TelemetryRecords", required: true, type: .list)
         ]
+
         public let eC2InstanceId: String?
         public let hostname: String?
         public let resourceARN: String?
@@ -1274,6 +1397,12 @@ extension XRay {
             self.telemetryRecords = telemetryRecords
         }
 
+        public func validate(name: String) throws {
+            try validate(eC2InstanceId, name:"eC2InstanceId", parent: name, max: 20)
+            try validate(hostname, name:"hostname", parent: name, max: 255)
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 500)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case eC2InstanceId = "EC2InstanceId"
             case hostname = "Hostname"
@@ -1284,6 +1413,7 @@ extension XRay {
 
     public struct PutTelemetryRecordsResult: AWSShape {
 
+
         public init() {
         }
 
@@ -1293,6 +1423,7 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TraceSegmentDocuments", required: true, type: .list)
         ]
+
         /// A string containing a JSON document defining one or more segments or subsegments.
         public let traceSegmentDocuments: [String]
 
@@ -1309,6 +1440,7 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UnprocessedTraceSegments", required: false, type: .list)
         ]
+
         /// Segments that failed processing.
         public let unprocessedTraceSegments: [UnprocessedTraceSegment]?
 
@@ -1325,6 +1457,7 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ARN", required: false, type: .string)
         ]
+
         /// The ARN of a corresponding resource.
         public let arn: String?
 
@@ -1341,6 +1474,7 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Services", required: false, type: .list)
         ]
+
         /// A list of corresponding services. A service identifies a segment and contains a name, account ID, type, and inferred flag.
         public let services: [ResponseTimeRootCauseService]?
 
@@ -1359,6 +1493,7 @@ extension XRay {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Remote", required: false, type: .boolean)
         ]
+
         /// The types and messages of the exceptions.
         public let coverage: Double?
         /// The name of the entity.
@@ -1388,6 +1523,7 @@ extension XRay {
             AWSShapeMember(label: "Names", required: false, type: .list), 
             AWSShapeMember(label: "Type", required: false, type: .string)
         ]
+
         /// The account ID associated to the service.
         public let accountId: String?
         /// The path of root cause entities found on the service. 
@@ -1425,6 +1561,7 @@ extension XRay {
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The message of the exception.
         public let message: String?
         /// The name of the exception.
@@ -1457,6 +1594,7 @@ extension XRay {
             AWSShapeMember(label: "URLPath", required: true, type: .string), 
             AWSShapeMember(label: "Version", required: true, type: .integer)
         ]
+
         /// Matches attributes derived from the request.
         public let attributes: [String: String]?
         /// The percentage of matching requests to instrument, after the reservoir is exhausted.
@@ -1466,9 +1604,9 @@ extension XRay {
         /// Matches the HTTP method of a request.
         public let hTTPMethod: String
         /// The priority of the sampling rule.
-        public let priority: Int32
+        public let priority: Int
         /// A fixed number of matching requests to instrument per second, prior to applying the fixed rate. The reservoir is not used directly by services, but applies to all services using the rule collectively.
-        public let reservoirSize: Int32
+        public let reservoirSize: Int
         /// Matches the ARN of the AWS resource on which the service runs.
         public let resourceARN: String
         /// The ARN of the sampling rule. Specify a rule by either name or ARN, but not both.
@@ -1482,9 +1620,9 @@ extension XRay {
         /// Matches the path from a request URL.
         public let uRLPath: String
         /// The version of the sampling rule format (1).
-        public let version: Int32
+        public let version: Int
 
-        public init(attributes: [String: String]? = nil, fixedRate: Double, host: String, hTTPMethod: String, priority: Int32, reservoirSize: Int32, resourceARN: String, ruleARN: String? = nil, ruleName: String? = nil, serviceName: String, serviceType: String, uRLPath: String, version: Int32) {
+        public init(attributes: [String: String]? = nil, fixedRate: Double, host: String, hTTPMethod: String, priority: Int, reservoirSize: Int, resourceARN: String, ruleARN: String? = nil, ruleName: String? = nil, serviceName: String, serviceType: String, uRLPath: String, version: Int) {
             self.attributes = attributes
             self.fixedRate = fixedRate
             self.host = host
@@ -1498,6 +1636,29 @@ extension XRay {
             self.serviceType = serviceType
             self.uRLPath = uRLPath
             self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try attributes?.forEach {
+                try validate($0.key, name:"attributes.key", parent: name, max: 32)
+                try validate($0.key, name:"attributes.key", parent: name, min: 1)
+                try validate($0.value, name:"attributes[\"\($0.key)\"]", parent: name, max: 32)
+                try validate($0.value, name:"attributes[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try validate(fixedRate, name:"fixedRate", parent: name, max: 1)
+            try validate(fixedRate, name:"fixedRate", parent: name, min: 0)
+            try validate(host, name:"host", parent: name, max: 64)
+            try validate(hTTPMethod, name:"hTTPMethod", parent: name, max: 10)
+            try validate(priority, name:"priority", parent: name, max: 9999)
+            try validate(priority, name:"priority", parent: name, min: 1)
+            try validate(reservoirSize, name:"reservoirSize", parent: name, min: 0)
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 500)
+            try validate(ruleName, name:"ruleName", parent: name, max: 32)
+            try validate(ruleName, name:"ruleName", parent: name, min: 1)
+            try validate(serviceName, name:"serviceName", parent: name, max: 64)
+            try validate(serviceType, name:"serviceType", parent: name, max: 64)
+            try validate(uRLPath, name:"uRLPath", parent: name, max: 128)
+            try validate(version, name:"version", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1523,6 +1684,7 @@ extension XRay {
             AWSShapeMember(label: "ModifiedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "SamplingRule", required: false, type: .structure)
         ]
+
         /// When the rule was created.
         public let createdAt: TimeStamp?
         /// When the rule was last modified.
@@ -1558,6 +1720,7 @@ extension XRay {
             AWSShapeMember(label: "ServiceType", required: false, type: .string), 
             AWSShapeMember(label: "URLPath", required: false, type: .string)
         ]
+
         /// Matches attributes derived from the request.
         public let attributes: [String: String]?
         /// The percentage of matching requests to instrument, after the reservoir is exhausted.
@@ -1567,9 +1730,9 @@ extension XRay {
         /// Matches the HTTP method of a request.
         public let hTTPMethod: String?
         /// The priority of the sampling rule.
-        public let priority: Int32?
+        public let priority: Int?
         /// A fixed number of matching requests to instrument per second, prior to applying the fixed rate. The reservoir is not used directly by services, but applies to all services using the rule collectively.
-        public let reservoirSize: Int32?
+        public let reservoirSize: Int?
         /// Matches the ARN of the AWS resource on which the service runs.
         public let resourceARN: String?
         /// The ARN of the sampling rule. Specify a rule by either name or ARN, but not both.
@@ -1583,7 +1746,7 @@ extension XRay {
         /// Matches the path from a request URL.
         public let uRLPath: String?
 
-        public init(attributes: [String: String]? = nil, fixedRate: Double? = nil, host: String? = nil, hTTPMethod: String? = nil, priority: Int32? = nil, reservoirSize: Int32? = nil, resourceARN: String? = nil, ruleARN: String? = nil, ruleName: String? = nil, serviceName: String? = nil, serviceType: String? = nil, uRLPath: String? = nil) {
+        public init(attributes: [String: String]? = nil, fixedRate: Double? = nil, host: String? = nil, hTTPMethod: String? = nil, priority: Int? = nil, reservoirSize: Int? = nil, resourceARN: String? = nil, ruleARN: String? = nil, ruleName: String? = nil, serviceName: String? = nil, serviceType: String? = nil, uRLPath: String? = nil) {
             self.attributes = attributes
             self.fixedRate = fixedRate
             self.host = host
@@ -1596,6 +1759,23 @@ extension XRay {
             self.serviceName = serviceName
             self.serviceType = serviceType
             self.uRLPath = uRLPath
+        }
+
+        public func validate(name: String) throws {
+            try attributes?.forEach {
+                try validate($0.key, name:"attributes.key", parent: name, max: 32)
+                try validate($0.key, name:"attributes.key", parent: name, min: 1)
+                try validate($0.value, name:"attributes[\"\($0.key)\"]", parent: name, max: 32)
+                try validate($0.value, name:"attributes[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try validate(host, name:"host", parent: name, max: 64)
+            try validate(hTTPMethod, name:"hTTPMethod", parent: name, max: 10)
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 500)
+            try validate(ruleName, name:"ruleName", parent: name, max: 32)
+            try validate(ruleName, name:"ruleName", parent: name, min: 1)
+            try validate(serviceName, name:"serviceName", parent: name, max: 64)
+            try validate(serviceType, name:"serviceType", parent: name, max: 64)
+            try validate(uRLPath, name:"uRLPath", parent: name, max: 128)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1622,18 +1802,19 @@ extension XRay {
             AWSShapeMember(label: "SampledCount", required: false, type: .integer), 
             AWSShapeMember(label: "Timestamp", required: false, type: .timestamp)
         ]
+
         /// The number of requests recorded with borrowed reservoir quota.
-        public let borrowCount: Int32?
+        public let borrowCount: Int?
         /// The number of requests that matched the rule.
-        public let requestCount: Int32?
+        public let requestCount: Int?
         /// The name of the sampling rule.
         public let ruleName: String?
         /// The number of requests recorded.
-        public let sampledCount: Int32?
+        public let sampledCount: Int?
         /// The start time of the reporting window.
         public let timestamp: TimeStamp?
 
-        public init(borrowCount: Int32? = nil, requestCount: Int32? = nil, ruleName: String? = nil, sampledCount: Int32? = nil, timestamp: TimeStamp? = nil) {
+        public init(borrowCount: Int? = nil, requestCount: Int? = nil, ruleName: String? = nil, sampledCount: Int? = nil, timestamp: TimeStamp? = nil) {
             self.borrowCount = borrowCount
             self.requestCount = requestCount
             self.ruleName = ruleName
@@ -1659,26 +1840,37 @@ extension XRay {
             AWSShapeMember(label: "SampledCount", required: true, type: .integer), 
             AWSShapeMember(label: "Timestamp", required: true, type: .timestamp)
         ]
+
         /// The number of requests recorded with borrowed reservoir quota.
-        public let borrowCount: Int32?
+        public let borrowCount: Int?
         /// A unique identifier for the service in hexadecimal.
         public let clientID: String
         /// The number of requests that matched the rule.
-        public let requestCount: Int32
+        public let requestCount: Int
         /// The name of the sampling rule.
         public let ruleName: String
         /// The number of requests recorded.
-        public let sampledCount: Int32
+        public let sampledCount: Int
         /// The current time.
         public let timestamp: TimeStamp
 
-        public init(borrowCount: Int32? = nil, clientID: String, requestCount: Int32, ruleName: String, sampledCount: Int32, timestamp: TimeStamp) {
+        public init(borrowCount: Int? = nil, clientID: String, requestCount: Int, ruleName: String, sampledCount: Int, timestamp: TimeStamp) {
             self.borrowCount = borrowCount
             self.clientID = clientID
             self.requestCount = requestCount
             self.ruleName = ruleName
             self.sampledCount = sampledCount
             self.timestamp = timestamp
+        }
+
+        public func validate(name: String) throws {
+            try validate(borrowCount, name:"borrowCount", parent: name, min: 0)
+            try validate(clientID, name:"clientID", parent: name, max: 24)
+            try validate(clientID, name:"clientID", parent: name, min: 24)
+            try validate(requestCount, name:"requestCount", parent: name, min: 0)
+            try validate(ruleName, name:"ruleName", parent: name, max: 32)
+            try validate(ruleName, name:"ruleName", parent: name, min: 1)
+            try validate(sampledCount, name:"sampledCount", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1696,6 +1888,7 @@ extension XRay {
             AWSShapeMember(label: "Name", required: false, type: .enum), 
             AWSShapeMember(label: "Value", required: false, type: .double)
         ]
+
         /// The name of a sampling rule.
         public let name: SamplingStrategyName?
         /// The value of a sampling rule.
@@ -1726,18 +1919,19 @@ extension XRay {
             AWSShapeMember(label: "ReservoirQuotaTTL", required: false, type: .timestamp), 
             AWSShapeMember(label: "RuleName", required: false, type: .string)
         ]
+
         /// The percentage of matching requests to instrument, after the reservoir is exhausted.
         public let fixedRate: Double?
         /// The number of seconds for the service to wait before getting sampling targets again.
-        public let interval: Int32?
+        public let interval: Int?
         /// The number of requests per second that X-Ray allocated this service.
-        public let reservoirQuota: Int32?
+        public let reservoirQuota: Int?
         /// When the reservoir quota expires.
         public let reservoirQuotaTTL: TimeStamp?
         /// The name of the sampling rule.
         public let ruleName: String?
 
-        public init(fixedRate: Double? = nil, interval: Int32? = nil, reservoirQuota: Int32? = nil, reservoirQuotaTTL: TimeStamp? = nil, ruleName: String? = nil) {
+        public init(fixedRate: Double? = nil, interval: Int? = nil, reservoirQuota: Int? = nil, reservoirQuotaTTL: TimeStamp? = nil, ruleName: String? = nil) {
             self.fixedRate = fixedRate
             self.interval = interval
             self.reservoirQuota = reservoirQuota
@@ -1759,6 +1953,7 @@ extension XRay {
             AWSShapeMember(label: "Document", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
+
         /// The segment document.
         public let document: String?
         /// The segment's ID.
@@ -1791,6 +1986,7 @@ extension XRay {
             AWSShapeMember(label: "SummaryStatistics", required: false, type: .structure), 
             AWSShapeMember(label: "Type", required: false, type: .string)
         ]
+
         /// Identifier of the AWS account in which the service runs.
         public let accountId: String?
         /// A histogram that maps the spread of service durations.
@@ -1804,7 +2000,7 @@ extension XRay {
         /// A list of names for the service, including the canonical name.
         public let names: [String]?
         /// Identifier for the service. Unique within the service map.
-        public let referenceId: Int32?
+        public let referenceId: Int?
         /// A histogram that maps the spread of service response times.
         public let responseTimeHistogram: [HistogramEntry]?
         /// Indicates that the service was the first service to process a request.
@@ -1818,7 +2014,7 @@ extension XRay {
         /// The type of service.   AWS Resource - The type of an AWS resource. For example, AWS::EC2::Instance for a application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.   AWS Service - The type of an AWS service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    client - Represents the clients that sent requests to a root service.    remote - A downstream service of indeterminate type.  
         public let `type`: String?
 
-        public init(accountId: String? = nil, durationHistogram: [HistogramEntry]? = nil, edges: [Edge]? = nil, endTime: TimeStamp? = nil, name: String? = nil, names: [String]? = nil, referenceId: Int32? = nil, responseTimeHistogram: [HistogramEntry]? = nil, root: Bool? = nil, startTime: TimeStamp? = nil, state: String? = nil, summaryStatistics: ServiceStatistics? = nil, type: String? = nil) {
+        public init(accountId: String? = nil, durationHistogram: [HistogramEntry]? = nil, edges: [Edge]? = nil, endTime: TimeStamp? = nil, name: String? = nil, names: [String]? = nil, referenceId: Int? = nil, responseTimeHistogram: [HistogramEntry]? = nil, root: Bool? = nil, startTime: TimeStamp? = nil, state: String? = nil, summaryStatistics: ServiceStatistics? = nil, type: String? = nil) {
             self.accountId = accountId
             self.durationHistogram = durationHistogram
             self.edges = edges
@@ -1858,6 +2054,7 @@ extension XRay {
             AWSShapeMember(label: "Names", required: false, type: .list), 
             AWSShapeMember(label: "Type", required: false, type: .string)
         ]
+
         public let accountId: String?
         public let name: String?
         public let names: [String]?
@@ -1886,6 +2083,7 @@ extension XRay {
             AWSShapeMember(label: "TotalCount", required: false, type: .long), 
             AWSShapeMember(label: "TotalResponseTime", required: false, type: .double)
         ]
+
         /// Information about requests that failed with a 4xx Client Error status code.
         public let errorStatistics: ErrorStatistics?
         /// Information about requests that failed with a 5xx Server Error status code.
@@ -1923,14 +2121,15 @@ extension XRay {
             AWSShapeMember(label: "SegmentsSpilloverCount", required: false, type: .integer), 
             AWSShapeMember(label: "Timestamp", required: true, type: .timestamp)
         ]
+
         public let backendConnectionErrors: BackendConnectionErrors?
-        public let segmentsReceivedCount: Int32?
-        public let segmentsRejectedCount: Int32?
-        public let segmentsSentCount: Int32?
-        public let segmentsSpilloverCount: Int32?
+        public let segmentsReceivedCount: Int?
+        public let segmentsRejectedCount: Int?
+        public let segmentsSentCount: Int?
+        public let segmentsSpilloverCount: Int?
         public let timestamp: TimeStamp
 
-        public init(backendConnectionErrors: BackendConnectionErrors? = nil, segmentsReceivedCount: Int32? = nil, segmentsRejectedCount: Int32? = nil, segmentsSentCount: Int32? = nil, segmentsSpilloverCount: Int32? = nil, timestamp: TimeStamp) {
+        public init(backendConnectionErrors: BackendConnectionErrors? = nil, segmentsReceivedCount: Int? = nil, segmentsRejectedCount: Int? = nil, segmentsSentCount: Int? = nil, segmentsSpilloverCount: Int? = nil, timestamp: TimeStamp) {
             self.backendConnectionErrors = backendConnectionErrors
             self.segmentsReceivedCount = segmentsReceivedCount
             self.segmentsRejectedCount = segmentsRejectedCount
@@ -1962,6 +2161,7 @@ extension XRay {
             AWSShapeMember(label: "ServiceSummaryStatistics", required: false, type: .structure), 
             AWSShapeMember(label: "Timestamp", required: false, type: .timestamp)
         ]
+
         public let edgeSummaryStatistics: EdgeStatistics?
         /// The response time histogram for the selected entities.
         public let responseTimeHistogram: [HistogramEntry]?
@@ -1990,6 +2190,7 @@ extension XRay {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Segments", required: false, type: .list)
         ]
+
         /// The length of time in seconds between the start time of the root segment and the end time of the last segment that completed.
         public let duration: Double?
         /// The unique identifier for the request that generated the trace's segments and subsegments.
@@ -2033,6 +2234,7 @@ extension XRay {
             AWSShapeMember(label: "ServiceIds", required: false, type: .list), 
             AWSShapeMember(label: "Users", required: false, type: .list)
         ]
+
         /// Annotations from the trace's segment documents.
         public let annotations: [String: [ValueWithServiceIds]]?
         /// A list of availability zones for any zone corresponding to the trace segments.
@@ -2068,13 +2270,13 @@ extension XRay {
         /// A collection of ResponseTimeRootCause structures corresponding to the trace segments.
         public let responseTimeRootCauses: [ResponseTimeRootCause]?
         /// The revision number of a trace.
-        public let revision: Int32?
+        public let revision: Int?
         /// Service IDs from the trace's segment documents.
         public let serviceIds: [ServiceId]?
         /// Users from the trace's segment documents.
         public let users: [TraceUser]?
 
-        public init(annotations: [String: [ValueWithServiceIds]]? = nil, availabilityZones: [AvailabilityZoneDetail]? = nil, duration: Double? = nil, entryPoint: ServiceId? = nil, errorRootCauses: [ErrorRootCause]? = nil, faultRootCauses: [FaultRootCause]? = nil, hasError: Bool? = nil, hasFault: Bool? = nil, hasThrottle: Bool? = nil, http: Http? = nil, id: String? = nil, instanceIds: [InstanceIdDetail]? = nil, isPartial: Bool? = nil, matchedEventTime: TimeStamp? = nil, resourceARNs: [ResourceARNDetail]? = nil, responseTime: Double? = nil, responseTimeRootCauses: [ResponseTimeRootCause]? = nil, revision: Int32? = nil, serviceIds: [ServiceId]? = nil, users: [TraceUser]? = nil) {
+        public init(annotations: [String: [ValueWithServiceIds]]? = nil, availabilityZones: [AvailabilityZoneDetail]? = nil, duration: Double? = nil, entryPoint: ServiceId? = nil, errorRootCauses: [ErrorRootCause]? = nil, faultRootCauses: [FaultRootCause]? = nil, hasError: Bool? = nil, hasFault: Bool? = nil, hasThrottle: Bool? = nil, http: Http? = nil, id: String? = nil, instanceIds: [InstanceIdDetail]? = nil, isPartial: Bool? = nil, matchedEventTime: TimeStamp? = nil, resourceARNs: [ResourceARNDetail]? = nil, responseTime: Double? = nil, responseTimeRootCauses: [ResponseTimeRootCause]? = nil, revision: Int? = nil, serviceIds: [ServiceId]? = nil, users: [TraceUser]? = nil) {
             self.annotations = annotations
             self.availabilityZones = availabilityZones
             self.duration = duration
@@ -2126,6 +2328,7 @@ extension XRay {
             AWSShapeMember(label: "ServiceIds", required: false, type: .list), 
             AWSShapeMember(label: "UserName", required: false, type: .string)
         ]
+
         /// Services that the user's request hit.
         public let serviceIds: [ServiceId]?
         /// The user's name.
@@ -2148,6 +2351,7 @@ extension XRay {
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "RuleName", required: false, type: .string)
         ]
+
         /// The error code.
         public let errorCode: String?
         /// The error message.
@@ -2174,6 +2378,7 @@ extension XRay {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Message", required: false, type: .string)
         ]
+
         /// The error that caused processing to fail.
         public let errorCode: String?
         /// The segment's ID.
@@ -2200,6 +2405,7 @@ extension XRay {
             AWSShapeMember(label: "GroupARN", required: false, type: .string), 
             AWSShapeMember(label: "GroupName", required: false, type: .string)
         ]
+
         /// The updated filter expression defining criteria by which to group traces.
         public let filterExpression: String?
         /// The ARN that was generated upon creation.
@@ -2213,6 +2419,13 @@ extension XRay {
             self.groupName = groupName
         }
 
+        public func validate(name: String) throws {
+            try validate(groupARN, name:"groupARN", parent: name, max: 400)
+            try validate(groupARN, name:"groupARN", parent: name, min: 1)
+            try validate(groupName, name:"groupName", parent: name, max: 32)
+            try validate(groupName, name:"groupName", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filterExpression = "FilterExpression"
             case groupARN = "GroupARN"
@@ -2224,6 +2437,7 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Group", required: false, type: .structure)
         ]
+
         /// The group that was updated. Contains the name of the group that was updated, the ARN of the group that was updated, and the updated filter expression assigned to the group.
         public let group: Group?
 
@@ -2240,11 +2454,16 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SamplingRuleUpdate", required: true, type: .structure)
         ]
+
         /// The rule and fields to change.
         public let samplingRuleUpdate: SamplingRuleUpdate
 
         public init(samplingRuleUpdate: SamplingRuleUpdate) {
             self.samplingRuleUpdate = samplingRuleUpdate
+        }
+
+        public func validate(name: String) throws {
+            try samplingRuleUpdate.validate(name: "\(name).samplingRuleUpdate")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2256,6 +2475,7 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SamplingRuleRecord", required: false, type: .structure)
         ]
+
         /// The updated rule definition and metadata.
         public let samplingRuleRecord: SamplingRuleRecord?
 
@@ -2273,6 +2493,7 @@ extension XRay {
             AWSShapeMember(label: "AnnotationValue", required: false, type: .structure), 
             AWSShapeMember(label: "ServiceIds", required: false, type: .list)
         ]
+
         /// Values of the annotation.
         public let annotationValue: AnnotationValue?
         /// Services to which the annotation applies.

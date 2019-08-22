@@ -9,7 +9,7 @@ The AWS Cost and Usage Report API enables you to programmatically create, query,
 */
 public struct CostandUsageReportService {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

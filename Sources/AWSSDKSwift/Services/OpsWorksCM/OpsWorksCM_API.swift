@@ -9,7 +9,7 @@ AWS OpsWorks CM AWS OpsWorks for configuration management (CM) is a service that
 */
 public struct OpsWorksCM {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

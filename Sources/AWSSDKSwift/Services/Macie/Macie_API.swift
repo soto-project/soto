@@ -9,7 +9,7 @@ Amazon Macie Amazon Macie is a security service that uses machine learning to au
 */
 public struct Macie {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

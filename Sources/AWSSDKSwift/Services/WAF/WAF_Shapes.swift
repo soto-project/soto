@@ -14,6 +14,7 @@ extension WAF {
             AWSShapeMember(label: "RuleId", required: true, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// Specifies the action that CloudFront or AWS WAF takes when a web request matches the conditions in the Rule. Valid values for Action include the following:    ALLOW: CloudFront responds with the requested object.    BLOCK: CloudFront responds with an HTTP 403 (Forbidden) status code.    COUNT: AWS WAF increments a counter of requests that match the conditions in the rule and then continues to inspect the web request based on the remaining rules in the web ACL.     ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a WebACL. In this case, you do not use ActivatedRule|Action. For all other update requests, ActivatedRule|Action is used instead of ActivatedRule|OverrideAction.
         public let action: WafAction?
         /// An array of rules to exclude from a rule group. This is applicable only when the ActivatedRule refers to a RuleGroup. Sometimes it is necessary to troubleshoot rule groups that are blocking traffic unexpectedly (false positives). One troubleshooting technique is to identify the specific rule within the rule group that is blocking the legitimate traffic and then disable (exclude) that particular rule. You can exclude rules from both your own rule groups and AWS Marketplace rule groups that have been associated with a web ACL. Specifying ExcludedRules does not remove those rules from the rule group. Rather, it changes the action for the rules to COUNT. Therefore, requests that match an ExcludedRule are counted but not blocked. The RuleGroup owner will receive COUNT metrics for each ExcludedRule. If you want to exclude rules from a rule group that is already associated with a web ACL, perform the following steps:   Use the AWS WAF logs to identify the IDs of the rules that you want to exclude. For more information about the logs, see Logging Web ACL Traffic Information.   Submit an UpdateWebACL request that has two actions:   The first action deletes the existing rule group from the web ACL. That is, in the UpdateWebACL request, the first Updates:Action should be DELETE and Updates:ActivatedRule:RuleId should be the rule group that contains the rules that you want to exclude.   The second action inserts the same rule group back in, but specifying the rules to exclude. That is, the second Updates:Action should be INSERT, Updates:ActivatedRule:RuleId should be the rule group that you just removed, and ExcludedRules should contain the rules that you want to exclude.    
@@ -21,19 +22,27 @@ extension WAF {
         /// Use the OverrideAction to test your RuleGroup. Any rule in a RuleGroup can potentially block a request. If you set the OverrideAction to None, the RuleGroup will block a request if any individual rule in the RuleGroup matches the request and is configured to block that request. However if you first want to test the RuleGroup, set the OverrideAction to Count. The RuleGroup will then override any block action specified by individual rules contained within the group. Instead of blocking matching requests, those requests will be counted. You can view a record of counted requests using GetSampledRequests.   ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a WebACL. In this case you do not use ActivatedRule|Action. For all other update requests, ActivatedRule|Action is used instead of ActivatedRule|OverrideAction.
         public let overrideAction: WafOverrideAction?
         /// Specifies the order in which the Rules in a WebACL are evaluated. Rules with a lower value for Priority are evaluated before Rules with a higher value. The value must be a unique integer. If you add multiple Rules to a WebACL, the values don't need to be consecutive.
-        public let priority: Int32
+        public let priority: Int
         /// The RuleId for a Rule. You use RuleId to get more information about a Rule (see GetRule), update a Rule (see UpdateRule), insert a Rule into a WebACL or delete a one from a WebACL (see UpdateWebACL), or delete a Rule from AWS WAF (see DeleteRule).  RuleId is returned by CreateRule and by ListRules.
         public let ruleId: String
         /// The rule type, either REGULAR, as defined by Rule, RATE_BASED, as defined by RateBasedRule, or GROUP, as defined by RuleGroup. The default is REGULAR. Although this field is optional, be aware that if you try to add a RATE_BASED rule to a web ACL without setting the type, the UpdateWebACL request will fail because the request tries to add a REGULAR rule with the specified ID, which does not exist. 
         public let `type`: WafRuleType?
 
-        public init(action: WafAction? = nil, excludedRules: [ExcludedRule]? = nil, overrideAction: WafOverrideAction? = nil, priority: Int32, ruleId: String, type: WafRuleType? = nil) {
+        public init(action: WafAction? = nil, excludedRules: [ExcludedRule]? = nil, overrideAction: WafOverrideAction? = nil, priority: Int, ruleId: String, type: WafRuleType? = nil) {
             self.action = action
             self.excludedRules = excludedRules
             self.overrideAction = overrideAction
             self.priority = priority
             self.ruleId = ruleId
             self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try excludedRules?.forEach {
+                try $0.validate(name: "\(name).excludedRules[]")
+            }
+            try validate(ruleId, name:"ruleId", parent: name, max: 128)
+            try validate(ruleId, name:"ruleId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -52,6 +61,7 @@ extension WAF {
             AWSShapeMember(label: "ByteMatchTuples", required: true, type: .list), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The ByteMatchSetId for a ByteMatchSet. You use ByteMatchSetId to get information about a ByteMatchSet (see GetByteMatchSet), update a ByteMatchSet (see UpdateByteMatchSet), insert a ByteMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete a ByteMatchSet from AWS WAF (see DeleteByteMatchSet).  ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
         public let byteMatchSetId: String
         /// Specifies the bytes (typically a string that corresponds with ASCII characters) that you want AWS WAF to search for in web requests, the location in requests that you want AWS WAF to search, and other settings.
@@ -77,6 +87,7 @@ extension WAF {
             AWSShapeMember(label: "ByteMatchSetId", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// The ByteMatchSetId for a ByteMatchSet. You use ByteMatchSetId to get information about a ByteMatchSet, update a ByteMatchSet, remove a ByteMatchSet from a Rule, and delete a ByteMatchSet from AWS WAF.  ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
         public let byteMatchSetId: String
         /// A friendly name or description of the ByteMatchSet. You can't change Name after you create a ByteMatchSet.
@@ -98,6 +109,7 @@ extension WAF {
             AWSShapeMember(label: "Action", required: true, type: .enum), 
             AWSShapeMember(label: "ByteMatchTuple", required: true, type: .structure)
         ]
+
         /// Specifies whether to insert or delete a ByteMatchTuple.
         public let action: ChangeAction
         /// Information about the part of a web request that you want AWS WAF to inspect and the value that you want AWS WAF to search for. If you specify DELETE for the value of Action, the ByteMatchTuple values must exactly match the values in the ByteMatchTuple that you want to delete from the ByteMatchSet.
@@ -121,6 +133,7 @@ extension WAF {
             AWSShapeMember(label: "TargetString", required: true, type: .blob), 
             AWSShapeMember(label: "TextTransformation", required: true, type: .enum)
         ]
+
         /// The part of a web request that you want AWS WAF to search, such as a specified header or a query string. For more information, see FieldToMatch.
         public let fieldToMatch: FieldToMatch
         /// Within the portion of a web request that you want to search (for example, in the query string, if any), specify where you want AWS WAF to search. Valid values include the following:  CONTAINS  The specified part of the web request must include the value of TargetString, but the location doesn't matter.  CONTAINS_WORD  The specified part of the web request must include the value of TargetString, and TargetString must contain only alphanumeric characters or underscore (A-Z, a-z, 0-9, or _). In addition, TargetString must be a word, which means one of the following:    TargetString exactly matches the value of the specified part of the web request, such as the value of a header.    TargetString is at the beginning of the specified part of the web request and is followed by a character other than an alphanumeric character or underscore (_), for example, BadBot;.    TargetString is at the end of the specified part of the web request and is preceded by a character other than an alphanumeric character or underscore (_), for example, ;BadBot.    TargetString is in the middle of the specified part of the web request and is preceded and followed by characters other than alphanumeric characters or underscore (_), for example, -BadBot;.    EXACTLY  The value of the specified part of the web request must exactly match the value of TargetString.  STARTS_WITH  The value of TargetString must appear at the beginning of the specified part of the web request.  ENDS_WITH  The value of TargetString must appear at the end of the specified part of the web request.
@@ -173,6 +186,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A friendly name or description of the ByteMatchSet. You can't change Name after you create a ByteMatchSet.
@@ -181,6 +195,12 @@ extension WAF {
         public init(changeToken: String, name: String) {
             self.changeToken = changeToken
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -194,6 +214,7 @@ extension WAF {
             AWSShapeMember(label: "ByteMatchSet", required: false, type: .structure), 
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// A ByteMatchSet that contains no ByteMatchTuple objects.
         public let byteMatchSet: ByteMatchSet?
         /// The ChangeToken that you used to submit the CreateByteMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
@@ -215,6 +236,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A friendly name or description of the GeoMatchSet. You can't change Name after you create the GeoMatchSet.
@@ -223,6 +245,12 @@ extension WAF {
         public init(changeToken: String, name: String) {
             self.changeToken = changeToken
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -236,6 +264,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: false, type: .string), 
             AWSShapeMember(label: "GeoMatchSet", required: false, type: .structure)
         ]
+
         /// The ChangeToken that you used to submit the CreateGeoMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// The GeoMatchSet returned in the CreateGeoMatchSet response. The GeoMatchSet contains no GeoMatchConstraints.
@@ -257,6 +286,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A friendly name or description of the IPSet. You can't change Name after you create the IPSet.
@@ -265,6 +295,12 @@ extension WAF {
         public init(changeToken: String, name: String) {
             self.changeToken = changeToken
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -278,6 +314,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: false, type: .string), 
             AWSShapeMember(label: "IPSet", required: false, type: .structure)
         ]
+
         /// The ChangeToken that you used to submit the CreateIPSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// The IPSet returned in the CreateIPSet response.
@@ -303,6 +340,7 @@ extension WAF {
             AWSShapeMember(label: "RateLimit", required: true, type: .long), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// The ChangeToken that you used to submit the CreateRateBasedRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String
         /// A friendly name or description for the metrics for this RateBasedRule. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the RateBasedRule.
@@ -324,6 +362,18 @@ extension WAF {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(rateLimit, name:"rateLimit", parent: name, max: 2000000000)
+            try validate(rateLimit, name:"rateLimit", parent: name, min: 2000)
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case metricName = "MetricName"
@@ -339,6 +389,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: false, type: .string), 
             AWSShapeMember(label: "Rule", required: false, type: .structure)
         ]
+
         /// The ChangeToken that you used to submit the CreateRateBasedRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// The RateBasedRule that is returned in the CreateRateBasedRule response.
@@ -360,6 +411,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A friendly name or description of the RegexMatchSet. You can't change Name after you create a RegexMatchSet.
@@ -368,6 +420,12 @@ extension WAF {
         public init(changeToken: String, name: String) {
             self.changeToken = changeToken
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -381,6 +439,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: false, type: .string), 
             AWSShapeMember(label: "RegexMatchSet", required: false, type: .structure)
         ]
+
         /// The ChangeToken that you used to submit the CreateRegexMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// A RegexMatchSet that contains no RegexMatchTuple objects.
@@ -402,6 +461,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A friendly name or description of the RegexPatternSet. You can't change Name after you create a RegexPatternSet.
@@ -410,6 +470,12 @@ extension WAF {
         public init(changeToken: String, name: String) {
             self.changeToken = changeToken
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -423,6 +489,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: false, type: .string), 
             AWSShapeMember(label: "RegexPatternSet", required: false, type: .structure)
         ]
+
         /// The ChangeToken that you used to submit the CreateRegexPatternSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// A RegexPatternSet that contains no objects.
@@ -446,6 +513,7 @@ extension WAF {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A friendly name or description for the metrics for this RuleGroup. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the RuleGroup.
@@ -461,6 +529,16 @@ extension WAF {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case metricName = "MetricName"
@@ -474,6 +552,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: false, type: .string), 
             AWSShapeMember(label: "RuleGroup", required: false, type: .structure)
         ]
+
         /// The ChangeToken that you used to submit the CreateRuleGroup request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// An empty RuleGroup.
@@ -497,6 +576,7 @@ extension WAF {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A friendly name or description for the metrics for this Rule. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the Rule.
@@ -512,6 +592,16 @@ extension WAF {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case metricName = "MetricName"
@@ -525,6 +615,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: false, type: .string), 
             AWSShapeMember(label: "Rule", required: false, type: .structure)
         ]
+
         /// The ChangeToken that you used to submit the CreateRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// The Rule returned in the CreateRule response.
@@ -546,6 +637,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A friendly name or description of the SizeConstraintSet. You can't change Name after you create a SizeConstraintSet.
@@ -554,6 +646,12 @@ extension WAF {
         public init(changeToken: String, name: String) {
             self.changeToken = changeToken
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -567,6 +665,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: false, type: .string), 
             AWSShapeMember(label: "SizeConstraintSet", required: false, type: .structure)
         ]
+
         /// The ChangeToken that you used to submit the CreateSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// A SizeConstraintSet that contains no SizeConstraint objects.
@@ -588,6 +687,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A friendly name or description for the SqlInjectionMatchSet that you're creating. You can't change Name after you create the SqlInjectionMatchSet.
@@ -596,6 +696,12 @@ extension WAF {
         public init(changeToken: String, name: String) {
             self.changeToken = changeToken
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -609,6 +715,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: false, type: .string), 
             AWSShapeMember(label: "SqlInjectionMatchSet", required: false, type: .structure)
         ]
+
         /// The ChangeToken that you used to submit the CreateSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// A SqlInjectionMatchSet.
@@ -633,6 +740,7 @@ extension WAF {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The action that you want AWS WAF to take when a request doesn't match the criteria specified in any of the Rule objects that are associated with the WebACL.
@@ -651,6 +759,16 @@ extension WAF {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case defaultAction = "DefaultAction"
@@ -665,6 +783,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: false, type: .string), 
             AWSShapeMember(label: "WebACL", required: false, type: .structure)
         ]
+
         /// The ChangeToken that you used to submit the CreateWebACL request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// The WebACL returned in the CreateWebACL response.
@@ -686,6 +805,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A friendly name or description for the XssMatchSet that you're creating. You can't change Name after you create the XssMatchSet.
@@ -694,6 +814,12 @@ extension WAF {
         public init(changeToken: String, name: String) {
             self.changeToken = changeToken
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 128)
+            try validate(name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -707,6 +833,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: false, type: .string), 
             AWSShapeMember(label: "XssMatchSet", required: false, type: .structure)
         ]
+
         /// The ChangeToken that you used to submit the CreateXssMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// An XssMatchSet.
@@ -728,6 +855,7 @@ extension WAF {
             AWSShapeMember(label: "ByteMatchSetId", required: true, type: .string), 
             AWSShapeMember(label: "ChangeToken", required: true, type: .string)
         ]
+
         /// The ByteMatchSetId of the ByteMatchSet that you want to delete. ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
         public let byteMatchSetId: String
         /// The value returned by the most recent call to GetChangeToken.
@@ -736,6 +864,12 @@ extension WAF {
         public init(byteMatchSetId: String, changeToken: String) {
             self.byteMatchSetId = byteMatchSetId
             self.changeToken = changeToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(byteMatchSetId, name:"byteMatchSetId", parent: name, max: 128)
+            try validate(byteMatchSetId, name:"byteMatchSetId", parent: name, min: 1)
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -748,6 +882,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the DeleteByteMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -765,6 +900,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "GeoMatchSetId", required: true, type: .string)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The GeoMatchSetID of the GeoMatchSet that you want to delete. GeoMatchSetId is returned by CreateGeoMatchSet and by ListGeoMatchSets.
@@ -773,6 +909,12 @@ extension WAF {
         public init(changeToken: String, geoMatchSetId: String) {
             self.changeToken = changeToken
             self.geoMatchSetId = geoMatchSetId
+        }
+
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(geoMatchSetId, name:"geoMatchSetId", parent: name, max: 128)
+            try validate(geoMatchSetId, name:"geoMatchSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -785,6 +927,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the DeleteGeoMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -802,6 +945,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "IPSetId", required: true, type: .string)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The IPSetId of the IPSet that you want to delete. IPSetId is returned by CreateIPSet and by ListIPSets.
@@ -810,6 +954,12 @@ extension WAF {
         public init(changeToken: String, iPSetId: String) {
             self.changeToken = changeToken
             self.iPSetId = iPSetId
+        }
+
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(iPSetId, name:"iPSetId", parent: name, max: 128)
+            try validate(iPSetId, name:"iPSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -822,6 +972,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the DeleteIPSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -838,11 +989,17 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the web ACL from which you want to delete the LoggingConfiguration.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1224)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -851,6 +1008,7 @@ extension WAF {
     }
 
     public struct DeleteLoggingConfigurationResponse: AWSShape {
+
 
         public init() {
         }
@@ -861,11 +1019,17 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the RuleGroup from which you want to delete the policy. The user making the request must be the owner of the RuleGroup.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1224)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -874,6 +1038,7 @@ extension WAF {
     }
 
     public struct DeletePermissionPolicyResponse: AWSShape {
+
 
         public init() {
         }
@@ -885,6 +1050,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "RuleId", required: true, type: .string)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The RuleId of the RateBasedRule that you want to delete. RuleId is returned by CreateRateBasedRule and by ListRateBasedRules.
@@ -893,6 +1059,12 @@ extension WAF {
         public init(changeToken: String, ruleId: String) {
             self.changeToken = changeToken
             self.ruleId = ruleId
+        }
+
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(ruleId, name:"ruleId", parent: name, max: 128)
+            try validate(ruleId, name:"ruleId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -905,6 +1077,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the DeleteRateBasedRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -922,6 +1095,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "RegexMatchSetId", required: true, type: .string)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The RegexMatchSetId of the RegexMatchSet that you want to delete. RegexMatchSetId is returned by CreateRegexMatchSet and by ListRegexMatchSets.
@@ -930,6 +1104,12 @@ extension WAF {
         public init(changeToken: String, regexMatchSetId: String) {
             self.changeToken = changeToken
             self.regexMatchSetId = regexMatchSetId
+        }
+
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(regexMatchSetId, name:"regexMatchSetId", parent: name, max: 128)
+            try validate(regexMatchSetId, name:"regexMatchSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -942,6 +1122,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the DeleteRegexMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -959,6 +1140,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "RegexPatternSetId", required: true, type: .string)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The RegexPatternSetId of the RegexPatternSet that you want to delete. RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets.
@@ -967,6 +1149,12 @@ extension WAF {
         public init(changeToken: String, regexPatternSetId: String) {
             self.changeToken = changeToken
             self.regexPatternSetId = regexPatternSetId
+        }
+
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(regexPatternSetId, name:"regexPatternSetId", parent: name, max: 128)
+            try validate(regexPatternSetId, name:"regexPatternSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -979,6 +1167,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the DeleteRegexPatternSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -996,6 +1185,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "RuleGroupId", required: true, type: .string)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The RuleGroupId of the RuleGroup that you want to delete. RuleGroupId is returned by CreateRuleGroup and by ListRuleGroups.
@@ -1004,6 +1194,12 @@ extension WAF {
         public init(changeToken: String, ruleGroupId: String) {
             self.changeToken = changeToken
             self.ruleGroupId = ruleGroupId
+        }
+
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(ruleGroupId, name:"ruleGroupId", parent: name, max: 128)
+            try validate(ruleGroupId, name:"ruleGroupId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1016,6 +1212,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the DeleteRuleGroup request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -1033,6 +1230,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "RuleId", required: true, type: .string)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The RuleId of the Rule that you want to delete. RuleId is returned by CreateRule and by ListRules.
@@ -1041,6 +1239,12 @@ extension WAF {
         public init(changeToken: String, ruleId: String) {
             self.changeToken = changeToken
             self.ruleId = ruleId
+        }
+
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(ruleId, name:"ruleId", parent: name, max: 128)
+            try validate(ruleId, name:"ruleId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1053,6 +1257,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the DeleteRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -1070,6 +1275,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "SizeConstraintSetId", required: true, type: .string)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The SizeConstraintSetId of the SizeConstraintSet that you want to delete. SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets.
@@ -1078,6 +1284,12 @@ extension WAF {
         public init(changeToken: String, sizeConstraintSetId: String) {
             self.changeToken = changeToken
             self.sizeConstraintSetId = sizeConstraintSetId
+        }
+
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", parent: name, max: 128)
+            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1090,6 +1302,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the DeleteSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -1107,6 +1320,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "SqlInjectionMatchSetId", required: true, type: .string)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to delete. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
@@ -1115,6 +1329,12 @@ extension WAF {
         public init(changeToken: String, sqlInjectionMatchSetId: String) {
             self.changeToken = changeToken
             self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
+        }
+
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", parent: name, max: 128)
+            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1127,6 +1347,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the DeleteSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -1144,6 +1365,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "WebACLId", required: true, type: .string)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The WebACLId of the WebACL that you want to delete. WebACLId is returned by CreateWebACL and by ListWebACLs.
@@ -1152,6 +1374,12 @@ extension WAF {
         public init(changeToken: String, webACLId: String) {
             self.changeToken = changeToken
             self.webACLId = webACLId
+        }
+
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(webACLId, name:"webACLId", parent: name, max: 128)
+            try validate(webACLId, name:"webACLId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1164,6 +1392,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the DeleteWebACL request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -1181,6 +1410,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "XssMatchSetId", required: true, type: .string)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The XssMatchSetId of the XssMatchSet that you want to delete. XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
@@ -1189,6 +1419,12 @@ extension WAF {
         public init(changeToken: String, xssMatchSetId: String) {
             self.changeToken = changeToken
             self.xssMatchSetId = xssMatchSetId
+        }
+
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(xssMatchSetId, name:"xssMatchSetId", parent: name, max: 128)
+            try validate(xssMatchSetId, name:"xssMatchSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1201,6 +1437,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the DeleteXssMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -1217,11 +1454,17 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RuleId", required: true, type: .string)
         ]
+
         /// The unique identifier for the rule to exclude from the rule group.
         public let ruleId: String
 
         public init(ruleId: String) {
             self.ruleId = ruleId
+        }
+
+        public func validate(name: String) throws {
+            try validate(ruleId, name:"ruleId", parent: name, max: 128)
+            try validate(ruleId, name:"ruleId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1234,6 +1477,7 @@ extension WAF {
             AWSShapeMember(label: "Data", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
+
         /// When the value of Type is HEADER, enter the name of the header that you want AWS WAF to search, for example, User-Agent or Referer. The name of the header is not case sensitive. When the value of Type is SINGLE_QUERY_ARG, enter the name of the parameter that you want AWS WAF to search, for example, UserName or SalesRegion. The parameter name is not case sensitive. If the value of Type is any other value, omit Data.
         public let data: String?
         /// The part of the web request that you want AWS WAF to search for a specified string. Parts of a request that you can search include the following:    HEADER: A specified request header, for example, the value of the User-Agent or Referer header. If you choose HEADER for the type, specify the name of the header in Data.    METHOD: The HTTP method, which indicated the type of operation that the request is asking the origin to perform. Amazon CloudFront supports the following methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, and PUT.    QUERY_STRING: A query string, which is the part of a URL that appears after a ? character, if any.    URI: The part of a web request that identifies a resource, for example, /images/daily-ad.jpg.    BODY: The part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. The request body immediately follows the request headers. Note that only the first 8192 bytes of the request body are forwarded to AWS WAF for inspection. To allow or block requests based on the length of the body, you can create a size constraint set. For more information, see CreateSizeConstraintSet.     SINGLE_QUERY_ARG: The parameter in the query string that you will inspect, such as UserName or SalesRegion. The maximum length for SINGLE_QUERY_ARG is 30 characters.    ALL_QUERY_ARGS: Similar to SINGLE_QUERY_ARG, but rather than inspecting a single parameter, AWS WAF will inspect all parameters within the query for the value or regex pattern that you specify in TargetString.  
@@ -1255,6 +1499,7 @@ extension WAF {
             AWSShapeMember(label: "Type", required: true, type: .enum), 
             AWSShapeMember(label: "Value", required: true, type: .enum)
         ]
+
         /// The type of geographical area you want AWS WAF to search for. Currently Country is the only valid value.
         public let `type`: GeoMatchConstraintType
         /// The country that you want AWS WAF to search for.
@@ -1535,6 +1780,7 @@ extension WAF {
             AWSShapeMember(label: "GeoMatchSetId", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// An array of GeoMatchConstraint objects, which contain the country that you want AWS WAF to search for.
         public let geoMatchConstraints: [GeoMatchConstraint]
         /// The GeoMatchSetId for an GeoMatchSet. You use GeoMatchSetId to get information about a GeoMatchSet (see GeoMatchSet), update a GeoMatchSet (see UpdateGeoMatchSet), insert a GeoMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete a GeoMatchSet from AWS WAF (see DeleteGeoMatchSet).  GeoMatchSetId is returned by CreateGeoMatchSet and by ListGeoMatchSets.
@@ -1560,6 +1806,7 @@ extension WAF {
             AWSShapeMember(label: "GeoMatchSetId", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// The GeoMatchSetId for an GeoMatchSet. You can use GeoMatchSetId in a GetGeoMatchSet request to get detailed information about an GeoMatchSet.
         public let geoMatchSetId: String
         /// A friendly name or description of the GeoMatchSet. You can't change the name of an GeoMatchSet after you create it.
@@ -1581,6 +1828,7 @@ extension WAF {
             AWSShapeMember(label: "Action", required: true, type: .enum), 
             AWSShapeMember(label: "GeoMatchConstraint", required: true, type: .structure)
         ]
+
         /// Specifies whether to insert or delete a country with UpdateGeoMatchSet.
         public let action: ChangeAction
         /// The country from which web requests originate that you want AWS WAF to search for.
@@ -1601,11 +1849,17 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ByteMatchSetId", required: true, type: .string)
         ]
+
         /// The ByteMatchSetId of the ByteMatchSet that you want to get. ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
         public let byteMatchSetId: String
 
         public init(byteMatchSetId: String) {
             self.byteMatchSetId = byteMatchSetId
+        }
+
+        public func validate(name: String) throws {
+            try validate(byteMatchSetId, name:"byteMatchSetId", parent: name, max: 128)
+            try validate(byteMatchSetId, name:"byteMatchSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1617,6 +1871,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ByteMatchSet", required: false, type: .structure)
         ]
+
         /// Information about the ByteMatchSet that you specified in the GetByteMatchSet request. For more information, see the following topics:    ByteMatchSet: Contains ByteMatchSetId, ByteMatchTuples, and Name     ByteMatchTuples: Contains an array of ByteMatchTuple objects. Each ByteMatchTuple object contains FieldToMatch, PositionalConstraint, TargetString, and TextTransformation     FieldToMatch: Contains Data and Type   
         public let byteMatchSet: ByteMatchSet?
 
@@ -1631,6 +1886,7 @@ extension WAF {
 
     public struct GetChangeTokenRequest: AWSShape {
 
+
         public init() {
         }
 
@@ -1640,6 +1896,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used in the request. Use this value in a GetChangeTokenStatus request to get the current status of the request. 
         public let changeToken: String?
 
@@ -1656,11 +1913,16 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: true, type: .string)
         ]
+
         /// The change token for which you want to get the status. This change token was previously returned in the GetChangeToken response.
         public let changeToken: String
 
         public init(changeToken: String) {
             self.changeToken = changeToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1672,6 +1934,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeTokenStatus", required: false, type: .enum)
         ]
+
         /// The status of the change token.
         public let changeTokenStatus: ChangeTokenStatus?
 
@@ -1688,11 +1951,17 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GeoMatchSetId", required: true, type: .string)
         ]
+
         /// The GeoMatchSetId of the GeoMatchSet that you want to get. GeoMatchSetId is returned by CreateGeoMatchSet and by ListGeoMatchSets.
         public let geoMatchSetId: String
 
         public init(geoMatchSetId: String) {
             self.geoMatchSetId = geoMatchSetId
+        }
+
+        public func validate(name: String) throws {
+            try validate(geoMatchSetId, name:"geoMatchSetId", parent: name, max: 128)
+            try validate(geoMatchSetId, name:"geoMatchSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1704,6 +1973,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GeoMatchSet", required: false, type: .structure)
         ]
+
         /// Information about the GeoMatchSet that you specified in the GetGeoMatchSet request. This includes the Type, which for a GeoMatchContraint is always Country, as well as the Value, which is the identifier for a specific country.
         public let geoMatchSet: GeoMatchSet?
 
@@ -1720,11 +1990,17 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IPSetId", required: true, type: .string)
         ]
+
         /// The IPSetId of the IPSet that you want to get. IPSetId is returned by CreateIPSet and by ListIPSets.
         public let iPSetId: String
 
         public init(iPSetId: String) {
             self.iPSetId = iPSetId
+        }
+
+        public func validate(name: String) throws {
+            try validate(iPSetId, name:"iPSetId", parent: name, max: 128)
+            try validate(iPSetId, name:"iPSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1736,6 +2012,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IPSet", required: false, type: .structure)
         ]
+
         /// Information about the IPSet that you specified in the GetIPSet request. For more information, see the following topics:    IPSet: Contains IPSetDescriptors, IPSetId, and Name     IPSetDescriptors: Contains an array of IPSetDescriptor objects. Each IPSetDescriptor object contains Type and Value   
         public let iPSet: IPSet?
 
@@ -1752,11 +2029,17 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the web ACL for which you want to get the LoggingConfiguration.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1224)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1768,6 +2051,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoggingConfiguration", required: false, type: .structure)
         ]
+
         /// The LoggingConfiguration for the specified web ACL.
         public let loggingConfiguration: LoggingConfiguration?
 
@@ -1784,11 +2068,17 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the RuleGroup for which you want to get the policy.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1224)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1800,6 +2090,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Policy", required: false, type: .string)
         ]
+
         /// The IAM policy attached to the specified RuleGroup.
         public let policy: String?
 
@@ -1817,6 +2108,7 @@ extension WAF {
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "RuleId", required: true, type: .string)
         ]
+
         /// A null value and not currently used. Do not include this in your request.
         public let nextMarker: String?
         /// The RuleId of the RateBasedRule for which you want to get a list of ManagedKeys. RuleId is returned by CreateRateBasedRule and by ListRateBasedRules.
@@ -1825,6 +2117,12 @@ extension WAF {
         public init(nextMarker: String? = nil, ruleId: String) {
             self.nextMarker = nextMarker
             self.ruleId = ruleId
+        }
+
+        public func validate(name: String) throws {
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(ruleId, name:"ruleId", parent: name, max: 128)
+            try validate(ruleId, name:"ruleId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1838,6 +2136,7 @@ extension WAF {
             AWSShapeMember(label: "ManagedKeys", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// An array of IP addresses that currently are blocked by the specified RateBasedRule. 
         public let managedKeys: [String]?
         /// A null value and not currently used.
@@ -1858,11 +2157,17 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RuleId", required: true, type: .string)
         ]
+
         /// The RuleId of the RateBasedRule that you want to get. RuleId is returned by CreateRateBasedRule and by ListRateBasedRules.
         public let ruleId: String
 
         public init(ruleId: String) {
             self.ruleId = ruleId
+        }
+
+        public func validate(name: String) throws {
+            try validate(ruleId, name:"ruleId", parent: name, max: 128)
+            try validate(ruleId, name:"ruleId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1874,6 +2179,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Rule", required: false, type: .structure)
         ]
+
         /// Information about the RateBasedRule that you specified in the GetRateBasedRule request.
         public let rule: RateBasedRule?
 
@@ -1890,11 +2196,17 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RegexMatchSetId", required: true, type: .string)
         ]
+
         /// The RegexMatchSetId of the RegexMatchSet that you want to get. RegexMatchSetId is returned by CreateRegexMatchSet and by ListRegexMatchSets.
         public let regexMatchSetId: String
 
         public init(regexMatchSetId: String) {
             self.regexMatchSetId = regexMatchSetId
+        }
+
+        public func validate(name: String) throws {
+            try validate(regexMatchSetId, name:"regexMatchSetId", parent: name, max: 128)
+            try validate(regexMatchSetId, name:"regexMatchSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1906,6 +2218,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RegexMatchSet", required: false, type: .structure)
         ]
+
         /// Information about the RegexMatchSet that you specified in the GetRegexMatchSet request. For more information, see RegexMatchTuple.
         public let regexMatchSet: RegexMatchSet?
 
@@ -1922,11 +2235,17 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RegexPatternSetId", required: true, type: .string)
         ]
+
         /// The RegexPatternSetId of the RegexPatternSet that you want to get. RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets.
         public let regexPatternSetId: String
 
         public init(regexPatternSetId: String) {
             self.regexPatternSetId = regexPatternSetId
+        }
+
+        public func validate(name: String) throws {
+            try validate(regexPatternSetId, name:"regexPatternSetId", parent: name, max: 128)
+            try validate(regexPatternSetId, name:"regexPatternSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1938,6 +2257,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RegexPatternSet", required: false, type: .structure)
         ]
+
         /// Information about the RegexPatternSet that you specified in the GetRegexPatternSet request, including the identifier of the pattern set and the regular expression patterns you want AWS WAF to search for. 
         public let regexPatternSet: RegexPatternSet?
 
@@ -1954,11 +2274,17 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RuleGroupId", required: true, type: .string)
         ]
+
         /// The RuleGroupId of the RuleGroup that you want to get. RuleGroupId is returned by CreateRuleGroup and by ListRuleGroups.
         public let ruleGroupId: String
 
         public init(ruleGroupId: String) {
             self.ruleGroupId = ruleGroupId
+        }
+
+        public func validate(name: String) throws {
+            try validate(ruleGroupId, name:"ruleGroupId", parent: name, max: 128)
+            try validate(ruleGroupId, name:"ruleGroupId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1970,6 +2296,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RuleGroup", required: false, type: .structure)
         ]
+
         /// Information about the RuleGroup that you specified in the GetRuleGroup request. 
         public let ruleGroup: RuleGroup?
 
@@ -1986,11 +2313,17 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RuleId", required: true, type: .string)
         ]
+
         /// The RuleId of the Rule that you want to get. RuleId is returned by CreateRule and by ListRules.
         public let ruleId: String
 
         public init(ruleId: String) {
             self.ruleId = ruleId
+        }
+
+        public func validate(name: String) throws {
+            try validate(ruleId, name:"ruleId", parent: name, max: 128)
+            try validate(ruleId, name:"ruleId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2002,6 +2335,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Rule", required: false, type: .structure)
         ]
+
         /// Information about the Rule that you specified in the GetRule request. For more information, see the following topics:    Rule: Contains MetricName, Name, an array of Predicate objects, and RuleId     Predicate: Each Predicate object contains DataId, Negated, and Type   
         public let rule: Rule?
 
@@ -2021,6 +2355,7 @@ extension WAF {
             AWSShapeMember(label: "TimeWindow", required: true, type: .structure), 
             AWSShapeMember(label: "WebAclId", required: true, type: .string)
         ]
+
         /// The number of requests that you want AWS WAF to return from among the first 5,000 requests that your AWS resource received during the time range. If your resource received fewer requests than the value of MaxItems, GetSampledRequests returns information about all of them. 
         public let maxItems: Int64
         ///  RuleId is one of three values:   The RuleId of the Rule or the RuleGroupId of the RuleGroup for which you want GetSampledRequests to return a sample of requests.    Default_Action, which causes GetSampledRequests to return a sample of the requests that didn't match any of the rules in the specified WebACL.  
@@ -2037,6 +2372,15 @@ extension WAF {
             self.webAclId = webAclId
         }
 
+        public func validate(name: String) throws {
+            try validate(maxItems, name:"maxItems", parent: name, max: 500)
+            try validate(maxItems, name:"maxItems", parent: name, min: 1)
+            try validate(ruleId, name:"ruleId", parent: name, max: 128)
+            try validate(ruleId, name:"ruleId", parent: name, min: 1)
+            try validate(webAclId, name:"webAclId", parent: name, max: 128)
+            try validate(webAclId, name:"webAclId", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxItems = "MaxItems"
             case ruleId = "RuleId"
@@ -2051,6 +2395,7 @@ extension WAF {
             AWSShapeMember(label: "SampledRequests", required: false, type: .list), 
             AWSShapeMember(label: "TimeWindow", required: false, type: .structure)
         ]
+
         /// The total number of requests from which GetSampledRequests got a sample of MaxItems requests. If PopulationSize is less than MaxItems, the sample includes every request that your AWS resource received during the specified time range.
         public let populationSize: Int64?
         /// A complex type that contains detailed information about each of the requests in the sample.
@@ -2075,11 +2420,17 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SizeConstraintSetId", required: true, type: .string)
         ]
+
         /// The SizeConstraintSetId of the SizeConstraintSet that you want to get. SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets.
         public let sizeConstraintSetId: String
 
         public init(sizeConstraintSetId: String) {
             self.sizeConstraintSetId = sizeConstraintSetId
+        }
+
+        public func validate(name: String) throws {
+            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", parent: name, max: 128)
+            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2091,6 +2442,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SizeConstraintSet", required: false, type: .structure)
         ]
+
         /// Information about the SizeConstraintSet that you specified in the GetSizeConstraintSet request. For more information, see the following topics:    SizeConstraintSet: Contains SizeConstraintSetId, SizeConstraints, and Name     SizeConstraints: Contains an array of SizeConstraint objects. Each SizeConstraint object contains FieldToMatch, TextTransformation, ComparisonOperator, and Size     FieldToMatch: Contains Data and Type   
         public let sizeConstraintSet: SizeConstraintSet?
 
@@ -2107,11 +2459,17 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SqlInjectionMatchSetId", required: true, type: .string)
         ]
+
         /// The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to get. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
         public let sqlInjectionMatchSetId: String
 
         public init(sqlInjectionMatchSetId: String) {
             self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
+        }
+
+        public func validate(name: String) throws {
+            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", parent: name, max: 128)
+            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2123,6 +2481,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SqlInjectionMatchSet", required: false, type: .structure)
         ]
+
         /// Information about the SqlInjectionMatchSet that you specified in the GetSqlInjectionMatchSet request. For more information, see the following topics:    SqlInjectionMatchSet: Contains Name, SqlInjectionMatchSetId, and an array of SqlInjectionMatchTuple objects    SqlInjectionMatchTuple: Each SqlInjectionMatchTuple object contains FieldToMatch and TextTransformation     FieldToMatch: Contains Data and Type   
         public let sqlInjectionMatchSet: SqlInjectionMatchSet?
 
@@ -2139,11 +2498,17 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WebACLId", required: true, type: .string)
         ]
+
         /// The WebACLId of the WebACL that you want to get. WebACLId is returned by CreateWebACL and by ListWebACLs.
         public let webACLId: String
 
         public init(webACLId: String) {
             self.webACLId = webACLId
+        }
+
+        public func validate(name: String) throws {
+            try validate(webACLId, name:"webACLId", parent: name, max: 128)
+            try validate(webACLId, name:"webACLId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2155,6 +2520,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WebACL", required: false, type: .structure)
         ]
+
         /// Information about the WebACL that you specified in the GetWebACL request. For more information, see the following topics:    WebACL: Contains DefaultAction, MetricName, Name, an array of Rule objects, and WebACLId     DefaultAction (Data type is WafAction): Contains Type     Rules: Contains an array of ActivatedRule objects, which contain Action, Priority, and RuleId     Action: Contains Type   
         public let webACL: WebACL?
 
@@ -2171,11 +2537,17 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "XssMatchSetId", required: true, type: .string)
         ]
+
         /// The XssMatchSetId of the XssMatchSet that you want to get. XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
         public let xssMatchSetId: String
 
         public init(xssMatchSetId: String) {
             self.xssMatchSetId = xssMatchSetId
+        }
+
+        public func validate(name: String) throws {
+            try validate(xssMatchSetId, name:"xssMatchSetId", parent: name, max: 128)
+            try validate(xssMatchSetId, name:"xssMatchSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2187,6 +2559,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "XssMatchSet", required: false, type: .structure)
         ]
+
         /// Information about the XssMatchSet that you specified in the GetXssMatchSet request. For more information, see the following topics:    XssMatchSet: Contains Name, XssMatchSetId, and an array of XssMatchTuple objects    XssMatchTuple: Each XssMatchTuple object contains FieldToMatch and TextTransformation     FieldToMatch: Contains Data and Type   
         public let xssMatchSet: XssMatchSet?
 
@@ -2204,6 +2577,7 @@ extension WAF {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The name of one of the headers in the sampled web request.
         public let name: String?
         /// The value of one of the headers in the sampled web request.
@@ -2229,6 +2603,7 @@ extension WAF {
             AWSShapeMember(label: "Method", required: false, type: .string), 
             AWSShapeMember(label: "URI", required: false, type: .string)
         ]
+
         /// The IP address that the request originated from. If the WebACL is associated with a CloudFront distribution, this is the value of one of the following fields in CloudFront access logs:    c-ip, if the viewer did not use an HTTP proxy or a load balancer to send the request    x-forwarded-for, if the viewer did use an HTTP proxy or a load balancer to send the request  
         public let clientIP: String?
         /// The two-letter country code for the country that the request originated from. For a current list of country codes, see the Wikipedia entry ISO 3166-1 alpha-2.
@@ -2267,6 +2642,7 @@ extension WAF {
             AWSShapeMember(label: "IPSetId", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The IP address type (IPV4 or IPV6) and the IP address range (in CIDR notation) that web requests originate from. If the WebACL is associated with a CloudFront distribution and the viewer did not use an HTTP proxy or a load balancer to send the request, this is the value of the c-ip field in the CloudFront access logs.
         public let iPSetDescriptors: [IPSetDescriptor]
         /// The IPSetId for an IPSet. You use IPSetId to get information about an IPSet (see GetIPSet), update an IPSet (see UpdateIPSet), insert an IPSet into a Rule or delete one from a Rule (see UpdateRule), and delete an IPSet from AWS WAF (see DeleteIPSet).  IPSetId is returned by CreateIPSet and by ListIPSets.
@@ -2292,6 +2668,7 @@ extension WAF {
             AWSShapeMember(label: "Type", required: true, type: .enum), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         /// Specify IPV4 or IPV6.
         public let `type`: IPSetDescriptorType
         /// Specify an IPv4 address by using CIDR notation. For example:   To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing. Specify an IPv6 address by using CIDR notation. For example:   To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.  
@@ -2319,6 +2696,7 @@ extension WAF {
             AWSShapeMember(label: "IPSetId", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// The IPSetId for an IPSet. You can use IPSetId in a GetIPSet request to get detailed information about an IPSet.
         public let iPSetId: String
         /// A friendly name or description of the IPSet. You can't change the name of an IPSet after you create it.
@@ -2340,6 +2718,7 @@ extension WAF {
             AWSShapeMember(label: "Action", required: true, type: .enum), 
             AWSShapeMember(label: "IPSetDescriptor", required: true, type: .structure)
         ]
+
         /// Specifies whether to insert or delete an IP address with UpdateIPSet.
         public let action: ChangeAction
         /// The IP address type (IPV4 or IPV6) and the IP address range (in CIDR notation) that web requests originate from.
@@ -2362,17 +2741,26 @@ extension WAF {
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "RuleGroupId", required: false, type: .string)
         ]
+
         /// Specifies the number of ActivatedRules that you want AWS WAF to return for this request. If you have more ActivatedRules than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of ActivatedRules.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more ActivatedRules than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of ActivatedRules. For the second and subsequent ListActivatedRulesInRuleGroup requests, specify the value of NextMarker from the previous response to get information about another batch of ActivatedRules.
         public let nextMarker: String?
         /// The RuleGroupId of the RuleGroup for which you want to get a list of ActivatedRule objects.
         public let ruleGroupId: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil, ruleGroupId: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil, ruleGroupId: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
             self.ruleGroupId = ruleGroupId
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(ruleGroupId, name:"ruleGroupId", parent: name, max: 128)
+            try validate(ruleGroupId, name:"ruleGroupId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2387,6 +2775,7 @@ extension WAF {
             AWSShapeMember(label: "ActivatedRules", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// An array of ActivatedRules objects.
         public let activatedRules: [ActivatedRule]?
         /// If you have more ActivatedRules than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more ActivatedRules, submit another ListActivatedRulesInRuleGroup request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -2408,14 +2797,21 @@ extension WAF {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// Specifies the number of ByteMatchSet objects that you want AWS WAF to return for this request. If you have more ByteMatchSets objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of ByteMatchSet objects.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more ByteMatchSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of ByteMatchSets. For the second and subsequent ListByteMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of ByteMatchSets.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2429,6 +2825,7 @@ extension WAF {
             AWSShapeMember(label: "ByteMatchSets", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// An array of ByteMatchSetSummary objects.
         public let byteMatchSets: [ByteMatchSetSummary]?
         /// If you have more ByteMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more ByteMatchSet objects, submit another ListByteMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -2450,14 +2847,21 @@ extension WAF {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// Specifies the number of GeoMatchSet objects that you want AWS WAF to return for this request. If you have more GeoMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of GeoMatchSet objects.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more GeoMatchSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of GeoMatchSet objects. For the second and subsequent ListGeoMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of GeoMatchSet objects.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2471,6 +2875,7 @@ extension WAF {
             AWSShapeMember(label: "GeoMatchSets", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// An array of GeoMatchSetSummary objects.
         public let geoMatchSets: [GeoMatchSetSummary]?
         /// If you have more GeoMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more GeoMatchSet objects, submit another ListGeoMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -2492,14 +2897,21 @@ extension WAF {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// Specifies the number of IPSet objects that you want AWS WAF to return for this request. If you have more IPSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of IPSet objects.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more IPSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of IPSets. For the second and subsequent ListIPSets requests, specify the value of NextMarker from the previous response to get information about another batch of IPSets.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2513,6 +2925,7 @@ extension WAF {
             AWSShapeMember(label: "IPSets", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// An array of IPSetSummary objects.
         public let iPSets: [IPSetSummary]?
         /// If you have more IPSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more IPSet objects, submit another ListIPSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -2534,14 +2947,21 @@ extension WAF {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// Specifies the number of LoggingConfigurations that you want AWS WAF to return for this request. If you have more LoggingConfigurations than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of LoggingConfigurations.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more LoggingConfigurations than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of LoggingConfigurations. For the second and subsequent ListLoggingConfigurations requests, specify the value of NextMarker from the previous response to get information about another batch of ListLoggingConfigurations.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2555,6 +2975,7 @@ extension WAF {
             AWSShapeMember(label: "LoggingConfigurations", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// An array of LoggingConfiguration objects.
         public let loggingConfigurations: [LoggingConfiguration]?
         /// If you have more LoggingConfigurations than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more LoggingConfigurations, submit another ListLoggingConfigurations request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -2576,14 +2997,21 @@ extension WAF {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// Specifies the number of Rules that you want AWS WAF to return for this request. If you have more Rules than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more Rules than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of Rules. For the second and subsequent ListRateBasedRules requests, specify the value of NextMarker from the previous response to get information about another batch of Rules.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2597,6 +3025,7 @@ extension WAF {
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "Rules", required: false, type: .list)
         ]
+
         /// If you have more Rules than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more Rules, submit another ListRateBasedRules request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
         /// An array of RuleSummary objects.
@@ -2618,14 +3047,21 @@ extension WAF {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// Specifies the number of RegexMatchSet objects that you want AWS WAF to return for this request. If you have more RegexMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of RegexMatchSet objects.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more RegexMatchSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of ByteMatchSets. For the second and subsequent ListRegexMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of RegexMatchSet objects.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2639,6 +3075,7 @@ extension WAF {
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "RegexMatchSets", required: false, type: .list)
         ]
+
         /// If you have more RegexMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more RegexMatchSet objects, submit another ListRegexMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
         /// An array of RegexMatchSetSummary objects.
@@ -2660,14 +3097,21 @@ extension WAF {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// Specifies the number of RegexPatternSet objects that you want AWS WAF to return for this request. If you have more RegexPatternSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of RegexPatternSet objects.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more RegexPatternSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of RegexPatternSet objects. For the second and subsequent ListRegexPatternSets requests, specify the value of NextMarker from the previous response to get information about another batch of RegexPatternSet objects.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2681,6 +3125,7 @@ extension WAF {
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "RegexPatternSets", required: false, type: .list)
         ]
+
         /// If you have more RegexPatternSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more RegexPatternSet objects, submit another ListRegexPatternSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
         /// An array of RegexPatternSetSummary objects.
@@ -2702,14 +3147,21 @@ extension WAF {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// Specifies the number of RuleGroups that you want AWS WAF to return for this request. If you have more RuleGroups than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of RuleGroups.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more RuleGroups than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of RuleGroups. For the second and subsequent ListRuleGroups requests, specify the value of NextMarker from the previous response to get information about another batch of RuleGroups.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2723,6 +3175,7 @@ extension WAF {
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "RuleGroups", required: false, type: .list)
         ]
+
         /// If you have more RuleGroups than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more RuleGroups, submit another ListRuleGroups request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
         /// An array of RuleGroup objects.
@@ -2744,14 +3197,21 @@ extension WAF {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// Specifies the number of Rules that you want AWS WAF to return for this request. If you have more Rules than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more Rules than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of Rules. For the second and subsequent ListRules requests, specify the value of NextMarker from the previous response to get information about another batch of Rules.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2765,6 +3225,7 @@ extension WAF {
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "Rules", required: false, type: .list)
         ]
+
         /// If you have more Rules than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more Rules, submit another ListRules request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
         /// An array of RuleSummary objects.
@@ -2786,14 +3247,21 @@ extension WAF {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// Specifies the number of SizeConstraintSet objects that you want AWS WAF to return for this request. If you have more SizeConstraintSets objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of SizeConstraintSet objects.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more SizeConstraintSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of SizeConstraintSets. For the second and subsequent ListSizeConstraintSets requests, specify the value of NextMarker from the previous response to get information about another batch of SizeConstraintSets.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2807,6 +3275,7 @@ extension WAF {
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "SizeConstraintSets", required: false, type: .list)
         ]
+
         /// If you have more SizeConstraintSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more SizeConstraintSet objects, submit another ListSizeConstraintSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
         /// An array of SizeConstraintSetSummary objects.
@@ -2828,14 +3297,21 @@ extension WAF {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// Specifies the number of SqlInjectionMatchSet objects that you want AWS WAF to return for this request. If you have more SqlInjectionMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more SqlInjectionMatchSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of SqlInjectionMatchSets. For the second and subsequent ListSqlInjectionMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of SqlInjectionMatchSets.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2849,6 +3325,7 @@ extension WAF {
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "SqlInjectionMatchSets", required: false, type: .list)
         ]
+
         /// If you have more SqlInjectionMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more SqlInjectionMatchSet objects, submit another ListSqlInjectionMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
         /// An array of SqlInjectionMatchSetSummary objects.
@@ -2870,14 +3347,21 @@ extension WAF {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// Specifies the number of subscribed rule groups that you want AWS WAF to return for this request. If you have more objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of objects.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more ByteMatchSetssubscribed rule groups than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of subscribed rule groups. For the second and subsequent ListSubscribedRuleGroupsRequest requests, specify the value of NextMarker from the previous response to get information about another batch of subscribed rule groups.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2891,6 +3375,7 @@ extension WAF {
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "RuleGroups", required: false, type: .list)
         ]
+
         /// If you have more objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more objects, submit another ListSubscribedRuleGroups request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
         /// An array of RuleGroup objects.
@@ -2913,14 +3398,23 @@ extension WAF {
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "ResourceARN", required: true, type: .string)
         ]
-        public let limit: Int32?
+
+        public let limit: Int?
         public let nextMarker: String?
         public let resourceARN: String
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil, resourceARN: String) {
+        public init(limit: Int? = nil, nextMarker: String? = nil, resourceARN: String) {
             self.limit = limit
             self.nextMarker = nextMarker
             self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 1224)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2935,6 +3429,7 @@ extension WAF {
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "TagInfoForResource", required: false, type: .structure)
         ]
+
         public let nextMarker: String?
         public let tagInfoForResource: TagInfoForResource?
 
@@ -2954,14 +3449,21 @@ extension WAF {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// Specifies the number of WebACL objects that you want AWS WAF to return for this request. If you have more WebACL objects than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of WebACL objects.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more WebACL objects than the number that you specify for Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of WebACL objects. For the second and subsequent ListWebACLs requests, specify the value of NextMarker from the previous response to get information about another batch of WebACL objects.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2975,6 +3477,7 @@ extension WAF {
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "WebACLs", required: false, type: .list)
         ]
+
         /// If you have more WebACL objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more WebACL objects, submit another ListWebACLs request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
         /// An array of WebACLSummary objects.
@@ -2996,14 +3499,21 @@ extension WAF {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// Specifies the number of XssMatchSet objects that you want AWS WAF to return for this request. If you have more XssMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more XssMatchSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of XssMatchSets. For the second and subsequent ListXssMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of XssMatchSets.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 100)
+            try validate(limit, name:"limit", parent: name, min: 0)
+            try validate(nextMarker, name:"nextMarker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3017,6 +3527,7 @@ extension WAF {
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "XssMatchSets", required: false, type: .list)
         ]
+
         /// If you have more XssMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more XssMatchSet objects, submit another ListXssMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
         /// An array of XssMatchSetSummary objects.
@@ -3039,6 +3550,7 @@ extension WAF {
             AWSShapeMember(label: "RedactedFields", required: false, type: .list), 
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
+
         /// An array of Amazon Kinesis Data Firehose ARNs.
         public let logDestinationConfigs: [String]
         /// The parts of the request that you want redacted from the logs. For example, if you redact the cookie field, the cookie field in the firehose will be xxx. 
@@ -3050,6 +3562,17 @@ extension WAF {
             self.logDestinationConfigs = logDestinationConfigs
             self.redactedFields = redactedFields
             self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try logDestinationConfigs.forEach {
+                try validate($0, name: "logDestinationConfigs[]", parent: name, max: 1224)
+                try validate($0, name: "logDestinationConfigs[]", parent: name, min: 1)
+            }
+            try validate(logDestinationConfigs, name:"logDestinationConfigs", parent: name, max: 1)
+            try validate(logDestinationConfigs, name:"logDestinationConfigs", parent: name, min: 1)
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1224)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3070,36 +3593,6 @@ extension WAF {
         public var description: String { return self.rawValue }
     }
 
-    public enum ParameterExceptionField: String, CustomStringConvertible, Codable {
-        case changeAction = "CHANGE_ACTION"
-        case wafAction = "WAF_ACTION"
-        case wafOverrideAction = "WAF_OVERRIDE_ACTION"
-        case predicateType = "PREDICATE_TYPE"
-        case ipsetType = "IPSET_TYPE"
-        case byteMatchFieldType = "BYTE_MATCH_FIELD_TYPE"
-        case sqlInjectionMatchFieldType = "SQL_INJECTION_MATCH_FIELD_TYPE"
-        case byteMatchTextTransformation = "BYTE_MATCH_TEXT_TRANSFORMATION"
-        case byteMatchPositionalConstraint = "BYTE_MATCH_POSITIONAL_CONSTRAINT"
-        case sizeConstraintComparisonOperator = "SIZE_CONSTRAINT_COMPARISON_OPERATOR"
-        case geoMatchLocationType = "GEO_MATCH_LOCATION_TYPE"
-        case geoMatchLocationValue = "GEO_MATCH_LOCATION_VALUE"
-        case rateKey = "RATE_KEY"
-        case ruleType = "RULE_TYPE"
-        case nextMarker = "NEXT_MARKER"
-        case resourceArn = "RESOURCE_ARN"
-        case tags = "TAGS"
-        case tagKeys = "TAG_KEYS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ParameterExceptionReason: String, CustomStringConvertible, Codable {
-        case invalidOption = "INVALID_OPTION"
-        case illegalCombination = "ILLEGAL_COMBINATION"
-        case illegalArgument = "ILLEGAL_ARGUMENT"
-        case invalidTagKey = "INVALID_TAG_KEY"
-        public var description: String { return self.rawValue }
-    }
-
     public enum PositionalConstraint: String, CustomStringConvertible, Codable {
         case exactly = "EXACTLY"
         case startsWith = "STARTS_WITH"
@@ -3115,6 +3608,7 @@ extension WAF {
             AWSShapeMember(label: "Negated", required: true, type: .boolean), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
+
         /// A unique identifier for a predicate in a Rule, such as ByteMatchSetId or IPSetId. The ID is returned by the corresponding Create or List command.
         public let dataId: String
         /// Set Negated to False if you want AWS WAF to allow, block, or count requests based on the settings in the specified ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, RegexMatchSet, GeoMatchSet, or SizeConstraintSet. For example, if an IPSet includes the IP address 192.0.2.44, AWS WAF will allow or block requests based on that IP address. Set Negated to True if you want AWS WAF to allow or block a request based on the negation of the settings in the ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, RegexMatchSet, GeoMatchSet, or SizeConstraintSet. For example, if an IPSet includes the IP address 192.0.2.44, AWS WAF will allow, block, or count requests based on all IP addresses except 192.0.2.44.
@@ -3126,6 +3620,11 @@ extension WAF {
             self.dataId = dataId
             self.negated = negated
             self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(dataId, name:"dataId", parent: name, max: 128)
+            try validate(dataId, name:"dataId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3150,11 +3649,16 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoggingConfiguration", required: true, type: .structure)
         ]
+
         /// The Amazon Kinesis Data Firehose that contains the inspected traffic information, the redacted fields details, and the Amazon Resource Name (ARN) of the web ACL to monitor.
         public let loggingConfiguration: LoggingConfiguration
 
         public init(loggingConfiguration: LoggingConfiguration) {
             self.loggingConfiguration = loggingConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try loggingConfiguration.validate(name: "\(name).loggingConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3166,6 +3670,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoggingConfiguration", required: false, type: .structure)
         ]
+
         /// The LoggingConfiguration that you submitted in the request.
         public let loggingConfiguration: LoggingConfiguration?
 
@@ -3183,6 +3688,7 @@ extension WAF {
             AWSShapeMember(label: "Policy", required: true, type: .string), 
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
+
         /// The policy to attach to the specified RuleGroup.
         public let policy: String
         /// The Amazon Resource Name (ARN) of the RuleGroup to which you want to attach the policy.
@@ -3193,6 +3699,12 @@ extension WAF {
             self.resourceArn = resourceArn
         }
 
+        public func validate(name: String) throws {
+            try validate(policy, name:"policy", parent: name, min: 1)
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1224)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case policy = "Policy"
             case resourceArn = "ResourceArn"
@@ -3200,6 +3712,7 @@ extension WAF {
     }
 
     public struct PutPermissionPolicyResponse: AWSShape {
+
 
         public init() {
         }
@@ -3215,6 +3728,7 @@ extension WAF {
             AWSShapeMember(label: "RateLimit", required: true, type: .long), 
             AWSShapeMember(label: "RuleId", required: true, type: .string)
         ]
+
         /// The Predicates object contains one Predicate element for each ByteMatchSet, IPSet, or SqlInjectionMatchSet object that you want to include in a RateBasedRule.
         public let matchPredicates: [Predicate]
         /// A friendly name or description for the metrics for a RateBasedRule. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the RateBasedRule.
@@ -3258,6 +3772,7 @@ extension WAF {
             AWSShapeMember(label: "RegexMatchSetId", required: false, type: .string), 
             AWSShapeMember(label: "RegexMatchTuples", required: false, type: .list)
         ]
+
         /// A friendly name or description of the RegexMatchSet. You can't change Name after you create a RegexMatchSet.
         public let name: String?
         /// The RegexMatchSetId for a RegexMatchSet. You use RegexMatchSetId to get information about a RegexMatchSet (see GetRegexMatchSet), update a RegexMatchSet (see UpdateRegexMatchSet), insert a RegexMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete a RegexMatchSet from AWS WAF (see DeleteRegexMatchSet).  RegexMatchSetId is returned by CreateRegexMatchSet and by ListRegexMatchSets.
@@ -3283,6 +3798,7 @@ extension WAF {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "RegexMatchSetId", required: true, type: .string)
         ]
+
         /// A friendly name or description of the RegexMatchSet. You can't change Name after you create a RegexMatchSet.
         public let name: String
         /// The RegexMatchSetId for a RegexMatchSet. You use RegexMatchSetId to get information about a RegexMatchSet, update a RegexMatchSet, remove a RegexMatchSet from a Rule, and delete a RegexMatchSet from AWS WAF.  RegexMatchSetId is returned by CreateRegexMatchSet and by ListRegexMatchSets.
@@ -3304,6 +3820,7 @@ extension WAF {
             AWSShapeMember(label: "Action", required: true, type: .enum), 
             AWSShapeMember(label: "RegexMatchTuple", required: true, type: .structure)
         ]
+
         /// Specifies whether to insert or delete a RegexMatchTuple.
         public let action: ChangeAction
         /// Information about the part of a web request that you want AWS WAF to inspect and the identifier of the regular expression (regex) pattern that you want AWS WAF to search for. If you specify DELETE for the value of Action, the RegexMatchTuple values must exactly match the values in the RegexMatchTuple that you want to delete from the RegexMatchSet.
@@ -3312,6 +3829,10 @@ extension WAF {
         public init(action: ChangeAction, regexMatchTuple: RegexMatchTuple) {
             self.action = action
             self.regexMatchTuple = regexMatchTuple
+        }
+
+        public func validate(name: String) throws {
+            try regexMatchTuple.validate(name: "\(name).regexMatchTuple")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3326,6 +3847,7 @@ extension WAF {
             AWSShapeMember(label: "RegexPatternSetId", required: true, type: .string), 
             AWSShapeMember(label: "TextTransformation", required: true, type: .enum)
         ]
+
         /// Specifies where in a web request to look for the RegexPatternSet.
         public let fieldToMatch: FieldToMatch
         /// The RegexPatternSetId for a RegexPatternSet. You use RegexPatternSetId to get information about a RegexPatternSet (see GetRegexPatternSet), update a RegexPatternSet (see UpdateRegexPatternSet), insert a RegexPatternSet into a RegexMatchSet or delete one from a RegexMatchSet (see UpdateRegexMatchSet), and delete an RegexPatternSet from AWS WAF (see DeleteRegexPatternSet).  RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets.
@@ -3337,6 +3859,11 @@ extension WAF {
             self.fieldToMatch = fieldToMatch
             self.regexPatternSetId = regexPatternSetId
             self.textTransformation = textTransformation
+        }
+
+        public func validate(name: String) throws {
+            try validate(regexPatternSetId, name:"regexPatternSetId", parent: name, max: 128)
+            try validate(regexPatternSetId, name:"regexPatternSetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3352,6 +3879,7 @@ extension WAF {
             AWSShapeMember(label: "RegexPatternSetId", required: true, type: .string), 
             AWSShapeMember(label: "RegexPatternStrings", required: true, type: .list)
         ]
+
         /// A friendly name or description of the RegexPatternSet. You can't change Name after you create a RegexPatternSet.
         public let name: String?
         /// The identifier for the RegexPatternSet. You use RegexPatternSetId to get information about a RegexPatternSet, update a RegexPatternSet, remove a RegexPatternSet from a RegexMatchSet, and delete a RegexPatternSet from AWS WAF.  RegexMatchSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets.
@@ -3377,6 +3905,7 @@ extension WAF {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "RegexPatternSetId", required: true, type: .string)
         ]
+
         /// A friendly name or description of the RegexPatternSet. You can't change Name after you create a RegexPatternSet.
         public let name: String
         /// The RegexPatternSetId for a RegexPatternSet. You use RegexPatternSetId to get information about a RegexPatternSet, update a RegexPatternSet, remove a RegexPatternSet from a RegexMatchSet, and delete a RegexPatternSet from AWS WAF.  RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets.
@@ -3398,6 +3927,7 @@ extension WAF {
             AWSShapeMember(label: "Action", required: true, type: .enum), 
             AWSShapeMember(label: "RegexPatternString", required: true, type: .string)
         ]
+
         /// Specifies whether to insert or delete a RegexPatternString.
         public let action: ChangeAction
         /// Specifies the regular expression (regex) pattern that you want AWS WAF to search for, such as B[a@]dB[o0]t.
@@ -3406,6 +3936,10 @@ extension WAF {
         public init(action: ChangeAction, regexPatternString: String) {
             self.action = action
             self.regexPatternString = regexPatternString
+        }
+
+        public func validate(name: String) throws {
+            try validate(regexPatternString, name:"regexPatternString", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3421,6 +3955,7 @@ extension WAF {
             AWSShapeMember(label: "Predicates", required: true, type: .list), 
             AWSShapeMember(label: "RuleId", required: true, type: .string)
         ]
+
         /// A friendly name or description for the metrics for this Rule. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change MetricName after you create the Rule.
         public let metricName: String?
         /// The friendly name or description for the Rule. You can't change the name of a Rule after you create it.
@@ -3451,6 +3986,7 @@ extension WAF {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "RuleGroupId", required: true, type: .string)
         ]
+
         /// A friendly name or description for the metrics for this RuleGroup. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the RuleGroup.
         public let metricName: String?
         /// The friendly name or description for the RuleGroup. You can't change the name of a RuleGroup after you create it.
@@ -3476,6 +4012,7 @@ extension WAF {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "RuleGroupId", required: true, type: .string)
         ]
+
         /// A friendly name or description of the RuleGroup. You can't change the name of a RuleGroup after you create it.
         public let name: String
         /// A unique identifier for a RuleGroup. You use RuleGroupId to get more information about a RuleGroup (see GetRuleGroup), update a RuleGroup (see UpdateRuleGroup), insert a RuleGroup into a WebACL or delete one from a WebACL (see UpdateWebACL), or delete a RuleGroup from AWS WAF (see DeleteRuleGroup).  RuleGroupId is returned by CreateRuleGroup and by ListRuleGroups.
@@ -3497,6 +4034,7 @@ extension WAF {
             AWSShapeMember(label: "Action", required: true, type: .enum), 
             AWSShapeMember(label: "ActivatedRule", required: true, type: .structure)
         ]
+
         /// Specify INSERT to add an ActivatedRule to a RuleGroup. Use DELETE to remove an ActivatedRule from a RuleGroup.
         public let action: ChangeAction
         /// The ActivatedRule object specifies a Rule that you want to insert or delete, the priority of the Rule in the WebACL, and the action that you want AWS WAF to take when a web request matches the Rule (ALLOW, BLOCK, or COUNT).
@@ -3505,6 +4043,10 @@ extension WAF {
         public init(action: ChangeAction, activatedRule: ActivatedRule) {
             self.action = action
             self.activatedRule = activatedRule
+        }
+
+        public func validate(name: String) throws {
+            try activatedRule.validate(name: "\(name).activatedRule")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3518,6 +4060,7 @@ extension WAF {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "RuleId", required: true, type: .string)
         ]
+
         /// A friendly name or description of the Rule. You can't change the name of a Rule after you create it.
         public let name: String
         /// A unique identifier for a Rule. You use RuleId to get more information about a Rule (see GetRule), update a Rule (see UpdateRule), insert a Rule into a WebACL or delete one from a WebACL (see UpdateWebACL), or delete a Rule from AWS WAF (see DeleteRule).  RuleId is returned by CreateRule and by ListRules.
@@ -3539,6 +4082,7 @@ extension WAF {
             AWSShapeMember(label: "Action", required: true, type: .enum), 
             AWSShapeMember(label: "Predicate", required: true, type: .structure)
         ]
+
         /// Specify INSERT to add a Predicate to a Rule. Use DELETE to remove a Predicate from a Rule.
         public let action: ChangeAction
         /// The ID of the Predicate (such as an IPSet) that you want to add to a Rule.
@@ -3547,6 +4091,10 @@ extension WAF {
         public init(action: ChangeAction, predicate: Predicate) {
             self.action = action
             self.predicate = predicate
+        }
+
+        public func validate(name: String) throws {
+            try predicate.validate(name: "\(name).predicate")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3563,6 +4111,7 @@ extension WAF {
             AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "Weight", required: true, type: .long)
         ]
+
         /// The action for the Rule that the request matched: ALLOW, BLOCK, or COUNT.
         public let action: String?
         /// A complex type that contains detailed information about the request.
@@ -3598,6 +4147,7 @@ extension WAF {
             AWSShapeMember(label: "Size", required: true, type: .long), 
             AWSShapeMember(label: "TextTransformation", required: true, type: .enum)
         ]
+
         /// The type of comparison you want AWS WAF to perform. AWS WAF uses this in combination with the provided Size and FieldToMatch to build an expression in the form of "Size ComparisonOperator size in bytes of FieldToMatch". If that expression is true, the SizeConstraint is considered to match.  EQ: Used to test if the Size is equal to the size of the FieldToMatch   NE: Used to test if the Size is not equal to the size of the FieldToMatch   LE: Used to test if the Size is less than or equal to the size of the FieldToMatch   LT: Used to test if the Size is strictly less than the size of the FieldToMatch   GE: Used to test if the Size is greater than or equal to the size of the FieldToMatch   GT: Used to test if the Size is strictly greater than the size of the FieldToMatch 
         public let comparisonOperator: ComparisonOperator
         /// Specifies where in a web request to look for the size constraint.
@@ -3614,6 +4164,11 @@ extension WAF {
             self.textTransformation = textTransformation
         }
 
+        public func validate(name: String) throws {
+            try validate(size, name:"size", parent: name, max: 21474836480)
+            try validate(size, name:"size", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case comparisonOperator = "ComparisonOperator"
             case fieldToMatch = "FieldToMatch"
@@ -3628,6 +4183,7 @@ extension WAF {
             AWSShapeMember(label: "SizeConstraints", required: true, type: .list), 
             AWSShapeMember(label: "SizeConstraintSetId", required: true, type: .string)
         ]
+
         /// The name, if any, of the SizeConstraintSet.
         public let name: String?
         /// Specifies the parts of web requests that you want to inspect the size of.
@@ -3653,6 +4209,7 @@ extension WAF {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "SizeConstraintSetId", required: true, type: .string)
         ]
+
         /// The name of the SizeConstraintSet, if any.
         public let name: String
         /// A unique identifier for a SizeConstraintSet. You use SizeConstraintSetId to get information about a SizeConstraintSet (see GetSizeConstraintSet), update a SizeConstraintSet (see UpdateSizeConstraintSet), insert a SizeConstraintSet into a Rule or delete one from a Rule (see UpdateRule), and delete a SizeConstraintSet from AWS WAF (see DeleteSizeConstraintSet).  SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets.
@@ -3674,6 +4231,7 @@ extension WAF {
             AWSShapeMember(label: "Action", required: true, type: .enum), 
             AWSShapeMember(label: "SizeConstraint", required: true, type: .structure)
         ]
+
         /// Specify INSERT to add a SizeConstraintSetUpdate to a SizeConstraintSet. Use DELETE to remove a SizeConstraintSetUpdate from a SizeConstraintSet.
         public let action: ChangeAction
         /// Specifies a constraint on the size of a part of the web request. AWS WAF uses the Size, ComparisonOperator, and FieldToMatch to build an expression in the form of "Size ComparisonOperator size in bytes of FieldToMatch". If that expression is true, the SizeConstraint is considered to match.
@@ -3682,6 +4240,10 @@ extension WAF {
         public init(action: ChangeAction, sizeConstraint: SizeConstraint) {
             self.action = action
             self.sizeConstraint = sizeConstraint
+        }
+
+        public func validate(name: String) throws {
+            try sizeConstraint.validate(name: "\(name).sizeConstraint")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3696,6 +4258,7 @@ extension WAF {
             AWSShapeMember(label: "SqlInjectionMatchSetId", required: true, type: .string), 
             AWSShapeMember(label: "SqlInjectionMatchTuples", required: true, type: .list)
         ]
+
         /// The name, if any, of the SqlInjectionMatchSet.
         public let name: String?
         /// A unique identifier for a SqlInjectionMatchSet. You use SqlInjectionMatchSetId to get information about a SqlInjectionMatchSet (see GetSqlInjectionMatchSet), update a SqlInjectionMatchSet (see UpdateSqlInjectionMatchSet), insert a SqlInjectionMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete a SqlInjectionMatchSet from AWS WAF (see DeleteSqlInjectionMatchSet).  SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
@@ -3721,6 +4284,7 @@ extension WAF {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "SqlInjectionMatchSetId", required: true, type: .string)
         ]
+
         /// The name of the SqlInjectionMatchSet, if any, specified by Id.
         public let name: String
         /// A unique identifier for a SqlInjectionMatchSet. You use SqlInjectionMatchSetId to get information about a SqlInjectionMatchSet (see GetSqlInjectionMatchSet), update a SqlInjectionMatchSet (see UpdateSqlInjectionMatchSet), insert a SqlInjectionMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete a SqlInjectionMatchSet from AWS WAF (see DeleteSqlInjectionMatchSet).  SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
@@ -3742,6 +4306,7 @@ extension WAF {
             AWSShapeMember(label: "Action", required: true, type: .enum), 
             AWSShapeMember(label: "SqlInjectionMatchTuple", required: true, type: .structure)
         ]
+
         /// Specify INSERT to add a SqlInjectionMatchSetUpdate to a SqlInjectionMatchSet. Use DELETE to remove a SqlInjectionMatchSetUpdate from a SqlInjectionMatchSet.
         public let action: ChangeAction
         /// Specifies the part of a web request that you want AWS WAF to inspect for snippets of malicious SQL code and, if you want AWS WAF to inspect a header, the name of the header.
@@ -3763,6 +4328,7 @@ extension WAF {
             AWSShapeMember(label: "FieldToMatch", required: true, type: .structure), 
             AWSShapeMember(label: "TextTransformation", required: true, type: .enum)
         ]
+
         /// Specifies where in a web request to look for snippets of malicious SQL code.
         public let fieldToMatch: FieldToMatch
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on FieldToMatch before inspecting a request for a match. You can only specify a single type of TextTransformation.  CMD_LINE  When you're concerned that attackers are injecting an operating system command line command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.  NONE  Specify NONE if you don't want to perform any text transformations.
@@ -3785,6 +4351,7 @@ extension WAF {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "RuleGroupId", required: true, type: .string)
         ]
+
         /// A friendly name or description for the metrics for this RuleGroup. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the RuleGroup.
         public let metricName: String
         /// A friendly name or description of the RuleGroup. You can't change the name of a RuleGroup after you create it.
@@ -3810,12 +4377,20 @@ extension WAF {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         public let key: String?
         public let value: String?
 
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3829,6 +4404,7 @@ extension WAF {
             AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
             AWSShapeMember(label: "TagList", required: false, type: .list)
         ]
+
         public let resourceARN: String?
         public let tagList: [Tag]?
 
@@ -3848,12 +4424,22 @@ extension WAF {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
+
         public let resourceARN: String
         public let tags: [Tag]
 
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 1224)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3863,6 +4449,7 @@ extension WAF {
     }
 
     public struct TagResourceResponse: AWSShape {
+
 
         public init() {
         }
@@ -3884,6 +4471,7 @@ extension WAF {
             AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
         ]
+
         /// The end of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. Specify the date and time in the following format: "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
         public let endTime: TimeStamp
         /// The beginning of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. Specify the date and time in the following format: "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
@@ -3905,12 +4493,23 @@ extension WAF {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
+
         public let resourceARN: String
         public let tagKeys: [String]
 
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceARN, name:"resourceARN", parent: name, max: 1224)
+            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try validate(tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3920,6 +4519,7 @@ extension WAF {
     }
 
     public struct UntagResourceResponse: AWSShape {
+
 
         public init() {
         }
@@ -3932,6 +4532,7 @@ extension WAF {
             AWSShapeMember(label: "ChangeToken", required: true, type: .string), 
             AWSShapeMember(label: "Updates", required: true, type: .list)
         ]
+
         /// The ByteMatchSetId of the ByteMatchSet that you want to update. ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
         public let byteMatchSetId: String
         /// The value returned by the most recent call to GetChangeToken.
@@ -3945,6 +4546,13 @@ extension WAF {
             self.updates = updates
         }
 
+        public func validate(name: String) throws {
+            try validate(byteMatchSetId, name:"byteMatchSetId", parent: name, max: 128)
+            try validate(byteMatchSetId, name:"byteMatchSetId", parent: name, min: 1)
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(updates, name:"updates", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case byteMatchSetId = "ByteMatchSetId"
             case changeToken = "ChangeToken"
@@ -3956,6 +4564,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the UpdateByteMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -3974,6 +4583,7 @@ extension WAF {
             AWSShapeMember(label: "GeoMatchSetId", required: true, type: .string), 
             AWSShapeMember(label: "Updates", required: true, type: .list)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The GeoMatchSetId of the GeoMatchSet that you want to update. GeoMatchSetId is returned by CreateGeoMatchSet and by ListGeoMatchSets.
@@ -3987,6 +4597,13 @@ extension WAF {
             self.updates = updates
         }
 
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(geoMatchSetId, name:"geoMatchSetId", parent: name, max: 128)
+            try validate(geoMatchSetId, name:"geoMatchSetId", parent: name, min: 1)
+            try validate(updates, name:"updates", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case geoMatchSetId = "GeoMatchSetId"
@@ -3998,6 +4615,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the UpdateGeoMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4016,6 +4634,7 @@ extension WAF {
             AWSShapeMember(label: "IPSetId", required: true, type: .string), 
             AWSShapeMember(label: "Updates", required: true, type: .list)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The IPSetId of the IPSet that you want to update. IPSetId is returned by CreateIPSet and by ListIPSets.
@@ -4029,6 +4648,13 @@ extension WAF {
             self.updates = updates
         }
 
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(iPSetId, name:"iPSetId", parent: name, max: 128)
+            try validate(iPSetId, name:"iPSetId", parent: name, min: 1)
+            try validate(updates, name:"updates", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case iPSetId = "IPSetId"
@@ -4040,6 +4666,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the UpdateIPSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4059,6 +4686,7 @@ extension WAF {
             AWSShapeMember(label: "RuleId", required: true, type: .string), 
             AWSShapeMember(label: "Updates", required: true, type: .list)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The maximum number of requests, which have an identical value in the field specified by the RateKey, allowed in a five-minute period. If the number of requests exceeds the RateLimit and the other predicates specified in the rule are also met, AWS WAF triggers the action that is specified for this rule.
@@ -4075,6 +4703,17 @@ extension WAF {
             self.updates = updates
         }
 
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(rateLimit, name:"rateLimit", parent: name, max: 2000000000)
+            try validate(rateLimit, name:"rateLimit", parent: name, min: 2000)
+            try validate(ruleId, name:"ruleId", parent: name, max: 128)
+            try validate(ruleId, name:"ruleId", parent: name, min: 1)
+            try updates.forEach {
+                try $0.validate(name: "\(name).updates[]")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case rateLimit = "RateLimit"
@@ -4087,6 +4726,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the UpdateRateBasedRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4105,6 +4745,7 @@ extension WAF {
             AWSShapeMember(label: "RegexMatchSetId", required: true, type: .string), 
             AWSShapeMember(label: "Updates", required: true, type: .list)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The RegexMatchSetId of the RegexMatchSet that you want to update. RegexMatchSetId is returned by CreateRegexMatchSet and by ListRegexMatchSets.
@@ -4118,6 +4759,16 @@ extension WAF {
             self.updates = updates
         }
 
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(regexMatchSetId, name:"regexMatchSetId", parent: name, max: 128)
+            try validate(regexMatchSetId, name:"regexMatchSetId", parent: name, min: 1)
+            try updates.forEach {
+                try $0.validate(name: "\(name).updates[]")
+            }
+            try validate(updates, name:"updates", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case regexMatchSetId = "RegexMatchSetId"
@@ -4129,6 +4780,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the UpdateRegexMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4147,6 +4799,7 @@ extension WAF {
             AWSShapeMember(label: "RegexPatternSetId", required: true, type: .string), 
             AWSShapeMember(label: "Updates", required: true, type: .list)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The RegexPatternSetId of the RegexPatternSet that you want to update. RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets.
@@ -4160,6 +4813,16 @@ extension WAF {
             self.updates = updates
         }
 
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(regexPatternSetId, name:"regexPatternSetId", parent: name, max: 128)
+            try validate(regexPatternSetId, name:"regexPatternSetId", parent: name, min: 1)
+            try updates.forEach {
+                try $0.validate(name: "\(name).updates[]")
+            }
+            try validate(updates, name:"updates", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case regexPatternSetId = "RegexPatternSetId"
@@ -4171,6 +4834,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the UpdateRegexPatternSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4189,6 +4853,7 @@ extension WAF {
             AWSShapeMember(label: "RuleGroupId", required: true, type: .string), 
             AWSShapeMember(label: "Updates", required: true, type: .list)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The RuleGroupId of the RuleGroup that you want to update. RuleGroupId is returned by CreateRuleGroup and by ListRuleGroups.
@@ -4202,6 +4867,16 @@ extension WAF {
             self.updates = updates
         }
 
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(ruleGroupId, name:"ruleGroupId", parent: name, max: 128)
+            try validate(ruleGroupId, name:"ruleGroupId", parent: name, min: 1)
+            try updates.forEach {
+                try $0.validate(name: "\(name).updates[]")
+            }
+            try validate(updates, name:"updates", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case ruleGroupId = "RuleGroupId"
@@ -4213,6 +4888,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the UpdateRuleGroup request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4231,6 +4907,7 @@ extension WAF {
             AWSShapeMember(label: "RuleId", required: true, type: .string), 
             AWSShapeMember(label: "Updates", required: true, type: .list)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The RuleId of the Rule that you want to update. RuleId is returned by CreateRule and by ListRules.
@@ -4244,6 +4921,15 @@ extension WAF {
             self.updates = updates
         }
 
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(ruleId, name:"ruleId", parent: name, max: 128)
+            try validate(ruleId, name:"ruleId", parent: name, min: 1)
+            try updates.forEach {
+                try $0.validate(name: "\(name).updates[]")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case ruleId = "RuleId"
@@ -4255,6 +4941,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the UpdateRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4273,6 +4960,7 @@ extension WAF {
             AWSShapeMember(label: "SizeConstraintSetId", required: true, type: .string), 
             AWSShapeMember(label: "Updates", required: true, type: .list)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The SizeConstraintSetId of the SizeConstraintSet that you want to update. SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets.
@@ -4286,6 +4974,16 @@ extension WAF {
             self.updates = updates
         }
 
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", parent: name, max: 128)
+            try validate(sizeConstraintSetId, name:"sizeConstraintSetId", parent: name, min: 1)
+            try updates.forEach {
+                try $0.validate(name: "\(name).updates[]")
+            }
+            try validate(updates, name:"updates", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case sizeConstraintSetId = "SizeConstraintSetId"
@@ -4297,6 +4995,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the UpdateSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4315,6 +5014,7 @@ extension WAF {
             AWSShapeMember(label: "SqlInjectionMatchSetId", required: true, type: .string), 
             AWSShapeMember(label: "Updates", required: true, type: .list)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to update. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
@@ -4328,6 +5028,13 @@ extension WAF {
             self.updates = updates
         }
 
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", parent: name, max: 128)
+            try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", parent: name, min: 1)
+            try validate(updates, name:"updates", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case sqlInjectionMatchSetId = "SqlInjectionMatchSetId"
@@ -4339,6 +5046,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the UpdateSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4358,6 +5066,7 @@ extension WAF {
             AWSShapeMember(label: "Updates", required: false, type: .list), 
             AWSShapeMember(label: "WebACLId", required: true, type: .string)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A default action for the web ACL, either ALLOW or BLOCK. AWS WAF performs the default action if a request doesn't match the criteria in any of the rules in a web ACL.
@@ -4374,6 +5083,15 @@ extension WAF {
             self.webACLId = webACLId
         }
 
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try updates?.forEach {
+                try $0.validate(name: "\(name).updates[]")
+            }
+            try validate(webACLId, name:"webACLId", parent: name, max: 128)
+            try validate(webACLId, name:"webACLId", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case defaultAction = "DefaultAction"
@@ -4386,6 +5104,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the UpdateWebACL request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4404,6 +5123,7 @@ extension WAF {
             AWSShapeMember(label: "Updates", required: true, type: .list), 
             AWSShapeMember(label: "XssMatchSetId", required: true, type: .string)
         ]
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// An array of XssMatchSetUpdate objects that you want to insert into or delete from an XssMatchSet. For more information, see the applicable data types:    XssMatchSetUpdate: Contains Action and XssMatchTuple     XssMatchTuple: Contains FieldToMatch and TextTransformation     FieldToMatch: Contains Data and Type   
@@ -4417,6 +5137,13 @@ extension WAF {
             self.xssMatchSetId = xssMatchSetId
         }
 
+        public func validate(name: String) throws {
+            try validate(changeToken, name:"changeToken", parent: name, min: 1)
+            try validate(updates, name:"updates", parent: name, min: 1)
+            try validate(xssMatchSetId, name:"xssMatchSetId", parent: name, max: 128)
+            try validate(xssMatchSetId, name:"xssMatchSetId", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
             case updates = "Updates"
@@ -4428,6 +5155,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeToken", required: false, type: .string)
         ]
+
         /// The ChangeToken that you used to submit the UpdateXssMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4444,6 +5172,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
+
         /// Specifies how you want AWS WAF to respond to requests that match the settings in a Rule. Valid settings include the following:    ALLOW: AWS WAF allows requests    BLOCK: AWS WAF blocks requests    COUNT: AWS WAF increments a counter of the requests that match all of the conditions in the rule. AWS WAF then continues to inspect the web request based on the remaining rules in the web ACL. You can't specify COUNT for the default action for a WebACL.  
         public let `type`: WafActionType
 
@@ -4467,6 +5196,7 @@ extension WAF {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
+
         ///  COUNT overrides the action specified by the individual rule within a RuleGroup . If set to NONE, the rule's action will take place.
         public let `type`: WafOverrideActionType
 
@@ -4501,6 +5231,7 @@ extension WAF {
             AWSShapeMember(label: "WebACLArn", required: false, type: .string), 
             AWSShapeMember(label: "WebACLId", required: true, type: .string)
         ]
+
         /// The action to perform if none of the Rules contained in the WebACL match. The action is specified by the WafAction object.
         public let defaultAction: WafAction
         /// A friendly name or description for the metrics for this WebACL. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change MetricName after you create the WebACL.
@@ -4538,6 +5269,7 @@ extension WAF {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "WebACLId", required: true, type: .string)
         ]
+
         /// A friendly name or description of the WebACL. You can't change the name of a WebACL after you create it.
         public let name: String
         /// A unique identifier for a WebACL. You use WebACLId to get information about a WebACL (see GetWebACL), update a WebACL (see UpdateWebACL), and delete a WebACL from AWS WAF (see DeleteWebACL).  WebACLId is returned by CreateWebACL and by ListWebACLs.
@@ -4559,6 +5291,7 @@ extension WAF {
             AWSShapeMember(label: "Action", required: true, type: .enum), 
             AWSShapeMember(label: "ActivatedRule", required: true, type: .structure)
         ]
+
         /// Specifies whether to insert a Rule into or delete a Rule from a WebACL.
         public let action: ChangeAction
         /// The ActivatedRule object in an UpdateWebACL request specifies a Rule that you want to insert or delete, the priority of the Rule in the WebACL, and the action that you want AWS WAF to take when a web request matches the Rule (ALLOW, BLOCK, or COUNT).
@@ -4567,6 +5300,10 @@ extension WAF {
         public init(action: ChangeAction, activatedRule: ActivatedRule) {
             self.action = action
             self.activatedRule = activatedRule
+        }
+
+        public func validate(name: String) throws {
+            try activatedRule.validate(name: "\(name).activatedRule")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4581,6 +5318,7 @@ extension WAF {
             AWSShapeMember(label: "XssMatchSetId", required: true, type: .string), 
             AWSShapeMember(label: "XssMatchTuples", required: true, type: .list)
         ]
+
         /// The name, if any, of the XssMatchSet.
         public let name: String?
         /// A unique identifier for an XssMatchSet. You use XssMatchSetId to get information about an XssMatchSet (see GetXssMatchSet), update an XssMatchSet (see UpdateXssMatchSet), insert an XssMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete an XssMatchSet from AWS WAF (see DeleteXssMatchSet).  XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
@@ -4606,6 +5344,7 @@ extension WAF {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "XssMatchSetId", required: true, type: .string)
         ]
+
         /// The name of the XssMatchSet, if any, specified by Id.
         public let name: String
         /// A unique identifier for an XssMatchSet. You use XssMatchSetId to get information about a XssMatchSet (see GetXssMatchSet), update an XssMatchSet (see UpdateXssMatchSet), insert an XssMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete an XssMatchSet from AWS WAF (see DeleteXssMatchSet).  XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
@@ -4627,6 +5366,7 @@ extension WAF {
             AWSShapeMember(label: "Action", required: true, type: .enum), 
             AWSShapeMember(label: "XssMatchTuple", required: true, type: .structure)
         ]
+
         /// Specify INSERT to add an XssMatchSetUpdate to an XssMatchSet. Use DELETE to remove an XssMatchSetUpdate from an XssMatchSet.
         public let action: ChangeAction
         /// Specifies the part of a web request that you want AWS WAF to inspect for cross-site scripting attacks and, if you want AWS WAF to inspect a header, the name of the header.
@@ -4648,6 +5388,7 @@ extension WAF {
             AWSShapeMember(label: "FieldToMatch", required: true, type: .structure), 
             AWSShapeMember(label: "TextTransformation", required: true, type: .enum)
         ]
+
         /// Specifies where in a web request to look for cross-site scripting attacks.
         public let fieldToMatch: FieldToMatch
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on FieldToMatch before inspecting a request for a match. You can only specify a single type of TextTransformation.  CMD_LINE  When you're concerned that attackers are injecting an operating system command line command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.  NONE  Specify NONE if you don't want to perform any text transformations.

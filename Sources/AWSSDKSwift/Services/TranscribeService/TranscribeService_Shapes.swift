@@ -12,6 +12,7 @@ extension TranscribeService {
             AWSShapeMember(label: "VocabularyFileUri", required: false, type: .string), 
             AWSShapeMember(label: "VocabularyName", required: true, type: .string)
         ]
+
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode
         /// An array of strings that contains the vocabulary entries. 
@@ -26,6 +27,18 @@ extension TranscribeService {
             self.phrases = phrases
             self.vocabularyFileUri = vocabularyFileUri
             self.vocabularyName = vocabularyName
+        }
+
+        public func validate(name: String) throws {
+            try phrases?.forEach {
+                try validate($0, name: "phrases[]", parent: name, max: 256)
+                try validate($0, name: "phrases[]", parent: name, min: 0)
+            }
+            try validate(vocabularyFileUri, name:"vocabularyFileUri", parent: name, max: 2000)
+            try validate(vocabularyFileUri, name:"vocabularyFileUri", parent: name, min: 1)
+            try validate(vocabularyName, name:"vocabularyName", parent: name, max: 200)
+            try validate(vocabularyName, name:"vocabularyName", parent: name, min: 1)
+            try validate(vocabularyName, name:"vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -44,6 +57,7 @@ extension TranscribeService {
             AWSShapeMember(label: "VocabularyName", required: false, type: .string), 
             AWSShapeMember(label: "VocabularyState", required: false, type: .enum)
         ]
+
         /// If the VocabularyState field is FAILED, this field contains information about why the job failed.
         public let failureReason: String?
         /// The language code of the vocabulary entries.
@@ -76,11 +90,18 @@ extension TranscribeService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TranscriptionJobName", required: true, type: .string)
         ]
+
         /// The name of the transcription job to be deleted.
         public let transcriptionJobName: String
 
         public init(transcriptionJobName: String) {
             self.transcriptionJobName = transcriptionJobName
+        }
+
+        public func validate(name: String) throws {
+            try validate(transcriptionJobName, name:"transcriptionJobName", parent: name, max: 200)
+            try validate(transcriptionJobName, name:"transcriptionJobName", parent: name, min: 1)
+            try validate(transcriptionJobName, name:"transcriptionJobName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -92,11 +113,18 @@ extension TranscribeService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VocabularyName", required: true, type: .string)
         ]
+
         /// The name of the vocabulary to delete. 
         public let vocabularyName: String
 
         public init(vocabularyName: String) {
             self.vocabularyName = vocabularyName
+        }
+
+        public func validate(name: String) throws {
+            try validate(vocabularyName, name:"vocabularyName", parent: name, max: 200)
+            try validate(vocabularyName, name:"vocabularyName", parent: name, min: 1)
+            try validate(vocabularyName, name:"vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -108,11 +136,18 @@ extension TranscribeService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TranscriptionJobName", required: true, type: .string)
         ]
+
         /// The name of the job.
         public let transcriptionJobName: String
 
         public init(transcriptionJobName: String) {
             self.transcriptionJobName = transcriptionJobName
+        }
+
+        public func validate(name: String) throws {
+            try validate(transcriptionJobName, name:"transcriptionJobName", parent: name, max: 200)
+            try validate(transcriptionJobName, name:"transcriptionJobName", parent: name, min: 1)
+            try validate(transcriptionJobName, name:"transcriptionJobName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -124,6 +159,7 @@ extension TranscribeService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TranscriptionJob", required: false, type: .structure)
         ]
+
         /// An object that contains the results of the transcription job.
         public let transcriptionJob: TranscriptionJob?
 
@@ -140,11 +176,18 @@ extension TranscribeService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VocabularyName", required: true, type: .string)
         ]
+
         /// The name of the vocabulary to return information about. The name is case-sensitive.
         public let vocabularyName: String
 
         public init(vocabularyName: String) {
             self.vocabularyName = vocabularyName
+        }
+
+        public func validate(name: String) throws {
+            try validate(vocabularyName, name:"vocabularyName", parent: name, max: 200)
+            try validate(vocabularyName, name:"vocabularyName", parent: name, min: 1)
+            try validate(vocabularyName, name:"vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -161,6 +204,7 @@ extension TranscribeService {
             AWSShapeMember(label: "VocabularyName", required: false, type: .string), 
             AWSShapeMember(label: "VocabularyState", required: false, type: .enum)
         ]
+
         /// The S3 location where the vocabulary is stored. Use this URI to get the contents of the vocabulary. The URI is available for a limited time.
         public let downloadUri: String?
         /// If the VocabularyState field is FAILED, this field contains information about why the job failed.
@@ -218,20 +262,30 @@ extension TranscribeService {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         /// When specified, the jobs returned in the list are limited to jobs whose name contains the specified string.
         public let jobNameContains: String?
         /// The maximum number of jobs to return in the response. If there are fewer results in the list, this response contains only the actual results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If the result of the previous request to ListTranscriptionJobs was truncated, include the NextToken to fetch the next set of jobs.
         public let nextToken: String?
         /// When specified, returns only transcription jobs with the specified status. Jobs are ordered by creation date, with the newest jobs returned first. If you don’t specify a status, Amazon Transcribe returns all transcription jobs ordered by creation date. 
         public let status: TranscriptionJobStatus?
 
-        public init(jobNameContains: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, status: TranscriptionJobStatus? = nil) {
+        public init(jobNameContains: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: TranscriptionJobStatus? = nil) {
             self.jobNameContains = jobNameContains
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try validate(jobNameContains, name:"jobNameContains", parent: name, max: 200)
+            try validate(jobNameContains, name:"jobNameContains", parent: name, min: 1)
+            try validate(jobNameContains, name:"jobNameContains", parent: name, pattern: "^[0-9a-zA-Z._-]+")
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 8192)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -248,6 +302,7 @@ extension TranscribeService {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "TranscriptionJobSummaries", required: false, type: .list)
         ]
+
         /// The ListTranscriptionJobs operation returns a page of jobs at a time. The maximum size of the page is set by the MaxResults parameter. If there are more jobs in the list than the page size, Amazon Transcribe returns the NextPage token. Include the token in the next request to the ListTranscriptionJobs operation to return in the next page of jobs.
         public let nextToken: String?
         /// The requested status of the jobs returned.
@@ -275,8 +330,9 @@ extension TranscribeService {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StateEquals", required: false, type: .enum)
         ]
+
         /// The maximum number of vocabularies to return in the response. If there are fewer results in the list, this response contains only the actual results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// When specified, the vocabularies returned in the list are limited to vocabularies whose name contains the specified string. The search is case-insensitive, ListVocabularies will return both "vocabularyname" and "VocabularyName" in the response list.
         public let nameContains: String?
         /// If the result of the previous request to ListVocabularies was truncated, include the NextToken to fetch the next set of jobs.
@@ -284,11 +340,20 @@ extension TranscribeService {
         /// When specified, only returns vocabularies with the VocabularyState field equal to the specified state.
         public let stateEquals: VocabularyState?
 
-        public init(maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, stateEquals: VocabularyState? = nil) {
+        public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, stateEquals: VocabularyState? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
             self.stateEquals = stateEquals
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nameContains, name:"nameContains", parent: name, max: 200)
+            try validate(nameContains, name:"nameContains", parent: name, min: 1)
+            try validate(nameContains, name:"nameContains", parent: name, pattern: "^[0-9a-zA-Z._-]+")
+            try validate(nextToken, name:"nextToken", parent: name, max: 8192)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -305,6 +370,7 @@ extension TranscribeService {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "Vocabularies", required: false, type: .list)
         ]
+
         /// The ListVocabularies operation returns a page of vocabularies at a time. The maximum size of the page is set by the MaxResults parameter. If there are more jobs in the list than the page size, Amazon Transcribe returns the NextPage token. Include the token in the next request to the ListVocabularies operation to return in the next page of jobs.
         public let nextToken: String?
         /// The requested vocabulary state.
@@ -329,11 +395,17 @@ extension TranscribeService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MediaFileUri", required: false, type: .string)
         ]
+
         /// The S3 location of the input media file. The URI must be in the same region as the API endpoint that you are calling. The general form is:   https://s3-&lt;aws-region&gt;.amazonaws.com/&lt;bucket-name&gt;/&lt;keyprefix&gt;/&lt;objectkey&gt;   For example:  https://s3-us-east-1.amazonaws.com/examplebucket/example.mp4   https://s3-us-east-1.amazonaws.com/examplebucket/mediadocs/example.mp4  For more information about S3 object names, see Object Keys in the Amazon S3 Developer Guide.
         public let mediaFileUri: String?
 
         public init(mediaFileUri: String? = nil) {
             self.mediaFileUri = mediaFileUri
+        }
+
+        public func validate(name: String) throws {
+            try validate(mediaFileUri, name:"mediaFileUri", parent: name, max: 2000)
+            try validate(mediaFileUri, name:"mediaFileUri", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -362,20 +434,29 @@ extension TranscribeService {
             AWSShapeMember(label: "ShowSpeakerLabels", required: false, type: .boolean), 
             AWSShapeMember(label: "VocabularyName", required: false, type: .string)
         ]
+
         /// Instructs Amazon Transcribe to process each audio channel separately and then merge the transcription output of each channel into a single transcription.  Amazon Transcribe also produces a transcription of each item detected on an audio channel, including the start time and end time of the item and alternative transcriptions of the item including the confidence that Amazon Transcribe has in the transcription. You can't set both ShowSpeakerLabels and ChannelIdentification in the same request. If you set both, your request returns a BadRequestException.
         public let channelIdentification: Bool?
         /// The maximum number of speakers to identify in the input audio. If there are more speakers in the audio than this number, multiple speakers will be identified as a single speaker. If you specify the MaxSpeakerLabels field, you must set the ShowSpeakerLabels field to true.
-        public let maxSpeakerLabels: Int32?
+        public let maxSpeakerLabels: Int?
         /// Determines whether the transcription job uses speaker recognition to identify different speakers in the input audio. Speaker recognition labels individual speakers in the audio file. If you set the ShowSpeakerLabels field to true, you must also set the maximum number of speaker labels MaxSpeakerLabels field. You can't set both ShowSpeakerLabels and ChannelIdentification in the same request. If you set both, your request returns a BadRequestException.
         public let showSpeakerLabels: Bool?
         /// The name of a vocabulary to use when processing the transcription job.
         public let vocabularyName: String?
 
-        public init(channelIdentification: Bool? = nil, maxSpeakerLabels: Int32? = nil, showSpeakerLabels: Bool? = nil, vocabularyName: String? = nil) {
+        public init(channelIdentification: Bool? = nil, maxSpeakerLabels: Int? = nil, showSpeakerLabels: Bool? = nil, vocabularyName: String? = nil) {
             self.channelIdentification = channelIdentification
             self.maxSpeakerLabels = maxSpeakerLabels
             self.showSpeakerLabels = showSpeakerLabels
             self.vocabularyName = vocabularyName
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxSpeakerLabels, name:"maxSpeakerLabels", parent: name, max: 10)
+            try validate(maxSpeakerLabels, name:"maxSpeakerLabels", parent: name, min: 2)
+            try validate(vocabularyName, name:"vocabularyName", parent: name, max: 200)
+            try validate(vocabularyName, name:"vocabularyName", parent: name, min: 1)
+            try validate(vocabularyName, name:"vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -396,6 +477,7 @@ extension TranscribeService {
             AWSShapeMember(label: "Settings", required: false, type: .structure), 
             AWSShapeMember(label: "TranscriptionJobName", required: true, type: .string)
         ]
+
         /// The language code for the language used in the input media file.
         public let languageCode: LanguageCode
         /// An object that describes the input media for a transcription job.
@@ -403,7 +485,7 @@ extension TranscribeService {
         /// The format of the input media file.
         public let mediaFormat: MediaFormat
         /// The sample rate, in Hertz, of the audio track in the input media file. 
-        public let mediaSampleRateHertz: Int32?
+        public let mediaSampleRateHertz: Int?
         /// The location where the transcription is stored. If you set the OutputBucketName, Amazon Transcribe puts the transcription in the specified S3 bucket. When you call the GetTranscriptionJob operation, the operation returns this location in the TranscriptFileUri field. The S3 bucket must have permissions that allow Amazon Transcribe to put files in the bucket. For more information, see Permissions Required for IAM User Roles. Amazon Transcribe uses the default Amazon S3 key for server-side encryption of transcripts that are placed in your S3 bucket. You can't specify your own encryption key. If you don't set the OutputBucketName, Amazon Transcribe generates a pre-signed URL, a shareable URL that provides secure access to your transcription, and returns it in the TranscriptFileUri field. Use this URL to download the transcription.
         public let outputBucketName: String?
         /// A Settings object that provides optional settings for a transcription job.
@@ -411,7 +493,7 @@ extension TranscribeService {
         /// The name of the job. Note that you can't use the strings "." or ".." by themselves as the job name. The name must also be unique within an AWS account.
         public let transcriptionJobName: String
 
-        public init(languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat, mediaSampleRateHertz: Int32? = nil, outputBucketName: String? = nil, settings: Settings? = nil, transcriptionJobName: String) {
+        public init(languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat, mediaSampleRateHertz: Int? = nil, outputBucketName: String? = nil, settings: Settings? = nil, transcriptionJobName: String) {
             self.languageCode = languageCode
             self.media = media
             self.mediaFormat = mediaFormat
@@ -419,6 +501,17 @@ extension TranscribeService {
             self.outputBucketName = outputBucketName
             self.settings = settings
             self.transcriptionJobName = transcriptionJobName
+        }
+
+        public func validate(name: String) throws {
+            try media.validate(name: "\(name).media")
+            try validate(mediaSampleRateHertz, name:"mediaSampleRateHertz", parent: name, max: 48000)
+            try validate(mediaSampleRateHertz, name:"mediaSampleRateHertz", parent: name, min: 8000)
+            try validate(outputBucketName, name:"outputBucketName", parent: name, pattern: "[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]")
+            try settings?.validate(name: "\(name).settings")
+            try validate(transcriptionJobName, name:"transcriptionJobName", parent: name, max: 200)
+            try validate(transcriptionJobName, name:"transcriptionJobName", parent: name, min: 1)
+            try validate(transcriptionJobName, name:"transcriptionJobName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -436,6 +529,7 @@ extension TranscribeService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TranscriptionJob", required: false, type: .structure)
         ]
+
         /// An object containing details of the asynchronous transcription job.
         public let transcriptionJob: TranscriptionJob?
 
@@ -452,6 +546,7 @@ extension TranscribeService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TranscriptFileUri", required: false, type: .string)
         ]
+
         /// The location where the transcription is stored. Use this URI to access the transcription. If you specified an S3 bucket in the OutputBucketName field when you created the job, this is the URI of that bucket. If you chose to store the transcription in Amazon Transcribe, this is a shareable URL that provides secure access to that location.
         public let transcriptFileUri: String?
 
@@ -478,6 +573,7 @@ extension TranscribeService {
             AWSShapeMember(label: "TranscriptionJobName", required: false, type: .string), 
             AWSShapeMember(label: "TranscriptionJobStatus", required: false, type: .enum)
         ]
+
         /// A timestamp that shows when the job was completed.
         public let completionTime: TimeStamp?
         /// A timestamp that shows when the job was created.
@@ -491,7 +587,7 @@ extension TranscribeService {
         /// The format of the input media file.
         public let mediaFormat: MediaFormat?
         /// The sample rate, in Hertz, of the audio track in the input media file. 
-        public let mediaSampleRateHertz: Int32?
+        public let mediaSampleRateHertz: Int?
         /// Optional settings for the transcription job. Use these settings to turn on speaker recognition, to set the maximum number of speakers that should be identified and to specify a custom vocabulary to use when processing the transcription job.
         public let settings: Settings?
         /// An object that describes the output of the transcription job.
@@ -501,7 +597,7 @@ extension TranscribeService {
         /// The status of the transcription job.
         public let transcriptionJobStatus: TranscriptionJobStatus?
 
-        public init(completionTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int32? = nil, settings: Settings? = nil, transcript: Transcript? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
+        public init(completionTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, settings: Settings? = nil, transcript: Transcript? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
             self.completionTime = completionTime
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -547,6 +643,7 @@ extension TranscribeService {
             AWSShapeMember(label: "TranscriptionJobName", required: false, type: .string), 
             AWSShapeMember(label: "TranscriptionJobStatus", required: false, type: .enum)
         ]
+
         /// A timestamp that shows when the job was completed.
         public let completionTime: TimeStamp?
         /// A timestamp that shows when the job was created.
@@ -590,6 +687,7 @@ extension TranscribeService {
             AWSShapeMember(label: "VocabularyFileUri", required: false, type: .string), 
             AWSShapeMember(label: "VocabularyName", required: true, type: .string)
         ]
+
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode
         /// An array of strings containing the vocabulary entries.
@@ -604,6 +702,18 @@ extension TranscribeService {
             self.phrases = phrases
             self.vocabularyFileUri = vocabularyFileUri
             self.vocabularyName = vocabularyName
+        }
+
+        public func validate(name: String) throws {
+            try phrases?.forEach {
+                try validate($0, name: "phrases[]", parent: name, max: 256)
+                try validate($0, name: "phrases[]", parent: name, min: 0)
+            }
+            try validate(vocabularyFileUri, name:"vocabularyFileUri", parent: name, max: 2000)
+            try validate(vocabularyFileUri, name:"vocabularyFileUri", parent: name, min: 1)
+            try validate(vocabularyName, name:"vocabularyName", parent: name, max: 200)
+            try validate(vocabularyName, name:"vocabularyName", parent: name, min: 1)
+            try validate(vocabularyName, name:"vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -621,6 +731,7 @@ extension TranscribeService {
             AWSShapeMember(label: "VocabularyName", required: false, type: .string), 
             AWSShapeMember(label: "VocabularyState", required: false, type: .enum)
         ]
+
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode?
         /// The date and time that the vocabulary was updated.
@@ -652,6 +763,7 @@ extension TranscribeService {
             AWSShapeMember(label: "VocabularyName", required: false, type: .string), 
             AWSShapeMember(label: "VocabularyState", required: false, type: .enum)
         ]
+
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode?
         /// The date and time that the vocabulary was last modified.

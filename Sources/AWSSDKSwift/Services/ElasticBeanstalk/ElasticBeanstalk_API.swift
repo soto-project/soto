@@ -9,7 +9,7 @@ AWS Elastic Beanstalk AWS Elastic Beanstalk makes it easy for you to create, dep
 */
 public struct ElasticBeanstalk {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

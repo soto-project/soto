@@ -28,6 +28,7 @@ extension ECS {
             AWSShapeMember(label: "status", required: false, type: .string), 
             AWSShapeMember(label: "type", required: false, type: .string)
         ]
+
         /// Details of the attachment. For elastic network interfaces, this includes the network interface ID, the MAC address, the subnet ID, and the private IPv4 address.
         public let details: [KeyValuePair]?
         /// The unique identifier for the attachment.
@@ -57,6 +58,7 @@ extension ECS {
             AWSShapeMember(label: "attachmentArn", required: true, type: .string), 
             AWSShapeMember(label: "status", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the attachment.
         public let attachmentArn: String
         /// The status of the attachment.
@@ -80,6 +82,7 @@ extension ECS {
             AWSShapeMember(label: "targetType", required: false, type: .enum), 
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
+
         /// The name of the attribute. Up to 128 letters (uppercase and lowercase), numbers, hyphens, underscores, and periods are allowed.
         public let name: String
         /// The ID of the target. You can specify the short form ID for a resource or the full Amazon Resource Name (ARN).
@@ -110,6 +113,7 @@ extension ECS {
             AWSShapeMember(label: "securityGroups", required: false, type: .list), 
             AWSShapeMember(label: "subnets", required: true, type: .list)
         ]
+
         /// Whether the task's elastic network interface receives a public IP address. The default value is DISABLED.
         public let assignPublicIp: AssignPublicIp?
         /// The security groups associated with the task or service. If you do not specify a security group, the default security group for the VPC is used. There is a limit of 5 security groups that can be specified per AwsVpcConfiguration.  All specified security groups must be from the same VPC. 
@@ -142,18 +146,19 @@ extension ECS {
             AWSShapeMember(label: "status", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+
         /// The number of services that are running on the cluster in an ACTIVE state. You can view these services with ListServices.
-        public let activeServicesCount: Int32?
+        public let activeServicesCount: Int?
         /// The Amazon Resource Name (ARN) that identifies the cluster. The ARN contains the arn:aws:ecs namespace, followed by the Region of the cluster, the AWS account ID of the cluster owner, the cluster namespace, and then the cluster name. For example, arn:aws:ecs:region:012345678910:cluster/test.
         public let clusterArn: String?
         /// A user-generated string that you use to identify your cluster.
         public let clusterName: String?
         /// The number of tasks in the cluster that are in the PENDING state.
-        public let pendingTasksCount: Int32?
+        public let pendingTasksCount: Int?
         /// The number of container instances registered into the cluster. This includes container instances in both ACTIVE and DRAINING status.
-        public let registeredContainerInstancesCount: Int32?
+        public let registeredContainerInstancesCount: Int?
         /// The number of tasks in the cluster that are in the RUNNING state.
-        public let runningTasksCount: Int32?
+        public let runningTasksCount: Int?
         /// Additional information about your clusters that are separated by launch type, including:   runningEC2TasksCount   RunningFargateTasksCount   pendingEC2TasksCount   pendingFargateTasksCount   activeEC2ServiceCount   activeFargateServiceCount   drainingEC2ServiceCount   drainingFargateServiceCount  
         public let statistics: [KeyValuePair]?
         /// The status of the cluster. The valid values are ACTIVE or INACTIVE. ACTIVE indicates that you can register container instances with the cluster and the associated instances can accept tasks.
@@ -161,7 +166,7 @@ extension ECS {
         /// The metadata that you apply to the cluster to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [Tag]?
 
-        public init(activeServicesCount: Int32? = nil, clusterArn: String? = nil, clusterName: String? = nil, pendingTasksCount: Int32? = nil, registeredContainerInstancesCount: Int32? = nil, runningTasksCount: Int32? = nil, statistics: [KeyValuePair]? = nil, status: String? = nil, tags: [Tag]? = nil) {
+        public init(activeServicesCount: Int? = nil, clusterArn: String? = nil, clusterName: String? = nil, pendingTasksCount: Int? = nil, registeredContainerInstancesCount: Int? = nil, runningTasksCount: Int? = nil, statistics: [KeyValuePair]? = nil, status: String? = nil, tags: [Tag]? = nil) {
             self.activeServicesCount = activeServicesCount
             self.clusterArn = clusterArn
             self.clusterName = clusterName
@@ -220,12 +225,13 @@ extension ECS {
             AWSShapeMember(label: "reason", required: false, type: .string), 
             AWSShapeMember(label: "taskArn", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the container.
         public let containerArn: String?
         /// The number of CPU units set for the container. The value will be 0 if no value was specified in the container definition when the task definition was registered.
         public let cpu: String?
         /// The exit code returned from the container.
-        public let exitCode: Int32?
+        public let exitCode: Int?
         /// The IDs of each GPU assigned to the container.
         public let gpuIds: [String]?
         /// The health status of the container. If health checks are not configured for this container in its task definition, then it reports the health status as UNKNOWN.
@@ -247,7 +253,7 @@ extension ECS {
         /// The ARN of the task.
         public let taskArn: String?
 
-        public init(containerArn: String? = nil, cpu: String? = nil, exitCode: Int32? = nil, gpuIds: [String]? = nil, healthStatus: HealthStatus? = nil, lastStatus: String? = nil, memory: String? = nil, memoryReservation: String? = nil, name: String? = nil, networkBindings: [NetworkBinding]? = nil, networkInterfaces: [NetworkInterface]? = nil, reason: String? = nil, taskArn: String? = nil) {
+        public init(containerArn: String? = nil, cpu: String? = nil, exitCode: Int? = nil, gpuIds: [String]? = nil, healthStatus: HealthStatus? = nil, lastStatus: String? = nil, memory: String? = nil, memoryReservation: String? = nil, name: String? = nil, networkBindings: [NetworkBinding]? = nil, networkInterfaces: [NetworkInterface]? = nil, reason: String? = nil, taskArn: String? = nil) {
             self.containerArn = containerArn
             self.cpu = cpu
             self.exitCode = exitCode
@@ -328,10 +334,11 @@ extension ECS {
             AWSShapeMember(label: "volumesFrom", required: false, type: .list), 
             AWSShapeMember(label: "workingDirectory", required: false, type: .string)
         ]
+
         /// The command that is passed to the container. This parameter maps to Cmd in the Create a container section of the Docker Remote API and the COMMAND parameter to docker run. For more information, see https://docs.docker.com/engine/reference/builder/#cmd. If there are multiple arguments, each argument should be a separated string in the array.
         public let command: [String]?
         /// The number of cpu units reserved for the container. This parameter maps to CpuShares in the Create a container section of the Docker Remote API and the --cpu-shares option to docker run. This field is optional for tasks using the Fargate launch type, and the only requirement is that the total amount of CPU reserved for all containers within a task be lower than the task-level cpu value.  You can determine the number of CPU units that are available per EC2 instance type by multiplying the vCPUs listed for that instance type on the Amazon EC2 Instances detail page by 1,024.  For example, if you run a single-container task on a single-core instance type with 512 CPU units specified for that container, and that is the only task running on the container instance, that container could use the full 1,024 CPU unit share at any given time. However, if you launched another copy of the same task on that container instance, each task would be guaranteed a minimum of 512 CPU units when needed, and each container could float to higher CPU usage if the other container was not using it, but if both tasks were 100% active all of the time, they would be limited to 512 CPU units. Linux containers share unallocated CPU units with other containers on the container instance with the same ratio as their allocated amount. For example, if you run a single-container task on a single-core instance type with 512 CPU units specified for that container, and that is the only task running on the container instance, that container could use the full 1,024 CPU unit share at any given time. However, if you launched another copy of the same task on that container instance, each task would be guaranteed a minimum of 512 CPU units when needed, and each container could float to higher CPU usage if the other container was not using it, but if both tasks were 100% active all of the time, they would be limited to 512 CPU units. On Linux container instances, the Docker daemon on the container instance uses the CPU value to calculate the relative CPU share ratios for running containers. For more information, see CPU share constraint in the Docker documentation. The minimum valid CPU share value that the Linux kernel allows is 2. However, the CPU parameter is not required, and you can use CPU values below 2 in your container definitions. For CPU values below 2 (including null), the behavior varies based on your Amazon ECS container agent version:    Agent versions less than or equal to 1.1.0: Null and zero CPU values are passed to Docker as 0, which Docker then converts to 1,024 CPU shares. CPU values of 1 are passed to Docker as 1, which the Linux kernel converts to two CPU shares.    Agent versions greater than or equal to 1.2.0: Null, zero, and CPU values of 1 are passed to Docker as 2.   On Windows container instances, the CPU limit is enforced as an absolute limit, or a quota. Windows containers only have access to the specified amount of CPU that is described in the task definition.
-        public let cpu: Int32?
+        public let cpu: Int?
         /// The dependencies defined for container startup and shutdown. A container can contain multiple dependencies. When a dependency is defined for container startup, for container shutdown it is reversed. For tasks using the EC2 launch type, the container instances require at least version 1.26.0 of the container agent to enable container dependencies. However, we recommend using the latest container agent version. For information about checking your agent version and updating to the latest version, see Updating the Amazon ECS Container Agent in the Amazon Elastic Container Service Developer Guide. If you are using an Amazon ECS-optimized Linux AMI, your instance needs at least version 1.26.0-1 of the ecs-init package. If your container instances are launched from version 20190301 or later, then they contain the required versions of the container agent and ecs-init. For more information, see Amazon ECS-optimized Linux AMI in the Amazon Elastic Container Service Developer Guide. This parameter is available for tasks using the Fargate launch type in the Ohio (us-east-2) region only and the task or service requires platform version 1.3.0 or later.
         public let dependsOn: [ContainerDependency]?
         /// When this parameter is true, networking is disabled within the container. This parameter maps to NetworkDisabled in the Create a container section of the Docker Remote API.  This parameter is not supported for Windows containers. 
@@ -367,9 +374,9 @@ extension ECS {
         /// The log configuration specification for the container. For tasks using the Fargate launch type, the supported log drivers are awslogs and splunk. For tasks using the EC2 launch type, the supported log drivers are awslogs, syslog, gelf, fluentd, splunk, journald, and json-file. This parameter maps to LogConfig in the Create a container section of the Docker Remote API and the --log-driver option to docker run. By default, containers use the same logging driver that the Docker daemon uses. However the container may use a different logging driver than the Docker daemon by specifying a log driver with this parameter in the container definition. To use a different logging driver for a container, the log system must be configured properly on the container instance (or on a different log server for remote logging options). For more information on the options for different supported log drivers, see Configure logging drivers in the Docker documentation.  Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon (shown in the LogConfiguration data type). Additional log drivers may be available in future releases of the Amazon ECS container agent.  This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'   The Amazon ECS container agent running on a container instance must register the logging drivers available on that instance with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see Amazon ECS Container Agent Configuration in the Amazon Elastic Container Service Developer Guide. 
         public let logConfiguration: LogConfiguration?
         /// The amount (in MiB) of memory to present to the container. If your container attempts to exceed the memory specified here, the container is killed. The total amount of memory reserved for all containers within a task must be lower than the task memory value, if one is specified. This parameter maps to Memory in the Create a container section of the Docker Remote API and the --memory option to docker run. If your containers are part of a task using the Fargate launch type, this field is optional. For containers that are part of a task using the EC2 launch type, you must specify a non-zero integer for one or both of memory or memoryReservation in container definitions. If you specify both, memory must be greater than memoryReservation. If you specify memoryReservation, then that value is subtracted from the available memory resources for the container instance on which the container is placed. Otherwise, the value of memory is used. The Docker daemon reserves a minimum of 4 MiB of memory for a container, so you should not specify fewer than 4 MiB of memory for your containers.
-        public let memory: Int32?
+        public let memory: Int?
         /// The soft limit (in MiB) of memory to reserve for the container. When system memory is under heavy contention, Docker attempts to keep the container memory to this soft limit. However, your container can consume more memory when it needs to, up to either the hard limit specified with the memory parameter (if applicable), or all of the available memory on the container instance, whichever comes first. This parameter maps to MemoryReservation in the Create a container section of the Docker Remote API and the --memory-reservation option to docker run. You must specify a non-zero integer for one or both of memory or memoryReservation in container definitions. If you specify both, memory must be greater than memoryReservation. If you specify memoryReservation, then that value is subtracted from the available memory resources for the container instance on which the container is placed. Otherwise, the value of memory is used. For example, if your container normally uses 128 MiB of memory, but occasionally bursts to 256 MiB of memory for short periods of time, you can set a memoryReservation of 128 MiB, and a memory hard limit of 300 MiB. This configuration would allow the container to only reserve 128 MiB of memory from the remaining resources on the container instance, but also allow the container to consume more memory resources when needed. The Docker daemon reserves a minimum of 4 MiB of memory for a container, so you should not specify fewer than 4 MiB of memory for your containers. 
-        public let memoryReservation: Int32?
+        public let memoryReservation: Int?
         /// The mount points for data volumes in your container. This parameter maps to Volumes in the Create a container section of the Docker Remote API and the --volume option to docker run. Windows containers can mount whole directories on the same drive as $env:ProgramData. Windows containers cannot mount directories on a different drive, and mount point cannot be across drives.
         public let mountPoints: [MountPoint]?
         /// The name of a container. If you are linking multiple containers together in a task definition, the name of one container can be entered in the links of another container to connect the containers. Up to 255 letters (uppercase and lowercase), numbers, and hyphens are allowed. This parameter maps to name in the Create a container section of the Docker Remote API and the --name option to docker run. 
@@ -389,9 +396,9 @@ extension ECS {
         /// The secrets to pass to the container. For more information, see Specifying Sensitive Data in the Amazon Elastic Container Service Developer Guide.
         public let secrets: [Secret]?
         /// Time duration to wait before giving up on resolving dependencies for a container. For example, you specify two containers in a task definition with containerA having a dependency on containerB reaching a COMPLETE, SUCCESS, or HEALTHY status. If a startTimeout value is specified for containerB and it does not reach the desired status within that time then containerA will give up and not start. This results in the task transitioning to a STOPPED state. For tasks using the EC2 launch type, the container instances require at least version 1.26.0 of the container agent to enable a container start timeout value. However, we recommend using the latest container agent version. For information about checking your agent version and updating to the latest version, see Updating the Amazon ECS Container Agent in the Amazon Elastic Container Service Developer Guide. If you are using an Amazon ECS-optimized Linux AMI, your instance needs at least version 1.26.0-1 of the ecs-init package. If your container instances are launched from version 20190301 or later, then they contain the required versions of the container agent and ecs-init. For more information, see Amazon ECS-optimized Linux AMI in the Amazon Elastic Container Service Developer Guide. This parameter is available for tasks using the Fargate launch type in the Ohio (us-east-2) region only and the task or service requires platform version 1.3.0 or later.
-        public let startTimeout: Int32?
+        public let startTimeout: Int?
         /// Time duration to wait before the container is forcefully killed if it doesn't exit normally on its own. For tasks using the Fargate launch type, the max stopTimeout value is 2 minutes. This parameter is available for tasks using the Fargate launch type in the Ohio (us-east-2) region only and the task or service requires platform version 1.3.0 or later. For tasks using the EC2 launch type, the stop timeout value for the container takes precedence over the ECS_CONTAINER_STOP_TIMEOUT container agent configuration parameter, if used. Container instances require at least version 1.26.0 of the container agent to enable a container stop timeout value. However, we recommend using the latest container agent version. For information about checking your agent version and updating to the latest version, see Updating the Amazon ECS Container Agent in the Amazon Elastic Container Service Developer Guide. If you are using an Amazon ECS-optimized Linux AMI, your instance needs at least version 1.26.0-1 of the ecs-init package. If your container instances are launched from version 20190301 or later, then they contain the required versions of the container agent and ecs-init. For more information, see Amazon ECS-optimized Linux AMI in the Amazon Elastic Container Service Developer Guide.
-        public let stopTimeout: Int32?
+        public let stopTimeout: Int?
         /// A list of namespaced kernel parameters to set in the container. This parameter maps to Sysctls in the Create a container section of the Docker Remote API and the --sysctl option to docker run.  It is not recommended that you specify network-related systemControls parameters for multiple containers in a single task that also uses either the awsvpc or host network modes. For tasks that use the awsvpc network mode, the container that is started last determines which systemControls parameters take effect. For tasks that use the host network mode, it changes the container instance's namespaced kernel parameters as well as the containers. 
         public let systemControls: [SystemControl]?
         /// A list of ulimits to set in the container. This parameter maps to Ulimits in the Create a container section of the Docker Remote API and the --ulimit option to docker run. Valid naming values are displayed in the Ulimit data type. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'   This parameter is not supported for Windows containers. 
@@ -403,7 +410,7 @@ extension ECS {
         /// The working directory in which to run commands inside the container. This parameter maps to WorkingDir in the Create a container section of the Docker Remote API and the --workdir option to docker run.
         public let workingDirectory: String?
 
-        public init(command: [String]? = nil, cpu: Int32? = nil, dependsOn: [ContainerDependency]? = nil, disableNetworking: Bool? = nil, dnsSearchDomains: [String]? = nil, dnsServers: [String]? = nil, dockerLabels: [String: String]? = nil, dockerSecurityOptions: [String]? = nil, entryPoint: [String]? = nil, environment: [KeyValuePair]? = nil, essential: Bool? = nil, extraHosts: [HostEntry]? = nil, healthCheck: HealthCheck? = nil, hostname: String? = nil, image: String? = nil, interactive: Bool? = nil, links: [String]? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, memory: Int32? = nil, memoryReservation: Int32? = nil, mountPoints: [MountPoint]? = nil, name: String? = nil, portMappings: [PortMapping]? = nil, privileged: Bool? = nil, pseudoTerminal: Bool? = nil, readonlyRootFilesystem: Bool? = nil, repositoryCredentials: RepositoryCredentials? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, startTimeout: Int32? = nil, stopTimeout: Int32? = nil, systemControls: [SystemControl]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, volumesFrom: [VolumeFrom]? = nil, workingDirectory: String? = nil) {
+        public init(command: [String]? = nil, cpu: Int? = nil, dependsOn: [ContainerDependency]? = nil, disableNetworking: Bool? = nil, dnsSearchDomains: [String]? = nil, dnsServers: [String]? = nil, dockerLabels: [String: String]? = nil, dockerSecurityOptions: [String]? = nil, entryPoint: [String]? = nil, environment: [KeyValuePair]? = nil, essential: Bool? = nil, extraHosts: [HostEntry]? = nil, healthCheck: HealthCheck? = nil, hostname: String? = nil, image: String? = nil, interactive: Bool? = nil, links: [String]? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, memory: Int? = nil, memoryReservation: Int? = nil, mountPoints: [MountPoint]? = nil, name: String? = nil, portMappings: [PortMapping]? = nil, privileged: Bool? = nil, pseudoTerminal: Bool? = nil, readonlyRootFilesystem: Bool? = nil, repositoryCredentials: RepositoryCredentials? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, startTimeout: Int? = nil, stopTimeout: Int? = nil, systemControls: [SystemControl]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, volumesFrom: [VolumeFrom]? = nil, workingDirectory: String? = nil) {
             self.command = command
             self.cpu = cpu
             self.dependsOn = dependsOn
@@ -489,6 +496,7 @@ extension ECS {
             AWSShapeMember(label: "condition", required: true, type: .enum), 
             AWSShapeMember(label: "containerName", required: true, type: .string)
         ]
+
         /// The dependency condition of the container. The following are the available conditions and their behavior:    START - This condition emulates the behavior of links and volumes today. It validates that a dependent container is started before permitting other containers to start.    COMPLETE - This condition validates that a dependent container runs to completion (exits) before permitting other containers to start. This can be useful for nonessential containers that run a script and then exit.    SUCCESS - This condition is the same as COMPLETE, but it also requires that the container exits with a zero status.    HEALTHY - This condition validates that the dependent container passes its Docker health check before permitting other containers to start. This requires that the dependent container has health checks configured. This condition is confirmed only at task startup.  
         public let condition: ContainerCondition
         /// The name of a container.
@@ -524,6 +532,7 @@ extension ECS {
             AWSShapeMember(label: "version", required: false, type: .long), 
             AWSShapeMember(label: "versionInfo", required: false, type: .structure)
         ]
+
         /// This parameter returns true if the agent is connected to Amazon ECS. Registered instances with an agent that may be unhealthy or stopped return false. Only instances connected to an agent can accept placement requests.
         public let agentConnected: Bool?
         /// The status of the most recent agent update. If an update has never been requested, this value is NULL.
@@ -537,7 +546,7 @@ extension ECS {
         /// The EC2 instance ID of the container instance.
         public let ec2InstanceId: String?
         /// The number of tasks on the container instance that are in the PENDING status.
-        public let pendingTasksCount: Int32?
+        public let pendingTasksCount: Int?
         /// The Unix timestamp for when the container instance was registered.
         public let registeredAt: TimeStamp?
         /// For CPU and memory resource types, this parameter describes the amount of each resource that was available on the container instance when the container agent registered it with Amazon ECS. This value represents the total amount of CPU and memory that can be allocated on this container instance to tasks. For port resource types, this parameter describes the ports that were reserved by the Amazon ECS container agent when it registered the container instance with Amazon ECS.
@@ -545,7 +554,7 @@ extension ECS {
         /// For CPU and memory resource types, this parameter describes the remaining CPU and memory that has not already been allocated to tasks and is therefore available for new tasks. For port resource types, this parameter describes the ports that were reserved by the Amazon ECS container agent (at instance registration time) and any task containers that have reserved port mappings on the host (with the host or bridge network mode). Any port that is not specified here is available for new tasks.
         public let remainingResources: [Resource]?
         /// The number of tasks on the container instance that are in the RUNNING status.
-        public let runningTasksCount: Int32?
+        public let runningTasksCount: Int?
         /// The status of the container instance. The valid values are REGISTERING, REGISTRATION_FAILED, ACTIVE, INACTIVE, DEREGISTERING, or DRAINING. If your account has opted in to the awsvpcTrunking account setting, then any newly registered container instance will transition to a REGISTERING status while the trunk elastic network interface is provisioned for the instance. If the registration fails, the instance will transition to a REGISTRATION_FAILED status. You can describe the container instance and see the reason for failure in the statusReason parameter. Once the container instance is terminated, the instance transitions to a DEREGISTERING status while the trunk elastic network interface is deprovisioned. The instance then transitions to an INACTIVE status. The ACTIVE status indicates that the container instance can accept tasks. The DRAINING indicates that new tasks are not placed on the container instance and any service tasks running on the container instance are removed if possible. For more information, see Container Instance Draining in the Amazon Elastic Container Service Developer Guide.
         public let status: String?
         /// The reason that the container instance reached its current status.
@@ -557,7 +566,7 @@ extension ECS {
         /// The version information for the Amazon ECS container agent and Docker daemon running on the container instance.
         public let versionInfo: VersionInfo?
 
-        public init(agentConnected: Bool? = nil, agentUpdateStatus: AgentUpdateStatus? = nil, attachments: [Attachment]? = nil, attributes: [Attribute]? = nil, containerInstanceArn: String? = nil, ec2InstanceId: String? = nil, pendingTasksCount: Int32? = nil, registeredAt: TimeStamp? = nil, registeredResources: [Resource]? = nil, remainingResources: [Resource]? = nil, runningTasksCount: Int32? = nil, status: String? = nil, statusReason: String? = nil, tags: [Tag]? = nil, version: Int64? = nil, versionInfo: VersionInfo? = nil) {
+        public init(agentConnected: Bool? = nil, agentUpdateStatus: AgentUpdateStatus? = nil, attachments: [Attachment]? = nil, attributes: [Attribute]? = nil, containerInstanceArn: String? = nil, ec2InstanceId: String? = nil, pendingTasksCount: Int? = nil, registeredAt: TimeStamp? = nil, registeredResources: [Resource]? = nil, remainingResources: [Resource]? = nil, runningTasksCount: Int? = nil, status: String? = nil, statusReason: String? = nil, tags: [Tag]? = nil, version: Int64? = nil, versionInfo: VersionInfo? = nil) {
             self.agentConnected = agentConnected
             self.agentUpdateStatus = agentUpdateStatus
             self.attachments = attachments
@@ -620,22 +629,23 @@ extension ECS {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "resourceRequirements", required: false, type: .list)
         ]
+
         /// The command to send to the container that overrides the default command from the Docker image or the task definition. You must also specify a container name.
         public let command: [String]?
         /// The number of cpu units reserved for the container, instead of the default value from the task definition. You must also specify a container name.
-        public let cpu: Int32?
+        public let cpu: Int?
         /// The environment variables to send to the container. You can add new environment variables, which are added to the container at launch, or you can override the existing environment variables from the Docker image or the task definition. You must also specify a container name.
         public let environment: [KeyValuePair]?
         /// The hard limit (in MiB) of memory to present to the container, instead of the default value from the task definition. If your container attempts to exceed the memory specified here, the container is killed. You must also specify a container name.
-        public let memory: Int32?
+        public let memory: Int?
         /// The soft limit (in MiB) of memory to reserve for the container, instead of the default value from the task definition. You must also specify a container name.
-        public let memoryReservation: Int32?
+        public let memoryReservation: Int?
         /// The name of the container that receives the override. This parameter is required if any override is specified.
         public let name: String?
         /// The type and amount of a resource to assign to a container, instead of the default value from the task definition. The only supported resource is a GPU.
         public let resourceRequirements: [ResourceRequirement]?
 
-        public init(command: [String]? = nil, cpu: Int32? = nil, environment: [KeyValuePair]? = nil, memory: Int32? = nil, memoryReservation: Int32? = nil, name: String? = nil, resourceRequirements: [ResourceRequirement]? = nil) {
+        public init(command: [String]? = nil, cpu: Int? = nil, environment: [KeyValuePair]? = nil, memory: Int? = nil, memoryReservation: Int? = nil, name: String? = nil, resourceRequirements: [ResourceRequirement]? = nil) {
             self.command = command
             self.cpu = cpu
             self.environment = environment
@@ -664,10 +674,11 @@ extension ECS {
             AWSShapeMember(label: "reason", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string)
         ]
+
         /// The name of the container.
         public let containerName: String?
         /// The exit code for the container, if the state change is a result of the container exiting.
-        public let exitCode: Int32?
+        public let exitCode: Int?
         /// Any network bindings associated with the container.
         public let networkBindings: [NetworkBinding]?
         /// The reason for the state change.
@@ -675,7 +686,7 @@ extension ECS {
         /// The status of the container.
         public let status: String?
 
-        public init(containerName: String? = nil, exitCode: Int32? = nil, networkBindings: [NetworkBinding]? = nil, reason: String? = nil, status: String? = nil) {
+        public init(containerName: String? = nil, exitCode: Int? = nil, networkBindings: [NetworkBinding]? = nil, reason: String? = nil, status: String? = nil) {
             self.containerName = containerName
             self.exitCode = exitCode
             self.networkBindings = networkBindings
@@ -697,6 +708,7 @@ extension ECS {
             AWSShapeMember(label: "clusterName", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+
         /// The name of your cluster. If you do not specify a name for your cluster, you create a cluster named default. Up to 255 letters (uppercase and lowercase), numbers, and hyphens are allowed. 
         public let clusterName: String?
         /// The metadata that you apply to the cluster to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
@@ -705,6 +717,14 @@ extension ECS {
         public init(clusterName: String? = nil, tags: [Tag]? = nil) {
             self.clusterName = clusterName
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, max: 50)
+            try validate(tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -717,6 +737,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "cluster", required: false, type: .structure)
         ]
+
         /// The full description of your new cluster.
         public let cluster: Cluster?
 
@@ -752,6 +773,7 @@ extension ECS {
             AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "taskDefinition", required: false, type: .string)
         ]
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 32 ASCII characters are allowed.
         public let clientToken: String?
         /// The short name or full Amazon Resource Name (ARN) of the cluster on which to run your service. If you do not specify a cluster, the default cluster is assumed.
@@ -761,11 +783,11 @@ extension ECS {
         /// The deployment controller to use for the service.
         public let deploymentController: DeploymentController?
         /// The number of instantiations of the specified task definition to place and keep running on your cluster.
-        public let desiredCount: Int32?
+        public let desiredCount: Int?
         /// Specifies whether to enable Amazon ECS managed tags for the tasks within the service. For more information, see Tagging Your Amazon ECS Resources in the Amazon Elastic Container Service Developer Guide.
         public let enableECSManagedTags: Bool?
         /// The period of time, in seconds, that the Amazon ECS service scheduler should ignore unhealthy Elastic Load Balancing target health checks after a task has first started. This is only valid if your service is configured to use a load balancer. If your service's tasks take a while to start and respond to Elastic Load Balancing health checks, you can specify a health check grace period of up to 2,147,483,647 seconds. During that time, the ECS service scheduler ignores health check status. This grace period can prevent the ECS service scheduler from marking tasks as unhealthy and stopping them before they have time to come up.
-        public let healthCheckGracePeriodSeconds: Int32?
+        public let healthCheckGracePeriodSeconds: Int?
         /// The launch type on which to run your service. For more information, see Amazon ECS Launch Types in the Amazon Elastic Container Service Developer Guide.
         public let launchType: LaunchType?
         /// A load balancer object representing the load balancer to use with your service. If the service is using the ECS deployment controller, you are limited to one load balancer or target group. If the service is using the CODE_DEPLOY deployment controller, the service is required to use either an Application Load Balancer or Network Load Balancer. When creating an AWS CodeDeploy deployment group, you specify two target groups (referred to as a targetGroupPair). During a deployment, AWS CodeDeploy determines which task set in your service has the status PRIMARY and associates one target group with it, and then associates the other target group with the replacement task set. The load balancer can also have up to two listeners: a required listener for production traffic and an optional listener that allows you perform validation tests with Lambda functions before routing production traffic to it. After you create a service using the ECS deployment controller, the load balancer name or target group ARN, container name, and container port specified in the service definition are immutable. If you are using the CODE_DEPLOY deployment controller, these values can be changed when updating the service. For Classic Load Balancers, this object must contain the load balancer name, the container name (as it appears in a container definition), and the container port to access from the load balancer. When a task from this service is placed on a container instance, the container instance is registered with the load balancer specified here. For Application Load Balancers and Network Load Balancers, this object must contain the load balancer target group ARN, the container name (as it appears in a container definition), and the container port to access from the load balancer. When a task from this service is placed on a container instance, the container instance and port combination is registered as a target in the target group specified here. Services with tasks that use the awsvpc network mode (for example, those with the Fargate launch type) only support Application Load Balancers and Network Load Balancers. Classic Load Balancers are not supported. Also, when you create any target groups for these services, you must choose ip as the target type, not instance, because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance.
@@ -793,7 +815,7 @@ extension ECS {
         /// The family and revision (family:revision) or full ARN of the task definition to run in your service. If a revision is not specified, the latest ACTIVE revision is used. A task definition must be specified if the service is using the ECS deployment controller.
         public let taskDefinition: String?
 
-        public init(clientToken: String? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, desiredCount: Int32? = nil, enableECSManagedTags: Bool? = nil, healthCheckGracePeriodSeconds: Int32? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, role: String? = nil, schedulingStrategy: SchedulingStrategy? = nil, serviceName: String, serviceRegistries: [ServiceRegistry]? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil) {
+        public init(clientToken: String? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool? = nil, healthCheckGracePeriodSeconds: Int? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, role: String? = nil, schedulingStrategy: SchedulingStrategy? = nil, serviceName: String, serviceRegistries: [ServiceRegistry]? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil) {
             self.clientToken = clientToken
             self.cluster = cluster
             self.deploymentConfiguration = deploymentConfiguration
@@ -814,6 +836,14 @@ extension ECS {
             self.serviceRegistries = serviceRegistries
             self.tags = tags
             self.taskDefinition = taskDefinition
+        }
+
+        public func validate(name: String) throws {
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, max: 50)
+            try validate(tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -844,6 +874,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "service", required: false, type: .structure)
         ]
+
         /// The full description of your service following the create call. If a service is using the ECS deployment controller, the deploymentController and taskSets parameters will not be returned. If the service is using the CODE_DEPLOY deployment controller, the deploymentController, taskSets and deployments parameters will be returned, however the deployments parameter will be an empty list.
         public let service: Service?
 
@@ -870,6 +901,7 @@ extension ECS {
             AWSShapeMember(label: "serviceRegistries", required: false, type: .list), 
             AWSShapeMember(label: "taskDefinition", required: true, type: .string)
         ]
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 32 ASCII characters are allowed.
         public let clientToken: String?
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service to create the task set in.
@@ -924,6 +956,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "taskSet", required: false, type: .structure)
         ]
+
         public let taskSet: TaskSet?
 
         public init(taskSet: TaskSet? = nil) {
@@ -940,6 +973,7 @@ extension ECS {
             AWSShapeMember(label: "name", required: true, type: .enum), 
             AWSShapeMember(label: "principalArn", required: false, type: .string)
         ]
+
         /// The resource name for which to disable the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected.
         public let name: SettingName
         /// The ARN of the principal, which can be an IAM user, IAM role, or the root user. If you specify the root user, it disables the account setting for all IAM users, IAM roles, and the root user of the account unless an IAM user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user.
@@ -960,6 +994,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "setting", required: false, type: .structure)
         ]
+
         /// The account setting for the specified principal ARN.
         public let setting: Setting?
 
@@ -977,6 +1012,7 @@ extension ECS {
             AWSShapeMember(label: "attributes", required: true, type: .list), 
             AWSShapeMember(label: "cluster", required: false, type: .string)
         ]
+
         /// The attributes to delete from your resource. You can specify up to 10 attributes per request. For custom attributes, specify the attribute name and target ID, but do not specify the value. If you specify the target ID using the short form, you must also specify the target type.
         public let attributes: [Attribute]
         /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to delete attributes. If you do not specify a cluster, the default cluster is assumed.
@@ -997,6 +1033,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attributes", required: false, type: .list)
         ]
+
         /// A list of attribute objects that were successfully deleted from your resource.
         public let attributes: [Attribute]?
 
@@ -1013,6 +1050,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "cluster", required: true, type: .string)
         ]
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster to delete.
         public let cluster: String
 
@@ -1029,6 +1067,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "cluster", required: false, type: .structure)
         ]
+
         /// The full description of the deleted cluster.
         public let cluster: Cluster?
 
@@ -1047,6 +1086,7 @@ extension ECS {
             AWSShapeMember(label: "force", required: false, type: .boolean), 
             AWSShapeMember(label: "service", required: true, type: .string)
         ]
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service to delete. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// If true, allows you to delete a service even if it has not been scaled down to zero tasks. It is only necessary to use this if the service is using the REPLICA scheduling strategy.
@@ -1071,6 +1111,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "service", required: false, type: .structure)
         ]
+
         /// The full description of the deleted service.
         public let service: Service?
 
@@ -1090,6 +1131,7 @@ extension ECS {
             AWSShapeMember(label: "service", required: true, type: .string), 
             AWSShapeMember(label: "taskSet", required: true, type: .string)
         ]
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task set exists in to delete.
         public let cluster: String
         /// If true, this allows you to delete a task set even if it hasn't been scaled down to zero.
@@ -1118,6 +1160,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "taskSet", required: false, type: .structure)
         ]
+
         public let taskSet: TaskSet?
 
         public init(taskSet: TaskSet? = nil) {
@@ -1143,10 +1186,11 @@ extension ECS {
             AWSShapeMember(label: "taskDefinition", required: false, type: .string), 
             AWSShapeMember(label: "updatedAt", required: false, type: .timestamp)
         ]
+
         /// The Unix timestamp for when the service deployment was created.
         public let createdAt: TimeStamp?
         /// The most recent desired count of tasks that was specified for the service to deploy or maintain.
-        public let desiredCount: Int32?
+        public let desiredCount: Int?
         /// The ID of the deployment.
         public let id: String?
         /// The launch type the tasks in the service are using. For more information, see Amazon ECS Launch Types in the Amazon Elastic Container Service Developer Guide.
@@ -1154,11 +1198,11 @@ extension ECS {
         /// The VPC subnet and security group configuration for tasks that receive their own elastic network interface by using the awsvpc networking mode.
         public let networkConfiguration: NetworkConfiguration?
         /// The number of tasks in the deployment that are in the PENDING status.
-        public let pendingCount: Int32?
+        public let pendingCount: Int?
         /// The platform version on which your tasks in the service are running. A platform version is only specified for tasks using the Fargate launch type. If one is not specified, the LATEST platform version is used by default. For more information, see AWS Fargate Platform Versions in the Amazon Elastic Container Service Developer Guide.
         public let platformVersion: String?
         /// The number of tasks in the deployment that are in the RUNNING status.
-        public let runningCount: Int32?
+        public let runningCount: Int?
         /// The status of the deployment. The following describes each state:  PRIMARY  The most recent deployment of a service.  ACTIVE  A service deployment that still has running tasks, but are in the process of being replaced with a new PRIMARY deployment.  INACTIVE  A deployment that has been completely replaced.  
         public let status: String?
         /// The most recent task definition that was specified for the tasks in the service to use.
@@ -1166,7 +1210,7 @@ extension ECS {
         /// The Unix timestamp for when the service deployment was last updated.
         public let updatedAt: TimeStamp?
 
-        public init(createdAt: TimeStamp? = nil, desiredCount: Int32? = nil, id: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int32? = nil, platformVersion: String? = nil, runningCount: Int32? = nil, status: String? = nil, taskDefinition: String? = nil, updatedAt: TimeStamp? = nil) {
+        public init(createdAt: TimeStamp? = nil, desiredCount: Int? = nil, id: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int? = nil, platformVersion: String? = nil, runningCount: Int? = nil, status: String? = nil, taskDefinition: String? = nil, updatedAt: TimeStamp? = nil) {
             self.createdAt = createdAt
             self.desiredCount = desiredCount
             self.id = id
@@ -1200,12 +1244,13 @@ extension ECS {
             AWSShapeMember(label: "maximumPercent", required: false, type: .integer), 
             AWSShapeMember(label: "minimumHealthyPercent", required: false, type: .integer)
         ]
-        /// If a service is using the rolling update (ECS) deployment type, the maximum percent parameter represents an upper limit on the number of tasks in a service that are allowed in the RUNNING or PENDING state during a deployment, as a percentage of the desired number of tasks (rounded down to the nearest integer), and while any container instances are in the DRAINING state if the service contains tasks using the EC2 launch type. This parameter enables you to define the deployment batch size. For example, if your service has a desired number of four tasks and a maximum percent value of 200%, the scheduler may start four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available). The default value for maximum percent is 200%. If a service is using the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and tasks that use the EC2 launch type, the maximum percent value is set to the default value and is used to define the upper limit on the number of the tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. If the tasks in the service use the Fargate launch type, the maximum percent value is not used, although it is returned when describing your service.
-        public let maximumPercent: Int32?
-        /// If a service is using the rolling update (ECS) deployment type, the minimum healthy percent represents a lower limit on the number of tasks in a service that must remain in the RUNNING state during a deployment, as a percentage of the desired number of tasks (rounded up to the nearest integer), and while any container instances are in the DRAINING state if the service contains tasks using the EC2 launch type. This parameter enables you to deploy without using additional cluster capacity. For example, if your service has a desired number of four tasks and a minimum healthy percent of 50%, the scheduler may stop two existing tasks to free up cluster capacity before starting two new tasks. Tasks for services that do not use a load balancer are considered healthy if they are in the RUNNING state; tasks for services that do use a load balancer are considered healthy if they are in the RUNNING state and they are reported as healthy by the load balancer. The default value for minimum healthy percent is 100%. If a service is using the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and tasks that use the EC2 launch type, the minimum healthy percent value is set to the default value and is used to define the lower limit on the number of the tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. If the tasks in the service use the Fargate launch type, the minimum healthy percent value is not used, although it is returned when describing your service.
-        public let minimumHealthyPercent: Int32?
 
-        public init(maximumPercent: Int32? = nil, minimumHealthyPercent: Int32? = nil) {
+        /// If a service is using the rolling update (ECS) deployment type, the maximum percent parameter represents an upper limit on the number of tasks in a service that are allowed in the RUNNING or PENDING state during a deployment, as a percentage of the desired number of tasks (rounded down to the nearest integer), and while any container instances are in the DRAINING state if the service contains tasks using the EC2 launch type. This parameter enables you to define the deployment batch size. For example, if your service has a desired number of four tasks and a maximum percent value of 200%, the scheduler may start four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available). The default value for maximum percent is 200%. If a service is using the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and tasks that use the EC2 launch type, the maximum percent value is set to the default value and is used to define the upper limit on the number of the tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. If the tasks in the service use the Fargate launch type, the maximum percent value is not used, although it is returned when describing your service.
+        public let maximumPercent: Int?
+        /// If a service is using the rolling update (ECS) deployment type, the minimum healthy percent represents a lower limit on the number of tasks in a service that must remain in the RUNNING state during a deployment, as a percentage of the desired number of tasks (rounded up to the nearest integer), and while any container instances are in the DRAINING state if the service contains tasks using the EC2 launch type. This parameter enables you to deploy without using additional cluster capacity. For example, if your service has a desired number of four tasks and a minimum healthy percent of 50%, the scheduler may stop two existing tasks to free up cluster capacity before starting two new tasks. Tasks for services that do not use a load balancer are considered healthy if they are in the RUNNING state; tasks for services that do use a load balancer are considered healthy if they are in the RUNNING state and they are reported as healthy by the load balancer. The default value for minimum healthy percent is 100%. If a service is using the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and tasks that use the EC2 launch type, the minimum healthy percent value is set to the default value and is used to define the lower limit on the number of the tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. If the tasks in the service use the Fargate launch type, the minimum healthy percent value is not used, although it is returned when describing your service.
+        public let minimumHealthyPercent: Int?
+
+        public init(maximumPercent: Int? = nil, minimumHealthyPercent: Int? = nil) {
             self.maximumPercent = maximumPercent
             self.minimumHealthyPercent = minimumHealthyPercent
         }
@@ -1220,6 +1265,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
+
         /// The deployment controller type to use. There are three deployment controller types available:  ECS  The rolling update (ECS) deployment type involves replacing the current running version of the container with the latest version. The number of containers Amazon ECS adds or removes from the service during a rolling update is controlled by adjusting the minimum and maximum number of healthy tasks allowed during a service deployment, as specified in the DeploymentConfiguration.  CODE_DEPLOY  The blue/green (CODE_DEPLOY) deployment type uses the blue/green deployment model powered by AWS CodeDeploy, which allows you to verify a new deployment of a service before sending production traffic to it.  EXTERNAL  The external (EXTERNAL) deployment type enables you to use any third-party deployment controller for full control over the deployment process for an Amazon ECS service.  
         public let `type`: DeploymentControllerType
 
@@ -1245,6 +1291,7 @@ extension ECS {
             AWSShapeMember(label: "containerInstance", required: true, type: .string), 
             AWSShapeMember(label: "force", required: false, type: .boolean)
         ]
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instance to deregister. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// The container instance ID or full ARN of the container instance to deregister. The ARN contains the arn:aws:ecs namespace, followed by the Region of the container instance, the AWS account ID of the container instance owner, the container-instance namespace, and then the container instance ID. For example, arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID.
@@ -1269,6 +1316,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "containerInstance", required: false, type: .structure)
         ]
+
         /// The container instance that was deregistered.
         public let containerInstance: ContainerInstance?
 
@@ -1285,6 +1333,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "taskDefinition", required: true, type: .string)
         ]
+
         /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the task definition to deregister. You must specify a revision.
         public let taskDefinition: String
 
@@ -1301,6 +1350,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "taskDefinition", required: false, type: .structure)
         ]
+
         /// The full description of the deregistered task.
         public let taskDefinition: TaskDefinition?
 
@@ -1318,6 +1368,7 @@ extension ECS {
             AWSShapeMember(label: "clusters", required: false, type: .list), 
             AWSShapeMember(label: "include", required: false, type: .list)
         ]
+
         /// A list of up to 100 cluster names or full cluster Amazon Resource Name (ARN) entries. If you do not specify a cluster, the default cluster is assumed.
         public let clusters: [String]?
         /// Additional information about your clusters to be separated by launch type, including:   runningEC2TasksCount   runningFargateTasksCount   pendingEC2TasksCount   pendingFargateTasksCount   activeEC2ServiceCount   activeFargateServiceCount   drainingEC2ServiceCount   drainingFargateServiceCount  
@@ -1339,6 +1390,7 @@ extension ECS {
             AWSShapeMember(label: "clusters", required: false, type: .list), 
             AWSShapeMember(label: "failures", required: false, type: .list)
         ]
+
         /// The list of clusters.
         public let clusters: [Cluster]?
         /// Any failures associated with the call.
@@ -1361,6 +1413,7 @@ extension ECS {
             AWSShapeMember(label: "containerInstances", required: true, type: .list), 
             AWSShapeMember(label: "include", required: false, type: .list)
         ]
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instances to describe. If you do not specify a cluster, the default cluster is assumed. This parameter is required if the container instance or container instances you are describing were launched in any cluster other than the default cluster.
         public let cluster: String?
         /// A list of up to 100 container instance IDs or full Amazon Resource Name (ARN) entries.
@@ -1386,6 +1439,7 @@ extension ECS {
             AWSShapeMember(label: "containerInstances", required: false, type: .list), 
             AWSShapeMember(label: "failures", required: false, type: .list)
         ]
+
         /// The list of container instances.
         public let containerInstances: [ContainerInstance]?
         /// Any failures associated with the call.
@@ -1408,6 +1462,7 @@ extension ECS {
             AWSShapeMember(label: "include", required: false, type: .list), 
             AWSShapeMember(label: "services", required: true, type: .list)
         ]
+
         /// The short name or full Amazon Resource Name (ARN)the cluster that hosts the service to describe. If you do not specify a cluster, the default cluster is assumed. This parameter is required if the service or services you are describing were launched in any cluster other than the default cluster.
         public let cluster: String?
         /// Specifies whether you want to see the resource tags for the service. If TAGS is specified, the tags are included in the response. If this field is omitted, tags are not included in the response.
@@ -1433,6 +1488,7 @@ extension ECS {
             AWSShapeMember(label: "failures", required: false, type: .list), 
             AWSShapeMember(label: "services", required: false, type: .list)
         ]
+
         /// Any failures associated with the call.
         public let failures: [Failure]?
         /// The list of services described.
@@ -1454,6 +1510,7 @@ extension ECS {
             AWSShapeMember(label: "include", required: false, type: .list), 
             AWSShapeMember(label: "taskDefinition", required: true, type: .string)
         ]
+
         /// Specifies whether to see the resource tags for the task definition. If TAGS is specified, the tags are included in the response. If this field is omitted, tags are not included in the response.
         public let include: [TaskDefinitionField]?
         /// The family for the latest ACTIVE revision, family and revision (family:revision) for a specific revision in the family, or full Amazon Resource Name (ARN) of the task definition to describe.
@@ -1475,6 +1532,7 @@ extension ECS {
             AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "taskDefinition", required: false, type: .structure)
         ]
+
         /// The metadata that is applied to the task definition to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [Tag]?
         /// The full task definition description.
@@ -1497,6 +1555,7 @@ extension ECS {
             AWSShapeMember(label: "service", required: true, type: .string), 
             AWSShapeMember(label: "taskSets", required: false, type: .list)
         ]
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task sets exist in.
         public let cluster: String
         /// The short name or full Amazon Resource Name (ARN) of the service that the task sets exist in.
@@ -1522,6 +1581,7 @@ extension ECS {
             AWSShapeMember(label: "failures", required: false, type: .list), 
             AWSShapeMember(label: "taskSets", required: false, type: .list)
         ]
+
         /// Any failures associated with the call.
         public let failures: [Failure]?
         /// The list of task sets described.
@@ -1544,6 +1604,7 @@ extension ECS {
             AWSShapeMember(label: "include", required: false, type: .list), 
             AWSShapeMember(label: "tasks", required: true, type: .list)
         ]
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task or tasks to describe. If you do not specify a cluster, the default cluster is assumed. This parameter is required if the task or tasks you are describing were launched in any cluster other than the default cluster.
         public let cluster: String?
         /// Specifies whether you want to see the resource tags for the task. If TAGS is specified, the tags are included in the response. If this field is omitted, tags are not included in the response.
@@ -1569,6 +1630,7 @@ extension ECS {
             AWSShapeMember(label: "failures", required: false, type: .list), 
             AWSShapeMember(label: "tasks", required: false, type: .list)
         ]
+
         /// Any failures associated with the call.
         public let failures: [Failure]?
         /// The list of tasks.
@@ -1598,6 +1660,7 @@ extension ECS {
             AWSShapeMember(label: "hostPath", required: true, type: .string), 
             AWSShapeMember(label: "permissions", required: false, type: .list)
         ]
+
         /// The path inside the container at which to expose the host device.
         public let containerPath: String?
         /// The path for the device on the host container instance.
@@ -1630,6 +1693,7 @@ extension ECS {
             AWSShapeMember(label: "cluster", required: false, type: .string), 
             AWSShapeMember(label: "containerInstance", required: false, type: .string)
         ]
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster to which the container instance belongs.
         public let cluster: String?
         /// The container instance ID or full ARN of the container instance. The ARN contains the arn:aws:ecs namespace, followed by the Region of the container instance, the AWS account ID of the container instance owner, the container-instance namespace, and then the container instance ID. For example, arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID.
@@ -1651,6 +1715,7 @@ extension ECS {
             AWSShapeMember(label: "endpoint", required: false, type: .string), 
             AWSShapeMember(label: "telemetryEndpoint", required: false, type: .string)
         ]
+
         /// The endpoint for the Amazon ECS agent to poll.
         public let endpoint: String?
         /// The telemetry endpoint for the Amazon ECS agent.
@@ -1675,6 +1740,7 @@ extension ECS {
             AWSShapeMember(label: "labels", required: false, type: .map), 
             AWSShapeMember(label: "scope", required: false, type: .enum)
         ]
+
         /// If this value is true, the Docker volume is created if it does not already exist.  This field is only used if the scope is shared. 
         public let autoprovision: Bool?
         /// The Docker volume driver to use. The driver value must match the driver name provided by Docker because it is used for task placement. If the driver was installed using the Docker plugin CLI, use docker plugin ls to retrieve the driver name from your container instance. If the driver was installed using another method, use Docker plugin discovery to retrieve the driver name. For more information, see Docker plugin discovery. This parameter maps to Driver in the Create a volume section of the Docker Remote API and the xxdriver option to docker volume create.
@@ -1708,6 +1774,7 @@ extension ECS {
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "reason", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the failed resource.
         public let arn: String?
         /// The reason for the failure.
@@ -1732,18 +1799,19 @@ extension ECS {
             AWSShapeMember(label: "startPeriod", required: false, type: .integer), 
             AWSShapeMember(label: "timeout", required: false, type: .integer)
         ]
+
         /// A string array representing the command that the container runs to determine if it is healthy. The string array must start with CMD to execute the command arguments directly, or CMD-SHELL to run the command with the container's default shell. For example:  [ "CMD-SHELL", "curl -f http://localhost/ || exit 1" ]  An exit code of 0 indicates success, and non-zero exit code indicates failure. For more information, see HealthCheck in the Create a container section of the Docker Remote API.
         public let command: [String]
         /// The time period in seconds between each health check execution. You may specify between 5 and 300 seconds. The default value is 30 seconds.
-        public let interval: Int32?
+        public let interval: Int?
         /// The number of times to retry a failed health check before the container is considered unhealthy. You may specify between 1 and 10 retries. The default value is 3.
-        public let retries: Int32?
+        public let retries: Int?
         /// The optional grace period within which to provide containers time to bootstrap before failed health checks count towards the maximum number of retries. You may specify between 0 and 300 seconds. The startPeriod is disabled by default.  If a health check succeeds within the startPeriod, then the container is considered healthy and any subsequent failures count toward the maximum number of retries. 
-        public let startPeriod: Int32?
+        public let startPeriod: Int?
         /// The time period in seconds to wait for a health check to succeed before it is considered a failure. You may specify between 2 and 60 seconds. The default value is 5.
-        public let timeout: Int32?
+        public let timeout: Int?
 
-        public init(command: [String], interval: Int32? = nil, retries: Int32? = nil, startPeriod: Int32? = nil, timeout: Int32? = nil) {
+        public init(command: [String], interval: Int? = nil, retries: Int? = nil, startPeriod: Int? = nil, timeout: Int? = nil) {
             self.command = command
             self.interval = interval
             self.retries = retries
@@ -1772,6 +1840,7 @@ extension ECS {
             AWSShapeMember(label: "hostname", required: true, type: .string), 
             AWSShapeMember(label: "ipAddress", required: true, type: .string)
         ]
+
         /// The hostname to use in the /etc/hosts entry.
         public let hostname: String
         /// The IP address to use in the /etc/hosts entry.
@@ -1792,6 +1861,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "sourcePath", required: false, type: .string)
         ]
+
         /// When the host parameter is used, specify a sourcePath to declare the path on the host container instance that is presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If the host parameter contains a sourcePath file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the sourcePath value does not exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported. If you are using the Fargate launch type, the sourcePath parameter is not supported.
         public let sourcePath: String?
 
@@ -1816,6 +1886,7 @@ extension ECS {
             AWSShapeMember(label: "add", required: false, type: .list), 
             AWSShapeMember(label: "drop", required: false, type: .list)
         ]
+
         /// The Linux capabilities for the container that have been added to the default configuration provided by Docker. This parameter maps to CapAdd in the Create a container section of the Docker Remote API and the --cap-add option to docker run.  If you are using tasks that use the Fargate launch type, the add parameter is not supported.  Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | "BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | "DAC_READ_SEARCH" | "FOWNER" | "FSETID" | "IPC_LOCK" | "IPC_OWNER" | "KILL" | "LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | "MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | "NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | "SETFCAP" | "SETGID" | "SETPCAP" | "SETUID" | "SYS_ADMIN" | "SYS_BOOT" | "SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | "SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | "SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | "SYSLOG" | "WAKE_ALARM" 
         public let add: [String]?
         /// The Linux capabilities for the container that have been removed from the default configuration provided by Docker. This parameter maps to CapDrop in the Create a container section of the Docker Remote API and the --cap-drop option to docker run. Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | "BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | "DAC_READ_SEARCH" | "FOWNER" | "FSETID" | "IPC_LOCK" | "IPC_OWNER" | "KILL" | "LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | "MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | "NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | "SETFCAP" | "SETGID" | "SETPCAP" | "SETUID" | "SYS_ADMIN" | "SYS_BOOT" | "SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | "SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | "SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | "SYSLOG" | "WAKE_ALARM" 
@@ -1837,6 +1908,7 @@ extension ECS {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
+
         /// The name of the key-value pair. For environment variables, this is the name of the environment variable.
         public let name: String?
         /// The value of the key-value pair. For environment variables, this is the value of the environment variable.
@@ -1867,6 +1939,7 @@ extension ECS {
             AWSShapeMember(label: "sharedMemorySize", required: false, type: .integer), 
             AWSShapeMember(label: "tmpfs", required: false, type: .list)
         ]
+
         /// The Linux capabilities for the container that are added to or dropped from the default configuration provided by Docker.  If you are using tasks that use the Fargate launch type, capabilities is supported but the add parameter is not supported. 
         public let capabilities: KernelCapabilities?
         /// Any host devices to expose to the container. This parameter maps to Devices in the Create a container section of the Docker Remote API and the --device option to docker run.  If you are using tasks that use the Fargate launch type, the devices parameter is not supported. 
@@ -1874,11 +1947,11 @@ extension ECS {
         /// Run an init process inside the container that forwards signals and reaps processes. This parameter maps to the --init option to docker run. This parameter requires version 1.25 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' 
         public let initProcessEnabled: Bool?
         /// The value for the size (in MiB) of the /dev/shm volume. This parameter maps to the --shm-size option to docker run.  If you are using tasks that use the Fargate launch type, the sharedMemorySize parameter is not supported. 
-        public let sharedMemorySize: Int32?
+        public let sharedMemorySize: Int?
         /// The container path, mount options, and size (in MiB) of the tmpfs mount. This parameter maps to the --tmpfs option to docker run.  If you are using tasks that use the Fargate launch type, the tmpfs parameter is not supported. 
         public let tmpfs: [Tmpfs]?
 
-        public init(capabilities: KernelCapabilities? = nil, devices: [Device]? = nil, initProcessEnabled: Bool? = nil, sharedMemorySize: Int32? = nil, tmpfs: [Tmpfs]? = nil) {
+        public init(capabilities: KernelCapabilities? = nil, devices: [Device]? = nil, initProcessEnabled: Bool? = nil, sharedMemorySize: Int? = nil, tmpfs: [Tmpfs]? = nil) {
             self.capabilities = capabilities
             self.devices = devices
             self.initProcessEnabled = initProcessEnabled
@@ -1904,10 +1977,11 @@ extension ECS {
             AWSShapeMember(label: "principalArn", required: false, type: .string), 
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
+
         /// Specifies whether to return the effective settings. If true, the account settings for the root user or the default setting for the principalArn are returned. If false, the account settings for the principalArn are returned if they are set. Otherwise, no account settings are returned.
         public let effectiveSettings: Bool?
         /// The maximum number of account setting results returned by ListAccountSettings in paginated output. When this parameter is used, ListAccountSettings only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListAccountSettings request with the returned nextToken value. This value can be between 1 and 10. If this parameter is not used, then ListAccountSettings returns up to 10 results and a nextToken value if applicable.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The resource name you want to list the account settings for.
         public let name: SettingName?
         /// The nextToken value returned from a previous paginated ListAccountSettings request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
@@ -1917,7 +1991,7 @@ extension ECS {
         /// The value of the account settings with which to filter results. You must also specify an account setting name to use this parameter.
         public let value: String?
 
-        public init(effectiveSettings: Bool? = nil, maxResults: Int32? = nil, name: SettingName? = nil, nextToken: String? = nil, principalArn: String? = nil, value: String? = nil) {
+        public init(effectiveSettings: Bool? = nil, maxResults: Int? = nil, name: SettingName? = nil, nextToken: String? = nil, principalArn: String? = nil, value: String? = nil) {
             self.effectiveSettings = effectiveSettings
             self.maxResults = maxResults
             self.name = name
@@ -1941,6 +2015,7 @@ extension ECS {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "settings", required: false, type: .list)
         ]
+
         /// The nextToken value to include in a future ListAccountSettings request. When the results of a ListAccountSettings request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The account settings for the resource.
@@ -1966,6 +2041,7 @@ extension ECS {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "targetType", required: true, type: .enum)
         ]
+
         /// The name of the attribute with which to filter the results. 
         public let attributeName: String?
         /// The value of the attribute with which to filter results. You must also specify an attribute name to use this parameter.
@@ -1973,13 +2049,13 @@ extension ECS {
         /// The short name or full Amazon Resource Name (ARN) of the cluster to list attributes. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// The maximum number of cluster results returned by ListAttributes in paginated output. When this parameter is used, ListAttributes only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListAttributes request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListAttributes returns up to 100 results and a nextToken value if applicable.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListAttributes request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
         /// The type of the target with which to list attributes.
         public let targetType: TargetType
 
-        public init(attributeName: String? = nil, attributeValue: String? = nil, cluster: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, targetType: TargetType) {
+        public init(attributeName: String? = nil, attributeValue: String? = nil, cluster: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, targetType: TargetType) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
             self.cluster = cluster
@@ -2003,6 +2079,7 @@ extension ECS {
             AWSShapeMember(label: "attributes", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of attribute objects that meet the criteria of the request.
         public let attributes: [Attribute]?
         /// The nextToken value to include in a future ListAttributes request. When the results of a ListAttributes request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -2024,12 +2101,13 @@ extension ECS {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The maximum number of cluster results returned by ListClusters in paginated output. When this parameter is used, ListClusters only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListClusters request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListClusters returns up to 100 results and a nextToken value if applicable.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListClusters request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2045,6 +2123,7 @@ extension ECS {
             AWSShapeMember(label: "clusterArns", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The list of full Amazon Resource Name (ARN) entries for each cluster associated with your account.
         public let clusterArns: [String]?
         /// The nextToken value to include in a future ListClusters request. When the results of a ListClusters request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -2069,18 +2148,19 @@ extension ECS {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instances to list. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// You can filter the results of a ListContainerInstances operation with cluster query language statements. For more information, see Cluster Query Language in the Amazon Elastic Container Service Developer Guide.
         public let filter: String?
         /// The maximum number of container instance results returned by ListContainerInstances in paginated output. When this parameter is used, ListContainerInstances only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListContainerInstances request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListContainerInstances returns up to 100 results and a nextToken value if applicable.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListContainerInstances request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
         /// Filters the container instances by status. For example, if you specify the DRAINING status, the results include only container instances that have been set to DRAINING using UpdateContainerInstancesState. If you do not specify this parameter, the default is to include container instances set to all states other than INACTIVE.
         public let status: ContainerInstanceStatus?
 
-        public init(cluster: String? = nil, filter: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, status: ContainerInstanceStatus? = nil) {
+        public init(cluster: String? = nil, filter: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: ContainerInstanceStatus? = nil) {
             self.cluster = cluster
             self.filter = filter
             self.maxResults = maxResults
@@ -2102,6 +2182,7 @@ extension ECS {
             AWSShapeMember(label: "containerInstanceArns", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The list of container instances with full ARN entries for each container instance associated with the specified cluster.
         public let containerInstanceArns: [String]?
         /// The nextToken value to include in a future ListContainerInstances request. When the results of a ListContainerInstances request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -2126,18 +2207,19 @@ extension ECS {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "schedulingStrategy", required: false, type: .enum)
         ]
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the services to list. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// The launch type for the services to list.
         public let launchType: LaunchType?
         /// The maximum number of service results returned by ListServices in paginated output. When this parameter is used, ListServices only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListServices request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListServices returns up to 10 results and a nextToken value if applicable.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListServices request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
         /// The scheduling strategy for services to list.
         public let schedulingStrategy: SchedulingStrategy?
 
-        public init(cluster: String? = nil, launchType: LaunchType? = nil, maxResults: Int32? = nil, nextToken: String? = nil, schedulingStrategy: SchedulingStrategy? = nil) {
+        public init(cluster: String? = nil, launchType: LaunchType? = nil, maxResults: Int? = nil, nextToken: String? = nil, schedulingStrategy: SchedulingStrategy? = nil) {
             self.cluster = cluster
             self.launchType = launchType
             self.maxResults = maxResults
@@ -2159,6 +2241,7 @@ extension ECS {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "serviceArns", required: false, type: .list)
         ]
+
         /// The nextToken value to include in a future ListServices request. When the results of a ListServices request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The list of full ARN entries for each service associated with the specified cluster.
@@ -2179,6 +2262,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Amazon ECS tasks, services, task definitions, clusters, and container instances.
         public let resourceArn: String
 
@@ -2195,6 +2279,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+
         /// The tags for the resource.
         public let tags: [Tag]?
 
@@ -2214,16 +2299,17 @@ extension ECS {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
+
         /// The familyPrefix is a string that is used to filter the results of ListTaskDefinitionFamilies. If you specify a familyPrefix, only task definition family names that begin with the familyPrefix string are returned.
         public let familyPrefix: String?
         /// The maximum number of task definition family results returned by ListTaskDefinitionFamilies in paginated output. When this parameter is used, ListTaskDefinitions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListTaskDefinitionFamilies request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListTaskDefinitionFamilies returns up to 100 results and a nextToken value if applicable.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListTaskDefinitionFamilies request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
         /// The task definition family status with which to filter the ListTaskDefinitionFamilies results. By default, both ACTIVE and INACTIVE task definition families are listed. If this parameter is set to ACTIVE, only task definition families that have an ACTIVE task definition revision are returned. If this parameter is set to INACTIVE, only task definition families that do not have any ACTIVE task definition revisions are returned. If you paginate the resulting output, be sure to keep the status value constant in each subsequent request.
         public let status: TaskDefinitionFamilyStatus?
 
-        public init(familyPrefix: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, status: TaskDefinitionFamilyStatus? = nil) {
+        public init(familyPrefix: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: TaskDefinitionFamilyStatus? = nil) {
             self.familyPrefix = familyPrefix
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2243,6 +2329,7 @@ extension ECS {
             AWSShapeMember(label: "families", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The list of task definition family names that match the ListTaskDefinitionFamilies request.
         public let families: [String]?
         /// The nextToken value to include in a future ListTaskDefinitionFamilies request. When the results of a ListTaskDefinitionFamilies request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -2267,10 +2354,11 @@ extension ECS {
             AWSShapeMember(label: "sort", required: false, type: .enum), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
+
         /// The full family name with which to filter the ListTaskDefinitions results. Specifying a familyPrefix limits the listed task definitions to task definition revisions that belong to that family.
         public let familyPrefix: String?
         /// The maximum number of task definition results returned by ListTaskDefinitions in paginated output. When this parameter is used, ListTaskDefinitions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListTaskDefinitions request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListTaskDefinitions returns up to 100 results and a nextToken value if applicable.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListTaskDefinitions request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
         /// The order in which to sort the results. Valid values are ASC and DESC. By default (ASC), task definitions are listed lexicographically by family name and in ascending numerical order by revision so that the newest task definitions in a family are listed last. Setting this parameter to DESC reverses the sort order on family name and revision so that the newest task definitions in a family are listed first.
@@ -2278,7 +2366,7 @@ extension ECS {
         /// The task definition status with which to filter the ListTaskDefinitions results. By default, only ACTIVE task definitions are listed. By setting this parameter to INACTIVE, you can view task definitions that are INACTIVE as long as an active task or service still references them. If you paginate the resulting output, be sure to keep the status value constant in each subsequent request.
         public let status: TaskDefinitionStatus?
 
-        public init(familyPrefix: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sort: SortOrder? = nil, status: TaskDefinitionStatus? = nil) {
+        public init(familyPrefix: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: SortOrder? = nil, status: TaskDefinitionStatus? = nil) {
             self.familyPrefix = familyPrefix
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2300,6 +2388,7 @@ extension ECS {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "taskDefinitionArns", required: false, type: .list)
         ]
+
         /// The nextToken value to include in a future ListTaskDefinitions request. When the results of a ListTaskDefinitions request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The list of task definition Amazon Resource Name (ARN) entries for the ListTaskDefinitions request.
@@ -2328,6 +2417,7 @@ extension ECS {
             AWSShapeMember(label: "serviceName", required: false, type: .string), 
             AWSShapeMember(label: "startedBy", required: false, type: .string)
         ]
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the tasks to list. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// The container instance ID or full ARN of the container instance with which to filter the ListTasks results. Specifying a containerInstance limits the results to tasks that belong to that container instance.
@@ -2339,7 +2429,7 @@ extension ECS {
         /// The launch type for services to list.
         public let launchType: LaunchType?
         /// The maximum number of task results returned by ListTasks in paginated output. When this parameter is used, ListTasks only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListTasks request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListTasks returns up to 100 results and a nextToken value if applicable.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListTasks request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
         /// The name of the service with which to filter the ListTasks results. Specifying a serviceName limits the results to tasks that belong to that service.
@@ -2347,7 +2437,7 @@ extension ECS {
         /// The startedBy value with which to filter the task results. Specifying a startedBy value limits the results to tasks that were started with that value.
         public let startedBy: String?
 
-        public init(cluster: String? = nil, containerInstance: String? = nil, desiredStatus: DesiredStatus? = nil, family: String? = nil, launchType: LaunchType? = nil, maxResults: Int32? = nil, nextToken: String? = nil, serviceName: String? = nil, startedBy: String? = nil) {
+        public init(cluster: String? = nil, containerInstance: String? = nil, desiredStatus: DesiredStatus? = nil, family: String? = nil, launchType: LaunchType? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceName: String? = nil, startedBy: String? = nil) {
             self.cluster = cluster
             self.containerInstance = containerInstance
             self.desiredStatus = desiredStatus
@@ -2377,6 +2467,7 @@ extension ECS {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "taskArns", required: false, type: .list)
         ]
+
         /// The nextToken value to include in a future ListTasks request. When the results of a ListTasks request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The list of task ARN entries for the ListTasks request.
@@ -2400,16 +2491,17 @@ extension ECS {
             AWSShapeMember(label: "loadBalancerName", required: false, type: .string), 
             AWSShapeMember(label: "targetGroupArn", required: false, type: .string)
         ]
+
         /// The name of the container (as it appears in a container definition) to associate with the load balancer.
         public let containerName: String?
         /// The port on the container to associate with the load balancer. This port must correspond to a containerPort in the service's task definition. Your container instances must allow ingress traffic on the hostPort of the port mapping.
-        public let containerPort: Int32?
+        public let containerPort: Int?
         /// The name of the load balancer to associate with the Amazon ECS service or task set. A load balancer name is only specified when using a classic load balancer. If you are using an application load balancer or a network load balancer this should be omitted.
         public let loadBalancerName: String?
         /// The full Amazon Resource Name (ARN) of the Elastic Load Balancing target group or groups associated with a service or task set. A target group ARN is only specified when using an application load balancer or a network load balancer. If you are using a classic load balancer this should be omitted. For services using the ECS deployment controller, you are limited to one target group. For services using the CODE_DEPLOY deployment controller, you are required to define two target groups for the load balancer.  If your service's task definition uses the awsvpc network mode (which is required for the Fargate launch type), you must choose ip as the target type, not instance, because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance. 
         public let targetGroupArn: String?
 
-        public init(containerName: String? = nil, containerPort: Int32? = nil, loadBalancerName: String? = nil, targetGroupArn: String? = nil) {
+        public init(containerName: String? = nil, containerPort: Int? = nil, loadBalancerName: String? = nil, targetGroupArn: String? = nil) {
             self.containerName = containerName
             self.containerPort = containerPort
             self.loadBalancerName = loadBalancerName
@@ -2430,6 +2522,7 @@ extension ECS {
             AWSShapeMember(label: "options", required: false, type: .map), 
             AWSShapeMember(label: "secretOptions", required: false, type: .list)
         ]
+
         /// The log driver to use for the container. The valid values listed for this parameter are log drivers that the Amazon ECS container agent can communicate with by default. For tasks using the Fargate launch type, the supported log drivers are awslogs and splunk. For tasks using the EC2 launch type, the supported log drivers are awslogs, syslog, gelf, fluentd, splunk, journald, and json-file. For more information about using the awslogs log driver, see Using the awslogs Log Driver in the Amazon Elastic Container Service Developer Guide.  If you have a custom driver that is not listed above that you would like to work with the Amazon ECS container agent, you can fork the Amazon ECS container agent project that is available on GitHub and customize it to work with that driver. We encourage you to submit pull requests for changes that you would like to have included. However, Amazon Web Services does not currently support running modified copies of this software.  This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' 
         public let logDriver: LogDriver
         /// The configuration options to send to the log driver. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' 
@@ -2467,6 +2560,7 @@ extension ECS {
             AWSShapeMember(label: "readOnly", required: false, type: .boolean), 
             AWSShapeMember(label: "sourceVolume", required: false, type: .string)
         ]
+
         /// The path on the container to mount the host volume at.
         public let containerPath: String?
         /// If this value is true, the container has read-only access to the volume. If this value is false, then the container can write to the volume. The default value is false.
@@ -2494,16 +2588,17 @@ extension ECS {
             AWSShapeMember(label: "hostPort", required: false, type: .integer), 
             AWSShapeMember(label: "protocol", required: false, type: .enum)
         ]
+
         /// The IP address that the container is bound to on the container instance.
         public let bindIP: String?
         /// The port number on the container that is used with the network binding.
-        public let containerPort: Int32?
+        public let containerPort: Int?
         /// The port number on the host that is used with the network binding.
-        public let hostPort: Int32?
+        public let hostPort: Int?
         /// The protocol used for the network binding.
         public let `protocol`: TransportProtocol?
 
-        public init(bindIP: String? = nil, containerPort: Int32? = nil, hostPort: Int32? = nil, protocol: TransportProtocol? = nil) {
+        public init(bindIP: String? = nil, containerPort: Int? = nil, hostPort: Int? = nil, protocol: TransportProtocol? = nil) {
             self.bindIP = bindIP
             self.containerPort = containerPort
             self.hostPort = hostPort
@@ -2522,6 +2617,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "awsvpcConfiguration", required: false, type: .structure)
         ]
+
         /// The VPC subnets and security groups associated with a task.  All specified subnets and security groups must be from the same VPC. 
         public let awsvpcConfiguration: AwsVpcConfiguration?
 
@@ -2540,6 +2636,7 @@ extension ECS {
             AWSShapeMember(label: "ipv6Address", required: false, type: .string), 
             AWSShapeMember(label: "privateIpv4Address", required: false, type: .string)
         ]
+
         /// The attachment ID for the network interface.
         public let attachmentId: String?
         /// The private IPv6 address for the network interface.
@@ -2579,6 +2676,7 @@ extension ECS {
             AWSShapeMember(label: "expression", required: false, type: .string), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// A cluster query language expression to apply to the constraint. You cannot specify an expression if the constraint type is distinctInstance. For more information, see Cluster Query Language in the Amazon Elastic Container Service Developer Guide.
         public let expression: String?
         /// The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict the selection to a group of valid candidates. The value distinctInstance is not supported in task definitions.
@@ -2606,6 +2704,7 @@ extension ECS {
             AWSShapeMember(label: "field", required: false, type: .string), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// The field to apply the placement strategy against. For the spread placement strategy, valid values are instanceId (or host, which has the same effect), or any platform or custom attribute that is applied to a container instance, such as attribute:ecs.availability-zone. For the binpack placement strategy, valid values are cpu and memory. For the random placement strategy, this field is not used.
         public let field: String?
         /// The type of placement strategy. The random placement strategy randomly places tasks on available candidates. The spread placement strategy spreads placement across available candidates evenly based on the field parameter. The binpack strategy places tasks on available candidates that have the least available amount of the resource that is specified with the field parameter. For example, if you binpack on memory, a task is placed on the instance with the least amount of remaining memory (but still enough to run the task).
@@ -2634,6 +2733,7 @@ extension ECS {
             AWSShapeMember(label: "id", required: true, type: .string), 
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
+
         /// The ID for the GPU(s) on the container instance. The available GPU IDs can also be obtained on the container instance in the /var/lib/ecs/gpu/nvidia_gpu_info.json file.
         public let id: String
         /// The type of device that is available on the container instance. The only supported value is GPU.
@@ -2661,14 +2761,15 @@ extension ECS {
             AWSShapeMember(label: "hostPort", required: false, type: .integer), 
             AWSShapeMember(label: "protocol", required: false, type: .enum)
         ]
+
         /// The port number on the container that is bound to the user-specified or automatically assigned host port. If you are using containers in a task with the awsvpc or host network mode, exposed ports should be specified using containerPort. If you are using containers in a task with the bridge network mode and you specify a container port and not a host port, your container automatically receives a host port in the ephemeral port range. For more information, see hostPort. Port mappings that are automatically assigned in this way do not count toward the 100 reserved ports limit of a container instance.  You cannot expose the same container port for multiple protocols. An error will be returned if this is attempted. 
-        public let containerPort: Int32?
+        public let containerPort: Int?
         /// The port number on the container instance to reserve for your container. If you are using containers in a task with the awsvpc or host network mode, the hostPort can either be left blank or set to the same value as the containerPort. If you are using containers in a task with the bridge network mode, you can specify a non-reserved host port for your container port mapping, or you can omit the hostPort (or set it to 0) while specifying a containerPort and your container automatically receives a port in the ephemeral port range for your container instance operating system and Docker version. The default ephemeral port range for Docker version 1.6.0 and later is listed on the instance under /proc/sys/net/ipv4/ip_local_port_range. If this kernel parameter is unavailable, the default ephemeral port range from 49153 through 65535 is used. Do not attempt to specify a host port in the ephemeral port range as these are reserved for automatic assignment. In general, ports below 32768 are outside of the ephemeral port range.  The default ephemeral port range from 49153 through 65535 is always used for Docker versions before 1.6.0.  The default reserved ports are 22 for SSH, the Docker ports 2375 and 2376, and the Amazon ECS container agent ports 51678-51680. Any host port that was previously specified in a running task is also reserved while the task is running (after a task stops, the host port is released). The current reserved ports are displayed in the remainingResources of DescribeContainerInstances output. A container instance can have up to 100 reserved ports at a time, including the default reserved ports. Automatically assigned ports don't count toward the 100 reserved ports limit.
-        public let hostPort: Int32?
+        public let hostPort: Int?
         /// The protocol used for the port mapping. Valid values are tcp and udp. The default is tcp.
         public let `protocol`: TransportProtocol?
 
-        public init(containerPort: Int32? = nil, hostPort: Int32? = nil, protocol: TransportProtocol? = nil) {
+        public init(containerPort: Int? = nil, hostPort: Int? = nil, protocol: TransportProtocol? = nil) {
             self.containerPort = containerPort
             self.hostPort = hostPort
             self.`protocol` = `protocol`
@@ -2694,6 +2795,7 @@ extension ECS {
             AWSShapeMember(label: "properties", required: false, type: .list), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// The name of the container that will serve as the App Mesh proxy.
         public let containerName: String
         /// The set of network configuration parameters to provide the Container Network Interface (CNI) plugin, specified as key-value pairs.    IgnoredUID - (Required) The user ID (UID) of the proxy container as defined by the user parameter in a container definition. This is used to ensure the proxy ignores its own traffic. If IgnoredGID is specified, this field can be empty.    IgnoredGID - (Required) The group ID (GID) of the proxy container as defined by the user parameter in a container definition. This is used to ensure the proxy ignores its own traffic. If IgnoredUID is specified, this field can be empty.    AppPorts - (Required) The list of ports that the application uses. Network traffic to these ports is forwarded to the ProxyIngressPort and ProxyEgressPort.    ProxyIngressPort - (Required) Specifies the port that incoming traffic to the AppPorts is directed to.    ProxyEgressPort - (Required) Specifies the port that outgoing traffic from the AppPorts is directed to.    EgressIgnoredPorts - (Required) The egress traffic going to the specified ports is ignored and not redirected to the ProxyEgressPort. It can be an empty list.    EgressIgnoredIPs - (Required) The egress traffic going to the specified IP addresses is ignored and not redirected to the ProxyEgressPort. It can be an empty list.  
@@ -2724,6 +2826,7 @@ extension ECS {
             AWSShapeMember(label: "name", required: true, type: .enum), 
             AWSShapeMember(label: "value", required: true, type: .string)
         ]
+
         /// The resource name for which to modify the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected.
         public let name: SettingName
         /// The account setting value for the specified principal ARN. Accepted values are enabled and disabled.
@@ -2744,6 +2847,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "setting", required: false, type: .structure)
         ]
+
         public let setting: Setting?
 
         public init(setting: Setting? = nil) {
@@ -2761,6 +2865,7 @@ extension ECS {
             AWSShapeMember(label: "principalArn", required: false, type: .string), 
             AWSShapeMember(label: "value", required: true, type: .string)
         ]
+
         /// The resource name for which to modify the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected.
         public let name: SettingName
         /// The ARN of the principal, which can be an IAM user, IAM role, or the root user. If you specify the root user, it modifies the account setting for all IAM users, IAM roles, and the root user of the account unless an IAM user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user.
@@ -2785,6 +2890,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "setting", required: false, type: .structure)
         ]
+
         /// The current account setting for a resource.
         public let setting: Setting?
 
@@ -2802,6 +2908,7 @@ extension ECS {
             AWSShapeMember(label: "attributes", required: true, type: .list), 
             AWSShapeMember(label: "cluster", required: false, type: .string)
         ]
+
         /// The attributes to apply to your resource. You can specify up to 10 custom attributes per resource. You can specify up to 10 attributes in a single call.
         public let attributes: [Attribute]
         /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to apply attributes. If you do not specify a cluster, the default cluster is assumed.
@@ -2822,6 +2929,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attributes", required: false, type: .list)
         ]
+
         /// The attributes applied to your resource.
         public let attributes: [Attribute]?
 
@@ -2846,6 +2954,7 @@ extension ECS {
             AWSShapeMember(label: "totalResources", required: false, type: .list), 
             AWSShapeMember(label: "versionInfo", required: false, type: .structure)
         ]
+
         /// The container instance attributes that this container instance supports.
         public let attributes: [Attribute]?
         /// The short name or full Amazon Resource Name (ARN) of the cluster with which to register your container instance. If you do not specify a cluster, the default cluster is assumed.
@@ -2877,6 +2986,14 @@ extension ECS {
             self.versionInfo = versionInfo
         }
 
+        public func validate(name: String) throws {
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, max: 50)
+            try validate(tags, name:"tags", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
             case cluster = "cluster"
@@ -2894,6 +3011,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "containerInstance", required: false, type: .structure)
         ]
+
         /// The container instance that was registered.
         public let containerInstance: ContainerInstance?
 
@@ -2923,6 +3041,7 @@ extension ECS {
             AWSShapeMember(label: "taskRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "volumes", required: false, type: .list)
         ]
+
         /// A list of container definitions in JSON format that describe the different containers that make up your task.
         public let containerDefinitions: [ContainerDefinition]
         /// The number of CPU units used by the task. It can be expressed as an integer using CPU units, for example 1024, or as a string using vCPUs, for example 1 vCPU or 1 vcpu, in a task definition. String values are converted to an integer indicating the CPU units when the task definition is registered.  Task-level CPU and memory parameters are ignored for Windows containers. We recommend specifying container-level resources for Windows containers.  If you are using the EC2 launch type, this field is optional. Supported values are between 128 CPU units (0.125 vCPUs) and 10240 CPU units (10 vCPUs). If you are using the Fargate launch type, this field is required and you must use one of the following values, which determines your range of supported values for the memory parameter:   256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)   512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)   1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)   2048 (2 vCPU) - Available memory values: Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) - Available memory values: Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)  
@@ -2968,6 +3087,14 @@ extension ECS {
             self.volumes = volumes
         }
 
+        public func validate(name: String) throws {
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, max: 50)
+            try validate(tags, name:"tags", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case containerDefinitions = "containerDefinitions"
             case cpu = "cpu"
@@ -2991,6 +3118,7 @@ extension ECS {
             AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "taskDefinition", required: false, type: .structure)
         ]
+
         /// The list of tags associated with the task definition.
         public let tags: [Tag]?
         /// The full description of the registered task definition.
@@ -3011,6 +3139,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "credentialsParameter", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the secret containing the private repository credentials.  When you are using the Amazon ECS API, AWS CLI, or AWS SDK, if the secret exists in the same Region as the task that you are launching then you can use either the full ARN or the name of the secret. When you are using the AWS Management Console, you must specify the full ARN of the secret. 
         public let credentialsParameter: String
 
@@ -3032,10 +3161,11 @@ extension ECS {
             AWSShapeMember(label: "stringSetValue", required: false, type: .list), 
             AWSShapeMember(label: "type", required: false, type: .string)
         ]
+
         /// When the doubleValue type is set, the value of the resource must be a double precision floating-point type.
         public let doubleValue: Double?
         /// When the integerValue type is set, the value of the resource must be an integer.
-        public let integerValue: Int32?
+        public let integerValue: Int?
         /// When the longValue type is set, the value of the resource must be an extended precision floating-point type.
         public let longValue: Int64?
         /// The name of the resource, such as CPU, MEMORY, PORTS, PORTS_UDP, or a user-defined resource.
@@ -3045,7 +3175,7 @@ extension ECS {
         /// The type of the resource, such as INTEGER, DOUBLE, LONG, or STRINGSET.
         public let `type`: String?
 
-        public init(doubleValue: Double? = nil, integerValue: Int32? = nil, longValue: Int64? = nil, name: String? = nil, stringSetValue: [String]? = nil, type: String? = nil) {
+        public init(doubleValue: Double? = nil, integerValue: Int? = nil, longValue: Int64? = nil, name: String? = nil, stringSetValue: [String]? = nil, type: String? = nil) {
             self.doubleValue = doubleValue
             self.integerValue = integerValue
             self.longValue = longValue
@@ -3069,6 +3199,7 @@ extension ECS {
             AWSShapeMember(label: "type", required: true, type: .enum), 
             AWSShapeMember(label: "value", required: true, type: .string)
         ]
+
         /// The type of resource to assign to a container. The only supported value is GPU.
         public let `type`: ResourceType
         /// The number of physical GPUs the Amazon ECS container agent will reserve for the container. The number of GPUs reserved for all containers in a task should not exceed the number of available GPUs on the container instance the task is launched on.
@@ -3107,10 +3238,11 @@ extension ECS {
             AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "taskDefinition", required: true, type: .string)
         ]
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster on which to run your task. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// The number of instantiations of the specified task to place on your cluster. You can specify up to 10 tasks per call.
-        public let count: Int32?
+        public let count: Int?
         /// Specifies whether to enable Amazon ECS managed tags for the task. For more information, see Tagging Your Amazon ECS Resources in the Amazon Elastic Container Service Developer Guide.
         public let enableECSManagedTags: Bool?
         /// The name of the task group to associate with the task. The default value is the family name of the task definition (for example, family:my-family-name).
@@ -3136,7 +3268,7 @@ extension ECS {
         /// The family and revision (family:revision) or full ARN of the task definition to run. If a revision is not specified, the latest ACTIVE revision is used.
         public let taskDefinition: String
 
-        public init(cluster: String? = nil, count: Int32? = nil, enableECSManagedTags: Bool? = nil, group: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, overrides: TaskOverride? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, startedBy: String? = nil, tags: [Tag]? = nil, taskDefinition: String) {
+        public init(cluster: String? = nil, count: Int? = nil, enableECSManagedTags: Bool? = nil, group: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, overrides: TaskOverride? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, startedBy: String? = nil, tags: [Tag]? = nil, taskDefinition: String) {
             self.cluster = cluster
             self.count = count
             self.enableECSManagedTags = enableECSManagedTags
@@ -3151,6 +3283,14 @@ extension ECS {
             self.startedBy = startedBy
             self.tags = tags
             self.taskDefinition = taskDefinition
+        }
+
+        public func validate(name: String) throws {
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, max: 50)
+            try validate(tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3176,6 +3316,7 @@ extension ECS {
             AWSShapeMember(label: "failures", required: false, type: .list), 
             AWSShapeMember(label: "tasks", required: false, type: .list)
         ]
+
         /// Any failures associated with the call.
         public let failures: [Failure]?
         /// A full description of the tasks that were run. The tasks that were successfully placed on your cluster are described here.
@@ -3197,6 +3338,7 @@ extension ECS {
             AWSShapeMember(label: "unit", required: false, type: .enum), 
             AWSShapeMember(label: "value", required: false, type: .double)
         ]
+
         /// The unit of measure for the scale value.
         public let unit: ScaleUnit?
         /// The value, specified as a percent total of a service's desiredCount, to scale the task set. Accepted values are numbers between 0 and 100.
@@ -3235,6 +3377,7 @@ extension ECS {
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "valueFrom", required: true, type: .string)
         ]
+
         /// The name of the secret.
         public let name: String
         /// The secret to expose to the container. The supported values are either the full ARN of the AWS Secrets Manager secret or the full ARN of the parameter in the AWS Systems Manager Parameter Store.  If the AWS Systems Manager Parameter Store parameter exists in the same Region as the task you are launching, then you can use either the full ARN or name of the parameter. If the parameter exists in a different Region, then the full ARN must be specified. 
@@ -3282,6 +3425,7 @@ extension ECS {
             AWSShapeMember(label: "taskDefinition", required: false, type: .string), 
             AWSShapeMember(label: "taskSets", required: false, type: .list)
         ]
+
         /// The Amazon Resource Name (ARN) of the cluster that hosts the service.
         public let clusterArn: String?
         /// The Unix timestamp for when the service was created.
@@ -3295,13 +3439,13 @@ extension ECS {
         /// The current state of deployments for the service.
         public let deployments: [Deployment]?
         /// The desired number of instantiations of the task definition to keep running on the service. This value is specified when the service is created with CreateService, and it can be modified with UpdateService.
-        public let desiredCount: Int32?
+        public let desiredCount: Int?
         /// Specifies whether to enable Amazon ECS managed tags for the tasks in the service. For more information, see Tagging Your Amazon ECS Resources in the Amazon Elastic Container Service Developer Guide.
         public let enableECSManagedTags: Bool?
         /// The event stream for your service. A maximum of 100 of the latest events are displayed.
         public let events: [ServiceEvent]?
         /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing target health checks after a task has first started.
-        public let healthCheckGracePeriodSeconds: Int32?
+        public let healthCheckGracePeriodSeconds: Int?
         /// The launch type on which your service is running. If no value is specified, it will default to EC2. Valid values include EC2 and FARGATE. For more information, see Amazon ECS Launch Types in the Amazon Elastic Container Service Developer Guide.
         public let launchType: LaunchType?
         /// A list of Elastic Load Balancing load balancer objects, containing the load balancer name, the container name (as it appears in a container definition), and the container port to access from the load balancer. Services with tasks that use the awsvpc network mode (for example, those with the Fargate launch type) only support Application Load Balancers and Network Load Balancers. Classic Load Balancers are not supported. Also, when you create any target groups for these services, you must choose ip as the target type, not instance. Tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance.
@@ -3309,7 +3453,7 @@ extension ECS {
         /// The VPC subnet and security group configuration for tasks that receive their own elastic network interface by using the awsvpc networking mode.
         public let networkConfiguration: NetworkConfiguration?
         /// The number of tasks in the cluster that are in the PENDING state.
-        public let pendingCount: Int32?
+        public let pendingCount: Int?
         /// The placement constraints for the tasks in the service.
         public let placementConstraints: [PlacementConstraint]?
         /// The placement strategy that determines how tasks for the service are placed.
@@ -3321,7 +3465,7 @@ extension ECS {
         /// The ARN of the IAM role associated with the service that allows the Amazon ECS container agent to register container instances with an Elastic Load Balancing load balancer.
         public let roleArn: String?
         /// The number of tasks in the cluster that are in the RUNNING state.
-        public let runningCount: Int32?
+        public let runningCount: Int?
         /// The scheduling strategy to use for the service. For more information, see Services. There are two service scheduler strategies available:    REPLICA-The replica scheduling strategy places and maintains the desired number of tasks across your cluster. By default, the service scheduler spreads tasks across Availability Zones. You can use task placement strategies and constraints to customize task placement decisions.    DAEMON-The daemon scheduling strategy deploys exactly one task on each container instance in your cluster. When you are using this strategy, do not specify a desired number of tasks or any task placement strategies.  Fargate tasks do not support the DAEMON scheduling strategy.   
         public let schedulingStrategy: SchedulingStrategy?
         /// The ARN that identifies the service. The ARN contains the arn:aws:ecs namespace, followed by the Region of the service, the AWS account ID of the service owner, the service namespace, and then the service name. For example, arn:aws:ecs:region:012345678910:service/my-service.
@@ -3339,7 +3483,7 @@ extension ECS {
         /// Information about a set of Amazon ECS tasks in either an AWS CodeDeploy or an EXTERNAL deployment. An Amazon ECS task set includes details such as the desired number of tasks, how many tasks are running, and whether the task set serves production traffic.
         public let taskSets: [TaskSet]?
 
-        public init(clusterArn: String? = nil, createdAt: TimeStamp? = nil, createdBy: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, deployments: [Deployment]? = nil, desiredCount: Int32? = nil, enableECSManagedTags: Bool? = nil, events: [ServiceEvent]? = nil, healthCheckGracePeriodSeconds: Int32? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int32? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, roleArn: String? = nil, runningCount: Int32? = nil, schedulingStrategy: SchedulingStrategy? = nil, serviceArn: String? = nil, serviceName: String? = nil, serviceRegistries: [ServiceRegistry]? = nil, status: String? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil, taskSets: [TaskSet]? = nil) {
+        public init(clusterArn: String? = nil, createdAt: TimeStamp? = nil, createdBy: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, deployments: [Deployment]? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool? = nil, events: [ServiceEvent]? = nil, healthCheckGracePeriodSeconds: Int? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, roleArn: String? = nil, runningCount: Int? = nil, schedulingStrategy: SchedulingStrategy? = nil, serviceArn: String? = nil, serviceName: String? = nil, serviceRegistries: [ServiceRegistry]? = nil, status: String? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil, taskSets: [TaskSet]? = nil) {
             self.clusterArn = clusterArn
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -3408,6 +3552,7 @@ extension ECS {
             AWSShapeMember(label: "id", required: false, type: .string), 
             AWSShapeMember(label: "message", required: false, type: .string)
         ]
+
         /// The Unix timestamp for when the event was triggered.
         public let createdAt: TimeStamp?
         /// The ID string of the event.
@@ -3440,16 +3585,17 @@ extension ECS {
             AWSShapeMember(label: "port", required: false, type: .integer), 
             AWSShapeMember(label: "registryArn", required: false, type: .string)
         ]
+
         /// The container name value, already specified in the task definition, to be used for your service discovery service. If the task definition that your service task specifies uses the bridge or host network mode, you must specify a containerName and containerPort combination from the task definition. If the task definition that your service task specifies uses the awsvpc network mode and a type SRV DNS record is used, you must specify either a containerName and containerPort combination or a port value, but not both.
         public let containerName: String?
         /// The port value, already specified in the task definition, to be used for your service discovery service. If the task definition your service task specifies uses the bridge or host network mode, you must specify a containerName and containerPort combination from the task definition. If the task definition your service task specifies uses the awsvpc network mode and a type SRV DNS record is used, you must specify either a containerName and containerPort combination or a port value, but not both.
-        public let containerPort: Int32?
+        public let containerPort: Int?
         /// The port value used if your service discovery service specified an SRV record. This field may be used if both the awsvpc network mode and SRV records are used.
-        public let port: Int32?
+        public let port: Int?
         /// The Amazon Resource Name (ARN) of the service registry. The currently supported service registry is AWS Cloud Map. For more information, see CreateService.
         public let registryArn: String?
 
-        public init(containerName: String? = nil, containerPort: Int32? = nil, port: Int32? = nil, registryArn: String? = nil) {
+        public init(containerName: String? = nil, containerPort: Int? = nil, port: Int? = nil, registryArn: String? = nil) {
             self.containerName = containerName
             self.containerPort = containerPort
             self.port = port
@@ -3470,6 +3616,7 @@ extension ECS {
             AWSShapeMember(label: "principalArn", required: false, type: .string), 
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
+
         /// The account resource name.
         public let name: SettingName?
         /// The ARN of the principal, which can be an IAM user, IAM role, or the root user. If this field is omitted, the authenticated user is assumed.
@@ -3523,6 +3670,7 @@ extension ECS {
             AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "taskDefinition", required: true, type: .string)
         ]
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster on which to start your task. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// The container instance IDs or full ARN entries for the container instances on which you would like to place your task. You can specify up to 10 container instances.
@@ -3557,6 +3705,14 @@ extension ECS {
             self.taskDefinition = taskDefinition
         }
 
+        public func validate(name: String) throws {
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, max: 50)
+            try validate(tags, name:"tags", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case cluster = "cluster"
             case containerInstances = "containerInstances"
@@ -3576,6 +3732,7 @@ extension ECS {
             AWSShapeMember(label: "failures", required: false, type: .list), 
             AWSShapeMember(label: "tasks", required: false, type: .list)
         ]
+
         /// Any failures associated with the call.
         public let failures: [Failure]?
         /// A full description of the tasks that were started. Each task that was successfully placed on your container instances is described.
@@ -3598,6 +3755,7 @@ extension ECS {
             AWSShapeMember(label: "reason", required: false, type: .string), 
             AWSShapeMember(label: "task", required: true, type: .string)
         ]
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task to stop. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// An optional message specified when a task is stopped. For example, if you are using a custom scheduler, you can use this parameter to specify the reason for stopping the task here, and the message appears in subsequent DescribeTasks API operations on this task. Up to 255 characters are allowed in this message.
@@ -3622,6 +3780,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "task", required: false, type: .structure)
         ]
+
         /// The task that was stopped.
         public let task: Task?
 
@@ -3639,6 +3798,7 @@ extension ECS {
             AWSShapeMember(label: "attachments", required: true, type: .list), 
             AWSShapeMember(label: "cluster", required: false, type: .string)
         ]
+
         /// Any attachments associated with the state change request.
         public let attachments: [AttachmentStateChange]
         /// The short name or full ARN of the cluster that hosts the container instance the attachment belongs to.
@@ -3659,6 +3819,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "acknowledgment", required: false, type: .string)
         ]
+
         /// Acknowledgement of the state change.
         public let acknowledgment: String?
 
@@ -3681,12 +3842,13 @@ extension ECS {
             AWSShapeMember(label: "status", required: false, type: .string), 
             AWSShapeMember(label: "task", required: false, type: .string)
         ]
+
         /// The short name or full ARN of the cluster that hosts the container.
         public let cluster: String?
         /// The name of the container.
         public let containerName: String?
         /// The exit code returned for the state change request.
-        public let exitCode: Int32?
+        public let exitCode: Int?
         /// The network bindings of the container.
         public let networkBindings: [NetworkBinding]?
         /// The reason for the state change request.
@@ -3696,7 +3858,7 @@ extension ECS {
         /// The task ID or full Amazon Resource Name (ARN) of the task that hosts the container.
         public let task: String?
 
-        public init(cluster: String? = nil, containerName: String? = nil, exitCode: Int32? = nil, networkBindings: [NetworkBinding]? = nil, reason: String? = nil, status: String? = nil, task: String? = nil) {
+        public init(cluster: String? = nil, containerName: String? = nil, exitCode: Int? = nil, networkBindings: [NetworkBinding]? = nil, reason: String? = nil, status: String? = nil, task: String? = nil) {
             self.cluster = cluster
             self.containerName = containerName
             self.exitCode = exitCode
@@ -3721,6 +3883,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "acknowledgment", required: false, type: .string)
         ]
+
         /// Acknowledgement of the state change.
         public let acknowledgment: String?
 
@@ -3745,6 +3908,7 @@ extension ECS {
             AWSShapeMember(label: "status", required: false, type: .string), 
             AWSShapeMember(label: "task", required: false, type: .string)
         ]
+
         /// Any attachments associated with the state change request.
         public let attachments: [AttachmentStateChange]?
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task.
@@ -3793,6 +3957,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "acknowledgment", required: false, type: .string)
         ]
+
         /// Acknowledgement of the state change.
         public let acknowledgment: String?
 
@@ -3810,6 +3975,7 @@ extension ECS {
             AWSShapeMember(label: "namespace", required: false, type: .string), 
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
+
         /// The namespaced kernel parameter for which to set a value.
         public let namespace: String?
         /// The value for the namespaced kernel parameter specified in namespace.
@@ -3831,6 +3997,7 @@ extension ECS {
             AWSShapeMember(label: "key", required: false, type: .string), 
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
+
         /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String?
         /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
@@ -3839,6 +4006,15 @@ extension ECS {
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, min: 0)
+            try validate(value, name:"value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3852,6 +4028,7 @@ extension ECS {
             AWSShapeMember(label: "resourceArn", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: true, type: .list)
         ]
+
         /// The Amazon Resource Name (ARN) of the resource to which to add tags. Currently, the supported resources are Amazon ECS tasks, services, task definitions, clusters, and container instances.
         public let resourceArn: String
         /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
@@ -3862,6 +4039,14 @@ extension ECS {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, max: 50)
+            try validate(tags, name:"tags", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "resourceArn"
             case tags = "tags"
@@ -3869,6 +4054,7 @@ extension ECS {
     }
 
     public struct TagResourceResponse: AWSShape {
+
 
         public init() {
         }
@@ -3912,6 +4098,7 @@ extension ECS {
             AWSShapeMember(label: "taskDefinitionArn", required: false, type: .string), 
             AWSShapeMember(label: "version", required: false, type: .long)
         ]
+
         /// The Elastic Network Adapter associated with the task if the task uses the awsvpc network mode.
         public let attachments: [Attachment]?
         /// The ARN of the cluster that hosts the task.
@@ -4057,6 +4244,7 @@ extension ECS {
             AWSShapeMember(label: "taskRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "volumes", required: false, type: .list)
         ]
+
         /// The launch type to use with your task. For more information, see Amazon ECS Launch Types in the Amazon Elastic Container Service Developer Guide.
         public let compatibilities: [Compatibility]?
         /// A list of container definitions in JSON format that describe the different containers that make up your task. For more information about container definition parameters and defaults, see Amazon ECS Task Definitions in the Amazon Elastic Container Service Developer Guide.
@@ -4084,7 +4272,7 @@ extension ECS {
         /// The launch type the task requires. If no value is specified, it will default to EC2. Valid values include EC2 and FARGATE.
         public let requiresCompatibilities: [Compatibility]?
         /// The revision of the task in a particular family. The revision is a version number of a task definition in a family. When you register a task definition for the first time, the revision is 1. Each time that you register a new revision of a task definition in the same family, the revision value always increases by one, even if you have deregistered previous revisions in this family.
-        public let revision: Int32?
+        public let revision: Int?
         /// The status of the task definition.
         public let status: TaskDefinitionStatus?
         /// The full Amazon Resource Name (ARN) of the task definition.
@@ -4094,7 +4282,7 @@ extension ECS {
         /// The list of volume definitions for the task. If your tasks are using the Fargate launch type, the host and sourcePath parameters are not supported. For more information about volume definition parameters and defaults, see Amazon ECS Task Definitions in the Amazon Elastic Container Service Developer Guide.
         public let volumes: [Volume]?
 
-        public init(compatibilities: [Compatibility]? = nil, containerDefinitions: [ContainerDefinition]? = nil, cpu: String? = nil, executionRoleArn: String? = nil, family: String? = nil, ipcMode: IpcMode? = nil, memory: String? = nil, networkMode: NetworkMode? = nil, pidMode: PidMode? = nil, placementConstraints: [TaskDefinitionPlacementConstraint]? = nil, proxyConfiguration: ProxyConfiguration? = nil, requiresAttributes: [Attribute]? = nil, requiresCompatibilities: [Compatibility]? = nil, revision: Int32? = nil, status: TaskDefinitionStatus? = nil, taskDefinitionArn: String? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
+        public init(compatibilities: [Compatibility]? = nil, containerDefinitions: [ContainerDefinition]? = nil, cpu: String? = nil, executionRoleArn: String? = nil, family: String? = nil, ipcMode: IpcMode? = nil, memory: String? = nil, networkMode: NetworkMode? = nil, pidMode: PidMode? = nil, placementConstraints: [TaskDefinitionPlacementConstraint]? = nil, proxyConfiguration: ProxyConfiguration? = nil, requiresAttributes: [Attribute]? = nil, requiresCompatibilities: [Compatibility]? = nil, revision: Int? = nil, status: TaskDefinitionStatus? = nil, taskDefinitionArn: String? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
             self.compatibilities = compatibilities
             self.containerDefinitions = containerDefinitions
             self.cpu = cpu
@@ -4154,6 +4342,7 @@ extension ECS {
             AWSShapeMember(label: "expression", required: false, type: .string), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// A cluster query language expression to apply to the constraint. For more information, see Cluster Query Language in the Amazon Elastic Container Service Developer Guide.
         public let expression: String?
         /// The type of constraint. The DistinctInstance constraint ensures that each task in a particular group is running on a different container instance. The MemberOf constraint restricts selection to be from a group of valid candidates.
@@ -4192,6 +4381,7 @@ extension ECS {
             AWSShapeMember(label: "executionRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "taskRoleArn", required: false, type: .string)
         ]
+
         /// One or more container overrides sent to a task.
         public let containerOverrides: [ContainerOverride]?
         /// The Amazon Resource Name (ARN) of the task execution role that the Amazon ECS container agent and the Docker daemon can assume.
@@ -4236,10 +4426,11 @@ extension ECS {
             AWSShapeMember(label: "taskSetArn", required: false, type: .string), 
             AWSShapeMember(label: "updatedAt", required: false, type: .timestamp)
         ]
+
         /// The Amazon Resource Name (ARN) of the cluster that the service that hosts the task set exists in.
         public let clusterArn: String?
         /// The computed desired count for the task set. This is calculated by multiplying the service's desiredCount by the task set's scale percentage. The result is always rounded up. For example, if the computed desired count is 1.2, it rounds up to 2 tasks.
-        public let computedDesiredCount: Int32?
+        public let computedDesiredCount: Int?
         /// The Unix timestamp for when the task set was created.
         public let createdAt: TimeStamp?
         /// The external ID associated with the task set. If a task set is created by an AWS CodeDeploy deployment, the externalId parameter contains the AWS CodeDeploy deployment ID. If a task set is created for an external deployment and is associated with a service discovery registry, the externalId parameter contains the ECS_TASK_SET_EXTERNAL_ID AWS Cloud Map attribute.
@@ -4253,11 +4444,11 @@ extension ECS {
         /// The network configuration for the task set.
         public let networkConfiguration: NetworkConfiguration?
         /// The number of tasks in the task set that are in the PENDING status during a deployment. A task in the PENDING state is preparing to enter the RUNNING state. A task set enters the PENDING status when it launches for the first time or when it is restarted after being in the STOPPED state.
-        public let pendingCount: Int32?
+        public let pendingCount: Int?
         /// The platform version on which the tasks in the task set are running. A platform version is only specified for tasks using the Fargate launch type. If one is not specified, the LATEST platform version is used by default. For more information, see AWS Fargate Platform Versions in the Amazon Elastic Container Service Developer Guide.
         public let platformVersion: String?
         /// The number of tasks in the task set that are in the RUNNING status during a deployment. A task in the RUNNING state is running and ready for use.
-        public let runningCount: Int32?
+        public let runningCount: Int?
         /// A floating-point percentage of the desired number of tasks to place and keep running in the task set.
         public let scale: Scale?
         /// The Amazon Resource Name (ARN) of the service the task set exists in.
@@ -4279,7 +4470,7 @@ extension ECS {
         /// The Unix timestamp for when the task set was last updated.
         public let updatedAt: TimeStamp?
 
-        public init(clusterArn: String? = nil, computedDesiredCount: Int32? = nil, createdAt: TimeStamp? = nil, externalId: String? = nil, id: String? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int32? = nil, platformVersion: String? = nil, runningCount: Int32? = nil, scale: Scale? = nil, serviceArn: String? = nil, serviceRegistries: [ServiceRegistry]? = nil, stabilityStatus: StabilityStatus? = nil, stabilityStatusAt: TimeStamp? = nil, startedBy: String? = nil, status: String? = nil, taskDefinition: String? = nil, taskSetArn: String? = nil, updatedAt: TimeStamp? = nil) {
+        public init(clusterArn: String? = nil, computedDesiredCount: Int? = nil, createdAt: TimeStamp? = nil, externalId: String? = nil, id: String? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int? = nil, platformVersion: String? = nil, runningCount: Int? = nil, scale: Scale? = nil, serviceArn: String? = nil, serviceRegistries: [ServiceRegistry]? = nil, stabilityStatus: StabilityStatus? = nil, stabilityStatusAt: TimeStamp? = nil, startedBy: String? = nil, status: String? = nil, taskDefinition: String? = nil, taskSetArn: String? = nil, updatedAt: TimeStamp? = nil) {
             self.clusterArn = clusterArn
             self.computedDesiredCount = computedDesiredCount
             self.createdAt = createdAt
@@ -4341,14 +4532,15 @@ extension ECS {
             AWSShapeMember(label: "mountOptions", required: false, type: .list), 
             AWSShapeMember(label: "size", required: true, type: .integer)
         ]
+
         /// The absolute file path where the tmpfs volume is to be mounted.
         public let containerPath: String
         /// The list of tmpfs volume mount options. Valid values: "defaults" | "ro" | "rw" | "suid" | "nosuid" | "dev" | "nodev" | "exec" | "noexec" | "sync" | "async" | "dirsync" | "remount" | "mand" | "nomand" | "atime" | "noatime" | "diratime" | "nodiratime" | "bind" | "rbind" | "unbindable" | "runbindable" | "private" | "rprivate" | "shared" | "rshared" | "slave" | "rslave" | "relatime" | "norelatime" | "strictatime" | "nostrictatime" | "mode" | "uid" | "gid" | "nr_inodes" | "nr_blocks" | "mpol" 
         public let mountOptions: [String]?
         /// The size (in MiB) of the tmpfs volume.
-        public let size: Int32
+        public let size: Int
 
-        public init(containerPath: String, mountOptions: [String]? = nil, size: Int32) {
+        public init(containerPath: String, mountOptions: [String]? = nil, size: Int) {
             self.containerPath = containerPath
             self.mountOptions = mountOptions
             self.size = size
@@ -4373,14 +4565,15 @@ extension ECS {
             AWSShapeMember(label: "name", required: true, type: .enum), 
             AWSShapeMember(label: "softLimit", required: true, type: .integer)
         ]
+
         /// The hard limit for the ulimit type.
-        public let hardLimit: Int32
+        public let hardLimit: Int
         /// The type of the ulimit.
         public let name: UlimitName
         /// The soft limit for the ulimit type.
-        public let softLimit: Int32
+        public let softLimit: Int
 
-        public init(hardLimit: Int32, name: UlimitName, softLimit: Int32) {
+        public init(hardLimit: Int, name: UlimitName, softLimit: Int) {
             self.hardLimit = hardLimit
             self.name = name
             self.softLimit = softLimit
@@ -4417,6 +4610,7 @@ extension ECS {
             AWSShapeMember(label: "resourceArn", required: true, type: .string), 
             AWSShapeMember(label: "tagKeys", required: true, type: .list)
         ]
+
         /// The Amazon Resource Name (ARN) of the resource from which to delete tags. Currently, the supported resources are Amazon ECS tasks, services, task definitions, clusters, and container instances.
         public let resourceArn: String
         /// The keys of the tags to be removed.
@@ -4427,6 +4621,14 @@ extension ECS {
             self.tagKeys = tagKeys
         }
 
+        public func validate(name: String) throws {
+            try tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "resourceArn"
             case tagKeys = "tagKeys"
@@ -4434,6 +4636,7 @@ extension ECS {
     }
 
     public struct UntagResourceResponse: AWSShape {
+
 
         public init() {
         }
@@ -4445,6 +4648,7 @@ extension ECS {
             AWSShapeMember(label: "cluster", required: false, type: .string), 
             AWSShapeMember(label: "containerInstance", required: true, type: .string)
         ]
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that your container instance is running on. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// The container instance ID or full ARN entries for the container instance on which you would like to update the Amazon ECS container agent.
@@ -4465,6 +4669,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "containerInstance", required: false, type: .structure)
         ]
+
         /// The container instance for which the container agent was updated.
         public let containerInstance: ContainerInstance?
 
@@ -4483,6 +4688,7 @@ extension ECS {
             AWSShapeMember(label: "containerInstances", required: true, type: .list), 
             AWSShapeMember(label: "status", required: true, type: .enum)
         ]
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instance to update. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// A list of container instance IDs or full ARN entries.
@@ -4508,6 +4714,7 @@ extension ECS {
             AWSShapeMember(label: "containerInstances", required: false, type: .list), 
             AWSShapeMember(label: "failures", required: false, type: .list)
         ]
+
         /// The list of container instances.
         public let containerInstances: [ContainerInstance]?
         /// Any failures associated with the call.
@@ -4530,6 +4737,7 @@ extension ECS {
             AWSShapeMember(label: "primaryTaskSet", required: true, type: .string), 
             AWSShapeMember(label: "service", required: true, type: .string)
         ]
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task set exists in.
         public let cluster: String
         /// The short name or full Amazon Resource Name (ARN) of the task set to set as the primary task set in the deployment.
@@ -4554,6 +4762,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "taskSet", required: false, type: .structure)
         ]
+
         public let taskSet: TaskSet?
 
         public init(taskSet: TaskSet? = nil) {
@@ -4577,16 +4786,17 @@ extension ECS {
             AWSShapeMember(label: "service", required: true, type: .string), 
             AWSShapeMember(label: "taskDefinition", required: false, type: .string)
         ]
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that your service is running on. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks.
         public let deploymentConfiguration: DeploymentConfiguration?
         /// The number of instantiations of the task to place and keep running in your service.
-        public let desiredCount: Int32?
+        public let desiredCount: Int?
         /// Whether to force a new deployment of the service. Deployments are not forced by default. You can use this option to trigger a new deployment with no service definition changes. For example, you can update a service's tasks to use a newer Docker image with the same image/tag combination (my_image:latest) or to roll Fargate tasks onto a newer platform version.
         public let forceNewDeployment: Bool?
         /// The period of time, in seconds, that the Amazon ECS service scheduler should ignore unhealthy Elastic Load Balancing target health checks after a task has first started. This is only valid if your service is configured to use a load balancer. If your service's tasks take a while to start and respond to Elastic Load Balancing health checks, you can specify a health check grace period of up to 1,800 seconds. During that time, the ECS service scheduler ignores the Elastic Load Balancing health check status. This grace period can prevent the ECS service scheduler from marking tasks as unhealthy and stopping them before they have time to come up.
-        public let healthCheckGracePeriodSeconds: Int32?
+        public let healthCheckGracePeriodSeconds: Int?
         /// The network configuration for the service. This parameter is required for task definitions that use the awsvpc network mode to receive their own elastic network interface, and it is not supported for other network modes. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide.  Updating a service to add a subnet to a list of existing subnets does not trigger a service deployment. For example, if your network configuration change is to keep the existing subnets and simply add another subnet to the network configuration, this does not trigger a new service deployment. 
         public let networkConfiguration: NetworkConfiguration?
         /// The platform version on which your tasks in the service are running. A platform version is only specified for tasks using the Fargate launch type. If one is not specified, the LATEST platform version is used by default. For more information, see AWS Fargate Platform Versions in the Amazon Elastic Container Service Developer Guide.
@@ -4596,7 +4806,7 @@ extension ECS {
         /// The family and revision (family:revision) or full ARN of the task definition to run in your service. If a revision is not specified, the latest ACTIVE revision is used. If you modify the task definition with UpdateService, Amazon ECS spawns a task with the new version of the task definition and then stops an old task after the new version is running.
         public let taskDefinition: String?
 
-        public init(cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, desiredCount: Int32? = nil, forceNewDeployment: Bool? = nil, healthCheckGracePeriodSeconds: Int32? = nil, networkConfiguration: NetworkConfiguration? = nil, platformVersion: String? = nil, service: String, taskDefinition: String? = nil) {
+        public init(cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, desiredCount: Int? = nil, forceNewDeployment: Bool? = nil, healthCheckGracePeriodSeconds: Int? = nil, networkConfiguration: NetworkConfiguration? = nil, platformVersion: String? = nil, service: String, taskDefinition: String? = nil) {
             self.cluster = cluster
             self.deploymentConfiguration = deploymentConfiguration
             self.desiredCount = desiredCount
@@ -4625,6 +4835,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "service", required: false, type: .structure)
         ]
+
         /// The full description of your service following the update call.
         public let service: Service?
 
@@ -4644,6 +4855,7 @@ extension ECS {
             AWSShapeMember(label: "service", required: true, type: .string), 
             AWSShapeMember(label: "taskSet", required: true, type: .string)
         ]
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task set exists in.
         public let cluster: String
         public let scale: Scale
@@ -4671,6 +4883,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "taskSet", required: false, type: .structure)
         ]
+
         public let taskSet: TaskSet?
 
         public init(taskSet: TaskSet? = nil) {
@@ -4688,6 +4901,7 @@ extension ECS {
             AWSShapeMember(label: "agentVersion", required: false, type: .string), 
             AWSShapeMember(label: "dockerVersion", required: false, type: .string)
         ]
+
         /// The Git commit hash for the Amazon ECS container agent build on the amazon-ecs-agent  GitHub repository.
         public let agentHash: String?
         /// The version number of the Amazon ECS container agent.
@@ -4714,6 +4928,7 @@ extension ECS {
             AWSShapeMember(label: "host", required: false, type: .structure), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// This parameter is specified when you are using Docker volumes. Docker volumes are only supported when you are using the EC2 launch type. Windows containers only support the use of the local driver. To use bind mounts, specify a host instead.
         public let dockerVolumeConfiguration: DockerVolumeConfiguration?
         /// This parameter is specified when you are using bind mount host volumes. Bind mount host volumes are supported when you are using either the EC2 or Fargate launch types. The contents of the host parameter determine whether your bind mount host volume persists on the host container instance and where it is stored. If the host parameter is empty, then the Docker daemon assigns a host path for your data volume. However, the data is not guaranteed to persist after the containers associated with it stop running. Windows containers can mount whole directories on the same drive as $env:ProgramData. Windows containers cannot mount directories on a different drive, and mount point cannot be across drives. For example, you can mount C:\my\path:C:\my\path and D:\:D:\, but not D:\my\path:C:\my\path or D:\:C:\my\path.
@@ -4739,6 +4954,7 @@ extension ECS {
             AWSShapeMember(label: "readOnly", required: false, type: .boolean), 
             AWSShapeMember(label: "sourceContainer", required: false, type: .string)
         ]
+
         /// If this value is true, the container has read-only access to the volume. If this value is false, then the container can write to the volume. The default value is false.
         public let readOnly: Bool?
         /// The name of another container within the same task definition from which to mount volumes.

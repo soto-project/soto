@@ -16,11 +16,22 @@ extension RoboMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "jobs", required: true, type: .list)
         ]
+
         /// A list of Amazon Resource Names (ARNs) of simulation jobs to describe.
         public let jobs: [String]
 
         public init(jobs: [String]) {
             self.jobs = jobs
+        }
+
+        public func validate(name: String) throws {
+            try jobs.forEach {
+                try validate($0, name: "jobs[]", parent: name, max: 1224)
+                try validate($0, name: "jobs[]", parent: name, min: 1)
+                try validate($0, name: "jobs[]", parent: name, pattern: "arn:.*")
+            }
+            try validate(jobs, name:"jobs", parent: name, max: 100)
+            try validate(jobs, name:"jobs", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -33,6 +44,7 @@ extension RoboMaker {
             AWSShapeMember(label: "jobs", required: false, type: .list), 
             AWSShapeMember(label: "unprocessedJobs", required: false, type: .list)
         ]
+
         /// A list of simulation jobs.
         public let jobs: [SimulationJob]?
         /// A list of unprocessed simulation job Amazon Resource Names (ARNs).
@@ -53,11 +65,18 @@ extension RoboMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "job", required: true, type: .string)
         ]
+
         /// The deployment job ARN to cancel.
         public let job: String
 
         public init(job: String) {
             self.job = job
+        }
+
+        public func validate(name: String) throws {
+            try validate(job, name:"job", parent: name, max: 1224)
+            try validate(job, name:"job", parent: name, min: 1)
+            try validate(job, name:"job", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -66,6 +85,7 @@ extension RoboMaker {
     }
 
     public struct CancelDeploymentJobResponse: AWSShape {
+
 
         public init() {
         }
@@ -76,11 +96,18 @@ extension RoboMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "job", required: true, type: .string)
         ]
+
         /// The simulation job ARN to cancel.
         public let job: String
 
         public init(job: String) {
             self.job = job
+        }
+
+        public func validate(name: String) throws {
+            try validate(job, name:"job", parent: name, max: 1224)
+            try validate(job, name:"job", parent: name, min: 1)
+            try validate(job, name:"job", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -89,6 +116,7 @@ extension RoboMaker {
     }
 
     public struct CancelSimulationJobResponse: AWSShape {
+
 
         public init() {
         }
@@ -103,6 +131,7 @@ extension RoboMaker {
             AWSShapeMember(label: "fleet", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String
         /// The deployment application configuration.
@@ -114,12 +143,35 @@ extension RoboMaker {
         /// A map that contains tag keys and tag values that are attached to the deployment job.
         public let tags: [String: String]?
 
-        public init(clientRequestToken: String, deploymentApplicationConfigs: [DeploymentApplicationConfig], deploymentConfig: DeploymentConfig? = nil, fleet: String, tags: [String: String]? = nil) {
+        public init(clientRequestToken: String = CreateDeploymentJobRequest.idempotencyToken(), deploymentApplicationConfigs: [DeploymentApplicationConfig], deploymentConfig: DeploymentConfig? = nil, fleet: String, tags: [String: String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.deploymentApplicationConfigs = deploymentApplicationConfigs
             self.deploymentConfig = deploymentConfig
             self.fleet = fleet
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9_\\-=]*")
+            try deploymentApplicationConfigs.forEach {
+                try $0.validate(name: "\(name).deploymentApplicationConfigs[]")
+            }
+            try validate(deploymentApplicationConfigs, name:"deploymentApplicationConfigs", parent: name, max: 1)
+            try validate(deploymentApplicationConfigs, name:"deploymentApplicationConfigs", parent: name, min: 1)
+            try deploymentConfig?.validate(name: "\(name).deploymentConfig")
+            try validate(fleet, name:"fleet", parent: name, max: 1224)
+            try validate(fleet, name:"fleet", parent: name, min: 1)
+            try validate(fleet, name:"fleet", parent: name, pattern: "arn:.*")
+            try tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -143,6 +195,7 @@ extension RoboMaker {
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the fleet was created.
@@ -192,6 +245,7 @@ extension RoboMaker {
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// The name of the fleet.
         public let name: String
         /// A map that contains tag keys and tag values that are attached to the fleet.
@@ -200,6 +254,20 @@ extension RoboMaker {
         public init(name: String, tags: [String: String]? = nil) {
             self.name = name
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 255)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9_\\-]*")
+            try tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -215,6 +283,7 @@ extension RoboMaker {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// The Amazon Resource Name (ARN) of the fleet.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the fleet was created.
@@ -246,6 +315,7 @@ extension RoboMaker {
             AWSShapeMember(label: "sources", required: true, type: .list), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// The name of the robot application.
         public let name: String
         /// The robot software suite used by the robot application.
@@ -260,6 +330,23 @@ extension RoboMaker {
             self.robotSoftwareSuite = robotSoftwareSuite
             self.sources = sources
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 255)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9_\\-]*")
+            try sources.forEach {
+                try $0.validate(name: "\(name).sources[]")
+            }
+            try tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -281,6 +368,7 @@ extension RoboMaker {
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the robot application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
@@ -326,6 +414,7 @@ extension RoboMaker {
             AWSShapeMember(label: "application", required: true, type: .string), 
             AWSShapeMember(label: "currentRevisionId", required: false, type: .string)
         ]
+
         /// The application information for the robot application.
         public let application: String
         /// The current revision id for the robot application. If you provide a value and it matches the latest revision ID, a new version will be created.
@@ -334,6 +423,15 @@ extension RoboMaker {
         public init(application: String, currentRevisionId: String? = nil) {
             self.application = application
             self.currentRevisionId = currentRevisionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(application, name:"application", parent: name, max: 1224)
+            try validate(application, name:"application", parent: name, min: 1)
+            try validate(application, name:"application", parent: name, pattern: "arn:.*")
+            try validate(currentRevisionId, name:"currentRevisionId", parent: name, max: 40)
+            try validate(currentRevisionId, name:"currentRevisionId", parent: name, min: 1)
+            try validate(currentRevisionId, name:"currentRevisionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -352,6 +450,7 @@ extension RoboMaker {
             AWSShapeMember(label: "sources", required: false, type: .list), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the robot application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
@@ -395,6 +494,7 @@ extension RoboMaker {
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// The target architecture of the robot.
         public let architecture: Architecture
         /// The Greengrass group id.
@@ -409,6 +509,22 @@ extension RoboMaker {
             self.greengrassGroupId = greengrassGroupId
             self.name = name
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(greengrassGroupId, name:"greengrassGroupId", parent: name, max: 1224)
+            try validate(greengrassGroupId, name:"greengrassGroupId", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 255)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9_\\-]*")
+            try tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -428,6 +544,7 @@ extension RoboMaker {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// The target architecture of the robot.
         public let architecture: Architecture?
         /// The Amazon Resource Name (ARN) of the robot.
@@ -469,6 +586,7 @@ extension RoboMaker {
             AWSShapeMember(label: "sources", required: true, type: .list), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// The name of the simulation application.
         public let name: String
         /// The rendering engine for the simulation application.
@@ -489,6 +607,25 @@ extension RoboMaker {
             self.simulationSoftwareSuite = simulationSoftwareSuite
             self.sources = sources
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 255)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9_\\-]*")
+            try renderingEngine.validate(name: "\(name).renderingEngine")
+            try simulationSoftwareSuite.validate(name: "\(name).simulationSoftwareSuite")
+            try sources.forEach {
+                try $0.validate(name: "\(name).sources[]")
+            }
+            try tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -514,6 +651,7 @@ extension RoboMaker {
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the simulation application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the simulation application was last updated.
@@ -567,6 +705,7 @@ extension RoboMaker {
             AWSShapeMember(label: "application", required: true, type: .string), 
             AWSShapeMember(label: "currentRevisionId", required: false, type: .string)
         ]
+
         /// The application information for the simulation application.
         public let application: String
         /// The current revision id for the simulation application. If you provide a value and it matches the latest revision ID, a new version will be created.
@@ -575,6 +714,15 @@ extension RoboMaker {
         public init(application: String, currentRevisionId: String? = nil) {
             self.application = application
             self.currentRevisionId = currentRevisionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(application, name:"application", parent: name, max: 1224)
+            try validate(application, name:"application", parent: name, min: 1)
+            try validate(application, name:"application", parent: name, pattern: "arn:.*")
+            try validate(currentRevisionId, name:"currentRevisionId", parent: name, max: 40)
+            try validate(currentRevisionId, name:"currentRevisionId", parent: name, min: 1)
+            try validate(currentRevisionId, name:"currentRevisionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -595,6 +743,7 @@ extension RoboMaker {
             AWSShapeMember(label: "sources", required: false, type: .list), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the simulation application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the simulation application was last updated.
@@ -651,6 +800,7 @@ extension RoboMaker {
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
         ]
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The failure behavior the simulation job.  Continue  Restart the simulation job in the same host instance.  Fail  Stop the simulation job and terminate the instance.  
@@ -670,7 +820,7 @@ extension RoboMaker {
         /// If your simulation job accesses resources in a VPC, you provide this parameter identifying the list of security group IDs and subnet IDs. These must belong to the same VPC. You must provide at least one security group and one subnet ID. 
         public let vpcConfig: VPCConfig?
 
-        public init(clientRequestToken: String? = nil, failureBehavior: FailureBehavior? = nil, iamRole: String, maxJobDurationInSeconds: Int64, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfig? = nil) {
+        public init(clientRequestToken: String? = CreateSimulationJobRequest.idempotencyToken(), failureBehavior: FailureBehavior? = nil, iamRole: String, maxJobDurationInSeconds: Int64, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.failureBehavior = failureBehavior
             self.iamRole = iamRole
@@ -680,6 +830,35 @@ extension RoboMaker {
             self.simulationApplications = simulationApplications
             self.tags = tags
             self.vpcConfig = vpcConfig
+        }
+
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9_\\-=]*")
+            try validate(iamRole, name:"iamRole", parent: name, max: 255)
+            try validate(iamRole, name:"iamRole", parent: name, min: 1)
+            try validate(iamRole, name:"iamRole", parent: name, pattern: "arn:.*")
+            try outputLocation?.validate(name: "\(name).outputLocation")
+            try robotApplications?.forEach {
+                try $0.validate(name: "\(name).robotApplications[]")
+            }
+            try validate(robotApplications, name:"robotApplications", parent: name, max: 1)
+            try validate(robotApplications, name:"robotApplications", parent: name, min: 1)
+            try simulationApplications?.forEach {
+                try $0.validate(name: "\(name).simulationApplications[]")
+            }
+            try validate(simulationApplications, name:"simulationApplications", parent: name, max: 1)
+            try validate(simulationApplications, name:"simulationApplications", parent: name, min: 1)
+            try tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
+            try vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -713,6 +892,7 @@ extension RoboMaker {
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
         ]
+
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let arn: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -785,11 +965,18 @@ extension RoboMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "fleet", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String
 
         public init(fleet: String) {
             self.fleet = fleet
+        }
+
+        public func validate(name: String) throws {
+            try validate(fleet, name:"fleet", parent: name, max: 1224)
+            try validate(fleet, name:"fleet", parent: name, min: 1)
+            try validate(fleet, name:"fleet", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -798,6 +985,7 @@ extension RoboMaker {
     }
 
     public struct DeleteFleetResponse: AWSShape {
+
 
         public init() {
         }
@@ -809,6 +997,7 @@ extension RoboMaker {
             AWSShapeMember(label: "application", required: true, type: .string), 
             AWSShapeMember(label: "applicationVersion", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the the robot application.
         public let application: String
         /// The version of the robot application to delete.
@@ -819,6 +1008,15 @@ extension RoboMaker {
             self.applicationVersion = applicationVersion
         }
 
+        public func validate(name: String) throws {
+            try validate(application, name:"application", parent: name, max: 1224)
+            try validate(application, name:"application", parent: name, min: 1)
+            try validate(application, name:"application", parent: name, pattern: "arn:.*")
+            try validate(applicationVersion, name:"applicationVersion", parent: name, max: 255)
+            try validate(applicationVersion, name:"applicationVersion", parent: name, min: 1)
+            try validate(applicationVersion, name:"applicationVersion", parent: name, pattern: "(\\$LATEST)|[0-9]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case application = "application"
             case applicationVersion = "applicationVersion"
@@ -826,6 +1024,7 @@ extension RoboMaker {
     }
 
     public struct DeleteRobotApplicationResponse: AWSShape {
+
 
         public init() {
         }
@@ -836,11 +1035,18 @@ extension RoboMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "robot", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the robot.
         public let robot: String
 
         public init(robot: String) {
             self.robot = robot
+        }
+
+        public func validate(name: String) throws {
+            try validate(robot, name:"robot", parent: name, max: 1224)
+            try validate(robot, name:"robot", parent: name, min: 1)
+            try validate(robot, name:"robot", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -849,6 +1055,7 @@ extension RoboMaker {
     }
 
     public struct DeleteRobotResponse: AWSShape {
+
 
         public init() {
         }
@@ -860,6 +1067,7 @@ extension RoboMaker {
             AWSShapeMember(label: "application", required: true, type: .string), 
             AWSShapeMember(label: "applicationVersion", required: false, type: .string)
         ]
+
         /// The application information for the simulation application to delete.
         public let application: String
         /// The version of the simulation application to delete.
@@ -870,6 +1078,15 @@ extension RoboMaker {
             self.applicationVersion = applicationVersion
         }
 
+        public func validate(name: String) throws {
+            try validate(application, name:"application", parent: name, max: 1224)
+            try validate(application, name:"application", parent: name, min: 1)
+            try validate(application, name:"application", parent: name, pattern: "arn:.*")
+            try validate(applicationVersion, name:"applicationVersion", parent: name, max: 255)
+            try validate(applicationVersion, name:"applicationVersion", parent: name, min: 1)
+            try validate(applicationVersion, name:"applicationVersion", parent: name, pattern: "(\\$LATEST)|[0-9]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case application = "application"
             case applicationVersion = "applicationVersion"
@@ -877,6 +1094,7 @@ extension RoboMaker {
     }
 
     public struct DeleteSimulationApplicationResponse: AWSShape {
+
 
         public init() {
         }
@@ -889,6 +1107,7 @@ extension RoboMaker {
             AWSShapeMember(label: "applicationVersion", required: true, type: .string), 
             AWSShapeMember(label: "launchConfig", required: true, type: .structure)
         ]
+
         /// The Amazon Resource Name (ARN) of the robot application.
         public let application: String
         /// The version of the application.
@@ -900,6 +1119,16 @@ extension RoboMaker {
             self.application = application
             self.applicationVersion = applicationVersion
             self.launchConfig = launchConfig
+        }
+
+        public func validate(name: String) throws {
+            try validate(application, name:"application", parent: name, max: 1224)
+            try validate(application, name:"application", parent: name, min: 1)
+            try validate(application, name:"application", parent: name, pattern: "arn:.*")
+            try validate(applicationVersion, name:"applicationVersion", parent: name, max: 255)
+            try validate(applicationVersion, name:"applicationVersion", parent: name, min: 1)
+            try validate(applicationVersion, name:"applicationVersion", parent: name, pattern: "[0-9]*")
+            try launchConfig.validate(name: "\(name).launchConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -914,14 +1143,22 @@ extension RoboMaker {
             AWSShapeMember(label: "concurrentDeploymentPercentage", required: false, type: .integer), 
             AWSShapeMember(label: "failureThresholdPercentage", required: false, type: .integer)
         ]
-        /// The percentage of robots receiving the deployment at the same time.
-        public let concurrentDeploymentPercentage: Int32?
-        /// The percentage of deployments that need to fail before stopping deployment.
-        public let failureThresholdPercentage: Int32?
 
-        public init(concurrentDeploymentPercentage: Int32? = nil, failureThresholdPercentage: Int32? = nil) {
+        /// The percentage of robots receiving the deployment at the same time.
+        public let concurrentDeploymentPercentage: Int?
+        /// The percentage of deployments that need to fail before stopping deployment.
+        public let failureThresholdPercentage: Int?
+
+        public init(concurrentDeploymentPercentage: Int? = nil, failureThresholdPercentage: Int? = nil) {
             self.concurrentDeploymentPercentage = concurrentDeploymentPercentage
             self.failureThresholdPercentage = failureThresholdPercentage
+        }
+
+        public func validate(name: String) throws {
+            try validate(concurrentDeploymentPercentage, name:"concurrentDeploymentPercentage", parent: name, max: 100)
+            try validate(concurrentDeploymentPercentage, name:"concurrentDeploymentPercentage", parent: name, min: 1)
+            try validate(failureThresholdPercentage, name:"failureThresholdPercentage", parent: name, max: 100)
+            try validate(failureThresholdPercentage, name:"failureThresholdPercentage", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -941,6 +1178,7 @@ extension RoboMaker {
             AWSShapeMember(label: "fleet", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
+
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the deployment job was created.
@@ -1010,6 +1248,7 @@ extension RoboMaker {
             AWSShapeMember(label: "postLaunchFile", required: false, type: .string), 
             AWSShapeMember(label: "preLaunchFile", required: false, type: .string)
         ]
+
         /// An array of key/value pairs specifying environment variables for the robot application
         public let environmentVariables: [String: String]?
         /// The launch file name.
@@ -1027,6 +1266,26 @@ extension RoboMaker {
             self.packageName = packageName
             self.postLaunchFile = postLaunchFile
             self.preLaunchFile = preLaunchFile
+        }
+
+        public func validate(name: String) throws {
+            try environmentVariables?.forEach {
+                try validate($0.key, name:"environmentVariables.key", parent: name, max: 1024)
+                try validate($0.key, name:"environmentVariables.key", parent: name, min: 1)
+                try validate($0.key, name:"environmentVariables.key", parent: name, pattern: "[A-Z_][A-Z0-9_]*")
+                try validate($0.value, name:"environmentVariables[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name:"environmentVariables[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try validate(launchFile, name:"launchFile", parent: name, max: 1024)
+            try validate(launchFile, name:"launchFile", parent: name, min: 1)
+            try validate(launchFile, name:"launchFile", parent: name, pattern: "[a-zA-Z0-9_.\\-]*")
+            try validate(packageName, name:"packageName", parent: name, max: 1024)
+            try validate(packageName, name:"packageName", parent: name, min: 1)
+            try validate(packageName, name:"packageName", parent: name, pattern: "[a-zA-Z0-9_.\\-]*")
+            try validate(postLaunchFile, name:"postLaunchFile", parent: name, max: 1024)
+            try validate(postLaunchFile, name:"postLaunchFile", parent: name, min: 1)
+            try validate(preLaunchFile, name:"preLaunchFile", parent: name, max: 1024)
+            try validate(preLaunchFile, name:"preLaunchFile", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1053,6 +1312,7 @@ extension RoboMaker {
             AWSShapeMember(label: "fleet", required: true, type: .string), 
             AWSShapeMember(label: "robot", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String
         /// The Amazon Resource Name (ARN) of the robot.
@@ -1061,6 +1321,15 @@ extension RoboMaker {
         public init(fleet: String, robot: String) {
             self.fleet = fleet
             self.robot = robot
+        }
+
+        public func validate(name: String) throws {
+            try validate(fleet, name:"fleet", parent: name, max: 1224)
+            try validate(fleet, name:"fleet", parent: name, min: 1)
+            try validate(fleet, name:"fleet", parent: name, pattern: "arn:.*")
+            try validate(robot, name:"robot", parent: name, max: 1224)
+            try validate(robot, name:"robot", parent: name, min: 1)
+            try validate(robot, name:"robot", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1074,6 +1343,7 @@ extension RoboMaker {
             AWSShapeMember(label: "fleet", required: false, type: .string), 
             AWSShapeMember(label: "robot", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String?
         /// The Amazon Resource Name (ARN) of the robot.
@@ -1094,11 +1364,18 @@ extension RoboMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "job", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let job: String
 
         public init(job: String) {
             self.job = job
+        }
+
+        public func validate(name: String) throws {
+            try validate(job, name:"job", parent: name, max: 1224)
+            try validate(job, name:"job", parent: name, min: 1)
+            try validate(job, name:"job", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1119,6 +1396,7 @@ extension RoboMaker {
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the deployment job was created.
@@ -1171,11 +1449,18 @@ extension RoboMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "fleet", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String
 
         public init(fleet: String) {
             self.fleet = fleet
+        }
+
+        public func validate(name: String) throws {
+            try validate(fleet, name:"fleet", parent: name, max: 1224)
+            try validate(fleet, name:"fleet", parent: name, min: 1)
+            try validate(fleet, name:"fleet", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1194,6 +1479,7 @@ extension RoboMaker {
             AWSShapeMember(label: "robots", required: false, type: .list), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// The Amazon Resource Name (ARN) of the fleet.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the fleet was created.
@@ -1239,6 +1525,7 @@ extension RoboMaker {
             AWSShapeMember(label: "application", required: true, type: .string), 
             AWSShapeMember(label: "applicationVersion", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the robot application.
         public let application: String
         /// The version of the robot application to describe.
@@ -1247,6 +1534,15 @@ extension RoboMaker {
         public init(application: String, applicationVersion: String? = nil) {
             self.application = application
             self.applicationVersion = applicationVersion
+        }
+
+        public func validate(name: String) throws {
+            try validate(application, name:"application", parent: name, max: 1224)
+            try validate(application, name:"application", parent: name, min: 1)
+            try validate(application, name:"application", parent: name, pattern: "arn:.*")
+            try validate(applicationVersion, name:"applicationVersion", parent: name, max: 255)
+            try validate(applicationVersion, name:"applicationVersion", parent: name, min: 1)
+            try validate(applicationVersion, name:"applicationVersion", parent: name, pattern: "(\\$LATEST)|[0-9]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1266,6 +1562,7 @@ extension RoboMaker {
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the robot application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
@@ -1310,11 +1607,18 @@ extension RoboMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "robot", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the robot to be described.
         public let robot: String
 
         public init(robot: String) {
             self.robot = robot
+        }
+
+        public func validate(name: String) throws {
+            try validate(robot, name:"robot", parent: name, max: 1224)
+            try validate(robot, name:"robot", parent: name, min: 1)
+            try validate(robot, name:"robot", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1335,6 +1639,7 @@ extension RoboMaker {
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// The target architecture of the robot application.
         public let architecture: Architecture?
         /// The Amazon Resource Name (ARN) of the robot.
@@ -1388,6 +1693,7 @@ extension RoboMaker {
             AWSShapeMember(label: "application", required: true, type: .string), 
             AWSShapeMember(label: "applicationVersion", required: false, type: .string)
         ]
+
         /// The application information for the simulation application.
         public let application: String
         /// The version of the simulation application to describe.
@@ -1396,6 +1702,15 @@ extension RoboMaker {
         public init(application: String, applicationVersion: String? = nil) {
             self.application = application
             self.applicationVersion = applicationVersion
+        }
+
+        public func validate(name: String) throws {
+            try validate(application, name:"application", parent: name, max: 1224)
+            try validate(application, name:"application", parent: name, min: 1)
+            try validate(application, name:"application", parent: name, pattern: "arn:.*")
+            try validate(applicationVersion, name:"applicationVersion", parent: name, max: 255)
+            try validate(applicationVersion, name:"applicationVersion", parent: name, min: 1)
+            try validate(applicationVersion, name:"applicationVersion", parent: name, pattern: "(\\$LATEST)|[0-9]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1417,6 +1732,7 @@ extension RoboMaker {
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the robot simulation application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the simulation application was last updated.
@@ -1469,11 +1785,18 @@ extension RoboMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "job", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the simulation job to be described.
         public let job: String
 
         public init(job: String) {
             self.job = job
+        }
+
+        public func validate(name: String) throws {
+            try validate(job, name:"job", parent: name, max: 1224)
+            try validate(job, name:"job", parent: name, min: 1)
+            try validate(job, name:"job", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1501,6 +1824,7 @@ extension RoboMaker {
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
         ]
+
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let arn: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -1588,6 +1912,7 @@ extension RoboMaker {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "values", required: false, type: .list)
         ]
+
         /// The name of the filter.
         public let name: String?
         /// A list of values.
@@ -1596,6 +1921,19 @@ extension RoboMaker {
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 255)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9_\\-]*")
+            try values?.forEach {
+                try validate($0, name: "values[]", parent: name, max: 255)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "[a-zA-Z0-9_\\-]*")
+            }
+            try validate(values, name:"values", parent: name, max: 1)
+            try validate(values, name:"values", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1613,6 +1951,7 @@ extension RoboMaker {
             AWSShapeMember(label: "lastDeploymentTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the fleet.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the fleet was created.
@@ -1651,6 +1990,7 @@ extension RoboMaker {
             AWSShapeMember(label: "launchFile", required: true, type: .string), 
             AWSShapeMember(label: "packageName", required: true, type: .string)
         ]
+
         /// The environment variables for the application launch.
         public let environmentVariables: [String: String]?
         /// The launch file name.
@@ -1662,6 +2002,22 @@ extension RoboMaker {
             self.environmentVariables = environmentVariables
             self.launchFile = launchFile
             self.packageName = packageName
+        }
+
+        public func validate(name: String) throws {
+            try environmentVariables?.forEach {
+                try validate($0.key, name:"environmentVariables.key", parent: name, max: 1024)
+                try validate($0.key, name:"environmentVariables.key", parent: name, min: 1)
+                try validate($0.key, name:"environmentVariables.key", parent: name, pattern: "[A-Z_][A-Z0-9_]*")
+                try validate($0.value, name:"environmentVariables[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name:"environmentVariables[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try validate(launchFile, name:"launchFile", parent: name, max: 1024)
+            try validate(launchFile, name:"launchFile", parent: name, min: 1)
+            try validate(launchFile, name:"launchFile", parent: name, pattern: "[a-zA-Z0-9_.\\-]*")
+            try validate(packageName, name:"packageName", parent: name, max: 1024)
+            try validate(packageName, name:"packageName", parent: name, min: 1)
+            try validate(packageName, name:"packageName", parent: name, pattern: "[a-zA-Z0-9_.\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1677,17 +2033,29 @@ extension RoboMaker {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// Optional filters to limit results. The filter names status and fleetName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status InProgress or the status Pending.
         public let filters: [Filter]?
         /// The maximum number of deployment job results returned by ListDeploymentJobs in paginated output. When this parameter is used, ListDeploymentJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDeploymentJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListDeploymentJobs returns up to 100 results and a nextToken value if applicable. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListDeploymentJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try validate(filters, name:"filters", parent: name, max: 1)
+            try validate(filters, name:"filters", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1702,6 +2070,7 @@ extension RoboMaker {
             AWSShapeMember(label: "deploymentJobs", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of deployment jobs that meet the criteria of the request.
         public let deploymentJobs: [DeploymentJob]?
         /// The nextToken value to include in a future ListDeploymentJobs request. When the results of a ListDeploymentJobs request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
@@ -1724,17 +2093,29 @@ extension RoboMaker {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// Optional filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
         public let filters: [Filter]?
         /// The maximum number of deployment job results returned by ListFleets in paginated output. When this parameter is used, ListFleets only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListFleets returns up to 100 results and a nextToken value if applicable. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListFleets request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try validate(filters, name:"filters", parent: name, max: 1)
+            try validate(filters, name:"filters", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1749,6 +2130,7 @@ extension RoboMaker {
             AWSShapeMember(label: "fleetDetails", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of fleet details meeting the request criteria.
         public let fleetDetails: [Fleet]?
         /// The nextToken value to include in a future ListDeploymentJobs request. When the results of a ListFleets request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
@@ -1772,20 +2154,33 @@ extension RoboMaker {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "versionQualifier", required: false, type: .string)
         ]
+
         /// Optional filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
         public let filters: [Filter]?
         /// The maximum number of deployment job results returned by ListRobotApplications in paginated output. When this parameter is used, ListRobotApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobotApplications request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRobotApplications returns up to 100 results and a nextToken value if applicable. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListRobotApplications request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
         /// The version qualifier of the robot application.
         public let versionQualifier: String?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, versionQualifier: String? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, versionQualifier: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.versionQualifier = versionQualifier
+        }
+
+        public func validate(name: String) throws {
+            try filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try validate(filters, name:"filters", parent: name, max: 1)
+            try validate(filters, name:"filters", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
+            try validate(versionQualifier, name:"versionQualifier", parent: name, pattern: "ALL")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1801,6 +2196,7 @@ extension RoboMaker {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "robotApplicationSummaries", required: false, type: .list)
         ]
+
         /// The nextToken value to include in a future ListRobotApplications request. When the results of a ListRobotApplications request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
         /// A list of robot application summaries that meet the criteria of the request.
@@ -1823,17 +2219,29 @@ extension RoboMaker {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// Optional filters to limit results. The filter names status and fleetName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status Registered or the status Available.
         public let filters: [Filter]?
         /// The maximum number of deployment job results returned by ListRobots in paginated output. When this parameter is used, ListRobots only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobots request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRobots returns up to 100 results and a nextToken value if applicable. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListRobots request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try validate(filters, name:"filters", parent: name, max: 1)
+            try validate(filters, name:"filters", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1848,6 +2256,7 @@ extension RoboMaker {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "robots", required: false, type: .list)
         ]
+
         /// The nextToken value to include in a future ListRobots request. When the results of a ListRobot request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
         /// A list of robots that meet the criteria of the request.
@@ -1871,20 +2280,33 @@ extension RoboMaker {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "versionQualifier", required: false, type: .string)
         ]
+
         /// Optional list of filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
         public let filters: [Filter]?
         /// The maximum number of deployment job results returned by ListSimulationApplications in paginated output. When this parameter is used, ListSimulationApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationApplications request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListSimulationApplications returns up to 100 results and a nextToken value if applicable. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListSimulationApplications request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
         /// The version qualifier of the simulation application.
         public let versionQualifier: String?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, versionQualifier: String? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, versionQualifier: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.versionQualifier = versionQualifier
+        }
+
+        public func validate(name: String) throws {
+            try filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try validate(filters, name:"filters", parent: name, max: 1)
+            try validate(filters, name:"filters", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
+            try validate(versionQualifier, name:"versionQualifier", parent: name, pattern: "ALL")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1900,6 +2322,7 @@ extension RoboMaker {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "simulationApplicationSummaries", required: false, type: .list)
         ]
+
         /// The nextToken value to include in a future ListSimulationApplications request. When the results of a ListRobot request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
         /// A list of simulation application summaries that meet the criteria of the request.
@@ -1922,17 +2345,29 @@ extension RoboMaker {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// Optional filters to limit results. The filter names status and simulationApplicationName and robotApplicationName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status Preparing or the status Running.
         public let filters: [Filter]?
         /// The maximum number of deployment job results returned by ListSimulationJobs in paginated output. When this parameter is used, ListSimulationJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListSimulationJobs returns up to 100 results and a nextToken value if applicable. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListSimulationJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try validate(filters, name:"filters", parent: name, max: 1)
+            try validate(filters, name:"filters", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1947,6 +2382,7 @@ extension RoboMaker {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "simulationJobSummaries", required: true, type: .list)
         ]
+
         /// The nextToken value to include in a future ListSimulationJobs request. When the results of a ListRobot request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
         /// A list of simulation job summaries that meet the criteria of the request.
@@ -1967,11 +2403,18 @@ extension RoboMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
         ]
+
         /// The AWS RoboMaker Amazon Resource Name (ARN) with tags to be listed.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1224)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
+            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1983,6 +2426,7 @@ extension RoboMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// The list of all tags added to the specified resource.
         public let tags: [String: String]?
 
@@ -2000,6 +2444,7 @@ extension RoboMaker {
             AWSShapeMember(label: "s3Bucket", required: false, type: .string), 
             AWSShapeMember(label: "s3Prefix", required: false, type: .string)
         ]
+
         /// The S3 bucket for output.
         public let s3Bucket: String?
         /// The S3 folder in the s3Bucket where output files will be placed.
@@ -2008,6 +2453,15 @@ extension RoboMaker {
         public init(s3Bucket: String? = nil, s3Prefix: String? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Prefix = s3Prefix
+        }
+
+        public func validate(name: String) throws {
+            try validate(s3Bucket, name:"s3Bucket", parent: name, max: 63)
+            try validate(s3Bucket, name:"s3Bucket", parent: name, min: 3)
+            try validate(s3Bucket, name:"s3Bucket", parent: name, pattern: "[a-z0-9][a-z0-9\\-]*[a-z0-9]")
+            try validate(s3Prefix, name:"s3Prefix", parent: name, max: 1024)
+            try validate(s3Prefix, name:"s3Prefix", parent: name, min: 1)
+            try validate(s3Prefix, name:"s3Prefix", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2023,16 +2477,17 @@ extension RoboMaker {
             AWSShapeMember(label: "percentDone", required: false, type: .float), 
             AWSShapeMember(label: "targetResource", required: false, type: .string)
         ]
+
         /// The current progress status.  Validating  Validating the deployment.  DownloadingExtracting  Downloading and extracting the bundle on the robot.  ExecutingPreLaunch  Executing pre-launch script(s) if provided.  Launching  Launching the robot application.  ExecutingPostLaunch  Executing post-launch script(s) if provided.  Finished  Deployment is complete.  
         public let currentProgress: RobotDeploymentStep?
         /// Estimated amount of time in seconds remaining in the step. This currently only applies to the Downloading/Extracting step of the deployment. It is empty for other steps.
-        public let estimatedTimeRemainingSeconds: Int32?
+        public let estimatedTimeRemainingSeconds: Int?
         /// Precentage of the step that is done. This currently only applies to the Downloading/Extracting step of the deployment. It is empty for other steps.
         public let percentDone: Float?
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let targetResource: String?
 
-        public init(currentProgress: RobotDeploymentStep? = nil, estimatedTimeRemainingSeconds: Int32? = nil, percentDone: Float? = nil, targetResource: String? = nil) {
+        public init(currentProgress: RobotDeploymentStep? = nil, estimatedTimeRemainingSeconds: Int? = nil, percentDone: Float? = nil, targetResource: String? = nil) {
             self.currentProgress = currentProgress
             self.estimatedTimeRemainingSeconds = estimatedTimeRemainingSeconds
             self.percentDone = percentDone
@@ -2052,6 +2507,7 @@ extension RoboMaker {
             AWSShapeMember(label: "fleet", required: true, type: .string), 
             AWSShapeMember(label: "robot", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String
         /// The Amazon Resource Name (ARN) of the robot.
@@ -2060,6 +2516,15 @@ extension RoboMaker {
         public init(fleet: String, robot: String) {
             self.fleet = fleet
             self.robot = robot
+        }
+
+        public func validate(name: String) throws {
+            try validate(fleet, name:"fleet", parent: name, max: 1224)
+            try validate(fleet, name:"fleet", parent: name, min: 1)
+            try validate(fleet, name:"fleet", parent: name, pattern: "arn:.*")
+            try validate(robot, name:"robot", parent: name, max: 1224)
+            try validate(robot, name:"robot", parent: name, min: 1)
+            try validate(robot, name:"robot", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2073,6 +2538,7 @@ extension RoboMaker {
             AWSShapeMember(label: "fleet", required: false, type: .string), 
             AWSShapeMember(label: "robot", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the fleet that the robot will join.
         public let fleet: String?
         /// Information about the robot registration.
@@ -2094,6 +2560,7 @@ extension RoboMaker {
             AWSShapeMember(label: "name", required: false, type: .enum), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The name of the rendering engine.
         public let name: RenderingEngineType?
         /// The version of the rendering engine.
@@ -2102,6 +2569,10 @@ extension RoboMaker {
         public init(name: RenderingEngineType? = nil, version: String? = nil) {
             self.name = name
             self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try validate(version, name:"version", parent: name, pattern: "1.x")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2119,11 +2590,18 @@ extension RoboMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "job", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let job: String
 
         public init(job: String) {
             self.job = job
+        }
+
+        public func validate(name: String) throws {
+            try validate(job, name:"job", parent: name, max: 1224)
+            try validate(job, name:"job", parent: name, min: 1)
+            try validate(job, name:"job", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2132,6 +2610,7 @@ extension RoboMaker {
     }
 
     public struct RestartSimulationJobResponse: AWSShape {
+
 
         public init() {
         }
@@ -2150,6 +2629,7 @@ extension RoboMaker {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
+
         /// The architecture of the robot.
         public let architecture: Architecture?
         /// The Amazon Resource Name (ARN) of the robot.
@@ -2200,6 +2680,7 @@ extension RoboMaker {
             AWSShapeMember(label: "applicationVersion", required: false, type: .string), 
             AWSShapeMember(label: "launchConfig", required: true, type: .structure)
         ]
+
         /// The application information for the robot application.
         public let application: String
         /// The version of the robot application.
@@ -2211,6 +2692,16 @@ extension RoboMaker {
             self.application = application
             self.applicationVersion = applicationVersion
             self.launchConfig = launchConfig
+        }
+
+        public func validate(name: String) throws {
+            try validate(application, name:"application", parent: name, max: 1224)
+            try validate(application, name:"application", parent: name, min: 1)
+            try validate(application, name:"application", parent: name, pattern: "arn:.*")
+            try validate(applicationVersion, name:"applicationVersion", parent: name, max: 255)
+            try validate(applicationVersion, name:"applicationVersion", parent: name, min: 1)
+            try validate(applicationVersion, name:"applicationVersion", parent: name, pattern: "(\\$LATEST)|[0-9]*")
+            try launchConfig.validate(name: "\(name).launchConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2228,6 +2719,7 @@ extension RoboMaker {
             AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the robot.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
@@ -2266,6 +2758,7 @@ extension RoboMaker {
             AWSShapeMember(label: "progressDetail", required: false, type: .structure), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
+
         /// The robot deployment Amazon Resource Name (ARN).
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the deployment finished.
@@ -2317,6 +2810,7 @@ extension RoboMaker {
             AWSShapeMember(label: "name", required: false, type: .enum), 
             AWSShapeMember(label: "version", required: false, type: .enum)
         ]
+
         /// The name of the robot software suite.
         public let name: RobotSoftwareSuiteType?
         /// The version of the robot software suite.
@@ -2360,6 +2854,7 @@ extension RoboMaker {
             AWSShapeMember(label: "applicationVersion", required: false, type: .string), 
             AWSShapeMember(label: "launchConfig", required: true, type: .structure)
         ]
+
         /// The application information for the simulation application.
         public let application: String
         /// The version of the simulation application.
@@ -2371,6 +2866,16 @@ extension RoboMaker {
             self.application = application
             self.applicationVersion = applicationVersion
             self.launchConfig = launchConfig
+        }
+
+        public func validate(name: String) throws {
+            try validate(application, name:"application", parent: name, max: 1224)
+            try validate(application, name:"application", parent: name, min: 1)
+            try validate(application, name:"application", parent: name, pattern: "arn:.*")
+            try validate(applicationVersion, name:"applicationVersion", parent: name, max: 255)
+            try validate(applicationVersion, name:"applicationVersion", parent: name, min: 1)
+            try validate(applicationVersion, name:"applicationVersion", parent: name, pattern: "(\\$LATEST)|[0-9]*")
+            try launchConfig.validate(name: "\(name).launchConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2389,6 +2894,7 @@ extension RoboMaker {
             AWSShapeMember(label: "simulationSoftwareSuite", required: false, type: .structure), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the simulation application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the simulation application was last updated.
@@ -2441,6 +2947,7 @@ extension RoboMaker {
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
         ]
+
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let arn: String?
         /// A unique identifier for this SimulationJob request.
@@ -2561,6 +3068,7 @@ extension RoboMaker {
             AWSShapeMember(label: "simulationApplicationNames", required: false, type: .list), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
+
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the simulation job was last updated.
@@ -2598,6 +3106,7 @@ extension RoboMaker {
             AWSShapeMember(label: "name", required: false, type: .enum), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The name of the simulation software suite.
         public let name: SimulationSoftwareSuiteType?
         /// The version of the simulation software suite.
@@ -2606,6 +3115,10 @@ extension RoboMaker {
         public init(name: SimulationSoftwareSuiteType? = nil, version: String? = nil) {
             self.name = name
             self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try validate(version, name:"version", parent: name, pattern: "7|9")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2626,6 +3139,7 @@ extension RoboMaker {
             AWSShapeMember(label: "s3Bucket", required: false, type: .string), 
             AWSShapeMember(label: "s3Key", required: false, type: .string)
         ]
+
         /// The taget processor architecture for the application.
         public let architecture: Architecture?
         /// A hash of the object specified by s3Bucket and s3Key.
@@ -2656,6 +3170,7 @@ extension RoboMaker {
             AWSShapeMember(label: "s3Bucket", required: false, type: .string), 
             AWSShapeMember(label: "s3Key", required: false, type: .string)
         ]
+
         /// The target processor architecture for the application.
         public let architecture: Architecture?
         /// The Amazon S3 bucket name.
@@ -2667,6 +3182,15 @@ extension RoboMaker {
             self.architecture = architecture
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
+        }
+
+        public func validate(name: String) throws {
+            try validate(s3Bucket, name:"s3Bucket", parent: name, max: 63)
+            try validate(s3Bucket, name:"s3Bucket", parent: name, min: 3)
+            try validate(s3Bucket, name:"s3Bucket", parent: name, pattern: "[a-z0-9][a-z0-9\\-]*[a-z0-9]")
+            try validate(s3Key, name:"s3Key", parent: name, max: 1024)
+            try validate(s3Key, name:"s3Key", parent: name, min: 1)
+            try validate(s3Key, name:"s3Key", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2681,14 +3205,24 @@ extension RoboMaker {
             AWSShapeMember(label: "clientRequestToken", required: true, type: .string), 
             AWSShapeMember(label: "fleet", required: true, type: .string)
         ]
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String
         /// The target fleet for the synchronization.
         public let fleet: String
 
-        public init(clientRequestToken: String, fleet: String) {
+        public init(clientRequestToken: String = SyncDeploymentJobRequest.idempotencyToken(), fleet: String) {
             self.clientRequestToken = clientRequestToken
             self.fleet = fleet
+        }
+
+        public func validate(name: String) throws {
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9_\\-=]*")
+            try validate(fleet, name:"fleet", parent: name, max: 1224)
+            try validate(fleet, name:"fleet", parent: name, min: 1)
+            try validate(fleet, name:"fleet", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2708,6 +3242,7 @@ extension RoboMaker {
             AWSShapeMember(label: "fleet", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
+
         /// The Amazon Resource Name (ARN) of the synchronization request.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the fleet was created.
@@ -2753,6 +3288,7 @@ extension RoboMaker {
             AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
             AWSShapeMember(label: "tags", required: true, type: .map)
         ]
+
         /// The Amazon Resource Name (ARN) of the AWS RoboMaker resource you are tagging.
         public let resourceArn: String
         /// A map that contains tag keys and tag values that are attached to the resource.
@@ -2763,6 +3299,20 @@ extension RoboMaker {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1224)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
+            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "arn:.*")
+            try tags.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "resourceArn"
             case tags = "tags"
@@ -2770,6 +3320,7 @@ extension RoboMaker {
     }
 
     public struct TagResourceResponse: AWSShape {
+
 
         public init() {
         }
@@ -2781,6 +3332,7 @@ extension RoboMaker {
             AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
             AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]
+
         /// The Amazon Resource Name (ARN) of the AWS RoboMaker resource you are removing tags.
         public let resourceArn: String
         /// A map that contains tag keys and tag values that will be unattached from the resource.
@@ -2791,6 +3343,17 @@ extension RoboMaker {
             self.tagKeys = tagKeys
         }
 
+        public func validate(name: String) throws {
+            try validate(resourceArn, name:"resourceArn", parent: name, max: 1224)
+            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
+            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "arn:.*")
+            try tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "resourceArn"
             case tagKeys = "tagKeys"
@@ -2798,6 +3361,7 @@ extension RoboMaker {
     }
 
     public struct UntagResourceResponse: AWSShape {
+
 
         public init() {
         }
@@ -2811,6 +3375,7 @@ extension RoboMaker {
             AWSShapeMember(label: "robotSoftwareSuite", required: true, type: .structure), 
             AWSShapeMember(label: "sources", required: true, type: .list)
         ]
+
         /// The application information for the robot application.
         public let application: String
         /// The revision id for the robot application.
@@ -2825,6 +3390,18 @@ extension RoboMaker {
             self.currentRevisionId = currentRevisionId
             self.robotSoftwareSuite = robotSoftwareSuite
             self.sources = sources
+        }
+
+        public func validate(name: String) throws {
+            try validate(application, name:"application", parent: name, max: 1224)
+            try validate(application, name:"application", parent: name, min: 1)
+            try validate(application, name:"application", parent: name, pattern: "arn:.*")
+            try validate(currentRevisionId, name:"currentRevisionId", parent: name, max: 40)
+            try validate(currentRevisionId, name:"currentRevisionId", parent: name, min: 1)
+            try validate(currentRevisionId, name:"currentRevisionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]*")
+            try sources.forEach {
+                try $0.validate(name: "\(name).sources[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2845,6 +3422,7 @@ extension RoboMaker {
             AWSShapeMember(label: "sources", required: false, type: .list), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the updated robot application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
@@ -2890,6 +3468,7 @@ extension RoboMaker {
             AWSShapeMember(label: "simulationSoftwareSuite", required: true, type: .structure), 
             AWSShapeMember(label: "sources", required: true, type: .list)
         ]
+
         /// The application information for the simulation application.
         public let application: String
         /// The revision id for the robot application.
@@ -2910,6 +3489,20 @@ extension RoboMaker {
             self.robotSoftwareSuite = robotSoftwareSuite
             self.simulationSoftwareSuite = simulationSoftwareSuite
             self.sources = sources
+        }
+
+        public func validate(name: String) throws {
+            try validate(application, name:"application", parent: name, max: 1224)
+            try validate(application, name:"application", parent: name, min: 1)
+            try validate(application, name:"application", parent: name, pattern: "arn:.*")
+            try validate(currentRevisionId, name:"currentRevisionId", parent: name, max: 40)
+            try validate(currentRevisionId, name:"currentRevisionId", parent: name, min: 1)
+            try validate(currentRevisionId, name:"currentRevisionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]*")
+            try renderingEngine.validate(name: "\(name).renderingEngine")
+            try simulationSoftwareSuite.validate(name: "\(name).simulationSoftwareSuite")
+            try sources.forEach {
+                try $0.validate(name: "\(name).sources[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2934,6 +3527,7 @@ extension RoboMaker {
             AWSShapeMember(label: "sources", required: false, type: .list), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the updated simulation application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the simulation application was last updated.
@@ -2984,6 +3578,7 @@ extension RoboMaker {
             AWSShapeMember(label: "securityGroups", required: false, type: .list), 
             AWSShapeMember(label: "subnets", required: true, type: .list)
         ]
+
         /// A boolean indicating whether to assign a public IP address.
         public let assignPublicIp: Bool?
         /// A list of one or more security groups IDs in your VPC.
@@ -2995,6 +3590,13 @@ extension RoboMaker {
             self.assignPublicIp = assignPublicIp
             self.securityGroups = securityGroups
             self.subnets = subnets
+        }
+
+        public func validate(name: String) throws {
+            try validate(securityGroups, name:"securityGroups", parent: name, max: 5)
+            try validate(securityGroups, name:"securityGroups", parent: name, min: 1)
+            try validate(subnets, name:"subnets", parent: name, max: 16)
+            try validate(subnets, name:"subnets", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3011,6 +3613,7 @@ extension RoboMaker {
             AWSShapeMember(label: "subnets", required: false, type: .list), 
             AWSShapeMember(label: "vpcId", required: false, type: .string)
         ]
+
         /// A boolean indicating if a public IP was assigned.
         public let assignPublicIp: Bool?
         /// A list of security group IDs associated with the simulation job.

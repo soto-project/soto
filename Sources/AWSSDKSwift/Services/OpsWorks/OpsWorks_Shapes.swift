@@ -10,6 +10,7 @@ extension OpsWorks {
             AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// The configuration manager.
         public let configurationManager: StackConfigurationManager?
         /// The agent version.
@@ -43,6 +44,7 @@ extension OpsWorks {
             AWSShapeMember(label: "StackId", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The app ID.
         public let appId: String?
         /// A Source object that describes the app repository.
@@ -137,6 +139,7 @@ extension OpsWorks {
             AWSShapeMember(label: "InstanceId", required: true, type: .string), 
             AWSShapeMember(label: "LayerIds", required: true, type: .list)
         ]
+
         /// The instance ID.
         public let instanceId: String
         /// The layer ID, which must correspond to a custom layer. You cannot assign a registered instance to a built-in layer.
@@ -158,6 +161,7 @@ extension OpsWorks {
             AWSShapeMember(label: "InstanceId", required: false, type: .string), 
             AWSShapeMember(label: "VolumeId", required: true, type: .string)
         ]
+
         /// The instance ID.
         public let instanceId: String?
         /// The volume ID.
@@ -179,6 +183,7 @@ extension OpsWorks {
             AWSShapeMember(label: "ElasticIp", required: true, type: .string), 
             AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
+
         /// The Elastic IP address.
         public let elasticIp: String
         /// The instance ID.
@@ -200,6 +205,7 @@ extension OpsWorks {
             AWSShapeMember(label: "ElasticLoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "LayerId", required: true, type: .string)
         ]
+
         /// The Elastic Load Balancing instance's name.
         public let elasticLoadBalancerName: String
         /// The ID of the layer to which the Elastic Load Balancing instance is to be attached.
@@ -226,22 +232,23 @@ extension OpsWorks {
             AWSShapeMember(label: "MemoryThreshold", required: false, type: .double), 
             AWSShapeMember(label: "ThresholdsWaitTime", required: false, type: .integer)
         ]
+
         /// Custom Cloudwatch auto scaling alarms, to be used as thresholds. This parameter takes a list of up to five alarm names, which are case sensitive and must be in the same region as the stack.  To use custom alarms, you must update your service role to allow cloudwatch:DescribeAlarms. You can either have AWS OpsWorks Stacks update the role for you when you first use this feature or you can edit the role manually. For more information, see Allowing AWS OpsWorks Stacks to Act on Your Behalf. 
         public let alarms: [String]?
         /// The CPU utilization threshold, as a percent of the available CPU. A value of -1 disables the threshold.
         public let cpuThreshold: Double?
         /// The amount of time (in minutes) after a scaling event occurs that AWS OpsWorks Stacks should ignore metrics and suppress additional scaling events. For example, AWS OpsWorks Stacks adds new instances following an upscaling event but the instances won't start reducing the load until they have been booted and configured. There is no point in raising additional scaling events during that operation, which typically takes several minutes. IgnoreMetricsTime allows you to direct AWS OpsWorks Stacks to suppress scaling events long enough to get the new instances online.
-        public let ignoreMetricsTime: Int32?
+        public let ignoreMetricsTime: Int?
         /// The number of instances to add or remove when the load exceeds a threshold.
-        public let instanceCount: Int32?
+        public let instanceCount: Int?
         /// The load threshold. A value of -1 disables the threshold. For more information about how load is computed, see Load (computing).
         public let loadThreshold: Double?
         /// The memory utilization threshold, as a percent of the available memory. A value of -1 disables the threshold.
         public let memoryThreshold: Double?
         /// The amount of time, in minutes, that the load must exceed a threshold before more instances are added or removed.
-        public let thresholdsWaitTime: Int32?
+        public let thresholdsWaitTime: Int?
 
-        public init(alarms: [String]? = nil, cpuThreshold: Double? = nil, ignoreMetricsTime: Int32? = nil, instanceCount: Int32? = nil, loadThreshold: Double? = nil, memoryThreshold: Double? = nil, thresholdsWaitTime: Int32? = nil) {
+        public init(alarms: [String]? = nil, cpuThreshold: Double? = nil, ignoreMetricsTime: Int? = nil, instanceCount: Int? = nil, loadThreshold: Double? = nil, memoryThreshold: Double? = nil, thresholdsWaitTime: Int? = nil) {
             self.alarms = alarms
             self.cpuThreshold = cpuThreshold
             self.ignoreMetricsTime = ignoreMetricsTime
@@ -249,6 +256,13 @@ extension OpsWorks {
             self.loadThreshold = loadThreshold
             self.memoryThreshold = memoryThreshold
             self.thresholdsWaitTime = thresholdsWaitTime
+        }
+
+        public func validate(name: String) throws {
+            try validate(ignoreMetricsTime, name:"ignoreMetricsTime", parent: name, max: 100)
+            try validate(ignoreMetricsTime, name:"ignoreMetricsTime", parent: name, min: 1)
+            try validate(thresholdsWaitTime, name:"thresholdsWaitTime", parent: name, max: 100)
+            try validate(thresholdsWaitTime, name:"thresholdsWaitTime", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -275,6 +289,7 @@ extension OpsWorks {
             AWSShapeMember(label: "NoDevice", required: false, type: .string), 
             AWSShapeMember(label: "VirtualName", required: false, type: .string)
         ]
+
         /// The device name that is exposed to the instance, such as /dev/sdh. For the root device, you can use the explicit device name or you can set this parameter to ROOT_DEVICE and AWS OpsWorks Stacks will provide the correct device name.
         public let deviceName: String?
         /// An EBSBlockDevice that defines how to configure an Amazon EBS volume when the instance is launched.
@@ -304,6 +319,7 @@ extension OpsWorks {
             AWSShapeMember(label: "BerkshelfVersion", required: false, type: .string), 
             AWSShapeMember(label: "ManageBerkshelf", required: false, type: .boolean)
         ]
+
         /// The Berkshelf version.
         public let berkshelfVersion: String?
         /// Whether to enable Berkshelf.
@@ -345,6 +361,7 @@ extension OpsWorks {
             AWSShapeMember(label: "UseOpsworksSecurityGroups", required: false, type: .boolean), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
+
         /// The default AWS OpsWorks Stacks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update the agent version, you must edit the stack configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the stack's instances.   The default setting is LATEST. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.  You can also specify an agent version when you create or update an instance, which overrides the stack's default setting. 
         public let agentVersion: String?
         /// A list of stack attributes and values as key/value pairs to be added to the cloned stack.
@@ -445,6 +462,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
+
         /// The cloned stack ID.
         public let stackId: String?
 
@@ -462,6 +480,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "LogStreams", required: false, type: .list)
         ]
+
         /// Whether CloudWatch Logs is enabled for a layer.
         public let enabled: Bool?
         /// A list of configuration options for CloudWatch Logs.
@@ -594,12 +613,13 @@ extension OpsWorks {
             AWSShapeMember(label: "MultiLineStartPattern", required: false, type: .string), 
             AWSShapeMember(label: "TimeZone", required: false, type: .enum)
         ]
+
         /// Specifies the max number of log events in a batch, up to 10000. The default value is 1000.
-        public let batchCount: Int32?
+        public let batchCount: Int?
         /// Specifies the maximum size of log events in a batch, in bytes, up to 1048576 bytes. The default value is 32768 bytes. This size is calculated as the sum of all event messages in UTF-8, plus 26 bytes for each log event.
-        public let batchSize: Int32?
+        public let batchSize: Int?
         /// Specifies the time duration for the batching of log events. The minimum value is 5000ms and default value is 5000ms.
-        public let bufferDuration: Int32?
+        public let bufferDuration: Int?
         /// Specifies how the time stamp is extracted from logs. For more information, see the CloudWatch Logs Agent Reference.
         public let datetimeFormat: String?
         /// Specifies the encoding of the log file so that the file can be read correctly. The default is utf_8. Encodings supported by Python codecs.decode() can be used here.
@@ -617,7 +637,7 @@ extension OpsWorks {
         /// Specifies the time zone of log event time stamps.
         public let timeZone: CloudWatchLogsTimeZone?
 
-        public init(batchCount: Int32? = nil, batchSize: Int32? = nil, bufferDuration: Int32? = nil, datetimeFormat: String? = nil, encoding: CloudWatchLogsEncoding? = nil, file: String? = nil, fileFingerprintLines: String? = nil, initialPosition: CloudWatchLogsInitialPosition? = nil, logGroupName: String? = nil, multiLineStartPattern: String? = nil, timeZone: CloudWatchLogsTimeZone? = nil) {
+        public init(batchCount: Int? = nil, batchSize: Int? = nil, bufferDuration: Int? = nil, datetimeFormat: String? = nil, encoding: CloudWatchLogsEncoding? = nil, file: String? = nil, fileFingerprintLines: String? = nil, initialPosition: CloudWatchLogsInitialPosition? = nil, logGroupName: String? = nil, multiLineStartPattern: String? = nil, timeZone: CloudWatchLogsTimeZone? = nil) {
             self.batchCount = batchCount
             self.batchSize = batchSize
             self.bufferDuration = bufferDuration
@@ -665,6 +685,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .string)
         ]
+
         /// Date and time when the command was acknowledged.
         public let acknowledgedAt: String?
         /// The command ID.
@@ -676,7 +697,7 @@ extension OpsWorks {
         /// The command deployment ID.
         public let deploymentId: String?
         /// The command exit code.
-        public let exitCode: Int32?
+        public let exitCode: Int?
         /// The ID of the instance where the command was executed.
         public let instanceId: String?
         /// The URL of the command log.
@@ -686,7 +707,7 @@ extension OpsWorks {
         /// The command type:    configure     deploy     execute_recipes     install_dependencies     restart     rollback     setup     start     stop     undeploy     update_custom_cookbooks     update_dependencies   
         public let `type`: String?
 
-        public init(acknowledgedAt: String? = nil, commandId: String? = nil, completedAt: String? = nil, createdAt: String? = nil, deploymentId: String? = nil, exitCode: Int32? = nil, instanceId: String? = nil, logUrl: String? = nil, status: String? = nil, type: String? = nil) {
+        public init(acknowledgedAt: String? = nil, commandId: String? = nil, completedAt: String? = nil, createdAt: String? = nil, deploymentId: String? = nil, exitCode: Int? = nil, instanceId: String? = nil, logUrl: String? = nil, status: String? = nil, type: String? = nil) {
             self.acknowledgedAt = acknowledgedAt
             self.commandId = commandId
             self.completedAt = completedAt
@@ -728,6 +749,7 @@ extension OpsWorks {
             AWSShapeMember(label: "StackId", required: true, type: .string), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
+
         /// A Source object that specifies the app repository.
         public let appSource: Source?
         /// One or more user-defined key/value pairs to be added to the stack attributes.
@@ -788,6 +810,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AppId", required: false, type: .string)
         ]
+
         /// The app ID.
         public let appId: String?
 
@@ -810,6 +833,7 @@ extension OpsWorks {
             AWSShapeMember(label: "LayerIds", required: false, type: .list), 
             AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
+
         /// The app ID. This parameter is required for app deployments, but not for other deployment commands.
         public let appId: String?
         /// A DeploymentCommand object that specifies the deployment command and any associated arguments.
@@ -850,6 +874,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeploymentId", required: false, type: .string)
         ]
+
         /// The deployment ID, which can be used with other requests to identify the deployment.
         public let deploymentId: String?
 
@@ -883,6 +908,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Tenancy", required: false, type: .string), 
             AWSShapeMember(label: "VirtualizationType", required: false, type: .string)
         ]
+
         /// The default AWS OpsWorks Stacks agent version. You have the following options:    INHERIT - Use the stack's default agent version setting.    version_number - Use the specified agent version. This value overrides the stack's default setting. To update the agent version, edit the instance configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the instance.   The default setting is INHERIT. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.
         public let agentVersion: String?
         /// A custom AMI ID to be used to create the instance. The AMI should be based on one of the supported operating systems. For more information, see Using Custom AMIs.  If you specify a custom AMI, you must set Os to Custom. 
@@ -967,6 +993,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
+
         /// The instance ID.
         public let instanceId: String?
 
@@ -1000,6 +1027,7 @@ extension OpsWorks {
             AWSShapeMember(label: "UseEbsOptimizedInstances", required: false, type: .boolean), 
             AWSShapeMember(label: "VolumeConfigurations", required: false, type: .list)
         ]
+
         /// One or more user-defined key-value pairs to be added to the stack attributes. To create a cluster layer, set the EcsClusterArn attribute to the cluster's ARN.
         public let attributes: [LayerAttributesKeys: String]?
         /// Whether to automatically assign an Elastic IP address to the layer's instances. For more information, see How to Edit a Layer.
@@ -1084,6 +1112,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LayerId", required: false, type: .string)
         ]
+
         /// The layer ID.
         public let layerId: String?
 
@@ -1118,6 +1147,7 @@ extension OpsWorks {
             AWSShapeMember(label: "UseOpsworksSecurityGroups", required: false, type: .boolean), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
+
         /// The default AWS OpsWorks Stacks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update the agent version, you must edit the stack configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the stack's instances.   The default setting is the most recent release of the agent. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.  You can also specify an agent version when you create or update an instance, which overrides the stack's default setting. 
         public let agentVersion: String?
         /// One or more user-defined key-value pairs to be added to the stack attributes.
@@ -1206,6 +1236,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
+
         /// The stack ID, which is an opaque string that you use to identify the stack when performing actions such as DescribeStacks.
         public let stackId: String?
 
@@ -1225,6 +1256,7 @@ extension OpsWorks {
             AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
             AWSShapeMember(label: "SshUsername", required: false, type: .string)
         ]
+
         /// Whether users can specify their own SSH public key through the My Settings page. For more information, see Setting an IAM User's Public SSH Key.
         public let allowSelfManagement: Bool?
         /// The user's IAM ARN; this can also be a federated user's ARN.
@@ -1253,6 +1285,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IamUserArn", required: false, type: .string)
         ]
+
         /// The user's IAM ARN.
         public let iamUserArn: String?
 
@@ -1271,6 +1304,7 @@ extension OpsWorks {
             AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .string)
         ]
+
         /// The data source's ARN.
         public let arn: String?
         /// The database name.
@@ -1295,6 +1329,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AppId", required: true, type: .string)
         ]
+
         /// The app ID.
         public let appId: String
 
@@ -1313,6 +1348,7 @@ extension OpsWorks {
             AWSShapeMember(label: "DeleteVolumes", required: false, type: .boolean), 
             AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
+
         /// Whether to delete the instance Elastic IP address.
         public let deleteElasticIp: Bool?
         /// Whether to delete the instance's Amazon EBS volumes.
@@ -1337,6 +1373,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LayerId", required: true, type: .string)
         ]
+
         /// The layer ID.
         public let layerId: String
 
@@ -1353,6 +1390,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
+
         /// The stack ID.
         public let stackId: String
 
@@ -1369,6 +1407,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IamUserArn", required: true, type: .string)
         ]
+
         /// The user's IAM ARN. This can also be a federated user's ARN.
         public let iamUserArn: String
 
@@ -1396,6 +1435,7 @@ extension OpsWorks {
             AWSShapeMember(label: "StackId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
+
         /// The app ID.
         public let appId: String?
         /// Used to specify a stack or deployment command.
@@ -1411,7 +1451,7 @@ extension OpsWorks {
         /// The deployment ID.
         public let deploymentId: String?
         /// The deployment duration.
-        public let duration: Int32?
+        public let duration: Int?
         /// The user's IAM ARN.
         public let iamUserArn: String?
         /// The IDs of the target instances.
@@ -1421,7 +1461,7 @@ extension OpsWorks {
         /// The deployment status:   running   successful   failed  
         public let status: String?
 
-        public init(appId: String? = nil, command: DeploymentCommand? = nil, comment: String? = nil, completedAt: String? = nil, createdAt: String? = nil, customJson: String? = nil, deploymentId: String? = nil, duration: Int32? = nil, iamUserArn: String? = nil, instanceIds: [String]? = nil, stackId: String? = nil, status: String? = nil) {
+        public init(appId: String? = nil, command: DeploymentCommand? = nil, comment: String? = nil, completedAt: String? = nil, createdAt: String? = nil, customJson: String? = nil, deploymentId: String? = nil, duration: Int? = nil, iamUserArn: String? = nil, instanceIds: [String]? = nil, stackId: String? = nil, status: String? = nil) {
             self.appId = appId
             self.command = command
             self.comment = comment
@@ -1457,6 +1497,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Args", required: false, type: .map), 
             AWSShapeMember(label: "Name", required: true, type: .enum)
         ]
+
         /// The arguments of those commands that take arguments. It should be set to a JSON object with the following format:  {"arg_name1" : ["value1", "value2", ...], "arg_name2" : ["value1", "value2", ...], ...}  The update_dependencies command takes two arguments:    upgrade_os_to - Specifies the desired Amazon Linux version for instances whose OS you want to upgrade, such as Amazon Linux 2016.09. You must also set the allow_reboot argument to true.    allow_reboot - Specifies whether to allow AWS OpsWorks Stacks to reboot the instances if necessary, after installing the updates. This argument can be set to either true or false. The default value is false.   For example, to upgrade an instance to Amazon Linux 2016.09, set Args to the following.   { "upgrade_os_to":["Amazon Linux 2016.09"], "allow_reboot":["true"] }  
         public let args: [String: [String]]?
         /// Specifies the operation. You can specify only one command. For stacks, the following commands are available:    execute_recipes: Execute one or more recipes. To specify the recipes, set an Args parameter named recipes to the list of recipes to be executed. For example, to execute phpapp::appsetup, set Args to {"recipes":["phpapp::appsetup"]}.    install_dependencies: Install the stack's dependencies.    update_custom_cookbooks: Update the stack's custom cookbooks.    update_dependencies: Update the stack's dependencies.    The update_dependencies and install_dependencies commands are supported only for Linux instances. You can run the commands successfully on Windows instances, but they do nothing.  For apps, the following commands are available:    deploy: Deploy an app. Ruby on Rails apps have an optional Args parameter named migrate. Set Args to {"migrate":["true"]} to migrate the database. The default setting is {"migrate":["false"]}.    rollback Roll the app back to the previous version. When you update an app, AWS OpsWorks Stacks stores the previous version, up to a maximum of five versions. You can use this command to roll an app back as many as four versions.    start: Start the app's web or application server.    stop: Stop the app's web or application server.    restart: Restart the app's web or application server.    undeploy: Undeploy the app.  
@@ -1493,6 +1534,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EcsClusterArn", required: true, type: .string)
         ]
+
         /// The cluster's Amazon Resource Number (ARN).
         public let ecsClusterArn: String
 
@@ -1509,6 +1551,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ElasticIp", required: true, type: .string)
         ]
+
         /// The Elastic IP address.
         public let elasticIp: String
 
@@ -1525,6 +1568,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
+
         /// The instance ID.
         public let instanceId: String
 
@@ -1541,6 +1585,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RdsDbInstanceArn", required: true, type: .string)
         ]
+
         /// The Amazon RDS instance's ARN.
         public let rdsDbInstanceArn: String
 
@@ -1557,6 +1602,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeId", required: true, type: .string)
         ]
+
         /// The AWS OpsWorks Stacks volume ID, which is the GUID that AWS OpsWorks Stacks assigned to the instance when you registered the volume with the stack, not the Amazon EC2 volume ID.
         public let volumeId: String
 
@@ -1574,6 +1620,7 @@ extension OpsWorks {
             AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure), 
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
+
         /// The configuration manager.
         public let configurationManager: StackConfigurationManager?
         /// The stack ID.
@@ -1594,6 +1641,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AgentVersions", required: false, type: .list)
         ]
+
         /// The agent versions for the specified stack or configuration manager. Note that this value is the complete version number, not the abbreviated number used by the console.
         public let agentVersions: [AgentVersion]?
 
@@ -1611,6 +1659,7 @@ extension OpsWorks {
             AWSShapeMember(label: "AppIds", required: false, type: .list), 
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
+
         /// An array of app IDs for the apps to be described. If you use this parameter, DescribeApps returns a description of the specified apps. Otherwise, it returns a description of every app.
         public let appIds: [String]?
         /// The app stack ID. If you use this parameter, DescribeApps returns a description of the apps in the specified stack.
@@ -1631,6 +1680,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Apps", required: false, type: .list)
         ]
+
         /// An array of App objects that describe the specified apps. 
         public let apps: [App]?
 
@@ -1649,6 +1699,7 @@ extension OpsWorks {
             AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
             AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
+
         /// An array of command IDs. If you include this parameter, DescribeCommands returns a description of the specified commands. Otherwise, it returns a description of every command.
         public let commandIds: [String]?
         /// The deployment ID. If you include this parameter, DescribeCommands returns a description of the commands associated with the specified deployment.
@@ -1673,6 +1724,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Commands", required: false, type: .list)
         ]
+
         /// An array of Command objects that describe each of the specified commands.
         public let commands: [Command]?
 
@@ -1691,6 +1743,7 @@ extension OpsWorks {
             AWSShapeMember(label: "DeploymentIds", required: false, type: .list), 
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
+
         /// The app ID. If you include this parameter, the command returns a description of the commands associated with the specified app.
         public let appId: String?
         /// An array of deployment IDs to be described. If you include this parameter, the command returns a description of the specified deployments. Otherwise, it returns a description of every deployment.
@@ -1715,6 +1768,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Deployments", required: false, type: .list)
         ]
+
         /// An array of Deployment objects that describe the deployments.
         public let deployments: [Deployment]?
 
@@ -1734,16 +1788,17 @@ extension OpsWorks {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
+
         /// A list of ARNs, one for each cluster to be described.
         public let ecsClusterArns: [String]?
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If the previous paginated request did not return all of the remaining results, the response object'sNextToken parameter value is set to a token. To retrieve the next set of results, call DescribeEcsClusters again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
         public let nextToken: String?
         /// A stack ID. DescribeEcsClusters returns a description of the cluster that is registered with the stack.
         public let stackId: String?
 
-        public init(ecsClusterArns: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, stackId: String? = nil) {
+        public init(ecsClusterArns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, stackId: String? = nil) {
             self.ecsClusterArns = ecsClusterArns
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1763,6 +1818,7 @@ extension OpsWorks {
             AWSShapeMember(label: "EcsClusters", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of EcsCluster objects containing the cluster descriptions.
         public let ecsClusters: [EcsCluster]?
         /// If a paginated request does not return all of the remaining results, this parameter is set to a token that you can assign to the request object's NextToken parameter to retrieve the next set of results. If the previous paginated request returned all of the remaining results, this parameter is set to null.
@@ -1785,6 +1841,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Ips", required: false, type: .list), 
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
+
         /// The instance ID. If you include this parameter, DescribeElasticIps returns a description of the Elastic IP addresses associated with the specified instance.
         public let instanceId: String?
         /// An array of Elastic IP addresses to be described. If you include this parameter, DescribeElasticIps returns a description of the specified Elastic IP addresses. Otherwise, it returns a description of every Elastic IP address.
@@ -1809,6 +1866,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ElasticIps", required: false, type: .list)
         ]
+
         /// An ElasticIps object that describes the specified Elastic IP addresses.
         public let elasticIps: [ElasticIp]?
 
@@ -1826,6 +1884,7 @@ extension OpsWorks {
             AWSShapeMember(label: "LayerIds", required: false, type: .list), 
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
+
         /// A list of layer IDs. The action describes the Elastic Load Balancing instances for the specified layers.
         public let layerIds: [String]?
         /// A stack ID. The action describes the stack's Elastic Load Balancing instances.
@@ -1846,6 +1905,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ElasticLoadBalancers", required: false, type: .list)
         ]
+
         /// A list of ElasticLoadBalancer objects that describe the specified Elastic Load Balancing instances.
         public let elasticLoadBalancers: [ElasticLoadBalancer]?
 
@@ -1864,6 +1924,7 @@ extension OpsWorks {
             AWSShapeMember(label: "LayerId", required: false, type: .string), 
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
+
         /// An array of instance IDs to be described. If you use this parameter, DescribeInstances returns a description of the specified instances. Otherwise, it returns a description of every instance.
         public let instanceIds: [String]?
         /// A layer ID. If you use this parameter, DescribeInstances returns descriptions of the instances associated with the specified layer.
@@ -1888,6 +1949,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Instances", required: false, type: .list)
         ]
+
         /// An array of Instance objects that describe the instances.
         public let instances: [Instance]?
 
@@ -1905,6 +1967,7 @@ extension OpsWorks {
             AWSShapeMember(label: "LayerIds", required: false, type: .list), 
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
+
         /// An array of layer IDs that specify the layers to be described. If you omit this parameter, DescribeLayers returns a description of every layer in the specified stack.
         public let layerIds: [String]?
         /// The stack ID.
@@ -1925,6 +1988,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Layers", required: false, type: .list)
         ]
+
         /// An array of Layer objects that describe the layers.
         public let layers: [Layer]?
 
@@ -1941,6 +2005,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LayerIds", required: true, type: .list)
         ]
+
         /// An array of layer IDs.
         public let layerIds: [String]
 
@@ -1957,6 +2022,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBasedAutoScalingConfigurations", required: false, type: .list)
         ]
+
         /// An array of LoadBasedAutoScalingConfiguration objects that describe each layer's configuration.
         public let loadBasedAutoScalingConfigurations: [LoadBasedAutoScalingConfiguration]?
 
@@ -1973,6 +2039,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UserProfile", required: false, type: .structure)
         ]
+
         /// A UserProfile object that describes the user's SSH information.
         public let userProfile: SelfUserProfile?
 
@@ -1989,6 +2056,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OperatingSystems", required: false, type: .list)
         ]
+
         /// Contains information in response to a DescribeOperatingSystems request.
         public let operatingSystems: [OperatingSystem]?
 
@@ -2006,6 +2074,7 @@ extension OpsWorks {
             AWSShapeMember(label: "IamUserArn", required: false, type: .string), 
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
+
         /// The user's IAM ARN. This can also be a federated user's ARN. For more information about IAM ARNs, see Using Identifiers.
         public let iamUserArn: String?
         /// The stack ID.
@@ -2026,6 +2095,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Permissions", required: false, type: .list)
         ]
+
         /// An array of Permission objects that describe the stack permissions.   If the request object contains only a stack ID, the array contains a Permission object with permissions for each of the stack IAM ARNs.   If the request object contains only an IAM ARN, the array contains a Permission object with permissions for each of the user's stack IDs.   If the request contains a stack ID and an IAM ARN, the array contains a single Permission object with permissions for the specified stack and IAM ARN.  
         public let permissions: [Permission]?
 
@@ -2044,6 +2114,7 @@ extension OpsWorks {
             AWSShapeMember(label: "RaidArrayIds", required: false, type: .list), 
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
+
         /// The instance ID. If you use this parameter, DescribeRaidArrays returns descriptions of the RAID arrays associated with the specified instance. 
         public let instanceId: String?
         /// An array of RAID array IDs. If you use this parameter, DescribeRaidArrays returns descriptions of the specified arrays. Otherwise, it returns a description of every array.
@@ -2068,6 +2139,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RaidArrays", required: false, type: .list)
         ]
+
         /// A RaidArrays object that describes the specified RAID arrays.
         public let raidArrays: [RaidArray]?
 
@@ -2085,6 +2157,7 @@ extension OpsWorks {
             AWSShapeMember(label: "RdsDbInstanceArns", required: false, type: .list), 
             AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
+
         /// An array containing the ARNs of the instances to be described.
         public let rdsDbInstanceArns: [String]?
         /// The ID of the stack with which the instances are registered. The operation returns descriptions of all registered Amazon RDS instances.
@@ -2105,6 +2178,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RdsDbInstances", required: false, type: .list)
         ]
+
         /// An a array of RdsDbInstance objects that describe the instances.
         public let rdsDbInstances: [RdsDbInstance]?
 
@@ -2123,6 +2197,7 @@ extension OpsWorks {
             AWSShapeMember(label: "ServiceErrorIds", required: false, type: .list), 
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
+
         /// The instance ID. If you use this parameter, DescribeServiceErrors returns descriptions of the errors associated with the specified instance.
         public let instanceId: String?
         /// An array of service error IDs. If you use this parameter, DescribeServiceErrors returns descriptions of the specified errors. Otherwise, it returns a description of every error.
@@ -2147,6 +2222,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceErrors", required: false, type: .list)
         ]
+
         /// An array of ServiceError objects that describe the specified service errors.
         public let serviceErrors: [ServiceError]?
 
@@ -2163,6 +2239,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
+
         /// The stack ID.
         public let stackId: String
 
@@ -2180,6 +2257,7 @@ extension OpsWorks {
             AWSShapeMember(label: "AgentInstallerUrl", required: false, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .map)
         ]
+
         /// The AWS OpsWorks Stacks agent installer's URL.
         public let agentInstallerUrl: String?
         /// An embedded object that contains the provisioning parameters.
@@ -2200,6 +2278,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
+
         /// The stack ID.
         public let stackId: String
 
@@ -2216,6 +2295,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackSummary", required: false, type: .structure)
         ]
+
         /// A StackSummary object that contains the results.
         public let stackSummary: StackSummary?
 
@@ -2232,6 +2312,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackIds", required: false, type: .list)
         ]
+
         /// An array of stack IDs that specify the stacks to be described. If you omit this parameter, DescribeStacks returns a description of every stack.
         public let stackIds: [String]?
 
@@ -2248,6 +2329,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Stacks", required: false, type: .list)
         ]
+
         /// An array of Stack objects that describe the stacks.
         public let stacks: [Stack]?
 
@@ -2264,6 +2346,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceIds", required: true, type: .list)
         ]
+
         /// An array of instance IDs.
         public let instanceIds: [String]
 
@@ -2280,6 +2363,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TimeBasedAutoScalingConfigurations", required: false, type: .list)
         ]
+
         /// An array of TimeBasedAutoScalingConfiguration objects that describe the configuration for the specified instances.
         public let timeBasedAutoScalingConfigurations: [TimeBasedAutoScalingConfiguration]?
 
@@ -2296,6 +2380,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IamUserArns", required: false, type: .list)
         ]
+
         /// An array of IAM or federated user ARNs that identify the users to be described.
         public let iamUserArns: [String]?
 
@@ -2312,6 +2397,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UserProfiles", required: false, type: .list)
         ]
+
         /// A Users object that describes the specified users.
         public let userProfiles: [UserProfile]?
 
@@ -2331,6 +2417,7 @@ extension OpsWorks {
             AWSShapeMember(label: "StackId", required: false, type: .string), 
             AWSShapeMember(label: "VolumeIds", required: false, type: .list)
         ]
+
         /// The instance ID. If you use this parameter, DescribeVolumes returns descriptions of the volumes associated with the specified instance.
         public let instanceId: String?
         /// The RAID array ID. If you use this parameter, DescribeVolumes returns descriptions of the volumes associated with the specified RAID array.
@@ -2359,6 +2446,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Volumes", required: false, type: .list)
         ]
+
         /// An array of volume IDs.
         public let volumes: [Volume]?
 
@@ -2376,6 +2464,7 @@ extension OpsWorks {
             AWSShapeMember(label: "ElasticLoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "LayerId", required: true, type: .string)
         ]
+
         /// The Elastic Load Balancing instance's name.
         public let elasticLoadBalancerName: String
         /// The ID of the layer that the Elastic Load Balancing instance is attached to.
@@ -2396,6 +2485,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ElasticIp", required: true, type: .string)
         ]
+
         /// The Elastic IP address.
         public let elasticIp: String
 
@@ -2416,18 +2506,19 @@ extension OpsWorks {
             AWSShapeMember(label: "VolumeSize", required: false, type: .integer), 
             AWSShapeMember(label: "VolumeType", required: false, type: .enum)
         ]
+
         /// Whether the volume is deleted on instance termination.
         public let deleteOnTermination: Bool?
         /// The number of I/O operations per second (IOPS) that the volume supports. For more information, see EbsBlockDevice.
-        public let iops: Int32?
+        public let iops: Int?
         /// The snapshot ID.
         public let snapshotId: String?
         /// The volume size, in GiB. For more information, see EbsBlockDevice.
-        public let volumeSize: Int32?
+        public let volumeSize: Int?
         /// The volume type. gp2 for General Purpose (SSD) volumes, io1 for Provisioned IOPS (SSD) volumes, st1 for Throughput Optimized hard disk drives (HDD), sc1 for Cold HDD,and standard for Magnetic volumes. If you specify the io1 volume type, you must also specify a value for the Iops attribute. The maximum ratio of provisioned IOPS to requested volume size (in GiB) is 50:1. AWS uses the default volume size (in GiB) specified in the AMI attributes to set IOPS to 50 x (volume size).
         public let volumeType: VolumeType?
 
-        public init(deleteOnTermination: Bool? = nil, iops: Int32? = nil, snapshotId: String? = nil, volumeSize: Int32? = nil, volumeType: VolumeType? = nil) {
+        public init(deleteOnTermination: Bool? = nil, iops: Int? = nil, snapshotId: String? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
             self.deleteOnTermination = deleteOnTermination
             self.iops = iops
             self.snapshotId = snapshotId
@@ -2451,6 +2542,7 @@ extension OpsWorks {
             AWSShapeMember(label: "RegisteredAt", required: false, type: .string), 
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
+
         /// The cluster's ARN.
         public let ecsClusterArn: String?
         /// The cluster name.
@@ -2483,6 +2575,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Region", required: false, type: .string)
         ]
+
         /// The domain.
         public let domain: String?
         /// The ID of the instance that the address is attached to.
@@ -2523,6 +2616,7 @@ extension OpsWorks {
             AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
+
         /// A list of Availability Zones.
         public let availabilityZones: [String]?
         /// The instance's public DNS name.
@@ -2573,6 +2667,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Secure", required: false, type: .boolean), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         /// (Required) The environment variable's name, which can consist of up to 64 characters and must be specified. The name can contain upper- and lowercase letters, numbers, and underscores (_), but it must start with a letter or underscore.
         public let key: String
         /// (Optional) Whether the variable's value will be returned by the DescribeApps action. To conceal an environment variable's value, set Secure to true. DescribeApps then returns *****FILTERED***** instead of the actual value. The default value for Secure is false. 
@@ -2597,6 +2692,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LayerId", required: true, type: .string)
         ]
+
         /// The layer ID.
         public let layerId: String
 
@@ -2614,6 +2710,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Hostname", required: false, type: .string), 
             AWSShapeMember(label: "LayerId", required: false, type: .string)
         ]
+
         /// The generated host name.
         public let hostname: String?
         /// The layer ID.
@@ -2635,14 +2732,20 @@ extension OpsWorks {
             AWSShapeMember(label: "InstanceId", required: true, type: .string), 
             AWSShapeMember(label: "ValidForInMinutes", required: false, type: .integer)
         ]
+
         /// The instance's AWS OpsWorks Stacks ID.
         public let instanceId: String
         /// The length of time (in minutes) that the grant is valid. When the grant expires at the end of this period, the user will no longer be able to use the credentials to log in. If the user is logged in at the time, he or she automatically will be logged out.
-        public let validForInMinutes: Int32?
+        public let validForInMinutes: Int?
 
-        public init(instanceId: String, validForInMinutes: Int32? = nil) {
+        public init(instanceId: String, validForInMinutes: Int? = nil) {
             self.instanceId = instanceId
             self.validForInMinutes = validForInMinutes
+        }
+
+        public func validate(name: String) throws {
+            try validate(validForInMinutes, name:"validForInMinutes", parent: name, max: 1440)
+            try validate(validForInMinutes, name:"validForInMinutes", parent: name, min: 60)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2655,6 +2758,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TemporaryCredential", required: false, type: .structure)
         ]
+
         /// A TemporaryCredential object that contains the data needed to log in to the instance by RDP clients, such as the Microsoft Remote Desktop Connection.
         public let temporaryCredential: TemporaryCredential?
 
@@ -2711,6 +2815,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Tenancy", required: false, type: .string), 
             AWSShapeMember(label: "VirtualizationType", required: false, type: .enum)
         ]
+
         /// The agent version. This parameter is set to INHERIT if the instance inherits the default stack setting or to a a version number for a fixed agent version.
         public let agentVersion: String?
         /// A custom AMI ID to be used to create the instance. For more information, see Instances 
@@ -2888,6 +2993,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Document", required: false, type: .string), 
             AWSShapeMember(label: "Signature", required: false, type: .string)
         ]
+
         /// A JSON document that contains the metadata.
         public let document: String?
         /// A signature that can be used to verify the document's accuracy and authenticity.
@@ -2927,48 +3033,49 @@ extension OpsWorks {
             AWSShapeMember(label: "Terminating", required: false, type: .integer), 
             AWSShapeMember(label: "Unassigning", required: false, type: .integer)
         ]
-        /// The number of instances in the Assigning state.
-        public let assigning: Int32?
-        /// The number of instances with booting status.
-        public let booting: Int32?
-        /// The number of instances with connection_lost status.
-        public let connectionLost: Int32?
-        /// The number of instances in the Deregistering state.
-        public let deregistering: Int32?
-        /// The number of instances with online status.
-        public let online: Int32?
-        /// The number of instances with pending status.
-        public let pending: Int32?
-        /// The number of instances with rebooting status.
-        public let rebooting: Int32?
-        /// The number of instances in the Registered state.
-        public let registered: Int32?
-        /// The number of instances in the Registering state.
-        public let registering: Int32?
-        /// The number of instances with requested status.
-        public let requested: Int32?
-        /// The number of instances with running_setup status.
-        public let runningSetup: Int32?
-        /// The number of instances with setup_failed status.
-        public let setupFailed: Int32?
-        /// The number of instances with shutting_down status.
-        public let shuttingDown: Int32?
-        /// The number of instances with start_failed status.
-        public let startFailed: Int32?
-        /// The number of instances with stop_failed status.
-        public let stopFailed: Int32?
-        /// The number of instances with stopped status.
-        public let stopped: Int32?
-        /// The number of instances with stopping status.
-        public let stopping: Int32?
-        /// The number of instances with terminated status.
-        public let terminated: Int32?
-        /// The number of instances with terminating status.
-        public let terminating: Int32?
-        /// The number of instances in the Unassigning state.
-        public let unassigning: Int32?
 
-        public init(assigning: Int32? = nil, booting: Int32? = nil, connectionLost: Int32? = nil, deregistering: Int32? = nil, online: Int32? = nil, pending: Int32? = nil, rebooting: Int32? = nil, registered: Int32? = nil, registering: Int32? = nil, requested: Int32? = nil, runningSetup: Int32? = nil, setupFailed: Int32? = nil, shuttingDown: Int32? = nil, startFailed: Int32? = nil, stopFailed: Int32? = nil, stopped: Int32? = nil, stopping: Int32? = nil, terminated: Int32? = nil, terminating: Int32? = nil, unassigning: Int32? = nil) {
+        /// The number of instances in the Assigning state.
+        public let assigning: Int?
+        /// The number of instances with booting status.
+        public let booting: Int?
+        /// The number of instances with connection_lost status.
+        public let connectionLost: Int?
+        /// The number of instances in the Deregistering state.
+        public let deregistering: Int?
+        /// The number of instances with online status.
+        public let online: Int?
+        /// The number of instances with pending status.
+        public let pending: Int?
+        /// The number of instances with rebooting status.
+        public let rebooting: Int?
+        /// The number of instances in the Registered state.
+        public let registered: Int?
+        /// The number of instances in the Registering state.
+        public let registering: Int?
+        /// The number of instances with requested status.
+        public let requested: Int?
+        /// The number of instances with running_setup status.
+        public let runningSetup: Int?
+        /// The number of instances with setup_failed status.
+        public let setupFailed: Int?
+        /// The number of instances with shutting_down status.
+        public let shuttingDown: Int?
+        /// The number of instances with start_failed status.
+        public let startFailed: Int?
+        /// The number of instances with stop_failed status.
+        public let stopFailed: Int?
+        /// The number of instances with stopped status.
+        public let stopped: Int?
+        /// The number of instances with stopping status.
+        public let stopping: Int?
+        /// The number of instances with terminated status.
+        public let terminated: Int?
+        /// The number of instances with terminating status.
+        public let terminating: Int?
+        /// The number of instances in the Unassigning state.
+        public let unassigning: Int?
+
+        public init(assigning: Int? = nil, booting: Int? = nil, connectionLost: Int? = nil, deregistering: Int? = nil, online: Int? = nil, pending: Int? = nil, rebooting: Int? = nil, registered: Int? = nil, registering: Int? = nil, requested: Int? = nil, runningSetup: Int? = nil, setupFailed: Int? = nil, shuttingDown: Int? = nil, startFailed: Int? = nil, stopFailed: Int? = nil, stopped: Int? = nil, stopping: Int? = nil, terminated: Int? = nil, terminating: Int? = nil, unassigning: Int? = nil) {
             self.assigning = assigning
             self.booting = booting
             self.connectionLost = connectionLost
@@ -3041,6 +3148,7 @@ extension OpsWorks {
             AWSShapeMember(label: "UseEbsOptimizedInstances", required: false, type: .boolean), 
             AWSShapeMember(label: "VolumeConfigurations", required: false, type: .list)
         ]
+
         /// The Amazon Resource Number (ARN) of a layer.
         public let arn: String?
         /// The layer attributes. For the HaproxyStatsPassword, MysqlRootPassword, and GangliaPassword attributes, AWS OpsWorks Stacks returns *****FILTERED***** instead of the actual value For an ECS Cluster layer, AWS OpsWorks Stacks the EcsClusterArn attribute is set to the cluster's ARN.
@@ -3190,6 +3298,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Shutdown", required: false, type: .structure)
         ]
+
         /// A ShutdownEventConfiguration object that specifies the Shutdown event configuration.
         public let shutdown: ShutdownEventConfiguration?
 
@@ -3208,14 +3317,15 @@ extension OpsWorks {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
+
         /// Do not use. A validation exception occurs if you add a MaxResults parameter to a ListTagsRequest call. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Do not use. A validation exception occurs if you add a NextToken parameter to a ListTagsRequest call. 
         public let nextToken: String?
         /// The stack or layer's Amazon Resource Number (ARN).
         public let resourceArn: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -3233,6 +3343,7 @@ extension OpsWorks {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
+
         /// If a paginated request does not return all of the remaining results, this parameter is set to a token that you can assign to the request object's NextToken parameter to get the next set of results. If the previous paginated request returned all of the remaining results, this parameter is set to null. 
         public let nextToken: String?
         /// A set of key-value pairs that contain tag keys and tag values that are attached to a stack or layer.
@@ -3256,6 +3367,7 @@ extension OpsWorks {
             AWSShapeMember(label: "LayerId", required: false, type: .string), 
             AWSShapeMember(label: "UpScaling", required: false, type: .structure)
         ]
+
         /// An AutoScalingThresholds object that describes the downscaling configuration, which defines how and when AWS OpsWorks Stacks reduces the number of instances.
         public let downScaling: AutoScalingThresholds?
         /// Whether load-based auto scaling is enabled for the layer.
@@ -3290,6 +3402,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Supported", required: false, type: .boolean), 
             AWSShapeMember(label: "Type", required: false, type: .string)
         ]
+
         /// Supported configuration manager name and versions for an AWS OpsWorks Stacks operating system.
         public let configurationManagers: [OperatingSystemConfigurationManager]?
         /// The ID of a supported operating system, such as Amazon Linux 2018.03.
@@ -3331,6 +3444,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// The name of the configuration manager, which is Chef.
         public let name: String?
         /// The versions of the configuration manager that are supported by an operating system.
@@ -3355,6 +3469,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Level", required: false, type: .string), 
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
+
         /// Whether the user can use SSH.
         public let allowSsh: Bool?
         /// Whether the user can use sudo.
@@ -3399,6 +3514,7 @@ extension OpsWorks {
             AWSShapeMember(label: "StackId", required: false, type: .string), 
             AWSShapeMember(label: "VolumeType", required: false, type: .string)
         ]
+
         /// The array's Availability Zone. For more information, see Regions and Endpoints.
         public let availabilityZone: String?
         /// When the RAID array was created.
@@ -3408,25 +3524,25 @@ extension OpsWorks {
         /// The instance ID.
         public let instanceId: String?
         /// For PIOPS volumes, the IOPS per disk.
-        public let iops: Int32?
+        public let iops: Int?
         /// The array's mount point.
         public let mountPoint: String?
         /// The array name.
         public let name: String?
         /// The number of disks in the array.
-        public let numberOfDisks: Int32?
+        public let numberOfDisks: Int?
         /// The array ID.
         public let raidArrayId: String?
         /// The RAID level.
-        public let raidLevel: Int32?
+        public let raidLevel: Int?
         /// The array's size.
-        public let size: Int32?
+        public let size: Int?
         /// The stack ID.
         public let stackId: String?
         /// The volume type, standard or PIOPS.
         public let volumeType: String?
 
-        public init(availabilityZone: String? = nil, createdAt: String? = nil, device: String? = nil, instanceId: String? = nil, iops: Int32? = nil, mountPoint: String? = nil, name: String? = nil, numberOfDisks: Int32? = nil, raidArrayId: String? = nil, raidLevel: Int32? = nil, size: Int32? = nil, stackId: String? = nil, volumeType: String? = nil) {
+        public init(availabilityZone: String? = nil, createdAt: String? = nil, device: String? = nil, instanceId: String? = nil, iops: Int? = nil, mountPoint: String? = nil, name: String? = nil, numberOfDisks: Int? = nil, raidArrayId: String? = nil, raidLevel: Int? = nil, size: Int? = nil, stackId: String? = nil, volumeType: String? = nil) {
             self.availabilityZone = availabilityZone
             self.createdAt = createdAt
             self.device = device
@@ -3471,6 +3587,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Region", required: false, type: .string), 
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
+
         /// The instance's address.
         public let address: String?
         /// The DB instance identifier.
@@ -3519,6 +3636,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
+
         /// The instance ID.
         public let instanceId: String
 
@@ -3539,6 +3657,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Shutdown", required: false, type: .list), 
             AWSShapeMember(label: "Undeploy", required: false, type: .list)
         ]
+
         /// An array of custom recipe names to be run following a configure event.
         public let configure: [String]?
         /// An array of custom recipe names to be run following a deploy event.
@@ -3572,6 +3691,7 @@ extension OpsWorks {
             AWSShapeMember(label: "EcsClusterArn", required: true, type: .string), 
             AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
+
         /// The cluster's ARN.
         public let ecsClusterArn: String
         /// The stack ID.
@@ -3592,6 +3712,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EcsClusterArn", required: false, type: .string)
         ]
+
         /// The cluster's ARN.
         public let ecsClusterArn: String?
 
@@ -3609,6 +3730,7 @@ extension OpsWorks {
             AWSShapeMember(label: "ElasticIp", required: true, type: .string), 
             AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
+
         /// The Elastic IP address.
         public let elasticIp: String
         /// The stack ID.
@@ -3629,6 +3751,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ElasticIp", required: false, type: .string)
         ]
+
         /// The Elastic IP address.
         public let elasticIp: String?
 
@@ -3651,6 +3774,7 @@ extension OpsWorks {
             AWSShapeMember(label: "RsaPublicKeyFingerprint", required: false, type: .string), 
             AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
+
         /// The instance's hostname.
         public let hostname: String?
         /// An InstanceIdentity object that contains the instance's identity.
@@ -3691,6 +3815,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
+
         /// The registered instance's AWS OpsWorks Stacks ID.
         public let instanceId: String?
 
@@ -3710,6 +3835,7 @@ extension OpsWorks {
             AWSShapeMember(label: "RdsDbInstanceArn", required: true, type: .string), 
             AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
+
         /// The database password.
         public let dbPassword: String
         /// The database's master user name.
@@ -3739,6 +3865,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Ec2VolumeId", required: false, type: .string), 
             AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
+
         /// The Amazon EBS volume ID.
         public let ec2VolumeId: String?
         /// The stack ID.
@@ -3759,6 +3886,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeId", required: false, type: .string)
         ]
+
         /// The volume ID.
         public let volumeId: String?
 
@@ -3777,6 +3905,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// The operating system family.
         public let family: String?
         /// The operating system name.
@@ -3810,6 +3939,7 @@ extension OpsWorks {
             AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
             AWSShapeMember(label: "SshUsername", required: false, type: .string)
         ]
+
         /// The user's IAM ARN.
         public let iamUserArn: String?
         /// The user's name.
@@ -3843,6 +3973,7 @@ extension OpsWorks {
             AWSShapeMember(label: "StackId", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .string)
         ]
+
         /// When the error occurred.
         public let createdAt: String?
         /// The instance ID.
@@ -3882,6 +4013,7 @@ extension OpsWorks {
             AWSShapeMember(label: "LayerId", required: true, type: .string), 
             AWSShapeMember(label: "UpScaling", required: false, type: .structure)
         ]
+
         /// An AutoScalingThresholds object with the downscaling threshold configuration. If the load falls below these thresholds for a specified amount of time, AWS OpsWorks Stacks stops a specified number of instances.
         public let downScaling: AutoScalingThresholds?
         /// Enables load-based auto scaling for the layer.
@@ -3896,6 +4028,11 @@ extension OpsWorks {
             self.enable = enable
             self.layerId = layerId
             self.upScaling = upScaling
+        }
+
+        public func validate(name: String) throws {
+            try downScaling?.validate(name: "\(name).downScaling")
+            try upScaling?.validate(name: "\(name).upScaling")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3914,6 +4051,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Level", required: false, type: .string), 
             AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
+
         /// The user is allowed to use SSH to communicate with the instance.
         public let allowSsh: Bool?
         /// The user is allowed to use sudo to elevate privileges.
@@ -3947,6 +4085,7 @@ extension OpsWorks {
             AWSShapeMember(label: "AutoScalingSchedule", required: false, type: .structure), 
             AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
+
         /// An AutoScalingSchedule with the instance schedule.
         public let autoScalingSchedule: WeeklyAutoScalingSchedule?
         /// The instance ID.
@@ -3968,12 +4107,13 @@ extension OpsWorks {
             AWSShapeMember(label: "DelayUntilElbConnectionsDrained", required: false, type: .boolean), 
             AWSShapeMember(label: "ExecutionTimeout", required: false, type: .integer)
         ]
+
         /// Whether to enable Elastic Load Balancing connection draining. For more information, see Connection Draining 
         public let delayUntilElbConnectionsDrained: Bool?
         /// The time, in seconds, that AWS OpsWorks Stacks will wait after triggering a Shutdown event before shutting down an instance.
-        public let executionTimeout: Int32?
+        public let executionTimeout: Int?
 
-        public init(delayUntilElbConnectionsDrained: Bool? = nil, executionTimeout: Int32? = nil) {
+        public init(delayUntilElbConnectionsDrained: Bool? = nil, executionTimeout: Int? = nil) {
             self.delayUntilElbConnectionsDrained = delayUntilElbConnectionsDrained
             self.executionTimeout = executionTimeout
         }
@@ -3993,6 +4133,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Url", required: false, type: .string), 
             AWSShapeMember(label: "Username", required: false, type: .string)
         ]
+
         /// When included in a request, the parameter depends on the repository type.   For Amazon S3 bundles, set Password to the appropriate IAM secret access key.   For HTTP bundles and Subversion repositories, set Password to the password.   For more information on how to safely handle IAM credentials, see https://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html. In responses, AWS OpsWorks Stacks returns *****FILTERED***** instead of the actual value.
         public let password: String?
         /// The application's version. AWS OpsWorks Stacks enables you to easily deploy new versions of an application. One of the simplest approaches is to have branches or revisions in your repository that represent different versions that can potentially be deployed.
@@ -4039,6 +4180,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Chain", required: false, type: .string), 
             AWSShapeMember(label: "PrivateKey", required: true, type: .string)
         ]
+
         /// The contents of the certificate's domain.crt file.
         public let certificate: String
         /// Optional. Can be used to specify an intermediate certificate authority key or client authentication.
@@ -4084,6 +4226,7 @@ extension OpsWorks {
             AWSShapeMember(label: "UseOpsworksSecurityGroups", required: false, type: .boolean), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
+
         /// The agent version. This parameter is set to LATEST for auto-update. or a version number for a fixed agent version.
         public let agentVersion: String?
         /// The stack's ARN.
@@ -4190,6 +4333,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// The name. This parameter must be set to "Chef".
         public let name: String?
         /// The Chef version. This parameter must be set to 12, 11.10, or 11.4 for Linux stacks, and to 12.2 for Windows stacks. The default value for Linux stacks is 11.4.
@@ -4215,20 +4359,21 @@ extension OpsWorks {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
+
         /// The number of apps.
-        public let appsCount: Int32?
+        public let appsCount: Int?
         /// The stack's ARN.
         public let arn: String?
         /// An InstancesCount object with the number of instances in each status.
         public let instancesCount: InstancesCount?
         /// The number of layers.
-        public let layersCount: Int32?
+        public let layersCount: Int?
         /// The stack name.
         public let name: String?
         /// The stack ID.
         public let stackId: String?
 
-        public init(appsCount: Int32? = nil, arn: String? = nil, instancesCount: InstancesCount? = nil, layersCount: Int32? = nil, name: String? = nil, stackId: String? = nil) {
+        public init(appsCount: Int? = nil, arn: String? = nil, instancesCount: InstancesCount? = nil, layersCount: Int? = nil, name: String? = nil, stackId: String? = nil) {
             self.appsCount = appsCount
             self.arn = arn
             self.instancesCount = instancesCount
@@ -4251,6 +4396,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
+
         /// The instance ID.
         public let instanceId: String
 
@@ -4267,6 +4413,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
+
         /// The stack ID.
         public let stackId: String
 
@@ -4284,6 +4431,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Force", required: false, type: .boolean), 
             AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
+
         /// Specifies whether to force an instance to stop. If the instance's root device type is ebs, or EBS-backed, adding the Force parameter to the StopInstances API call disassociates the AWS OpsWorks Stacks instance from EC2, and forces deletion of only the OpsWorks Stacks instance. You must also delete the formerly-associated instance in EC2 after troubleshooting and replacing the AWS OpsWorks Stacks instance with a new one.
         public let force: Bool?
         /// The instance ID.
@@ -4304,6 +4452,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
+
         /// The stack ID.
         public let stackId: String
 
@@ -4321,6 +4470,7 @@ extension OpsWorks {
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .map)
         ]
+
         /// The stack or layer's Amazon Resource Number (ARN).
         public let resourceArn: String
         /// A map that contains tag keys and tag values that are attached to a stack or layer.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 40 tags is allowed for any resource.  
@@ -4344,6 +4494,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Username", required: false, type: .string), 
             AWSShapeMember(label: "ValidForInMinutes", required: false, type: .integer)
         ]
+
         /// The instance's AWS OpsWorks Stacks ID.
         public let instanceId: String?
         /// The password.
@@ -4351,9 +4502,9 @@ extension OpsWorks {
         /// The user name.
         public let username: String?
         /// The length of time (in minutes) that the grant is valid. When the grant expires, at the end of this period, the user will no longer be able to use the credentials to log in. If they are logged in at the time, they will be automatically logged out.
-        public let validForInMinutes: Int32?
+        public let validForInMinutes: Int?
 
-        public init(instanceId: String? = nil, password: String? = nil, username: String? = nil, validForInMinutes: Int32? = nil) {
+        public init(instanceId: String? = nil, password: String? = nil, username: String? = nil, validForInMinutes: Int? = nil) {
             self.instanceId = instanceId
             self.password = password
             self.username = username
@@ -4373,6 +4524,7 @@ extension OpsWorks {
             AWSShapeMember(label: "AutoScalingSchedule", required: false, type: .structure), 
             AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
+
         /// A WeeklyAutoScalingSchedule object with the instance schedule.
         public let autoScalingSchedule: WeeklyAutoScalingSchedule?
         /// The instance ID.
@@ -4393,6 +4545,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
+
         /// The instance ID.
         public let instanceId: String
 
@@ -4409,6 +4562,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeId", required: true, type: .string)
         ]
+
         /// The volume ID.
         public let volumeId: String
 
@@ -4426,6 +4580,7 @@ extension OpsWorks {
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
+
         /// The stack or layer's Amazon Resource Number (ARN).
         public let resourceArn: String
         /// A list of the keys of tags to be removed from a stack or layer.
@@ -4456,6 +4611,7 @@ extension OpsWorks {
             AWSShapeMember(label: "SslConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The app ID.
         public let appId: String
         /// A Source object that specifies the app repository.
@@ -4513,6 +4669,7 @@ extension OpsWorks {
             AWSShapeMember(label: "ElasticIp", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The IP address for which you want to update the name.
         public let elasticIp: String
         /// The new name.
@@ -4544,6 +4701,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Os", required: false, type: .string), 
             AWSShapeMember(label: "SshKeyName", required: false, type: .string)
         ]
+
         /// The default AWS OpsWorks Stacks agent version. You have the following options:    INHERIT - Use the stack's default agent version setting.    version_number - Use the specified agent version. This value overrides the stack's default setting. To update the agent version, you must edit the instance configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the instance.   The default setting is INHERIT. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.
         public let agentVersion: String?
         /// The ID of the AMI that was used to create the instance. The value of this parameter must be the same AMI ID that the instance is already using. You cannot apply a new AMI to an instance by running UpdateInstance. UpdateInstance does not work on instances that are using custom AMIs. 
@@ -4620,6 +4778,7 @@ extension OpsWorks {
             AWSShapeMember(label: "UseEbsOptimizedInstances", required: false, type: .boolean), 
             AWSShapeMember(label: "VolumeConfigurations", required: false, type: .list)
         ]
+
         /// One or more user-defined key/value pairs to be added to the stack attributes.
         public let attributes: [LayerAttributesKeys: String]?
         /// Whether to automatically assign an Elastic IP address to the layer's instances. For more information, see How to Edit a Layer.
@@ -4699,6 +4858,7 @@ extension OpsWorks {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SshPublicKey", required: false, type: .string)
         ]
+
         /// The user's SSH public key.
         public let sshPublicKey: String?
 
@@ -4717,6 +4877,7 @@ extension OpsWorks {
             AWSShapeMember(label: "DbUser", required: false, type: .string), 
             AWSShapeMember(label: "RdsDbInstanceArn", required: true, type: .string)
         ]
+
         /// The database password.
         public let dbPassword: String?
         /// The master user name.
@@ -4758,6 +4919,7 @@ extension OpsWorks {
             AWSShapeMember(label: "UseCustomCookbooks", required: false, type: .boolean), 
             AWSShapeMember(label: "UseOpsworksSecurityGroups", required: false, type: .boolean)
         ]
+
         /// The default AWS OpsWorks Stacks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update the agent version, you must edit the stack configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the stack's instances.   The default setting is LATEST. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.  You can also specify an agent version when you create or update an instance, which overrides the stack's default setting. 
         public let agentVersion: String?
         /// One or more user-defined key-value pairs to be added to the stack attributes.
@@ -4845,6 +5007,7 @@ extension OpsWorks {
             AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
             AWSShapeMember(label: "SshUsername", required: false, type: .string)
         ]
+
         /// Whether users can specify their own SSH public key through the My Settings page. For more information, see Managing User Permissions.
         public let allowSelfManagement: Bool?
         /// The user IAM ARN. This can also be a federated user's ARN.
@@ -4875,6 +5038,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "VolumeId", required: true, type: .string)
         ]
+
         /// The new mount point.
         public let mountPoint: String?
         /// The new name.
@@ -4903,6 +5067,7 @@ extension OpsWorks {
             AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
             AWSShapeMember(label: "SshUsername", required: false, type: .string)
         ]
+
         /// Whether users can specify their own SSH public key through the My Settings page. For more information, see Managing User Permissions.
         public let allowSelfManagement: Bool?
         /// The user's IAM ARN.
@@ -4954,6 +5119,7 @@ extension OpsWorks {
             AWSShapeMember(label: "VolumeId", required: false, type: .string), 
             AWSShapeMember(label: "VolumeType", required: false, type: .string)
         ]
+
         /// The volume Availability Zone. For more information, see Regions and Endpoints.
         public let availabilityZone: String?
         /// The device name.
@@ -4965,7 +5131,7 @@ extension OpsWorks {
         /// The instance ID.
         public let instanceId: String?
         /// For PIOPS volumes, the IOPS per disk.
-        public let iops: Int32?
+        public let iops: Int?
         /// The volume mount point. For example, "/mnt/disk1".
         public let mountPoint: String?
         /// The volume name.
@@ -4975,7 +5141,7 @@ extension OpsWorks {
         /// The AWS region. For more information about AWS regions, see Regions and Endpoints.
         public let region: String?
         /// The volume size.
-        public let size: Int32?
+        public let size: Int?
         /// The value returned by DescribeVolumes.
         public let status: String?
         /// The volume ID.
@@ -4983,7 +5149,7 @@ extension OpsWorks {
         /// The volume type. For more information, see  Amazon EBS Volume Types.    standard - Magnetic. Magnetic volumes must have a minimum size of 1 GiB and a maximum size of 1024 GiB.    io1 - Provisioned IOPS (SSD). PIOPS volumes must have a minimum size of 4 GiB and a maximum size of 16384 GiB.    gp2 - General Purpose (SSD). General purpose volumes must have a minimum size of 1 GiB and a maximum size of 16384 GiB.    st1 - Throughput Optimized hard disk drive (HDD). Throughput optimized HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.    sc1 - Cold HDD. Cold HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.  
         public let volumeType: String?
 
-        public init(availabilityZone: String? = nil, device: String? = nil, ec2VolumeId: String? = nil, encrypted: Bool? = nil, instanceId: String? = nil, iops: Int32? = nil, mountPoint: String? = nil, name: String? = nil, raidArrayId: String? = nil, region: String? = nil, size: Int32? = nil, status: String? = nil, volumeId: String? = nil, volumeType: String? = nil) {
+        public init(availabilityZone: String? = nil, device: String? = nil, ec2VolumeId: String? = nil, encrypted: Bool? = nil, instanceId: String? = nil, iops: Int? = nil, mountPoint: String? = nil, name: String? = nil, raidArrayId: String? = nil, region: String? = nil, size: Int? = nil, status: String? = nil, volumeId: String? = nil, volumeType: String? = nil) {
             self.availabilityZone = availabilityZone
             self.device = device
             self.ec2VolumeId = ec2VolumeId
@@ -5028,22 +5194,23 @@ extension OpsWorks {
             AWSShapeMember(label: "Size", required: true, type: .integer), 
             AWSShapeMember(label: "VolumeType", required: false, type: .string)
         ]
+
         /// Specifies whether an Amazon EBS volume is encrypted. For more information, see Amazon EBS Encryption.
         public let encrypted: Bool?
         /// For PIOPS volumes, the IOPS per disk.
-        public let iops: Int32?
+        public let iops: Int?
         /// The volume mount point. For example "/dev/sdh".
         public let mountPoint: String
         /// The number of disks in the volume.
-        public let numberOfDisks: Int32
+        public let numberOfDisks: Int
         /// The volume RAID level.
-        public let raidLevel: Int32?
+        public let raidLevel: Int?
         /// The volume size.
-        public let size: Int32
+        public let size: Int
         /// The volume type. For more information, see  Amazon EBS Volume Types.    standard - Magnetic. Magnetic volumes must have a minimum size of 1 GiB and a maximum size of 1024 GiB.    io1 - Provisioned IOPS (SSD). PIOPS volumes must have a minimum size of 4 GiB and a maximum size of 16384 GiB.    gp2 - General Purpose (SSD). General purpose volumes must have a minimum size of 1 GiB and a maximum size of 16384 GiB.    st1 - Throughput Optimized hard disk drive (HDD). Throughput optimized HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.    sc1 - Cold HDD. Cold HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.  
         public let volumeType: String?
 
-        public init(encrypted: Bool? = nil, iops: Int32? = nil, mountPoint: String, numberOfDisks: Int32, raidLevel: Int32? = nil, size: Int32, volumeType: String? = nil) {
+        public init(encrypted: Bool? = nil, iops: Int? = nil, mountPoint: String, numberOfDisks: Int, raidLevel: Int? = nil, size: Int, volumeType: String? = nil) {
             self.encrypted = encrypted
             self.iops = iops
             self.mountPoint = mountPoint
@@ -5081,6 +5248,7 @@ extension OpsWorks {
             AWSShapeMember(label: "Tuesday", required: false, type: .map), 
             AWSShapeMember(label: "Wednesday", required: false, type: .map)
         ]
+
         /// The schedule for Friday.
         public let friday: [String: String]?
         /// The schedule for Monday.

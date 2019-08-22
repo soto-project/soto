@@ -12,6 +12,7 @@ extension DirectConnect {
             AWSShapeMember(label: "overrideAllowedPrefixesToDirectConnectGateway", required: false, type: .list), 
             AWSShapeMember(label: "proposalId", required: true, type: .string)
         ]
+
         /// The ID of the AWS account that owns the virtual private gateway or transit gateway.
         public let associatedGatewayOwnerAccount: String
         /// The ID of the Direct Connect gateway.
@@ -40,6 +41,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "directConnectGatewayAssociation", required: false, type: .structure)
         ]
+
         public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
 
         public init(directConnectGatewayAssociation: DirectConnectGatewayAssociation? = nil) {
@@ -65,6 +67,7 @@ extension DirectConnect {
             AWSShapeMember(label: "ownerAccount", required: true, type: .string), 
             AWSShapeMember(label: "vlan", required: true, type: .integer)
         ]
+
         /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those AWS Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection.
         public let bandwidth: String
         /// The name of the provisioned connection.
@@ -74,9 +77,9 @@ extension DirectConnect {
         /// The ID of the AWS account of the customer for whom the connection will be provisioned.
         public let ownerAccount: String
         /// The dedicated VLAN provisioned to the connection.
-        public let vlan: Int32
+        public let vlan: Int
 
-        public init(bandwidth: String, connectionName: String, interconnectId: String, ownerAccount: String, vlan: Int32) {
+        public init(bandwidth: String, connectionName: String, interconnectId: String, ownerAccount: String, vlan: Int) {
             self.bandwidth = bandwidth
             self.connectionName = connectionName
             self.interconnectId = interconnectId
@@ -102,6 +105,7 @@ extension DirectConnect {
             AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "vlan", required: true, type: .integer)
         ]
+
         /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those AWS Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection. 
         public let bandwidth: String
         /// The ID of the interconnect or LAG.
@@ -113,15 +117,22 @@ extension DirectConnect {
         /// The tags to assign to the hosted connection.
         public let tags: [Tag]?
         /// The dedicated VLAN provisioned to the hosted connection.
-        public let vlan: Int32
+        public let vlan: Int
 
-        public init(bandwidth: String, connectionId: String, connectionName: String, ownerAccount: String, tags: [Tag]? = nil, vlan: Int32) {
+        public init(bandwidth: String, connectionId: String, connectionName: String, ownerAccount: String, tags: [Tag]? = nil, vlan: Int) {
             self.bandwidth = bandwidth
             self.connectionId = connectionId
             self.connectionName = connectionName
             self.ownerAccount = ownerAccount
             self.tags = tags
             self.vlan = vlan
+        }
+
+        public func validate(name: String) throws {
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -140,6 +151,7 @@ extension DirectConnect {
             AWSShapeMember(label: "newPrivateVirtualInterfaceAllocation", required: true, type: .structure), 
             AWSShapeMember(label: "ownerAccount", required: true, type: .string)
         ]
+
         /// The ID of the connection on which the private virtual interface is provisioned.
         public let connectionId: String
         /// Information about the private virtual interface.
@@ -151,6 +163,10 @@ extension DirectConnect {
             self.connectionId = connectionId
             self.newPrivateVirtualInterfaceAllocation = newPrivateVirtualInterfaceAllocation
             self.ownerAccount = ownerAccount
+        }
+
+        public func validate(name: String) throws {
+            try newPrivateVirtualInterfaceAllocation.validate(name: "\(name).newPrivateVirtualInterfaceAllocation")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -166,6 +182,7 @@ extension DirectConnect {
             AWSShapeMember(label: "newPublicVirtualInterfaceAllocation", required: true, type: .structure), 
             AWSShapeMember(label: "ownerAccount", required: true, type: .string)
         ]
+
         /// The ID of the connection on which the public virtual interface is provisioned.
         public let connectionId: String
         /// Information about the public virtual interface.
@@ -177,6 +194,10 @@ extension DirectConnect {
             self.connectionId = connectionId
             self.newPublicVirtualInterfaceAllocation = newPublicVirtualInterfaceAllocation
             self.ownerAccount = ownerAccount
+        }
+
+        public func validate(name: String) throws {
+            try newPublicVirtualInterfaceAllocation.validate(name: "\(name).newPublicVirtualInterfaceAllocation")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -192,6 +213,7 @@ extension DirectConnect {
             AWSShapeMember(label: "newTransitVirtualInterfaceAllocation", required: true, type: .structure), 
             AWSShapeMember(label: "ownerAccount", required: true, type: .string)
         ]
+
         /// The ID of the connection on which the transit virtual interface is provisioned.
         public let connectionId: String
         /// Information about the transit virtual interface.
@@ -205,6 +227,10 @@ extension DirectConnect {
             self.ownerAccount = ownerAccount
         }
 
+        public func validate(name: String) throws {
+            try newTransitVirtualInterfaceAllocation.validate(name: "\(name).newTransitVirtualInterfaceAllocation")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case connectionId = "connectionId"
             case newTransitVirtualInterfaceAllocation = "newTransitVirtualInterfaceAllocation"
@@ -216,6 +242,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "virtualInterface", required: false, type: .structure)
         ]
+
         public let virtualInterface: VirtualInterface?
 
         public init(virtualInterface: VirtualInterface? = nil) {
@@ -232,6 +259,7 @@ extension DirectConnect {
             AWSShapeMember(label: "connectionId", required: true, type: .string), 
             AWSShapeMember(label: "lagId", required: true, type: .string)
         ]
+
         /// The ID of the connection.
         public let connectionId: String
         /// The ID of the LAG with which to associate the connection.
@@ -253,6 +281,7 @@ extension DirectConnect {
             AWSShapeMember(label: "connectionId", required: true, type: .string), 
             AWSShapeMember(label: "parentConnectionId", required: true, type: .string)
         ]
+
         /// The ID of the hosted connection.
         public let connectionId: String
         /// The ID of the interconnect or the LAG.
@@ -274,6 +303,7 @@ extension DirectConnect {
             AWSShapeMember(label: "connectionId", required: true, type: .string), 
             AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string)
         ]
+
         /// The ID of the LAG or connection.
         public let connectionId: String
         /// The ID of the virtual interface.
@@ -297,6 +327,7 @@ extension DirectConnect {
             AWSShapeMember(label: "region", required: false, type: .string), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// The ID of the associated gateway.
         public let id: String?
         /// The ID of the AWS account that owns the associated virtual private gateway or transit gateway.
@@ -333,12 +364,13 @@ extension DirectConnect {
             AWSShapeMember(label: "bgpStatus", required: false, type: .enum), 
             AWSShapeMember(label: "customerAddress", required: false, type: .string)
         ]
+
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
-        public let asn: Int32?
+        public let asn: Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The Direct Connect endpoint on which the BGP peer terminates.
@@ -352,7 +384,7 @@ extension DirectConnect {
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, bgpPeerId: String? = nil, bgpPeerState: BGPPeerState? = nil, bgpStatus: BGPStatus? = nil, customerAddress: String? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, bgpPeerId: String? = nil, bgpPeerState: BGPPeerState? = nil, bgpStatus: BGPStatus? = nil, customerAddress: String? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -397,6 +429,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "connectionId", required: true, type: .string)
         ]
+
         /// The ID of the hosted connection.
         public let connectionId: String
 
@@ -413,6 +446,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "connectionState", required: false, type: .enum)
         ]
+
         /// The state of the connection. The following are the possible values:    ordering: The initial state of a hosted connection provisioned on an interconnect. The connection stays in the ordering state until the owner of the hosted connection confirms or declines the connection order.    requested: The initial state of a standard connection. The connection stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The connection has been approved and is being initialized.    available: The network link is up and the connection is ready for use.    down: The network link is down.    deleting: The connection is being deleted.    deleted: The connection has been deleted.    rejected: A hosted connection in the ordering state enters the rejected state if it is deleted by the customer.    unknown: The state of the connection is not available.  
         public let connectionState: ConnectionState?
 
@@ -431,6 +465,7 @@ extension DirectConnect {
             AWSShapeMember(label: "virtualGatewayId", required: false, type: .string), 
             AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string)
         ]
+
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The ID of the virtual private gateway.
@@ -455,6 +490,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum)
         ]
+
         /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
         public let virtualInterfaceState: VirtualInterfaceState?
 
@@ -471,6 +507,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string)
         ]
+
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String
 
@@ -487,6 +524,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum)
         ]
+
         /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
         public let virtualInterfaceState: VirtualInterfaceState?
 
@@ -504,6 +542,7 @@ extension DirectConnect {
             AWSShapeMember(label: "directConnectGatewayId", required: true, type: .string), 
             AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string)
         ]
+
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String
         /// The ID of the virtual interface.
@@ -524,6 +563,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum)
         ]
+
         /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
         public let virtualInterfaceState: VirtualInterfaceState?
 
@@ -555,6 +595,7 @@ extension DirectConnect {
             AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "vlan", required: false, type: .integer)
         ]
+
         /// The Direct Connect endpoint on which the physical connection terminates.
         public let awsDevice: String?
         /// The Direct Connect endpoint on which the physical connection terminates.
@@ -586,9 +627,9 @@ extension DirectConnect {
         /// Any tags assigned to the connection.
         public let tags: [Tag]?
         /// The ID of the VLAN.
-        public let vlan: Int32?
+        public let vlan: Int?
 
-        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, bandwidth: String? = nil, connectionId: String? = nil, connectionName: String? = nil, connectionState: ConnectionState? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: TimeStamp? = nil, location: String? = nil, ownerAccount: String? = nil, partnerName: String? = nil, region: String? = nil, tags: [Tag]? = nil, vlan: Int32? = nil) {
+        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, bandwidth: String? = nil, connectionId: String? = nil, connectionName: String? = nil, connectionState: ConnectionState? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: TimeStamp? = nil, location: String? = nil, ownerAccount: String? = nil, partnerName: String? = nil, region: String? = nil, tags: [Tag]? = nil, vlan: Int? = nil) {
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
             self.bandwidth = bandwidth
@@ -644,6 +685,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "connections", required: false, type: .list)
         ]
+
         /// The connections.
         public let connections: [Connection]?
 
@@ -661,6 +703,7 @@ extension DirectConnect {
             AWSShapeMember(label: "newBGPPeer", required: false, type: .structure), 
             AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string)
         ]
+
         /// Information about the BGP peer.
         public let newBGPPeer: NewBGPPeer?
         /// The ID of the virtual interface.
@@ -681,6 +724,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "virtualInterface", required: false, type: .structure)
         ]
+
         /// The virtual interface.
         public let virtualInterface: VirtualInterface?
 
@@ -701,6 +745,7 @@ extension DirectConnect {
             AWSShapeMember(label: "location", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+
         /// The bandwidth of the connection.
         public let bandwidth: String
         /// The name of the connection.
@@ -720,6 +765,13 @@ extension DirectConnect {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bandwidth = "bandwidth"
             case connectionName = "connectionName"
@@ -737,6 +789,7 @@ extension DirectConnect {
             AWSShapeMember(label: "gatewayId", required: true, type: .string), 
             AWSShapeMember(label: "removeAllowedPrefixesToDirectConnectGateway", required: false, type: .list)
         ]
+
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
         public let addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
         /// The ID of the Direct Connect gateway.
@@ -769,6 +822,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "directConnectGatewayAssociationProposal", required: false, type: .structure)
         ]
+
         /// Information about the Direct Connect gateway proposal.
         public let directConnectGatewayAssociationProposal: DirectConnectGatewayAssociationProposal?
 
@@ -788,6 +842,7 @@ extension DirectConnect {
             AWSShapeMember(label: "gatewayId", required: false, type: .string), 
             AWSShapeMember(label: "virtualGatewayId", required: false, type: .string)
         ]
+
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway For information about how to set the prefixes, see Allowed Prefixes in the AWS Direct Connect User Guide.
         public let addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
         /// The ID of the Direct Connect gateway.
@@ -816,6 +871,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "directConnectGatewayAssociation", required: false, type: .structure)
         ]
+
         /// The association to be created.
         public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
 
@@ -833,6 +889,7 @@ extension DirectConnect {
             AWSShapeMember(label: "amazonSideAsn", required: false, type: .long), 
             AWSShapeMember(label: "directConnectGatewayName", required: true, type: .string)
         ]
+
         /// The autonomous system number (ASN) for Border Gateway Protocol (BGP) to be configured on the Amazon side of the connection. The ASN must be in the private range of 64,512 to 65,534 or 4,200,000,000 to 4,294,967,294. The default is 64512.
         public let amazonSideAsn: Int64?
         /// The name of the Direct Connect gateway.
@@ -853,6 +910,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "directConnectGateway", required: false, type: .structure)
         ]
+
         /// The Direct Connect gateway.
         public let directConnectGateway: DirectConnectGateway?
 
@@ -873,6 +931,7 @@ extension DirectConnect {
             AWSShapeMember(label: "location", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+
         /// The port bandwidth, in Gbps. The possible values are 1 and 10.
         public let bandwidth: String
         /// The name of the interconnect.
@@ -890,6 +949,13 @@ extension DirectConnect {
             self.lagId = lagId
             self.location = location
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -911,6 +977,7 @@ extension DirectConnect {
             AWSShapeMember(label: "numberOfConnections", required: true, type: .integer), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+
         /// The tags to assign to the child connections of the LAG. Only newly created child connections as the result of creating a LAG connection are assigned the provided tags. The tags are not assigned to an existing connection that is provided via the “connectionId” parameter that will be migrated to the LAG.
         public let childConnectionTags: [Tag]?
         /// The ID of an existing connection to migrate to the LAG.
@@ -922,11 +989,11 @@ extension DirectConnect {
         /// The location for the LAG.
         public let location: String
         /// The number of physical connections initially provisioned and bundled by the LAG.
-        public let numberOfConnections: Int32
+        public let numberOfConnections: Int
         /// The tags to assign to the link aggregation group (LAG).
         public let tags: [Tag]?
 
-        public init(childConnectionTags: [Tag]? = nil, connectionId: String? = nil, connectionsBandwidth: String, lagName: String, location: String, numberOfConnections: Int32, tags: [Tag]? = nil) {
+        public init(childConnectionTags: [Tag]? = nil, connectionId: String? = nil, connectionsBandwidth: String, lagName: String, location: String, numberOfConnections: Int, tags: [Tag]? = nil) {
             self.childConnectionTags = childConnectionTags
             self.connectionId = connectionId
             self.connectionsBandwidth = connectionsBandwidth
@@ -934,6 +1001,17 @@ extension DirectConnect {
             self.location = location
             self.numberOfConnections = numberOfConnections
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try childConnectionTags?.forEach {
+                try $0.validate(name: "\(name).childConnectionTags[]")
+            }
+            try validate(childConnectionTags, name:"childConnectionTags", parent: name, min: 1)
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -952,6 +1030,7 @@ extension DirectConnect {
             AWSShapeMember(label: "connectionId", required: true, type: .string), 
             AWSShapeMember(label: "newPrivateVirtualInterface", required: true, type: .structure)
         ]
+
         /// The ID of the connection.
         public let connectionId: String
         /// Information about the private virtual interface.
@@ -960,6 +1039,10 @@ extension DirectConnect {
         public init(connectionId: String, newPrivateVirtualInterface: NewPrivateVirtualInterface) {
             self.connectionId = connectionId
             self.newPrivateVirtualInterface = newPrivateVirtualInterface
+        }
+
+        public func validate(name: String) throws {
+            try newPrivateVirtualInterface.validate(name: "\(name).newPrivateVirtualInterface")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -973,6 +1056,7 @@ extension DirectConnect {
             AWSShapeMember(label: "connectionId", required: true, type: .string), 
             AWSShapeMember(label: "newPublicVirtualInterface", required: true, type: .structure)
         ]
+
         /// The ID of the connection.
         public let connectionId: String
         /// Information about the public virtual interface.
@@ -981,6 +1065,10 @@ extension DirectConnect {
         public init(connectionId: String, newPublicVirtualInterface: NewPublicVirtualInterface) {
             self.connectionId = connectionId
             self.newPublicVirtualInterface = newPublicVirtualInterface
+        }
+
+        public func validate(name: String) throws {
+            try newPublicVirtualInterface.validate(name: "\(name).newPublicVirtualInterface")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -994,6 +1082,7 @@ extension DirectConnect {
             AWSShapeMember(label: "connectionId", required: true, type: .string), 
             AWSShapeMember(label: "newTransitVirtualInterface", required: true, type: .structure)
         ]
+
         /// The ID of the connection.
         public let connectionId: String
         /// Information about the transit virtual interface.
@@ -1002,6 +1091,10 @@ extension DirectConnect {
         public init(connectionId: String, newTransitVirtualInterface: NewTransitVirtualInterface) {
             self.connectionId = connectionId
             self.newTransitVirtualInterface = newTransitVirtualInterface
+        }
+
+        public func validate(name: String) throws {
+            try newTransitVirtualInterface.validate(name: "\(name).newTransitVirtualInterface")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1014,6 +1107,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "virtualInterface", required: false, type: .structure)
         ]
+
         public let virtualInterface: VirtualInterface?
 
         public init(virtualInterface: VirtualInterface? = nil) {
@@ -1032,8 +1126,9 @@ extension DirectConnect {
             AWSShapeMember(label: "customerAddress", required: false, type: .string), 
             AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string)
         ]
+
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
-        public let asn: Int32?
+        public let asn: Int?
         /// The ID of the BGP peer.
         public let bgpPeerId: String?
         /// The IP address assigned to the customer interface.
@@ -1041,7 +1136,7 @@ extension DirectConnect {
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String?
 
-        public init(asn: Int32? = nil, bgpPeerId: String? = nil, customerAddress: String? = nil, virtualInterfaceId: String? = nil) {
+        public init(asn: Int? = nil, bgpPeerId: String? = nil, customerAddress: String? = nil, virtualInterfaceId: String? = nil) {
             self.asn = asn
             self.bgpPeerId = bgpPeerId
             self.customerAddress = customerAddress
@@ -1060,6 +1155,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "virtualInterface", required: false, type: .structure)
         ]
+
         /// The virtual interface.
         public let virtualInterface: VirtualInterface?
 
@@ -1076,6 +1172,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "connectionId", required: true, type: .string)
         ]
+
         /// The ID of the connection.
         public let connectionId: String
 
@@ -1092,6 +1189,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "proposalId", required: true, type: .string)
         ]
+
         /// The ID of the proposal.
         public let proposalId: String
 
@@ -1108,6 +1206,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "directConnectGatewayAssociationProposal", required: false, type: .structure)
         ]
+
         /// The ID of the associated gateway.
         public let directConnectGatewayAssociationProposal: DirectConnectGatewayAssociationProposal?
 
@@ -1126,6 +1225,7 @@ extension DirectConnect {
             AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
             AWSShapeMember(label: "virtualGatewayId", required: false, type: .string)
         ]
+
         /// The ID of the Direct Connect gateway association.
         public let associationId: String?
         /// The ID of the Direct Connect gateway.
@@ -1150,6 +1250,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "directConnectGatewayAssociation", required: false, type: .structure)
         ]
+
         /// Information about the deleted association.
         public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
 
@@ -1166,6 +1267,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "directConnectGatewayId", required: true, type: .string)
         ]
+
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String
 
@@ -1182,6 +1284,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "directConnectGateway", required: false, type: .structure)
         ]
+
         /// The Direct Connect gateway.
         public let directConnectGateway: DirectConnectGateway?
 
@@ -1198,6 +1301,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "interconnectId", required: true, type: .string)
         ]
+
         /// The ID of the interconnect.
         public let interconnectId: String
 
@@ -1214,6 +1318,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "interconnectState", required: false, type: .enum)
         ]
+
         /// The state of the interconnect. The following are the possible values:    requested: The initial state of an interconnect. The interconnect stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The interconnect is approved, and is being initialized.    available: The network link is up, and the interconnect is ready for use.    down: The network link is down.    deleting: The interconnect is being deleted.    deleted: The interconnect is deleted.    unknown: The state of the interconnect is not available.  
         public let interconnectState: InterconnectState?
 
@@ -1230,6 +1335,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "lagId", required: true, type: .string)
         ]
+
         /// The ID of the LAG.
         public let lagId: String
 
@@ -1246,6 +1352,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string)
         ]
+
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String
 
@@ -1262,6 +1369,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum)
         ]
+
         /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
         public let virtualInterfaceState: VirtualInterfaceState?
 
@@ -1280,6 +1388,7 @@ extension DirectConnect {
             AWSShapeMember(label: "loaContentType", required: false, type: .enum), 
             AWSShapeMember(label: "providerName", required: false, type: .string)
         ]
+
         /// The ID of the connection.
         public let connectionId: String
         /// The standard media type for the LOA-CFA document. The only supported value is application/pdf.
@@ -1304,6 +1413,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "loa", required: false, type: .structure)
         ]
+
         /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA).
         public let loa: Loa?
 
@@ -1320,6 +1430,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "interconnectId", required: true, type: .string)
         ]
+
         /// The ID of the interconnect.
         public let interconnectId: String
 
@@ -1336,6 +1447,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "connectionId", required: false, type: .string)
         ]
+
         /// The ID of the connection.
         public let connectionId: String?
 
@@ -1356,18 +1468,19 @@ extension DirectConnect {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "proposalId", required: false, type: .string)
         ]
+
         /// The ID of the associated gateway.
         public let associatedGatewayId: String?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next page of results.
         public let nextToken: String?
         /// The ID of the proposal.
         public let proposalId: String?
 
-        public init(associatedGatewayId: String? = nil, directConnectGatewayId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, proposalId: String? = nil) {
+        public init(associatedGatewayId: String? = nil, directConnectGatewayId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, proposalId: String? = nil) {
             self.associatedGatewayId = associatedGatewayId
             self.directConnectGatewayId = directConnectGatewayId
             self.maxResults = maxResults
@@ -1389,6 +1502,7 @@ extension DirectConnect {
             AWSShapeMember(label: "directConnectGatewayAssociationProposals", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// Describes the Direct Connect gateway association proposals.
         public let directConnectGatewayAssociationProposals: [DirectConnectGatewayAssociationProposal]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -1414,6 +1528,7 @@ extension DirectConnect {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "virtualGatewayId", required: false, type: .string)
         ]
+
         /// The ID of the associated gateway.
         public let associatedGatewayId: String?
         /// The ID of the Direct Connect gateway association.
@@ -1421,13 +1536,13 @@ extension DirectConnect {
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token provided in the previous call to retrieve the next page.
         public let nextToken: String?
         /// The ID of the virtual private gateway.
         public let virtualGatewayId: String?
 
-        public init(associatedGatewayId: String? = nil, associationId: String? = nil, directConnectGatewayId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, virtualGatewayId: String? = nil) {
+        public init(associatedGatewayId: String? = nil, associationId: String? = nil, directConnectGatewayId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, virtualGatewayId: String? = nil) {
             self.associatedGatewayId = associatedGatewayId
             self.associationId = associationId
             self.directConnectGatewayId = directConnectGatewayId
@@ -1451,6 +1566,7 @@ extension DirectConnect {
             AWSShapeMember(label: "directConnectGatewayAssociations", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// Information about the associations.
         public let directConnectGatewayAssociations: [DirectConnectGatewayAssociation]?
         /// The token to retrieve the next page.
@@ -1474,16 +1590,17 @@ extension DirectConnect {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string)
         ]
+
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token provided in the previous call to retrieve the next page.
         public let nextToken: String?
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String?
 
-        public init(directConnectGatewayId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, virtualInterfaceId: String? = nil) {
+        public init(directConnectGatewayId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, virtualInterfaceId: String? = nil) {
             self.directConnectGatewayId = directConnectGatewayId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1503,6 +1620,7 @@ extension DirectConnect {
             AWSShapeMember(label: "directConnectGatewayAttachments", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The attachments.
         public let directConnectGatewayAttachments: [DirectConnectGatewayAttachment]?
         /// The token to retrieve the next page.
@@ -1525,14 +1643,15 @@ extension DirectConnect {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token provided in the previous call to retrieve the next page.
         public let nextToken: String?
 
-        public init(directConnectGatewayId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(directConnectGatewayId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.directConnectGatewayId = directConnectGatewayId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1550,6 +1669,7 @@ extension DirectConnect {
             AWSShapeMember(label: "directConnectGateways", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The Direct Connect gateways.
         public let directConnectGateways: [DirectConnectGateway]?
         /// The token to retrieve the next page.
@@ -1570,6 +1690,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "connectionId", required: true, type: .string)
         ]
+
         /// The ID of the interconnect or LAG.
         public let connectionId: String
 
@@ -1588,6 +1709,7 @@ extension DirectConnect {
             AWSShapeMember(label: "loaContentType", required: false, type: .enum), 
             AWSShapeMember(label: "providerName", required: false, type: .string)
         ]
+
         /// The ID of the interconnect.
         public let interconnectId: String
         /// The standard media type for the LOA-CFA document. The only supported value is application/pdf.
@@ -1612,6 +1734,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "loa", required: false, type: .structure)
         ]
+
         /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA).
         public let loa: Loa?
 
@@ -1628,6 +1751,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "interconnectId", required: false, type: .string)
         ]
+
         /// The ID of the interconnect.
         public let interconnectId: String?
 
@@ -1644,6 +1768,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "lagId", required: false, type: .string)
         ]
+
         /// The ID of the LAG.
         public let lagId: String?
 
@@ -1662,6 +1787,7 @@ extension DirectConnect {
             AWSShapeMember(label: "loaContentType", required: false, type: .enum), 
             AWSShapeMember(label: "providerName", required: false, type: .string)
         ]
+
         /// The ID of a connection, LAG, or interconnect.
         public let connectionId: String
         /// The standard media type for the LOA-CFA document. The only supported value is application/pdf.
@@ -1686,6 +1812,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceArns", required: true, type: .list)
         ]
+
         /// The Amazon Resource Names (ARNs) of the resources.
         public let resourceArns: [String]
 
@@ -1702,6 +1829,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceTags", required: false, type: .list)
         ]
+
         /// Information about the tags.
         public let resourceTags: [ResourceTag]?
 
@@ -1719,6 +1847,7 @@ extension DirectConnect {
             AWSShapeMember(label: "connectionId", required: false, type: .string), 
             AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string)
         ]
+
         /// The ID of the connection.
         public let connectionId: String?
         /// The ID of the virtual interface.
@@ -1744,6 +1873,7 @@ extension DirectConnect {
             AWSShapeMember(label: "ownerAccount", required: false, type: .string), 
             AWSShapeMember(label: "stateChangeError", required: false, type: .string)
         ]
+
         /// The autonomous system number (ASN) for the Amazon side of the connection.
         public let amazonSideAsn: Int64?
         /// The ID of the Direct Connect gateway.
@@ -1789,6 +1919,7 @@ extension DirectConnect {
             AWSShapeMember(label: "virtualGatewayOwnerAccount", required: false, type: .string), 
             AWSShapeMember(label: "virtualGatewayRegion", required: false, type: .string)
         ]
+
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
         public let allowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
         /// Information about the associated gateway.
@@ -1847,6 +1978,7 @@ extension DirectConnect {
             AWSShapeMember(label: "proposalState", required: false, type: .enum), 
             AWSShapeMember(label: "requestedAllowedPrefixesToDirectConnectGateway", required: false, type: .list)
         ]
+
         /// Information about the associated gateway.
         public let associatedGateway: AssociatedGateway?
         /// The ID of the Direct Connect gateway.
@@ -1909,6 +2041,7 @@ extension DirectConnect {
             AWSShapeMember(label: "virtualInterfaceOwnerAccount", required: false, type: .string), 
             AWSShapeMember(label: "virtualInterfaceRegion", required: false, type: .string)
         ]
+
         /// The state of the attachment. The following are the possible values:    attaching: The initial state after a virtual interface is created using the Direct Connect gateway.    attached: The Direct Connect gateway and virtual interface are attached and ready to pass traffic.    detaching: The initial state after calling DeleteVirtualInterface.    detached: The virtual interface is detached from the Direct Connect gateway. Traffic flow between the Direct Connect gateway and virtual interface is stopped.  
         public let attachmentState: DirectConnectGatewayAttachmentState?
         /// The interface type.
@@ -1972,6 +2105,7 @@ extension DirectConnect {
             AWSShapeMember(label: "connectionId", required: true, type: .string), 
             AWSShapeMember(label: "lagId", required: true, type: .string)
         ]
+
         /// The ID of the connection.
         public let connectionId: String
         /// The ID of the LAG.
@@ -2017,6 +2151,7 @@ extension DirectConnect {
             AWSShapeMember(label: "region", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+
         /// The Direct Connect endpoint on which the physical connection terminates.
         public let awsDevice: String?
         /// The Direct Connect endpoint on which the physical connection terminates.
@@ -2092,6 +2227,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "interconnects", required: false, type: .list)
         ]
+
         /// The interconnects.
         public let interconnects: [Interconnect]?
 
@@ -2123,6 +2259,7 @@ extension DirectConnect {
             AWSShapeMember(label: "region", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+
         /// Indicates whether the LAG can host other connections.
         public let allowsHostedConnections: Bool?
         /// The AWS Direct Connect endpoint that hosts the LAG.
@@ -2146,9 +2283,9 @@ extension DirectConnect {
         /// The location of the LAG.
         public let location: String?
         /// The minimum number of physical connections that must be operational for the LAG itself to be operational.
-        public let minimumLinks: Int32?
+        public let minimumLinks: Int?
         /// The number of physical connections bundled by the LAG, up to a maximum of 10.
-        public let numberOfConnections: Int32?
+        public let numberOfConnections: Int?
         /// The ID of the AWS account that owns the LAG.
         public let ownerAccount: String?
         /// The AWS Region where the connection is located.
@@ -2156,7 +2293,7 @@ extension DirectConnect {
         /// Any tags assigned to link aggregation group (LAG).
         public let tags: [Tag]?
 
-        public init(allowsHostedConnections: Bool? = nil, awsDevice: String? = nil, awsDeviceV2: String? = nil, connections: [Connection]? = nil, connectionsBandwidth: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, lagName: String? = nil, lagState: LagState? = nil, location: String? = nil, minimumLinks: Int32? = nil, numberOfConnections: Int32? = nil, ownerAccount: String? = nil, region: String? = nil, tags: [Tag]? = nil) {
+        public init(allowsHostedConnections: Bool? = nil, awsDevice: String? = nil, awsDeviceV2: String? = nil, connections: [Connection]? = nil, connectionsBandwidth: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, lagName: String? = nil, lagState: LagState? = nil, location: String? = nil, minimumLinks: Int? = nil, numberOfConnections: Int? = nil, ownerAccount: String? = nil, region: String? = nil, tags: [Tag]? = nil) {
             self.allowsHostedConnections = allowsHostedConnections
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
@@ -2210,6 +2347,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "lags", required: false, type: .list)
         ]
+
         /// The LAGs.
         public let lags: [Lag]?
 
@@ -2227,6 +2365,7 @@ extension DirectConnect {
             AWSShapeMember(label: "loaContent", required: false, type: .blob), 
             AWSShapeMember(label: "loaContentType", required: false, type: .enum)
         ]
+
         /// The binary contents of the LOA-CFA document.
         public let loaContent: Data?
         /// The standard media type for the LOA-CFA document. The only supported value is application/pdf.
@@ -2255,6 +2394,7 @@ extension DirectConnect {
             AWSShapeMember(label: "locationName", required: false, type: .string), 
             AWSShapeMember(label: "region", required: false, type: .string)
         ]
+
         /// The available port speeds for the location.
         public let availablePortSpeeds: [String]?
         /// The code for the location.
@@ -2283,6 +2423,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "locations", required: false, type: .list)
         ]
+
         /// The locations.
         public let locations: [Location]?
 
@@ -2303,18 +2444,19 @@ extension DirectConnect {
             AWSShapeMember(label: "authKey", required: false, type: .string), 
             AWSShapeMember(label: "customerAddress", required: false, type: .string)
         ]
+
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
-        public let asn: Int32?
+        public let asn: Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32? = nil, authKey: String? = nil, customerAddress: String? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, authKey: String? = nil, customerAddress: String? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2345,12 +2487,13 @@ extension DirectConnect {
             AWSShapeMember(label: "virtualInterfaceName", required: true, type: .string), 
             AWSShapeMember(label: "vlan", required: true, type: .integer)
         ]
+
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
-        public let asn: Int32
+        public let asn: Int
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
@@ -2358,7 +2501,7 @@ extension DirectConnect {
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
-        public let mtu: Int32?
+        public let mtu: Int?
         /// Any tags assigned to the private virtual interface.
         public let tags: [Tag]?
         /// The ID of the virtual private gateway.
@@ -2366,9 +2509,9 @@ extension DirectConnect {
         /// The name of the virtual interface assigned by the customer network.
         public let virtualInterfaceName: String
         /// The ID of the VLAN.
-        public let vlan: Int32
+        public let vlan: Int
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, mtu: Int32? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceName: String, vlan: Int32) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceName: String, vlan: Int) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2380,6 +2523,13 @@ extension DirectConnect {
             self.virtualGatewayId = virtualGatewayId
             self.virtualInterfaceName = virtualInterfaceName
             self.vlan = vlan
+        }
+
+        public func validate(name: String) throws {
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2409,26 +2559,27 @@ extension DirectConnect {
             AWSShapeMember(label: "virtualInterfaceName", required: true, type: .string), 
             AWSShapeMember(label: "vlan", required: true, type: .integer)
         ]
+
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
-        public let asn: Int32
+        public let asn: Int
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
-        public let mtu: Int32?
+        public let mtu: Int?
         /// Any tags assigned to the private virtual interface to be provisioned on a connection.
         public let tags: [Tag]?
         /// The name of the virtual interface assigned by the customer network.
         public let virtualInterfaceName: String
         /// The ID of the VLAN.
-        public let vlan: Int32
+        public let vlan: Int
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32, authKey: String? = nil, customerAddress: String? = nil, mtu: Int32? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int32) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int, authKey: String? = nil, customerAddress: String? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2438,6 +2589,13 @@ extension DirectConnect {
             self.tags = tags
             self.virtualInterfaceName = virtualInterfaceName
             self.vlan = vlan
+        }
+
+        public func validate(name: String) throws {
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2465,12 +2623,13 @@ extension DirectConnect {
             AWSShapeMember(label: "virtualInterfaceName", required: true, type: .string), 
             AWSShapeMember(label: "vlan", required: true, type: .integer)
         ]
+
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
-        public let asn: Int32
+        public let asn: Int
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
@@ -2482,9 +2641,9 @@ extension DirectConnect {
         /// The name of the virtual interface assigned by the customer network.
         public let virtualInterfaceName: String
         /// The ID of the VLAN.
-        public let vlan: Int32
+        public let vlan: Int
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32, authKey: String? = nil, customerAddress: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int32) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int, authKey: String? = nil, customerAddress: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2494,6 +2653,13 @@ extension DirectConnect {
             self.tags = tags
             self.virtualInterfaceName = virtualInterfaceName
             self.vlan = vlan
+        }
+
+        public func validate(name: String) throws {
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2521,12 +2687,13 @@ extension DirectConnect {
             AWSShapeMember(label: "virtualInterfaceName", required: true, type: .string), 
             AWSShapeMember(label: "vlan", required: true, type: .integer)
         ]
+
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
-        public let asn: Int32
+        public let asn: Int
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
@@ -2538,9 +2705,9 @@ extension DirectConnect {
         /// The name of the virtual interface assigned by the customer network.
         public let virtualInterfaceName: String
         /// The ID of the VLAN.
-        public let vlan: Int32
+        public let vlan: Int
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32, authKey: String? = nil, customerAddress: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int32) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int, authKey: String? = nil, customerAddress: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2550,6 +2717,13 @@ extension DirectConnect {
             self.tags = tags
             self.virtualInterfaceName = virtualInterfaceName
             self.vlan = vlan
+        }
+
+        public func validate(name: String) throws {
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2578,12 +2752,13 @@ extension DirectConnect {
             AWSShapeMember(label: "virtualInterfaceName", required: false, type: .string), 
             AWSShapeMember(label: "vlan", required: false, type: .integer)
         ]
+
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
-        public let asn: Int32?
+        public let asn: Int?
         /// The authentication key for BGP configuration.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
@@ -2591,15 +2766,15 @@ extension DirectConnect {
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500. 
-        public let mtu: Int32?
+        public let mtu: Int?
         /// Any tags assigned to the transit virtual interface.
         public let tags: [Tag]?
         /// The name of the virtual interface assigned by the customer network.
         public let virtualInterfaceName: String?
         /// The ID of the VLAN.
-        public let vlan: Int32?
+        public let vlan: Int?
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32? = nil, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, mtu: Int32? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int32? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2610,6 +2785,13 @@ extension DirectConnect {
             self.tags = tags
             self.virtualInterfaceName = virtualInterfaceName
             self.vlan = vlan
+        }
+
+        public func validate(name: String) throws {
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2638,26 +2820,27 @@ extension DirectConnect {
             AWSShapeMember(label: "virtualInterfaceName", required: false, type: .string), 
             AWSShapeMember(label: "vlan", required: false, type: .integer)
         ]
+
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
-        public let asn: Int32?
+        public let asn: Int?
         /// The authentication key for BGP configuration.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500. 
-        public let mtu: Int32?
+        public let mtu: Int?
         /// Any tags assigned to the transit virtual interface.
         public let tags: [Tag]?
         /// The name of the virtual interface assigned by the customer network.
         public let virtualInterfaceName: String?
         /// The ID of the VLAN.
-        public let vlan: Int32?
+        public let vlan: Int?
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32? = nil, authKey: String? = nil, customerAddress: String? = nil, mtu: Int32? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int32? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, authKey: String? = nil, customerAddress: String? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2667,6 +2850,13 @@ extension DirectConnect {
             self.tags = tags
             self.virtualInterfaceName = virtualInterfaceName
             self.vlan = vlan
+        }
+
+        public func validate(name: String) throws {
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2687,6 +2877,7 @@ extension DirectConnect {
             AWSShapeMember(label: "resourceArn", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
         /// The tags.
@@ -2707,6 +2898,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "cidr", required: false, type: .string)
         ]
+
         /// The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter.
         public let cidr: String?
 
@@ -2724,6 +2916,7 @@ extension DirectConnect {
             AWSShapeMember(label: "key", required: true, type: .string), 
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
+
         /// The key.
         public let key: String
         /// The value.
@@ -2732,6 +2925,15 @@ extension DirectConnect {
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(key, name:"key", parent: name, max: 128)
+            try validate(key, name:"key", parent: name, min: 1)
+            try validate(key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(value, name:"value", parent: name, max: 256)
+            try validate(value, name:"value", parent: name, min: 0)
+            try validate(value, name:"value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2745,6 +2947,7 @@ extension DirectConnect {
             AWSShapeMember(label: "resourceArn", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: true, type: .list)
         ]
+
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tags to assign.
@@ -2755,6 +2958,13 @@ extension DirectConnect {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(tags, name:"tags", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "resourceArn"
             case tags = "tags"
@@ -2762,6 +2972,7 @@ extension DirectConnect {
     }
 
     public struct TagResourceResponse: AWSShape {
+
 
         public init() {
         }
@@ -2773,6 +2984,7 @@ extension DirectConnect {
             AWSShapeMember(label: "resourceArn", required: true, type: .string), 
             AWSShapeMember(label: "tagKeys", required: true, type: .list)
         ]
+
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tag keys of the tags to remove.
@@ -2783,6 +2995,14 @@ extension DirectConnect {
             self.tagKeys = tagKeys
         }
 
+        public func validate(name: String) throws {
+            try tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "resourceArn"
             case tagKeys = "tagKeys"
@@ -2790,6 +3010,7 @@ extension DirectConnect {
     }
 
     public struct UntagResourceResponse: AWSShape {
+
 
         public init() {
         }
@@ -2802,6 +3023,7 @@ extension DirectConnect {
             AWSShapeMember(label: "associationId", required: false, type: .string), 
             AWSShapeMember(label: "removeAllowedPrefixesToDirectConnectGateway", required: false, type: .list)
         ]
+
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
         public let addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
         /// The ID of the Direct Connect gateway association.
@@ -2826,6 +3048,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "directConnectGatewayAssociation", required: false, type: .structure)
         ]
+
         public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
 
         public init(directConnectGatewayAssociation: DirectConnectGatewayAssociation? = nil) {
@@ -2843,14 +3066,15 @@ extension DirectConnect {
             AWSShapeMember(label: "lagName", required: false, type: .string), 
             AWSShapeMember(label: "minimumLinks", required: false, type: .integer)
         ]
+
         /// The ID of the LAG.
         public let lagId: String
         /// The name of the LAG.
         public let lagName: String?
         /// The minimum number of physical connections that must be operational for the LAG itself to be operational.
-        public let minimumLinks: Int32?
+        public let minimumLinks: Int?
 
-        public init(lagId: String, lagName: String? = nil, minimumLinks: Int32? = nil) {
+        public init(lagId: String, lagName: String? = nil, minimumLinks: Int? = nil) {
             self.lagId = lagId
             self.lagName = lagName
             self.minimumLinks = minimumLinks
@@ -2868,12 +3092,13 @@ extension DirectConnect {
             AWSShapeMember(label: "mtu", required: false, type: .integer), 
             AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string)
         ]
+
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
-        public let mtu: Int32?
+        public let mtu: Int?
         /// The ID of the virtual private interface.
         public let virtualInterfaceId: String
 
-        public init(mtu: Int32? = nil, virtualInterfaceId: String) {
+        public init(mtu: Int? = nil, virtualInterfaceId: String) {
             self.mtu = mtu
             self.virtualInterfaceId = virtualInterfaceId
         }
@@ -2889,6 +3114,7 @@ extension DirectConnect {
             AWSShapeMember(label: "virtualGatewayId", required: false, type: .string), 
             AWSShapeMember(label: "virtualGatewayState", required: false, type: .string)
         ]
+
         /// The ID of the virtual private gateway.
         public let virtualGatewayId: String?
         /// The state of the virtual private gateway. The following are the possible values:    pending: Initial state after creating the virtual private gateway.    available: Ready for use by a private virtual interface.    deleting: Initial state after deleting the virtual private gateway.    deleted: The virtual private gateway is deleted. The private virtual interface is unable to send traffic over this gateway.  
@@ -2909,6 +3135,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "virtualGateways", required: false, type: .list)
         ]
+
         /// The virtual private gateways.
         public let virtualGateways: [VirtualGateway]?
 
@@ -2948,6 +3175,7 @@ extension DirectConnect {
             AWSShapeMember(label: "virtualInterfaceType", required: false, type: .string), 
             AWSShapeMember(label: "vlan", required: false, type: .integer)
         ]
+
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
@@ -2955,7 +3183,7 @@ extension DirectConnect {
         /// The autonomous system number (ASN) for the Amazon side of the connection.
         public let amazonSideAsn: Int64?
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
-        public let asn: Int32?
+        public let asn: Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The Direct Connect endpoint on which the virtual interface terminates.
@@ -2975,7 +3203,7 @@ extension DirectConnect {
         /// The location of the connection.
         public let location: String?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
-        public let mtu: Int32?
+        public let mtu: Int?
         /// The ID of the AWS account that owns the virtual interface.
         public let ownerAccount: String?
         /// The AWS Region where the virtual interface is located.
@@ -2995,9 +3223,9 @@ extension DirectConnect {
         /// The type of virtual interface. The possible values are private and public.
         public let virtualInterfaceType: String?
         /// The ID of the VLAN.
-        public let vlan: Int32?
+        public let vlan: Int?
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, amazonSideAsn: Int64? = nil, asn: Int32? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, bgpPeers: [BGPPeer]? = nil, connectionId: String? = nil, customerAddress: String? = nil, customerRouterConfig: String? = nil, directConnectGatewayId: String? = nil, jumboFrameCapable: Bool? = nil, location: String? = nil, mtu: Int32? = nil, ownerAccount: String? = nil, region: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceName: String? = nil, virtualInterfaceState: VirtualInterfaceState? = nil, virtualInterfaceType: String? = nil, vlan: Int32? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, amazonSideAsn: Int64? = nil, asn: Int? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, bgpPeers: [BGPPeer]? = nil, connectionId: String? = nil, customerAddress: String? = nil, customerRouterConfig: String? = nil, directConnectGatewayId: String? = nil, jumboFrameCapable: Bool? = nil, location: String? = nil, mtu: Int? = nil, ownerAccount: String? = nil, region: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceName: String? = nil, virtualInterfaceState: VirtualInterfaceState? = nil, virtualInterfaceType: String? = nil, vlan: Int? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.amazonSideAsn = amazonSideAsn
@@ -3069,6 +3297,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "virtualInterfaces", required: false, type: .list)
         ]
+
         /// The virtual interfaces
         public let virtualInterfaces: [VirtualInterface]?
 

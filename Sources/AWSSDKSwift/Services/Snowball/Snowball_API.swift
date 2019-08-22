@@ -9,7 +9,7 @@ AWS Snowball is a petabyte-scale data transport solution that uses secure device
 */
 public struct Snowball {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

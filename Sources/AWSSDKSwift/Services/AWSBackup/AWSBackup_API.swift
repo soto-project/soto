@@ -9,7 +9,7 @@ AWS Backup AWS Backup is a unified backup service designed to protect AWS servic
 */
 public struct AWSBackup {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

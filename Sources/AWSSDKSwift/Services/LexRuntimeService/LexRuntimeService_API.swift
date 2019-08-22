@@ -9,7 +9,7 @@ Amazon Lex provides both build and runtime endpoints. Each endpoint provides a s
 */
 public struct LexRuntimeService {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

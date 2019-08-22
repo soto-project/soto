@@ -9,7 +9,7 @@ Amazon MQ is a managed message broker service for Apache ActiveMQ that makes it 
 */
 public struct MQ {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

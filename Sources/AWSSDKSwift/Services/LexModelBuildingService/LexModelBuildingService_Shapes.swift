@@ -15,6 +15,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// The name of the bot to which the alias points.
         public let botName: String?
         /// The version of the Amazon Lex bot to which the alias points.
@@ -63,6 +64,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made. 
         public let botAlias: String?
         /// Provides information necessary to communicate with the messaging platform. 
@@ -116,6 +118,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The date that the bot was created.
         public let createdDate: TimeStamp?
         /// A description of the bot.
@@ -153,6 +156,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "signature", required: false, type: .string), 
             AWSShapeMember(label: "supportedLocales", required: false, type: .list)
         ]
+
         /// A unique identifier for the built-in intent. To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
         public let signature: String?
         /// A list of identifiers for the locales that the intent supports.
@@ -173,6 +177,7 @@ extension LexModelBuildingService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// A list of the slots defined for the intent.
         public let name: String?
 
@@ -190,6 +195,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "signature", required: false, type: .string), 
             AWSShapeMember(label: "supportedLocales", required: false, type: .list)
         ]
+
         /// A unique identifier for the built-in slot type. To find the signature for a slot type, see Slot Type Reference in the Alexa Skills Kit.
         public let signature: String?
         /// A list of target locales for the slot. 
@@ -226,6 +232,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "messageVersion", required: true, type: .string), 
             AWSShapeMember(label: "uri", required: true, type: .string)
         ]
+
         /// The version of the request-response that you want Amazon Lex to use to invoke your Lambda function. For more information, see using-lambda.
         public let messageVersion: String
         /// The Amazon Resource Name (ARN) of the Lambda function.
@@ -234,6 +241,14 @@ extension LexModelBuildingService {
         public init(messageVersion: String, uri: String) {
             self.messageVersion = messageVersion
             self.uri = uri
+        }
+
+        public func validate(name: String) throws {
+            try validate(messageVersion, name:"messageVersion", parent: name, max: 5)
+            try validate(messageVersion, name:"messageVersion", parent: name, min: 1)
+            try validate(uri, name:"uri", parent: name, max: 2048)
+            try validate(uri, name:"uri", parent: name, min: 20)
+            try validate(uri, name:"uri", parent: name, pattern: "arn:aws:lambda:[a-z]+-[a-z]+-[0-9]:[0-9]{12}:function:[a-zA-Z0-9-_]+(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})?(:[a-zA-Z0-9-_]+)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -254,6 +269,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "checksum", required: false, type: .string), 
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
+
         /// Identifies a specific revision of the $LATEST version of the bot. If you specify a checksum and the $LATEST version of the bot has a different checksum, a PreconditionFailedException exception is returned and Amazon Lex doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
         public let checksum: String?
         /// The name of the bot that you want to create a new version of. The name is case sensitive. 
@@ -262,6 +278,12 @@ extension LexModelBuildingService {
         public init(checksum: String? = nil, name: String) {
             self.checksum = checksum
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 50)
+            try validate(name, name:"name", parent: name, min: 2)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -288,6 +310,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "version", required: false, type: .string), 
             AWSShapeMember(label: "voiceId", required: false, type: .string)
         ]
+
         /// The message that Amazon Lex uses to abort a conversation. For more information, see PutBot.
         public let abortStatement: Statement?
         /// Checksum identifying the version of the bot that was created.
@@ -303,7 +326,7 @@ extension LexModelBuildingService {
         /// If status is FAILED, Amazon Lex provides the reason that it failed to build the bot.
         public let failureReason: String?
         /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation. For more information, see PutBot.
-        public let idleSessionTTLInSeconds: Int32?
+        public let idleSessionTTLInSeconds: Int?
         /// An array of Intent objects. For more information, see PutBot.
         public let intents: [Intent]?
         /// The date when the $LATEST version of this bot was updated. 
@@ -319,7 +342,7 @@ extension LexModelBuildingService {
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interactions with the user.
         public let voiceId: String?
 
-        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int32? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
+        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
             self.childDirected = childDirected
@@ -361,6 +384,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "checksum", required: false, type: .string), 
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
+
         /// Checksum of the $LATEST version of the intent that should be used to create the new version. If you specify a checksum and the $LATEST version of the intent has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
         public let checksum: String?
         /// The name of the intent that you want to create a new version of. The name is case sensitive. 
@@ -369,6 +393,12 @@ extension LexModelBuildingService {
         public init(checksum: String? = nil, name: String) {
             self.checksum = checksum
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -395,6 +425,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "slots", required: false, type: .list), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// Checksum of the intent version created.
         public let checksum: String?
         /// After the Lambda function specified in the fulfillmentActivity field fulfills the intent, Amazon Lex conveys this statement to the user. 
@@ -468,6 +499,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "checksum", required: false, type: .string), 
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
+
         /// Checksum for the $LATEST version of the slot type that you want to publish. If you specify a checksum and the $LATEST version of the slot type has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish the new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
         public let checksum: String?
         /// The name of the slot type that you want to create a new version for. The name is case sensitive. 
@@ -476,6 +508,12 @@ extension LexModelBuildingService {
         public init(checksum: String? = nil, name: String) {
             self.checksum = checksum
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -495,6 +533,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "valueSelectionStrategy", required: false, type: .enum), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// Checksum of the $LATEST version of the slot type.
         public let checksum: String?
         /// The date that the slot type was created.
@@ -540,6 +579,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
+
         /// The name of the bot that the alias points to.
         public let botName: String
         /// The name of the alias to delete. The name is case sensitive. 
@@ -548,6 +588,15 @@ extension LexModelBuildingService {
         public init(botName: String, name: String) {
             self.botName = botName
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(botName, name:"botName", parent: name, max: 50)
+            try validate(botName, name:"botName", parent: name, min: 2)
+            try validate(botName, name:"botName", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -562,6 +611,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
+
         /// An alias that points to the specific version of the Amazon Lex bot to which this association is being made.
         public let botAlias: String
         /// The name of the Amazon Lex bot.
@@ -575,6 +625,18 @@ extension LexModelBuildingService {
             self.name = name
         }
 
+        public func validate(name: String) throws {
+            try validate(botAlias, name:"botAlias", parent: name, max: 100)
+            try validate(botAlias, name:"botAlias", parent: name, min: 1)
+            try validate(botAlias, name:"botAlias", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(botName, name:"botName", parent: name, max: 50)
+            try validate(botName, name:"botName", parent: name, min: 2)
+            try validate(botName, name:"botName", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case botAlias = "aliasName"
             case botName = "botName"
@@ -586,11 +648,18 @@ extension LexModelBuildingService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
+
         /// The name of the bot. The name is case sensitive. 
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 50)
+            try validate(name, name:"name", parent: name, min: 2)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -603,6 +672,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string)
         ]
+
         /// The name of the bot.
         public let name: String
         /// The version of the bot to delete. You cannot delete the $LATEST version of the bot. To delete the $LATEST version, use the DeleteBot operation.
@@ -611,6 +681,15 @@ extension LexModelBuildingService {
         public init(name: String, version: String) {
             self.name = name
             self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 50)
+            try validate(name, name:"name", parent: name, min: 2)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(version, name:"version", parent: name, max: 64)
+            try validate(version, name:"version", parent: name, min: 1)
+            try validate(version, name:"version", parent: name, pattern: "[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -623,11 +702,18 @@ extension LexModelBuildingService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
+
         /// The name of the intent. The name is case sensitive. 
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -640,6 +726,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string)
         ]
+
         /// The name of the intent.
         public let name: String
         /// The version of the intent to delete. You cannot delete the $LATEST version of the intent. To delete the $LATEST version, use the DeleteIntent operation.
@@ -648,6 +735,15 @@ extension LexModelBuildingService {
         public init(name: String, version: String) {
             self.name = name
             self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(version, name:"version", parent: name, max: 64)
+            try validate(version, name:"version", parent: name, min: 1)
+            try validate(version, name:"version", parent: name, pattern: "[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -660,11 +756,18 @@ extension LexModelBuildingService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
+
         /// The name of the slot type. The name is case sensitive. 
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -677,6 +780,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string)
         ]
+
         /// The name of the slot type.
         public let name: String
         /// The version of the slot type to delete. You cannot delete the $LATEST version of the slot type. To delete the $LATEST version, use the DeleteSlotType operation.
@@ -685,6 +789,15 @@ extension LexModelBuildingService {
         public init(name: String, version: String) {
             self.name = name
             self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(version, name:"version", parent: name, max: 64)
+            try validate(version, name:"version", parent: name, min: 1)
+            try validate(version, name:"version", parent: name, pattern: "[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -698,6 +811,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
             AWSShapeMember(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string)
         ]
+
         /// The name of the bot that stored the utterances.
         public let botName: String
         ///  The unique identifier for the user that made the utterances. This is the user ID that was sent in the PostContent or PostText operation request that contained the utterance.
@@ -706,6 +820,14 @@ extension LexModelBuildingService {
         public init(botName: String, userId: String) {
             self.botName = botName
             self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try validate(botName, name:"botName", parent: name, max: 50)
+            try validate(botName, name:"botName", parent: name, min: 2)
+            try validate(botName, name:"botName", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(userId, name:"userId", parent: name, max: 100)
+            try validate(userId, name:"userId", parent: name, min: 2)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -719,6 +841,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "synonyms", required: false, type: .list), 
             AWSShapeMember(label: "value", required: true, type: .string)
         ]
+
         /// Additional values related to the slot type value.
         public let synonyms: [String]?
         /// The value of the slot type.
@@ -727,6 +850,15 @@ extension LexModelBuildingService {
         public init(synonyms: [String]? = nil, value: String) {
             self.synonyms = synonyms
             self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try synonyms?.forEach {
+                try validate($0, name: "synonyms[]", parent: name, max: 140)
+                try validate($0, name: "synonyms[]", parent: name, min: 1)
+            }
+            try validate(value, name:"value", parent: name, max: 140)
+            try validate(value, name:"value", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -753,6 +885,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "prompt", required: true, type: .structure), 
             AWSShapeMember(label: "rejectionStatement", required: true, type: .structure)
         ]
+
         /// Prompts for information from the user. 
         public let prompt: Prompt
         /// If the user answers "no" to the question defined in the prompt field, Amazon Lex responds with this statement to acknowledge that the intent was canceled. 
@@ -761,6 +894,11 @@ extension LexModelBuildingService {
         public init(prompt: Prompt, rejectionStatement: Statement) {
             self.prompt = prompt
             self.rejectionStatement = rejectionStatement
+        }
+
+        public func validate(name: String) throws {
+            try prompt.validate(name: "\(name).prompt")
+            try rejectionStatement.validate(name: "\(name).rejectionStatement")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -774,6 +912,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "codeHook", required: false, type: .structure), 
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
+
         ///  A description of the Lambda function that is run to fulfill the intent. 
         public let codeHook: CodeHook?
         ///  How the intent should be fulfilled, either by running a Lambda function or by returning the slot data to the client application. 
@@ -782,6 +921,10 @@ extension LexModelBuildingService {
         public init(codeHook: CodeHook? = nil, type: FulfillmentActivityType) {
             self.codeHook = codeHook
             self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try codeHook?.validate(name: "\(name).codeHook")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -801,6 +944,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
+
         /// The name of the bot.
         public let botName: String
         /// The name of the bot alias. The name is case sensitive.
@@ -809,6 +953,15 @@ extension LexModelBuildingService {
         public init(botName: String, name: String) {
             self.botName = botName
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(botName, name:"botName", parent: name, max: 50)
+            try validate(botName, name:"botName", parent: name, min: 2)
+            try validate(botName, name:"botName", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -827,6 +980,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// The name of the bot that the alias points to.
         public let botName: String?
         /// The version of the bot that the alias points to.
@@ -870,20 +1024,32 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The name of the bot.
         public let botName: String
         /// The maximum number of aliases to return in the response. The default is 50. . 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Substring to match in bot alias names. An alias will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
         public let nameContains: String?
         /// A pagination token for fetching the next page of aliases. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of aliases, specify the pagination token in the next request. 
         public let nextToken: String?
 
-        public init(botName: String, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil) {
+        public init(botName: String, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil) {
             self.botName = botName
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(botName, name:"botName", parent: name, max: 50)
+            try validate(botName, name:"botName", parent: name, min: 2)
+            try validate(botName, name:"botName", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nameContains, name:"nameContains", parent: name, max: 100)
+            try validate(nameContains, name:"nameContains", parent: name, min: 1)
+            try validate(nameContains, name:"nameContains", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -899,6 +1065,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "BotAliases", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// An array of BotAliasMetadata objects, each describing a bot alias.
         public let botAliases: [BotAliasMetadata]?
         /// A pagination token for fetching next page of aliases. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of aliases, specify the pagination token in the next request. 
@@ -921,6 +1088,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
+
         /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
         public let botAlias: String
         /// The name of the Amazon Lex bot.
@@ -932,6 +1100,18 @@ extension LexModelBuildingService {
             self.botAlias = botAlias
             self.botName = botName
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(botAlias, name:"botAlias", parent: name, max: 100)
+            try validate(botAlias, name:"botAlias", parent: name, min: 1)
+            try validate(botAlias, name:"botAlias", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(botName, name:"botName", parent: name, max: 50)
+            try validate(botName, name:"botName", parent: name, min: 2)
+            try validate(botName, name:"botName", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -953,6 +1133,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
         public let botAlias: String?
         /// Provides information that the messaging platform needs to communicate with the Amazon Lex bot.
@@ -1005,23 +1186,38 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
         public let botAlias: String
         /// The name of the Amazon Lex bot in the association.
         public let botName: String
         /// The maximum number of associations to return in the response. The default is 50. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Substring to match in channel association names. An association will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz." To return all bot channel associations, use a hyphen ("-") as the nameContains parameter.
         public let nameContains: String?
         /// A pagination token for fetching the next page of associations. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of associations, specify the pagination token in the next request. 
         public let nextToken: String?
 
-        public init(botAlias: String, botName: String, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil) {
+        public init(botAlias: String, botName: String, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil) {
             self.botAlias = botAlias
             self.botName = botName
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(botAlias, name:"botAlias", parent: name, max: 100)
+            try validate(botAlias, name:"botAlias", parent: name, min: 1)
+            try validate(botAlias, name:"botAlias", parent: name, pattern: "^(-|^([A-Za-z]_?)+$)$")
+            try validate(botName, name:"botName", parent: name, max: 50)
+            try validate(botName, name:"botName", parent: name, min: 2)
+            try validate(botName, name:"botName", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nameContains, name:"nameContains", parent: name, max: 100)
+            try validate(nameContains, name:"nameContains", parent: name, min: 1)
+            try validate(nameContains, name:"nameContains", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1038,6 +1234,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "botChannelAssociations", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// An array of objects, one for each association, that provides information about the Amazon Lex bot and its association with the channel. 
         public let botChannelAssociations: [BotChannelAssociation]?
         /// A pagination token that fetches the next page of associations. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of associations, specify the pagination token in the next request. 
@@ -1059,6 +1256,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "versionOrAlias", location: .uri(locationName: "versionoralias"), required: true, type: .string)
         ]
+
         /// The name of the bot. The name is case sensitive. 
         public let name: String
         /// The version or alias of the bot.
@@ -1067,6 +1265,12 @@ extension LexModelBuildingService {
         public init(name: String, versionOrAlias: String) {
             self.name = name
             self.versionOrAlias = versionOrAlias
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 50)
+            try validate(name, name:"name", parent: name, min: 2)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1093,6 +1297,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "version", required: false, type: .string), 
             AWSShapeMember(label: "voiceId", required: false, type: .string)
         ]
+
         /// The message that Amazon Lex returns when the user elects to end the conversation without completing it. For more information, see PutBot.
         public let abortStatement: Statement?
         /// Checksum of the bot used to identify a specific revision of the bot's $LATEST version.
@@ -1108,7 +1313,7 @@ extension LexModelBuildingService {
         /// If status is FAILED, Amazon Lex explains why it failed to build the bot.
         public let failureReason: String?
         /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation. For more information, see PutBot.
-        public let idleSessionTTLInSeconds: Int32?
+        public let idleSessionTTLInSeconds: Int?
         /// An array of intent objects. For more information, see PutBot.
         public let intents: [Intent]?
         /// The date that the bot was updated. When you create a resource, the creation date and last updated date are the same. 
@@ -1124,7 +1329,7 @@ extension LexModelBuildingService {
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user. For more information, see PutBot.
         public let voiceId: String?
 
-        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int32? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
+        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
             self.childDirected = childDirected
@@ -1167,17 +1372,26 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The maximum number of bot versions to return in the response. The default is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The name of the bot for which versions should be returned.
         public let name: String
         /// A pagination token for fetching the next page of bot versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, name: String, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 50)
+            try validate(name, name:"name", parent: name, min: 2)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1192,6 +1406,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "bots", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// An array of BotMetadata objects, one for each numbered version of the bot plus one for the $LATEST version.
         public let bots: [BotMetadata]?
         /// A pagination token for fetching the next page of bot versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
@@ -1214,17 +1429,26 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The maximum number of bots to return in the response that the request will return. The default is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Substring to match in bot names. A bot will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
         public let nameContains: String?
         /// A pagination token that fetches the next page of bots. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of bots, specify the pagination token in the next request. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nameContains, name:"nameContains", parent: name, max: 50)
+            try validate(nameContains, name:"nameContains", parent: name, min: 2)
+            try validate(nameContains, name:"nameContains", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1239,6 +1463,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "bots", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// An array of botMetadata objects, with one entry for each bot. 
         public let bots: [BotMetadata]?
         /// If the response is truncated, it includes a pagination token that you can specify in your next request to fetch the next page of bots. 
@@ -1259,6 +1484,7 @@ extension LexModelBuildingService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "signature", location: .uri(locationName: "signature"), required: true, type: .string)
         ]
+
         /// The unique identifier for a built-in intent. To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
         public let signature: String
 
@@ -1277,6 +1503,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "slots", required: false, type: .list), 
             AWSShapeMember(label: "supportedLocales", required: false, type: .list)
         ]
+
         /// The unique identifier for a built-in intent.
         public let signature: String?
         /// An array of BuiltinIntentSlot objects, one entry for each slot type in the intent.
@@ -1304,20 +1531,26 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "signatureContains", location: .querystring(locationName: "signatureContains"), required: false, type: .string)
         ]
+
         /// A list of locales that the intent supports.
         public let locale: Locale?
         /// The maximum number of intents to return in the response. The default is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A pagination token that fetches the next page of intents. If this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of intents, use the pagination token in the next request.
         public let nextToken: String?
         /// Substring to match in built-in intent signatures. An intent will be returned if any part of its signature matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz." To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
         public let signatureContains: String?
 
-        public init(locale: Locale? = nil, maxResults: Int32? = nil, nextToken: String? = nil, signatureContains: String? = nil) {
+        public init(locale: Locale? = nil, maxResults: Int? = nil, nextToken: String? = nil, signatureContains: String? = nil) {
             self.locale = locale
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.signatureContains = signatureContains
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1333,6 +1566,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "intents", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// An array of builtinIntentMetadata objects, one for each intent in the response.
         public let intents: [BuiltinIntentMetadata]?
         /// A pagination token that fetches the next page of intents. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of intents, specify the pagination token in the next request.
@@ -1356,20 +1590,26 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "signatureContains", location: .querystring(locationName: "signatureContains"), required: false, type: .string)
         ]
+
         /// A list of locales that the slot type supports.
         public let locale: Locale?
         /// The maximum number of slot types to return in the response. The default is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A pagination token that fetches the next page of slot types. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of slot types, specify the pagination token in the next request.
         public let nextToken: String?
         /// Substring to match in built-in slot type signatures. A slot type will be returned if any part of its signature matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
         public let signatureContains: String?
 
-        public init(locale: Locale? = nil, maxResults: Int32? = nil, nextToken: String? = nil, signatureContains: String? = nil) {
+        public init(locale: Locale? = nil, maxResults: Int? = nil, nextToken: String? = nil, signatureContains: String? = nil) {
             self.locale = locale
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.signatureContains = signatureContains
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1385,6 +1625,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "slotTypes", required: false, type: .list)
         ]
+
         /// If the response is truncated, the response includes a pagination token that you can use in your next request to fetch the next page of slot types.
         public let nextToken: String?
         /// An array of BuiltInSlotTypeMetadata objects, one entry for each slot type returned.
@@ -1408,6 +1649,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "resourceType", location: .querystring(locationName: "resourceType"), required: true, type: .enum), 
             AWSShapeMember(label: "version", location: .querystring(locationName: "version"), required: true, type: .string)
         ]
+
         /// The format of the exported data.
         public let exportType: ExportType
         /// The name of the bot to export.
@@ -1422,6 +1664,15 @@ extension LexModelBuildingService {
             self.name = name
             self.resourceType = resourceType
             self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z_]+")
+            try validate(version, name:"version", parent: name, max: 64)
+            try validate(version, name:"version", parent: name, min: 1)
+            try validate(version, name:"version", parent: name, pattern: "[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1442,6 +1693,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "url", required: false, type: .string), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The status of the export.     IN_PROGRESS - The export is in progress.    READY - The export is complete.    FAILED - The export could not be completed.  
         public let exportStatus: ExportStatus?
         /// The format of the exported data.
@@ -1482,6 +1734,7 @@ extension LexModelBuildingService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "importId", location: .uri(locationName: "importId"), required: true, type: .string)
         ]
+
         /// The identifier of the import job information to return.
         public let importId: String
 
@@ -1504,6 +1757,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "resourceType", required: false, type: .enum)
         ]
+
         /// A timestamp for the date and time that the import job was created.
         public let createdDate: TimeStamp?
         /// A string that describes why an import job failed to complete.
@@ -1545,6 +1799,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string)
         ]
+
         /// The name of the intent. The name is case sensitive. 
         public let name: String
         /// The version of the intent.
@@ -1553,6 +1808,15 @@ extension LexModelBuildingService {
         public init(name: String, version: String) {
             self.name = name
             self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(version, name:"version", parent: name, max: 64)
+            try validate(version, name:"version", parent: name, min: 1)
+            try validate(version, name:"version", parent: name, pattern: "\\$LATEST|[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1579,6 +1843,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "slots", required: false, type: .list), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// Checksum of the intent.
         public let checksum: String?
         /// After the Lambda function specified in the fulfillmentActivity element fulfills the intent, Amazon Lex conveys this statement to the user.
@@ -1653,17 +1918,26 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The maximum number of intent versions to return in the response. The default is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The name of the intent for which versions should be returned.
         public let name: String
         /// A pagination token for fetching the next page of intent versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, name: String, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1678,6 +1952,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "intents", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// An array of IntentMetadata objects, one for each numbered version of the intent plus one for the $LATEST version.
         public let intents: [IntentMetadata]?
         /// A pagination token for fetching the next page of intent versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
@@ -1700,17 +1975,26 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The maximum number of intents to return in the response. The default is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Substring to match in intent names. An intent will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
         public let nameContains: String?
         /// A pagination token that fetches the next page of intents. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of intents, specify the pagination token in the next request. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nameContains, name:"nameContains", parent: name, max: 100)
+            try validate(nameContains, name:"nameContains", parent: name, min: 1)
+            try validate(nameContains, name:"nameContains", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1725,6 +2009,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "intents", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// An array of Intent objects. For more information, see PutBot.
         public let intents: [IntentMetadata]?
         /// If the response is truncated, the response includes a pagination token that you can specify in your next request to fetch the next page of intents. 
@@ -1746,6 +2031,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string)
         ]
+
         /// The name of the slot type. The name is case sensitive. 
         public let name: String
         /// The version of the slot type. 
@@ -1754,6 +2040,15 @@ extension LexModelBuildingService {
         public init(name: String, version: String) {
             self.name = name
             self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(version, name:"version", parent: name, max: 64)
+            try validate(version, name:"version", parent: name, min: 1)
+            try validate(version, name:"version", parent: name, pattern: "\\$LATEST|[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1773,6 +2068,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "valueSelectionStrategy", required: false, type: .enum), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// Checksum of the $LATEST version of the slot type.
         public let checksum: String?
         /// The date that the slot type was created.
@@ -1819,17 +2115,26 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The maximum number of slot type versions to return in the response. The default is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The name of the slot type for which versions should be returned.
         public let name: String
         /// A pagination token for fetching the next page of slot type versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, name: String, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1844,6 +2149,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "slotTypes", required: false, type: .list)
         ]
+
         /// A pagination token for fetching the next page of slot type versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
         public let nextToken: String?
         /// An array of SlotTypeMetadata objects, one for each numbered version of the slot type plus one for the $LATEST version.
@@ -1866,17 +2172,26 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The maximum number of slot types to return in the response. The default is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Substring to match in slot type names. A slot type will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
         public let nameContains: String?
         /// A pagination token that fetches the next page of slot types. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch next page of slot types, specify the pagination token in the next request.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nameContains, name:"nameContains", parent: name, max: 100)
+            try validate(nameContains, name:"nameContains", parent: name, min: 1)
+            try validate(nameContains, name:"nameContains", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1891,6 +2206,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "slotTypes", required: false, type: .list)
         ]
+
         /// If the response is truncated, it includes a pagination token that you can specify in your next request to fetch the next page of slot types.
         public let nextToken: String?
         /// An array of objects, one for each slot type, that provides information such as the name of the slot type, the version, and a description.
@@ -1913,6 +2229,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "botVersions", location: .querystring(locationName: "bot_versions"), required: true, type: .list), 
             AWSShapeMember(label: "statusType", location: .querystring(locationName: "status_type"), required: true, type: .enum)
         ]
+
         /// The name of the bot for which utterance information should be returned.
         public let botName: String
         /// An array of bot versions for which utterance information should be returned. The limit is 5 versions per request.
@@ -1924,6 +2241,19 @@ extension LexModelBuildingService {
             self.botName = botName
             self.botVersions = botVersions
             self.statusType = statusType
+        }
+
+        public func validate(name: String) throws {
+            try validate(botName, name:"botName", parent: name, max: 50)
+            try validate(botName, name:"botName", parent: name, min: 2)
+            try validate(botName, name:"botName", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try botVersions.forEach {
+                try validate($0, name: "botVersions[]", parent: name, max: 64)
+                try validate($0, name: "botVersions[]", parent: name, min: 1)
+                try validate($0, name: "botVersions[]", parent: name, pattern: "\\$LATEST|[0-9]+")
+            }
+            try validate(botVersions, name:"botVersions", parent: name, max: 5)
+            try validate(botVersions, name:"botVersions", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1938,6 +2268,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "botName", required: false, type: .string), 
             AWSShapeMember(label: "utterances", required: false, type: .list)
         ]
+
         /// The name of the bot for which utterance information was returned.
         public let botName: String?
         /// An array of UtteranceList objects, each containing a list of UtteranceData objects describing the utterances that were processed by your bot. The response contains a maximum of 100 UtteranceData objects for each version.
@@ -1966,6 +2297,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "intentName", required: true, type: .string), 
             AWSShapeMember(label: "intentVersion", required: true, type: .string)
         ]
+
         /// The name of the intent.
         public let intentName: String
         /// The version of the intent.
@@ -1974,6 +2306,15 @@ extension LexModelBuildingService {
         public init(intentName: String, intentVersion: String) {
             self.intentName = intentName
             self.intentVersion = intentVersion
+        }
+
+        public func validate(name: String) throws {
+            try validate(intentName, name:"intentName", parent: name, max: 100)
+            try validate(intentName, name:"intentName", parent: name, min: 1)
+            try validate(intentName, name:"intentName", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(intentVersion, name:"intentVersion", parent: name, max: 64)
+            try validate(intentVersion, name:"intentVersion", parent: name, min: 1)
+            try validate(intentVersion, name:"intentVersion", parent: name, pattern: "\\$LATEST|[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1990,6 +2331,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The date that the intent was created.
         public let createdDate: TimeStamp?
         /// A description of the intent.
@@ -2037,17 +2379,25 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "contentType", required: true, type: .enum), 
             AWSShapeMember(label: "groupNumber", required: false, type: .integer)
         ]
+
         /// The text of the message.
         public let content: String
         /// The content type of the message string.
         public let contentType: ContentType
         /// Identifies the message group that the message belongs to. When a group is assigned to a message, Amazon Lex returns one message from each group in the response.
-        public let groupNumber: Int32?
+        public let groupNumber: Int?
 
-        public init(content: String, contentType: ContentType, groupNumber: Int32? = nil) {
+        public init(content: String, contentType: ContentType, groupNumber: Int? = nil) {
             self.content = content
             self.contentType = contentType
             self.groupNumber = groupNumber
+        }
+
+        public func validate(name: String) throws {
+            try validate(content, name:"content", parent: name, max: 1000)
+            try validate(content, name:"content", parent: name, min: 1)
+            try validate(groupNumber, name:"groupNumber", parent: name, max: 5)
+            try validate(groupNumber, name:"groupNumber", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2069,17 +2419,30 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "messages", required: true, type: .list), 
             AWSShapeMember(label: "responseCard", required: false, type: .string)
         ]
+
         /// The number of times to prompt the user for information.
-        public let maxAttempts: Int32
+        public let maxAttempts: Int
         /// An array of objects, each of which provides a message string and its type. You can specify the message string in plain text or in Speech Synthesis Markup Language (SSML).
         public let messages: [Message]
         /// A response card. Amazon Lex uses this prompt at runtime, in the PostText API response. It substitutes session attributes and slot values for placeholders in the response card. For more information, see ex-resp-card. 
         public let responseCard: String?
 
-        public init(maxAttempts: Int32, messages: [Message], responseCard: String? = nil) {
+        public init(maxAttempts: Int, messages: [Message], responseCard: String? = nil) {
             self.maxAttempts = maxAttempts
             self.messages = messages
             self.responseCard = responseCard
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxAttempts, name:"maxAttempts", parent: name, max: 5)
+            try validate(maxAttempts, name:"maxAttempts", parent: name, min: 1)
+            try messages.forEach {
+                try $0.validate(name: "\(name).messages[]")
+            }
+            try validate(messages, name:"messages", parent: name, max: 15)
+            try validate(messages, name:"messages", parent: name, min: 1)
+            try validate(responseCard, name:"responseCard", parent: name, max: 50000)
+            try validate(responseCard, name:"responseCard", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2097,6 +2460,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
+
         /// The name of the bot.
         public let botName: String
         /// The version of the bot.
@@ -2114,6 +2478,20 @@ extension LexModelBuildingService {
             self.checksum = checksum
             self.description = description
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(botName, name:"botName", parent: name, max: 50)
+            try validate(botName, name:"botName", parent: name, min: 2)
+            try validate(botName, name:"botName", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(botVersion, name:"botVersion", parent: name, max: 64)
+            try validate(botVersion, name:"botVersion", parent: name, min: 1)
+            try validate(botVersion, name:"botVersion", parent: name, pattern: "\\$LATEST|[0-9]+")
+            try validate(description, name:"description", parent: name, max: 200)
+            try validate(description, name:"description", parent: name, min: 0)
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2135,6 +2513,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// The name of the bot that the alias points to.
         public let botName: String?
         /// The version of the bot that the alias points to.
@@ -2186,6 +2565,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "processBehavior", required: false, type: .enum), 
             AWSShapeMember(label: "voiceId", required: false, type: .string)
         ]
+
         /// When Amazon Lex can't understand the user's input in context, it tries to elicit the information a few times. After that, Amazon Lex sends the message defined in abortStatement to the user, and then aborts the conversation. To set the number of retries, use the valueElicitationPrompt field for the slot type.  For example, in a pizza ordering bot, Amazon Lex might ask a user "What type of crust would you like?" If the user's response is not one of the expected responses (for example, "thin crust, "deep dish," etc.), Amazon Lex tries to elicit a correct response a few more times.  For example, in a pizza ordering application, OrderPizza might be one of the intents. This intent might require the CrustType slot. You specify the valueElicitationPrompt field when you create the CrustType slot.
         public let abortStatement: Statement?
         /// Identifies a specific revision of the $LATEST version. When you create a new bot, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a bot, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
@@ -2198,7 +2578,7 @@ extension LexModelBuildingService {
         /// A description of the bot.
         public let description: String?
         /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation. A user interaction session remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. For example, suppose that a user chooses the OrderPizza intent, but gets sidetracked halfway through placing an order. If the user doesn't complete the order within the specified time, Amazon Lex discards the slot information that it gathered, and the user must start over. If you don't include the idleSessionTTLInSeconds element in a PutBot operation request, Amazon Lex uses the default value. This is also true if the request replaces an existing bot. The default is 300 seconds (5 minutes).
-        public let idleSessionTTLInSeconds: Int32?
+        public let idleSessionTTLInSeconds: Int?
         /// An array of Intent objects. Each intent represents a command that a user can express. For example, a pizza ordering bot might support an OrderPizza intent. For more information, see how-it-works.
         public let intents: [Intent]?
         ///  Specifies the target locale for the bot. Any intent used in the bot must be compatible with the locale of the bot.  The default is en-US.
@@ -2210,7 +2590,7 @@ extension LexModelBuildingService {
         /// The Amazon Polly voice ID that you want Amazon Lex to use for voice interactions with the user. The locale configured for the voice must match the locale of the bot. For more information, see Available Voices in the Amazon Polly Developer Guide.
         public let voiceId: String?
 
-        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool, clarificationPrompt: Prompt? = nil, createVersion: Bool? = nil, description: String? = nil, idleSessionTTLInSeconds: Int32? = nil, intents: [Intent]? = nil, locale: Locale, name: String, processBehavior: ProcessBehavior? = nil, voiceId: String? = nil) {
+        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool, clarificationPrompt: Prompt? = nil, createVersion: Bool? = nil, description: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, locale: Locale, name: String, processBehavior: ProcessBehavior? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
             self.childDirected = childDirected
@@ -2223,6 +2603,21 @@ extension LexModelBuildingService {
             self.name = name
             self.processBehavior = processBehavior
             self.voiceId = voiceId
+        }
+
+        public func validate(name: String) throws {
+            try abortStatement?.validate(name: "\(name).abortStatement")
+            try clarificationPrompt?.validate(name: "\(name).clarificationPrompt")
+            try validate(description, name:"description", parent: name, max: 200)
+            try validate(description, name:"description", parent: name, min: 0)
+            try validate(idleSessionTTLInSeconds, name:"idleSessionTTLInSeconds", parent: name, max: 86400)
+            try validate(idleSessionTTLInSeconds, name:"idleSessionTTLInSeconds", parent: name, min: 60)
+            try intents?.forEach {
+                try $0.validate(name: "\(name).intents[]")
+            }
+            try validate(name, name:"name", parent: name, max: 50)
+            try validate(name, name:"name", parent: name, min: 2)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2260,6 +2655,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "version", required: false, type: .string), 
             AWSShapeMember(label: "voiceId", required: false, type: .string)
         ]
+
         /// The message that Amazon Lex uses to abort a conversation. For more information, see PutBot.
         public let abortStatement: Statement?
         /// Checksum of the bot that you created.
@@ -2276,7 +2672,7 @@ extension LexModelBuildingService {
         /// If status is FAILED, Amazon Lex provides the reason that it failed to build the bot.
         public let failureReason: String?
         /// The maximum length of time that Amazon Lex retains the data gathered in a conversation. For more information, see PutBot.
-        public let idleSessionTTLInSeconds: Int32?
+        public let idleSessionTTLInSeconds: Int?
         /// An array of Intent objects. For more information, see PutBot.
         public let intents: [Intent]?
         /// The date that the bot was updated. When you create a resource, the creation date and last updated date are the same.
@@ -2292,7 +2688,7 @@ extension LexModelBuildingService {
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user. For more information, see PutBot.
         public let voiceId: String?
 
-        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, createVersion: Bool? = nil, description: String? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int32? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
+        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, createVersion: Bool? = nil, description: String? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
             self.childDirected = childDirected
@@ -2347,6 +2743,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "sampleUtterances", required: false, type: .list), 
             AWSShapeMember(label: "slots", required: false, type: .list)
         ]
+
         /// Identifies a specific revision of the $LATEST version. When you create a new intent, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a intent, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
         public let checksum: String?
         ///  The statement that you want Amazon Lex to convey to the user after the intent is successfully fulfilled by the Lambda function.  This element is relevant only if you provide a Lambda function in the fulfillmentActivity. If you return the intent to the client application, you can't specify this element.  The followUpPrompt and conclusionStatement are mutually exclusive. You can specify only one. 
@@ -2389,6 +2786,31 @@ extension LexModelBuildingService {
             self.slots = slots
         }
 
+        public func validate(name: String) throws {
+            try conclusionStatement?.validate(name: "\(name).conclusionStatement")
+            try confirmationPrompt?.validate(name: "\(name).confirmationPrompt")
+            try validate(description, name:"description", parent: name, max: 200)
+            try validate(description, name:"description", parent: name, min: 0)
+            try dialogCodeHook?.validate(name: "\(name).dialogCodeHook")
+            try followUpPrompt?.validate(name: "\(name).followUpPrompt")
+            try fulfillmentActivity?.validate(name: "\(name).fulfillmentActivity")
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try rejectionStatement?.validate(name: "\(name).rejectionStatement")
+            try sampleUtterances?.forEach {
+                try validate($0, name: "sampleUtterances[]", parent: name, max: 200)
+                try validate($0, name: "sampleUtterances[]", parent: name, min: 1)
+            }
+            try validate(sampleUtterances, name:"sampleUtterances", parent: name, max: 1500)
+            try validate(sampleUtterances, name:"sampleUtterances", parent: name, min: 0)
+            try slots?.forEach {
+                try $0.validate(name: "\(name).slots[]")
+            }
+            try validate(slots, name:"slots", parent: name, max: 100)
+            try validate(slots, name:"slots", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case checksum = "checksum"
             case conclusionStatement = "conclusionStatement"
@@ -2425,6 +2847,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "slots", required: false, type: .list), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// Checksum of the $LATESTversion of the intent created or updated.
         public let checksum: String?
         /// After the Lambda function specified in thefulfillmentActivityintent fulfills the intent, Amazon Lex conveys this statement to the user.
@@ -2505,6 +2928,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "valueSelectionStrategy", required: false, type: .enum)
         ]
+
         /// Identifies a specific revision of the $LATEST version. When you create a new slot type, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a slot type, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
         public let checksum: String?
         public let createVersion: Bool?
@@ -2524,6 +2948,19 @@ extension LexModelBuildingService {
             self.enumerationValues = enumerationValues
             self.name = name
             self.valueSelectionStrategy = valueSelectionStrategy
+        }
+
+        public func validate(name: String) throws {
+            try validate(description, name:"description", parent: name, max: 200)
+            try validate(description, name:"description", parent: name, min: 0)
+            try enumerationValues?.forEach {
+                try $0.validate(name: "\(name).enumerationValues[]")
+            }
+            try validate(enumerationValues, name:"enumerationValues", parent: name, max: 10000)
+            try validate(enumerationValues, name:"enumerationValues", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2548,6 +2985,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "valueSelectionStrategy", required: false, type: .enum), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// Checksum of the $LATEST version of the slot type.
         public let checksum: String?
         /// The date that the slot type was created.
@@ -2591,35 +3029,6 @@ extension LexModelBuildingService {
         }
     }
 
-    public enum ReferenceType: String, CustomStringConvertible, Codable {
-        case intent = "Intent"
-        case bot = "Bot"
-        case botalias = "BotAlias"
-        case botchannel = "BotChannel"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ResourceReference: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
-        /// The name of the resource that is using the resource that you are trying to delete.
-        public let name: String?
-        /// The version of the resource that is using the resource that you are trying to delete.
-        public let version: String?
-
-        public init(name: String? = nil, version: String? = nil) {
-            self.name = name
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case version = "version"
-        }
-    }
-
     public enum ResourceType: String, CustomStringConvertible, Codable {
         case bot = "BOT"
         case intent = "INTENT"
@@ -2639,12 +3048,13 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "slotTypeVersion", required: false, type: .string), 
             AWSShapeMember(label: "valueElicitationPrompt", required: false, type: .structure)
         ]
+
         /// A description of the slot.
         public let description: String?
         /// The name of the slot.
         public let name: String
         ///  Directs Lex the order in which to elicit this slot value from the user. For example, if the intent has two slots with priorities 1 and 2, AWS Lex first elicits a value for the slot with priority 1. If multiple slots share the same priority, the order in which Lex elicits values is arbitrary.
-        public let priority: Int32?
+        public let priority: Int?
         ///  A set of possible responses for the slot type used by text-based clients. A user chooses an option from the response card, instead of using text to reply. 
         public let responseCard: String?
         ///  If you know a specific pattern with which users might respond to an Amazon Lex request for a slot value, you can provide those utterances to improve accuracy. This is optional. In most cases, Amazon Lex is capable of understanding user utterances. 
@@ -2658,7 +3068,7 @@ extension LexModelBuildingService {
         /// The prompt that Amazon Lex uses to elicit the slot value from the user.
         public let valueElicitationPrompt: Prompt?
 
-        public init(description: String? = nil, name: String, priority: Int32? = nil, responseCard: String? = nil, sampleUtterances: [String]? = nil, slotConstraint: SlotConstraint, slotType: String? = nil, slotTypeVersion: String? = nil, valueElicitationPrompt: Prompt? = nil) {
+        public init(description: String? = nil, name: String, priority: Int? = nil, responseCard: String? = nil, sampleUtterances: [String]? = nil, slotConstraint: SlotConstraint, slotType: String? = nil, slotTypeVersion: String? = nil, valueElicitationPrompt: Prompt? = nil) {
             self.description = description
             self.name = name
             self.priority = priority
@@ -2668,6 +3078,31 @@ extension LexModelBuildingService {
             self.slotType = slotType
             self.slotTypeVersion = slotTypeVersion
             self.valueElicitationPrompt = valueElicitationPrompt
+        }
+
+        public func validate(name: String) throws {
+            try validate(description, name:"description", parent: name, max: 200)
+            try validate(description, name:"description", parent: name, min: 0)
+            try validate(name, name:"name", parent: name, max: 100)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z](-|_|.)?)+$")
+            try validate(priority, name:"priority", parent: name, max: 100)
+            try validate(priority, name:"priority", parent: name, min: 0)
+            try validate(responseCard, name:"responseCard", parent: name, max: 50000)
+            try validate(responseCard, name:"responseCard", parent: name, min: 1)
+            try sampleUtterances?.forEach {
+                try validate($0, name: "sampleUtterances[]", parent: name, max: 200)
+                try validate($0, name: "sampleUtterances[]", parent: name, min: 1)
+            }
+            try validate(sampleUtterances, name:"sampleUtterances", parent: name, max: 10)
+            try validate(sampleUtterances, name:"sampleUtterances", parent: name, min: 0)
+            try validate(slotType, name:"slotType", parent: name, max: 100)
+            try validate(slotType, name:"slotType", parent: name, min: 1)
+            try validate(slotType, name:"slotType", parent: name, pattern: "^((AMAZON\\.)_?|[A-Za-z]_?)+")
+            try validate(slotTypeVersion, name:"slotTypeVersion", parent: name, max: 64)
+            try validate(slotTypeVersion, name:"slotTypeVersion", parent: name, min: 1)
+            try validate(slotTypeVersion, name:"slotTypeVersion", parent: name, pattern: "\\$LATEST|[0-9]+")
+            try valueElicitationPrompt?.validate(name: "\(name).valueElicitationPrompt")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2697,6 +3132,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The date that the slot type was created.
         public let createdDate: TimeStamp?
         /// A description of the slot type.
@@ -2737,6 +3173,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "payload", required: true, type: .blob), 
             AWSShapeMember(label: "resourceType", required: true, type: .enum)
         ]
+
         /// Specifies the action that the StartImport operation should take when there is an existing resource with the same name.   FAIL_ON_CONFLICT - The import operation is stopped on the first conflict between a resource in the import file and an existing resource. The name of the resource causing the conflict is in the failureReason field of the response to the GetImport operation. OVERWRITE_LATEST - The import operation proceeds even if there is a conflict with an existing resource. The $LASTEST version of the existing resource is overwritten with the data from the import file.  
         public let mergeStrategy: MergeStrategy
         /// A zip archive in binary format. The archive should contain one file, a JSON file containing the resource to import. The resource should match the type specified in the resourceType field.
@@ -2766,6 +3203,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "resourceType", required: false, type: .enum)
         ]
+
         /// A timestamp for the date and time that the import job was requested.
         public let createdDate: TimeStamp?
         /// The identifier for the specific import job.
@@ -2803,6 +3241,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "messages", required: true, type: .list), 
             AWSShapeMember(label: "responseCard", required: false, type: .string)
         ]
+
         /// A collection of message objects.
         public let messages: [Message]
         ///  At runtime, if the client is using the PostText API, Amazon Lex includes the response card in the response. It substitutes all of the session attributes and slot values for placeholders in the response card. 
@@ -2811,6 +3250,16 @@ extension LexModelBuildingService {
         public init(messages: [Message], responseCard: String? = nil) {
             self.messages = messages
             self.responseCard = responseCard
+        }
+
+        public func validate(name: String) throws {
+            try messages.forEach {
+                try $0.validate(name: "\(name).messages[]")
+            }
+            try validate(messages, name:"messages", parent: name, max: 15)
+            try validate(messages, name:"messages", parent: name, min: 1)
+            try validate(responseCard, name:"responseCard", parent: name, max: 50000)
+            try validate(responseCard, name:"responseCard", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2842,10 +3291,11 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "lastUtteredDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "utteranceString", required: false, type: .string)
         ]
+
         /// The number of times that the utterance was processed.
-        public let count: Int32?
+        public let count: Int?
         /// The total number of individuals that used the utterance.
-        public let distinctUsers: Int32?
+        public let distinctUsers: Int?
         /// The date that the utterance was first recorded.
         public let firstUtteredDate: TimeStamp?
         /// The date that the utterance was last recorded.
@@ -2853,7 +3303,7 @@ extension LexModelBuildingService {
         /// The text that was entered by the user or the text representation of an audio clip.
         public let utteranceString: String?
 
-        public init(count: Int32? = nil, distinctUsers: Int32? = nil, firstUtteredDate: TimeStamp? = nil, lastUtteredDate: TimeStamp? = nil, utteranceString: String? = nil) {
+        public init(count: Int? = nil, distinctUsers: Int? = nil, firstUtteredDate: TimeStamp? = nil, lastUtteredDate: TimeStamp? = nil, utteranceString: String? = nil) {
             self.count = count
             self.distinctUsers = distinctUsers
             self.firstUtteredDate = firstUtteredDate
@@ -2875,6 +3325,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "botVersion", required: false, type: .string), 
             AWSShapeMember(label: "utterances", required: false, type: .list)
         ]
+
         /// The version of the bot that processed the list.
         public let botVersion: String?
         /// One or more UtteranceData objects that contain information about the utterances that have been made to a bot. The maximum number of object is 100.

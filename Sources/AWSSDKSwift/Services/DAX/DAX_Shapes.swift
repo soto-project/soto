@@ -31,8 +31,9 @@ extension DAX {
             AWSShapeMember(label: "SubnetGroup", required: false, type: .string), 
             AWSShapeMember(label: "TotalNodes", required: false, type: .integer)
         ]
+
         /// The number of nodes in the cluster that are active (i.e., capable of serving requests).
-        public let activeNodes: Int32?
+        public let activeNodes: Int?
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster. 
         public let clusterArn: String?
         /// The configuration endpoint for this DAX cluster, consisting of a DNS name and a port number. Client applications can specify this endpoint, rather than an individual node endpoint, and allow the DAX client software to intelligently route requests and responses to nodes in the DAX cluster.
@@ -64,9 +65,9 @@ extension DAX {
         /// The subnet group where the DAX cluster is running.
         public let subnetGroup: String?
         /// The total number of nodes in the cluster.
-        public let totalNodes: Int32?
+        public let totalNodes: Int?
 
-        public init(activeNodes: Int32? = nil, clusterArn: String? = nil, clusterDiscoveryEndpoint: Endpoint? = nil, clusterName: String? = nil, description: String? = nil, iamRoleArn: String? = nil, nodeIdsToRemove: [String]? = nil, nodes: [Node]? = nil, nodeType: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, parameterGroup: ParameterGroupStatus? = nil, preferredMaintenanceWindow: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, sSEDescription: SSEDescription? = nil, status: String? = nil, subnetGroup: String? = nil, totalNodes: Int32? = nil) {
+        public init(activeNodes: Int? = nil, clusterArn: String? = nil, clusterDiscoveryEndpoint: Endpoint? = nil, clusterName: String? = nil, description: String? = nil, iamRoleArn: String? = nil, nodeIdsToRemove: [String]? = nil, nodes: [Node]? = nil, nodeType: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, parameterGroup: ParameterGroupStatus? = nil, preferredMaintenanceWindow: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, sSEDescription: SSEDescription? = nil, status: String? = nil, subnetGroup: String? = nil, totalNodes: Int? = nil) {
             self.activeNodes = activeNodes
             self.clusterArn = clusterArn
             self.clusterDiscoveryEndpoint = clusterDiscoveryEndpoint
@@ -123,6 +124,7 @@ extension DAX {
             AWSShapeMember(label: "SubnetGroupName", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// The Availability Zones (AZs) in which the cluster nodes will be created. All nodes belonging to the cluster are placed in these Availability Zones. Use this parameter if you want to distribute the nodes across multiple AZs.
         public let availabilityZones: [String]?
         /// The cluster identifier. This parameter is stored as a lowercase string.  Constraints:    A name must contain from 1 to 20 alphanumeric characters or hyphens.   The first character must be a letter.   A name cannot end with a hyphen or contain two consecutive hyphens.  
@@ -140,7 +142,7 @@ extension DAX {
         /// Specifies the weekly time range during which maintenance on the DAX cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:05:00-sun:09:00   If you don't specify a preferred maintenance window when you create or modify a cache cluster, DAX assigns a 60-minute maintenance window on a randomly selected day of the week. 
         public let preferredMaintenanceWindow: String?
         /// The number of nodes in the DAX cluster. A replication factor of 1 will create a single-node cluster, without any read replicas. For additional fault tolerance, you can create a multiple node cluster with one or more read replicas. To do this, set ReplicationFactor to 2 or more.  AWS recommends that you have at least two read replicas per cluster. 
-        public let replicationFactor: Int32
+        public let replicationFactor: Int
         /// A list of security group IDs to be assigned to each node in the DAX cluster. (Each of the security group ID is system-generated.) If this parameter is not specified, DAX assigns the default VPC security group to each node.
         public let securityGroupIds: [String]?
         /// Represents the settings used to enable server-side encryption on the cluster.
@@ -150,7 +152,7 @@ extension DAX {
         /// A set of tags to associate with the DAX cluster. 
         public let tags: [Tag]?
 
-        public init(availabilityZones: [String]? = nil, clusterName: String, description: String? = nil, iamRoleArn: String, nodeType: String, notificationTopicArn: String? = nil, parameterGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, replicationFactor: Int32, securityGroupIds: [String]? = nil, sSESpecification: SSESpecification? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil) {
+        public init(availabilityZones: [String]? = nil, clusterName: String, description: String? = nil, iamRoleArn: String, nodeType: String, notificationTopicArn: String? = nil, parameterGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, replicationFactor: Int, securityGroupIds: [String]? = nil, sSESpecification: SSESpecification? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil) {
             self.availabilityZones = availabilityZones
             self.clusterName = clusterName
             self.description = description
@@ -187,6 +189,7 @@ extension DAX {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
+
         /// A description of the DAX cluster that you have created.
         public let cluster: Cluster?
 
@@ -204,6 +207,7 @@ extension DAX {
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ParameterGroupName", required: true, type: .string)
         ]
+
         /// A description of the parameter group.
         public let description: String?
         /// The name of the parameter group to apply to all of the clusters in this replication group.
@@ -224,6 +228,7 @@ extension DAX {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ParameterGroup", required: false, type: .structure)
         ]
+
         /// Represents the output of a CreateParameterGroup action.
         public let parameterGroup: ParameterGroup?
 
@@ -242,6 +247,7 @@ extension DAX {
             AWSShapeMember(label: "SubnetGroupName", required: true, type: .string), 
             AWSShapeMember(label: "SubnetIds", required: true, type: .list)
         ]
+
         /// A description for the subnet group
         public let description: String?
         /// A name for the subnet group. This value is stored as a lowercase string. 
@@ -266,6 +272,7 @@ extension DAX {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetGroup", required: false, type: .structure)
         ]
+
         /// Represents the output of a CreateSubnetGroup operation.
         public let subnetGroup: SubnetGroup?
 
@@ -285,16 +292,17 @@ extension DAX {
             AWSShapeMember(label: "NewReplicationFactor", required: true, type: .integer), 
             AWSShapeMember(label: "NodeIdsToRemove", required: false, type: .list)
         ]
+
         /// The Availability Zone(s) from which to remove nodes.
         public let availabilityZones: [String]?
         /// The name of the DAX cluster from which you want to remove nodes.
         public let clusterName: String
         /// The new number of nodes for the DAX cluster.
-        public let newReplicationFactor: Int32
+        public let newReplicationFactor: Int
         /// The unique identifiers of the nodes to be removed from the cluster.
         public let nodeIdsToRemove: [String]?
 
-        public init(availabilityZones: [String]? = nil, clusterName: String, newReplicationFactor: Int32, nodeIdsToRemove: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, clusterName: String, newReplicationFactor: Int, nodeIdsToRemove: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.clusterName = clusterName
             self.newReplicationFactor = newReplicationFactor
@@ -313,6 +321,7 @@ extension DAX {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
+
         /// A description of the DAX cluster, after you have decreased its replication factor.
         public let cluster: Cluster?
 
@@ -329,6 +338,7 @@ extension DAX {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterName", required: true, type: .string)
         ]
+
         /// The name of the cluster to be deleted.
         public let clusterName: String
 
@@ -345,6 +355,7 @@ extension DAX {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
+
         /// A description of the DAX cluster that is being deleted.
         public let cluster: Cluster?
 
@@ -361,6 +372,7 @@ extension DAX {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ParameterGroupName", required: true, type: .string)
         ]
+
         /// The name of the parameter group to delete.
         public let parameterGroupName: String
 
@@ -377,6 +389,7 @@ extension DAX {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeletionMessage", required: false, type: .string)
         ]
+
         /// A user-specified message for this action (i.e., a reason for deleting the parameter group).
         public let deletionMessage: String?
 
@@ -393,6 +406,7 @@ extension DAX {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetGroupName", required: true, type: .string)
         ]
+
         /// The name of the subnet group to delete.
         public let subnetGroupName: String
 
@@ -409,6 +423,7 @@ extension DAX {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeletionMessage", required: false, type: .string)
         ]
+
         /// A user-specified message for this action (i.e., a reason for deleting the subnet group).
         public let deletionMessage: String?
 
@@ -427,14 +442,15 @@ extension DAX {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The names of the DAX clusters being described.
         public let clusterNames: [String]?
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
 
-        public init(clusterNames: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(clusterNames: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterNames = clusterNames
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -452,6 +468,7 @@ extension DAX {
             AWSShapeMember(label: "Clusters", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The descriptions of your DAX clusters, in response to a DescribeClusters request.
         public let clusters: [Cluster]?
         /// Provides an identifier to allow retrieval of paginated results.
@@ -473,12 +490,13 @@ extension DAX {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -494,6 +512,7 @@ extension DAX {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .list)
         ]
+
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
         /// A list of parameters. Each element in the list represents one parameter.
@@ -520,12 +539,13 @@ extension DAX {
             AWSShapeMember(label: "SourceType", required: false, type: .enum), 
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
         ]
+
         /// The number of minutes' worth of events to retrieve.
-        public let duration: Int32?
+        public let duration: Int?
         /// The end of the time interval for which to retrieve events, specified in ISO 8601 format.
         public let endTime: TimeStamp?
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
         /// The identifier of the event source for which events will be returned. If not specified, then all sources are included in the response.
@@ -535,7 +555,7 @@ extension DAX {
         /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format.
         public let startTime: TimeStamp?
 
-        public init(duration: Int32? = nil, endTime: TimeStamp? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sourceName: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
+        public init(duration: Int? = nil, endTime: TimeStamp? = nil, maxResults: Int? = nil, nextToken: String? = nil, sourceName: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
             self.duration = duration
             self.endTime = endTime
             self.maxResults = maxResults
@@ -561,6 +581,7 @@ extension DAX {
             AWSShapeMember(label: "Events", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// An array of events. Each element in the array represents one event.
         public let events: [Event]?
         /// Provides an identifier to allow retrieval of paginated results.
@@ -583,14 +604,15 @@ extension DAX {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ParameterGroupNames", required: false, type: .list)
         ]
+
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
         /// The names of the parameter groups.
         public let parameterGroupNames: [String]?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, parameterGroupNames: [String]? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, parameterGroupNames: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.parameterGroupNames = parameterGroupNames
@@ -608,6 +630,7 @@ extension DAX {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ParameterGroups", required: false, type: .list)
         ]
+
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
         /// An array of parameter groups. Each element in the array represents one parameter group.
@@ -631,8 +654,9 @@ extension DAX {
             AWSShapeMember(label: "ParameterGroupName", required: true, type: .string), 
             AWSShapeMember(label: "Source", required: false, type: .string)
         ]
+
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
         /// The name of the parameter group.
@@ -640,7 +664,7 @@ extension DAX {
         /// How the parameter is defined. For example, system denotes a system-defined parameter.
         public let source: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, parameterGroupName: String, source: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, parameterGroupName: String, source: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.parameterGroupName = parameterGroupName
@@ -660,6 +684,7 @@ extension DAX {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .list)
         ]
+
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
         /// A list of parameters within a parameter group. Each element in the list represents one parameter.
@@ -682,14 +707,15 @@ extension DAX {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SubnetGroupNames", required: false, type: .list)
         ]
+
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
         /// The name of the subnet group.
         public let subnetGroupNames: [String]?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, subnetGroupNames: [String]? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, subnetGroupNames: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.subnetGroupNames = subnetGroupNames
@@ -707,6 +733,7 @@ extension DAX {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SubnetGroups", required: false, type: .list)
         ]
+
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
         /// An array of subnet groups. Each element in the array represents a single subnet group.
@@ -728,12 +755,13 @@ extension DAX {
             AWSShapeMember(label: "Address", required: false, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer)
         ]
+
         /// The DNS hostname of the endpoint.
         public let address: String?
         /// The port number that applications should use to connect to the endpoint.
-        public let port: Int32?
+        public let port: Int?
 
-        public init(address: String? = nil, port: Int32? = nil) {
+        public init(address: String? = nil, port: Int? = nil) {
             self.address = address
             self.port = port
         }
@@ -751,6 +779,7 @@ extension DAX {
             AWSShapeMember(label: "SourceName", required: false, type: .string), 
             AWSShapeMember(label: "SourceType", required: false, type: .enum)
         ]
+
         /// The date and time when the event occurred.
         public let date: TimeStamp?
         /// A user-defined message associated with the event.
@@ -781,14 +810,15 @@ extension DAX {
             AWSShapeMember(label: "ClusterName", required: true, type: .string), 
             AWSShapeMember(label: "NewReplicationFactor", required: true, type: .integer)
         ]
+
         /// The Availability Zones (AZs) in which the cluster nodes will be created. All nodes belonging to the cluster are placed in these Availability Zones. Use this parameter if you want to distribute the nodes across multiple AZs.
         public let availabilityZones: [String]?
         /// The name of the DAX cluster that will receive additional nodes.
         public let clusterName: String
         /// The new number of nodes for the DAX cluster.
-        public let newReplicationFactor: Int32
+        public let newReplicationFactor: Int
 
-        public init(availabilityZones: [String]? = nil, clusterName: String, newReplicationFactor: Int32) {
+        public init(availabilityZones: [String]? = nil, clusterName: String, newReplicationFactor: Int) {
             self.availabilityZones = availabilityZones
             self.clusterName = clusterName
             self.newReplicationFactor = newReplicationFactor
@@ -805,6 +835,7 @@ extension DAX {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
+
         /// A description of the DAX cluster. with its new replication factor.
         public let cluster: Cluster?
 
@@ -829,6 +860,7 @@ extension DAX {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ResourceName", required: true, type: .string)
         ]
+
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token.
         public let nextToken: String?
         /// The name of the DAX resource to which the tags belong.
@@ -850,6 +882,7 @@ extension DAX {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// If this value is present, there are additional results to be displayed. To retrieve them, call ListTags again, with NextToken set to this value.
         public let nextToken: String?
         /// A list of tags currently associated with the DAX cluster.
@@ -875,6 +908,7 @@ extension DAX {
             AWSShapeMember(label: "NodeStatus", required: false, type: .string), 
             AWSShapeMember(label: "ParameterGroupStatus", required: false, type: .string)
         ]
+
         /// The Availability Zone (AZ) in which the node has been deployed.
         public let availabilityZone: String?
         /// The endpoint for the node, consisting of a DNS name and a port number. Client applications can connect directly to a node endpoint, if desired (as an alternative to allowing DAX client software to intelligently route requests and responses to nodes in the DAX cluster.
@@ -912,6 +946,7 @@ extension DAX {
             AWSShapeMember(label: "NodeType", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// A node type to which the parameter value applies.
         public let nodeType: String?
         /// The parameter value for this node type.
@@ -933,6 +968,7 @@ extension DAX {
             AWSShapeMember(label: "TopicArn", required: false, type: .string), 
             AWSShapeMember(label: "TopicStatus", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) that identifies the topic. 
         public let topicArn: String?
         /// The current state of the topic.
@@ -962,6 +998,7 @@ extension DAX {
             AWSShapeMember(label: "ParameterValue", required: false, type: .string), 
             AWSShapeMember(label: "Source", required: false, type: .string)
         ]
+
         /// A range of values within which the parameter can be set.
         public let allowedValues: String?
         /// The conditions under which changes to this parameter can be applied. For example, requires-reboot indicates that a new value for this parameter will only take effect if a node is rebooted.
@@ -1015,6 +1052,7 @@ extension DAX {
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ParameterGroupName", required: false, type: .string)
         ]
+
         /// A description of the parameter group.
         public let description: String?
         /// The name of the parameter group.
@@ -1037,6 +1075,7 @@ extension DAX {
             AWSShapeMember(label: "ParameterApplyStatus", required: false, type: .string), 
             AWSShapeMember(label: "ParameterGroupName", required: false, type: .string)
         ]
+
         /// The node IDs of one or more nodes to be rebooted.
         public let nodeIdsToReboot: [String]?
         /// The status of parameter updates. 
@@ -1062,6 +1101,7 @@ extension DAX {
             AWSShapeMember(label: "ParameterName", required: false, type: .string), 
             AWSShapeMember(label: "ParameterValue", required: false, type: .string)
         ]
+
         /// The name of the parameter.
         public let parameterName: String?
         /// The value of the parameter.
@@ -1089,6 +1129,7 @@ extension DAX {
             AWSShapeMember(label: "ClusterName", required: true, type: .string), 
             AWSShapeMember(label: "NodeId", required: true, type: .string)
         ]
+
         /// The name of the DAX cluster containing the node to be rebooted.
         public let clusterName: String
         /// The system-assigned ID of the node to be rebooted.
@@ -1109,6 +1150,7 @@ extension DAX {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
+
         /// A description of the DAX cluster after a node has been rebooted.
         public let cluster: Cluster?
 
@@ -1125,6 +1167,7 @@ extension DAX {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         /// The current state of server-side encryption:    ENABLING - Server-side encryption is being enabled.    ENABLED - Server-side encryption is enabled.    DISABLING - Server-side encryption is being disabled.    DISABLED - Server-side encryption is disabled.  
         public let status: SSEStatus?
 
@@ -1141,6 +1184,7 @@ extension DAX {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Enabled", required: true, type: .boolean)
         ]
+
         /// Indicates whether server-side encryption is enabled (true) or disabled (false) on the cluster.
         public let enabled: Bool
 
@@ -1166,6 +1210,7 @@ extension DAX {
             AWSShapeMember(label: "SecurityGroupIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
+
         /// The unique ID for this security group.
         public let securityGroupIdentifier: String?
         /// The status of this security group.
@@ -1194,6 +1239,7 @@ extension DAX {
             AWSShapeMember(label: "SubnetAvailabilityZone", required: false, type: .string), 
             AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string)
         ]
+
         /// The Availability Zone (AZ) for subnet subnet.
         public let subnetAvailabilityZone: String?
         /// The system-assigned identifier for the subnet.
@@ -1217,6 +1263,7 @@ extension DAX {
             AWSShapeMember(label: "Subnets", required: false, type: .list), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
+
         /// The description of the subnet group.
         public let description: String?
         /// The name of the subnet group.
@@ -1246,6 +1293,7 @@ extension DAX {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The key for the tag. Tag keys are case sensitive. Every DAX cluster can only have one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value.
         public let key: String?
         /// The value of the tag. Tag values are case-sensitive and can be null. 
@@ -1267,6 +1315,7 @@ extension DAX {
             AWSShapeMember(label: "ResourceName", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
+
         /// The name of the DAX resource to which tags should be added.
         public let resourceName: String
         /// The tags to be assigned to the DAX resource. 
@@ -1287,6 +1336,7 @@ extension DAX {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// The list of tags that are associated with the DAX resource.
         public let tags: [Tag]?
 
@@ -1304,6 +1354,7 @@ extension DAX {
             AWSShapeMember(label: "ResourceName", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
+
         /// The name of the DAX resource from which the tags should be removed.
         public let resourceName: String
         /// A list of tag keys. If the DAX cluster has any tags with these keys, then the tags are removed from the cluster.
@@ -1324,6 +1375,7 @@ extension DAX {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// The tag keys that have been removed from the cluster.
         public let tags: [Tag]?
 
@@ -1346,6 +1398,7 @@ extension DAX {
             AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
             AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list)
         ]
+
         /// The name of the DAX cluster to be modified.
         public let clusterName: String
         /// A description of the changes being made to the cluster.
@@ -1386,6 +1439,7 @@ extension DAX {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
+
         /// A description of the DAX cluster, after it has been modified.
         public let cluster: Cluster?
 
@@ -1403,6 +1457,7 @@ extension DAX {
             AWSShapeMember(label: "ParameterGroupName", required: true, type: .string), 
             AWSShapeMember(label: "ParameterNameValues", required: true, type: .list)
         ]
+
         /// The name of the parameter group.
         public let parameterGroupName: String
         /// An array of name-value pairs for the parameters in the group. Each element in the array represents a single parameter.
@@ -1423,6 +1478,7 @@ extension DAX {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ParameterGroup", required: false, type: .structure)
         ]
+
         /// The parameter group that has been modified.
         public let parameterGroup: ParameterGroup?
 
@@ -1441,6 +1497,7 @@ extension DAX {
             AWSShapeMember(label: "SubnetGroupName", required: true, type: .string), 
             AWSShapeMember(label: "SubnetIds", required: false, type: .list)
         ]
+
         /// A description of the subnet group.
         public let description: String?
         /// The name of the subnet group.
@@ -1465,6 +1522,7 @@ extension DAX {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetGroup", required: false, type: .structure)
         ]
+
         /// The subnet group that has been modified.
         public let subnetGroup: SubnetGroup?
 

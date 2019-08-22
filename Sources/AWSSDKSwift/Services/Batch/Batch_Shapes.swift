@@ -15,10 +15,11 @@ extension Batch {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "size", required: false, type: .integer)
         ]
-        /// The size of the array job.
-        public let size: Int32?
 
-        public init(size: Int32? = nil) {
+        /// The size of the array job.
+        public let size: Int?
+
+        public init(size: Int? = nil) {
             self.size = size
         }
 
@@ -33,14 +34,15 @@ extension Batch {
             AWSShapeMember(label: "size", required: false, type: .integer), 
             AWSShapeMember(label: "statusSummary", required: false, type: .map)
         ]
-        /// The job index within the array that is associated with this job. This parameter is returned for array job children.
-        public let index: Int32?
-        /// The size of the array job. This parameter is returned for parent array jobs.
-        public let size: Int32?
-        /// A summary of the number of array job children in each available job status. This parameter is returned for parent array jobs.
-        public let statusSummary: [String: Int32]?
 
-        public init(index: Int32? = nil, size: Int32? = nil, statusSummary: [String: Int32]? = nil) {
+        /// The job index within the array that is associated with this job. This parameter is returned for array job children.
+        public let index: Int?
+        /// The size of the array job. This parameter is returned for parent array jobs.
+        public let size: Int?
+        /// A summary of the number of array job children in each available job status. This parameter is returned for parent array jobs.
+        public let statusSummary: [String: Int]?
+
+        public init(index: Int? = nil, size: Int? = nil, statusSummary: [String: Int]? = nil) {
             self.index = index
             self.size = size
             self.statusSummary = statusSummary
@@ -58,12 +60,13 @@ extension Batch {
             AWSShapeMember(label: "index", required: false, type: .integer), 
             AWSShapeMember(label: "size", required: false, type: .integer)
         ]
-        /// The job index within the array that is associated with this job. This parameter is returned for children of array jobs.
-        public let index: Int32?
-        /// The size of the array job. This parameter is returned for parent array jobs.
-        public let size: Int32?
 
-        public init(index: Int32? = nil, size: Int32? = nil) {
+        /// The job index within the array that is associated with this job. This parameter is returned for children of array jobs.
+        public let index: Int?
+        /// The size of the array job. This parameter is returned for parent array jobs.
+        public let size: Int?
+
+        public init(index: Int? = nil, size: Int? = nil) {
             self.index = index
             self.size = size
         }
@@ -83,10 +86,11 @@ extension Batch {
             AWSShapeMember(label: "reason", required: false, type: .string), 
             AWSShapeMember(label: "taskArn", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the Amazon ECS container instance that hosts the job attempt.
         public let containerInstanceArn: String?
         /// The exit code for the job attempt. A non-zero exit code is considered a failure.
-        public let exitCode: Int32?
+        public let exitCode: Int?
         /// The name of the CloudWatch Logs log stream associated with the container. The log group for AWS Batch jobs is /aws/batch/job. Each container attempt receives a log stream name when they reach the RUNNING status.
         public let logStreamName: String?
         /// The network interfaces associated with the job attempt.
@@ -96,7 +100,7 @@ extension Batch {
         /// The Amazon Resource Name (ARN) of the Amazon ECS task that is associated with the job attempt. Each container attempt receives a task ARN when they reach the STARTING status.
         public let taskArn: String?
 
-        public init(containerInstanceArn: String? = nil, exitCode: Int32? = nil, logStreamName: String? = nil, networkInterfaces: [NetworkInterface]? = nil, reason: String? = nil, taskArn: String? = nil) {
+        public init(containerInstanceArn: String? = nil, exitCode: Int? = nil, logStreamName: String? = nil, networkInterfaces: [NetworkInterface]? = nil, reason: String? = nil, taskArn: String? = nil) {
             self.containerInstanceArn = containerInstanceArn
             self.exitCode = exitCode
             self.logStreamName = logStreamName
@@ -122,6 +126,7 @@ extension Batch {
             AWSShapeMember(label: "statusReason", required: false, type: .string), 
             AWSShapeMember(label: "stoppedAt", required: false, type: .long)
         ]
+
         /// Details about the container in this job attempt.
         public let container: AttemptContainerDetail?
         /// The Unix timestamp (in seconds and milliseconds) for when the attempt was started (when the attempt transitioned from the STARTING state to the RUNNING state).
@@ -179,6 +184,7 @@ extension Batch {
             AWSShapeMember(label: "jobId", required: true, type: .string), 
             AWSShapeMember(label: "reason", required: true, type: .string)
         ]
+
         /// The AWS Batch job ID of the job to cancel.
         public let jobId: String
         /// A message to attach to the job that explains the reason for canceling it. This message is returned by future DescribeJobs operations on the job. This message is also recorded in the AWS Batch activity logs. 
@@ -197,6 +203,7 @@ extension Batch {
 
     public struct CancelJobResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -214,6 +221,7 @@ extension Batch {
             AWSShapeMember(label: "statusReason", required: false, type: .string), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// The Amazon Resource Name (ARN) of the compute environment. 
         public let computeEnvironmentArn: String
         /// The name of the compute environment. 
@@ -263,12 +271,13 @@ extension Batch {
             AWSShapeMember(label: "computeEnvironment", required: true, type: .string), 
             AWSShapeMember(label: "order", required: true, type: .integer)
         ]
+
         /// The Amazon Resource Name (ARN) of the compute environment.
         public let computeEnvironment: String
         /// The order of the compute environment.
-        public let order: Int32
+        public let order: Int
 
-        public init(computeEnvironment: String, order: Int32) {
+        public init(computeEnvironment: String, order: Int) {
             self.computeEnvironment = computeEnvironment
             self.order = order
         }
@@ -297,10 +306,11 @@ extension Batch {
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
+
         /// The maximum percentage that a Spot Instance price can be when compared with the On-Demand price for that instance type before instances are launched. For example, if your maximum percentage is 20%, then the Spot price must be below 20% of the current On-Demand price for that EC2 instance. You always pay the lowest (market) price and never more than your maximum percentage. If you leave this field empty, the default value is 100% of the On-Demand price.
-        public let bidPercentage: Int32?
+        public let bidPercentage: Int?
         /// The desired number of EC2 vCPUS in the compute environment. 
-        public let desiredvCpus: Int32?
+        public let desiredvCpus: Int?
         /// The EC2 key pair that is used for instances launched in the compute environment.
         public let ec2KeyPair: String?
         /// The Amazon Machine Image (AMI) ID used for instances launched in the compute environment.
@@ -312,9 +322,9 @@ extension Batch {
         /// The launch template to use for your compute resources. Any other compute resource parameters that you specify in a CreateComputeEnvironment API operation override the same parameters in the launch template. You must specify either the launch template ID or launch template name in the request, but not both. For more information, see Launch Template Support in the AWS Batch User Guide.
         public let launchTemplate: LaunchTemplateSpecification?
         /// The maximum number of EC2 vCPUs that an environment can reach. 
-        public let maxvCpus: Int32
+        public let maxvCpus: Int
         /// The minimum number of EC2 vCPUs that an environment should maintain (even if the compute environment is DISABLED). 
-        public let minvCpus: Int32
+        public let minvCpus: Int
         /// The Amazon EC2 placement group to associate with your compute resources. If you intend to submit multi-node parallel jobs to your compute environment, you should consider creating a cluster placement group and associate it with your compute resources. This keeps your multi-node parallel job on a logical grouping of instances within a single Availability Zone with high network flow potential. For more information, see Placement Groups in the Amazon EC2 User Guide for Linux Instances.
         public let placementGroup: String?
         /// The EC2 security group that is associated with instances launched in the compute environment. 
@@ -328,7 +338,7 @@ extension Batch {
         /// The type of compute environment: EC2 or SPOT.
         public let `type`: CRType
 
-        public init(bidPercentage: Int32? = nil, desiredvCpus: Int32? = nil, ec2KeyPair: String? = nil, imageId: String? = nil, instanceRole: String, instanceTypes: [String], launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int32, minvCpus: Int32, placementGroup: String? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String], tags: [String: String]? = nil, type: CRType) {
+        public init(bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2KeyPair: String? = nil, imageId: String? = nil, instanceRole: String, instanceTypes: [String], launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int, minvCpus: Int, placementGroup: String? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String], tags: [String: String]? = nil, type: CRType) {
             self.bidPercentage = bidPercentage
             self.desiredvCpus = desiredvCpus
             self.ec2KeyPair = ec2KeyPair
@@ -371,14 +381,15 @@ extension Batch {
             AWSShapeMember(label: "maxvCpus", required: false, type: .integer), 
             AWSShapeMember(label: "minvCpus", required: false, type: .integer)
         ]
-        /// The desired number of EC2 vCPUS in the compute environment.
-        public let desiredvCpus: Int32?
-        /// The maximum number of EC2 vCPUs that an environment can reach.
-        public let maxvCpus: Int32?
-        /// The minimum number of EC2 vCPUs that an environment should maintain.
-        public let minvCpus: Int32?
 
-        public init(desiredvCpus: Int32? = nil, maxvCpus: Int32? = nil, minvCpus: Int32? = nil) {
+        /// The desired number of EC2 vCPUS in the compute environment.
+        public let desiredvCpus: Int?
+        /// The maximum number of EC2 vCPUs that an environment can reach.
+        public let maxvCpus: Int?
+        /// The minimum number of EC2 vCPUs that an environment should maintain.
+        public let minvCpus: Int?
+
+        public init(desiredvCpus: Int? = nil, maxvCpus: Int? = nil, minvCpus: Int? = nil) {
             self.desiredvCpus = desiredvCpus
             self.maxvCpus = maxvCpus
             self.minvCpus = minvCpus
@@ -414,6 +425,7 @@ extension Batch {
             AWSShapeMember(label: "vcpus", required: false, type: .integer), 
             AWSShapeMember(label: "volumes", required: false, type: .list)
         ]
+
         /// The command that is passed to the container. 
         public let command: [String]?
         /// The Amazon Resource Name (ARN) of the container instance on which the container is running.
@@ -421,7 +433,7 @@ extension Batch {
         /// The environment variables to pass to a container.  Environment variables must not start with AWS_BATCH; this naming convention is reserved for variables that are set by the AWS Batch service. 
         public let environment: [KeyValuePair]?
         /// The exit code to return upon completion.
-        public let exitCode: Int32?
+        public let exitCode: Int?
         /// The image used to start the container.
         public let image: String?
         /// The instance type of the underlying host infrastructure of a multi-node parallel job.
@@ -431,7 +443,7 @@ extension Batch {
         /// The name of the CloudWatch Logs log stream associated with the container. The log group for AWS Batch jobs is /aws/batch/job. Each container attempt receives a log stream name when they reach the RUNNING status.
         public let logStreamName: String?
         /// The number of MiB of memory reserved for the job.
-        public let memory: Int32?
+        public let memory: Int?
         /// The mount points for data volumes in your container.
         public let mountPoints: [MountPoint]?
         /// The network interfaces associated with the job.
@@ -451,11 +463,11 @@ extension Batch {
         /// The user name to use inside the container.
         public let user: String?
         /// The number of VCPUs allocated for the job. 
-        public let vcpus: Int32?
+        public let vcpus: Int?
         /// A list of volumes associated with the job.
         public let volumes: [Volume]?
 
-        public init(command: [String]? = nil, containerInstanceArn: String? = nil, environment: [KeyValuePair]? = nil, exitCode: Int32? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, logStreamName: String? = nil, memory: Int32? = nil, mountPoints: [MountPoint]? = nil, networkInterfaces: [NetworkInterface]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, reason: String? = nil, resourceRequirements: [ResourceRequirement]? = nil, taskArn: String? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int32? = nil, volumes: [Volume]? = nil) {
+        public init(command: [String]? = nil, containerInstanceArn: String? = nil, environment: [KeyValuePair]? = nil, exitCode: Int? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, logStreamName: String? = nil, memory: Int? = nil, mountPoints: [MountPoint]? = nil, networkInterfaces: [NetworkInterface]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, reason: String? = nil, resourceRequirements: [ResourceRequirement]? = nil, taskArn: String? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int? = nil, volumes: [Volume]? = nil) {
             self.command = command
             self.containerInstanceArn = containerInstanceArn
             self.environment = environment
@@ -511,6 +523,7 @@ extension Batch {
             AWSShapeMember(label: "resourceRequirements", required: false, type: .list), 
             AWSShapeMember(label: "vcpus", required: false, type: .integer)
         ]
+
         /// The command to send to the container that overrides the default command from the Docker image or the job definition.
         public let command: [String]?
         /// The environment variables to send to the container. You can add new environment variables, which are added to the container at launch, or you can override the existing environment variables from the Docker image or the job definition.  Environment variables must not start with AWS_BATCH; this naming convention is reserved for variables that are set by the AWS Batch service. 
@@ -518,13 +531,13 @@ extension Batch {
         /// The instance type to use for a multi-node parallel job. This parameter is not valid for single-node container jobs.
         public let instanceType: String?
         /// The number of MiB of memory reserved for the job. This value overrides the value set in the job definition.
-        public let memory: Int32?
+        public let memory: Int?
         /// The type and amount of a resource to assign to a container. This value overrides the value set in the job definition. Currently, the only supported resource is GPU.
         public let resourceRequirements: [ResourceRequirement]?
         /// The number of vCPUs to reserve for the container. This value overrides the value set in the job definition.
-        public let vcpus: Int32?
+        public let vcpus: Int?
 
-        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, instanceType: String? = nil, memory: Int32? = nil, resourceRequirements: [ResourceRequirement]? = nil, vcpus: Int32? = nil) {
+        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, instanceType: String? = nil, memory: Int? = nil, resourceRequirements: [ResourceRequirement]? = nil, vcpus: Int? = nil) {
             self.command = command
             self.environment = environment
             self.instanceType = instanceType
@@ -560,6 +573,7 @@ extension Batch {
             AWSShapeMember(label: "vcpus", required: false, type: .integer), 
             AWSShapeMember(label: "volumes", required: false, type: .list)
         ]
+
         /// The command that is passed to the container. This parameter maps to Cmd in the Create a container section of the Docker Remote API and the COMMAND parameter to docker run. For more information, see https://docs.docker.com/engine/reference/builder/#cmd.
         public let command: [String]?
         /// The environment variables to pass to a container. This parameter maps to Env in the Create a container section of the Docker Remote API and the --env option to docker run.  We do not recommend using plaintext environment variables for sensitive information, such as credential data.   Environment variables must not start with AWS_BATCH; this naming convention is reserved for variables that are set by the AWS Batch service. 
@@ -571,7 +585,7 @@ extension Batch {
         /// The Amazon Resource Name (ARN) of the IAM role that the container can assume for AWS permissions.
         public let jobRoleArn: String?
         /// The hard limit (in MiB) of memory to present to the container. If your container attempts to exceed the memory specified here, the container is killed. This parameter maps to Memory in the Create a container section of the Docker Remote API and the --memory option to docker run. You must specify at least 4 MiB of memory for a job.  If you are trying to maximize your resource utilization by providing your jobs as much memory as possible for a particular instance type, see Memory Management in the AWS Batch User Guide. 
-        public let memory: Int32?
+        public let memory: Int?
         /// The mount points for data volumes in your container. This parameter maps to Volumes in the Create a container section of the Docker Remote API and the --volume option to docker run.
         public let mountPoints: [MountPoint]?
         /// When this parameter is true, the container is given elevated privileges on the host container instance (similar to the root user). This parameter maps to Privileged in the Create a container section of the Docker Remote API and the --privileged option to docker run.
@@ -585,11 +599,11 @@ extension Batch {
         /// The user name to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run.
         public let user: String?
         /// The number of vCPUs reserved for the container. This parameter maps to CpuShares in the Create a container section of the Docker Remote API and the --cpu-shares option to docker run. Each vCPU is equivalent to 1,024 CPU shares. You must specify at least one vCPU.
-        public let vcpus: Int32?
+        public let vcpus: Int?
         /// A list of data volumes used in a job.
         public let volumes: [Volume]?
 
-        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, memory: Int32? = nil, mountPoints: [MountPoint]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, resourceRequirements: [ResourceRequirement]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int32? = nil, volumes: [Volume]? = nil) {
+        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, memory: Int? = nil, mountPoints: [MountPoint]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, resourceRequirements: [ResourceRequirement]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int? = nil, volumes: [Volume]? = nil) {
             self.command = command
             self.environment = environment
             self.image = image
@@ -629,12 +643,13 @@ extension Batch {
             AWSShapeMember(label: "exitCode", required: false, type: .integer), 
             AWSShapeMember(label: "reason", required: false, type: .string)
         ]
+
         /// The exit code to return upon completion.
-        public let exitCode: Int32?
+        public let exitCode: Int?
         /// A short (255 max characters) human-readable string to provide additional details about a running or stopped container.
         public let reason: String?
 
-        public init(exitCode: Int32? = nil, reason: String? = nil) {
+        public init(exitCode: Int? = nil, reason: String? = nil) {
             self.exitCode = exitCode
             self.reason = reason
         }
@@ -653,6 +668,7 @@ extension Batch {
             AWSShapeMember(label: "state", required: false, type: .enum), 
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
+
         /// The name for your compute environment. Up to 128 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
         public let computeEnvironmentName: String
         /// Details of the compute resources managed by the compute environment. This parameter is required for managed compute environments. For more information, see Compute Environments in the AWS Batch User Guide.
@@ -686,6 +702,7 @@ extension Batch {
             AWSShapeMember(label: "computeEnvironmentArn", required: false, type: .string), 
             AWSShapeMember(label: "computeEnvironmentName", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the compute environment. 
         public let computeEnvironmentArn: String?
         /// The name of the compute environment.
@@ -709,16 +726,17 @@ extension Batch {
             AWSShapeMember(label: "priority", required: true, type: .integer), 
             AWSShapeMember(label: "state", required: false, type: .enum)
         ]
+
         /// The set of compute environments mapped to a job queue and their order relative to each other. The job scheduler uses this parameter to determine which compute environment should execute a given job. Compute environments must be in the VALID state before you can associate them with a job queue. You can associate up to three compute environments with a job queue.
         public let computeEnvironmentOrder: [ComputeEnvironmentOrder]
         /// The name of the job queue.
         public let jobQueueName: String
         /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order, for example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1.
-        public let priority: Int32
+        public let priority: Int
         /// The state of the job queue. If the job queue state is ENABLED, it is able to accept jobs.
         public let state: JQState?
 
-        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder], jobQueueName: String, priority: Int32, state: JQState? = nil) {
+        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder], jobQueueName: String, priority: Int, state: JQState? = nil) {
             self.computeEnvironmentOrder = computeEnvironmentOrder
             self.jobQueueName = jobQueueName
             self.priority = priority
@@ -738,6 +756,7 @@ extension Batch {
             AWSShapeMember(label: "jobQueueArn", required: true, type: .string), 
             AWSShapeMember(label: "jobQueueName", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the job queue.
         public let jobQueueArn: String
         /// The name of the job queue.
@@ -758,6 +777,7 @@ extension Batch {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "computeEnvironment", required: true, type: .string)
         ]
+
         /// The name or Amazon Resource Name (ARN) of the compute environment to delete. 
         public let computeEnvironment: String
 
@@ -772,6 +792,7 @@ extension Batch {
 
     public struct DeleteComputeEnvironmentResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -781,6 +802,7 @@ extension Batch {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "jobQueue", required: true, type: .string)
         ]
+
         /// The short name or full Amazon Resource Name (ARN) of the queue to delete. 
         public let jobQueue: String
 
@@ -795,6 +817,7 @@ extension Batch {
 
     public struct DeleteJobQueueResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -804,6 +827,7 @@ extension Batch {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "jobDefinition", required: true, type: .string)
         ]
+
         /// The name and revision (name:revision) or full Amazon Resource Name (ARN) of the job definition to deregister. 
         public let jobDefinition: String
 
@@ -818,6 +842,7 @@ extension Batch {
 
     public struct DeregisterJobDefinitionResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -829,14 +854,15 @@ extension Batch {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of up to 100 compute environment names or full Amazon Resource Name (ARN) entries. 
         public let computeEnvironments: [String]?
         /// The maximum number of cluster results returned by DescribeComputeEnvironments in paginated output. When this parameter is used, DescribeComputeEnvironments only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeComputeEnvironments request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeComputeEnvironments returns up to 100 results and a nextToken value if applicable.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated DescribeComputeEnvironments request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
 
-        public init(computeEnvironments: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(computeEnvironments: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.computeEnvironments = computeEnvironments
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -854,6 +880,7 @@ extension Batch {
             AWSShapeMember(label: "computeEnvironments", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The list of compute environments.
         public let computeEnvironments: [ComputeEnvironmentDetail]?
         /// The nextToken value to include in a future DescribeComputeEnvironments request. When the results of a DescribeJobDefinitions request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -878,18 +905,19 @@ extension Batch {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string)
         ]
+
         /// The name of the job definition to describe.
         public let jobDefinitionName: String?
         /// A list of up to 100 job definition names or full Amazon Resource Name (ARN) entries.
         public let jobDefinitions: [String]?
         /// The maximum number of results returned by DescribeJobDefinitions in paginated output. When this parameter is used, DescribeJobDefinitions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeJobDefinitions request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeJobDefinitions returns up to 100 results and a nextToken value if applicable.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated DescribeJobDefinitions request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
         /// The status with which to filter job definitions.
         public let status: String?
 
-        public init(jobDefinitionName: String? = nil, jobDefinitions: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, status: String? = nil) {
+        public init(jobDefinitionName: String? = nil, jobDefinitions: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: String? = nil) {
             self.jobDefinitionName = jobDefinitionName
             self.jobDefinitions = jobDefinitions
             self.maxResults = maxResults
@@ -911,6 +939,7 @@ extension Batch {
             AWSShapeMember(label: "jobDefinitions", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The list of job definitions. 
         public let jobDefinitions: [JobDefinition]?
         /// The nextToken value to include in a future DescribeJobDefinitions request. When the results of a DescribeJobDefinitions request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -933,14 +962,15 @@ extension Batch {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of up to 100 queue names or full queue Amazon Resource Name (ARN) entries.
         public let jobQueues: [String]?
         /// The maximum number of results returned by DescribeJobQueues in paginated output. When this parameter is used, DescribeJobQueues only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeJobQueues request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeJobQueues returns up to 100 results and a nextToken value if applicable.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated DescribeJobQueues request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
 
-        public init(jobQueues: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(jobQueues: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.jobQueues = jobQueues
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -958,6 +988,7 @@ extension Batch {
             AWSShapeMember(label: "jobQueues", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The list of job queues. 
         public let jobQueues: [JobQueueDetail]?
         /// The nextToken value to include in a future DescribeJobQueues request. When the results of a DescribeJobQueues request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -978,6 +1009,7 @@ extension Batch {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "jobs", required: true, type: .list)
         ]
+
         /// A list of up to 100 job IDs.
         public let jobs: [String]
 
@@ -994,6 +1026,7 @@ extension Batch {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "jobs", required: false, type: .list)
         ]
+
         /// The list of jobs. 
         public let jobs: [JobDetail]?
 
@@ -1010,6 +1043,7 @@ extension Batch {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "sourcePath", required: false, type: .string)
         ]
+
         /// The path on the host container instance that is presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If this parameter contains a file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the source path location does not exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported.
         public let sourcePath: String?
 
@@ -1051,6 +1085,7 @@ extension Batch {
             AWSShapeMember(label: "timeout", required: false, type: .structure), 
             AWSShapeMember(label: "type", required: true, type: .string)
         ]
+
         /// An object with various properties specific to container-based jobs. 
         public let containerProperties: ContainerProperties?
         /// The Amazon Resource Name (ARN) for the job definition. 
@@ -1064,7 +1099,7 @@ extension Batch {
         /// The retry strategy to use for failed jobs that are submitted with this job definition.
         public let retryStrategy: RetryStrategy?
         /// The revision of the job definition.
-        public let revision: Int32
+        public let revision: Int
         /// The status of the job definition.
         public let status: String?
         /// The timeout configuration for jobs that are submitted with this job definition. You can specify a timeout duration after which AWS Batch terminates your jobs if they have not finished.
@@ -1072,7 +1107,7 @@ extension Batch {
         /// The type of job definition.
         public let `type`: String
 
-        public init(containerProperties: ContainerProperties? = nil, jobDefinitionArn: String, jobDefinitionName: String, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, retryStrategy: RetryStrategy? = nil, revision: Int32, status: String? = nil, timeout: JobTimeout? = nil, type: String) {
+        public init(containerProperties: ContainerProperties? = nil, jobDefinitionArn: String, jobDefinitionName: String, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, retryStrategy: RetryStrategy? = nil, revision: Int, status: String? = nil, timeout: JobTimeout? = nil, type: String) {
             self.containerProperties = containerProperties
             self.jobDefinitionArn = jobDefinitionArn
             self.jobDefinitionName = jobDefinitionName
@@ -1110,6 +1145,7 @@ extension Batch {
             AWSShapeMember(label: "jobId", required: false, type: .string), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// The job ID of the AWS Batch job associated with this dependency.
         public let jobId: String?
         /// The type of the job dependency.
@@ -1147,6 +1183,7 @@ extension Batch {
             AWSShapeMember(label: "stoppedAt", required: false, type: .long), 
             AWSShapeMember(label: "timeout", required: false, type: .structure)
         ]
+
         /// The array properties of the job, if it is an array job.
         public let arrayProperties: ArrayPropertiesDetail?
         /// A list of job attempts associated with this job.
@@ -1237,6 +1274,7 @@ extension Batch {
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "statusReason", required: false, type: .string)
         ]
+
         /// The compute environments that are attached to the job queue and the order in which job placement is preferred. Compute environments are selected for job placement in ascending order.
         public let computeEnvironmentOrder: [ComputeEnvironmentOrder]
         /// The Amazon Resource Name (ARN) of the job queue.
@@ -1244,7 +1282,7 @@ extension Batch {
         /// The name of the job queue.
         public let jobQueueName: String
         /// The priority of the job queue. 
-        public let priority: Int32
+        public let priority: Int
         /// Describes the ability of the queue to accept new jobs.
         public let state: JQState
         /// The status of the job queue (for example, CREATING or VALID).
@@ -1252,7 +1290,7 @@ extension Batch {
         /// A short, human-readable string to provide additional details about the current status of the job queue.
         public let statusReason: String?
 
-        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder], jobQueueArn: String, jobQueueName: String, priority: Int32, state: JQState, status: JQStatus? = nil, statusReason: String? = nil) {
+        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder], jobQueueArn: String, jobQueueName: String, priority: Int, state: JQState, status: JQStatus? = nil, statusReason: String? = nil) {
             self.computeEnvironmentOrder = computeEnvironmentOrder
             self.jobQueueArn = jobQueueArn
             self.jobQueueName = jobQueueName
@@ -1297,6 +1335,7 @@ extension Batch {
             AWSShapeMember(label: "statusReason", required: false, type: .string), 
             AWSShapeMember(label: "stoppedAt", required: false, type: .long)
         ]
+
         /// The array properties of the job, if it is an array job.
         public let arrayProperties: ArrayPropertiesSummary?
         /// An object representing the details of the container that is associated with the job.
@@ -1349,10 +1388,11 @@ extension Batch {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attemptDurationSeconds", required: false, type: .integer)
         ]
-        /// The time duration in seconds (measured from the job attempt's startedAt timestamp) after which AWS Batch terminates your jobs if they have not finished.
-        public let attemptDurationSeconds: Int32?
 
-        public init(attemptDurationSeconds: Int32? = nil) {
+        /// The time duration in seconds (measured from the job attempt's startedAt timestamp) after which AWS Batch terminates your jobs if they have not finished.
+        public let attemptDurationSeconds: Int?
+
+        public init(attemptDurationSeconds: Int? = nil) {
             self.attemptDurationSeconds = attemptDurationSeconds
         }
 
@@ -1366,6 +1406,7 @@ extension Batch {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
+
         /// The name of the key-value pair. For environment variables, this is the name of the environment variable.
         public let name: String?
         /// The value of the key-value pair. For environment variables, this is the value of the environment variable.
@@ -1388,6 +1429,7 @@ extension Batch {
             AWSShapeMember(label: "launchTemplateName", required: false, type: .string), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The ID of the launch template.
         public let launchTemplateId: String?
         /// The name of the launch template.
@@ -1417,6 +1459,7 @@ extension Batch {
             AWSShapeMember(label: "multiNodeJobId", required: false, type: .string), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The job ID for an array job. Specifying an array job ID with this parameter lists all child jobs from within the specified array.
         public let arrayJobId: String?
         /// The name or full Amazon Resource Name (ARN) of the job queue with which to list jobs.
@@ -1424,13 +1467,13 @@ extension Batch {
         /// The job status with which to filter jobs in the specified queue. If you do not specify a status, only RUNNING jobs are returned.
         public let jobStatus: JobStatus?
         /// The maximum number of results returned by ListJobs in paginated output. When this parameter is used, ListJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListJobs returns up to 100 results and a nextToken value if applicable.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The job ID for a multi-node parallel job. Specifying a multi-node parallel job ID with this parameter lists all nodes that are associated with the specified job.
         public let multiNodeJobId: String?
         /// The nextToken value returned from a previous paginated ListJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
 
-        public init(arrayJobId: String? = nil, jobQueue: String? = nil, jobStatus: JobStatus? = nil, maxResults: Int32? = nil, multiNodeJobId: String? = nil, nextToken: String? = nil) {
+        public init(arrayJobId: String? = nil, jobQueue: String? = nil, jobStatus: JobStatus? = nil, maxResults: Int? = nil, multiNodeJobId: String? = nil, nextToken: String? = nil) {
             self.arrayJobId = arrayJobId
             self.jobQueue = jobQueue
             self.jobStatus = jobStatus
@@ -1454,6 +1497,7 @@ extension Batch {
             AWSShapeMember(label: "jobSummaryList", required: true, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of job summaries that match the request.
         public let jobSummaryList: [JobSummary]
         /// The nextToken value to include in a future ListJobs request. When the results of a ListJobs request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -1476,6 +1520,7 @@ extension Batch {
             AWSShapeMember(label: "readOnly", required: false, type: .boolean), 
             AWSShapeMember(label: "sourceVolume", required: false, type: .string)
         ]
+
         /// The path on the container at which to mount the host volume.
         public let containerPath: String?
         /// If this value is true, the container has read-only access to the volume; otherwise, the container can write to the volume. The default value is false.
@@ -1502,6 +1547,7 @@ extension Batch {
             AWSShapeMember(label: "ipv6Address", required: false, type: .string), 
             AWSShapeMember(label: "privateIpv4Address", required: false, type: .string)
         ]
+
         /// The attachment ID for the network interface.
         public let attachmentId: String?
         /// The private IPv6 address for the network interface.
@@ -1527,12 +1573,13 @@ extension Batch {
             AWSShapeMember(label: "isMainNode", required: false, type: .boolean), 
             AWSShapeMember(label: "nodeIndex", required: false, type: .integer)
         ]
+
         /// Specifies whether the current node is the main node for a multi-node parallel job.
         public let isMainNode: Bool?
         /// The node index for the node. Node index numbering begins at zero. This index is also available on the node with the AWS_BATCH_JOB_NODE_INDEX environment variable.
-        public let nodeIndex: Int32?
+        public let nodeIndex: Int?
 
-        public init(isMainNode: Bool? = nil, nodeIndex: Int32? = nil) {
+        public init(isMainNode: Bool? = nil, nodeIndex: Int? = nil) {
             self.isMainNode = isMainNode
             self.nodeIndex = nodeIndex
         }
@@ -1548,12 +1595,13 @@ extension Batch {
             AWSShapeMember(label: "nodePropertyOverrides", required: false, type: .list), 
             AWSShapeMember(label: "numNodes", required: false, type: .integer)
         ]
+
         /// The node property overrides for the job.
         public let nodePropertyOverrides: [NodePropertyOverride]?
         /// The number of nodes to use with a multi-node parallel job. This value overrides the number of nodes that are specified in the job definition. To use this override:   There must be at least one node range in your job definition that has an open upper boundary (such as : or n:).   The lower boundary of the node range specified in the job definition must be fewer than the number of nodes specified in the override.   The main node index specified in the job definition must be fewer than the number of nodes specified in the override.  
-        public let numNodes: Int32?
+        public let numNodes: Int?
 
-        public init(nodePropertyOverrides: [NodePropertyOverride]? = nil, numNodes: Int32? = nil) {
+        public init(nodePropertyOverrides: [NodePropertyOverride]? = nil, numNodes: Int? = nil) {
             self.nodePropertyOverrides = nodePropertyOverrides
             self.numNodes = numNodes
         }
@@ -1570,14 +1618,15 @@ extension Batch {
             AWSShapeMember(label: "nodeRangeProperties", required: true, type: .list), 
             AWSShapeMember(label: "numNodes", required: true, type: .integer)
         ]
+
         /// Specifies the node index for the main node of a multi-node parallel job. This node index value must be fewer than the number of nodes.
-        public let mainNode: Int32
+        public let mainNode: Int
         /// A list of node ranges and their properties associated with a multi-node parallel job.
         public let nodeRangeProperties: [NodeRangeProperty]
         /// The number of nodes associated with a multi-node parallel job.
-        public let numNodes: Int32
+        public let numNodes: Int
 
-        public init(mainNode: Int32, nodeRangeProperties: [NodeRangeProperty], numNodes: Int32) {
+        public init(mainNode: Int, nodeRangeProperties: [NodeRangeProperty], numNodes: Int) {
             self.mainNode = mainNode
             self.nodeRangeProperties = nodeRangeProperties
             self.numNodes = numNodes
@@ -1596,14 +1645,15 @@ extension Batch {
             AWSShapeMember(label: "nodeIndex", required: false, type: .integer), 
             AWSShapeMember(label: "numNodes", required: false, type: .integer)
         ]
+
         /// Specifies whether the current node is the main node for a multi-node parallel job.
         public let isMainNode: Bool?
         /// The node index for the node. Node index numbering begins at zero. This index is also available on the node with the AWS_BATCH_JOB_NODE_INDEX environment variable.
-        public let nodeIndex: Int32?
+        public let nodeIndex: Int?
         /// The number of nodes associated with a multi-node parallel job.
-        public let numNodes: Int32?
+        public let numNodes: Int?
 
-        public init(isMainNode: Bool? = nil, nodeIndex: Int32? = nil, numNodes: Int32? = nil) {
+        public init(isMainNode: Bool? = nil, nodeIndex: Int? = nil, numNodes: Int? = nil) {
             self.isMainNode = isMainNode
             self.nodeIndex = nodeIndex
             self.numNodes = numNodes
@@ -1621,6 +1671,7 @@ extension Batch {
             AWSShapeMember(label: "containerOverrides", required: false, type: .structure), 
             AWSShapeMember(label: "targetNodes", required: true, type: .string)
         ]
+
         /// The overrides that should be sent to a node range.
         public let containerOverrides: ContainerOverrides?
         /// The range of nodes, using node index values, with which to override. A range of 0:3 indicates nodes with index values of 0 through 3. If the starting range value is omitted (:n), then 0 is used to start the range. If the ending range value is omitted (n:), then the highest possible node index is used to end the range.
@@ -1642,6 +1693,7 @@ extension Batch {
             AWSShapeMember(label: "container", required: false, type: .structure), 
             AWSShapeMember(label: "targetNodes", required: true, type: .string)
         ]
+
         /// The container details for the node range.
         public let container: ContainerProperties?
         /// The range of nodes, using node index values. A range of 0:3 indicates nodes with index values of 0 through 3. If the starting range value is omitted (:n), then 0 is used to start the range. If the ending range value is omitted (n:), then the highest possible node index is used to end the range. Your accumulative node ranges must account for all nodes (0:n). You may nest node ranges, for example 0:10 and 4:5, in which case the 4:5 range properties override the 0:10 properties. 
@@ -1668,6 +1720,7 @@ extension Batch {
             AWSShapeMember(label: "timeout", required: false, type: .structure), 
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
+
         /// An object with various properties specific to single-node container-based jobs. If the job definition's type parameter is container, then you must specify either containerProperties or nodeProperties.
         public let containerProperties: ContainerProperties?
         /// The name of the job definition to register. Up to 128 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
@@ -1710,14 +1763,15 @@ extension Batch {
             AWSShapeMember(label: "jobDefinitionName", required: true, type: .string), 
             AWSShapeMember(label: "revision", required: true, type: .integer)
         ]
+
         /// The Amazon Resource Name (ARN) of the job definition. 
         public let jobDefinitionArn: String
         /// The name of the job definition.
         public let jobDefinitionName: String
         /// The revision of the job definition.
-        public let revision: Int32
+        public let revision: Int
 
-        public init(jobDefinitionArn: String, jobDefinitionName: String, revision: Int32) {
+        public init(jobDefinitionArn: String, jobDefinitionName: String, revision: Int) {
             self.jobDefinitionArn = jobDefinitionArn
             self.jobDefinitionName = jobDefinitionName
             self.revision = revision
@@ -1735,6 +1789,7 @@ extension Batch {
             AWSShapeMember(label: "type", required: true, type: .enum), 
             AWSShapeMember(label: "value", required: true, type: .string)
         ]
+
         /// The type of resource to assign to a container. Currently, the only supported resource type is GPU.
         public let `type`: ResourceType
         /// The number of physical GPUs to reserve for the container. The number of GPUs reserved for all containers in a job should not exceed the number of available GPUs on the compute resource that the job is launched on.
@@ -1760,10 +1815,11 @@ extension Batch {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attempts", required: false, type: .integer)
         ]
-        /// The number of times to move a job to the RUNNABLE status. You may specify between 1 and 10 attempts. If the value of attempts is greater than one, the job is retried on failure the same number of attempts as the value.
-        public let attempts: Int32?
 
-        public init(attempts: Int32? = nil) {
+        /// The number of times to move a job to the RUNNABLE status. You may specify between 1 and 10 attempts. If the value of attempts is greater than one, the job is retried on failure the same number of attempts as the value.
+        public let attempts: Int?
+
+        public init(attempts: Int? = nil) {
             self.attempts = attempts
         }
 
@@ -1785,6 +1841,7 @@ extension Batch {
             AWSShapeMember(label: "retryStrategy", required: false, type: .structure), 
             AWSShapeMember(label: "timeout", required: false, type: .structure)
         ]
+
         /// The array properties for the submitted job, such as the size of the array. The array size can be between 2 and 10,000. If you specify array properties for a job, it becomes an array job. For more information, see Array Jobs in the AWS Batch User Guide.
         public let arrayProperties: ArrayProperties?
         /// A list of container overrides in JSON format that specify the name of a container in the specified job definition and the overrides it should receive. You can override the default command for a container (that is specified in the job definition or the Docker image) with a command override. You can also override existing environment variables (that are specified in the job definition or Docker image) on a container or add new environment variables to it with an environment override.
@@ -1838,6 +1895,7 @@ extension Batch {
             AWSShapeMember(label: "jobId", required: true, type: .string), 
             AWSShapeMember(label: "jobName", required: true, type: .string)
         ]
+
         /// The unique identifier for the job.
         public let jobId: String
         /// The name of the job. 
@@ -1859,6 +1917,7 @@ extension Batch {
             AWSShapeMember(label: "jobId", required: true, type: .string), 
             AWSShapeMember(label: "reason", required: true, type: .string)
         ]
+
         /// The AWS Batch job ID of the job to terminate.
         public let jobId: String
         /// A message to attach to the job that explains the reason for canceling it. This message is returned by future DescribeJobs operations on the job. This message is also recorded in the AWS Batch activity logs. 
@@ -1877,6 +1936,7 @@ extension Batch {
 
     public struct TerminateJobResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -1888,14 +1948,15 @@ extension Batch {
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "softLimit", required: true, type: .integer)
         ]
+
         /// The hard limit for the ulimit type.
-        public let hardLimit: Int32
+        public let hardLimit: Int
         /// The type of the ulimit.
         public let name: String
         /// The soft limit for the ulimit type.
-        public let softLimit: Int32
+        public let softLimit: Int
 
-        public init(hardLimit: Int32, name: String, softLimit: Int32) {
+        public init(hardLimit: Int, name: String, softLimit: Int) {
             self.hardLimit = hardLimit
             self.name = name
             self.softLimit = softLimit
@@ -1915,6 +1976,7 @@ extension Batch {
             AWSShapeMember(label: "serviceRole", required: false, type: .string), 
             AWSShapeMember(label: "state", required: false, type: .enum)
         ]
+
         /// The name or full Amazon Resource Name (ARN) of the compute environment to update.
         public let computeEnvironment: String
         /// Details of the compute resources managed by the compute environment. Required for a managed compute environment.
@@ -1944,6 +2006,7 @@ extension Batch {
             AWSShapeMember(label: "computeEnvironmentArn", required: false, type: .string), 
             AWSShapeMember(label: "computeEnvironmentName", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the compute environment. 
         public let computeEnvironmentArn: String?
         /// The name of the compute environment.
@@ -1967,16 +2030,17 @@ extension Batch {
             AWSShapeMember(label: "priority", required: false, type: .integer), 
             AWSShapeMember(label: "state", required: false, type: .enum)
         ]
+
         /// Details the set of compute environments mapped to a job queue and their order relative to each other. This is one of the parameters used by the job scheduler to determine which compute environment should execute a given job. 
         public let computeEnvironmentOrder: [ComputeEnvironmentOrder]?
         /// The name or the Amazon Resource Name (ARN) of the job queue.
         public let jobQueue: String
         /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order, for example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1.
-        public let priority: Int32?
+        public let priority: Int?
         /// Describes the queue's ability to accept new jobs.
         public let state: JQState?
 
-        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil, jobQueue: String, priority: Int32? = nil, state: JQState? = nil) {
+        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil, jobQueue: String, priority: Int? = nil, state: JQState? = nil) {
             self.computeEnvironmentOrder = computeEnvironmentOrder
             self.jobQueue = jobQueue
             self.priority = priority
@@ -1996,6 +2060,7 @@ extension Batch {
             AWSShapeMember(label: "jobQueueArn", required: false, type: .string), 
             AWSShapeMember(label: "jobQueueName", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the job queue.
         public let jobQueueArn: String?
         /// The name of the job queue.
@@ -2017,6 +2082,7 @@ extension Batch {
             AWSShapeMember(label: "host", required: false, type: .structure), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// The contents of the host parameter determine whether your data volume persists on the host container instance and where it is stored. If the host parameter is empty, then the Docker daemon assigns a host path for your data volume. However, the data is not guaranteed to persist after the containers associated with it stop running.
         public let host: Host?
         /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. This name is referenced in the sourceVolume parameter of container definition mountPoints.

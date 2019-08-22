@@ -9,7 +9,7 @@ Amazon Comprehend is an AWS service for gaining insight into the content of docu
 */
 public struct Comprehend {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

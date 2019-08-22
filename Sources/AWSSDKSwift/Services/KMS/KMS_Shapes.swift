@@ -18,6 +18,7 @@ extension KMS {
             AWSShapeMember(label: "AliasName", required: false, type: .string), 
             AWSShapeMember(label: "TargetKeyId", required: false, type: .string)
         ]
+
         /// String that contains the key ARN.
         public let aliasArn: String?
         /// String that contains the alias. This value begins with alias/.
@@ -42,11 +43,17 @@ extension KMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
+
         /// The unique identifier for the customer master key (CMK) for which to cancel deletion. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
 
         public init(keyId: String) {
             self.keyId = keyId
+        }
+
+        public func validate(name: String) throws {
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -58,6 +65,7 @@ extension KMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KeyId", required: false, type: .string)
         ]
+
         /// The unique identifier of the master key for which deletion is canceled.
         public let keyId: String?
 
@@ -74,11 +82,17 @@ extension KMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CustomKeyStoreId", required: true, type: .string)
         ]
+
         /// Enter the key store ID of the custom key store that you want to connect. To find the ID of a custom key store, use the DescribeCustomKeyStores operation.
         public let customKeyStoreId: String
 
         public init(customKeyStoreId: String) {
             self.customKeyStoreId = customKeyStoreId
+        }
+
+        public func validate(name: String) throws {
+            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, max: 64)
+            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -87,6 +101,7 @@ extension KMS {
     }
 
     public struct ConnectCustomKeyStoreResponse: AWSShape {
+
 
         public init() {
         }
@@ -117,6 +132,7 @@ extension KMS {
             AWSShapeMember(label: "AliasName", required: true, type: .string), 
             AWSShapeMember(label: "TargetKeyId", required: true, type: .string)
         ]
+
         /// Specifies the alias name. This value must begin with alias/ followed by a name, such as alias/ExampleAlias. The alias name cannot begin with alias/aws/. The alias/aws/ prefix is reserved for AWS managed CMKs.
         public let aliasName: String
         /// Identifies the CMK to which the alias refers. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. You cannot specify another alias. For help finding the key ID and ARN, see Finding the Key ID and ARN in the AWS Key Management Service Developer Guide.
@@ -125,6 +141,14 @@ extension KMS {
         public init(aliasName: String, targetKeyId: String) {
             self.aliasName = aliasName
             self.targetKeyId = targetKeyId
+        }
+
+        public func validate(name: String) throws {
+            try validate(aliasName, name:"aliasName", parent: name, max: 256)
+            try validate(aliasName, name:"aliasName", parent: name, min: 1)
+            try validate(aliasName, name:"aliasName", parent: name, pattern: "^[a-zA-Z0-9:/_-]+$")
+            try validate(targetKeyId, name:"targetKeyId", parent: name, max: 2048)
+            try validate(targetKeyId, name:"targetKeyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -140,6 +164,7 @@ extension KMS {
             AWSShapeMember(label: "KeyStorePassword", required: true, type: .string), 
             AWSShapeMember(label: "TrustAnchorCertificate", required: true, type: .string)
         ]
+
         /// Identifies the AWS CloudHSM cluster for the custom key store. Enter the cluster ID of any active AWS CloudHSM cluster that is not already associated with a custom key store. To find the cluster ID, use the DescribeClusters operation.
         public let cloudHsmClusterId: String
         /// Specifies a friendly name for the custom key store. The name must be unique in your AWS account.
@@ -156,6 +181,16 @@ extension KMS {
             self.trustAnchorCertificate = trustAnchorCertificate
         }
 
+        public func validate(name: String) throws {
+            try validate(cloudHsmClusterId, name:"cloudHsmClusterId", parent: name, max: 24)
+            try validate(cloudHsmClusterId, name:"cloudHsmClusterId", parent: name, min: 19)
+            try validate(customKeyStoreName, name:"customKeyStoreName", parent: name, max: 256)
+            try validate(customKeyStoreName, name:"customKeyStoreName", parent: name, min: 1)
+            try validate(keyStorePassword, name:"keyStorePassword", parent: name, min: 1)
+            try validate(trustAnchorCertificate, name:"trustAnchorCertificate", parent: name, max: 5000)
+            try validate(trustAnchorCertificate, name:"trustAnchorCertificate", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case cloudHsmClusterId = "CloudHsmClusterId"
             case customKeyStoreName = "CustomKeyStoreName"
@@ -168,6 +203,7 @@ extension KMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CustomKeyStoreId", required: false, type: .string)
         ]
+
         /// A unique identifier for the new custom key store.
         public let customKeyStoreId: String?
 
@@ -190,6 +226,7 @@ extension KMS {
             AWSShapeMember(label: "Operations", required: true, type: .list), 
             AWSShapeMember(label: "RetiringPrincipal", required: false, type: .string)
         ]
+
         /// Allows a cryptographic operation only when the encryption context matches or includes the encryption context specified in this structure. For more information about encryption context, see Encryption Context in the  AWS Key Management Service Developer Guide .
         public let constraints: GrantConstraints?
         /// The principal that is given permission to perform the operations that the grant permits. To specify the principal, use the Amazon Resource Name (ARN) of an AWS principal. Valid AWS principals include AWS accounts (root), IAM users, IAM roles, federated users, and assumed role users. For examples of the ARN syntax to use for specifying a principal, see AWS Identity and Access Management (IAM) in the Example ARNs section of the AWS General Reference.
@@ -215,6 +252,26 @@ extension KMS {
             self.retiringPrincipal = retiringPrincipal
         }
 
+        public func validate(name: String) throws {
+            try validate(granteePrincipal, name:"granteePrincipal", parent: name, max: 256)
+            try validate(granteePrincipal, name:"granteePrincipal", parent: name, min: 1)
+            try validate(granteePrincipal, name:"granteePrincipal", parent: name, pattern: "^[\\w+=,.@:/-]+$")
+            try grantTokens?.forEach {
+                try validate($0, name: "grantTokens[]", parent: name, max: 8192)
+                try validate($0, name: "grantTokens[]", parent: name, min: 1)
+            }
+            try validate(grantTokens, name:"grantTokens", parent: name, max: 10)
+            try validate(grantTokens, name:"grantTokens", parent: name, min: 0)
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, max: 256)
+            try validate(name, name:"name", parent: name, min: 1)
+            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9:/_-]+$")
+            try validate(retiringPrincipal, name:"retiringPrincipal", parent: name, max: 256)
+            try validate(retiringPrincipal, name:"retiringPrincipal", parent: name, min: 1)
+            try validate(retiringPrincipal, name:"retiringPrincipal", parent: name, pattern: "^[\\w+=,.@:/-]+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case constraints = "Constraints"
             case granteePrincipal = "GranteePrincipal"
@@ -231,6 +288,7 @@ extension KMS {
             AWSShapeMember(label: "GrantId", required: false, type: .string), 
             AWSShapeMember(label: "GrantToken", required: false, type: .string)
         ]
+
         /// The unique identifier for the grant. You can use the GrantId in a subsequent RetireGrant or RevokeGrant operation.
         public let grantId: String?
         /// The grant token. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
@@ -257,6 +315,7 @@ extension KMS {
             AWSShapeMember(label: "Policy", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// A flag to indicate whether to bypass the key policy lockout safety check.  Setting this value to true increases the risk that the CMK becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the Default Key Policy section in the  AWS Key Management Service Developer Guide .  Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK. The default value is false.
         public let bypassPolicyLockoutSafetyCheck: Bool?
         /// Creates the CMK in the specified custom key store and the key material in its associated AWS CloudHSM cluster. To create a CMK in a custom key store, you must also specify the Origin parameter with a value of AWS_CLOUDHSM. The AWS CloudHSM cluster that is associated with the custom key store must have at least two active HSMs, each in a different Availability Zone in the Region. To find the ID of a custom key store, use the DescribeCustomKeyStores operation. The response includes the custom key store ID and the ID of the AWS CloudHSM cluster. This operation is part of the Custom Key Store feature feature in AWS KMS, which combines the convenience and extensive integration of AWS KMS with the isolation and control of a single-tenant key store.
@@ -282,6 +341,19 @@ extension KMS {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, max: 64)
+            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, min: 1)
+            try validate(description, name:"description", parent: name, max: 8192)
+            try validate(description, name:"description", parent: name, min: 0)
+            try validate(policy, name:"policy", parent: name, max: 131072)
+            try validate(policy, name:"policy", parent: name, min: 1)
+            try validate(policy, name:"policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+            try tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bypassPolicyLockoutSafetyCheck = "BypassPolicyLockoutSafetyCheck"
             case customKeyStoreId = "CustomKeyStoreId"
@@ -297,6 +369,7 @@ extension KMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KeyMetadata", required: false, type: .structure)
         ]
+
         /// Metadata associated with the CMK.
         public let keyMetadata: KeyMetadata?
 
@@ -319,6 +392,7 @@ extension KMS {
             AWSShapeMember(label: "CustomKeyStoreName", required: false, type: .string), 
             AWSShapeMember(label: "TrustAnchorCertificate", required: false, type: .string)
         ]
+
         /// A unique identifier for the AWS CloudHSM cluster that is associated with the custom key store.
         public let cloudHsmClusterId: String?
         /// Describes the connection error. Valid values are:    CLUSTER_NOT_FOUND - AWS KMS cannot find the AWS CloudHSM cluster with the specified cluster ID.    INSUFFICIENT_CLOUDHSM_HSMS - The associated AWS CloudHSM cluster does not contain any active HSMs. To connect a custom key store to its AWS CloudHSM cluster, the cluster must contain at least one active HSM.    INTERNAL_ERROR - AWS KMS could not complete the request due to an internal error. Retry the request. For ConnectCustomKeyStore requests, disconnect the custom key store before trying to connect again.    INVALID_CREDENTIALS - AWS KMS does not have the correct password for the kmsuser crypto user in the AWS CloudHSM cluster.    NETWORK_ERRORS - Network errors are preventing AWS KMS from connecting to the custom key store.    USER_LOCKED_OUT - The kmsuser CU account is locked out of the associated AWS CloudHSM cluster due to too many failed password attempts. Before you can connect your custom key store to its AWS CloudHSM cluster, you must change the kmsuser account password and update the password value for the custom key store.   For help with connection failures, see Troubleshooting Custom Key Stores in the AWS Key Management Service Developer Guide.
@@ -367,6 +441,7 @@ extension KMS {
             AWSShapeMember(label: "EncryptionContext", required: false, type: .map), 
             AWSShapeMember(label: "GrantTokens", required: false, type: .list)
         ]
+
         /// Ciphertext to be decrypted. The blob includes metadata.
         public let ciphertextBlob: Data
         /// The encryption context. If this was specified in the Encrypt function, it must be specified here or the decryption operation will fail. For more information, see Encryption Context.
@@ -378,6 +453,17 @@ extension KMS {
             self.ciphertextBlob = ciphertextBlob
             self.encryptionContext = encryptionContext
             self.grantTokens = grantTokens
+        }
+
+        public func validate(name: String) throws {
+            try validate(ciphertextBlob, name:"ciphertextBlob", parent: name, max: 6144)
+            try validate(ciphertextBlob, name:"ciphertextBlob", parent: name, min: 1)
+            try grantTokens?.forEach {
+                try validate($0, name: "grantTokens[]", parent: name, max: 8192)
+                try validate($0, name: "grantTokens[]", parent: name, min: 1)
+            }
+            try validate(grantTokens, name:"grantTokens", parent: name, max: 10)
+            try validate(grantTokens, name:"grantTokens", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -392,6 +478,7 @@ extension KMS {
             AWSShapeMember(label: "KeyId", required: false, type: .string), 
             AWSShapeMember(label: "Plaintext", required: false, type: .blob)
         ]
+
         /// ARN of the key used to perform the decryption. This value is returned if no errors are encountered during the operation.
         public let keyId: String?
         /// Decrypted plaintext data. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not encoded.
@@ -412,11 +499,18 @@ extension KMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AliasName", required: true, type: .string)
         ]
+
         /// The alias to be deleted. The alias name must begin with alias/ followed by the alias name, such as alias/ExampleAlias.
         public let aliasName: String
 
         public init(aliasName: String) {
             self.aliasName = aliasName
+        }
+
+        public func validate(name: String) throws {
+            try validate(aliasName, name:"aliasName", parent: name, max: 256)
+            try validate(aliasName, name:"aliasName", parent: name, min: 1)
+            try validate(aliasName, name:"aliasName", parent: name, pattern: "^[a-zA-Z0-9:/_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -428,11 +522,17 @@ extension KMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CustomKeyStoreId", required: true, type: .string)
         ]
+
         /// Enter the ID of the custom key store you want to delete. To find the ID of a custom key store, use the DescribeCustomKeyStores operation.
         public let customKeyStoreId: String
 
         public init(customKeyStoreId: String) {
             self.customKeyStoreId = customKeyStoreId
+        }
+
+        public func validate(name: String) throws {
+            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, max: 64)
+            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -441,6 +541,7 @@ extension KMS {
     }
 
     public struct DeleteCustomKeyStoreResponse: AWSShape {
+
 
         public init() {
         }
@@ -451,11 +552,17 @@ extension KMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
+
         /// Identifies the CMK from which you are deleting imported key material. The Origin of the CMK must be EXTERNAL. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
 
         public init(keyId: String) {
             self.keyId = keyId
+        }
+
+        public func validate(name: String) throws {
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -470,20 +577,33 @@ extension KMS {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// Gets only information about the specified custom key store. Enter the key store ID. By default, this operation gets information about all custom key stores in the account and region. To limit the output to a particular custom key store, you can use either the CustomKeyStoreId or CustomKeyStoreName parameter, but not both.
         public let customKeyStoreId: String?
         /// Gets only information about the specified custom key store. Enter the friendly name of the custom key store. By default, this operation gets information about all custom key stores in the account and region. To limit the output to a particular custom key store, you can use either the CustomKeyStoreId or CustomKeyStoreName parameter, but not both.
         public let customKeyStoreName: String?
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer.
-        public let limit: Int32?
+        public let limit: Int?
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
 
-        public init(customKeyStoreId: String? = nil, customKeyStoreName: String? = nil, limit: Int32? = nil, marker: String? = nil) {
+        public init(customKeyStoreId: String? = nil, customKeyStoreName: String? = nil, limit: Int? = nil, marker: String? = nil) {
             self.customKeyStoreId = customKeyStoreId
             self.customKeyStoreName = customKeyStoreName
             self.limit = limit
             self.marker = marker
+        }
+
+        public func validate(name: String) throws {
+            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, max: 64)
+            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, min: 1)
+            try validate(customKeyStoreName, name:"customKeyStoreName", parent: name, max: 256)
+            try validate(customKeyStoreName, name:"customKeyStoreName", parent: name, min: 1)
+            try validate(limit, name:"limit", parent: name, max: 1000)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 1024)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -500,6 +620,7 @@ extension KMS {
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "Truncated", required: false, type: .boolean)
         ]
+
         /// Contains metadata about each custom key store.
         public let customKeyStores: [CustomKeyStoresListEntry]?
         /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
@@ -525,6 +646,7 @@ extension KMS {
             AWSShapeMember(label: "GrantTokens", required: false, type: .list), 
             AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
+
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
         /// Describes the specified customer master key (CMK).  If you specify a predefined AWS alias (an AWS alias with no key ID), KMS associates the alias with an AWS managed CMK and returns its KeyId and Arn in the response. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
@@ -533,6 +655,17 @@ extension KMS {
         public init(grantTokens: [String]? = nil, keyId: String) {
             self.grantTokens = grantTokens
             self.keyId = keyId
+        }
+
+        public func validate(name: String) throws {
+            try grantTokens?.forEach {
+                try validate($0, name: "grantTokens[]", parent: name, max: 8192)
+                try validate($0, name: "grantTokens[]", parent: name, min: 1)
+            }
+            try validate(grantTokens, name:"grantTokens", parent: name, max: 10)
+            try validate(grantTokens, name:"grantTokens", parent: name, min: 0)
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -545,6 +678,7 @@ extension KMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KeyMetadata", required: false, type: .structure)
         ]
+
         /// Metadata associated with the key.
         public let keyMetadata: KeyMetadata?
 
@@ -561,11 +695,17 @@ extension KMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
+
         /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
 
         public init(keyId: String) {
             self.keyId = keyId
+        }
+
+        public func validate(name: String) throws {
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -577,11 +717,17 @@ extension KMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
+
         /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
 
         public init(keyId: String) {
             self.keyId = keyId
+        }
+
+        public func validate(name: String) throws {
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -593,11 +739,17 @@ extension KMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CustomKeyStoreId", required: true, type: .string)
         ]
+
         /// Enter the ID of the custom key store you want to disconnect. To find the ID of a custom key store, use the DescribeCustomKeyStores operation.
         public let customKeyStoreId: String
 
         public init(customKeyStoreId: String) {
             self.customKeyStoreId = customKeyStoreId
+        }
+
+        public func validate(name: String) throws {
+            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, max: 64)
+            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -606,6 +758,7 @@ extension KMS {
     }
 
     public struct DisconnectCustomKeyStoreResponse: AWSShape {
+
 
         public init() {
         }
@@ -616,11 +769,17 @@ extension KMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
+
         /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
 
         public init(keyId: String) {
             self.keyId = keyId
+        }
+
+        public func validate(name: String) throws {
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -632,11 +791,17 @@ extension KMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
+
         /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
 
         public init(keyId: String) {
             self.keyId = keyId
+        }
+
+        public func validate(name: String) throws {
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -651,6 +816,7 @@ extension KMS {
             AWSShapeMember(label: "KeyId", required: true, type: .string), 
             AWSShapeMember(label: "Plaintext", required: true, type: .blob)
         ]
+
         /// Name-value pair that specifies the encryption context to be used for authenticated encryption. If used here, the same value must be supplied to the Decrypt API or decryption will fail. For more information, see Encryption Context.
         public let encryptionContext: [String: String]?
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
@@ -667,6 +833,19 @@ extension KMS {
             self.plaintext = plaintext
         }
 
+        public func validate(name: String) throws {
+            try grantTokens?.forEach {
+                try validate($0, name: "grantTokens[]", parent: name, max: 8192)
+                try validate($0, name: "grantTokens[]", parent: name, min: 1)
+            }
+            try validate(grantTokens, name:"grantTokens", parent: name, max: 10)
+            try validate(grantTokens, name:"grantTokens", parent: name, min: 0)
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(plaintext, name:"plaintext", parent: name, max: 4096)
+            try validate(plaintext, name:"plaintext", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case encryptionContext = "EncryptionContext"
             case grantTokens = "GrantTokens"
@@ -680,6 +859,7 @@ extension KMS {
             AWSShapeMember(label: "CiphertextBlob", required: false, type: .blob), 
             AWSShapeMember(label: "KeyId", required: false, type: .string)
         ]
+
         /// The encrypted plaintext. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not encoded.
         public let ciphertextBlob: Data?
         /// The ID of the key used during encryption.
@@ -710,6 +890,7 @@ extension KMS {
             AWSShapeMember(label: "KeySpec", required: false, type: .enum), 
             AWSShapeMember(label: "NumberOfBytes", required: false, type: .integer)
         ]
+
         /// A set of key-value pairs that represents additional authenticated data. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let encryptionContext: [String: String]?
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
@@ -719,14 +900,27 @@ extension KMS {
         /// The length of the data key. Use AES_128 to generate a 128-bit symmetric key, or AES_256 to generate a 256-bit symmetric key.
         public let keySpec: DataKeySpec?
         /// The length of the data key in bytes. For example, use the value 64 to generate a 512-bit data key (64 bytes is 512 bits). For common key lengths (128-bit and 256-bit symmetric keys), we recommend that you use the KeySpec field instead of this one.
-        public let numberOfBytes: Int32?
+        public let numberOfBytes: Int?
 
-        public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keySpec: DataKeySpec? = nil, numberOfBytes: Int32? = nil) {
+        public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keySpec: DataKeySpec? = nil, numberOfBytes: Int? = nil) {
             self.encryptionContext = encryptionContext
             self.grantTokens = grantTokens
             self.keyId = keyId
             self.keySpec = keySpec
             self.numberOfBytes = numberOfBytes
+        }
+
+        public func validate(name: String) throws {
+            try grantTokens?.forEach {
+                try validate($0, name: "grantTokens[]", parent: name, max: 8192)
+                try validate($0, name: "grantTokens[]", parent: name, min: 1)
+            }
+            try validate(grantTokens, name:"grantTokens", parent: name, max: 10)
+            try validate(grantTokens, name:"grantTokens", parent: name, min: 0)
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(numberOfBytes, name:"numberOfBytes", parent: name, max: 1024)
+            try validate(numberOfBytes, name:"numberOfBytes", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -744,6 +938,7 @@ extension KMS {
             AWSShapeMember(label: "KeyId", required: false, type: .string), 
             AWSShapeMember(label: "Plaintext", required: false, type: .blob)
         ]
+
         /// The encrypted copy of the data key. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not encoded.
         public let ciphertextBlob: Data?
         /// The identifier of the CMK that encrypted the data key.
@@ -772,6 +967,7 @@ extension KMS {
             AWSShapeMember(label: "KeySpec", required: false, type: .enum), 
             AWSShapeMember(label: "NumberOfBytes", required: false, type: .integer)
         ]
+
         /// A set of key-value pairs that represents additional authenticated data. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let encryptionContext: [String: String]?
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
@@ -781,14 +977,27 @@ extension KMS {
         /// The length of the data key. Use AES_128 to generate a 128-bit symmetric key, or AES_256 to generate a 256-bit symmetric key.
         public let keySpec: DataKeySpec?
         /// The length of the data key in bytes. For example, use the value 64 to generate a 512-bit data key (64 bytes is 512 bits). For common key lengths (128-bit and 256-bit symmetric keys), we recommend that you use the KeySpec field instead of this one.
-        public let numberOfBytes: Int32?
+        public let numberOfBytes: Int?
 
-        public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keySpec: DataKeySpec? = nil, numberOfBytes: Int32? = nil) {
+        public init(encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keySpec: DataKeySpec? = nil, numberOfBytes: Int? = nil) {
             self.encryptionContext = encryptionContext
             self.grantTokens = grantTokens
             self.keyId = keyId
             self.keySpec = keySpec
             self.numberOfBytes = numberOfBytes
+        }
+
+        public func validate(name: String) throws {
+            try grantTokens?.forEach {
+                try validate($0, name: "grantTokens[]", parent: name, max: 8192)
+                try validate($0, name: "grantTokens[]", parent: name, min: 1)
+            }
+            try validate(grantTokens, name:"grantTokens", parent: name, max: 10)
+            try validate(grantTokens, name:"grantTokens", parent: name, min: 0)
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(numberOfBytes, name:"numberOfBytes", parent: name, max: 1024)
+            try validate(numberOfBytes, name:"numberOfBytes", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -805,6 +1014,7 @@ extension KMS {
             AWSShapeMember(label: "CiphertextBlob", required: false, type: .blob), 
             AWSShapeMember(label: "KeyId", required: false, type: .string)
         ]
+
         /// The encrypted data key. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not encoded.
         public let ciphertextBlob: Data?
         /// The identifier of the CMK that encrypted the data key.
@@ -826,14 +1036,22 @@ extension KMS {
             AWSShapeMember(label: "CustomKeyStoreId", required: false, type: .string), 
             AWSShapeMember(label: "NumberOfBytes", required: false, type: .integer)
         ]
+
         /// Generates the random byte string in the AWS CloudHSM cluster that is associated with the specified custom key store. To find the ID of a custom key store, use the DescribeCustomKeyStores operation.
         public let customKeyStoreId: String?
         /// The length of the byte string.
-        public let numberOfBytes: Int32?
+        public let numberOfBytes: Int?
 
-        public init(customKeyStoreId: String? = nil, numberOfBytes: Int32? = nil) {
+        public init(customKeyStoreId: String? = nil, numberOfBytes: Int? = nil) {
             self.customKeyStoreId = customKeyStoreId
             self.numberOfBytes = numberOfBytes
+        }
+
+        public func validate(name: String) throws {
+            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, max: 64)
+            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, min: 1)
+            try validate(numberOfBytes, name:"numberOfBytes", parent: name, max: 1024)
+            try validate(numberOfBytes, name:"numberOfBytes", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -846,6 +1064,7 @@ extension KMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Plaintext", required: false, type: .blob)
         ]
+
         /// The random byte string. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not encoded.
         public let plaintext: Data?
 
@@ -863,6 +1082,7 @@ extension KMS {
             AWSShapeMember(label: "KeyId", required: true, type: .string), 
             AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
+
         /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// Specifies the name of the key policy. The only valid name is default. To get the names of key policies, use ListKeyPolicies.
@@ -871,6 +1091,14 @@ extension KMS {
         public init(keyId: String, policyName: String) {
             self.keyId = keyId
             self.policyName = policyName
+        }
+
+        public func validate(name: String) throws {
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(policyName, name:"policyName", parent: name, max: 128)
+            try validate(policyName, name:"policyName", parent: name, min: 1)
+            try validate(policyName, name:"policyName", parent: name, pattern: "[\\w]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -883,6 +1111,7 @@ extension KMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Policy", required: false, type: .string)
         ]
+
         /// A key policy document in JSON format.
         public let policy: String?
 
@@ -899,11 +1128,17 @@ extension KMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
+
         /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify a CMK in a different AWS account, you must use the key ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
 
         public init(keyId: String) {
             self.keyId = keyId
+        }
+
+        public func validate(name: String) throws {
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -915,6 +1150,7 @@ extension KMS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KeyRotationEnabled", required: false, type: .boolean)
         ]
+
         /// A Boolean value that specifies whether key rotation is enabled.
         public let keyRotationEnabled: Bool?
 
@@ -933,6 +1169,7 @@ extension KMS {
             AWSShapeMember(label: "WrappingAlgorithm", required: true, type: .enum), 
             AWSShapeMember(label: "WrappingKeySpec", required: true, type: .enum)
         ]
+
         /// The identifier of the CMK into which you will import key material. The CMK's Origin must be EXTERNAL. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// The algorithm you will use to encrypt the key material before importing it with ImportKeyMaterial. For more information, see Encrypt the Key Material in the AWS Key Management Service Developer Guide.
@@ -944,6 +1181,11 @@ extension KMS {
             self.keyId = keyId
             self.wrappingAlgorithm = wrappingAlgorithm
             self.wrappingKeySpec = wrappingKeySpec
+        }
+
+        public func validate(name: String) throws {
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -960,6 +1202,7 @@ extension KMS {
             AWSShapeMember(label: "ParametersValidTo", required: false, type: .timestamp), 
             AWSShapeMember(label: "PublicKey", required: false, type: .blob)
         ]
+
         /// The import token to send in a subsequent ImportKeyMaterial request.
         public let importToken: Data?
         /// The identifier of the CMK to use in a subsequent ImportKeyMaterial request. This is the same CMK specified in the GetParametersForImport request.
@@ -989,6 +1232,7 @@ extension KMS {
             AWSShapeMember(label: "EncryptionContextEquals", required: false, type: .map), 
             AWSShapeMember(label: "EncryptionContextSubset", required: false, type: .map)
         ]
+
         /// A list of key-value pairs that must match the encryption context in the cryptographic operation request. The grant allows the operation only when the encryption context in the request is the same as the encryption context specified in this constraint.
         public let encryptionContextEquals: [String: String]?
         /// A list of key-value pairs that must be included in the encryption context of the cryptographic operation request. The grant allows the cryptographic operation only when the encryption context in the request includes the key-value pairs specified in this constraint, although it can include additional key-value pairs.
@@ -1017,6 +1261,7 @@ extension KMS {
             AWSShapeMember(label: "Operations", required: false, type: .list), 
             AWSShapeMember(label: "RetiringPrincipal", required: false, type: .string)
         ]
+
         /// A list of key-value pairs that must be present in the encryption context of certain subsequent operations that the grant allows.
         public let constraints: GrantConstraints?
         /// The date and time when the grant was created.
@@ -1082,6 +1327,7 @@ extension KMS {
             AWSShapeMember(label: "KeyId", required: true, type: .string), 
             AWSShapeMember(label: "ValidTo", required: false, type: .timestamp)
         ]
+
         /// The encrypted key material to import. It must be encrypted with the public key that you received in the response to a previous GetParametersForImport request, using the wrapping algorithm that you specified in that request.
         public let encryptedKeyMaterial: Data
         /// Specifies whether the key material expires. The default is KEY_MATERIAL_EXPIRES, in which case you must include the ValidTo parameter. When this parameter is set to KEY_MATERIAL_DOES_NOT_EXPIRE, you must omit the ValidTo parameter.
@@ -1101,6 +1347,15 @@ extension KMS {
             self.validTo = validTo
         }
 
+        public func validate(name: String) throws {
+            try validate(encryptedKeyMaterial, name:"encryptedKeyMaterial", parent: name, max: 6144)
+            try validate(encryptedKeyMaterial, name:"encryptedKeyMaterial", parent: name, min: 1)
+            try validate(importToken, name:"importToken", parent: name, max: 6144)
+            try validate(importToken, name:"importToken", parent: name, min: 1)
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case encryptedKeyMaterial = "EncryptedKeyMaterial"
             case expirationModel = "ExpirationModel"
@@ -1112,6 +1367,7 @@ extension KMS {
 
     public struct ImportKeyMaterialResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -1122,6 +1378,7 @@ extension KMS {
             AWSShapeMember(label: "KeyArn", required: false, type: .string), 
             AWSShapeMember(label: "KeyId", required: false, type: .string)
         ]
+
         /// ARN of the key.
         public let keyArn: String?
         /// Unique identifier of the key.
@@ -1162,6 +1419,7 @@ extension KMS {
             AWSShapeMember(label: "Origin", required: false, type: .enum), 
             AWSShapeMember(label: "ValidTo", required: false, type: .timestamp)
         ]
+
         /// The Amazon Resource Name (ARN) of the CMK. For examples, see AWS Key Management Service (AWS KMS) in the Example ARNs section of the AWS General Reference.
         public let arn: String?
         /// The twelve-digit account ID of the AWS account that owns the CMK.
@@ -1250,17 +1508,28 @@ extension KMS {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// Lists only aliases that refer to the specified CMK. The value of this parameter can be the ID or Amazon Resource Name (ARN) of a CMK in the caller's account and region. You cannot use an alias name or alias ARN in this value. This parameter is optional. If you omit it, ListAliases returns all aliases in the account and region.
         public let keyId: String?
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
-        public let limit: Int32?
+        public let limit: Int?
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
 
-        public init(keyId: String? = nil, limit: Int32? = nil, marker: String? = nil) {
+        public init(keyId: String? = nil, limit: Int? = nil, marker: String? = nil) {
             self.keyId = keyId
             self.limit = limit
             self.marker = marker
+        }
+
+        public func validate(name: String) throws {
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(limit, name:"limit", parent: name, max: 1000)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 1024)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1276,6 +1545,7 @@ extension KMS {
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "Truncated", required: false, type: .boolean)
         ]
+
         /// A list of aliases.
         public let aliases: [AliasListEntry]?
         /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
@@ -1302,17 +1572,28 @@ extension KMS {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify a CMK in a different AWS account, you must use the key ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
-        public let limit: Int32?
+        public let limit: Int?
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
 
-        public init(keyId: String, limit: Int32? = nil, marker: String? = nil) {
+        public init(keyId: String, limit: Int? = nil, marker: String? = nil) {
             self.keyId = keyId
             self.limit = limit
             self.marker = marker
+        }
+
+        public func validate(name: String) throws {
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(limit, name:"limit", parent: name, max: 1000)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 1024)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1328,6 +1609,7 @@ extension KMS {
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "Truncated", required: false, type: .boolean)
         ]
+
         /// A list of grants.
         public let grants: [GrantListEntry]?
         /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
@@ -1354,17 +1636,28 @@ extension KMS {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 1000, inclusive. If you do not include a value, it defaults to 100. Only one policy can be attached to a key.
-        public let limit: Int32?
+        public let limit: Int?
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
 
-        public init(keyId: String, limit: Int32? = nil, marker: String? = nil) {
+        public init(keyId: String, limit: Int? = nil, marker: String? = nil) {
             self.keyId = keyId
             self.limit = limit
             self.marker = marker
+        }
+
+        public func validate(name: String) throws {
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(limit, name:"limit", parent: name, max: 1000)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 1024)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1380,6 +1673,7 @@ extension KMS {
             AWSShapeMember(label: "PolicyNames", required: false, type: .list), 
             AWSShapeMember(label: "Truncated", required: false, type: .boolean)
         ]
+
         /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
         public let nextMarker: String?
         /// A list of key policy names. The only valid value is default.
@@ -1405,14 +1699,23 @@ extension KMS {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 1000, inclusive. If you do not include a value, it defaults to 100.
-        public let limit: Int32?
+        public let limit: Int?
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
 
-        public init(limit: Int32? = nil, marker: String? = nil) {
+        public init(limit: Int? = nil, marker: String? = nil) {
             self.limit = limit
             self.marker = marker
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 1000)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 1024)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1427,6 +1730,7 @@ extension KMS {
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "Truncated", required: false, type: .boolean)
         ]
+
         /// A list of customer master keys (CMKs).
         public let keys: [KeyListEntry]?
         /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
@@ -1453,17 +1757,28 @@ extension KMS {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 50, inclusive. If you do not include a value, it defaults to 50.
-        public let limit: Int32?
+        public let limit: Int?
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received. Do not attempt to construct this value. Use only the value of NextMarker from the truncated response you just received.
         public let marker: String?
 
-        public init(keyId: String, limit: Int32? = nil, marker: String? = nil) {
+        public init(keyId: String, limit: Int? = nil, marker: String? = nil) {
             self.keyId = keyId
             self.limit = limit
             self.marker = marker
+        }
+
+        public func validate(name: String) throws {
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(limit, name:"limit", parent: name, max: 1000)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 1024)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1479,6 +1794,7 @@ extension KMS {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "Truncated", required: false, type: .boolean)
         ]
+
         /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request. Do not assume or infer any information from this value.
         public let nextMarker: String?
         /// A list of tags. Each tag consists of a tag key and a tag value.
@@ -1505,17 +1821,29 @@ extension KMS {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "RetiringPrincipal", required: true, type: .string)
         ]
+
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
-        public let limit: Int32?
+        public let limit: Int?
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
         /// The retiring principal for which to list grants. To specify the retiring principal, use the Amazon Resource Name (ARN) of an AWS principal. Valid AWS principals include AWS accounts (root), IAM users, federated users, and assumed role users. For examples of the ARN syntax for specifying a principal, see AWS Identity and Access Management (IAM) in the Example ARNs section of the Amazon Web Services General Reference.
         public let retiringPrincipal: String
 
-        public init(limit: Int32? = nil, marker: String? = nil, retiringPrincipal: String) {
+        public init(limit: Int? = nil, marker: String? = nil, retiringPrincipal: String) {
             self.limit = limit
             self.marker = marker
             self.retiringPrincipal = retiringPrincipal
+        }
+
+        public func validate(name: String) throws {
+            try validate(limit, name:"limit", parent: name, max: 1000)
+            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, max: 1024)
+            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
+            try validate(retiringPrincipal, name:"retiringPrincipal", parent: name, max: 256)
+            try validate(retiringPrincipal, name:"retiringPrincipal", parent: name, min: 1)
+            try validate(retiringPrincipal, name:"retiringPrincipal", parent: name, pattern: "^[\\w+=,.@:/-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1539,6 +1867,7 @@ extension KMS {
             AWSShapeMember(label: "Policy", required: true, type: .string), 
             AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
+
         /// A flag to indicate whether to bypass the key policy lockout safety check.  Setting this value to true increases the risk that the CMK becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.  Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK. The default value is false.
         public let bypassPolicyLockoutSafetyCheck: Bool?
         /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
@@ -1553,6 +1882,17 @@ extension KMS {
             self.keyId = keyId
             self.policy = policy
             self.policyName = policyName
+        }
+
+        public func validate(name: String) throws {
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(policy, name:"policy", parent: name, max: 131072)
+            try validate(policy, name:"policy", parent: name, min: 1)
+            try validate(policy, name:"policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+            try validate(policyName, name:"policyName", parent: name, max: 128)
+            try validate(policyName, name:"policyName", parent: name, min: 1)
+            try validate(policyName, name:"policyName", parent: name, pattern: "[\\w]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1571,6 +1911,7 @@ extension KMS {
             AWSShapeMember(label: "GrantTokens", required: false, type: .list), 
             AWSShapeMember(label: "SourceEncryptionContext", required: false, type: .map)
         ]
+
         /// Ciphertext of the data to reencrypt.
         public let ciphertextBlob: Data
         /// Encryption context to use when the data is reencrypted.
@@ -1590,6 +1931,19 @@ extension KMS {
             self.sourceEncryptionContext = sourceEncryptionContext
         }
 
+        public func validate(name: String) throws {
+            try validate(ciphertextBlob, name:"ciphertextBlob", parent: name, max: 6144)
+            try validate(ciphertextBlob, name:"ciphertextBlob", parent: name, min: 1)
+            try validate(destinationKeyId, name:"destinationKeyId", parent: name, max: 2048)
+            try validate(destinationKeyId, name:"destinationKeyId", parent: name, min: 1)
+            try grantTokens?.forEach {
+                try validate($0, name: "grantTokens[]", parent: name, max: 8192)
+                try validate($0, name: "grantTokens[]", parent: name, min: 1)
+            }
+            try validate(grantTokens, name:"grantTokens", parent: name, max: 10)
+            try validate(grantTokens, name:"grantTokens", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case ciphertextBlob = "CiphertextBlob"
             case destinationEncryptionContext = "DestinationEncryptionContext"
@@ -1605,6 +1959,7 @@ extension KMS {
             AWSShapeMember(label: "KeyId", required: false, type: .string), 
             AWSShapeMember(label: "SourceKeyId", required: false, type: .string)
         ]
+
         /// The reencrypted data. When you use the HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not encoded.
         public let ciphertextBlob: Data?
         /// Unique identifier of the CMK used to reencrypt the data.
@@ -1631,6 +1986,7 @@ extension KMS {
             AWSShapeMember(label: "GrantToken", required: false, type: .string), 
             AWSShapeMember(label: "KeyId", required: false, type: .string)
         ]
+
         /// Unique identifier of the grant to retire. The grant ID is returned in the response to a CreateGrant operation.   Grant ID Example - 0123456789012345678901234567890123456789012345678901234567890123  
         public let grantId: String?
         /// Token that identifies the grant to be retired.
@@ -1642,6 +1998,15 @@ extension KMS {
             self.grantId = grantId
             self.grantToken = grantToken
             self.keyId = keyId
+        }
+
+        public func validate(name: String) throws {
+            try validate(grantId, name:"grantId", parent: name, max: 128)
+            try validate(grantId, name:"grantId", parent: name, min: 1)
+            try validate(grantToken, name:"grantToken", parent: name, max: 8192)
+            try validate(grantToken, name:"grantToken", parent: name, min: 1)
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1656,6 +2021,7 @@ extension KMS {
             AWSShapeMember(label: "GrantId", required: true, type: .string), 
             AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
+
         /// Identifier of the grant to be revoked.
         public let grantId: String
         /// A unique identifier for the customer master key associated with the grant. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify a CMK in a different AWS account, you must use the key ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
@@ -1664,6 +2030,13 @@ extension KMS {
         public init(grantId: String, keyId: String) {
             self.grantId = grantId
             self.keyId = keyId
+        }
+
+        public func validate(name: String) throws {
+            try validate(grantId, name:"grantId", parent: name, max: 128)
+            try validate(grantId, name:"grantId", parent: name, min: 1)
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1677,14 +2050,22 @@ extension KMS {
             AWSShapeMember(label: "KeyId", required: true, type: .string), 
             AWSShapeMember(label: "PendingWindowInDays", required: false, type: .integer)
         ]
+
         /// The unique identifier of the customer master key (CMK) to delete. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// The waiting period, specified in number of days. After the waiting period ends, AWS KMS deletes the customer master key (CMK). This value is optional. If you include a value, it must be between 7 and 30, inclusive. If you do not include a value, it defaults to 30.
-        public let pendingWindowInDays: Int32?
+        public let pendingWindowInDays: Int?
 
-        public init(keyId: String, pendingWindowInDays: Int32? = nil) {
+        public init(keyId: String, pendingWindowInDays: Int? = nil) {
             self.keyId = keyId
             self.pendingWindowInDays = pendingWindowInDays
+        }
+
+        public func validate(name: String) throws {
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(pendingWindowInDays, name:"pendingWindowInDays", parent: name, max: 365)
+            try validate(pendingWindowInDays, name:"pendingWindowInDays", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1698,6 +2079,7 @@ extension KMS {
             AWSShapeMember(label: "DeletionDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "KeyId", required: false, type: .string)
         ]
+
         /// The date and time after which AWS KMS deletes the customer master key (CMK).
         public let deletionDate: TimeStamp?
         /// The unique identifier of the customer master key (CMK) for which deletion is scheduled.
@@ -1719,6 +2101,7 @@ extension KMS {
             AWSShapeMember(label: "TagKey", required: true, type: .string), 
             AWSShapeMember(label: "TagValue", required: true, type: .string)
         ]
+
         /// The key of the tag.
         public let tagKey: String
         /// The value of the tag.
@@ -1727,6 +2110,13 @@ extension KMS {
         public init(tagKey: String, tagValue: String) {
             self.tagKey = tagKey
             self.tagValue = tagValue
+        }
+
+        public func validate(name: String) throws {
+            try validate(tagKey, name:"tagKey", parent: name, max: 128)
+            try validate(tagKey, name:"tagKey", parent: name, min: 1)
+            try validate(tagValue, name:"tagValue", parent: name, max: 256)
+            try validate(tagValue, name:"tagValue", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1740,6 +2130,7 @@ extension KMS {
             AWSShapeMember(label: "KeyId", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
+
         /// A unique identifier for the CMK you are tagging. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// One or more tags. Each tag consists of a tag key and a tag value.
@@ -1748,6 +2139,14 @@ extension KMS {
         public init(keyId: String, tags: [Tag]) {
             self.keyId = keyId
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1761,6 +2160,7 @@ extension KMS {
             AWSShapeMember(label: "KeyId", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
+
         /// A unique identifier for the CMK from which you are removing tags. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// One or more tag keys. Specify only the tag keys, not the tag values.
@@ -1769,6 +2169,15 @@ extension KMS {
         public init(keyId: String, tagKeys: [String]) {
             self.keyId = keyId
             self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1782,6 +2191,7 @@ extension KMS {
             AWSShapeMember(label: "AliasName", required: true, type: .string), 
             AWSShapeMember(label: "TargetKeyId", required: true, type: .string)
         ]
+
         /// Specifies the name of the alias to change. This value must begin with alias/ followed by the alias name, such as alias/ExampleAlias.
         public let aliasName: String
         /// Unique identifier of the customer master key (CMK) to be mapped to the alias. When the update operation completes, the alias will point to this CMK. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To verify that the alias is mapped to the correct CMK, use ListAliases.
@@ -1790,6 +2200,14 @@ extension KMS {
         public init(aliasName: String, targetKeyId: String) {
             self.aliasName = aliasName
             self.targetKeyId = targetKeyId
+        }
+
+        public func validate(name: String) throws {
+            try validate(aliasName, name:"aliasName", parent: name, max: 256)
+            try validate(aliasName, name:"aliasName", parent: name, min: 1)
+            try validate(aliasName, name:"aliasName", parent: name, pattern: "^[a-zA-Z0-9:/_-]+$")
+            try validate(targetKeyId, name:"targetKeyId", parent: name, max: 2048)
+            try validate(targetKeyId, name:"targetKeyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1805,6 +2223,7 @@ extension KMS {
             AWSShapeMember(label: "KeyStorePassword", required: false, type: .string), 
             AWSShapeMember(label: "NewCustomKeyStoreName", required: false, type: .string)
         ]
+
         /// Associates the custom key store with a related AWS CloudHSM cluster.  Enter the cluster ID of the cluster that you used to create the custom key store or a cluster that shares a backup history and has the same cluster certificate as the original cluster. You cannot use this parameter to associate a custom key store with an unrelated cluster. In addition, the replacement cluster must fulfill the requirements for a cluster associated with a custom key store. To view the cluster certificate of a cluster, use the DescribeClusters operation.
         public let cloudHsmClusterId: String?
         /// Identifies the custom key store that you want to update. Enter the ID of the custom key store. To find the ID of a custom key store, use the DescribeCustomKeyStores operation.
@@ -1821,6 +2240,16 @@ extension KMS {
             self.newCustomKeyStoreName = newCustomKeyStoreName
         }
 
+        public func validate(name: String) throws {
+            try validate(cloudHsmClusterId, name:"cloudHsmClusterId", parent: name, max: 24)
+            try validate(cloudHsmClusterId, name:"cloudHsmClusterId", parent: name, min: 19)
+            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, max: 64)
+            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, min: 1)
+            try validate(keyStorePassword, name:"keyStorePassword", parent: name, min: 1)
+            try validate(newCustomKeyStoreName, name:"newCustomKeyStoreName", parent: name, max: 256)
+            try validate(newCustomKeyStoreName, name:"newCustomKeyStoreName", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case cloudHsmClusterId = "CloudHsmClusterId"
             case customKeyStoreId = "CustomKeyStoreId"
@@ -1830,6 +2259,7 @@ extension KMS {
     }
 
     public struct UpdateCustomKeyStoreResponse: AWSShape {
+
 
         public init() {
         }
@@ -1841,6 +2271,7 @@ extension KMS {
             AWSShapeMember(label: "Description", required: true, type: .string), 
             AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
+
         /// New description for the CMK.
         public let description: String
         /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
@@ -1849,6 +2280,13 @@ extension KMS {
         public init(description: String, keyId: String) {
             self.description = description
             self.keyId = keyId
+        }
+
+        public func validate(name: String) throws {
+            try validate(description, name:"description", parent: name, max: 8192)
+            try validate(description, name:"description", parent: name, min: 0)
+            try validate(keyId, name:"keyId", parent: name, max: 2048)
+            try validate(keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

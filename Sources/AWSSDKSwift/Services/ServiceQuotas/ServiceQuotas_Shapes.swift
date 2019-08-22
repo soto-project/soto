@@ -7,12 +7,14 @@ extension ServiceQuotas {
 
     public struct AssociateServiceQuotaTemplateRequest: AWSShape {
 
+
         public init() {
         }
 
     }
 
     public struct AssociateServiceQuotaTemplateResponse: AWSShape {
+
 
         public init() {
         }
@@ -25,6 +27,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "QuotaCode", required: true, type: .string), 
             AWSShapeMember(label: "ServiceCode", required: true, type: .string)
         ]
+
         /// Specifies the AWS Region for the quota that you want to delete.
         public let awsRegion: String
         /// Specifies the code for the quota that you want to delete.
@@ -38,6 +41,18 @@ extension ServiceQuotas {
             self.serviceCode = serviceCode
         }
 
+        public func validate(name: String) throws {
+            try validate(awsRegion, name:"awsRegion", parent: name, max: 64)
+            try validate(awsRegion, name:"awsRegion", parent: name, min: 1)
+            try validate(awsRegion, name:"awsRegion", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(quotaCode, name:"quotaCode", parent: name, max: 128)
+            try validate(quotaCode, name:"quotaCode", parent: name, min: 1)
+            try validate(quotaCode, name:"quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case awsRegion = "AwsRegion"
             case quotaCode = "QuotaCode"
@@ -47,6 +62,7 @@ extension ServiceQuotas {
 
     public struct DeleteServiceQuotaIncreaseRequestFromTemplateResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -54,12 +70,14 @@ extension ServiceQuotas {
 
     public struct DisassociateServiceQuotaTemplateRequest: AWSShape {
 
+
         public init() {
         }
 
     }
 
     public struct DisassociateServiceQuotaTemplateResponse: AWSShape {
+
 
         public init() {
         }
@@ -79,6 +97,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
         ]
+
         /// Service Quotas returns the following error values.   DEPENDENCY_ACCESS_DENIED_ERROR is returned when the caller does not have permission to call the service or service quota. To resolve the error, you need permission to access the service or service quota.  DEPENDENCY_THROTTLING_ERROR is returned when the service being called is throttling Service Quotas.  DEPENDENCY_SERVICE_ERROR is returned when the service being called has availability issues.  SERVICE_QUOTA_NOT_AVAILABLE_ERROR is returned when there was an error in Service Quotas.
         public let errorCode: ErrorCode?
         /// The error message that provides more detail.
@@ -100,6 +119,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "QuotaCode", required: true, type: .string), 
             AWSShapeMember(label: "ServiceCode", required: true, type: .string)
         ]
+
         /// Identifies the service quota you want to select.
         public let quotaCode: String
         /// Specifies the service that you want to use.
@@ -108,6 +128,15 @@ extension ServiceQuotas {
         public init(quotaCode: String, serviceCode: String) {
             self.quotaCode = quotaCode
             self.serviceCode = serviceCode
+        }
+
+        public func validate(name: String) throws {
+            try validate(quotaCode, name:"quotaCode", parent: name, max: 128)
+            try validate(quotaCode, name:"quotaCode", parent: name, min: 1)
+            try validate(quotaCode, name:"quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -120,6 +149,7 @@ extension ServiceQuotas {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Quota", required: false, type: .structure)
         ]
+
         /// Returns the ServiceQuota object which contains all values for a quota.
         public let quota: ServiceQuota?
 
@@ -134,6 +164,7 @@ extension ServiceQuotas {
 
     public struct GetAssociationForServiceQuotaTemplateRequest: AWSShape {
 
+
         public init() {
         }
 
@@ -143,6 +174,7 @@ extension ServiceQuotas {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceQuotaTemplateAssociationStatus", required: false, type: .enum)
         ]
+
         /// Specifies whether the template is ASSOCIATED or DISASSOCIATED. If the template is ASSOCIATED, then it requests service quota increases for all new accounts created in your organization. 
         public let serviceQuotaTemplateAssociationStatus: ServiceQuotaTemplateAssociationStatus?
 
@@ -159,11 +191,18 @@ extension ServiceQuotas {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RequestId", required: true, type: .string)
         ]
+
         /// Identifies the quota increase request.
         public let requestId: String
 
         public init(requestId: String) {
             self.requestId = requestId
+        }
+
+        public func validate(name: String) throws {
+            try validate(requestId, name:"requestId", parent: name, max: 128)
+            try validate(requestId, name:"requestId", parent: name, min: 1)
+            try validate(requestId, name:"requestId", parent: name, pattern: "[0-9a-zA-Z][a-zA-Z0-9-]{1,128}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -175,6 +214,7 @@ extension ServiceQuotas {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RequestedQuota", required: false, type: .structure)
         ]
+
         /// Returns the RequestedServiceQuotaChange object for the specific increase request.
         public let requestedQuota: RequestedServiceQuotaChange?
 
@@ -193,6 +233,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "QuotaCode", required: true, type: .string), 
             AWSShapeMember(label: "ServiceCode", required: true, type: .string)
         ]
+
         /// Specifies the AWS Region for the quota that you want to use.
         public let awsRegion: String
         /// Specifies the quota you want.
@@ -206,6 +247,18 @@ extension ServiceQuotas {
             self.serviceCode = serviceCode
         }
 
+        public func validate(name: String) throws {
+            try validate(awsRegion, name:"awsRegion", parent: name, max: 64)
+            try validate(awsRegion, name:"awsRegion", parent: name, min: 1)
+            try validate(awsRegion, name:"awsRegion", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(quotaCode, name:"quotaCode", parent: name, max: 128)
+            try validate(quotaCode, name:"quotaCode", parent: name, min: 1)
+            try validate(quotaCode, name:"quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case awsRegion = "AwsRegion"
             case quotaCode = "QuotaCode"
@@ -217,6 +270,7 @@ extension ServiceQuotas {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceQuotaIncreaseRequestInTemplate", required: false, type: .structure)
         ]
+
         /// This object contains the details about the quota increase request.
         public let serviceQuotaIncreaseRequestInTemplate: ServiceQuotaIncreaseRequestInTemplate?
 
@@ -234,6 +288,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "QuotaCode", required: true, type: .string), 
             AWSShapeMember(label: "ServiceCode", required: true, type: .string)
         ]
+
         /// Identifies the service quota you want to select.
         public let quotaCode: String
         /// Specifies the service that you want to use.
@@ -242,6 +297,15 @@ extension ServiceQuotas {
         public init(quotaCode: String, serviceCode: String) {
             self.quotaCode = quotaCode
             self.serviceCode = serviceCode
+        }
+
+        public func validate(name: String) throws {
+            try validate(quotaCode, name:"quotaCode", parent: name, max: 128)
+            try validate(quotaCode, name:"quotaCode", parent: name, min: 1)
+            try validate(quotaCode, name:"quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -254,6 +318,7 @@ extension ServiceQuotas {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Quota", required: false, type: .structure)
         ]
+
         /// Returns the ServiceQuota object which contains all values for a quota.
         public let quota: ServiceQuota?
 
@@ -272,17 +337,28 @@ extension ServiceQuotas {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ServiceCode", required: true, type: .string)
         ]
+
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
         public let nextToken: String?
         /// Specifies the service that you want to use.
         public let serviceCode: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, serviceCode: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.serviceCode = serviceCode
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -297,6 +373,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Quotas", required: false, type: .list)
         ]
+
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
         /// A list of the quotas in the account with the AWS default values. 
@@ -321,8 +398,9 @@ extension ServiceQuotas {
             AWSShapeMember(label: "ServiceCode", required: true, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
         /// Specifies the service quota that you want to use
@@ -332,12 +410,25 @@ extension ServiceQuotas {
         /// Specifies the status value of the quota increase request.
         public let status: RequestStatus?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, quotaCode: String, serviceCode: String, status: RequestStatus? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, quotaCode: String, serviceCode: String, status: RequestStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.quotaCode = quotaCode
             self.serviceCode = serviceCode
             self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
+            try validate(quotaCode, name:"quotaCode", parent: name, max: 128)
+            try validate(quotaCode, name:"quotaCode", parent: name, min: 1)
+            try validate(quotaCode, name:"quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -354,6 +445,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "RequestedQuotas", required: false, type: .list)
         ]
+
         /// If present in the response, this value indicates there's more output available that what's included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
         public let nextToken: String?
         /// Returns a list of service quota requests.
@@ -377,8 +469,9 @@ extension ServiceQuotas {
             AWSShapeMember(label: "ServiceCode", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
         /// Specifies the service that you want to use.
@@ -386,11 +479,21 @@ extension ServiceQuotas {
         /// Specifies the status value of the quota increase request.
         public let status: RequestStatus?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, serviceCode: String? = nil, status: RequestStatus? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String? = nil, status: RequestStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.serviceCode = serviceCode
             self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -406,6 +509,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "RequestedQuotas", required: false, type: .list)
         ]
+
         /// If present in the response, this value indicates there's more output available that what's included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
         public let nextToken: String?
         /// Returns a list of service quota requests.
@@ -429,20 +533,34 @@ extension ServiceQuotas {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ServiceCode", required: false, type: .string)
         ]
+
         /// Specifies the AWS Region for the quota that you want to use.
         public let awsRegion: String?
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
         /// The identifier for a service. When performing an operation, use the ServiceCode to specify a particular service. 
         public let serviceCode: String?
 
-        public init(awsRegion: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, serviceCode: String? = nil) {
+        public init(awsRegion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String? = nil) {
             self.awsRegion = awsRegion
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.serviceCode = serviceCode
+        }
+
+        public func validate(name: String) throws {
+            try validate(awsRegion, name:"awsRegion", parent: name, max: 64)
+            try validate(awsRegion, name:"awsRegion", parent: name, min: 1)
+            try validate(awsRegion, name:"awsRegion", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -458,6 +576,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ServiceQuotaIncreaseRequestInTemplateList", required: false, type: .list)
         ]
+
         /// If present in the response, this value indicates there's more output available that what's included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
         public let nextToken: String?
         /// Returns the list of values of the quota increase request in the template.
@@ -480,17 +599,28 @@ extension ServiceQuotas {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ServiceCode", required: true, type: .string)
         ]
+
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
         /// The identifier for a service. When performing an operation, use the ServiceCode to specify a particular service. 
         public let serviceCode: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, serviceCode: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.serviceCode = serviceCode
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -505,6 +635,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Quotas", required: false, type: .list)
         ]
+
         /// If present in the response, this value indicates there's more output available that what's included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
         public let nextToken: String?
         /// The response information for a quota lists all attribute information for the quota. 
@@ -526,14 +657,22 @@ extension ServiceQuotas {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(nextToken, name:"nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -547,6 +686,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Services", required: false, type: .list)
         ]
+
         /// If present in the response, this value indicates there's more output available that what's included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
         public let nextToken: String?
         /// Returns a list of services. 
@@ -570,6 +710,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "MetricNamespace", required: false, type: .string), 
             AWSShapeMember(label: "MetricStatisticRecommendation", required: false, type: .string)
         ]
+
         /// A dimension is a name/value pair that is part of the identity of a metric. Every metric has specific characteristics that describe it, and you can think of dimensions as categories for those characteristics. These dimensions are part of the CloudWatch Metric Identity that measures usage against a particular service quota.
         public let metricDimensions: [String: String]?
         /// The name of the CloudWatch metric that measures usage of a service quota. This is a required field.
@@ -612,6 +753,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "QuotaCode", required: true, type: .string), 
             AWSShapeMember(label: "ServiceCode", required: true, type: .string)
         ]
+
         /// Specifies the AWS Region for the quota. 
         public let awsRegion: String
         /// Specifies the new, increased value for the quota. 
@@ -628,6 +770,20 @@ extension ServiceQuotas {
             self.serviceCode = serviceCode
         }
 
+        public func validate(name: String) throws {
+            try validate(awsRegion, name:"awsRegion", parent: name, max: 64)
+            try validate(awsRegion, name:"awsRegion", parent: name, min: 1)
+            try validate(awsRegion, name:"awsRegion", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(desiredValue, name:"desiredValue", parent: name, max: 10000000000)
+            try validate(desiredValue, name:"desiredValue", parent: name, min: 0)
+            try validate(quotaCode, name:"quotaCode", parent: name, max: 128)
+            try validate(quotaCode, name:"quotaCode", parent: name, min: 1)
+            try validate(quotaCode, name:"quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case awsRegion = "AwsRegion"
             case desiredValue = "DesiredValue"
@@ -640,6 +796,7 @@ extension ServiceQuotas {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceQuotaIncreaseRequestInTemplate", required: false, type: .structure)
         ]
+
         /// A structure that contains information about one service quota increase request.
         public let serviceQuotaIncreaseRequestInTemplate: ServiceQuotaIncreaseRequestInTemplate?
 
@@ -657,12 +814,13 @@ extension ServiceQuotas {
             AWSShapeMember(label: "PeriodUnit", required: false, type: .enum), 
             AWSShapeMember(label: "PeriodValue", required: false, type: .integer)
         ]
+
         /// The time unit of a period.
         public let periodUnit: PeriodUnit?
         /// The value of a period.
-        public let periodValue: Int32?
+        public let periodValue: Int?
 
-        public init(periodUnit: PeriodUnit? = nil, periodValue: Int32? = nil) {
+        public init(periodUnit: PeriodUnit? = nil, periodValue: Int? = nil) {
             self.periodUnit = periodUnit
             self.periodValue = periodValue
         }
@@ -679,6 +837,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "QuotaCode", required: true, type: .string), 
             AWSShapeMember(label: "ServiceCode", required: true, type: .string)
         ]
+
         /// Specifies the value submitted in the service quota increase request. 
         public let desiredValue: Double
         /// Specifies the service quota that you want to use.
@@ -692,6 +851,17 @@ extension ServiceQuotas {
             self.serviceCode = serviceCode
         }
 
+        public func validate(name: String) throws {
+            try validate(desiredValue, name:"desiredValue", parent: name, max: 10000000000)
+            try validate(desiredValue, name:"desiredValue", parent: name, min: 0)
+            try validate(quotaCode, name:"quotaCode", parent: name, max: 128)
+            try validate(quotaCode, name:"quotaCode", parent: name, min: 1)
+            try validate(quotaCode, name:"quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
+            try validate(serviceCode, name:"serviceCode", parent: name, max: 63)
+            try validate(serviceCode, name:"serviceCode", parent: name, min: 1)
+            try validate(serviceCode, name:"serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case desiredValue = "DesiredValue"
             case quotaCode = "QuotaCode"
@@ -703,6 +873,7 @@ extension ServiceQuotas {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RequestedQuota", required: false, type: .structure)
         ]
+
         /// Returns a list of service quota requests.
         public let requestedQuota: RequestedServiceQuotaChange?
 
@@ -741,6 +912,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "Unit", required: false, type: .string)
         ]
+
         /// The case Id for the service quota increase request.
         public let caseId: String?
         /// The date and time when the service quota increase request was received and the case Id was created. 
@@ -810,6 +982,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "ServiceCode", required: false, type: .string), 
             AWSShapeMember(label: "ServiceName", required: false, type: .string)
         ]
+
         /// Specifies the service that you want to use.
         public let serviceCode: String?
         /// The name of the AWS service specified in the increase request. 
@@ -841,6 +1014,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "UsageMetric", required: false, type: .structure), 
             AWSShapeMember(label: "Value", required: false, type: .double)
         ]
+
         /// Specifies if the quota value can be increased.
         public let adjustable: Bool?
         /// Specifies the ErrorCode and ErrorMessage when success isn't achieved.
@@ -908,6 +1082,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "ServiceName", required: false, type: .string), 
             AWSShapeMember(label: "Unit", required: false, type: .string)
         ]
+
         /// The AWS Region where the increase request occurs.
         public let awsRegion: String?
         /// Identifies the new, increased value of the service quota in the increase request. 

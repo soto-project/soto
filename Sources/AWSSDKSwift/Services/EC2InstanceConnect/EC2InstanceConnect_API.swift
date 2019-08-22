@@ -9,7 +9,7 @@ AWS EC2 Connect Service is a service that enables system administrators to publi
 */
 public struct EC2InstanceConnect {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

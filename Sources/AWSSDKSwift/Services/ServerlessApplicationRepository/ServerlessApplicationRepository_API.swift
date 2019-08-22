@@ -28,7 +28,7 @@ The AWS Serverless Application Repository makes it easy for developers and enter
 */
 public struct ServerlessApplicationRepository {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

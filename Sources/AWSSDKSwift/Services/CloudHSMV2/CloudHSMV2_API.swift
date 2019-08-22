@@ -9,7 +9,7 @@ For more information about AWS CloudHSM, see AWS CloudHSM and the AWS CloudHSM U
 */
 public struct CloudHSMV2 {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

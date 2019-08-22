@@ -51,6 +51,7 @@ extension MediaLive {
             AWSShapeMember(label: "Spec", location: .body(locationName: "spec"), required: false, type: .enum), 
             AWSShapeMember(label: "VbrQuality", location: .body(locationName: "vbrQuality"), required: false, type: .enum)
         ]
+
         /// Average bitrate in bits/second. Valid values depend on rate control mode and profile.
         public let bitrate: Double?
         /// Mono, Stereo, or 5.1 channel layout. Valid values depend on rate control mode and profile. The adReceiverMix setting receives a stereo description plus control track and emits a mono AAC encode of the description track, with control data emitted in the PES header as per ETSI TS 101 154 Annex E.
@@ -158,6 +159,7 @@ extension MediaLive {
             AWSShapeMember(label: "LfeFilter", location: .body(locationName: "lfeFilter"), required: false, type: .enum), 
             AWSShapeMember(label: "MetadataControl", location: .body(locationName: "metadataControl"), required: false, type: .enum)
         ]
+
         /// Average bitrate in bits/second. Valid bitrates depend on the coding mode.
         public let bitrate: Double?
         /// Specifies the bitstream mode (bsmod) for the emitted AC-3 stream. See ATSC A/52-2012 for background on these values.
@@ -165,7 +167,7 @@ extension MediaLive {
         /// Dolby Digital coding mode. Determines number of channels.
         public let codingMode: Ac3CodingMode?
         /// Sets the dialnorm for the output. If excluded and input audio is Dolby Digital, dialnorm will be passed through.
-        public let dialnorm: Int32?
+        public let dialnorm: Int?
         /// If set to filmStandard, adds dynamic range compression signaling to the output bitstream as defined in the Dolby Digital specification.
         public let drcProfile: Ac3DrcProfile?
         /// When set to enabled, applies a 120Hz lowpass filter to the LFE channel prior to encoding. Only valid in codingMode32Lfe mode.
@@ -173,7 +175,7 @@ extension MediaLive {
         /// When set to "followInput", encoder metadata will be sourced from the DD, DD+, or DolbyE decoder that supplied this audio data. If audio was not supplied from one of these streams, then the static metadata settings will be used.
         public let metadataControl: Ac3MetadataControl?
 
-        public init(bitrate: Double? = nil, bitstreamMode: Ac3BitstreamMode? = nil, codingMode: Ac3CodingMode? = nil, dialnorm: Int32? = nil, drcProfile: Ac3DrcProfile? = nil, lfeFilter: Ac3LfeFilter? = nil, metadataControl: Ac3MetadataControl? = nil) {
+        public init(bitrate: Double? = nil, bitstreamMode: Ac3BitstreamMode? = nil, codingMode: Ac3CodingMode? = nil, dialnorm: Int? = nil, drcProfile: Ac3DrcProfile? = nil, lfeFilter: Ac3LfeFilter? = nil, metadataControl: Ac3MetadataControl? = nil) {
             self.bitrate = bitrate
             self.bitstreamMode = bitstreamMode
             self.codingMode = codingMode
@@ -181,6 +183,11 @@ extension MediaLive {
             self.drcProfile = drcProfile
             self.lfeFilter = lfeFilter
             self.metadataControl = metadataControl
+        }
+
+        public func validate(name: String) throws {
+            try validate(dialnorm, name:"dialnorm", parent: name, max: 31)
+            try validate(dialnorm, name:"dialnorm", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -191,21 +198,6 @@ extension MediaLive {
             case drcProfile = "drcProfile"
             case lfeFilter = "lfeFilter"
             case metadataControl = "metadataControl"
-        }
-    }
-
-    public struct AccessDenied: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
-        ]
-        public let message: String?
-
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
         }
     }
 
@@ -220,10 +212,15 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "M2tsSettings", location: .body(locationName: "m2tsSettings"), required: false, type: .structure)
         ]
+
         public let m2tsSettings: M2tsSettings?
 
         public init(m2tsSettings: M2tsSettings? = nil) {
             self.m2tsSettings = m2tsSettings
+        }
+
+        public func validate(name: String) throws {
+            try m2tsSettings?.validate(name: "\(name).m2tsSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -236,14 +233,19 @@ extension MediaLive {
             AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: true, type: .structure), 
             AWSShapeMember(label: "RolloverInterval", location: .body(locationName: "rolloverInterval"), required: false, type: .integer)
         ]
+
         /// A directory and base filename where archive files should be written.
         public let destination: OutputLocationRef
         /// Number of seconds to write to archive file before closing and starting a new one.
-        public let rolloverInterval: Int32?
+        public let rolloverInterval: Int?
 
-        public init(destination: OutputLocationRef, rolloverInterval: Int32? = nil) {
+        public init(destination: OutputLocationRef, rolloverInterval: Int? = nil) {
             self.destination = destination
             self.rolloverInterval = rolloverInterval
+        }
+
+        public func validate(name: String) throws {
+            try validate(rolloverInterval, name:"rolloverInterval", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -258,6 +260,7 @@ extension MediaLive {
             AWSShapeMember(label: "Extension", location: .body(locationName: "extension"), required: false, type: .string), 
             AWSShapeMember(label: "NameModifier", location: .body(locationName: "nameModifier"), required: false, type: .string)
         ]
+
         /// Settings specific to the container type of the file.
         public let containerSettings: ArchiveContainerSettings
         /// Output file extension. If excluded, this will be auto-selected from the container type.
@@ -271,6 +274,10 @@ extension MediaLive {
             self.nameModifier = nameModifier
         }
 
+        public func validate(name: String) throws {
+            try containerSettings.validate(name: "\(name).containerSettings")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case containerSettings = "containerSettings"
             case `extension` = "extension"
@@ -280,12 +287,14 @@ extension MediaLive {
 
     public struct AribDestinationSettings: AWSShape {
 
+
         public init() {
         }
 
     }
 
     public struct AribSourceSettings: AWSShape {
+
 
         public init() {
         }
@@ -297,14 +306,23 @@ extension MediaLive {
             AWSShapeMember(label: "InputChannelLevels", location: .body(locationName: "inputChannelLevels"), required: true, type: .list), 
             AWSShapeMember(label: "OutputChannel", location: .body(locationName: "outputChannel"), required: true, type: .integer)
         ]
+
         /// Indices and gain values for each input channel that should be remixed into this output channel.
         public let inputChannelLevels: [InputChannelLevel]
         /// The index of the output channel being produced.
-        public let outputChannel: Int32
+        public let outputChannel: Int
 
-        public init(inputChannelLevels: [InputChannelLevel], outputChannel: Int32) {
+        public init(inputChannelLevels: [InputChannelLevel], outputChannel: Int) {
             self.inputChannelLevels = inputChannelLevels
             self.outputChannel = outputChannel
+        }
+
+        public func validate(name: String) throws {
+            try inputChannelLevels.forEach {
+                try $0.validate(name: "\(name).inputChannelLevels[]")
+            }
+            try validate(outputChannel, name:"outputChannel", parent: name, max: 7)
+            try validate(outputChannel, name:"outputChannel", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -321,6 +339,7 @@ extension MediaLive {
             AWSShapeMember(label: "Mp2Settings", location: .body(locationName: "mp2Settings"), required: false, type: .structure), 
             AWSShapeMember(label: "PassThroughSettings", location: .body(locationName: "passThroughSettings"), required: false, type: .structure)
         ]
+
         public let aacSettings: AacSettings?
         public let ac3Settings: Ac3Settings?
         public let eac3Settings: Eac3Settings?
@@ -333,6 +352,11 @@ extension MediaLive {
             self.eac3Settings = eac3Settings
             self.mp2Settings = mp2Settings
             self.passThroughSettings = passThroughSettings
+        }
+
+        public func validate(name: String) throws {
+            try ac3Settings?.validate(name: "\(name).ac3Settings")
+            try eac3Settings?.validate(name: "\(name).eac3Settings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -357,6 +381,7 @@ extension MediaLive {
             AWSShapeMember(label: "RemixSettings", location: .body(locationName: "remixSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "StreamName", location: .body(locationName: "streamName"), required: false, type: .string)
         ]
+
         /// Advanced audio normalization settings.
         public let audioNormalizationSettings: AudioNormalizationSettings?
         /// The name of the AudioSelector used as the source for this AudioDescription.
@@ -394,6 +419,13 @@ extension MediaLive {
             self.streamName = streamName
         }
 
+        public func validate(name: String) throws {
+            try codecSettings?.validate(name: "\(name).codecSettings")
+            try validate(languageCode, name:"languageCode", parent: name, max: 3)
+            try validate(languageCode, name:"languageCode", parent: name, min: 3)
+            try remixSettings?.validate(name: "\(name).remixSettings")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case audioNormalizationSettings = "audioNormalizationSettings"
             case audioSelectorName = "audioSelectorName"
@@ -425,6 +457,7 @@ extension MediaLive {
             AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode"), required: true, type: .string), 
             AWSShapeMember(label: "LanguageSelectionPolicy", location: .body(locationName: "languageSelectionPolicy"), required: false, type: .enum)
         ]
+
         /// Selects a specific three-letter language code from within an audio source.
         public let languageCode: String
         /// When set to "strict", the transport stream demux strictly identifies audio streams by their language descriptor. If a PMT update occurs such that an audio stream matching the initially selected language is no longer present then mute will be encoded until the language returns. If "loose", then on a PMT update the demux will choose another audio stream in the program with the same stream type if it can't find one with the same language.
@@ -464,6 +497,7 @@ extension MediaLive {
             AWSShapeMember(label: "AlgorithmControl", location: .body(locationName: "algorithmControl"), required: false, type: .enum), 
             AWSShapeMember(label: "TargetLkfs", location: .body(locationName: "targetLkfs"), required: false, type: .double)
         ]
+
         /// Audio normalization algorithm to use. itu17701 conforms to the CALM Act specification, itu17702 conforms to the EBU R-128 specification.
         public let algorithm: AudioNormalizationAlgorithm?
         /// When set to correctAudio the output audio is corrected using the chosen algorithm. If set to measureOnly, the audio will be measured but not adjusted.
@@ -490,6 +524,7 @@ extension MediaLive {
             AWSShapeMember(label: "AudioOnlyImage", location: .body(locationName: "audioOnlyImage"), required: false, type: .structure), 
             AWSShapeMember(label: "AudioTrackType", location: .body(locationName: "audioTrackType"), required: false, type: .enum)
         ]
+
         /// Specifies the group to which the audio Rendition belongs.
         public let audioGroupId: String?
         /// For use with an audio only Stream. Must be a .jpg or .png file. If given, this image will be used as the cover-art for the audio only output. Ideally, it should be formatted for an iPhone screen for two reasons. The iPhone does not resize the image, it crops a centered image on the top/bottom and left/right. Additionally, this image file gets saved bit-for-bit into every 10-second segment file, so will increase bandwidth by {image file size} * {segment count} * {user count.}.
@@ -530,11 +565,17 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Pid", location: .body(locationName: "pid"), required: true, type: .integer)
         ]
-        /// Selects a specific PID from within a source.
-        public let pid: Int32
 
-        public init(pid: Int32) {
+        /// Selects a specific PID from within a source.
+        public let pid: Int
+
+        public init(pid: Int) {
             self.pid = pid
+        }
+
+        public func validate(name: String) throws {
+            try validate(pid, name:"pid", parent: name, max: 8191)
+            try validate(pid, name:"pid", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -547,6 +588,7 @@ extension MediaLive {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "SelectorSettings", location: .body(locationName: "selectorSettings"), required: false, type: .structure)
         ]
+
         /// The name of this AudioSelector. AudioDescriptions will use this name to uniquely identify this Selector.  Selector names should be unique per input.
         public let name: String
         /// The audio selector settings.
@@ -555,6 +597,11 @@ extension MediaLive {
         public init(name: String, selectorSettings: AudioSelectorSettings? = nil) {
             self.name = name
             self.selectorSettings = selectorSettings
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, min: 1)
+            try selectorSettings?.validate(name: "\(name).selectorSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -568,12 +615,17 @@ extension MediaLive {
             AWSShapeMember(label: "AudioLanguageSelection", location: .body(locationName: "audioLanguageSelection"), required: false, type: .structure), 
             AWSShapeMember(label: "AudioPidSelection", location: .body(locationName: "audioPidSelection"), required: false, type: .structure)
         ]
+
         public let audioLanguageSelection: AudioLanguageSelection?
         public let audioPidSelection: AudioPidSelection?
 
         public init(audioLanguageSelection: AudioLanguageSelection? = nil, audioPidSelection: AudioPidSelection? = nil) {
             self.audioLanguageSelection = audioLanguageSelection
             self.audioPidSelection = audioPidSelection
+        }
+
+        public func validate(name: String) throws {
+            try audioPidSelection?.validate(name: "\(name).audioPidSelection")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -601,6 +653,7 @@ extension MediaLive {
             AWSShapeMember(label: "AvailBlankingImage", location: .body(locationName: "availBlankingImage"), required: false, type: .structure), 
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum)
         ]
+
         /// Blanking image to be used. Leave empty for solid black. Only bmp and png images are supported.
         public let availBlankingImage: InputLocation?
         /// When set to enabled, causes video, audio and captions to be blanked when insertion metadata is added.
@@ -627,11 +680,16 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailSettings", location: .body(locationName: "availSettings"), required: false, type: .structure)
         ]
+
         /// Ad avail settings.
         public let availSettings: AvailSettings?
 
         public init(availSettings: AvailSettings? = nil) {
             self.availSettings = availSettings
+        }
+
+        public func validate(name: String) throws {
+            try availSettings?.validate(name: "\(name).availSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -644,12 +702,18 @@ extension MediaLive {
             AWSShapeMember(label: "Scte35SpliceInsert", location: .body(locationName: "scte35SpliceInsert"), required: false, type: .structure), 
             AWSShapeMember(label: "Scte35TimeSignalApos", location: .body(locationName: "scte35TimeSignalApos"), required: false, type: .structure)
         ]
+
         public let scte35SpliceInsert: Scte35SpliceInsert?
         public let scte35TimeSignalApos: Scte35TimeSignalApos?
 
         public init(scte35SpliceInsert: Scte35SpliceInsert? = nil, scte35TimeSignalApos: Scte35TimeSignalApos? = nil) {
             self.scte35SpliceInsert = scte35SpliceInsert
             self.scte35TimeSignalApos = scte35TimeSignalApos
+        }
+
+        public func validate(name: String) throws {
+            try scte35SpliceInsert?.validate(name: "\(name).scte35SpliceInsert")
+            try scte35TimeSignalApos?.validate(name: "\(name).scte35TimeSignalApos")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -662,11 +726,18 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ScheduleActions", location: .body(locationName: "scheduleActions"), required: true, type: .list)
         ]
+
         /// A list of schedule actions to create.
         public let scheduleActions: [ScheduleAction]
 
         public init(scheduleActions: [ScheduleAction]) {
             self.scheduleActions = scheduleActions
+        }
+
+        public func validate(name: String) throws {
+            try scheduleActions.forEach {
+                try $0.validate(name: "\(name).scheduleActions[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -678,6 +749,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ScheduleActions", location: .body(locationName: "scheduleActions"), required: true, type: .list)
         ]
+
         /// List of actions that have been created in the schedule.
         public let scheduleActions: [ScheduleAction]
 
@@ -694,6 +766,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ActionNames", location: .body(locationName: "actionNames"), required: true, type: .list)
         ]
+
         /// A list of schedule actions to delete.
         public let actionNames: [String]
 
@@ -710,6 +783,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ScheduleActions", location: .body(locationName: "scheduleActions"), required: true, type: .list)
         ]
+
         /// List of actions that have been deleted from the schedule.
         public let scheduleActions: [ScheduleAction]
 
@@ -728,6 +802,7 @@ extension MediaLive {
             AWSShapeMember(label: "Creates", location: .body(locationName: "creates"), required: false, type: .structure), 
             AWSShapeMember(label: "Deletes", location: .body(locationName: "deletes"), required: false, type: .structure)
         ]
+
         public let channelId: String
         /// Schedule actions to create in the schedule.
         public let creates: BatchScheduleActionCreateRequest?
@@ -738,6 +813,10 @@ extension MediaLive {
             self.channelId = channelId
             self.creates = creates
             self.deletes = deletes
+        }
+
+        public func validate(name: String) throws {
+            try creates?.validate(name: "\(name).creates")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -752,28 +831,8 @@ extension MediaLive {
             AWSShapeMember(label: "Creates", location: .body(locationName: "creates"), required: false, type: .structure), 
             AWSShapeMember(label: "Deletes", location: .body(locationName: "deletes"), required: false, type: .structure)
         ]
+
         public let creates: BatchScheduleActionCreateResult?
-        public let deletes: BatchScheduleActionDeleteResult?
-
-        public init(creates: BatchScheduleActionCreateResult? = nil, deletes: BatchScheduleActionDeleteResult? = nil) {
-            self.creates = creates
-            self.deletes = deletes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creates = "creates"
-            case deletes = "deletes"
-        }
-    }
-
-    public struct BatchUpdateScheduleResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Creates", location: .body(locationName: "creates"), required: false, type: .structure), 
-            AWSShapeMember(label: "Deletes", location: .body(locationName: "deletes"), required: false, type: .structure)
-        ]
-        /// Schedule actions created in the schedule.
-        public let creates: BatchScheduleActionCreateResult?
-        /// Schedule actions deleted from the schedule.
         public let deletes: BatchScheduleActionDeleteResult?
 
         public init(creates: BatchScheduleActionCreateResult? = nil, deletes: BatchScheduleActionDeleteResult? = nil) {
@@ -795,6 +854,7 @@ extension MediaLive {
             AWSShapeMember(label: "NetworkId", location: .body(locationName: "networkId"), required: false, type: .string), 
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum)
         ]
+
         /// Blackout slate image to be used. Leave empty for solid black. Only bmp and png images are supported.
         public let blackoutSlateImage: InputLocation?
         /// Setting to enabled causes the encoder to blackout the video, audio, and captions, and raise the "Network Blackout Image" slate when an SCTE104/35 Network End Segmentation Descriptor is encountered. The blackout will be lifted when the Network Start Segmentation Descriptor is encountered. The Network End and Network Start descriptors must contain a network ID that matches the value entered in "Network ID".
@@ -812,6 +872,11 @@ extension MediaLive {
             self.networkEndBlackoutImage = networkEndBlackoutImage
             self.networkId = networkId
             self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try validate(networkId, name:"networkId", parent: name, max: 34)
+            try validate(networkId, name:"networkId", parent: name, min: 34)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -869,42 +934,43 @@ extension MediaLive {
             AWSShapeMember(label: "XPosition", location: .body(locationName: "xPosition"), required: false, type: .integer), 
             AWSShapeMember(label: "YPosition", location: .body(locationName: "yPosition"), required: false, type: .integer)
         ]
+
         /// If no explicit xPosition or yPosition is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. Selecting "smart" justification will left-justify live subtitles and center-justify pre-recorded subtitles.  All burn-in and DVB-Sub font settings must match.
         public let alignment: BurnInAlignment?
         /// Specifies the color of the rectangle behind the captions.  All burn-in and DVB-Sub font settings must match.
         public let backgroundColor: BurnInBackgroundColor?
         /// Specifies the opacity of the background rectangle. 255 is opaque; 0 is transparent. Leaving this parameter out is equivalent to setting it to 0 (transparent).  All burn-in and DVB-Sub font settings must match.
-        public let backgroundOpacity: Int32?
+        public let backgroundOpacity: Int?
         /// External font file used for caption burn-in. File extension must be 'ttf' or 'tte'.  Although the user can select output fonts for many different types of input captions,  embedded, STL and teletext sources use a strict grid system. Using external fonts with these caption sources could cause unexpected display of proportional fonts.  All burn-in and DVB-Sub font settings must match.
         public let font: InputLocation?
         /// Specifies the color of the burned-in captions.  This option is not valid for source captions that are STL, 608/embedded or teletext.  These source settings are already pre-defined by the caption stream.  All burn-in and DVB-Sub font settings must match.
         public let fontColor: BurnInFontColor?
         /// Specifies the opacity of the burned-in captions. 255 is opaque; 0 is transparent.  All burn-in and DVB-Sub font settings must match.
-        public let fontOpacity: Int32?
+        public let fontOpacity: Int?
         /// Font resolution in DPI (dots per inch); default is 96 dpi.  All burn-in and DVB-Sub font settings must match.
-        public let fontResolution: Int32?
+        public let fontResolution: Int?
         /// When set to 'auto' fontSize will scale depending on the size of the output.  Giving a positive integer will specify the exact font size in points.  All burn-in and DVB-Sub font settings must match.
         public let fontSize: String?
         /// Specifies font outline color. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let outlineColor: BurnInOutlineColor?
         /// Specifies font outline size in pixels. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
-        public let outlineSize: Int32?
+        public let outlineSize: Int?
         /// Specifies the color of the shadow cast by the captions.  All burn-in and DVB-Sub font settings must match.
         public let shadowColor: BurnInShadowColor?
         /// Specifies the opacity of the shadow. 255 is opaque; 0 is transparent. Leaving this parameter out is equivalent to setting it to 0 (transparent).  All burn-in and DVB-Sub font settings must match.
-        public let shadowOpacity: Int32?
+        public let shadowOpacity: Int?
         /// Specifies the horizontal offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels to the left.  All burn-in and DVB-Sub font settings must match.
-        public let shadowXOffset: Int32?
+        public let shadowXOffset: Int?
         /// Specifies the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text.  All burn-in and DVB-Sub font settings must match.
-        public let shadowYOffset: Int32?
+        public let shadowYOffset: Int?
         /// Controls whether a fixed grid size will be used to generate the output subtitles bitmap. Only applicable for Teletext inputs and DVB-Sub/Burn-in outputs.
         public let teletextGridControl: BurnInTeletextGridControl?
         /// Specifies the horizontal position of the caption relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit xPosition is provided, the horizontal caption position will be determined by the alignment parameter.  All burn-in and DVB-Sub font settings must match.
-        public let xPosition: Int32?
+        public let xPosition: Int?
         /// Specifies the vertical position of the caption relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit yPosition is provided, the caption will be positioned towards the bottom of the output.  All burn-in and DVB-Sub font settings must match.
-        public let yPosition: Int32?
+        public let yPosition: Int?
 
-        public init(alignment: BurnInAlignment? = nil, backgroundColor: BurnInBackgroundColor? = nil, backgroundOpacity: Int32? = nil, font: InputLocation? = nil, fontColor: BurnInFontColor? = nil, fontOpacity: Int32? = nil, fontResolution: Int32? = nil, fontSize: String? = nil, outlineColor: BurnInOutlineColor? = nil, outlineSize: Int32? = nil, shadowColor: BurnInShadowColor? = nil, shadowOpacity: Int32? = nil, shadowXOffset: Int32? = nil, shadowYOffset: Int32? = nil, teletextGridControl: BurnInTeletextGridControl? = nil, xPosition: Int32? = nil, yPosition: Int32? = nil) {
+        public init(alignment: BurnInAlignment? = nil, backgroundColor: BurnInBackgroundColor? = nil, backgroundOpacity: Int? = nil, font: InputLocation? = nil, fontColor: BurnInFontColor? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontSize: String? = nil, outlineColor: BurnInOutlineColor? = nil, outlineSize: Int? = nil, shadowColor: BurnInShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, teletextGridControl: BurnInTeletextGridControl? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
             self.alignment = alignment
             self.backgroundColor = backgroundColor
             self.backgroundOpacity = backgroundOpacity
@@ -922,6 +988,21 @@ extension MediaLive {
             self.teletextGridControl = teletextGridControl
             self.xPosition = xPosition
             self.yPosition = yPosition
+        }
+
+        public func validate(name: String) throws {
+            try validate(backgroundOpacity, name:"backgroundOpacity", parent: name, max: 255)
+            try validate(backgroundOpacity, name:"backgroundOpacity", parent: name, min: 0)
+            try validate(fontOpacity, name:"fontOpacity", parent: name, max: 255)
+            try validate(fontOpacity, name:"fontOpacity", parent: name, min: 0)
+            try validate(fontResolution, name:"fontResolution", parent: name, max: 600)
+            try validate(fontResolution, name:"fontResolution", parent: name, min: 96)
+            try validate(outlineSize, name:"outlineSize", parent: name, max: 10)
+            try validate(outlineSize, name:"outlineSize", parent: name, min: 0)
+            try validate(shadowOpacity, name:"shadowOpacity", parent: name, max: 255)
+            try validate(shadowOpacity, name:"shadowOpacity", parent: name, min: 0)
+            try validate(xPosition, name:"xPosition", parent: name, min: 0)
+            try validate(yPosition, name:"yPosition", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -986,6 +1067,7 @@ extension MediaLive {
             AWSShapeMember(label: "LanguageDescription", location: .body(locationName: "languageDescription"), required: false, type: .string), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string)
         ]
+
         /// Specifies which input caption selector to use as a caption source when generating output captions. This field should match a captionSelector name.
         public let captionSelectorName: String
         /// Additional settings for captions destination that depend on the destination type.
@@ -1003,6 +1085,10 @@ extension MediaLive {
             self.languageCode = languageCode
             self.languageDescription = languageDescription
             self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try destinationSettings?.validate(name: "\(name).destinationSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1029,6 +1115,7 @@ extension MediaLive {
             AWSShapeMember(label: "TtmlDestinationSettings", location: .body(locationName: "ttmlDestinationSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "WebvttDestinationSettings", location: .body(locationName: "webvttDestinationSettings"), required: false, type: .structure)
         ]
+
         public let aribDestinationSettings: AribDestinationSettings?
         public let burnInDestinationSettings: BurnInDestinationSettings?
         public let dvbSubDestinationSettings: DvbSubDestinationSettings?
@@ -1057,6 +1144,11 @@ extension MediaLive {
             self.webvttDestinationSettings = webvttDestinationSettings
         }
 
+        public func validate(name: String) throws {
+            try burnInDestinationSettings?.validate(name: "\(name).burnInDestinationSettings")
+            try dvbSubDestinationSettings?.validate(name: "\(name).dvbSubDestinationSettings")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case aribDestinationSettings = "aribDestinationSettings"
             case burnInDestinationSettings = "burnInDestinationSettings"
@@ -1079,17 +1171,26 @@ extension MediaLive {
             AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode"), required: true, type: .string), 
             AWSShapeMember(label: "LanguageDescription", location: .body(locationName: "languageDescription"), required: true, type: .string)
         ]
+
         /// The closed caption channel being described by this CaptionLanguageMapping.  Each channel mapping must have a unique channel number (maximum of 4)
-        public let captionChannel: Int32
+        public let captionChannel: Int
         /// Three character ISO 639-2 language code (see http://www.loc.gov/standards/iso639-2)
         public let languageCode: String
         /// Textual description of language
         public let languageDescription: String
 
-        public init(captionChannel: Int32, languageCode: String, languageDescription: String) {
+        public init(captionChannel: Int, languageCode: String, languageDescription: String) {
             self.captionChannel = captionChannel
             self.languageCode = languageCode
             self.languageDescription = languageDescription
+        }
+
+        public func validate(name: String) throws {
+            try validate(captionChannel, name:"captionChannel", parent: name, max: 4)
+            try validate(captionChannel, name:"captionChannel", parent: name, min: 1)
+            try validate(languageCode, name:"languageCode", parent: name, max: 3)
+            try validate(languageCode, name:"languageCode", parent: name, min: 3)
+            try validate(languageDescription, name:"languageDescription", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1105,6 +1206,7 @@ extension MediaLive {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "SelectorSettings", location: .body(locationName: "selectorSettings"), required: false, type: .structure)
         ]
+
         /// When specified this field indicates the three letter language code of the caption track to extract from the source.
         public let languageCode: String?
         /// Name identifier for a caption selector.  This name is used to associate this caption selector with one or more caption descriptions.  Names must be unique within an event.
@@ -1116,6 +1218,11 @@ extension MediaLive {
             self.languageCode = languageCode
             self.name = name
             self.selectorSettings = selectorSettings
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, min: 1)
+            try selectorSettings?.validate(name: "\(name).selectorSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1134,6 +1241,7 @@ extension MediaLive {
             AWSShapeMember(label: "Scte27SourceSettings", location: .body(locationName: "scte27SourceSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "TeletextSourceSettings", location: .body(locationName: "teletextSourceSettings"), required: false, type: .structure)
         ]
+
         public let aribSourceSettings: AribSourceSettings?
         public let dvbSubSourceSettings: DvbSubSourceSettings?
         public let embeddedSourceSettings: EmbeddedSourceSettings?
@@ -1148,6 +1256,13 @@ extension MediaLive {
             self.scte20SourceSettings = scte20SourceSettings
             self.scte27SourceSettings = scte27SourceSettings
             self.teletextSourceSettings = teletextSourceSettings
+        }
+
+        public func validate(name: String) throws {
+            try dvbSubSourceSettings?.validate(name: "\(name).dvbSubSourceSettings")
+            try embeddedSourceSettings?.validate(name: "\(name).embeddedSourceSettings")
+            try scte20SourceSettings?.validate(name: "\(name).scte20SourceSettings")
+            try scte27SourceSettings?.validate(name: "\(name).scte27SourceSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1177,6 +1292,7 @@ extension MediaLive {
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         /// The unique arn of the channel.
         public let arn: String?
         /// The class for this channel. STANDARD for a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
@@ -1198,14 +1314,14 @@ extension MediaLive {
         /// The name of the channel. (user-mutable)
         public let name: String?
         /// The number of currently healthy pipelines.
-        public let pipelinesRunningCount: Int32?
+        public let pipelinesRunningCount: Int?
         /// The Amazon Resource Name (ARN) of the role assumed when running the Channel.
         public let roleArn: String?
         public let state: ChannelState?
         /// A collection of key-value pairs.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int32? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
             self.destinations = destinations
@@ -1246,30 +1362,11 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public struct ChannelConfigurationValidationError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string), 
-            AWSShapeMember(label: "ValidationErrors", location: .body(locationName: "validationErrors"), required: false, type: .list)
-        ]
-        public let message: String?
-        /// A collection of validation error responses.
-        public let validationErrors: [ValidationError]?
-
-        public init(message: String? = nil, validationErrors: [ValidationError]? = nil) {
-            self.message = message
-            self.validationErrors = validationErrors
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-            case validationErrors = "validationErrors"
-        }
-    }
-
     public struct ChannelEgressEndpoint: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SourceIp", location: .body(locationName: "sourceIp"), required: false, type: .string)
         ]
+
         /// Public IP of where a channel's output comes from
         public let sourceIp: String?
 
@@ -1313,6 +1410,7 @@ extension MediaLive {
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         /// The unique arn of the channel.
         public let arn: String?
         /// The class for this channel. STANDARD for a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
@@ -1333,14 +1431,14 @@ extension MediaLive {
         /// The name of the channel. (user-mutable)
         public let name: String?
         /// The number of currently healthy pipelines.
-        public let pipelinesRunningCount: Int32?
+        public let pipelinesRunningCount: Int?
         /// The Amazon Resource Name (ARN) of the role assumed when running the Channel.
         public let roleArn: String?
         public let state: ChannelState?
         /// A collection of key-value pairs.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int32? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
             self.destinations = destinations
@@ -1373,66 +1471,6 @@ extension MediaLive {
         }
     }
 
-    public struct CreateChannel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelClass", location: .body(locationName: "channelClass"), required: false, type: .enum), 
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
-            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments"), required: false, type: .list), 
-            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification"), required: false, type: .structure), 
-            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel"), required: false, type: .enum), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId"), required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
-        ]
-        /// The class for this channel. STANDARD for a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
-        public let channelClass: ChannelClass?
-        public let destinations: [OutputDestination]?
-        public let encoderSettings: EncoderSettings?
-        /// List of input attachments for channel.
-        public let inputAttachments: [InputAttachment]?
-        /// Specification of input for this channel (max. bitrate, resolution, codec, etc.)
-        public let inputSpecification: InputSpecification?
-        /// The log level to write to CloudWatch Logs.
-        public let logLevel: LogLevel?
-        /// Name of channel.
-        public let name: String?
-        /// Unique request ID to be specified. This is needed to prevent retries from
-        /// creating multiple resources.
-        public let requestId: String?
-        /// An optional Amazon Resource Name (ARN) of the role to assume when running the Channel.
-        public let roleArn: String?
-        /// A collection of key-value pairs.
-        public let tags: [String: String]?
-
-        public init(channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, requestId: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil) {
-            self.channelClass = channelClass
-            self.destinations = destinations
-            self.encoderSettings = encoderSettings
-            self.inputAttachments = inputAttachments
-            self.inputSpecification = inputSpecification
-            self.logLevel = logLevel
-            self.name = name
-            self.requestId = requestId
-            self.roleArn = roleArn
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case channelClass = "channelClass"
-            case destinations = "destinations"
-            case encoderSettings = "encoderSettings"
-            case inputAttachments = "inputAttachments"
-            case inputSpecification = "inputSpecification"
-            case logLevel = "logLevel"
-            case name = "name"
-            case requestId = "requestId"
-            case roleArn = "roleArn"
-            case tags = "tags"
-        }
-    }
-
     public struct CreateChannelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChannelClass", location: .body(locationName: "channelClass"), required: false, type: .enum), 
@@ -1446,6 +1484,7 @@ extension MediaLive {
             AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         public let channelClass: ChannelClass?
         public let destinations: [OutputDestination]?
         public let encoderSettings: EncoderSettings?
@@ -1457,7 +1496,7 @@ extension MediaLive {
         public let roleArn: String?
         public let tags: [String: String]?
 
-        public init(channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, requestId: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil) {
+        public init(channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, requestId: String? = CreateChannelRequest.idempotencyToken(), roleArn: String? = nil, tags: [String: String]? = nil) {
             self.channelClass = channelClass
             self.destinations = destinations
             self.encoderSettings = encoderSettings
@@ -1468,6 +1507,16 @@ extension MediaLive {
             self.requestId = requestId
             self.roleArn = roleArn
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try destinations?.forEach {
+                try $0.validate(name: "\(name).destinations[]")
+            }
+            try encoderSettings?.validate(name: "\(name).encoderSettings")
+            try inputAttachments?.forEach {
+                try $0.validate(name: "\(name).inputAttachments[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1488,6 +1537,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Channel", location: .body(locationName: "channel"), required: false, type: .structure)
         ]
+
         public let channel: Channel?
 
         public init(channel: Channel? = nil) {
@@ -1496,85 +1546,6 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case channel = "channel"
-        }
-    }
-
-    public struct CreateChannelResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Channel", location: .body(locationName: "channel"), required: false, type: .structure)
-        ]
-        public let channel: Channel?
-
-        public init(channel: Channel? = nil) {
-            self.channel = channel
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case channel = "channel"
-        }
-    }
-
-    public struct CreateInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
-            AWSShapeMember(label: "InputSecurityGroups", location: .body(locationName: "inputSecurityGroups"), required: false, type: .list), 
-            AWSShapeMember(label: "MediaConnectFlows", location: .body(locationName: "mediaConnectFlows"), required: false, type: .list), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId"), required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Sources", location: .body(locationName: "sources"), required: false, type: .list), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .enum), 
-            AWSShapeMember(label: "Vpc", location: .body(locationName: "vpc"), required: false, type: .structure)
-        ]
-        /// Destination settings for PUSH type inputs.
-        public let destinations: [InputDestinationRequest]?
-        /// A list of security groups referenced by IDs to attach to the input.
-        public let inputSecurityGroups: [String]?
-        /// A list of the MediaConnect Flows that you want to use in this input. You can specify as few as one
-        /// Flow and presently, as many as two. The only requirement is when you have more than one is that each Flow is in a
-        /// separate Availability Zone as this ensures your EML input is redundant to AZ issues.
-        public let mediaConnectFlows: [MediaConnectFlowRequest]?
-        /// Name of the input.
-        public let name: String?
-        /// Unique identifier of the request to ensure the request is handled
-        /// exactly once in case of retries.
-        public let requestId: String?
-        /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
-        public let roleArn: String?
-        /// The source URLs for a PULL-type input. Every PULL type input needs
-        /// exactly two source URLs for redundancy.
-        /// Only specify sources for PULL type Inputs. Leave Destinations empty.
-        public let sources: [InputSourceRequest]?
-        /// A collection of key-value pairs.
-        public let tags: [String: String]?
-        public let `type`: InputType?
-        public let vpc: InputVpcRequest?
-
-        public init(destinations: [InputDestinationRequest]? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, requestId: String? = nil, roleArn: String? = nil, sources: [InputSourceRequest]? = nil, tags: [String: String]? = nil, type: InputType? = nil, vpc: InputVpcRequest? = nil) {
-            self.destinations = destinations
-            self.inputSecurityGroups = inputSecurityGroups
-            self.mediaConnectFlows = mediaConnectFlows
-            self.name = name
-            self.requestId = requestId
-            self.roleArn = roleArn
-            self.sources = sources
-            self.tags = tags
-            self.`type` = `type`
-            self.vpc = vpc
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinations = "destinations"
-            case inputSecurityGroups = "inputSecurityGroups"
-            case mediaConnectFlows = "mediaConnectFlows"
-            case name = "name"
-            case requestId = "requestId"
-            case roleArn = "roleArn"
-            case sources = "sources"
-            case tags = "tags"
-            case `type` = "type"
-            case vpc = "vpc"
         }
     }
 
@@ -1591,6 +1562,7 @@ extension MediaLive {
             AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .enum), 
             AWSShapeMember(label: "Vpc", location: .body(locationName: "vpc"), required: false, type: .structure)
         ]
+
         public let destinations: [InputDestinationRequest]?
         public let inputSecurityGroups: [String]?
         public let mediaConnectFlows: [MediaConnectFlowRequest]?
@@ -1602,7 +1574,7 @@ extension MediaLive {
         public let `type`: InputType?
         public let vpc: InputVpcRequest?
 
-        public init(destinations: [InputDestinationRequest]? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, requestId: String? = nil, roleArn: String? = nil, sources: [InputSourceRequest]? = nil, tags: [String: String]? = nil, type: InputType? = nil, vpc: InputVpcRequest? = nil) {
+        public init(destinations: [InputDestinationRequest]? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, requestId: String? = CreateInputRequest.idempotencyToken(), roleArn: String? = nil, sources: [InputSourceRequest]? = nil, tags: [String: String]? = nil, type: InputType? = nil, vpc: InputVpcRequest? = nil) {
             self.destinations = destinations
             self.inputSecurityGroups = inputSecurityGroups
             self.mediaConnectFlows = mediaConnectFlows
@@ -1633,21 +1605,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Input", location: .body(locationName: "input"), required: false, type: .structure)
         ]
-        public let input: Input?
 
-        public init(input: Input? = nil) {
-            self.input = input
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case input = "input"
-        }
-    }
-
-    public struct CreateInputResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Input", location: .body(locationName: "input"), required: false, type: .structure)
-        ]
         public let input: Input?
 
         public init(input: Input? = nil) {
@@ -1664,6 +1622,7 @@ extension MediaLive {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "WhitelistRules", location: .body(locationName: "whitelistRules"), required: false, type: .list)
         ]
+
         public let tags: [String: String]?
         public let whitelistRules: [InputWhitelistRuleCidr]?
 
@@ -1682,21 +1641,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SecurityGroup", location: .body(locationName: "securityGroup"), required: false, type: .structure)
         ]
-        public let securityGroup: InputSecurityGroup?
 
-        public init(securityGroup: InputSecurityGroup? = nil) {
-            self.securityGroup = securityGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityGroup = "securityGroup"
-        }
-    }
-
-    public struct CreateInputSecurityGroupResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroup", location: .body(locationName: "securityGroup"), required: false, type: .structure)
-        ]
         public let securityGroup: InputSecurityGroup?
 
         public init(securityGroup: InputSecurityGroup? = nil) {
@@ -1713,6 +1658,7 @@ extension MediaLive {
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         public let resourceArn: String
         public let tags: [String: String]?
 
@@ -1731,6 +1677,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"), required: true, type: .string)
         ]
+
         public let channelId: String
 
         public init(channelId: String) {
@@ -1759,6 +1706,7 @@ extension MediaLive {
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         public let arn: String?
         public let channelClass: ChannelClass?
         public let destinations: [OutputDestination]?
@@ -1769,12 +1717,12 @@ extension MediaLive {
         public let inputSpecification: InputSpecification?
         public let logLevel: LogLevel?
         public let name: String?
-        public let pipelinesRunningCount: Int32?
+        public let pipelinesRunningCount: Int?
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int32? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
             self.destinations = destinations
@@ -1813,6 +1761,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputId", location: .uri(locationName: "inputId"), required: true, type: .string)
         ]
+
         public let inputId: String
 
         public init(inputId: String) {
@@ -1826,6 +1775,7 @@ extension MediaLive {
 
     public struct DeleteInputResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -1835,6 +1785,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputSecurityGroupId", location: .uri(locationName: "inputSecurityGroupId"), required: true, type: .string)
         ]
+
         public let inputSecurityGroupId: String
 
         public init(inputSecurityGroupId: String) {
@@ -1848,6 +1799,7 @@ extension MediaLive {
 
     public struct DeleteInputSecurityGroupResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -1857,6 +1809,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReservationId", location: .uri(locationName: "reservationId"), required: true, type: .string)
         ]
+
         public let reservationId: String
 
         public init(reservationId: String) {
@@ -1889,10 +1842,11 @@ extension MediaLive {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "UsagePrice", location: .body(locationName: "usagePrice"), required: false, type: .double)
         ]
+
         public let arn: String?
-        public let count: Int32?
+        public let count: Int?
         public let currencyCode: String?
-        public let duration: Int32?
+        public let duration: Int?
         public let durationUnits: OfferingDurationUnits?
         public let end: String?
         public let fixedPrice: Double?
@@ -1908,7 +1862,7 @@ extension MediaLive {
         public let tags: [String: String]?
         public let usagePrice: Double?
 
-        public init(arn: String? = nil, count: Int32? = nil, currencyCode: String? = nil, duration: Int32? = nil, durationUnits: OfferingDurationUnits? = nil, end: String? = nil, fixedPrice: Double? = nil, name: String? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, reservationId: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, start: String? = nil, state: ReservationState? = nil, tags: [String: String]? = nil, usagePrice: Double? = nil) {
+        public init(arn: String? = nil, count: Int? = nil, currencyCode: String? = nil, duration: Int? = nil, durationUnits: OfferingDurationUnits? = nil, end: String? = nil, fixedPrice: Double? = nil, name: String? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, reservationId: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, start: String? = nil, state: ReservationState? = nil, tags: [String: String]? = nil, usagePrice: Double? = nil) {
             self.arn = arn
             self.count = count
             self.currencyCode = currencyCode
@@ -1955,6 +1909,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"), required: true, type: .string)
         ]
+
         public let channelId: String
 
         public init(channelId: String) {
@@ -1968,6 +1923,7 @@ extension MediaLive {
 
     public struct DeleteScheduleResponse: AWSShape {
 
+
         public init() {
         }
 
@@ -1978,6 +1934,7 @@ extension MediaLive {
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]
+
         public let resourceArn: String
         public let tagKeys: [String]
 
@@ -1996,6 +1953,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"), required: true, type: .string)
         ]
+
         public let channelId: String
 
         public init(channelId: String) {
@@ -2024,6 +1982,7 @@ extension MediaLive {
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         public let arn: String?
         public let channelClass: ChannelClass?
         public let destinations: [OutputDestination]?
@@ -2034,12 +1993,12 @@ extension MediaLive {
         public let inputSpecification: InputSpecification?
         public let logLevel: LogLevel?
         public let name: String?
-        public let pipelinesRunningCount: Int32?
+        public let pipelinesRunningCount: Int?
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int32? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
             self.destinations = destinations
@@ -2078,6 +2037,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputId", location: .uri(locationName: "inputId"), required: true, type: .string)
         ]
+
         public let inputId: String
 
         public init(inputId: String) {
@@ -2105,6 +2065,7 @@ extension MediaLive {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .enum)
         ]
+
         public let arn: String?
         public let attachedChannels: [String]?
         public let destinations: [InputDestination]?
@@ -2156,6 +2117,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputSecurityGroupId", location: .uri(locationName: "inputSecurityGroupId"), required: true, type: .string)
         ]
+
         public let inputSecurityGroupId: String
 
         public init(inputSecurityGroupId: String) {
@@ -2176,6 +2138,7 @@ extension MediaLive {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "WhitelistRules", location: .body(locationName: "whitelistRules"), required: false, type: .list)
         ]
+
         public let arn: String?
         public let id: String?
         public let inputs: [String]?
@@ -2206,6 +2169,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OfferingId", location: .uri(locationName: "offeringId"), required: true, type: .string)
         ]
+
         public let offeringId: String
 
         public init(offeringId: String) {
@@ -2231,9 +2195,10 @@ extension MediaLive {
             AWSShapeMember(label: "ResourceSpecification", location: .body(locationName: "resourceSpecification"), required: false, type: .structure), 
             AWSShapeMember(label: "UsagePrice", location: .body(locationName: "usagePrice"), required: false, type: .double)
         ]
+
         public let arn: String?
         public let currencyCode: String?
-        public let duration: Int32?
+        public let duration: Int?
         public let durationUnits: OfferingDurationUnits?
         public let fixedPrice: Double?
         public let offeringDescription: String?
@@ -2243,7 +2208,7 @@ extension MediaLive {
         public let resourceSpecification: ReservationResourceSpecification?
         public let usagePrice: Double?
 
-        public init(arn: String? = nil, currencyCode: String? = nil, duration: Int32? = nil, durationUnits: OfferingDurationUnits? = nil, fixedPrice: Double? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, usagePrice: Double? = nil) {
+        public init(arn: String? = nil, currencyCode: String? = nil, duration: Int? = nil, durationUnits: OfferingDurationUnits? = nil, fixedPrice: Double? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, usagePrice: Double? = nil) {
             self.arn = arn
             self.currencyCode = currencyCode
             self.duration = duration
@@ -2276,6 +2241,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReservationId", location: .uri(locationName: "reservationId"), required: true, type: .string)
         ]
+
         public let reservationId: String
 
         public init(reservationId: String) {
@@ -2308,10 +2274,11 @@ extension MediaLive {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "UsagePrice", location: .body(locationName: "usagePrice"), required: false, type: .double)
         ]
+
         public let arn: String?
-        public let count: Int32?
+        public let count: Int?
         public let currencyCode: String?
-        public let duration: Int32?
+        public let duration: Int?
         public let durationUnits: OfferingDurationUnits?
         public let end: String?
         public let fixedPrice: Double?
@@ -2327,7 +2294,7 @@ extension MediaLive {
         public let tags: [String: String]?
         public let usagePrice: Double?
 
-        public init(arn: String? = nil, count: Int32? = nil, currencyCode: String? = nil, duration: Int32? = nil, durationUnits: OfferingDurationUnits? = nil, end: String? = nil, fixedPrice: Double? = nil, name: String? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, reservationId: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, start: String? = nil, state: ReservationState? = nil, tags: [String: String]? = nil, usagePrice: Double? = nil) {
+        public init(arn: String? = nil, count: Int? = nil, currencyCode: String? = nil, duration: Int? = nil, durationUnits: OfferingDurationUnits? = nil, end: String? = nil, fixedPrice: Double? = nil, name: String? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, reservationId: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, start: String? = nil, state: ReservationState? = nil, tags: [String: String]? = nil, usagePrice: Double? = nil) {
             self.arn = arn
             self.count = count
             self.currencyCode = currencyCode
@@ -2376,14 +2343,20 @@ extension MediaLive {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let channelId: String
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(channelId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(channelId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.channelId = channelId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2398,6 +2371,7 @@ extension MediaLive {
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "ScheduleActions", location: .body(locationName: "scheduleActions"), required: false, type: .list)
         ]
+
         public let nextToken: String?
         public let scheduleActions: [ScheduleAction]?
 
@@ -2418,17 +2392,27 @@ extension MediaLive {
             AWSShapeMember(label: "NetworkName", location: .body(locationName: "networkName"), required: true, type: .string), 
             AWSShapeMember(label: "RepInterval", location: .body(locationName: "repInterval"), required: false, type: .integer)
         ]
+
         /// The numeric value placed in the Network Information Table (NIT).
-        public let networkId: Int32
+        public let networkId: Int
         /// The network name text placed in the networkNameDescriptor inside the Network Information Table. Maximum length is 256 characters.
         public let networkName: String
         /// The number of milliseconds between instances of this table in the output transport stream.
-        public let repInterval: Int32?
+        public let repInterval: Int?
 
-        public init(networkId: Int32, networkName: String, repInterval: Int32? = nil) {
+        public init(networkId: Int, networkName: String, repInterval: Int? = nil) {
             self.networkId = networkId
             self.networkName = networkName
             self.repInterval = repInterval
+        }
+
+        public func validate(name: String) throws {
+            try validate(networkId, name:"networkId", parent: name, max: 65536)
+            try validate(networkId, name:"networkId", parent: name, min: 0)
+            try validate(networkName, name:"networkName", parent: name, max: 256)
+            try validate(networkName, name:"networkName", parent: name, min: 1)
+            try validate(repInterval, name:"repInterval", parent: name, max: 10000)
+            try validate(repInterval, name:"repInterval", parent: name, min: 25)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2453,20 +2437,30 @@ extension MediaLive {
             AWSShapeMember(label: "ServiceName", location: .body(locationName: "serviceName"), required: false, type: .string), 
             AWSShapeMember(label: "ServiceProviderName", location: .body(locationName: "serviceProviderName"), required: false, type: .string)
         ]
+
         /// Selects method of inserting SDT information into output stream. The sdtFollow setting copies SDT information from input stream to output stream. The sdtFollowIfPresent setting copies SDT information from input stream to output stream if SDT information is present in the input, otherwise it will fall back on the user-defined values. The sdtManual setting means user will enter the SDT information. The sdtNone setting means output stream will not contain SDT information.
         public let outputSdt: DvbSdtOutputSdt?
         /// The number of milliseconds between instances of this table in the output transport stream.
-        public let repInterval: Int32?
+        public let repInterval: Int?
         /// The service name placed in the serviceDescriptor in the Service Description Table. Maximum length is 256 characters.
         public let serviceName: String?
         /// The service provider name placed in the serviceDescriptor in the Service Description Table. Maximum length is 256 characters.
         public let serviceProviderName: String?
 
-        public init(outputSdt: DvbSdtOutputSdt? = nil, repInterval: Int32? = nil, serviceName: String? = nil, serviceProviderName: String? = nil) {
+        public init(outputSdt: DvbSdtOutputSdt? = nil, repInterval: Int? = nil, serviceName: String? = nil, serviceProviderName: String? = nil) {
             self.outputSdt = outputSdt
             self.repInterval = repInterval
             self.serviceName = serviceName
             self.serviceProviderName = serviceProviderName
+        }
+
+        public func validate(name: String) throws {
+            try validate(repInterval, name:"repInterval", parent: name, max: 2000)
+            try validate(repInterval, name:"repInterval", parent: name, min: 25)
+            try validate(serviceName, name:"serviceName", parent: name, max: 256)
+            try validate(serviceName, name:"serviceName", parent: name, min: 1)
+            try validate(serviceProviderName, name:"serviceProviderName", parent: name, max: 256)
+            try validate(serviceProviderName, name:"serviceProviderName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2531,42 +2525,43 @@ extension MediaLive {
             AWSShapeMember(label: "XPosition", location: .body(locationName: "xPosition"), required: false, type: .integer), 
             AWSShapeMember(label: "YPosition", location: .body(locationName: "yPosition"), required: false, type: .integer)
         ]
+
         /// If no explicit xPosition or yPosition is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. Selecting "smart" justification will left-justify live subtitles and center-justify pre-recorded subtitles.  This option is not valid for source captions that are STL or 608/embedded.  These source settings are already pre-defined by the caption stream.  All burn-in and DVB-Sub font settings must match.
         public let alignment: DvbSubDestinationAlignment?
         /// Specifies the color of the rectangle behind the captions.  All burn-in and DVB-Sub font settings must match.
         public let backgroundColor: DvbSubDestinationBackgroundColor?
         /// Specifies the opacity of the background rectangle. 255 is opaque; 0 is transparent. Leaving this parameter blank is equivalent to setting it to 0 (transparent).  All burn-in and DVB-Sub font settings must match.
-        public let backgroundOpacity: Int32?
+        public let backgroundOpacity: Int?
         /// External font file used for caption burn-in. File extension must be 'ttf' or 'tte'.  Although the user can select output fonts for many different types of input captions, embedded, STL and teletext sources use a strict grid system. Using external fonts with these caption sources could cause unexpected display of proportional fonts.  All burn-in and DVB-Sub font settings must match.
         public let font: InputLocation?
         /// Specifies the color of the burned-in captions.  This option is not valid for source captions that are STL, 608/embedded or teletext.  These source settings are already pre-defined by the caption stream.  All burn-in and DVB-Sub font settings must match.
         public let fontColor: DvbSubDestinationFontColor?
         /// Specifies the opacity of the burned-in captions. 255 is opaque; 0 is transparent.  All burn-in and DVB-Sub font settings must match.
-        public let fontOpacity: Int32?
+        public let fontOpacity: Int?
         /// Font resolution in DPI (dots per inch); default is 96 dpi.  All burn-in and DVB-Sub font settings must match.
-        public let fontResolution: Int32?
+        public let fontResolution: Int?
         /// When set to auto fontSize will scale depending on the size of the output.  Giving a positive integer will specify the exact font size in points.  All burn-in and DVB-Sub font settings must match.
         public let fontSize: String?
         /// Specifies font outline color. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let outlineColor: DvbSubDestinationOutlineColor?
         /// Specifies font outline size in pixels. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
-        public let outlineSize: Int32?
+        public let outlineSize: Int?
         /// Specifies the color of the shadow cast by the captions.  All burn-in and DVB-Sub font settings must match.
         public let shadowColor: DvbSubDestinationShadowColor?
         /// Specifies the opacity of the shadow. 255 is opaque; 0 is transparent. Leaving this parameter blank is equivalent to setting it to 0 (transparent).  All burn-in and DVB-Sub font settings must match.
-        public let shadowOpacity: Int32?
+        public let shadowOpacity: Int?
         /// Specifies the horizontal offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels to the left.  All burn-in and DVB-Sub font settings must match.
-        public let shadowXOffset: Int32?
+        public let shadowXOffset: Int?
         /// Specifies the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text.  All burn-in and DVB-Sub font settings must match.
-        public let shadowYOffset: Int32?
+        public let shadowYOffset: Int?
         /// Controls whether a fixed grid size will be used to generate the output subtitles bitmap. Only applicable for Teletext inputs and DVB-Sub/Burn-in outputs.
         public let teletextGridControl: DvbSubDestinationTeletextGridControl?
         /// Specifies the horizontal position of the caption relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit xPosition is provided, the horizontal caption position will be determined by the alignment parameter.  This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream.  All burn-in and DVB-Sub font settings must match.
-        public let xPosition: Int32?
+        public let xPosition: Int?
         /// Specifies the vertical position of the caption relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit yPosition is provided, the caption will be positioned towards the bottom of the output.  This option is not valid for source captions that are STL, 608/embedded or teletext.  These source settings are already pre-defined by the caption stream.  All burn-in and DVB-Sub font settings must match.
-        public let yPosition: Int32?
+        public let yPosition: Int?
 
-        public init(alignment: DvbSubDestinationAlignment? = nil, backgroundColor: DvbSubDestinationBackgroundColor? = nil, backgroundOpacity: Int32? = nil, font: InputLocation? = nil, fontColor: DvbSubDestinationFontColor? = nil, fontOpacity: Int32? = nil, fontResolution: Int32? = nil, fontSize: String? = nil, outlineColor: DvbSubDestinationOutlineColor? = nil, outlineSize: Int32? = nil, shadowColor: DvbSubDestinationShadowColor? = nil, shadowOpacity: Int32? = nil, shadowXOffset: Int32? = nil, shadowYOffset: Int32? = nil, teletextGridControl: DvbSubDestinationTeletextGridControl? = nil, xPosition: Int32? = nil, yPosition: Int32? = nil) {
+        public init(alignment: DvbSubDestinationAlignment? = nil, backgroundColor: DvbSubDestinationBackgroundColor? = nil, backgroundOpacity: Int? = nil, font: InputLocation? = nil, fontColor: DvbSubDestinationFontColor? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontSize: String? = nil, outlineColor: DvbSubDestinationOutlineColor? = nil, outlineSize: Int? = nil, shadowColor: DvbSubDestinationShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, teletextGridControl: DvbSubDestinationTeletextGridControl? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
             self.alignment = alignment
             self.backgroundColor = backgroundColor
             self.backgroundOpacity = backgroundOpacity
@@ -2584,6 +2579,21 @@ extension MediaLive {
             self.teletextGridControl = teletextGridControl
             self.xPosition = xPosition
             self.yPosition = yPosition
+        }
+
+        public func validate(name: String) throws {
+            try validate(backgroundOpacity, name:"backgroundOpacity", parent: name, max: 255)
+            try validate(backgroundOpacity, name:"backgroundOpacity", parent: name, min: 0)
+            try validate(fontOpacity, name:"fontOpacity", parent: name, max: 255)
+            try validate(fontOpacity, name:"fontOpacity", parent: name, min: 0)
+            try validate(fontResolution, name:"fontResolution", parent: name, max: 600)
+            try validate(fontResolution, name:"fontResolution", parent: name, min: 96)
+            try validate(outlineSize, name:"outlineSize", parent: name, max: 10)
+            try validate(outlineSize, name:"outlineSize", parent: name, min: 0)
+            try validate(shadowOpacity, name:"shadowOpacity", parent: name, max: 255)
+            try validate(shadowOpacity, name:"shadowOpacity", parent: name, min: 0)
+            try validate(xPosition, name:"xPosition", parent: name, min: 0)
+            try validate(yPosition, name:"yPosition", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2624,11 +2634,16 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Pid", location: .body(locationName: "pid"), required: false, type: .integer)
         ]
-        /// When using DVB-Sub with Burn-In or SMPTE-TT, use this PID for the source content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless of selectors.
-        public let pid: Int32?
 
-        public init(pid: Int32? = nil) {
+        /// When using DVB-Sub with Burn-In or SMPTE-TT, use this PID for the source content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless of selectors.
+        public let pid: Int?
+
+        public init(pid: Int? = nil) {
             self.pid = pid
+        }
+
+        public func validate(name: String) throws {
+            try validate(pid, name:"pid", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2640,11 +2655,17 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RepInterval", location: .body(locationName: "repInterval"), required: false, type: .integer)
         ]
-        /// The number of milliseconds between instances of this table in the output transport stream.
-        public let repInterval: Int32?
 
-        public init(repInterval: Int32? = nil) {
+        /// The number of milliseconds between instances of this table in the output transport stream.
+        public let repInterval: Int?
+
+        public init(repInterval: Int? = nil) {
             self.repInterval = repInterval
+        }
+
+        public func validate(name: String) throws {
+            try validate(repInterval, name:"repInterval", parent: name, max: 30000)
+            try validate(repInterval, name:"repInterval", parent: name, min: 1000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2753,6 +2774,7 @@ extension MediaLive {
             AWSShapeMember(label: "SurroundExMode", location: .body(locationName: "surroundExMode"), required: false, type: .enum), 
             AWSShapeMember(label: "SurroundMode", location: .body(locationName: "surroundMode"), required: false, type: .enum)
         ]
+
         /// When set to attenuate3Db, applies a 3 dB attenuation to the surround channels. Only used for 3/2 coding mode.
         public let attenuationControl: Eac3AttenuationControl?
         /// Average bitrate in bits/second. Valid bitrates depend on the coding mode.
@@ -2764,7 +2786,7 @@ extension MediaLive {
         /// When set to enabled, activates a DC highpass filter for all input channels.
         public let dcFilter: Eac3DcFilter?
         /// Sets the dialnorm for the output. If blank and input audio is Dolby Digital Plus, dialnorm will be passed through.
-        public let dialnorm: Int32?
+        public let dialnorm: Int?
         /// Sets the Dolby dynamic range compression profile.
         public let drcLine: Eac3DrcLine?
         /// Sets the profile for heavy Dolby dynamic range compression, ensures that the instantaneous signal peaks do not exceed specified levels.
@@ -2794,7 +2816,7 @@ extension MediaLive {
         /// When encoding 2/0 audio, sets whether Dolby Surround is matrix encoded into the two channels.
         public let surroundMode: Eac3SurroundMode?
 
-        public init(attenuationControl: Eac3AttenuationControl? = nil, bitrate: Double? = nil, bitstreamMode: Eac3BitstreamMode? = nil, codingMode: Eac3CodingMode? = nil, dcFilter: Eac3DcFilter? = nil, dialnorm: Int32? = nil, drcLine: Eac3DrcLine? = nil, drcRf: Eac3DrcRf? = nil, lfeControl: Eac3LfeControl? = nil, lfeFilter: Eac3LfeFilter? = nil, loRoCenterMixLevel: Double? = nil, loRoSurroundMixLevel: Double? = nil, ltRtCenterMixLevel: Double? = nil, ltRtSurroundMixLevel: Double? = nil, metadataControl: Eac3MetadataControl? = nil, passthroughControl: Eac3PassthroughControl? = nil, phaseControl: Eac3PhaseControl? = nil, stereoDownmix: Eac3StereoDownmix? = nil, surroundExMode: Eac3SurroundExMode? = nil, surroundMode: Eac3SurroundMode? = nil) {
+        public init(attenuationControl: Eac3AttenuationControl? = nil, bitrate: Double? = nil, bitstreamMode: Eac3BitstreamMode? = nil, codingMode: Eac3CodingMode? = nil, dcFilter: Eac3DcFilter? = nil, dialnorm: Int? = nil, drcLine: Eac3DrcLine? = nil, drcRf: Eac3DrcRf? = nil, lfeControl: Eac3LfeControl? = nil, lfeFilter: Eac3LfeFilter? = nil, loRoCenterMixLevel: Double? = nil, loRoSurroundMixLevel: Double? = nil, ltRtCenterMixLevel: Double? = nil, ltRtSurroundMixLevel: Double? = nil, metadataControl: Eac3MetadataControl? = nil, passthroughControl: Eac3PassthroughControl? = nil, phaseControl: Eac3PhaseControl? = nil, stereoDownmix: Eac3StereoDownmix? = nil, surroundExMode: Eac3SurroundExMode? = nil, surroundMode: Eac3SurroundMode? = nil) {
             self.attenuationControl = attenuationControl
             self.bitrate = bitrate
             self.bitstreamMode = bitstreamMode
@@ -2815,6 +2837,11 @@ extension MediaLive {
             self.stereoDownmix = stereoDownmix
             self.surroundExMode = surroundExMode
             self.surroundMode = surroundMode
+        }
+
+        public func validate(name: String) throws {
+            try validate(dialnorm, name:"dialnorm", parent: name, max: 31)
+            try validate(dialnorm, name:"dialnorm", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2871,12 +2898,14 @@ extension MediaLive {
 
     public struct EmbeddedDestinationSettings: AWSShape {
 
+
         public init() {
         }
 
     }
 
     public struct EmbeddedPlusScte20DestinationSettings: AWSShape {
+
 
         public init() {
         }
@@ -2896,20 +2925,28 @@ extension MediaLive {
             AWSShapeMember(label: "Source608ChannelNumber", location: .body(locationName: "source608ChannelNumber"), required: false, type: .integer), 
             AWSShapeMember(label: "Source608TrackNumber", location: .body(locationName: "source608TrackNumber"), required: false, type: .integer)
         ]
+
         /// If upconvert, 608 data is both passed through via the "608 compatibility bytes" fields of the 708 wrapper as well as translated into 708. 708 data present in the source content will be discarded.
         public let convert608To708: EmbeddedConvert608To708?
         /// Set to "auto" to handle streams with intermittent and/or non-aligned SCTE-20 and Embedded captions.
         public let scte20Detection: EmbeddedScte20Detection?
         /// Specifies the 608/708 channel number within the video track from which to extract captions. Unused for passthrough.
-        public let source608ChannelNumber: Int32?
+        public let source608ChannelNumber: Int?
         /// This field is unused and deprecated.
-        public let source608TrackNumber: Int32?
+        public let source608TrackNumber: Int?
 
-        public init(convert608To708: EmbeddedConvert608To708? = nil, scte20Detection: EmbeddedScte20Detection? = nil, source608ChannelNumber: Int32? = nil, source608TrackNumber: Int32? = nil) {
+        public init(convert608To708: EmbeddedConvert608To708? = nil, scte20Detection: EmbeddedScte20Detection? = nil, source608ChannelNumber: Int? = nil, source608TrackNumber: Int? = nil) {
             self.convert608To708 = convert608To708
             self.scte20Detection = scte20Detection
             self.source608ChannelNumber = source608ChannelNumber
             self.source608TrackNumber = source608TrackNumber
+        }
+
+        public func validate(name: String) throws {
+            try validate(source608ChannelNumber, name:"source608ChannelNumber", parent: name, max: 4)
+            try validate(source608ChannelNumber, name:"source608ChannelNumber", parent: name, min: 1)
+            try validate(source608TrackNumber, name:"source608TrackNumber", parent: name, max: 5)
+            try validate(source608TrackNumber, name:"source608TrackNumber", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2918,13 +2955,6 @@ extension MediaLive {
             case source608ChannelNumber = "source608ChannelNumber"
             case source608TrackNumber = "source608TrackNumber"
         }
-    }
-
-    public struct Empty: AWSShape {
-
-        public init() {
-        }
-
     }
 
     public struct EncoderSettings: AWSShape {
@@ -2939,6 +2969,7 @@ extension MediaLive {
             AWSShapeMember(label: "TimecodeConfig", location: .body(locationName: "timecodeConfig"), required: true, type: .structure), 
             AWSShapeMember(label: "VideoDescriptions", location: .body(locationName: "videoDescriptions"), required: true, type: .list)
         ]
+
         public let audioDescriptions: [AudioDescription]
         /// Settings for ad avail blanking.
         public let availBlanking: AvailBlanking?
@@ -2967,6 +2998,25 @@ extension MediaLive {
             self.videoDescriptions = videoDescriptions
         }
 
+        public func validate(name: String) throws {
+            try audioDescriptions.forEach {
+                try $0.validate(name: "\(name).audioDescriptions[]")
+            }
+            try availConfiguration?.validate(name: "\(name).availConfiguration")
+            try blackoutSlate?.validate(name: "\(name).blackoutSlate")
+            try captionDescriptions?.forEach {
+                try $0.validate(name: "\(name).captionDescriptions[]")
+            }
+            try globalConfiguration?.validate(name: "\(name).globalConfiguration")
+            try outputGroups.forEach {
+                try $0.validate(name: "\(name).outputGroups[]")
+            }
+            try timecodeConfig.validate(name: "\(name).timecodeConfig")
+            try videoDescriptions.forEach {
+                try $0.validate(name: "\(name).videoDescriptions[]")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case audioDescriptions = "audioDescriptions"
             case availBlanking = "availBlanking"
@@ -2992,17 +3042,25 @@ extension MediaLive {
             AWSShapeMember(label: "IncludeFec", location: .body(locationName: "includeFec"), required: false, type: .enum), 
             AWSShapeMember(label: "RowLength", location: .body(locationName: "rowLength"), required: false, type: .integer)
         ]
+
         /// Parameter D from SMPTE 2022-1. The height of the FEC protection matrix.  The number of transport stream packets per column error correction packet. Must be between 4 and 20, inclusive.
-        public let columnDepth: Int32?
+        public let columnDepth: Int?
         /// Enables column only or column and row based FEC
         public let includeFec: FecOutputIncludeFec?
         /// Parameter L from SMPTE 2022-1. The width of the FEC protection matrix.  Must be between 1 and 20, inclusive. If only Column FEC is used, then larger values increase robustness.  If Row FEC is used, then this is the number of transport stream packets per row error correction packet, and the value must be between 4 and 20, inclusive, if includeFec is columnAndRow. If includeFec is column, this value must be 1 to 20, inclusive.
-        public let rowLength: Int32?
+        public let rowLength: Int?
 
-        public init(columnDepth: Int32? = nil, includeFec: FecOutputIncludeFec? = nil, rowLength: Int32? = nil) {
+        public init(columnDepth: Int? = nil, includeFec: FecOutputIncludeFec? = nil, rowLength: Int? = nil) {
             self.columnDepth = columnDepth
             self.includeFec = includeFec
             self.rowLength = rowLength
+        }
+
+        public func validate(name: String) throws {
+            try validate(columnDepth, name:"columnDepth", parent: name, max: 20)
+            try validate(columnDepth, name:"columnDepth", parent: name, min: 4)
+            try validate(rowLength, name:"rowLength", parent: name, max: 20)
+            try validate(rowLength, name:"rowLength", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3031,6 +3089,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Time", location: .body(locationName: "time"), required: true, type: .string)
         ]
+
         /// Start time for the action to start in the channel. (Not the time for the action to be added to the schedule: actions are always added to the schedule immediately.) UTC format: yyyy-mm-ddThh:mm:ss.nnnZ. All the letters are digits (for example, mm might be 01) except for the two constants "T" for time and "Z" for "UTC format".
         public let time: String
 
@@ -3048,6 +3107,7 @@ extension MediaLive {
             AWSShapeMember(label: "FollowPoint", location: .body(locationName: "followPoint"), required: true, type: .enum), 
             AWSShapeMember(label: "ReferenceActionName", location: .body(locationName: "referenceActionName"), required: true, type: .string)
         ]
+
         /// Identifies whether this action starts relative to the start or relative to the end of the reference action.
         public let followPoint: FollowPoint
         /// The action name of another action that this one refers to.
@@ -3074,6 +3134,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: true, type: .structure)
         ]
+
         /// The destination for the frame capture files. Either the URI for an Amazon S3 bucket and object, plus a file name prefix (for example, s3ssl://sportsDelivery/highlights/20180820/curling_) or the URI for a MediaStore container, plus a file name prefix (for example, mediastoressl://sportsDelivery/20180820/curling_). The final file names consist of the prefix from the destination field (for example, "curling_") + name modifier + the counter (5 digits, starting from 00001) + extension (which is always .jpg).  For example, curlingLow.00001.jpg
         public let destination: OutputLocationRef
 
@@ -3090,6 +3151,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NameModifier", location: .body(locationName: "nameModifier"), required: false, type: .string)
         ]
+
         /// Required if the output group contains more than one output. This modifier forms part of the output file name.
         public let nameModifier: String?
 
@@ -3106,11 +3168,17 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CaptureInterval", location: .body(locationName: "captureInterval"), required: true, type: .integer)
         ]
-        /// The frequency, in seconds, for capturing frames for inclusion in the output.  For example, "10" means capture a frame every 10 seconds.
-        public let captureInterval: Int32
 
-        public init(captureInterval: Int32) {
+        /// The frequency, in seconds, for capturing frames for inclusion in the output.  For example, "10" means capture a frame every 10 seconds.
+        public let captureInterval: Int
+
+        public init(captureInterval: Int) {
             self.captureInterval = captureInterval
+        }
+
+        public func validate(name: String) throws {
+            try validate(captureInterval, name:"captureInterval", parent: name, max: 3600)
+            try validate(captureInterval, name:"captureInterval", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3127,8 +3195,9 @@ extension MediaLive {
             AWSShapeMember(label: "OutputTimingSource", location: .body(locationName: "outputTimingSource"), required: false, type: .enum), 
             AWSShapeMember(label: "SupportLowFramerateInputs", location: .body(locationName: "supportLowFramerateInputs"), required: false, type: .enum)
         ]
+
         /// Value to set the initial audio gain for the Live Event.
-        public let initialAudioGain: Int32?
+        public let initialAudioGain: Int?
         /// Indicates the action to take when the current input completes (e.g. end-of-file). When switchAndLoopInputs is configured the encoder will restart at the beginning of the first input.  When "none" is configured the encoder will transcode either black, a solid color, or a user specified slate images per the "Input Loss Behavior" configuration until the next input switch occurs (which is controlled through the Channel Schedule API).
         public let inputEndAction: GlobalConfigurationInputEndAction?
         /// Settings for system actions when input is lost.
@@ -3142,13 +3211,19 @@ extension MediaLive {
         /// Adjusts video input buffer for streams with very low video framerates. This is commonly set to enabled for music channels with less than one video frame per second.
         public let supportLowFramerateInputs: GlobalConfigurationLowFramerateInputs?
 
-        public init(initialAudioGain: Int32? = nil, inputEndAction: GlobalConfigurationInputEndAction? = nil, inputLossBehavior: InputLossBehavior? = nil, outputLockingMode: GlobalConfigurationOutputLockingMode? = nil, outputTimingSource: GlobalConfigurationOutputTimingSource? = nil, supportLowFramerateInputs: GlobalConfigurationLowFramerateInputs? = nil) {
+        public init(initialAudioGain: Int? = nil, inputEndAction: GlobalConfigurationInputEndAction? = nil, inputLossBehavior: InputLossBehavior? = nil, outputLockingMode: GlobalConfigurationOutputLockingMode? = nil, outputTimingSource: GlobalConfigurationOutputTimingSource? = nil, supportLowFramerateInputs: GlobalConfigurationLowFramerateInputs? = nil) {
             self.initialAudioGain = initialAudioGain
             self.inputEndAction = inputEndAction
             self.inputLossBehavior = inputLossBehavior
             self.outputLockingMode = outputLockingMode
             self.outputTimingSource = outputTimingSource
             self.supportLowFramerateInputs = supportLowFramerateInputs
+        }
+
+        public func validate(name: String) throws {
+            try validate(initialAudioGain, name:"initialAudioGain", parent: name, max: 60)
+            try validate(initialAudioGain, name:"initialAudioGain", parent: name, min: -60)
+            try inputLossBehavior?.validate(name: "\(name).inputLossBehavior")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3334,16 +3409,17 @@ extension MediaLive {
             AWSShapeMember(label: "TemporalAq", location: .body(locationName: "temporalAq"), required: false, type: .enum), 
             AWSShapeMember(label: "TimecodeInsertion", location: .body(locationName: "timecodeInsertion"), required: false, type: .enum)
         ]
+
         /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
         public let adaptiveQuantization: H264AdaptiveQuantization?
         /// Indicates that AFD values will be written into the output stream.  If afdSignaling is "auto", the system will try to preserve the input AFD value (in cases where multiple AFD values are valid). If set to "fixed", the AFD value will be the value configured in the fixedAfd parameter.
         public let afdSignaling: AfdSignaling?
         /// Average bitrate in bits/second. Required when the rate control mode is VBR or CBR. Not used for QVBR. In an MS Smooth output group, each output must have a unique value when its bitrate is rounded down to the nearest multiple of 1000.
-        public let bitrate: Int32?
+        public let bitrate: Int?
         /// Percentage of the buffer that should initially be filled (HRD buffer model).
-        public let bufFillPct: Int32?
+        public let bufFillPct: Int?
         /// Size of buffer (HRD buffer model) in bits/second.
-        public let bufSize: Int32?
+        public let bufSize: Int?
         /// Includes colorspace metadata in the output.
         public let colorMetadata: H264ColorMetadata?
         /// Entropy encoding mode.  Use cabac (must be in Main or High profile) or cavlc.
@@ -3355,15 +3431,15 @@ extension MediaLive {
         /// This field indicates how the output video frame rate is specified.  If "specified" is selected then the output video frame rate is determined by framerateNumerator and framerateDenominator, else if "initializeFromSource" is selected then the output video frame rate will be set equal to the input video frame rate of the first input.
         public let framerateControl: H264FramerateControl?
         /// Framerate denominator.
-        public let framerateDenominator: Int32?
+        public let framerateDenominator: Int?
         /// Framerate numerator - framerate is a fraction, e.g. 24000 / 1001 = 23.976 fps.
-        public let framerateNumerator: Int32?
+        public let framerateNumerator: Int?
         /// If enabled, use reference B frames for GOP structures that have B frames > 1.
         public let gopBReference: H264GopBReference?
         /// Frequency of closed GOPs. In streaming applications, it is recommended that this be set to 1 so a decoder joining mid-stream will receive an IDR frame as quickly as possible. Setting this value to 0 will break output segmenting.
-        public let gopClosedCadence: Int32?
+        public let gopClosedCadence: Int?
         /// Number of B-frames between reference frames.
-        public let gopNumBFrames: Int32?
+        public let gopNumBFrames: Int?
         /// GOP size (keyframe interval) in units of either frames or seconds per gopSizeUnits. Must be greater than zero.
         public let gopSize: Double?
         /// Indicates if the gopSize is specified in frames or seconds. If seconds the system will convert the gopSize into a frame count at run time.
@@ -3374,24 +3450,24 @@ extension MediaLive {
         public let lookAheadRateControl: H264LookAheadRateControl?
         /// For QVBR: See the tooltip for Quality level 
         /// For VBR: Set the maximum bitrate in order to accommodate expected spikes in the complexity of the video.
-        public let maxBitrate: Int32?
+        public let maxBitrate: Int?
         /// Only meaningful if sceneChangeDetect is set to enabled.  Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
-        public let minIInterval: Int32?
+        public let minIInterval: Int?
         /// Number of reference frames to use. The encoder may use more than requested if using B-frames and/or interlaced encoding.
-        public let numRefFrames: Int32?
+        public let numRefFrames: Int?
         /// This field indicates how the output pixel aspect ratio is specified.  If "specified" is selected then the output video pixel aspect ratio is determined by parNumerator and parDenominator, else if "initializeFromSource" is selected then the output pixsel aspect ratio will be set equal to the input video pixel aspect ratio of the first input.
         public let parControl: H264ParControl?
         /// Pixel Aspect Ratio denominator.
-        public let parDenominator: Int32?
+        public let parDenominator: Int?
         /// Pixel Aspect Ratio numerator.
-        public let parNumerator: Int32?
+        public let parNumerator: Int?
         /// H.264 Profile.
         public let profile: H264Profile?
         /// Controls the target quality for the video encode. Applies only when the rate control mode is QVBR. Set values for the QVBR quality level field and Max bitrate field that suit your most important viewing devices. Recommended values are:
         /// - Primary screen: Quality level: 8 to 10. Max bitrate: 4M
         /// - PC or tablet: Quality level: 7. Max bitrate: 1.5M to 3M
         /// - Smartphone: Quality level: 6. Max bitrate: 1M to 1.5M
-        public let qvbrQualityLevel: Int32?
+        public let qvbrQualityLevel: Int?
         /// Rate control mode. 
         /// QVBR: Quality will match the specified quality level except when it is constrained by the
         /// maximum bitrate.  Recommended if you or your viewers pay for bandwidth.
@@ -3408,9 +3484,9 @@ extension MediaLive {
         public let sceneChangeDetect: H264SceneChangeDetect?
         /// Number of slices per picture. Must be less than or equal to the number of macroblock rows for progressive pictures, and less than or equal to half the number of macroblock rows for interlaced pictures.
         /// This field is optional; when no value is specified the encoder will choose the number of slices based on encode resolution.
-        public let slices: Int32?
+        public let slices: Int?
         /// Softness. Selects quantizer matrix, larger values reduce high-frequency content in the encoded image.
-        public let softness: Int32?
+        public let softness: Int?
         /// If set to enabled, adjust quantization within each frame based on spatial variation of content complexity.
         public let spatialAq: H264SpatialAq?
         /// If set to fixed, use gopNumBFrames B-frames per sub-GOP. If set to dynamic, optimize the number of B-frames used for each sub-GOP to improve visual quality.
@@ -3424,7 +3500,7 @@ extension MediaLive {
         /// - 'picTimingSei': Pass through picture timing SEI messages from the source specified in Timecode Config
         public let timecodeInsertion: H264TimecodeInsertionBehavior?
 
-        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, bitrate: Int32? = nil, bufFillPct: Int32? = nil, bufSize: Int32? = nil, colorMetadata: H264ColorMetadata? = nil, entropyEncoding: H264EntropyEncoding? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H264FlickerAq? = nil, framerateControl: H264FramerateControl? = nil, framerateDenominator: Int32? = nil, framerateNumerator: Int32? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int32? = nil, gopNumBFrames: Int32? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, level: H264Level? = nil, lookAheadRateControl: H264LookAheadRateControl? = nil, maxBitrate: Int32? = nil, minIInterval: Int32? = nil, numRefFrames: Int32? = nil, parControl: H264ParControl? = nil, parDenominator: Int32? = nil, parNumerator: Int32? = nil, profile: H264Profile? = nil, qvbrQualityLevel: Int32? = nil, rateControlMode: H264RateControlMode? = nil, scanType: H264ScanType? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int32? = nil, softness: Int32? = nil, spatialAq: H264SpatialAq? = nil, subgopLength: H264SubGopLength? = nil, syntax: H264Syntax? = nil, temporalAq: H264TemporalAq? = nil, timecodeInsertion: H264TimecodeInsertionBehavior? = nil) {
+        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, bitrate: Int? = nil, bufFillPct: Int? = nil, bufSize: Int? = nil, colorMetadata: H264ColorMetadata? = nil, entropyEncoding: H264EntropyEncoding? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H264FlickerAq? = nil, framerateControl: H264FramerateControl? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopNumBFrames: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, level: H264Level? = nil, lookAheadRateControl: H264LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numRefFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H264Profile? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H264RateControlMode? = nil, scanType: H264ScanType? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, softness: Int? = nil, spatialAq: H264SpatialAq? = nil, subgopLength: H264SubGopLength? = nil, syntax: H264Syntax? = nil, temporalAq: H264TemporalAq? = nil, timecodeInsertion: H264TimecodeInsertionBehavior? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.afdSignaling = afdSignaling
             self.bitrate = bitrate
@@ -3462,6 +3538,30 @@ extension MediaLive {
             self.syntax = syntax
             self.temporalAq = temporalAq
             self.timecodeInsertion = timecodeInsertion
+        }
+
+        public func validate(name: String) throws {
+            try validate(bitrate, name:"bitrate", parent: name, min: 1000)
+            try validate(bufFillPct, name:"bufFillPct", parent: name, max: 100)
+            try validate(bufFillPct, name:"bufFillPct", parent: name, min: 0)
+            try validate(bufSize, name:"bufSize", parent: name, min: 0)
+            try validate(framerateDenominator, name:"framerateDenominator", parent: name, min: 1)
+            try validate(framerateNumerator, name:"framerateNumerator", parent: name, min: 1)
+            try validate(gopClosedCadence, name:"gopClosedCadence", parent: name, min: 0)
+            try validate(gopNumBFrames, name:"gopNumBFrames", parent: name, max: 7)
+            try validate(gopNumBFrames, name:"gopNumBFrames", parent: name, min: 0)
+            try validate(maxBitrate, name:"maxBitrate", parent: name, min: 1000)
+            try validate(minIInterval, name:"minIInterval", parent: name, max: 30)
+            try validate(minIInterval, name:"minIInterval", parent: name, min: 0)
+            try validate(numRefFrames, name:"numRefFrames", parent: name, max: 6)
+            try validate(numRefFrames, name:"numRefFrames", parent: name, min: 1)
+            try validate(parDenominator, name:"parDenominator", parent: name, min: 1)
+            try validate(qvbrQualityLevel, name:"qvbrQualityLevel", parent: name, max: 10)
+            try validate(qvbrQualityLevel, name:"qvbrQualityLevel", parent: name, min: 1)
+            try validate(slices, name:"slices", parent: name, max: 32)
+            try validate(slices, name:"slices", parent: name, min: 1)
+            try validate(softness, name:"softness", parent: name, max: 128)
+            try validate(softness, name:"softness", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3558,22 +3658,23 @@ extension MediaLive {
             AWSShapeMember(label: "Salt", location: .body(locationName: "salt"), required: false, type: .string), 
             AWSShapeMember(label: "Token", location: .body(locationName: "token"), required: false, type: .string)
         ]
+
         /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
-        public let connectionRetryInterval: Int32?
+        public let connectionRetryInterval: Int?
         /// Size in seconds of file cache for streaming outputs.
-        public let filecacheDuration: Int32?
+        public let filecacheDuration: Int?
         /// Specify whether or not to use chunked transfer encoding to Akamai. User should contact Akamai to enable this feature.
         public let httpTransferMode: HlsAkamaiHttpTransferMode?
         /// Number of retry attempts that will be made before the Live Event is put into an error state.
-        public let numRetries: Int32?
+        public let numRetries: Int?
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
-        public let restartDelay: Int32?
+        public let restartDelay: Int?
         /// Salt for authenticated Akamai.
         public let salt: String?
         /// Token parameter for authenticated akamai. If not specified, _gda_ is used.
         public let token: String?
 
-        public init(connectionRetryInterval: Int32? = nil, filecacheDuration: Int32? = nil, httpTransferMode: HlsAkamaiHttpTransferMode? = nil, numRetries: Int32? = nil, restartDelay: Int32? = nil, salt: String? = nil, token: String? = nil) {
+        public init(connectionRetryInterval: Int? = nil, filecacheDuration: Int? = nil, httpTransferMode: HlsAkamaiHttpTransferMode? = nil, numRetries: Int? = nil, restartDelay: Int? = nil, salt: String? = nil, token: String? = nil) {
             self.connectionRetryInterval = connectionRetryInterval
             self.filecacheDuration = filecacheDuration
             self.httpTransferMode = httpTransferMode
@@ -3581,6 +3682,15 @@ extension MediaLive {
             self.restartDelay = restartDelay
             self.salt = salt
             self.token = token
+        }
+
+        public func validate(name: String) throws {
+            try validate(connectionRetryInterval, name:"connectionRetryInterval", parent: name, min: 0)
+            try validate(filecacheDuration, name:"filecacheDuration", parent: name, max: 600)
+            try validate(filecacheDuration, name:"filecacheDuration", parent: name, min: 0)
+            try validate(numRetries, name:"numRetries", parent: name, min: 0)
+            try validate(restartDelay, name:"restartDelay", parent: name, max: 15)
+            try validate(restartDelay, name:"restartDelay", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3601,20 +3711,30 @@ extension MediaLive {
             AWSShapeMember(label: "NumRetries", location: .body(locationName: "numRetries"), required: false, type: .integer), 
             AWSShapeMember(label: "RestartDelay", location: .body(locationName: "restartDelay"), required: false, type: .integer)
         ]
-        /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
-        public let connectionRetryInterval: Int32?
-        /// Size in seconds of file cache for streaming outputs.
-        public let filecacheDuration: Int32?
-        /// Number of retry attempts that will be made before the Live Event is put into an error state.
-        public let numRetries: Int32?
-        /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
-        public let restartDelay: Int32?
 
-        public init(connectionRetryInterval: Int32? = nil, filecacheDuration: Int32? = nil, numRetries: Int32? = nil, restartDelay: Int32? = nil) {
+        /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
+        public let connectionRetryInterval: Int?
+        /// Size in seconds of file cache for streaming outputs.
+        public let filecacheDuration: Int?
+        /// Number of retry attempts that will be made before the Live Event is put into an error state.
+        public let numRetries: Int?
+        /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
+        public let restartDelay: Int?
+
+        public init(connectionRetryInterval: Int? = nil, filecacheDuration: Int? = nil, numRetries: Int? = nil, restartDelay: Int? = nil) {
             self.connectionRetryInterval = connectionRetryInterval
             self.filecacheDuration = filecacheDuration
             self.numRetries = numRetries
             self.restartDelay = restartDelay
+        }
+
+        public func validate(name: String) throws {
+            try validate(connectionRetryInterval, name:"connectionRetryInterval", parent: name, min: 0)
+            try validate(filecacheDuration, name:"filecacheDuration", parent: name, max: 600)
+            try validate(filecacheDuration, name:"filecacheDuration", parent: name, min: 0)
+            try validate(numRetries, name:"numRetries", parent: name, min: 0)
+            try validate(restartDelay, name:"restartDelay", parent: name, max: 15)
+            try validate(restartDelay, name:"restartDelay", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3639,6 +3759,7 @@ extension MediaLive {
             AWSShapeMember(label: "HlsMediaStoreSettings", location: .body(locationName: "hlsMediaStoreSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "HlsWebdavSettings", location: .body(locationName: "hlsWebdavSettings"), required: false, type: .structure)
         ]
+
         public let hlsAkamaiSettings: HlsAkamaiSettings?
         public let hlsBasicPutSettings: HlsBasicPutSettings?
         public let hlsMediaStoreSettings: HlsMediaStoreSettings?
@@ -3649,6 +3770,13 @@ extension MediaLive {
             self.hlsBasicPutSettings = hlsBasicPutSettings
             self.hlsMediaStoreSettings = hlsMediaStoreSettings
             self.hlsWebdavSettings = hlsWebdavSettings
+        }
+
+        public func validate(name: String) throws {
+            try hlsAkamaiSettings?.validate(name: "\(name).hlsAkamaiSettings")
+            try hlsBasicPutSettings?.validate(name: "\(name).hlsBasicPutSettings")
+            try hlsMediaStoreSettings?.validate(name: "\(name).hlsMediaStoreSettings")
+            try hlsWebdavSettings?.validate(name: "\(name).hlsWebdavSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3723,6 +3851,7 @@ extension MediaLive {
             AWSShapeMember(label: "TimestampDeltaMilliseconds", location: .body(locationName: "timestampDeltaMilliseconds"), required: false, type: .integer), 
             AWSShapeMember(label: "TsFileMode", location: .body(locationName: "tsFileMode"), required: false, type: .enum)
         ]
+
         /// Choose one or more ad marker types to pass SCTE35 signals through to this group of Apple HLS outputs.
         public let adMarkers: [HlsAdMarkers]?
         /// A partial URI prefix that will be prepended to each output in the media .m3u8 file. Can be used if base manifest is delivered from a different URL than the main .m3u8 file.
@@ -3754,7 +3883,7 @@ extension MediaLive {
         /// STANDARD: Create an I-frame-only manifest for each output that contains video, as well as the other manifests (according to the Output Selection field). The I-frame manifest contains a #EXT-X-I-FRAMES-ONLY tag to indicate it is I-frame only, and one or more #EXT-X-BYTERANGE entries identifying the I-frame position. For example, #EXT-X-BYTERANGE:160364@1461888"
         public let iFrameOnlyPlaylists: IFrameOnlyPlaylistType?
         /// Applies only if Mode field is LIVE. Specifies the maximum number of segments in the media manifest file. After this maximum, older segments are removed from the media manifest. This number must be less than or equal to the Keep Segments field.
-        public let indexNSegments: Int32?
+        public let indexNSegments: Int?
         /// Parameter that control output group behavior on input loss.
         public let inputLossAction: InputLossActionForHlsOut?
         /// For use with encryptionType. The IV (Initialization Vector) is a 128-bit number used in conjunction with the key for encrypting blocks. If set to "include", IV is listed in the manifest, otherwise the IV is not in the manifest.
@@ -3762,7 +3891,7 @@ extension MediaLive {
         /// For use with encryptionType. The IV (Initialization Vector) is a 128-bit number used in conjunction with the key for encrypting blocks. If this setting is "followsSegmentNumber", it will cause the IV to change every segment (to match the segment number). If this is set to "explicit", you must enter a constantIv value.
         public let ivSource: HlsIvSource?
         /// Applies only if Mode field is LIVE. Specifies the number of media segments (.ts files) to retain in the destination directory.
-        public let keepSegments: Int32?
+        public let keepSegments: Int?
         /// The value specifies how the key is represented in the resource identified by the URI.  If parameter is absent, an implicit value of "identity" is used.  A reverse DNS string can also be given.
         public let keyFormat: String?
         /// Either a single positive integer version value or a slash delimited list of version values (1/2/3).
@@ -3774,7 +3903,7 @@ extension MediaLive {
         /// Indicates whether the output manifest should use floating point or integer values for segment duration.
         public let manifestDurationFormat: HlsManifestDurationFormat?
         /// When set, minimumSegmentLength is enforced by looking ahead and back within the specified range for a nearby avail and extending the segment size if needed.
-        public let minSegmentLength: Int32?
+        public let minSegmentLength: Int?
         /// If "vod", all segments are indexed and kept permanently in the destination and manifest. If "live", only the number segments specified in keepSegments and indexNSegments are kept; newer segments replace older segments, which may prevent players from rewinding all the way to the beginning of the event.
         /// VOD mode uses HLS EXT-X-PLAYLIST-TYPE of EVENT while the channel is running, converting it to a "VOD" type manifest on completion of the stream.
         public let mode: HlsMode?
@@ -3784,7 +3913,7 @@ extension MediaLive {
         /// Includes or excludes EXT-X-PROGRAM-DATE-TIME tag in .m3u8 manifest files. The value is calculated as follows: either the program date and time are initialized using the input timecode source, or the time is initialized using the input timecode source and the date is initialized using the timestampOffset.
         public let programDateTime: HlsProgramDateTime?
         /// Period of insertion of EXT-X-PROGRAM-DATE-TIME entry, in seconds.
-        public let programDateTimePeriod: Int32?
+        public let programDateTimePeriod: Int?
         /// ENABLED: The master manifest (.m3u8 file) for each pipeline includes information about both pipelines: first its own media files, then the media files of the other pipeline. This feature allows playout device that support stale manifest detection to switch from one manifest to the other, when the current manifest seems to be stale. There are still two destinations and two master manifests, but both master manifests reference the media files from both pipelines.
         /// DISABLED: The master manifest (.m3u8 file) for each pipeline includes information about its own pipeline only.
         /// For an HLS output group with MediaPackage as the destination, the DISABLED behavior is always followed. MediaPackage regenerates the manifests it serves to players so a redundant manifest from MediaLive is irrelevant.
@@ -3792,22 +3921,22 @@ extension MediaLive {
         /// useInputSegmentation has been deprecated. The configured segment size is always used.
         public let segmentationMode: HlsSegmentationMode?
         /// Length of MPEG-2 Transport Stream segments to create (in seconds). Note that segments will end on the next keyframe after this number of seconds, so actual segment length may be longer.
-        public let segmentLength: Int32?
+        public let segmentLength: Int?
         /// Number of segments to write to a subdirectory before starting a new one. directoryStructure must be subdirectoryPerStream for this setting to have an effect.
-        public let segmentsPerSubdirectory: Int32?
+        public let segmentsPerSubdirectory: Int?
         /// Include or exclude RESOLUTION attribute for video in EXT-X-STREAM-INF tag of variant manifest.
         public let streamInfResolution: HlsStreamInfResolution?
         /// Indicates ID3 frame that has the timecode.
         public let timedMetadataId3Frame: HlsTimedMetadataId3Frame?
         /// Timed Metadata interval in seconds.
-        public let timedMetadataId3Period: Int32?
+        public let timedMetadataId3Period: Int?
         /// Provides an extra millisecond delta offset to fine tune the timestamps.
-        public let timestampDeltaMilliseconds: Int32?
+        public let timestampDeltaMilliseconds: Int?
         /// SEGMENTEDFILES: Emit the program as segments - multiple .ts media files.
         /// SINGLEFILE: Applies only if Mode field is VOD. Emit the program as a single .ts media file. The media manifest includes #EXT-X-BYTERANGE tags to index segments for playback. A typical use for this value is when sending the output to AWS Elemental MediaConvert, which can accept only a single media file. Playback while the channel is running is not guaranteed due to HTTP server caching.
         public let tsFileMode: HlsTsFileMode?
 
-        public init(adMarkers: [HlsAdMarkers]? = nil, baseUrlContent: String? = nil, baseUrlManifest: String? = nil, captionLanguageMappings: [CaptionLanguageMapping]? = nil, captionLanguageSetting: HlsCaptionLanguageSetting? = nil, clientCache: HlsClientCache? = nil, codecSpecification: HlsCodecSpecification? = nil, constantIv: String? = nil, destination: OutputLocationRef, directoryStructure: HlsDirectoryStructure? = nil, encryptionType: HlsEncryptionType? = nil, hlsCdnSettings: HlsCdnSettings? = nil, iFrameOnlyPlaylists: IFrameOnlyPlaylistType? = nil, indexNSegments: Int32? = nil, inputLossAction: InputLossActionForHlsOut? = nil, ivInManifest: HlsIvInManifest? = nil, ivSource: HlsIvSource? = nil, keepSegments: Int32? = nil, keyFormat: String? = nil, keyFormatVersions: String? = nil, keyProviderSettings: KeyProviderSettings? = nil, manifestCompression: HlsManifestCompression? = nil, manifestDurationFormat: HlsManifestDurationFormat? = nil, minSegmentLength: Int32? = nil, mode: HlsMode? = nil, outputSelection: HlsOutputSelection? = nil, programDateTime: HlsProgramDateTime? = nil, programDateTimePeriod: Int32? = nil, redundantManifest: HlsRedundantManifest? = nil, segmentationMode: HlsSegmentationMode? = nil, segmentLength: Int32? = nil, segmentsPerSubdirectory: Int32? = nil, streamInfResolution: HlsStreamInfResolution? = nil, timedMetadataId3Frame: HlsTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int32? = nil, timestampDeltaMilliseconds: Int32? = nil, tsFileMode: HlsTsFileMode? = nil) {
+        public init(adMarkers: [HlsAdMarkers]? = nil, baseUrlContent: String? = nil, baseUrlManifest: String? = nil, captionLanguageMappings: [CaptionLanguageMapping]? = nil, captionLanguageSetting: HlsCaptionLanguageSetting? = nil, clientCache: HlsClientCache? = nil, codecSpecification: HlsCodecSpecification? = nil, constantIv: String? = nil, destination: OutputLocationRef, directoryStructure: HlsDirectoryStructure? = nil, encryptionType: HlsEncryptionType? = nil, hlsCdnSettings: HlsCdnSettings? = nil, iFrameOnlyPlaylists: IFrameOnlyPlaylistType? = nil, indexNSegments: Int? = nil, inputLossAction: InputLossActionForHlsOut? = nil, ivInManifest: HlsIvInManifest? = nil, ivSource: HlsIvSource? = nil, keepSegments: Int? = nil, keyFormat: String? = nil, keyFormatVersions: String? = nil, keyProviderSettings: KeyProviderSettings? = nil, manifestCompression: HlsManifestCompression? = nil, manifestDurationFormat: HlsManifestDurationFormat? = nil, minSegmentLength: Int? = nil, mode: HlsMode? = nil, outputSelection: HlsOutputSelection? = nil, programDateTime: HlsProgramDateTime? = nil, programDateTimePeriod: Int? = nil, redundantManifest: HlsRedundantManifest? = nil, segmentationMode: HlsSegmentationMode? = nil, segmentLength: Int? = nil, segmentsPerSubdirectory: Int? = nil, streamInfResolution: HlsStreamInfResolution? = nil, timedMetadataId3Frame: HlsTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timestampDeltaMilliseconds: Int? = nil, tsFileMode: HlsTsFileMode? = nil) {
             self.adMarkers = adMarkers
             self.baseUrlContent = baseUrlContent
             self.baseUrlManifest = baseUrlManifest
@@ -3845,6 +3974,25 @@ extension MediaLive {
             self.timedMetadataId3Period = timedMetadataId3Period
             self.timestampDeltaMilliseconds = timestampDeltaMilliseconds
             self.tsFileMode = tsFileMode
+        }
+
+        public func validate(name: String) throws {
+            try captionLanguageMappings?.forEach {
+                try $0.validate(name: "\(name).captionLanguageMappings[]")
+            }
+            try validate(constantIv, name:"constantIv", parent: name, max: 32)
+            try validate(constantIv, name:"constantIv", parent: name, min: 32)
+            try hlsCdnSettings?.validate(name: "\(name).hlsCdnSettings")
+            try validate(indexNSegments, name:"indexNSegments", parent: name, min: 3)
+            try validate(keepSegments, name:"keepSegments", parent: name, min: 1)
+            try keyProviderSettings?.validate(name: "\(name).keyProviderSettings")
+            try validate(minSegmentLength, name:"minSegmentLength", parent: name, min: 0)
+            try validate(programDateTimePeriod, name:"programDateTimePeriod", parent: name, max: 3600)
+            try validate(programDateTimePeriod, name:"programDateTimePeriod", parent: name, min: 0)
+            try validate(segmentLength, name:"segmentLength", parent: name, min: 1)
+            try validate(segmentsPerSubdirectory, name:"segmentsPerSubdirectory", parent: name, min: 1)
+            try validate(timedMetadataId3Period, name:"timedMetadataId3Period", parent: name, min: 0)
+            try validate(timestampDeltaMilliseconds, name:"timestampDeltaMilliseconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3895,20 +4043,28 @@ extension MediaLive {
             AWSShapeMember(label: "Retries", location: .body(locationName: "retries"), required: false, type: .integer), 
             AWSShapeMember(label: "RetryInterval", location: .body(locationName: "retryInterval"), required: false, type: .integer)
         ]
-        /// When specified the HLS stream with the m3u8 BANDWIDTH that most closely matches this value will be chosen, otherwise the highest bandwidth stream in the m3u8 will be chosen.  The bitrate is specified in bits per second, as in an HLS manifest.
-        public let bandwidth: Int32?
-        /// When specified, reading of the HLS input will begin this many buffer segments from the end (most recently written segment).  When not specified, the HLS input will begin with the first segment specified in the m3u8.
-        public let bufferSegments: Int32?
-        /// The number of consecutive times that attempts to read a manifest or segment must fail before the input is considered unavailable.
-        public let retries: Int32?
-        /// The number of seconds between retries when an attempt to read a manifest or segment fails.
-        public let retryInterval: Int32?
 
-        public init(bandwidth: Int32? = nil, bufferSegments: Int32? = nil, retries: Int32? = nil, retryInterval: Int32? = nil) {
+        /// When specified the HLS stream with the m3u8 BANDWIDTH that most closely matches this value will be chosen, otherwise the highest bandwidth stream in the m3u8 will be chosen.  The bitrate is specified in bits per second, as in an HLS manifest.
+        public let bandwidth: Int?
+        /// When specified, reading of the HLS input will begin this many buffer segments from the end (most recently written segment).  When not specified, the HLS input will begin with the first segment specified in the m3u8.
+        public let bufferSegments: Int?
+        /// The number of consecutive times that attempts to read a manifest or segment must fail before the input is considered unavailable.
+        public let retries: Int?
+        /// The number of seconds between retries when an attempt to read a manifest or segment fails.
+        public let retryInterval: Int?
+
+        public init(bandwidth: Int? = nil, bufferSegments: Int? = nil, retries: Int? = nil, retryInterval: Int? = nil) {
             self.bandwidth = bandwidth
             self.bufferSegments = bufferSegments
             self.retries = retries
             self.retryInterval = retryInterval
+        }
+
+        public func validate(name: String) throws {
+            try validate(bandwidth, name:"bandwidth", parent: name, min: 0)
+            try validate(bufferSegments, name:"bufferSegments", parent: name, min: 0)
+            try validate(retries, name:"retries", parent: name, min: 0)
+            try validate(retryInterval, name:"retryInterval", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3951,23 +4107,33 @@ extension MediaLive {
             AWSShapeMember(label: "NumRetries", location: .body(locationName: "numRetries"), required: false, type: .integer), 
             AWSShapeMember(label: "RestartDelay", location: .body(locationName: "restartDelay"), required: false, type: .integer)
         ]
+
         /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
-        public let connectionRetryInterval: Int32?
+        public let connectionRetryInterval: Int?
         /// Size in seconds of file cache for streaming outputs.
-        public let filecacheDuration: Int32?
+        public let filecacheDuration: Int?
         /// When set to temporal, output files are stored in non-persistent memory for faster reading and writing.
         public let mediaStoreStorageClass: HlsMediaStoreStorageClass?
         /// Number of retry attempts that will be made before the Live Event is put into an error state.
-        public let numRetries: Int32?
+        public let numRetries: Int?
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
-        public let restartDelay: Int32?
+        public let restartDelay: Int?
 
-        public init(connectionRetryInterval: Int32? = nil, filecacheDuration: Int32? = nil, mediaStoreStorageClass: HlsMediaStoreStorageClass? = nil, numRetries: Int32? = nil, restartDelay: Int32? = nil) {
+        public init(connectionRetryInterval: Int? = nil, filecacheDuration: Int? = nil, mediaStoreStorageClass: HlsMediaStoreStorageClass? = nil, numRetries: Int? = nil, restartDelay: Int? = nil) {
             self.connectionRetryInterval = connectionRetryInterval
             self.filecacheDuration = filecacheDuration
             self.mediaStoreStorageClass = mediaStoreStorageClass
             self.numRetries = numRetries
             self.restartDelay = restartDelay
+        }
+
+        public func validate(name: String) throws {
+            try validate(connectionRetryInterval, name:"connectionRetryInterval", parent: name, min: 0)
+            try validate(filecacheDuration, name:"filecacheDuration", parent: name, max: 600)
+            try validate(filecacheDuration, name:"filecacheDuration", parent: name, min: 0)
+            try validate(numRetries, name:"numRetries", parent: name, min: 0)
+            try validate(restartDelay, name:"restartDelay", parent: name, max: 15)
+            try validate(restartDelay, name:"restartDelay", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4002,6 +4168,7 @@ extension MediaLive {
             AWSShapeMember(label: "NameModifier", location: .body(locationName: "nameModifier"), required: false, type: .string), 
             AWSShapeMember(label: "SegmentModifier", location: .body(locationName: "segmentModifier"), required: false, type: .string)
         ]
+
         /// Settings regarding the underlying stream. These settings are different for audio-only outputs.
         public let hlsSettings: HlsSettings
         /// String concatenated to the end of the destination filename. Accepts \"Format Identifiers\":#formatIdentifierParameters.
@@ -4013,6 +4180,11 @@ extension MediaLive {
             self.hlsSettings = hlsSettings
             self.nameModifier = nameModifier
             self.segmentModifier = segmentModifier
+        }
+
+        public func validate(name: String) throws {
+            try hlsSettings.validate(name: "\(name).hlsSettings")
+            try validate(nameModifier, name:"nameModifier", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4045,12 +4217,17 @@ extension MediaLive {
             AWSShapeMember(label: "AudioOnlyHlsSettings", location: .body(locationName: "audioOnlyHlsSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "StandardHlsSettings", location: .body(locationName: "standardHlsSettings"), required: false, type: .structure)
         ]
+
         public let audioOnlyHlsSettings: AudioOnlyHlsSettings?
         public let standardHlsSettings: StandardHlsSettings?
 
         public init(audioOnlyHlsSettings: AudioOnlyHlsSettings? = nil, standardHlsSettings: StandardHlsSettings? = nil) {
             self.audioOnlyHlsSettings = audioOnlyHlsSettings
             self.standardHlsSettings = standardHlsSettings
+        }
+
+        public func validate(name: String) throws {
+            try standardHlsSettings?.validate(name: "\(name).standardHlsSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4076,6 +4253,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id3", location: .body(locationName: "id3"), required: true, type: .string)
         ]
+
         /// Base64 string formatted according to the ID3 specification: http://id3.org/id3v2.4.0-structure
         public let id3: String
 
@@ -4108,23 +4286,33 @@ extension MediaLive {
             AWSShapeMember(label: "NumRetries", location: .body(locationName: "numRetries"), required: false, type: .integer), 
             AWSShapeMember(label: "RestartDelay", location: .body(locationName: "restartDelay"), required: false, type: .integer)
         ]
+
         /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
-        public let connectionRetryInterval: Int32?
+        public let connectionRetryInterval: Int?
         /// Size in seconds of file cache for streaming outputs.
-        public let filecacheDuration: Int32?
+        public let filecacheDuration: Int?
         /// Specify whether or not to use chunked transfer encoding to WebDAV.
         public let httpTransferMode: HlsWebdavHttpTransferMode?
         /// Number of retry attempts that will be made before the Live Event is put into an error state.
-        public let numRetries: Int32?
+        public let numRetries: Int?
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
-        public let restartDelay: Int32?
+        public let restartDelay: Int?
 
-        public init(connectionRetryInterval: Int32? = nil, filecacheDuration: Int32? = nil, httpTransferMode: HlsWebdavHttpTransferMode? = nil, numRetries: Int32? = nil, restartDelay: Int32? = nil) {
+        public init(connectionRetryInterval: Int? = nil, filecacheDuration: Int? = nil, httpTransferMode: HlsWebdavHttpTransferMode? = nil, numRetries: Int? = nil, restartDelay: Int? = nil) {
             self.connectionRetryInterval = connectionRetryInterval
             self.filecacheDuration = filecacheDuration
             self.httpTransferMode = httpTransferMode
             self.numRetries = numRetries
             self.restartDelay = restartDelay
+        }
+
+        public func validate(name: String) throws {
+            try validate(connectionRetryInterval, name:"connectionRetryInterval", parent: name, min: 0)
+            try validate(filecacheDuration, name:"filecacheDuration", parent: name, max: 600)
+            try validate(filecacheDuration, name:"filecacheDuration", parent: name, min: 0)
+            try validate(numRetries, name:"numRetries", parent: name, min: 0)
+            try validate(restartDelay, name:"restartDelay", parent: name, max: 15)
+            try validate(restartDelay, name:"restartDelay", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4158,6 +4346,7 @@ extension MediaLive {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .enum)
         ]
+
         /// The Unique ARN of the input (generated, immutable).
         public let arn: String?
         /// A list of channel IDs that that input is attached to (currently an input can only be attached to one channel).
@@ -4223,6 +4412,7 @@ extension MediaLive {
             AWSShapeMember(label: "InputId", location: .body(locationName: "inputId"), required: false, type: .string), 
             AWSShapeMember(label: "InputSettings", location: .body(locationName: "inputSettings"), required: false, type: .structure)
         ]
+
         /// User-specified name for the attachment. This is required if the user wants to use this input in an input switch action.
         public let inputAttachmentName: String?
         /// The ID of the input
@@ -4234,6 +4424,10 @@ extension MediaLive {
             self.inputAttachmentName = inputAttachmentName
             self.inputId = inputId
             self.inputSettings = inputSettings
+        }
+
+        public func validate(name: String) throws {
+            try inputSettings?.validate(name: "\(name).inputSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4248,14 +4442,22 @@ extension MediaLive {
             AWSShapeMember(label: "Gain", location: .body(locationName: "gain"), required: true, type: .integer), 
             AWSShapeMember(label: "InputChannel", location: .body(locationName: "inputChannel"), required: true, type: .integer)
         ]
-        /// Remixing value. Units are in dB and acceptable values are within the range from -60 (mute) and 6 dB.
-        public let gain: Int32
-        /// The index of the input channel used as a source.
-        public let inputChannel: Int32
 
-        public init(gain: Int32, inputChannel: Int32) {
+        /// Remixing value. Units are in dB and acceptable values are within the range from -60 (mute) and 6 dB.
+        public let gain: Int
+        /// The index of the input channel used as a source.
+        public let inputChannel: Int
+
+        public init(gain: Int, inputChannel: Int) {
             self.gain = gain
             self.inputChannel = inputChannel
+        }
+
+        public func validate(name: String) throws {
+            try validate(gain, name:"gain", parent: name, max: 6)
+            try validate(gain, name:"gain", parent: name, min: -60)
+            try validate(inputChannel, name:"inputChannel", parent: name, max: 15)
+            try validate(inputChannel, name:"inputChannel", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4296,6 +4498,7 @@ extension MediaLive {
             AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
             AWSShapeMember(label: "Vpc", location: .body(locationName: "vpc"), required: false, type: .structure)
         ]
+
         /// The system-generated static IP address of endpoint.
         /// It remains fixed for the lifetime of the input.
         public let ip: String?
@@ -4325,6 +4528,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamName", location: .body(locationName: "streamName"), required: false, type: .string)
         ]
+
         /// A unique name for the location the RTMP stream is being pushed
         /// to.
         public let streamName: String?
@@ -4343,6 +4547,7 @@ extension MediaLive {
             AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
             AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: false, type: .string)
         ]
+
         /// The availability zone of the Input destination.
         public let availabilityZone: String?
         /// The network interface ID of the Input destination in the VPC.
@@ -4372,6 +4577,7 @@ extension MediaLive {
             AWSShapeMember(label: "Uri", location: .body(locationName: "uri"), required: true, type: .string), 
             AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string)
         ]
+
         /// key used to extract the password from EC2 Parameter store
         public let passwordParam: String?
         /// Uniform Resource Identifier - This should be a path to a file accessible to the Live system (eg. a http:// URI) depending on the output type. For example, a RTMP destination should have a uri simliar to: "rtmp://fmsserver/live".
@@ -4425,8 +4631,9 @@ extension MediaLive {
             AWSShapeMember(label: "InputLossImageType", location: .body(locationName: "inputLossImageType"), required: false, type: .enum), 
             AWSShapeMember(label: "RepeatFrameMsec", location: .body(locationName: "repeatFrameMsec"), required: false, type: .integer)
         ]
+
         /// On input loss, the number of milliseconds to substitute black into the output before switching to the frame specified by inputLossImageType.  A value x, where 0 <= x <= 1,000,000 and a value of 1,000,000 will be interpreted as infinite.
-        public let blackFrameMsec: Int32?
+        public let blackFrameMsec: Int?
         /// When input loss image type is "color" this field specifies the color to use. Value: 6 hex characters representing the values of RGB.
         public let inputLossImageColor: String?
         /// When input loss image type is "slate" these fields specify the parameters for accessing the slate.
@@ -4434,14 +4641,23 @@ extension MediaLive {
         /// Indicates whether to substitute a solid color or a slate into the output after input loss exceeds blackFrameMsec.
         public let inputLossImageType: InputLossImageType?
         /// On input loss, the number of milliseconds to repeat the previous picture before substituting black into the output.  A value x, where 0 <= x <= 1,000,000 and a value of 1,000,000 will be interpreted as infinite.
-        public let repeatFrameMsec: Int32?
+        public let repeatFrameMsec: Int?
 
-        public init(blackFrameMsec: Int32? = nil, inputLossImageColor: String? = nil, inputLossImageSlate: InputLocation? = nil, inputLossImageType: InputLossImageType? = nil, repeatFrameMsec: Int32? = nil) {
+        public init(blackFrameMsec: Int? = nil, inputLossImageColor: String? = nil, inputLossImageSlate: InputLocation? = nil, inputLossImageType: InputLossImageType? = nil, repeatFrameMsec: Int? = nil) {
             self.blackFrameMsec = blackFrameMsec
             self.inputLossImageColor = inputLossImageColor
             self.inputLossImageSlate = inputLossImageSlate
             self.inputLossImageType = inputLossImageType
             self.repeatFrameMsec = repeatFrameMsec
+        }
+
+        public func validate(name: String) throws {
+            try validate(blackFrameMsec, name:"blackFrameMsec", parent: name, max: 1000000)
+            try validate(blackFrameMsec, name:"blackFrameMsec", parent: name, min: 0)
+            try validate(inputLossImageColor, name:"inputLossImageColor", parent: name, max: 6)
+            try validate(inputLossImageColor, name:"inputLossImageColor", parent: name, min: 6)
+            try validate(repeatFrameMsec, name:"repeatFrameMsec", parent: name, max: 1000000)
+            try validate(repeatFrameMsec, name:"repeatFrameMsec", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4482,6 +4698,7 @@ extension MediaLive {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "WhitelistRules", location: .body(locationName: "whitelistRules"), required: false, type: .list)
         ]
+
         /// Unique ARN of Input Security Group
         public let arn: String?
         /// The Id of the Input Security Group
@@ -4522,27 +4739,6 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public struct InputSecurityGroupWhitelistRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
-            AWSShapeMember(label: "WhitelistRules", location: .body(locationName: "whitelistRules"), required: false, type: .list)
-        ]
-        /// A collection of key-value pairs.
-        public let tags: [String: String]?
-        /// List of IPv4 CIDR addresses to whitelist
-        public let whitelistRules: [InputWhitelistRuleCidr]?
-
-        public init(tags: [String: String]? = nil, whitelistRules: [InputWhitelistRuleCidr]? = nil) {
-            self.tags = tags
-            self.whitelistRules = whitelistRules
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-            case whitelistRules = "whitelistRules"
-        }
-    }
-
     public struct InputSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AudioSelectors", location: .body(locationName: "audioSelectors"), required: false, type: .list), 
@@ -4555,6 +4751,7 @@ extension MediaLive {
             AWSShapeMember(label: "SourceEndBehavior", location: .body(locationName: "sourceEndBehavior"), required: false, type: .enum), 
             AWSShapeMember(label: "VideoSelector", location: .body(locationName: "videoSelector"), required: false, type: .structure)
         ]
+
         /// Used to select the audio stream to decode for inputs that have multiple available.
         public let audioSelectors: [AudioSelector]?
         /// Used to select the caption input to use for inputs that have multiple available.
@@ -4564,7 +4761,7 @@ extension MediaLive {
         /// Enable or disable the denoise filter when filtering.
         public let denoiseFilter: InputDenoiseFilter?
         /// Adjusts the magnitude of filtering from 1 (minimal) to 5 (strongest).
-        public let filterStrength: Int32?
+        public let filterStrength: Int?
         /// Turns on the filter for this input. MPEG-2 inputs have the deblocking filter enabled by default.
         /// 1) auto - filtering will be applied depending on input type/quality
         /// 2) disabled - no filtering will be applied to the input
@@ -4577,7 +4774,7 @@ extension MediaLive {
         /// Informs which video elementary stream to decode for input types that have multiple available.
         public let videoSelector: VideoSelector?
 
-        public init(audioSelectors: [AudioSelector]? = nil, captionSelectors: [CaptionSelector]? = nil, deblockFilter: InputDeblockFilter? = nil, denoiseFilter: InputDenoiseFilter? = nil, filterStrength: Int32? = nil, inputFilter: InputFilter? = nil, networkInputSettings: NetworkInputSettings? = nil, sourceEndBehavior: InputSourceEndBehavior? = nil, videoSelector: VideoSelector? = nil) {
+        public init(audioSelectors: [AudioSelector]? = nil, captionSelectors: [CaptionSelector]? = nil, deblockFilter: InputDeblockFilter? = nil, denoiseFilter: InputDenoiseFilter? = nil, filterStrength: Int? = nil, inputFilter: InputFilter? = nil, networkInputSettings: NetworkInputSettings? = nil, sourceEndBehavior: InputSourceEndBehavior? = nil, videoSelector: VideoSelector? = nil) {
             self.audioSelectors = audioSelectors
             self.captionSelectors = captionSelectors
             self.deblockFilter = deblockFilter
@@ -4587,6 +4784,19 @@ extension MediaLive {
             self.networkInputSettings = networkInputSettings
             self.sourceEndBehavior = sourceEndBehavior
             self.videoSelector = videoSelector
+        }
+
+        public func validate(name: String) throws {
+            try audioSelectors?.forEach {
+                try $0.validate(name: "\(name).audioSelectors[]")
+            }
+            try captionSelectors?.forEach {
+                try $0.validate(name: "\(name).captionSelectors[]")
+            }
+            try validate(filterStrength, name:"filterStrength", parent: name, max: 5)
+            try validate(filterStrength, name:"filterStrength", parent: name, min: 1)
+            try networkInputSettings?.validate(name: "\(name).networkInputSettings")
+            try videoSelector?.validate(name: "\(name).videoSelector")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4608,6 +4818,7 @@ extension MediaLive {
             AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
             AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string)
         ]
+
         /// The key used to extract the password from EC2 Parameter store.
         public let passwordParam: String?
         /// This represents the customer's source URL where stream is
@@ -4641,6 +4852,7 @@ extension MediaLive {
             AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
             AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string)
         ]
+
         /// The key used to extract the password from EC2 Parameter store.
         public let passwordParam: String?
         /// This represents the customer's source URL where stream is
@@ -4668,6 +4880,7 @@ extension MediaLive {
             AWSShapeMember(label: "MaximumBitrate", location: .body(locationName: "maximumBitrate"), required: false, type: .enum), 
             AWSShapeMember(label: "Resolution", location: .body(locationName: "resolution"), required: false, type: .enum)
         ]
+
         /// Input codec
         public let codec: InputCodec?
         /// Maximum input bitrate, categorized coarsely
@@ -4701,6 +4914,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputAttachmentNameReference", location: .body(locationName: "inputAttachmentNameReference"), required: true, type: .string)
         ]
+
         /// The name of the input attachment that should be switched to by this action.
         public let inputAttachmentNameReference: String
 
@@ -4729,6 +4943,7 @@ extension MediaLive {
             AWSShapeMember(label: "SecurityGroupIds", location: .body(locationName: "securityGroupIds"), required: false, type: .list), 
             AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: true, type: .list)
         ]
+
         /// A list of up to 5 EC2 VPC security group IDs to attach to the Input VPC network interfaces.
         /// Requires subnetIds. If none are specified then the VPC default security group will be used.
         public let securityGroupIds: [String]?
@@ -4751,6 +4966,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cidr", location: .body(locationName: "cidr"), required: false, type: .string)
         ]
+
         /// The IPv4 CIDR that's whitelisted.
         public let cidr: String?
 
@@ -4767,6 +4983,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cidr", location: .body(locationName: "cidr"), required: false, type: .string)
         ]
+
         /// The IPv4 CIDR to whitelist.
         public let cidr: String?
 
@@ -4779,63 +4996,23 @@ extension MediaLive {
         }
     }
 
-    public struct InternalServiceError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
-        ]
-        public let message: String?
-
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
-    }
-
-    public struct InvalidRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
-        ]
-        public let message: String?
-
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
-    }
-
     public struct KeyProviderSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StaticKeySettings", location: .body(locationName: "staticKeySettings"), required: false, type: .structure)
         ]
+
         public let staticKeySettings: StaticKeySettings?
 
         public init(staticKeySettings: StaticKeySettings? = nil) {
             self.staticKeySettings = staticKeySettings
         }
 
+        public func validate(name: String) throws {
+            try staticKeySettings?.validate(name: "\(name).staticKeySettings")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case staticKeySettings = "staticKeySettings"
-        }
-    }
-
-    public struct LimitExceeded: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
-        ]
-        public let message: String?
-
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
         }
     }
 
@@ -4844,12 +5021,18 @@ extension MediaLive {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
-        public let maxResults: Int32?
+
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4863,25 +5046,7 @@ extension MediaLive {
             AWSShapeMember(label: "Channels", location: .body(locationName: "channels"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
-        public let channels: [ChannelSummary]?
-        public let nextToken: String?
 
-        public init(channels: [ChannelSummary]? = nil, nextToken: String? = nil) {
-            self.channels = channels
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case channels = "channels"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct ListChannelsResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Channels", location: .body(locationName: "channels"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
         public let channels: [ChannelSummary]?
         public let nextToken: String?
 
@@ -4901,12 +5066,18 @@ extension MediaLive {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
-        public let maxResults: Int32?
+
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4920,26 +5091,7 @@ extension MediaLive {
             AWSShapeMember(label: "InputSecurityGroups", location: .body(locationName: "inputSecurityGroups"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
-        public let inputSecurityGroups: [InputSecurityGroup]?
-        public let nextToken: String?
 
-        public init(inputSecurityGroups: [InputSecurityGroup]? = nil, nextToken: String? = nil) {
-            self.inputSecurityGroups = inputSecurityGroups
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputSecurityGroups = "inputSecurityGroups"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct ListInputSecurityGroupsResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputSecurityGroups", location: .body(locationName: "inputSecurityGroups"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
-        /// List of input security groups
         public let inputSecurityGroups: [InputSecurityGroup]?
         public let nextToken: String?
 
@@ -4959,12 +5111,18 @@ extension MediaLive {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
-        public let maxResults: Int32?
+
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4978,25 +5136,7 @@ extension MediaLive {
             AWSShapeMember(label: "Inputs", location: .body(locationName: "inputs"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
-        public let inputs: [Input]?
-        public let nextToken: String?
 
-        public init(inputs: [Input]? = nil, nextToken: String? = nil) {
-            self.inputs = inputs
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputs = "inputs"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct ListInputsResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Inputs", location: .body(locationName: "inputs"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
         public let inputs: [Input]?
         public let nextToken: String?
 
@@ -5025,19 +5165,20 @@ extension MediaLive {
             AWSShapeMember(label: "SpecialFeature", location: .querystring(locationName: "specialFeature"), required: false, type: .string), 
             AWSShapeMember(label: "VideoQuality", location: .querystring(locationName: "videoQuality"), required: false, type: .string)
         ]
+
         public let channelClass: String?
         public let channelConfiguration: String?
         public let codec: String?
         public let maximumBitrate: String?
         public let maximumFramerate: String?
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
         public let resolution: String?
         public let resourceType: String?
         public let specialFeature: String?
         public let videoQuality: String?
 
-        public init(channelClass: String? = nil, channelConfiguration: String? = nil, codec: String? = nil, maximumBitrate: String? = nil, maximumFramerate: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, resolution: String? = nil, resourceType: String? = nil, specialFeature: String? = nil, videoQuality: String? = nil) {
+        public init(channelClass: String? = nil, channelConfiguration: String? = nil, codec: String? = nil, maximumBitrate: String? = nil, maximumFramerate: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resolution: String? = nil, resourceType: String? = nil, specialFeature: String? = nil, videoQuality: String? = nil) {
             self.channelClass = channelClass
             self.channelConfiguration = channelConfiguration
             self.codec = codec
@@ -5049,6 +5190,11 @@ extension MediaLive {
             self.resourceType = resourceType
             self.specialFeature = specialFeature
             self.videoQuality = videoQuality
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5071,28 +5217,8 @@ extension MediaLive {
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "Offerings", location: .body(locationName: "offerings"), required: false, type: .list)
         ]
+
         public let nextToken: String?
-        public let offerings: [Offering]?
-
-        public init(nextToken: String? = nil, offerings: [Offering]? = nil) {
-            self.nextToken = nextToken
-            self.offerings = offerings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case offerings = "offerings"
-        }
-    }
-
-    public struct ListOfferingsResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Offerings", location: .body(locationName: "offerings"), required: false, type: .list)
-        ]
-        /// Token to retrieve the next page of results
-        public let nextToken: String?
-        /// List of offerings
         public let offerings: [Offering]?
 
         public init(nextToken: String? = nil, offerings: [Offering]? = nil) {
@@ -5119,18 +5245,19 @@ extension MediaLive {
             AWSShapeMember(label: "SpecialFeature", location: .querystring(locationName: "specialFeature"), required: false, type: .string), 
             AWSShapeMember(label: "VideoQuality", location: .querystring(locationName: "videoQuality"), required: false, type: .string)
         ]
+
         public let channelClass: String?
         public let codec: String?
         public let maximumBitrate: String?
         public let maximumFramerate: String?
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
         public let resolution: String?
         public let resourceType: String?
         public let specialFeature: String?
         public let videoQuality: String?
 
-        public init(channelClass: String? = nil, codec: String? = nil, maximumBitrate: String? = nil, maximumFramerate: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, resolution: String? = nil, resourceType: String? = nil, specialFeature: String? = nil, videoQuality: String? = nil) {
+        public init(channelClass: String? = nil, codec: String? = nil, maximumBitrate: String? = nil, maximumFramerate: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resolution: String? = nil, resourceType: String? = nil, specialFeature: String? = nil, videoQuality: String? = nil) {
             self.channelClass = channelClass
             self.codec = codec
             self.maximumBitrate = maximumBitrate
@@ -5141,6 +5268,11 @@ extension MediaLive {
             self.resourceType = resourceType
             self.specialFeature = specialFeature
             self.videoQuality = videoQuality
+        }
+
+        public func validate(name: String) throws {
+            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5162,28 +5294,8 @@ extension MediaLive {
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "Reservations", location: .body(locationName: "reservations"), required: false, type: .list)
         ]
+
         public let nextToken: String?
-        public let reservations: [Reservation]?
-
-        public init(nextToken: String? = nil, reservations: [Reservation]? = nil) {
-            self.nextToken = nextToken
-            self.reservations = reservations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case reservations = "reservations"
-        }
-    }
-
-    public struct ListReservationsResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Reservations", location: .body(locationName: "reservations"), required: false, type: .list)
-        ]
-        /// Token to retrieve the next page of results
-        public let nextToken: String?
-        /// List of reservations
         public let reservations: [Reservation]?
 
         public init(nextToken: String? = nil, reservations: [Reservation]? = nil) {
@@ -5201,6 +5313,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string)
         ]
+
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -5216,6 +5329,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -5391,6 +5505,7 @@ extension MediaLive {
             AWSShapeMember(label: "TransportStreamId", location: .body(locationName: "transportStreamId"), required: false, type: .integer), 
             AWSShapeMember(label: "VideoPid", location: .body(locationName: "videoPid"), required: false, type: .string)
         ]
+
         /// When set to drop, output audio streams will be removed from the program if the selected input audio stream is removed from the input. This allows the output audio configuration to dynamically change based on input configuration. If this is set to encodeSilence, all output audio streams will output encoded silence when not connected to an active input stream.
         public let absentInputAudioBehavior: M2tsAbsentInputAudioBehavior?
         /// When set to enabled, uses ARIB-compliant field muxing and removes video descriptor.
@@ -5402,13 +5517,13 @@ extension MediaLive {
         /// When set to dvb, uses DVB buffer model for Dolby Digital audio.  When set to atsc, the ATSC model is used.
         public let audioBufferModel: M2tsAudioBufferModel?
         /// The number of audio frames to insert for each PES packet.
-        public let audioFramesPerPes: Int32?
+        public let audioFramesPerPes: Int?
         /// Packet Identifier (PID) of the elementary audio stream(s) in the transport stream. Multiple values are accepted, and can be entered in ranges and/or by comma separation. Can be entered as decimal or hexadecimal values. Each PID specified must be in the range of 32 (or 0x20)..8182 (or 0x1ff6).
         public let audioPids: String?
         /// When set to atsc, uses stream type = 0x81 for AC3 and stream type = 0x87 for EAC3. When set to dvb, uses stream type = 0x06.
         public let audioStreamType: M2tsAudioStreamType?
         /// The output bitrate of the transport stream in bits per second. Setting to 0 lets the muxer automatically determine the appropriate bitrate.
-        public let bitrate: Int32?
+        public let bitrate: Int?
         /// If set to multiplex, use multiplex buffer model for accurate interleaving.  Setting to bufferModel to none can lead to lower latency, but low-memory devices may not be able to play back the stream without interruptions.
         public let bufferModel: M2tsBufferModel?
         /// When set to enabled, generates captionServiceDescriptor in PMT.
@@ -5428,7 +5543,7 @@ extension MediaLive {
         /// When videoAndFixedIntervals is selected, audio EBP markers will be added to partitions 3 and 4. The interval between these additional markers will be fixed, and will be slightly shorter than the video EBP marker interval. Only available when EBP Cablelabs segmentation markers are selected.  Partitions 1 and 2 will always follow the video interval.
         public let ebpAudioInterval: M2tsAudioInterval?
         /// When set, enforces that Encoder Boundary Points do not come within the specified time interval of each other by looking ahead at input video. If another EBP is going to come in within the specified time interval, the current EBP is not emitted, and the segment is "stretched" to the next marker.  The lookahead value does not add latency to the system. The Live Event must be configured elsewhere to create sufficient latency to make the lookahead accurate.
-        public let ebpLookaheadMs: Int32?
+        public let ebpLookaheadMs: Int?
         /// Controls placement of EBP on Audio PIDs. If set to videoAndAudioPids, EBP markers will be placed on the video PID and all audio PIDs.  If set to videoPid, EBP markers will be placed on only the video PID.
         public let ebpPlacement: M2tsEbpPlacement?
         /// This field is unused and deprecated.
@@ -5448,19 +5563,19 @@ extension MediaLive {
         /// Value in bits per second of extra null packets to insert into the transport stream. This can be used if a downstream encryption system requires periodic null packets.
         public let nullPacketBitrate: Double?
         /// The number of milliseconds between instances of this table in the output transport stream.  Valid values are 0, 10..1000.
-        public let patInterval: Int32?
+        public let patInterval: Int?
         /// When set to pcrEveryPesPacket, a Program Clock Reference value is inserted for every Packetized Elementary Stream (PES) header. This parameter is effective only when the PCR PID is the same as the video or audio elementary stream.
         public let pcrControl: M2tsPcrControl?
         /// Maximum time in milliseconds between Program Clock Reference (PCRs) inserted into the transport stream.
-        public let pcrPeriod: Int32?
+        public let pcrPeriod: Int?
         /// Packet Identifier (PID) of the Program Clock Reference (PCR) in the transport stream. When no value is given, the encoder will assign the same value as the Video PID. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
         public let pcrPid: String?
         /// The number of milliseconds between instances of this table in the output transport stream. Valid values are 0, 10..1000.
-        public let pmtInterval: Int32?
+        public let pmtInterval: Int?
         /// Packet Identifier (PID) for the Program Map Table (PMT) in the transport stream. Can be entered as a decimal or hexadecimal value. Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
         public let pmtPid: String?
         /// The value of the program number field in the Program Map Table.
-        public let programNum: Int32?
+        public let programNum: Int?
         /// When vbr, does not insert null packets into transport stream to fill specified bitrate. The bitrate setting acts as the maximum bitrate when vbr is set.
         public let rateMode: M2tsRateMode?
         /// Packet Identifier (PID) for input source SCTE-27 data to this output. Multiple values are accepted, and can be entered in ranges and/or by comma separation. Can be entered as decimal or hexadecimal values.  Each PID specified must be in the range of 32 (or 0x20)..8182 (or 0x1ff6).
@@ -5482,11 +5597,11 @@ extension MediaLive {
         /// Packet Identifier (PID) of the timed metadata stream in the transport stream. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
         public let timedMetadataPid: String?
         /// The value of the transport stream ID field in the Program Map Table.
-        public let transportStreamId: Int32?
+        public let transportStreamId: Int?
         /// Packet Identifier (PID) of the elementary video stream in the transport stream. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
         public let videoPid: String?
 
-        public init(absentInputAudioBehavior: M2tsAbsentInputAudioBehavior? = nil, arib: M2tsArib? = nil, aribCaptionsPid: String? = nil, aribCaptionsPidControl: M2tsAribCaptionsPidControl? = nil, audioBufferModel: M2tsAudioBufferModel? = nil, audioFramesPerPes: Int32? = nil, audioPids: String? = nil, audioStreamType: M2tsAudioStreamType? = nil, bitrate: Int32? = nil, bufferModel: M2tsBufferModel? = nil, ccDescriptor: M2tsCcDescriptor? = nil, dvbNitSettings: DvbNitSettings? = nil, dvbSdtSettings: DvbSdtSettings? = nil, dvbSubPids: String? = nil, dvbTdtSettings: DvbTdtSettings? = nil, dvbTeletextPid: String? = nil, ebif: M2tsEbifControl? = nil, ebpAudioInterval: M2tsAudioInterval? = nil, ebpLookaheadMs: Int32? = nil, ebpPlacement: M2tsEbpPlacement? = nil, ecmPid: String? = nil, esRateInPes: M2tsEsRateInPes? = nil, etvPlatformPid: String? = nil, etvSignalPid: String? = nil, fragmentTime: Double? = nil, klv: M2tsKlv? = nil, klvDataPids: String? = nil, nullPacketBitrate: Double? = nil, patInterval: Int32? = nil, pcrControl: M2tsPcrControl? = nil, pcrPeriod: Int32? = nil, pcrPid: String? = nil, pmtInterval: Int32? = nil, pmtPid: String? = nil, programNum: Int32? = nil, rateMode: M2tsRateMode? = nil, scte27Pids: String? = nil, scte35Control: M2tsScte35Control? = nil, scte35Pid: String? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, segmentationTime: Double? = nil, timedMetadataBehavior: M2tsTimedMetadataBehavior? = nil, timedMetadataPid: String? = nil, transportStreamId: Int32? = nil, videoPid: String? = nil) {
+        public init(absentInputAudioBehavior: M2tsAbsentInputAudioBehavior? = nil, arib: M2tsArib? = nil, aribCaptionsPid: String? = nil, aribCaptionsPidControl: M2tsAribCaptionsPidControl? = nil, audioBufferModel: M2tsAudioBufferModel? = nil, audioFramesPerPes: Int? = nil, audioPids: String? = nil, audioStreamType: M2tsAudioStreamType? = nil, bitrate: Int? = nil, bufferModel: M2tsBufferModel? = nil, ccDescriptor: M2tsCcDescriptor? = nil, dvbNitSettings: DvbNitSettings? = nil, dvbSdtSettings: DvbSdtSettings? = nil, dvbSubPids: String? = nil, dvbTdtSettings: DvbTdtSettings? = nil, dvbTeletextPid: String? = nil, ebif: M2tsEbifControl? = nil, ebpAudioInterval: M2tsAudioInterval? = nil, ebpLookaheadMs: Int? = nil, ebpPlacement: M2tsEbpPlacement? = nil, ecmPid: String? = nil, esRateInPes: M2tsEsRateInPes? = nil, etvPlatformPid: String? = nil, etvSignalPid: String? = nil, fragmentTime: Double? = nil, klv: M2tsKlv? = nil, klvDataPids: String? = nil, nullPacketBitrate: Double? = nil, patInterval: Int? = nil, pcrControl: M2tsPcrControl? = nil, pcrPeriod: Int? = nil, pcrPid: String? = nil, pmtInterval: Int? = nil, pmtPid: String? = nil, programNum: Int? = nil, rateMode: M2tsRateMode? = nil, scte27Pids: String? = nil, scte35Control: M2tsScte35Control? = nil, scte35Pid: String? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, segmentationTime: Double? = nil, timedMetadataBehavior: M2tsTimedMetadataBehavior? = nil, timedMetadataPid: String? = nil, transportStreamId: Int? = nil, videoPid: String? = nil) {
             self.absentInputAudioBehavior = absentInputAudioBehavior
             self.arib = arib
             self.aribCaptionsPid = aribCaptionsPid
@@ -5533,6 +5648,26 @@ extension MediaLive {
             self.timedMetadataPid = timedMetadataPid
             self.transportStreamId = transportStreamId
             self.videoPid = videoPid
+        }
+
+        public func validate(name: String) throws {
+            try validate(audioFramesPerPes, name:"audioFramesPerPes", parent: name, min: 0)
+            try validate(bitrate, name:"bitrate", parent: name, min: 0)
+            try dvbNitSettings?.validate(name: "\(name).dvbNitSettings")
+            try dvbSdtSettings?.validate(name: "\(name).dvbSdtSettings")
+            try dvbTdtSettings?.validate(name: "\(name).dvbTdtSettings")
+            try validate(ebpLookaheadMs, name:"ebpLookaheadMs", parent: name, max: 10000)
+            try validate(ebpLookaheadMs, name:"ebpLookaheadMs", parent: name, min: 0)
+            try validate(patInterval, name:"patInterval", parent: name, max: 1000)
+            try validate(patInterval, name:"patInterval", parent: name, min: 0)
+            try validate(pcrPeriod, name:"pcrPeriod", parent: name, max: 500)
+            try validate(pcrPeriod, name:"pcrPeriod", parent: name, min: 0)
+            try validate(pmtInterval, name:"pmtInterval", parent: name, max: 1000)
+            try validate(pmtInterval, name:"pmtInterval", parent: name, min: 0)
+            try validate(programNum, name:"programNum", parent: name, max: 65535)
+            try validate(programNum, name:"programNum", parent: name, min: 0)
+            try validate(transportStreamId, name:"transportStreamId", parent: name, max: 65535)
+            try validate(transportStreamId, name:"transportStreamId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5622,26 +5757,27 @@ extension MediaLive {
             AWSShapeMember(label: "TransportStreamId", location: .body(locationName: "transportStreamId"), required: false, type: .integer), 
             AWSShapeMember(label: "VideoPid", location: .body(locationName: "videoPid"), required: false, type: .string)
         ]
+
         /// The number of audio frames to insert for each PES packet.
-        public let audioFramesPerPes: Int32?
+        public let audioFramesPerPes: Int?
         /// Packet Identifier (PID) of the elementary audio stream(s) in the transport stream. Multiple values are accepted, and can be entered in ranges and/or by comma separation. Can be entered as decimal or hexadecimal values.
         public let audioPids: String?
         /// This parameter is unused and deprecated.
         public let ecmPid: String?
         /// The number of milliseconds between instances of this table in the output transport stream. A value of \"0\" writes out the PMT once per segment file.
-        public let patInterval: Int32?
+        public let patInterval: Int?
         /// When set to pcrEveryPesPacket, a Program Clock Reference value is inserted for every Packetized Elementary Stream (PES) header. This parameter is effective only when the PCR PID is the same as the video or audio elementary stream.
         public let pcrControl: M3u8PcrControl?
         /// Maximum time in milliseconds between Program Clock References (PCRs) inserted into the transport stream.
-        public let pcrPeriod: Int32?
+        public let pcrPeriod: Int?
         /// Packet Identifier (PID) of the Program Clock Reference (PCR) in the transport stream. When no value is given, the encoder will assign the same value as the Video PID. Can be entered as a decimal or hexadecimal value.
         public let pcrPid: String?
         /// The number of milliseconds between instances of this table in the output transport stream. A value of \"0\" writes out the PMT once per segment file.
-        public let pmtInterval: Int32?
+        public let pmtInterval: Int?
         /// Packet Identifier (PID) for the Program Map Table (PMT) in the transport stream. Can be entered as a decimal or hexadecimal value.
         public let pmtPid: String?
         /// The value of the program number field in the Program Map Table.
-        public let programNum: Int32?
+        public let programNum: Int?
         /// If set to passthrough, passes any SCTE-35 signals from the input source to this output.
         public let scte35Behavior: M3u8Scte35Behavior?
         /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream. Can be entered as a decimal or hexadecimal value.
@@ -5651,11 +5787,11 @@ extension MediaLive {
         /// Packet Identifier (PID) of the timed metadata stream in the transport stream. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
         public let timedMetadataPid: String?
         /// The value of the transport stream ID field in the Program Map Table.
-        public let transportStreamId: Int32?
+        public let transportStreamId: Int?
         /// Packet Identifier (PID) of the elementary video stream in the transport stream. Can be entered as a decimal or hexadecimal value.
         public let videoPid: String?
 
-        public init(audioFramesPerPes: Int32? = nil, audioPids: String? = nil, ecmPid: String? = nil, patInterval: Int32? = nil, pcrControl: M3u8PcrControl? = nil, pcrPeriod: Int32? = nil, pcrPid: String? = nil, pmtInterval: Int32? = nil, pmtPid: String? = nil, programNum: Int32? = nil, scte35Behavior: M3u8Scte35Behavior? = nil, scte35Pid: String? = nil, timedMetadataBehavior: M3u8TimedMetadataBehavior? = nil, timedMetadataPid: String? = nil, transportStreamId: Int32? = nil, videoPid: String? = nil) {
+        public init(audioFramesPerPes: Int? = nil, audioPids: String? = nil, ecmPid: String? = nil, patInterval: Int? = nil, pcrControl: M3u8PcrControl? = nil, pcrPeriod: Int? = nil, pcrPid: String? = nil, pmtInterval: Int? = nil, pmtPid: String? = nil, programNum: Int? = nil, scte35Behavior: M3u8Scte35Behavior? = nil, scte35Pid: String? = nil, timedMetadataBehavior: M3u8TimedMetadataBehavior? = nil, timedMetadataPid: String? = nil, transportStreamId: Int? = nil, videoPid: String? = nil) {
             self.audioFramesPerPes = audioFramesPerPes
             self.audioPids = audioPids
             self.ecmPid = ecmPid
@@ -5672,6 +5808,20 @@ extension MediaLive {
             self.timedMetadataPid = timedMetadataPid
             self.transportStreamId = transportStreamId
             self.videoPid = videoPid
+        }
+
+        public func validate(name: String) throws {
+            try validate(audioFramesPerPes, name:"audioFramesPerPes", parent: name, min: 0)
+            try validate(patInterval, name:"patInterval", parent: name, max: 1000)
+            try validate(patInterval, name:"patInterval", parent: name, min: 0)
+            try validate(pcrPeriod, name:"pcrPeriod", parent: name, max: 500)
+            try validate(pcrPeriod, name:"pcrPeriod", parent: name, min: 0)
+            try validate(pmtInterval, name:"pmtInterval", parent: name, max: 1000)
+            try validate(pmtInterval, name:"pmtInterval", parent: name, min: 0)
+            try validate(programNum, name:"programNum", parent: name, max: 65535)
+            try validate(programNum, name:"programNum", parent: name, min: 0)
+            try validate(transportStreamId, name:"transportStreamId", parent: name, max: 65535)
+            try validate(transportStreamId, name:"transportStreamId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5704,6 +5854,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string)
         ]
+
         /// The unique ARN of the MediaConnect Flow being used as a source.
         public let flowArn: String?
 
@@ -5720,6 +5871,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string)
         ]
+
         /// The ARN of the MediaConnect Flow that you want to use as a source.
         public let flowArn: String?
 
@@ -5736,6 +5888,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: true, type: .structure)
         ]
+
         /// MediaPackage channel destination.
         public let destination: OutputLocationRef
 
@@ -5752,11 +5905,16 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: false, type: .string)
         ]
+
         /// ID of the channel in MediaPackage that is the destination for this output group. You do not need to specify the individual inputs in MediaPackage; MediaLive will handle the connection of the two MediaLive pipelines to the two MediaPackage inputs. The MediaPackage channel and MediaLive channel must be in the same region.
         public let channelId: String?
 
         public init(channelId: String? = nil) {
             self.channelId = channelId
+        }
+
+        public func validate(name: String) throws {
+            try validate(channelId, name:"channelId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5765,6 +5923,7 @@ extension MediaLive {
     }
 
     public struct MediaPackageOutputSettings: AWSShape {
+
 
         public init() {
         }
@@ -5783,6 +5942,7 @@ extension MediaLive {
             AWSShapeMember(label: "CodingMode", location: .body(locationName: "codingMode"), required: false, type: .enum), 
             AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate"), required: false, type: .double)
         ]
+
         /// Average bitrate in bits/second.
         public let bitrate: Double?
         /// The MPEG2 Audio coding mode.  Valid values are codingMode10 (for mono) or codingMode20 (for stereo).
@@ -5825,6 +5985,7 @@ extension MediaLive {
             AWSShapeMember(label: "TimestampOffset", location: .body(locationName: "timestampOffset"), required: false, type: .string), 
             AWSShapeMember(label: "TimestampOffsetMode", location: .body(locationName: "timestampOffsetMode"), required: false, type: .enum)
         ]
+
         /// The value of the "Acquisition Point Identity" element used in each message placed in the sparse track.  Only enabled if sparseTrackType is not "none".
         public let acquisitionPointId: String?
         /// If set to passthrough for an audio-only MS Smooth output, the fragment absolute time will be set to the current timecode. This option does not write timecodes to the audio elementary stream.
@@ -5832,7 +5993,7 @@ extension MediaLive {
         /// If set to verifyAuthenticity, verify the https certificate chain to a trusted Certificate Authority (CA).  This will cause https outputs to self-signed certificates to fail.
         public let certificateMode: SmoothGroupCertificateMode?
         /// Number of seconds to wait before retrying connection to the IIS server if the connection is lost. Content will be cached during this time and the cache will be be delivered to the IIS server once the connection is re-established.
-        public let connectionRetryInterval: Int32?
+        public let connectionRetryInterval: Int?
         /// Smooth Streaming publish point on an IIS server. Elemental Live acts as a "Push" encoder to IIS.
         public let destination: OutputLocationRef
         /// MS Smooth event ID to be sent to the IIS server.
@@ -5847,19 +6008,19 @@ extension MediaLive {
         /// When set to sendEos, send EOS signal to IIS server when stopping the event
         public let eventStopBehavior: SmoothGroupEventStopBehavior?
         /// Size in seconds of file cache for streaming outputs.
-        public let filecacheDuration: Int32?
+        public let filecacheDuration: Int?
         /// Length of mp4 fragments to generate (in seconds). Fragment length must be compatible with GOP size and framerate.
-        public let fragmentLength: Int32?
+        public let fragmentLength: Int?
         /// Parameter that control output group behavior on input loss.
         public let inputLossAction: InputLossActionForMsSmoothOut?
         /// Number of retry attempts.
-        public let numRetries: Int32?
+        public let numRetries: Int?
         /// Number of seconds before initiating a restart due to output failure, due to exhausting the numRetries on one segment, or exceeding filecacheDuration.
-        public let restartDelay: Int32?
+        public let restartDelay: Int?
         /// useInputSegmentation has been deprecated. The configured segment size is always used.
         public let segmentationMode: SmoothGroupSegmentationMode?
         /// Number of milliseconds to delay the output from the second pipeline.
-        public let sendDelayMs: Int32?
+        public let sendDelayMs: Int?
         /// If set to scte35, use incoming SCTE-35 messages to generate a sparse track in this group of MS-Smooth outputs.
         public let sparseTrackType: SmoothGroupSparseTrackType?
         /// When set to send, send stream manifest so publishing point doesn't start until all streams start.
@@ -5871,7 +6032,7 @@ extension MediaLive {
         /// - useConfiguredOffset: Use an explicitly configured date as the offset
         public let timestampOffsetMode: SmoothGroupTimestampOffsetMode?
 
-        public init(acquisitionPointId: String? = nil, audioOnlyTimecodeControl: SmoothGroupAudioOnlyTimecodeControl? = nil, certificateMode: SmoothGroupCertificateMode? = nil, connectionRetryInterval: Int32? = nil, destination: OutputLocationRef, eventId: String? = nil, eventIdMode: SmoothGroupEventIdMode? = nil, eventStopBehavior: SmoothGroupEventStopBehavior? = nil, filecacheDuration: Int32? = nil, fragmentLength: Int32? = nil, inputLossAction: InputLossActionForMsSmoothOut? = nil, numRetries: Int32? = nil, restartDelay: Int32? = nil, segmentationMode: SmoothGroupSegmentationMode? = nil, sendDelayMs: Int32? = nil, sparseTrackType: SmoothGroupSparseTrackType? = nil, streamManifestBehavior: SmoothGroupStreamManifestBehavior? = nil, timestampOffset: String? = nil, timestampOffsetMode: SmoothGroupTimestampOffsetMode? = nil) {
+        public init(acquisitionPointId: String? = nil, audioOnlyTimecodeControl: SmoothGroupAudioOnlyTimecodeControl? = nil, certificateMode: SmoothGroupCertificateMode? = nil, connectionRetryInterval: Int? = nil, destination: OutputLocationRef, eventId: String? = nil, eventIdMode: SmoothGroupEventIdMode? = nil, eventStopBehavior: SmoothGroupEventStopBehavior? = nil, filecacheDuration: Int? = nil, fragmentLength: Int? = nil, inputLossAction: InputLossActionForMsSmoothOut? = nil, numRetries: Int? = nil, restartDelay: Int? = nil, segmentationMode: SmoothGroupSegmentationMode? = nil, sendDelayMs: Int? = nil, sparseTrackType: SmoothGroupSparseTrackType? = nil, streamManifestBehavior: SmoothGroupStreamManifestBehavior? = nil, timestampOffset: String? = nil, timestampOffsetMode: SmoothGroupTimestampOffsetMode? = nil) {
             self.acquisitionPointId = acquisitionPointId
             self.audioOnlyTimecodeControl = audioOnlyTimecodeControl
             self.certificateMode = certificateMode
@@ -5891,6 +6052,16 @@ extension MediaLive {
             self.streamManifestBehavior = streamManifestBehavior
             self.timestampOffset = timestampOffset
             self.timestampOffsetMode = timestampOffsetMode
+        }
+
+        public func validate(name: String) throws {
+            try validate(connectionRetryInterval, name:"connectionRetryInterval", parent: name, min: 0)
+            try validate(filecacheDuration, name:"filecacheDuration", parent: name, min: 0)
+            try validate(fragmentLength, name:"fragmentLength", parent: name, min: 1)
+            try validate(numRetries, name:"numRetries", parent: name, min: 0)
+            try validate(restartDelay, name:"restartDelay", parent: name, min: 0)
+            try validate(sendDelayMs, name:"sendDelayMs", parent: name, max: 10000)
+            try validate(sendDelayMs, name:"sendDelayMs", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5920,6 +6091,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NameModifier", location: .body(locationName: "nameModifier"), required: false, type: .string)
         ]
+
         /// String concatenated to the end of the destination filename.  Required for multiple outputs of the same type.
         public let nameModifier: String?
 
@@ -5943,6 +6115,7 @@ extension MediaLive {
             AWSShapeMember(label: "HlsInputSettings", location: .body(locationName: "hlsInputSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "ServerValidation", location: .body(locationName: "serverValidation"), required: false, type: .enum)
         ]
+
         /// Specifies HLS input settings when the uri is for a HLS manifest.
         public let hlsInputSettings: HlsInputSettings?
         /// Check HTTPS server certificates. When set to checkCryptographyOnly, cryptography in the certificate will be checked, but not the server's name. Certain subdomains (notably S3 buckets that use dots in the bucket name) do not strictly match the corresponding certificate's wildcard pattern and would otherwise cause the event to error. This setting is ignored for protocols that do not use https.
@@ -5951,6 +6124,10 @@ extension MediaLive {
         public init(hlsInputSettings: HlsInputSettings? = nil, serverValidation: NetworkInputServerValidation? = nil) {
             self.hlsInputSettings = hlsInputSettings
             self.serverValidation = serverValidation
+        }
+
+        public func validate(name: String) throws {
+            try hlsInputSettings?.validate(name: "\(name).hlsInputSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5973,12 +6150,13 @@ extension MediaLive {
             AWSShapeMember(label: "ResourceSpecification", location: .body(locationName: "resourceSpecification"), required: false, type: .structure), 
             AWSShapeMember(label: "UsagePrice", location: .body(locationName: "usagePrice"), required: false, type: .double)
         ]
+
         /// Unique offering ARN, e.g. 'arn:aws:medialive:us-west-2:123456789012:offering:87654321'
         public let arn: String?
         /// Currency code for usagePrice and fixedPrice in ISO-4217 format, e.g. 'USD'
         public let currencyCode: String?
         /// Lease duration, e.g. '12'
-        public let duration: Int32?
+        public let duration: Int?
         /// Units for duration, e.g. 'MONTHS'
         public let durationUnits: OfferingDurationUnits?
         /// One-time charge for each reserved resource, e.g. '0.0' for a NO_UPFRONT offering
@@ -5996,7 +6174,7 @@ extension MediaLive {
         /// Recurring usage charge for each reserved resource, e.g. '157.0'
         public let usagePrice: Double?
 
-        public init(arn: String? = nil, currencyCode: String? = nil, duration: Int32? = nil, durationUnits: OfferingDurationUnits? = nil, fixedPrice: Double? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, usagePrice: Double? = nil) {
+        public init(arn: String? = nil, currencyCode: String? = nil, duration: Int? = nil, durationUnits: OfferingDurationUnits? = nil, fixedPrice: Double? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, usagePrice: Double? = nil) {
             self.arn = arn
             self.currencyCode = currencyCode
             self.duration = duration
@@ -6043,6 +6221,7 @@ extension MediaLive {
             AWSShapeMember(label: "OutputSettings", location: .body(locationName: "outputSettings"), required: true, type: .structure), 
             AWSShapeMember(label: "VideoDescriptionName", location: .body(locationName: "videoDescriptionName"), required: false, type: .string)
         ]
+
         /// The names of the AudioDescriptions used as audio sources for this output.
         public let audioDescriptionNames: [String]?
         /// The names of the CaptionDescriptions used as caption sources for this output.
@@ -6062,6 +6241,12 @@ extension MediaLive {
             self.videoDescriptionName = videoDescriptionName
         }
 
+        public func validate(name: String) throws {
+            try validate(outputName, name:"outputName", parent: name, max: 255)
+            try validate(outputName, name:"outputName", parent: name, min: 1)
+            try outputSettings.validate(name: "\(name).outputSettings")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case audioDescriptionNames = "audioDescriptionNames"
             case captionDescriptionNames = "captionDescriptionNames"
@@ -6077,6 +6262,7 @@ extension MediaLive {
             AWSShapeMember(label: "MediaPackageSettings", location: .body(locationName: "mediaPackageSettings"), required: false, type: .list), 
             AWSShapeMember(label: "Settings", location: .body(locationName: "settings"), required: false, type: .list)
         ]
+
         /// User-specified id. This is used in an output group or an output.
         public let id: String?
         /// Destination settings for a MediaPackage output; one destination for both encoders.
@@ -6088,6 +6274,12 @@ extension MediaLive {
             self.id = id
             self.mediaPackageSettings = mediaPackageSettings
             self.settings = settings
+        }
+
+        public func validate(name: String) throws {
+            try mediaPackageSettings?.forEach {
+                try $0.validate(name: "\(name).mediaPackageSettings[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6104,6 +6296,7 @@ extension MediaLive {
             AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
             AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string)
         ]
+
         /// key used to extract the password from EC2 Parameter store
         public let passwordParam: String?
         /// Stream name for RTMP destinations (URLs of type rtmp://)
@@ -6134,6 +6327,7 @@ extension MediaLive {
             AWSShapeMember(label: "OutputGroupSettings", location: .body(locationName: "outputGroupSettings"), required: true, type: .structure), 
             AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"), required: true, type: .list)
         ]
+
         /// Custom output group name optionally defined by the user.  Only letters, numbers, and the underscore character allowed; only 32 characters allowed.
         public let name: String?
         /// Settings associated with the output group.
@@ -6144,6 +6338,14 @@ extension MediaLive {
             self.name = name
             self.outputGroupSettings = outputGroupSettings
             self.outputs = outputs
+        }
+
+        public func validate(name: String) throws {
+            try validate(name, name:"name", parent: name, max: 32)
+            try outputGroupSettings.validate(name: "\(name).outputGroupSettings")
+            try outputs.forEach {
+                try $0.validate(name: "\(name).outputs[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6163,6 +6365,7 @@ extension MediaLive {
             AWSShapeMember(label: "RtmpGroupSettings", location: .body(locationName: "rtmpGroupSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "UdpGroupSettings", location: .body(locationName: "udpGroupSettings"), required: false, type: .structure)
         ]
+
         public let archiveGroupSettings: ArchiveGroupSettings?
         public let frameCaptureGroupSettings: FrameCaptureGroupSettings?
         public let hlsGroupSettings: HlsGroupSettings?
@@ -6181,6 +6384,14 @@ extension MediaLive {
             self.udpGroupSettings = udpGroupSettings
         }
 
+        public func validate(name: String) throws {
+            try archiveGroupSettings?.validate(name: "\(name).archiveGroupSettings")
+            try hlsGroupSettings?.validate(name: "\(name).hlsGroupSettings")
+            try msSmoothGroupSettings?.validate(name: "\(name).msSmoothGroupSettings")
+            try rtmpGroupSettings?.validate(name: "\(name).rtmpGroupSettings")
+            try udpGroupSettings?.validate(name: "\(name).udpGroupSettings")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case archiveGroupSettings = "archiveGroupSettings"
             case frameCaptureGroupSettings = "frameCaptureGroupSettings"
@@ -6196,6 +6407,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DestinationRefId", location: .body(locationName: "destinationRefId"), required: false, type: .string)
         ]
+
         public let destinationRefId: String?
 
         public init(destinationRefId: String? = nil) {
@@ -6217,6 +6429,7 @@ extension MediaLive {
             AWSShapeMember(label: "RtmpOutputSettings", location: .body(locationName: "rtmpOutputSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "UdpOutputSettings", location: .body(locationName: "udpOutputSettings"), required: false, type: .structure)
         ]
+
         public let archiveOutputSettings: ArchiveOutputSettings?
         public let frameCaptureOutputSettings: FrameCaptureOutputSettings?
         public let hlsOutputSettings: HlsOutputSettings?
@@ -6235,6 +6448,13 @@ extension MediaLive {
             self.udpOutputSettings = udpOutputSettings
         }
 
+        public func validate(name: String) throws {
+            try archiveOutputSettings?.validate(name: "\(name).archiveOutputSettings")
+            try hlsOutputSettings?.validate(name: "\(name).hlsOutputSettings")
+            try rtmpOutputSettings?.validate(name: "\(name).rtmpOutputSettings")
+            try udpOutputSettings?.validate(name: "\(name).udpOutputSettings")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case archiveOutputSettings = "archiveOutputSettings"
             case frameCaptureOutputSettings = "frameCaptureOutputSettings"
@@ -6248,6 +6468,7 @@ extension MediaLive {
 
     public struct PassThroughSettings: AWSShape {
 
+
         public init() {
         }
 
@@ -6257,6 +6478,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Pipelines", location: .body(locationName: "pipelines"), required: false, type: .list)
         ]
+
         public let pipelines: [PipelinePauseStateSettings]?
 
         public init(pipelines: [PipelinePauseStateSettings]? = nil) {
@@ -6278,6 +6500,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PipelineId", location: .body(locationName: "pipelineId"), required: true, type: .enum)
         ]
+
         /// Pipeline ID to pause ("PIPELINE_0" or "PIPELINE_1").
         public let pipelineId: PipelineId
 
@@ -6290,42 +6513,6 @@ extension MediaLive {
         }
     }
 
-    public struct PurchaseOffering: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Count", location: .body(locationName: "count"), required: true, type: .integer), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId"), required: false, type: .string), 
-            AWSShapeMember(label: "Start", location: .body(locationName: "start"), required: false, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
-        ]
-        /// Number of resources
-        public let count: Int32
-        /// Name for the new reservation
-        public let name: String?
-        /// Unique request ID to be specified. This is needed to prevent retries from creating multiple resources.
-        public let requestId: String?
-        /// Requested reservation start time (UTC) in ISO-8601 format. The specified time must be between the first day of the current month and one year from now. If no value is given, the default is now.
-        public let start: String?
-        /// A collection of key-value pairs
-        public let tags: [String: String]?
-
-        public init(count: Int32, name: String? = nil, requestId: String? = nil, start: String? = nil, tags: [String: String]? = nil) {
-            self.count = count
-            self.name = name
-            self.requestId = requestId
-            self.start = start
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case count = "count"
-            case name = "name"
-            case requestId = "requestId"
-            case start = "start"
-            case tags = "tags"
-        }
-    }
-
     public struct PurchaseOfferingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Count", location: .body(locationName: "count"), required: true, type: .integer), 
@@ -6335,20 +6522,25 @@ extension MediaLive {
             AWSShapeMember(label: "Start", location: .body(locationName: "start"), required: false, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
-        public let count: Int32
+
+        public let count: Int
         public let name: String?
         public let offeringId: String
         public let requestId: String?
         public let start: String?
         public let tags: [String: String]?
 
-        public init(count: Int32, name: String? = nil, offeringId: String, requestId: String? = nil, start: String? = nil, tags: [String: String]? = nil) {
+        public init(count: Int, name: String? = nil, offeringId: String, requestId: String? = PurchaseOfferingRequest.idempotencyToken(), start: String? = nil, tags: [String: String]? = nil) {
             self.count = count
             self.name = name
             self.offeringId = offeringId
             self.requestId = requestId
             self.start = start
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(count, name:"count", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6365,21 +6557,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Reservation", location: .body(locationName: "reservation"), required: false, type: .structure)
         ]
-        public let reservation: Reservation?
 
-        public init(reservation: Reservation? = nil) {
-            self.reservation = reservation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reservation = "reservation"
-        }
-    }
-
-    public struct PurchaseOfferingResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Reservation", location: .body(locationName: "reservation"), required: false, type: .structure)
-        ]
         public let reservation: Reservation?
 
         public init(reservation: Reservation? = nil) {
@@ -6397,18 +6575,29 @@ extension MediaLive {
             AWSShapeMember(label: "ChannelsIn", location: .body(locationName: "channelsIn"), required: false, type: .integer), 
             AWSShapeMember(label: "ChannelsOut", location: .body(locationName: "channelsOut"), required: false, type: .integer)
         ]
+
         /// Mapping of input channels to output channels, with appropriate gain adjustments.
         public let channelMappings: [AudioChannelMapping]
         /// Number of input channels to be used.
-        public let channelsIn: Int32?
+        public let channelsIn: Int?
         /// Number of output channels to be produced.
         /// Valid values: 1, 2, 4, 6, 8
-        public let channelsOut: Int32?
+        public let channelsOut: Int?
 
-        public init(channelMappings: [AudioChannelMapping], channelsIn: Int32? = nil, channelsOut: Int32? = nil) {
+        public init(channelMappings: [AudioChannelMapping], channelsIn: Int? = nil, channelsOut: Int? = nil) {
             self.channelMappings = channelMappings
             self.channelsIn = channelsIn
             self.channelsOut = channelsOut
+        }
+
+        public func validate(name: String) throws {
+            try channelMappings.forEach {
+                try $0.validate(name: "\(name).channelMappings[]")
+            }
+            try validate(channelsIn, name:"channelsIn", parent: name, max: 16)
+            try validate(channelsIn, name:"channelsIn", parent: name, min: 1)
+            try validate(channelsOut, name:"channelsOut", parent: name, max: 8)
+            try validate(channelsOut, name:"channelsOut", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6439,14 +6628,15 @@ extension MediaLive {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "UsagePrice", location: .body(locationName: "usagePrice"), required: false, type: .double)
         ]
+
         /// Unique reservation ARN, e.g. 'arn:aws:medialive:us-west-2:123456789012:reservation:1234567'
         public let arn: String?
         /// Number of reserved resources
-        public let count: Int32?
+        public let count: Int?
         /// Currency code for usagePrice and fixedPrice in ISO-4217 format, e.g. 'USD'
         public let currencyCode: String?
         /// Lease duration, e.g. '12'
-        public let duration: Int32?
+        public let duration: Int?
         /// Units for duration, e.g. 'MONTHS'
         public let durationUnits: OfferingDurationUnits?
         /// Reservation UTC end date and time in ISO-8601 format, e.g. '2019-03-01T00:00:00'
@@ -6476,7 +6666,7 @@ extension MediaLive {
         /// Recurring usage charge for each reserved resource, e.g. '157.0'
         public let usagePrice: Double?
 
-        public init(arn: String? = nil, count: Int32? = nil, currencyCode: String? = nil, duration: Int32? = nil, durationUnits: OfferingDurationUnits? = nil, end: String? = nil, fixedPrice: Double? = nil, name: String? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, reservationId: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, start: String? = nil, state: ReservationState? = nil, tags: [String: String]? = nil, usagePrice: Double? = nil) {
+        public init(arn: String? = nil, count: Int? = nil, currencyCode: String? = nil, duration: Int? = nil, durationUnits: OfferingDurationUnits? = nil, end: String? = nil, fixedPrice: Double? = nil, name: String? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, reservationId: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, start: String? = nil, state: ReservationState? = nil, tags: [String: String]? = nil, usagePrice: Double? = nil) {
             self.arn = arn
             self.count = count
             self.currencyCode = currencyCode
@@ -6558,6 +6748,7 @@ extension MediaLive {
             AWSShapeMember(label: "SpecialFeature", location: .body(locationName: "specialFeature"), required: false, type: .enum), 
             AWSShapeMember(label: "VideoQuality", location: .body(locationName: "videoQuality"), required: false, type: .enum)
         ]
+
         /// Channel class, e.g. 'STANDARD'
         public let channelClass: ChannelClass?
         /// Codec, e.g. 'AVC'
@@ -6626,36 +6817,6 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public struct ResourceConflict: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
-        ]
-        public let message: String?
-
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
-    }
-
-    public struct ResourceNotFound: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
-        ]
-        public let message: String?
-
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
-    }
-
     public enum RtmpCacheFullBehavior: String, CustomStringConvertible, Codable {
         case disconnectImmediately = "DISCONNECT_IMMEDIATELY"
         case waitForServer = "WAIT_FOR_SERVER"
@@ -6671,6 +6832,7 @@ extension MediaLive {
 
     public struct RtmpCaptionInfoDestinationSettings: AWSShape {
 
+
         public init() {
         }
 
@@ -6685,12 +6847,13 @@ extension MediaLive {
             AWSShapeMember(label: "InputLossAction", location: .body(locationName: "inputLossAction"), required: false, type: .enum), 
             AWSShapeMember(label: "RestartDelay", location: .body(locationName: "restartDelay"), required: false, type: .integer)
         ]
+
         /// Authentication scheme to use when connecting with CDN
         public let authenticationScheme: AuthenticationScheme?
         /// Controls behavior when content cache fills up. If remote origin server stalls the RTMP connection and does not accept content fast enough the 'Media Cache' will fill up. When the cache reaches the duration specified by cacheLength the cache will stop accepting new content. If set to disconnectImmediately, the RTMP output will force a disconnect. Clear the media cache, and reconnect after restartDelay seconds. If set to waitForServer, the RTMP output will wait up to 5 minutes to allow the origin server to begin accepting data again.
         public let cacheFullBehavior: RtmpCacheFullBehavior?
         /// Cache length, in seconds, is used to calculate buffer size.
-        public let cacheLength: Int32?
+        public let cacheLength: Int?
         /// Controls the types of data that passes to onCaptionInfo outputs.  If set to 'all' then 608 and 708 carried DTVCC data will be passed.  If set to 'field1AndField2608' then DTVCC data will be stripped out, but 608 data from both fields will be passed. If set to 'field1608' then only the data carried in 608 from field 1 video will be passed.
         public let captionData: RtmpCaptionData?
         /// Controls the behavior of this RTMP group if input becomes unavailable.
@@ -6698,15 +6861,20 @@ extension MediaLive {
         /// - pauseOutput: Stop transmitting data until input returns. This does not close the underlying RTMP connection.
         public let inputLossAction: InputLossActionForRtmpOut?
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
-        public let restartDelay: Int32?
+        public let restartDelay: Int?
 
-        public init(authenticationScheme: AuthenticationScheme? = nil, cacheFullBehavior: RtmpCacheFullBehavior? = nil, cacheLength: Int32? = nil, captionData: RtmpCaptionData? = nil, inputLossAction: InputLossActionForRtmpOut? = nil, restartDelay: Int32? = nil) {
+        public init(authenticationScheme: AuthenticationScheme? = nil, cacheFullBehavior: RtmpCacheFullBehavior? = nil, cacheLength: Int? = nil, captionData: RtmpCaptionData? = nil, inputLossAction: InputLossActionForRtmpOut? = nil, restartDelay: Int? = nil) {
             self.authenticationScheme = authenticationScheme
             self.cacheFullBehavior = cacheFullBehavior
             self.cacheLength = cacheLength
             self.captionData = captionData
             self.inputLossAction = inputLossAction
             self.restartDelay = restartDelay
+        }
+
+        public func validate(name: String) throws {
+            try validate(cacheLength, name:"cacheLength", parent: name, min: 30)
+            try validate(restartDelay, name:"restartDelay", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6732,20 +6900,26 @@ extension MediaLive {
             AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: true, type: .structure), 
             AWSShapeMember(label: "NumRetries", location: .body(locationName: "numRetries"), required: false, type: .integer)
         ]
+
         /// If set to verifyAuthenticity, verify the tls certificate chain to a trusted Certificate Authority (CA).  This will cause rtmps outputs with self-signed certificates to fail.
         public let certificateMode: RtmpOutputCertificateMode?
         /// Number of seconds to wait before retrying a connection to the Flash Media server if the connection is lost.
-        public let connectionRetryInterval: Int32?
+        public let connectionRetryInterval: Int?
         /// The RTMP endpoint excluding the stream name (eg. rtmp://host/appname). For connection to Akamai, a username and password must be supplied. URI fields accept format identifiers.
         public let destination: OutputLocationRef
         /// Number of retry attempts.
-        public let numRetries: Int32?
+        public let numRetries: Int?
 
-        public init(certificateMode: RtmpOutputCertificateMode? = nil, connectionRetryInterval: Int32? = nil, destination: OutputLocationRef, numRetries: Int32? = nil) {
+        public init(certificateMode: RtmpOutputCertificateMode? = nil, connectionRetryInterval: Int? = nil, destination: OutputLocationRef, numRetries: Int? = nil) {
             self.certificateMode = certificateMode
             self.connectionRetryInterval = connectionRetryInterval
             self.destination = destination
             self.numRetries = numRetries
+        }
+
+        public func validate(name: String) throws {
+            try validate(connectionRetryInterval, name:"connectionRetryInterval", parent: name, min: 1)
+            try validate(numRetries, name:"numRetries", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6762,6 +6936,7 @@ extension MediaLive {
             AWSShapeMember(label: "ScheduleActionSettings", location: .body(locationName: "scheduleActionSettings"), required: true, type: .structure), 
             AWSShapeMember(label: "ScheduleActionStartSettings", location: .body(locationName: "scheduleActionStartSettings"), required: true, type: .structure)
         ]
+
         /// The name of the action, must be unique within the schedule. This name provides the main reference to an action once it is added to the schedule. A name is unique if it is no longer in the schedule. The schedule is automatically cleaned up to remove actions with a start time of more than 1 hour ago (approximately) so at that point a name can be reused.
         public let actionName: String
         /// Settings for this schedule action.
@@ -6773,6 +6948,10 @@ extension MediaLive {
             self.actionName = actionName
             self.scheduleActionSettings = scheduleActionSettings
             self.scheduleActionStartSettings = scheduleActionStartSettings
+        }
+
+        public func validate(name: String) throws {
+            try scheduleActionSettings.validate(name: "\(name).scheduleActionSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6793,6 +6972,7 @@ extension MediaLive {
             AWSShapeMember(label: "StaticImageActivateSettings", location: .body(locationName: "staticImageActivateSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "StaticImageDeactivateSettings", location: .body(locationName: "staticImageDeactivateSettings"), required: false, type: .structure)
         ]
+
         /// Action to insert HLS metadata
         public let hlsTimedMetadataSettings: HlsTimedMetadataScheduleActionSettings?
         /// Action to switch the input
@@ -6821,6 +7001,14 @@ extension MediaLive {
             self.staticImageDeactivateSettings = staticImageDeactivateSettings
         }
 
+        public func validate(name: String) throws {
+            try scte35ReturnToNetworkSettings?.validate(name: "\(name).scte35ReturnToNetworkSettings")
+            try scte35SpliceInsertSettings?.validate(name: "\(name).scte35SpliceInsertSettings")
+            try scte35TimeSignalSettings?.validate(name: "\(name).scte35TimeSignalSettings")
+            try staticImageActivateSettings?.validate(name: "\(name).staticImageActivateSettings")
+            try staticImageDeactivateSettings?.validate(name: "\(name).staticImageDeactivateSettings")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case hlsTimedMetadataSettings = "hlsTimedMetadataSettings"
             case inputSwitchSettings = "inputSwitchSettings"
@@ -6838,6 +7026,7 @@ extension MediaLive {
             AWSShapeMember(label: "FixedModeScheduleActionStartSettings", location: .body(locationName: "fixedModeScheduleActionStartSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "FollowModeScheduleActionStartSettings", location: .body(locationName: "followModeScheduleActionStartSettings"), required: false, type: .structure)
         ]
+
         /// Holds the start time for the action.
         public let fixedModeScheduleActionStartSettings: FixedModeScheduleActionStartSettings?
         /// Specifies an action to follow for scheduling this action.
@@ -6854,34 +7043,6 @@ extension MediaLive {
         }
     }
 
-    public struct ScheduleDeleteResultModel: AWSShape {
-
-        public init() {
-        }
-
-    }
-
-    public struct ScheduleDescribeResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "ScheduleActions", location: .body(locationName: "scheduleActions"), required: true, type: .list)
-        ]
-        /// The next token; for use in pagination.
-        public let nextToken: String?
-        /// The list of actions in the schedule.
-        public let scheduleActions: [ScheduleAction]
-
-        public init(nextToken: String? = nil, scheduleActions: [ScheduleAction]) {
-            self.nextToken = nextToken
-            self.scheduleActions = scheduleActions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case scheduleActions = "scheduleActions"
-        }
-    }
-
     public enum Scte20Convert608To708: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case upconvert = "UPCONVERT"
@@ -6889,6 +7050,7 @@ extension MediaLive {
     }
 
     public struct Scte20PlusEmbeddedDestinationSettings: AWSShape {
+
 
         public init() {
         }
@@ -6900,14 +7062,20 @@ extension MediaLive {
             AWSShapeMember(label: "Convert608To708", location: .body(locationName: "convert608To708"), required: false, type: .enum), 
             AWSShapeMember(label: "Source608ChannelNumber", location: .body(locationName: "source608ChannelNumber"), required: false, type: .integer)
         ]
+
         /// If upconvert, 608 data is both passed through via the "608 compatibility bytes" fields of the 708 wrapper as well as translated into 708. 708 data present in the source content will be discarded.
         public let convert608To708: Scte20Convert608To708?
         /// Specifies the 608/708 channel number within the video track from which to extract captions. Unused for passthrough.
-        public let source608ChannelNumber: Int32?
+        public let source608ChannelNumber: Int?
 
-        public init(convert608To708: Scte20Convert608To708? = nil, source608ChannelNumber: Int32? = nil) {
+        public init(convert608To708: Scte20Convert608To708? = nil, source608ChannelNumber: Int? = nil) {
             self.convert608To708 = convert608To708
             self.source608ChannelNumber = source608ChannelNumber
+        }
+
+        public func validate(name: String) throws {
+            try validate(source608ChannelNumber, name:"source608ChannelNumber", parent: name, max: 4)
+            try validate(source608ChannelNumber, name:"source608ChannelNumber", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6918,6 +7086,7 @@ extension MediaLive {
 
     public struct Scte27DestinationSettings: AWSShape {
 
+
         public init() {
         }
 
@@ -6927,15 +7096,20 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Pid", location: .body(locationName: "pid"), required: false, type: .integer)
         ]
+
         /// The pid field is used in conjunction with the caption selector languageCode field as follows:
         ///   - Specify PID and Language: Extracts captions from that PID; the language is "informational".
         ///   - Specify PID and omit Language: Extracts the specified PID.
         ///   - Omit PID and specify Language: Extracts the specified language, whichever PID that happens to be.
         ///   - Omit PID and omit Language: Valid only if source is DVB-Sub that is being passed through; all languages will be passed through.
-        public let pid: Int32?
+        public let pid: Int?
 
-        public init(pid: Int32? = nil) {
+        public init(pid: Int? = nil) {
             self.pid = pid
+        }
+
+        public func validate(name: String) throws {
+            try validate(pid, name:"pid", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6968,6 +7142,7 @@ extension MediaLive {
             AWSShapeMember(label: "NoRegionalBlackoutFlag", location: .body(locationName: "noRegionalBlackoutFlag"), required: true, type: .enum), 
             AWSShapeMember(label: "WebDeliveryAllowedFlag", location: .body(locationName: "webDeliveryAllowedFlag"), required: true, type: .enum)
         ]
+
         /// Corresponds to SCTE-35 archive_allowed_flag.
         public let archiveAllowedFlag: Scte35ArchiveAllowedFlag
         /// Corresponds to SCTE-35 device_restrictions parameter.
@@ -6996,11 +7171,16 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Scte35DescriptorSettings", location: .body(locationName: "scte35DescriptorSettings"), required: true, type: .structure)
         ]
+
         /// SCTE-35 Descriptor Settings.
         public let scte35DescriptorSettings: Scte35DescriptorSettings
 
         public init(scte35DescriptorSettings: Scte35DescriptorSettings) {
             self.scte35DescriptorSettings = scte35DescriptorSettings
+        }
+
+        public func validate(name: String) throws {
+            try scte35DescriptorSettings.validate(name: "\(name).scte35DescriptorSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7012,11 +7192,16 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SegmentationDescriptorScte35DescriptorSettings", location: .body(locationName: "segmentationDescriptorScte35DescriptorSettings"), required: true, type: .structure)
         ]
+
         /// SCTE-35 Segmentation Descriptor.
         public let segmentationDescriptorScte35DescriptorSettings: Scte35SegmentationDescriptor
 
         public init(segmentationDescriptorScte35DescriptorSettings: Scte35SegmentationDescriptor) {
             self.segmentationDescriptorScte35DescriptorSettings = segmentationDescriptorScte35DescriptorSettings
+        }
+
+        public func validate(name: String) throws {
+            try segmentationDescriptorScte35DescriptorSettings.validate(name: "\(name).segmentationDescriptorScte35DescriptorSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7042,11 +7227,17 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SpliceEventId", location: .body(locationName: "spliceEventId"), required: true, type: .long)
         ]
+
         /// The splice_event_id for the SCTE-35 splice_insert, as defined in SCTE-35.
         public let spliceEventId: Int64
 
         public init(spliceEventId: Int64) {
             self.spliceEventId = spliceEventId
+        }
+
+        public func validate(name: String) throws {
+            try validate(spliceEventId, name:"spliceEventId", parent: name, max: 4294967295)
+            try validate(spliceEventId, name:"spliceEventId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7074,6 +7265,7 @@ extension MediaLive {
             AWSShapeMember(label: "SubSegmentNum", location: .body(locationName: "subSegmentNum"), required: false, type: .integer), 
             AWSShapeMember(label: "SubSegmentsExpected", location: .body(locationName: "subSegmentsExpected"), required: false, type: .integer)
         ]
+
         /// Holds the four SCTE-35 delivery restriction parameters.
         public let deliveryRestrictions: Scte35DeliveryRestrictions?
         /// Corresponds to SCTE-35 segmentation_event_cancel_indicator.
@@ -7083,21 +7275,21 @@ extension MediaLive {
         /// Corresponds to SCTE-35 segmentation_event_id. 
         public let segmentationEventId: Int64
         /// Corresponds to SCTE-35 segmentation_type_id. One of the segmentation_type_id values listed in the SCTE-35 specification. On the console, enter the ID in decimal (for example, "52"). In the CLI, API, or an SDK, enter the ID in hex (for example, "0x34") or decimal (for example, "52").
-        public let segmentationTypeId: Int32?
+        public let segmentationTypeId: Int?
         /// Corresponds to SCTE-35 segmentation_upid. Enter a string containing the hexadecimal representation of the characters that make up the SCTE-35 segmentation_upid value. Must contain an even number of hex characters. Do not include spaces between each hex pair. For example, the ASCII "ADS Information" becomes hex "41445320496e666f726d6174696f6e.
         public let segmentationUpid: String?
         /// Corresponds to SCTE-35 segmentation_upid_type. On the console, enter one of the types listed in the SCTE-35 specification, converted to a decimal. For example, "0x0C" hex from the specification is "12" in decimal. In the CLI, API, or an SDK, enter one of the types listed in the SCTE-35 specification, in either hex (for example, "0x0C" ) or in decimal (for example, "12").
-        public let segmentationUpidType: Int32?
+        public let segmentationUpidType: Int?
         /// Corresponds to SCTE-35 segment_num. A value that is valid for the specified segmentation_type_id.
-        public let segmentNum: Int32?
+        public let segmentNum: Int?
         /// Corresponds to SCTE-35 segments_expected. A value that is valid for the specified segmentation_type_id.
-        public let segmentsExpected: Int32?
+        public let segmentsExpected: Int?
         /// Corresponds to SCTE-35 sub_segment_num. A value that is valid for the specified segmentation_type_id.
-        public let subSegmentNum: Int32?
+        public let subSegmentNum: Int?
         /// Corresponds to SCTE-35 sub_segments_expected. A value that is valid for the specified segmentation_type_id.
-        public let subSegmentsExpected: Int32?
+        public let subSegmentsExpected: Int?
 
-        public init(deliveryRestrictions: Scte35DeliveryRestrictions? = nil, segmentationCancelIndicator: Scte35SegmentationCancelIndicator, segmentationDuration: Int64? = nil, segmentationEventId: Int64, segmentationTypeId: Int32? = nil, segmentationUpid: String? = nil, segmentationUpidType: Int32? = nil, segmentNum: Int32? = nil, segmentsExpected: Int32? = nil, subSegmentNum: Int32? = nil, subSegmentsExpected: Int32? = nil) {
+        public init(deliveryRestrictions: Scte35DeliveryRestrictions? = nil, segmentationCancelIndicator: Scte35SegmentationCancelIndicator, segmentationDuration: Int64? = nil, segmentationEventId: Int64, segmentationTypeId: Int? = nil, segmentationUpid: String? = nil, segmentationUpidType: Int? = nil, segmentNum: Int? = nil, segmentsExpected: Int? = nil, subSegmentNum: Int? = nil, subSegmentsExpected: Int? = nil) {
             self.deliveryRestrictions = deliveryRestrictions
             self.segmentationCancelIndicator = segmentationCancelIndicator
             self.segmentationDuration = segmentationDuration
@@ -7109,6 +7301,25 @@ extension MediaLive {
             self.segmentsExpected = segmentsExpected
             self.subSegmentNum = subSegmentNum
             self.subSegmentsExpected = subSegmentsExpected
+        }
+
+        public func validate(name: String) throws {
+            try validate(segmentationDuration, name:"segmentationDuration", parent: name, max: 1099511627775)
+            try validate(segmentationDuration, name:"segmentationDuration", parent: name, min: 0)
+            try validate(segmentationEventId, name:"segmentationEventId", parent: name, max: 4294967295)
+            try validate(segmentationEventId, name:"segmentationEventId", parent: name, min: 0)
+            try validate(segmentationTypeId, name:"segmentationTypeId", parent: name, max: 255)
+            try validate(segmentationTypeId, name:"segmentationTypeId", parent: name, min: 0)
+            try validate(segmentationUpidType, name:"segmentationUpidType", parent: name, max: 255)
+            try validate(segmentationUpidType, name:"segmentationUpidType", parent: name, min: 0)
+            try validate(segmentNum, name:"segmentNum", parent: name, max: 255)
+            try validate(segmentNum, name:"segmentNum", parent: name, min: 0)
+            try validate(segmentsExpected, name:"segmentsExpected", parent: name, max: 255)
+            try validate(segmentsExpected, name:"segmentsExpected", parent: name, min: 0)
+            try validate(subSegmentNum, name:"subSegmentNum", parent: name, max: 255)
+            try validate(subSegmentNum, name:"subSegmentNum", parent: name, min: 0)
+            try validate(subSegmentsExpected, name:"subSegmentsExpected", parent: name, max: 255)
+            try validate(subSegmentsExpected, name:"subSegmentsExpected", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7132,17 +7343,23 @@ extension MediaLive {
             AWSShapeMember(label: "NoRegionalBlackoutFlag", location: .body(locationName: "noRegionalBlackoutFlag"), required: false, type: .enum), 
             AWSShapeMember(label: "WebDeliveryAllowedFlag", location: .body(locationName: "webDeliveryAllowedFlag"), required: false, type: .enum)
         ]
+
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time. This only applies to embedded SCTE 104/35 messages and does not apply to OOB messages.
-        public let adAvailOffset: Int32?
+        public let adAvailOffset: Int?
         /// When set to ignore, Segment Descriptors with noRegionalBlackoutFlag set to 0 will no longer trigger blackouts or Ad Avail slates
         public let noRegionalBlackoutFlag: Scte35SpliceInsertNoRegionalBlackoutBehavior?
         /// When set to ignore, Segment Descriptors with webDeliveryAllowedFlag set to 0 will no longer trigger blackouts or Ad Avail slates
         public let webDeliveryAllowedFlag: Scte35SpliceInsertWebDeliveryAllowedBehavior?
 
-        public init(adAvailOffset: Int32? = nil, noRegionalBlackoutFlag: Scte35SpliceInsertNoRegionalBlackoutBehavior? = nil, webDeliveryAllowedFlag: Scte35SpliceInsertWebDeliveryAllowedBehavior? = nil) {
+        public init(adAvailOffset: Int? = nil, noRegionalBlackoutFlag: Scte35SpliceInsertNoRegionalBlackoutBehavior? = nil, webDeliveryAllowedFlag: Scte35SpliceInsertWebDeliveryAllowedBehavior? = nil) {
             self.adAvailOffset = adAvailOffset
             self.noRegionalBlackoutFlag = noRegionalBlackoutFlag
             self.webDeliveryAllowedFlag = webDeliveryAllowedFlag
+        }
+
+        public func validate(name: String) throws {
+            try validate(adAvailOffset, name:"adAvailOffset", parent: name, max: 1000)
+            try validate(adAvailOffset, name:"adAvailOffset", parent: name, min: -1000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7163,6 +7380,7 @@ extension MediaLive {
             AWSShapeMember(label: "Duration", location: .body(locationName: "duration"), required: false, type: .long), 
             AWSShapeMember(label: "SpliceEventId", location: .body(locationName: "spliceEventId"), required: true, type: .long)
         ]
+
         /// Optional, the duration for the splice_insert, in 90 KHz ticks. To convert seconds to ticks, multiple the seconds by 90,000. If you enter a duration, there is an expectation that the downstream system can read the duration and cue in at that time. If you do not enter a duration, the splice_insert will continue indefinitely and there is an expectation that you will enter a return_to_network to end the splice_insert at the appropriate time.
         public let duration: Int64?
         /// The splice_event_id for the SCTE-35 splice_insert, as defined in SCTE-35.
@@ -7171,6 +7389,13 @@ extension MediaLive {
         public init(duration: Int64? = nil, spliceEventId: Int64) {
             self.duration = duration
             self.spliceEventId = spliceEventId
+        }
+
+        public func validate(name: String) throws {
+            try validate(duration, name:"duration", parent: name, max: 8589934591)
+            try validate(duration, name:"duration", parent: name, min: 0)
+            try validate(spliceEventId, name:"spliceEventId", parent: name, max: 4294967295)
+            try validate(spliceEventId, name:"spliceEventId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7191,17 +7416,23 @@ extension MediaLive {
             AWSShapeMember(label: "NoRegionalBlackoutFlag", location: .body(locationName: "noRegionalBlackoutFlag"), required: false, type: .enum), 
             AWSShapeMember(label: "WebDeliveryAllowedFlag", location: .body(locationName: "webDeliveryAllowedFlag"), required: false, type: .enum)
         ]
+
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time. This only applies to embedded SCTE 104/35 messages and does not apply to OOB messages.
-        public let adAvailOffset: Int32?
+        public let adAvailOffset: Int?
         /// When set to ignore, Segment Descriptors with noRegionalBlackoutFlag set to 0 will no longer trigger blackouts or Ad Avail slates
         public let noRegionalBlackoutFlag: Scte35AposNoRegionalBlackoutBehavior?
         /// When set to ignore, Segment Descriptors with webDeliveryAllowedFlag set to 0 will no longer trigger blackouts or Ad Avail slates
         public let webDeliveryAllowedFlag: Scte35AposWebDeliveryAllowedBehavior?
 
-        public init(adAvailOffset: Int32? = nil, noRegionalBlackoutFlag: Scte35AposNoRegionalBlackoutBehavior? = nil, webDeliveryAllowedFlag: Scte35AposWebDeliveryAllowedBehavior? = nil) {
+        public init(adAvailOffset: Int? = nil, noRegionalBlackoutFlag: Scte35AposNoRegionalBlackoutBehavior? = nil, webDeliveryAllowedFlag: Scte35AposWebDeliveryAllowedBehavior? = nil) {
             self.adAvailOffset = adAvailOffset
             self.noRegionalBlackoutFlag = noRegionalBlackoutFlag
             self.webDeliveryAllowedFlag = webDeliveryAllowedFlag
+        }
+
+        public func validate(name: String) throws {
+            try validate(adAvailOffset, name:"adAvailOffset", parent: name, max: 1000)
+            try validate(adAvailOffset, name:"adAvailOffset", parent: name, min: -1000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7215,11 +7446,18 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Scte35Descriptors", location: .body(locationName: "scte35Descriptors"), required: true, type: .list)
         ]
+
         /// The list of SCTE-35 descriptors accompanying the SCTE-35 time_signal.
         public let scte35Descriptors: [Scte35Descriptor]
 
         public init(scte35Descriptors: [Scte35Descriptor]) {
             self.scte35Descriptors = scte35Descriptors
+        }
+
+        public func validate(name: String) throws {
+            try scte35Descriptors.forEach {
+                try $0.validate(name: "\(name).scte35Descriptors[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7284,6 +7522,7 @@ extension MediaLive {
 
     public struct SmpteTtDestinationSettings: AWSShape {
 
+
         public init() {
         }
 
@@ -7294,6 +7533,7 @@ extension MediaLive {
             AWSShapeMember(label: "AudioRenditionSets", location: .body(locationName: "audioRenditionSets"), required: false, type: .string), 
             AWSShapeMember(label: "M3u8Settings", location: .body(locationName: "m3u8Settings"), required: true, type: .structure)
         ]
+
         /// List all the audio groups that are used with the video output stream. Input all the audio GROUP-IDs that are associated to the video, separate by ','.
         public let audioRenditionSets: String?
         public let m3u8Settings: M3u8Settings
@@ -7301,6 +7541,10 @@ extension MediaLive {
         public init(audioRenditionSets: String? = nil, m3u8Settings: M3u8Settings) {
             self.audioRenditionSets = audioRenditionSets
             self.m3u8Settings = m3u8Settings
+        }
+
+        public func validate(name: String) throws {
+            try m3u8Settings.validate(name: "\(name).m3u8Settings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7313,6 +7557,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"), required: true, type: .string)
         ]
+
         public let channelId: String
 
         public init(channelId: String) {
@@ -7341,6 +7586,7 @@ extension MediaLive {
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         public let arn: String?
         public let channelClass: ChannelClass?
         public let destinations: [OutputDestination]?
@@ -7351,12 +7597,12 @@ extension MediaLive {
         public let inputSpecification: InputSpecification?
         public let logLevel: LogLevel?
         public let name: String?
-        public let pipelinesRunningCount: Int32?
+        public let pipelinesRunningCount: Int?
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int32? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
             self.destinations = destinations
@@ -7404,28 +7650,29 @@ extension MediaLive {
             AWSShapeMember(label: "Opacity", location: .body(locationName: "opacity"), required: false, type: .integer), 
             AWSShapeMember(label: "Width", location: .body(locationName: "width"), required: false, type: .integer)
         ]
+
         /// The duration in milliseconds for the image to remain on the video. If omitted or set to 0 the duration is unlimited and the image will remain until it is explicitly deactivated.
-        public let duration: Int32?
+        public let duration: Int?
         /// The time in milliseconds for the image to fade in. The fade-in starts at the start time of the overlay. Default is 0 (no fade-in).
-        public let fadeIn: Int32?
+        public let fadeIn: Int?
         /// Applies only if a duration is specified. The time in milliseconds for the image to fade out. The fade-out starts when the duration time is hit, so it effectively extends the duration. Default is 0 (no fade-out).
-        public let fadeOut: Int32?
+        public let fadeOut: Int?
         /// The height of the image when inserted into the video, in pixels. The overlay will be scaled up or down to the specified height. Leave blank to use the native height of the overlay.
-        public let height: Int32?
+        public let height: Int?
         /// The location and filename of the image file to overlay on the video. The file must be a 32-bit BMP, PNG, or TGA file, and must not be larger (in pixels) than the input video.
         public let image: InputLocation
         /// Placement of the left edge of the overlay relative to the left edge of the video frame, in pixels. 0 (the default) is the left edge of the frame. If the placement causes the overlay to extend beyond the right edge of the underlying video, then the overlay is cropped on the right.
-        public let imageX: Int32?
+        public let imageX: Int?
         /// Placement of the top edge of the overlay relative to the top edge of the video frame, in pixels. 0 (the default) is the top edge of the frame. If the placement causes the overlay to extend beyond the bottom edge of the underlying video, then the overlay is cropped on the bottom.
-        public let imageY: Int32?
+        public let imageY: Int?
         /// The number of the layer, 0 to 7. There are 8 layers that can be overlaid on the video, each layer with a different image. The layers are in Z order, which means that overlays with higher values of layer are inserted on top of overlays with lower values of layer. Default is 0.
-        public let layer: Int32?
+        public let layer: Int?
         /// Opacity of image where 0 is transparent and 100 is fully opaque. Default is 100.
-        public let opacity: Int32?
+        public let opacity: Int?
         /// The width of the image when inserted into the video, in pixels. The overlay will be scaled up or down to the specified width. Leave blank to use the native width of the overlay.
-        public let width: Int32?
+        public let width: Int?
 
-        public init(duration: Int32? = nil, fadeIn: Int32? = nil, fadeOut: Int32? = nil, height: Int32? = nil, image: InputLocation, imageX: Int32? = nil, imageY: Int32? = nil, layer: Int32? = nil, opacity: Int32? = nil, width: Int32? = nil) {
+        public init(duration: Int? = nil, fadeIn: Int? = nil, fadeOut: Int? = nil, height: Int? = nil, image: InputLocation, imageX: Int? = nil, imageY: Int? = nil, layer: Int? = nil, opacity: Int? = nil, width: Int? = nil) {
             self.duration = duration
             self.fadeIn = fadeIn
             self.fadeOut = fadeOut
@@ -7436,6 +7683,20 @@ extension MediaLive {
             self.layer = layer
             self.opacity = opacity
             self.width = width
+        }
+
+        public func validate(name: String) throws {
+            try validate(duration, name:"duration", parent: name, min: 0)
+            try validate(fadeIn, name:"fadeIn", parent: name, min: 0)
+            try validate(fadeOut, name:"fadeOut", parent: name, min: 0)
+            try validate(height, name:"height", parent: name, min: 1)
+            try validate(imageX, name:"imageX", parent: name, min: 0)
+            try validate(imageY, name:"imageY", parent: name, min: 0)
+            try validate(layer, name:"layer", parent: name, max: 7)
+            try validate(layer, name:"layer", parent: name, min: 0)
+            try validate(opacity, name:"opacity", parent: name, max: 100)
+            try validate(opacity, name:"opacity", parent: name, min: 0)
+            try validate(width, name:"width", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7457,14 +7718,21 @@ extension MediaLive {
             AWSShapeMember(label: "FadeOut", location: .body(locationName: "fadeOut"), required: false, type: .integer), 
             AWSShapeMember(label: "Layer", location: .body(locationName: "layer"), required: false, type: .integer)
         ]
-        /// The time in milliseconds for the image to fade out. Default is 0 (no fade-out).
-        public let fadeOut: Int32?
-        /// The image overlay layer to deactivate, 0 to 7. Default is 0.
-        public let layer: Int32?
 
-        public init(fadeOut: Int32? = nil, layer: Int32? = nil) {
+        /// The time in milliseconds for the image to fade out. Default is 0 (no fade-out).
+        public let fadeOut: Int?
+        /// The image overlay layer to deactivate, 0 to 7. Default is 0.
+        public let layer: Int?
+
+        public init(fadeOut: Int? = nil, layer: Int? = nil) {
             self.fadeOut = fadeOut
             self.layer = layer
+        }
+
+        public func validate(name: String) throws {
+            try validate(fadeOut, name:"fadeOut", parent: name, min: 0)
+            try validate(layer, name:"layer", parent: name, max: 7)
+            try validate(layer, name:"layer", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7478,6 +7746,7 @@ extension MediaLive {
             AWSShapeMember(label: "KeyProviderServer", location: .body(locationName: "keyProviderServer"), required: false, type: .structure), 
             AWSShapeMember(label: "StaticKeyValue", location: .body(locationName: "staticKeyValue"), required: true, type: .string)
         ]
+
         /// The URL of the license server used for protecting content.
         public let keyProviderServer: InputLocation?
         /// Static key value as a 32 character hexadecimal string.
@@ -7486,6 +7755,11 @@ extension MediaLive {
         public init(keyProviderServer: InputLocation? = nil, staticKeyValue: String) {
             self.keyProviderServer = keyProviderServer
             self.staticKeyValue = staticKeyValue
+        }
+
+        public func validate(name: String) throws {
+            try validate(staticKeyValue, name:"staticKeyValue", parent: name, max: 32)
+            try validate(staticKeyValue, name:"staticKeyValue", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7498,6 +7772,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"), required: true, type: .string)
         ]
+
         public let channelId: String
 
         public init(channelId: String) {
@@ -7526,6 +7801,7 @@ extension MediaLive {
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         public let arn: String?
         public let channelClass: ChannelClass?
         public let destinations: [OutputDestination]?
@@ -7536,12 +7812,12 @@ extension MediaLive {
         public let inputSpecification: InputSpecification?
         public let logLevel: LogLevel?
         public let name: String?
-        public let pipelinesRunningCount: Int32?
+        public let pipelinesRunningCount: Int?
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int32? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
             self.destinations = destinations
@@ -7576,22 +7852,8 @@ extension MediaLive {
         }
     }
 
-    public struct TagsModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
-        ]
-        public let tags: [String: String]?
-
-        public init(tags: [String: String]? = nil) {
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-        }
-    }
-
     public struct TeletextDestinationSettings: AWSShape {
+
 
         public init() {
         }
@@ -7602,6 +7864,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageNumber", location: .body(locationName: "pageNumber"), required: false, type: .string)
         ]
+
         /// Specifies the teletext page number within the data stream from which to extract captions. Range of 0x100 (256) to 0x8FF (2303). Unused for passthrough. Should be specified as a hexadecimal string with no "0x" prefix.
         public let pageNumber: String?
 
@@ -7619,17 +7882,23 @@ extension MediaLive {
             AWSShapeMember(label: "Source", location: .body(locationName: "source"), required: true, type: .enum), 
             AWSShapeMember(label: "SyncThreshold", location: .body(locationName: "syncThreshold"), required: false, type: .integer)
         ]
+
         /// Identifies the source for the timecode that will be associated with the events outputs.
         /// -Embedded (embedded): Initialize the output timecode with timecode from the the source.  If no embedded timecode is detected in the source, the system falls back to using "Start at 0" (zerobased).
         /// -System Clock (systemclock): Use the UTC time.
         /// -Start at 0 (zerobased): The time of the first frame of the event will be 00:00:00:00.
         public let source: TimecodeConfigSource
         /// Threshold in frames beyond which output timecode is resynchronized to the input timecode. Discrepancies below this threshold are permitted to avoid unnecessary discontinuities in the output timecode. No timecode sync when this is not specified.
-        public let syncThreshold: Int32?
+        public let syncThreshold: Int?
 
-        public init(source: TimecodeConfigSource, syncThreshold: Int32? = nil) {
+        public init(source: TimecodeConfigSource, syncThreshold: Int? = nil) {
             self.source = source
             self.syncThreshold = syncThreshold
+        }
+
+        public func validate(name: String) throws {
+            try validate(syncThreshold, name:"syncThreshold", parent: name, max: 1000000)
+            try validate(syncThreshold, name:"syncThreshold", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7649,6 +7918,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StyleControl", location: .body(locationName: "styleControl"), required: false, type: .enum)
         ]
+
         /// When set to passthrough, passes through style and position information from a TTML-like input source (TTML, SMPTE-TT, CFF-TT) to the CFF-TT output or TTML output.
         public let styleControl: TtmlDestinationStyleControl?
 
@@ -7671,10 +7941,15 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "M2tsSettings", location: .body(locationName: "m2tsSettings"), required: false, type: .structure)
         ]
+
         public let m2tsSettings: M2tsSettings?
 
         public init(m2tsSettings: M2tsSettings? = nil) {
             self.m2tsSettings = m2tsSettings
+        }
+
+        public func validate(name: String) throws {
+            try m2tsSettings?.validate(name: "\(name).m2tsSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7688,17 +7963,22 @@ extension MediaLive {
             AWSShapeMember(label: "TimedMetadataId3Frame", location: .body(locationName: "timedMetadataId3Frame"), required: false, type: .enum), 
             AWSShapeMember(label: "TimedMetadataId3Period", location: .body(locationName: "timedMetadataId3Period"), required: false, type: .integer)
         ]
+
         /// Specifies behavior of last resort when input video is lost, and no more backup inputs are available. When dropTs is selected the entire transport stream will stop being emitted.  When dropProgram is selected the program can be dropped from the transport stream (and replaced with null packets to meet the TS bitrate requirement).  Or, when emitProgram is chosen the transport stream will continue to be produced normally with repeat frames, black frames, or slate frames substituted for the absent input video.
         public let inputLossAction: InputLossActionForUdpOut?
         /// Indicates ID3 frame that has the timecode.
         public let timedMetadataId3Frame: UdpTimedMetadataId3Frame?
         /// Timed Metadata interval in seconds.
-        public let timedMetadataId3Period: Int32?
+        public let timedMetadataId3Period: Int?
 
-        public init(inputLossAction: InputLossActionForUdpOut? = nil, timedMetadataId3Frame: UdpTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int32? = nil) {
+        public init(inputLossAction: InputLossActionForUdpOut? = nil, timedMetadataId3Frame: UdpTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil) {
             self.inputLossAction = inputLossAction
             self.timedMetadataId3Frame = timedMetadataId3Frame
             self.timedMetadataId3Period = timedMetadataId3Period
+        }
+
+        public func validate(name: String) throws {
+            try validate(timedMetadataId3Period, name:"timedMetadataId3Period", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7715,19 +7995,27 @@ extension MediaLive {
             AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: true, type: .structure), 
             AWSShapeMember(label: "FecOutputSettings", location: .body(locationName: "fecOutputSettings"), required: false, type: .structure)
         ]
+
         /// UDP output buffering in milliseconds. Larger values increase latency through the transcoder but simultaneously assist the transcoder in maintaining a constant, low-jitter UDP/RTP output while accommodating clock recovery, input switching, input disruptions, picture reordering, etc.
-        public let bufferMsec: Int32?
+        public let bufferMsec: Int?
         public let containerSettings: UdpContainerSettings
         /// Destination address and port number for RTP or UDP packets. Can be unicast or multicast RTP or UDP (eg. rtp://239.10.10.10:5001 or udp://10.100.100.100:5002).
         public let destination: OutputLocationRef
         /// Settings for enabling and adjusting Forward Error Correction on UDP outputs.
         public let fecOutputSettings: FecOutputSettings?
 
-        public init(bufferMsec: Int32? = nil, containerSettings: UdpContainerSettings, destination: OutputLocationRef, fecOutputSettings: FecOutputSettings? = nil) {
+        public init(bufferMsec: Int? = nil, containerSettings: UdpContainerSettings, destination: OutputLocationRef, fecOutputSettings: FecOutputSettings? = nil) {
             self.bufferMsec = bufferMsec
             self.containerSettings = containerSettings
             self.destination = destination
             self.fecOutputSettings = fecOutputSettings
+        }
+
+        public func validate(name: String) throws {
+            try validate(bufferMsec, name:"bufferMsec", parent: name, max: 10000)
+            try validate(bufferMsec, name:"bufferMsec", parent: name, min: 0)
+            try containerSettings.validate(name: "\(name).containerSettings")
+            try fecOutputSettings?.validate(name: "\(name).fecOutputSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7745,78 +8033,13 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public struct UpdateChannel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
-            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments"), required: false, type: .list), 
-            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification"), required: false, type: .structure), 
-            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel"), required: false, type: .enum), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string)
-        ]
-        /// A list of output destinations for this channel.
-        public let destinations: [OutputDestination]?
-        /// The encoder settings for this channel.
-        public let encoderSettings: EncoderSettings?
-        public let inputAttachments: [InputAttachment]?
-        /// Specification of input for this channel (max. bitrate, resolution, codec, etc.)
-        public let inputSpecification: InputSpecification?
-        /// The log level to write to CloudWatch Logs.
-        public let logLevel: LogLevel?
-        /// The name of the channel.
-        public let name: String?
-        /// An optional Amazon Resource Name (ARN) of the role to assume when running the Channel. If you do not specify this on an update call but the role was previously set that role will be removed.
-        public let roleArn: String?
-
-        public init(destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, roleArn: String? = nil) {
-            self.destinations = destinations
-            self.encoderSettings = encoderSettings
-            self.inputAttachments = inputAttachments
-            self.inputSpecification = inputSpecification
-            self.logLevel = logLevel
-            self.name = name
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinations = "destinations"
-            case encoderSettings = "encoderSettings"
-            case inputAttachments = "inputAttachments"
-            case inputSpecification = "inputSpecification"
-            case logLevel = "logLevel"
-            case name = "name"
-            case roleArn = "roleArn"
-        }
-    }
-
-    public struct UpdateChannelClass: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelClass", location: .body(locationName: "channelClass"), required: true, type: .enum), 
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list)
-        ]
-        /// The channel class that you wish to update this channel to use.
-        public let channelClass: ChannelClass
-        /// A list of output destinations for this channel.
-        public let destinations: [OutputDestination]?
-
-        public init(channelClass: ChannelClass, destinations: [OutputDestination]? = nil) {
-            self.channelClass = channelClass
-            self.destinations = destinations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case channelClass = "channelClass"
-            case destinations = "destinations"
-        }
-    }
-
     public struct UpdateChannelClassRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChannelClass", location: .body(locationName: "channelClass"), required: true, type: .enum), 
             AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"), required: true, type: .string), 
             AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list)
         ]
+
         public let channelClass: ChannelClass
         public let channelId: String
         public let destinations: [OutputDestination]?
@@ -7825,6 +8048,12 @@ extension MediaLive {
             self.channelClass = channelClass
             self.channelId = channelId
             self.destinations = destinations
+        }
+
+        public func validate(name: String) throws {
+            try destinations?.forEach {
+                try $0.validate(name: "\(name).destinations[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7838,6 +8067,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Channel", location: .body(locationName: "channel"), required: false, type: .structure)
         ]
+
         public let channel: Channel?
 
         public init(channel: Channel? = nil) {
@@ -7860,6 +8090,7 @@ extension MediaLive {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string)
         ]
+
         public let channelId: String
         public let destinations: [OutputDestination]?
         public let encoderSettings: EncoderSettings?
@@ -7880,6 +8111,16 @@ extension MediaLive {
             self.roleArn = roleArn
         }
 
+        public func validate(name: String) throws {
+            try destinations?.forEach {
+                try $0.validate(name: "\(name).destinations[]")
+            }
+            try encoderSettings?.validate(name: "\(name).encoderSettings")
+            try inputAttachments?.forEach {
+                try $0.validate(name: "\(name).inputAttachments[]")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case channelId = "channelId"
             case destinations = "destinations"
@@ -7896,6 +8137,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Channel", location: .body(locationName: "channel"), required: false, type: .structure)
         ]
+
         public let channel: Channel?
 
         public init(channel: Channel? = nil) {
@@ -7904,66 +8146,6 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case channel = "channel"
-        }
-    }
-
-    public struct UpdateChannelResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Channel", location: .body(locationName: "channel"), required: false, type: .structure)
-        ]
-        public let channel: Channel?
-
-        public init(channel: Channel? = nil) {
-            self.channel = channel
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case channel = "channel"
-        }
-    }
-
-    public struct UpdateInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
-            AWSShapeMember(label: "InputSecurityGroups", location: .body(locationName: "inputSecurityGroups"), required: false, type: .list), 
-            AWSShapeMember(label: "MediaConnectFlows", location: .body(locationName: "mediaConnectFlows"), required: false, type: .list), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Sources", location: .body(locationName: "sources"), required: false, type: .list)
-        ]
-        /// Destination settings for PUSH type inputs.
-        public let destinations: [InputDestinationRequest]?
-        /// A list of security groups referenced by IDs to attach to the input.
-        public let inputSecurityGroups: [String]?
-        /// A list of the MediaConnect Flow ARNs that you want to use as the source of the input. You can specify as few as one
-        /// Flow and presently, as many as two. The only requirement is when you have more than one is that each Flow is in a
-        /// separate Availability Zone as this ensures your EML input is redundant to AZ issues.
-        public let mediaConnectFlows: [MediaConnectFlowRequest]?
-        /// Name of the input.
-        public let name: String?
-        /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
-        public let roleArn: String?
-        /// The source URLs for a PULL-type input. Every PULL type input needs
-        /// exactly two source URLs for redundancy.
-        /// Only specify sources for PULL type Inputs. Leave Destinations empty.
-        public let sources: [InputSourceRequest]?
-
-        public init(destinations: [InputDestinationRequest]? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, roleArn: String? = nil, sources: [InputSourceRequest]? = nil) {
-            self.destinations = destinations
-            self.inputSecurityGroups = inputSecurityGroups
-            self.mediaConnectFlows = mediaConnectFlows
-            self.name = name
-            self.roleArn = roleArn
-            self.sources = sources
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinations = "destinations"
-            case inputSecurityGroups = "inputSecurityGroups"
-            case mediaConnectFlows = "mediaConnectFlows"
-            case name = "name"
-            case roleArn = "roleArn"
-            case sources = "sources"
         }
     }
 
@@ -7977,6 +8159,7 @@ extension MediaLive {
             AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
             AWSShapeMember(label: "Sources", location: .body(locationName: "sources"), required: false, type: .list)
         ]
+
         public let destinations: [InputDestinationRequest]?
         public let inputId: String
         public let inputSecurityGroups: [String]?
@@ -8010,21 +8193,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Input", location: .body(locationName: "input"), required: false, type: .structure)
         ]
-        public let input: Input?
 
-        public init(input: Input? = nil) {
-            self.input = input
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case input = "input"
-        }
-    }
-
-    public struct UpdateInputResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Input", location: .body(locationName: "input"), required: false, type: .structure)
-        ]
         public let input: Input?
 
         public init(input: Input? = nil) {
@@ -8042,6 +8211,7 @@ extension MediaLive {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "WhitelistRules", location: .body(locationName: "whitelistRules"), required: false, type: .list)
         ]
+
         public let inputSecurityGroupId: String
         public let tags: [String: String]?
         public let whitelistRules: [InputWhitelistRuleCidr]?
@@ -8063,6 +8233,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SecurityGroup", location: .body(locationName: "securityGroup"), required: false, type: .structure)
         ]
+
         public let securityGroup: InputSecurityGroup?
 
         public init(securityGroup: InputSecurityGroup? = nil) {
@@ -8071,37 +8242,6 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case securityGroup = "securityGroup"
-        }
-    }
-
-    public struct UpdateInputSecurityGroupResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroup", location: .body(locationName: "securityGroup"), required: false, type: .structure)
-        ]
-        public let securityGroup: InputSecurityGroup?
-
-        public init(securityGroup: InputSecurityGroup? = nil) {
-            self.securityGroup = securityGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityGroup = "securityGroup"
-        }
-    }
-
-    public struct UpdateReservation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
-        ]
-        /// Name of the reservation
-        public let name: String?
-
-        public init(name: String? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
         }
     }
 
@@ -8110,6 +8250,7 @@ extension MediaLive {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "ReservationId", location: .uri(locationName: "reservationId"), required: true, type: .string)
         ]
+
         public let name: String?
         public let reservationId: String
 
@@ -8128,6 +8269,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Reservation", location: .body(locationName: "reservation"), required: false, type: .structure)
         ]
+
         public let reservation: Reservation?
 
         public init(reservation: Reservation? = nil) {
@@ -8136,40 +8278,6 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case reservation = "reservation"
-        }
-    }
-
-    public struct UpdateReservationResultModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Reservation", location: .body(locationName: "reservation"), required: false, type: .structure)
-        ]
-        public let reservation: Reservation?
-
-        public init(reservation: Reservation? = nil) {
-            self.reservation = reservation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reservation = "reservation"
-        }
-    }
-
-    public struct ValidationError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ElementPath", location: .body(locationName: "elementPath"), required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", location: .body(locationName: "errorMessage"), required: false, type: .string)
-        ]
-        public let elementPath: String?
-        public let errorMessage: String?
-
-        public init(elementPath: String? = nil, errorMessage: String? = nil) {
-            self.elementPath = elementPath
-            self.errorMessage = errorMessage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case elementPath = "elementPath"
-            case errorMessage = "errorMessage"
         }
     }
 
@@ -8178,12 +8286,18 @@ extension MediaLive {
             AWSShapeMember(label: "FrameCaptureSettings", location: .body(locationName: "frameCaptureSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "H264Settings", location: .body(locationName: "h264Settings"), required: false, type: .structure)
         ]
+
         public let frameCaptureSettings: FrameCaptureSettings?
         public let h264Settings: H264Settings?
 
         public init(frameCaptureSettings: FrameCaptureSettings? = nil, h264Settings: H264Settings? = nil) {
             self.frameCaptureSettings = frameCaptureSettings
             self.h264Settings = h264Settings
+        }
+
+        public func validate(name: String) throws {
+            try frameCaptureSettings?.validate(name: "\(name).frameCaptureSettings")
+            try h264Settings?.validate(name: "\(name).h264Settings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8202,10 +8316,11 @@ extension MediaLive {
             AWSShapeMember(label: "Sharpness", location: .body(locationName: "sharpness"), required: false, type: .integer), 
             AWSShapeMember(label: "Width", location: .body(locationName: "width"), required: false, type: .integer)
         ]
+
         /// Video codec settings.
         public let codecSettings: VideoCodecSettings?
         /// Output video height, in pixels. Must be an even number. For most codecs, you can leave this field and width blank in order to use the height and width (resolution) from the source. Note, however, that leaving blank is not recommended. For the Frame Capture codec, height and width are required.
-        public let height: Int32?
+        public let height: Int?
         /// The name of this VideoDescription. Outputs will use this name to uniquely identify this Description.  Description names should be unique within this Live Event.
         public let name: String
         /// Indicates how to respond to the AFD values in the input stream. RESPOND causes input video to be clipped, depending on the AFD value, input display aspect ratio, and output display aspect ratio, and (except for FRAMECAPTURE codec) includes the values in the output. PASSTHROUGH (does not apply to FRAMECAPTURE codec) ignores the AFD values and includes the values in the output, so input video is not clipped. NONE ignores the AFD values and does not include the values through to the output, so input video is not clipped.
@@ -8213,11 +8328,11 @@ extension MediaLive {
         /// STRETCHTOOUTPUT configures the output position to stretch the video to the specified output resolution (height and width). This option will override any position value. DEFAULT may insert black boxes (pillar boxes or letter boxes) around the video to provide the specified output resolution.
         public let scalingBehavior: VideoDescriptionScalingBehavior?
         /// Changes the strength of the anti-alias filter used for scaling. 0 is the softest setting, 100 is the sharpest. A setting of 50 is recommended for most content.
-        public let sharpness: Int32?
+        public let sharpness: Int?
         /// Output video width, in pixels. Must be an even number. For most codecs, you can leave this field and height blank in order to use the height and width (resolution) from the source. Note, however, that leaving blank is not recommended. For the Frame Capture codec, height and width are required.
-        public let width: Int32?
+        public let width: Int?
 
-        public init(codecSettings: VideoCodecSettings? = nil, height: Int32? = nil, name: String, respondToAfd: VideoDescriptionRespondToAfd? = nil, scalingBehavior: VideoDescriptionScalingBehavior? = nil, sharpness: Int32? = nil, width: Int32? = nil) {
+        public init(codecSettings: VideoCodecSettings? = nil, height: Int? = nil, name: String, respondToAfd: VideoDescriptionRespondToAfd? = nil, scalingBehavior: VideoDescriptionScalingBehavior? = nil, sharpness: Int? = nil, width: Int? = nil) {
             self.codecSettings = codecSettings
             self.height = height
             self.name = name
@@ -8225,6 +8340,12 @@ extension MediaLive {
             self.scalingBehavior = scalingBehavior
             self.sharpness = sharpness
             self.width = width
+        }
+
+        public func validate(name: String) throws {
+            try codecSettings?.validate(name: "\(name).codecSettings")
+            try validate(sharpness, name:"sharpness", parent: name, max: 100)
+            try validate(sharpness, name:"sharpness", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8257,6 +8378,7 @@ extension MediaLive {
             AWSShapeMember(label: "ColorSpaceUsage", location: .body(locationName: "colorSpaceUsage"), required: false, type: .enum), 
             AWSShapeMember(label: "SelectorSettings", location: .body(locationName: "selectorSettings"), required: false, type: .structure)
         ]
+
         /// Specifies the colorspace of an input. This setting works in tandem with colorSpaceConversion to determine if any conversion will be performed.
         public let colorSpace: VideoSelectorColorSpace?
         /// Applies only if colorSpace is a value other than follow. This field controls how the value in the colorSpace field will be used. fallback means that when the input does include color space data, that data will be used, but when the input has no color space data, the value in colorSpace will be used. Choose fallback if your input is sometimes missing color space data, but when it does have color space data, that data is correct. force means to always use the value in colorSpace. Choose force if your input usually has no color space data or might have unreliable color space data.
@@ -8268,6 +8390,10 @@ extension MediaLive {
             self.colorSpace = colorSpace
             self.colorSpaceUsage = colorSpaceUsage
             self.selectorSettings = selectorSettings
+        }
+
+        public func validate(name: String) throws {
+            try selectorSettings?.validate(name: "\(name).selectorSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8294,11 +8420,17 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Pid", location: .body(locationName: "pid"), required: false, type: .integer)
         ]
-        /// Selects a specific PID from within a video source.
-        public let pid: Int32?
 
-        public init(pid: Int32? = nil) {
+        /// Selects a specific PID from within a video source.
+        public let pid: Int?
+
+        public init(pid: Int? = nil) {
             self.pid = pid
+        }
+
+        public func validate(name: String) throws {
+            try validate(pid, name:"pid", parent: name, max: 8191)
+            try validate(pid, name:"pid", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8310,11 +8442,17 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProgramId", location: .body(locationName: "programId"), required: false, type: .integer)
         ]
-        /// Selects a specific program from within a multi-program transport stream. If the program doesn't exist, the first program within the transport stream will be selected by default.
-        public let programId: Int32?
 
-        public init(programId: Int32? = nil) {
+        /// Selects a specific program from within a multi-program transport stream. If the program doesn't exist, the first program within the transport stream will be selected by default.
+        public let programId: Int?
+
+        public init(programId: Int? = nil) {
             self.programId = programId
+        }
+
+        public func validate(name: String) throws {
+            try validate(programId, name:"programId", parent: name, max: 65536)
+            try validate(programId, name:"programId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8327,12 +8465,18 @@ extension MediaLive {
             AWSShapeMember(label: "VideoSelectorPid", location: .body(locationName: "videoSelectorPid"), required: false, type: .structure), 
             AWSShapeMember(label: "VideoSelectorProgramId", location: .body(locationName: "videoSelectorProgramId"), required: false, type: .structure)
         ]
+
         public let videoSelectorPid: VideoSelectorPid?
         public let videoSelectorProgramId: VideoSelectorProgramId?
 
         public init(videoSelectorPid: VideoSelectorPid? = nil, videoSelectorProgramId: VideoSelectorProgramId? = nil) {
             self.videoSelectorPid = videoSelectorPid
             self.videoSelectorProgramId = videoSelectorProgramId
+        }
+
+        public func validate(name: String) throws {
+            try videoSelectorPid?.validate(name: "\(name).videoSelectorPid")
+            try videoSelectorProgramId?.validate(name: "\(name).videoSelectorProgramId")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8342,6 +8486,7 @@ extension MediaLive {
     }
 
     public struct WebvttDestinationSettings: AWSShape {
+
 
         public init() {
         }

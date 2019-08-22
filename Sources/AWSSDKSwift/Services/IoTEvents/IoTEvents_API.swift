@@ -9,7 +9,7 @@ AWS IoT Events monitors your equipment or device fleets for failures or changes 
 */
 public struct IoTEvents {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

@@ -14,6 +14,7 @@ extension MobileAnalytics {
             AWSShapeMember(label: "timestamp", required: true, type: .string), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// A collection of key-value pairs that give additional context to the event. The key-value pairs are specified by the developer. This collection can be empty or the attribute object can be omitted.
         public let attributes: [String: String]?
         /// A name signifying an event that occurred in your app. This is used for grouping and aggregating like events together for reporting purposes.
@@ -36,6 +37,24 @@ extension MobileAnalytics {
             self.version = version
         }
 
+        public func validate(name: String) throws {
+            try attributes?.forEach {
+                try validate($0.key, name:"attributes.key", parent: name, max: 50)
+                try validate($0.key, name:"attributes.key", parent: name, min: 1)
+                try validate($0.value, name:"attributes[\"\($0.key)\"]", parent: name, max: 1000)
+                try validate($0.value, name:"attributes[\"\($0.key)\"]", parent: name, min: 0)
+            }
+            try validate(eventType, name:"eventType", parent: name, max: 50)
+            try validate(eventType, name:"eventType", parent: name, min: 1)
+            try metrics?.forEach {
+                try validate($0.key, name:"metrics.key", parent: name, max: 50)
+                try validate($0.key, name:"metrics.key", parent: name, min: 1)
+            }
+            try session?.validate(name: "\(name).session")
+            try validate(version, name:"version", parent: name, max: 10)
+            try validate(version, name:"version", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
             case eventType = "eventType"
@@ -52,6 +71,7 @@ extension MobileAnalytics {
             AWSShapeMember(label: "clientContextEncoding", location: .header(locationName: "x-amz-Client-Context-Encoding"), required: false, type: .string), 
             AWSShapeMember(label: "events", required: true, type: .list)
         ]
+
         /// The client context including the client ID, app title, app version and package name.
         public let clientContext: String
         /// The encoding used for the client context.
@@ -63,6 +83,12 @@ extension MobileAnalytics {
             self.clientContext = clientContext
             self.clientContextEncoding = clientContextEncoding
             self.events = events
+        }
+
+        public func validate(name: String) throws {
+            try events.forEach {
+                try $0.validate(name: "\(name).events[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -79,6 +105,7 @@ extension MobileAnalytics {
             AWSShapeMember(label: "startTimestamp", required: false, type: .string), 
             AWSShapeMember(label: "stopTimestamp", required: false, type: .string)
         ]
+
         /// The duration of the session.
         public let duration: Int64?
         /// A unique identifier for the session
@@ -93,6 +120,11 @@ extension MobileAnalytics {
             self.id = id
             self.startTimestamp = startTimestamp
             self.stopTimestamp = stopTimestamp
+        }
+
+        public func validate(name: String) throws {
+            try validate(id, name:"id", parent: name, max: 50)
+            try validate(id, name:"id", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

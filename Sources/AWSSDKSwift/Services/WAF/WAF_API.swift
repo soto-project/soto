@@ -9,7 +9,7 @@ This is the AWS WAF API Reference for using AWS WAF with Amazon CloudFront. The 
 */
 public struct WAF {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

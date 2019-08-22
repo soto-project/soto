@@ -9,7 +9,7 @@ Welcome to the Amazon Simple Queue Service API Reference. Amazon Simple Queue Se
 */
 public struct SQS {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

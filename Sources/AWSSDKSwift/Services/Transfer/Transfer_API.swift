@@ -9,7 +9,7 @@ AWS Transfer for SFTP is a fully managed service that enables the transfer of fi
 */
 public struct Transfer {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(
